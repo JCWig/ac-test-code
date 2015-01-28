@@ -88,7 +88,6 @@
   ],
   "scripts": {
     "test": "./node_modules/.bin/gulp test -no-color",
-    "prepublish": "./node_modules/.bin/gulp prepublish --no-color",
     "start": "./node_modules/.bin/gulp --no-color",
     "docs": "./node_modules/.bin/gulp docs --no-color",
     "netstorage": "./node_modules/.bin/gulp deploy --no-color"

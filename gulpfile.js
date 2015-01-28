@@ -14,7 +14,6 @@ var watchify = require('watchify');
 var karma = require('karma');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var logger = require('./gulp/util/bundle-logger');
 var _ = require('lodash');
 var pretty = require('pretty-hrtime');
 var pkg = require('./package.json');
@@ -26,7 +25,7 @@ var bundlePath = path.join(target, filename);
 
 gulp.task('lint', function() {
     return gulp.src('src/**/*.js')
-        .pipe(plugins.jshint('.jshintrc'))
+        .pipe(plugins.jshint('src/.jshintrc'))
         .pipe(plugins.jshint.reporter('jshint-stylish'))
         .pipe(plugins.jshint.reporter('fail'));
 
@@ -52,8 +51,9 @@ gulp.task('browserify', function() {
             .pipe(gulp.dest(target))
             .on('end', function() {
                 var endTime = process.hrtime(startTime);
-                gutil.log('Bundled', gutil.colors.green(bundlePath), 'in',
-                          gutil.colors.magenta(pretty(endTime)));
+                plugins.util.log('Bundled',
+                                 plugins.util.colors.green(bundlePath), 'in',
+                                 plugins.util.colors.magenta(pretty(endTime)));
             });
     }
 
@@ -89,7 +89,7 @@ gulp.task('test', function () {
   });
 });
 
-gulp.task('serve', ['setWatch', 'js', 'docs'], function() {
+gulp.task('serve', ['setWatch', 'browserify', 'docs'], function() {
     browserSync({
         server: './docs'
     });

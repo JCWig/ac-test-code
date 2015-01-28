@@ -14,7 +14,7 @@ module.exports = function(config) {
         ],
         frameworks: ['browserify', 'mocha', 'chai', 'sinon-chai'],
         preprocessors: {
-            'src/*/*.js': ['browserify']
+            'src/**/*.js': ['browserify']
         },
         browsers: ['PhantomJS'],
         reporters: ['spec', 'coverage'],
