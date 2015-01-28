@@ -16,7 +16,7 @@ module.exports = function(config) {
             'test/**/*.js': ['browserify']
         },
         browsers: ['PhantomJS'],
-        reporters: ['spec', 'coverage'],
+        reporters: ['spec', 'junit', 'coverage'],
         browserify: {
             debug: true,
             transform: [
@@ -24,6 +24,9 @@ module.exports = function(config) {
                     ignore: ['**/*.html', 'test/**/*.js']
                 })
             ]
+        },
+        junitReporter: {
+            outputFile: 'reports/unit/unit.xml'
         },
         coverageReporter: {
             dir: 'reports/coverage/',
