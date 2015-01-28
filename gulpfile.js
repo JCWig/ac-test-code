@@ -65,6 +65,8 @@ gulp.task('browserify', function() {
     return bundle();
 });
 
+gulp.task('build', ['test', 'browserify']);
+
 gulp.task('docs', function() {
     return gulp.src('src/**/*.js')
         .pipe(plugins.ngdocs.process({
@@ -82,7 +84,7 @@ gulp.task('docs', function() {
         .pipe(browserSync.reload({ stream: true }));
 });
 
-gulp.task('test', function () {
+gulp.task('test', ['lint'], function () {
   return karma.server.start({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
