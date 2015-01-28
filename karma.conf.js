@@ -9,12 +9,11 @@ module.exports = function(config) {
             'node_modules/angular-mocks/angular-mocks.js',
             'node_modules/pulsar-common-css/dist/styles.css',
             'node_modules/bootstrap/dist/css/bootstrap.css',
-            'src/**/*.js',
             'test/**/*.js'
         ],
         frameworks: ['browserify', 'mocha', 'chai', 'sinon-chai'],
         preprocessors: {
-            'src/**/*.js': ['browserify']
+            'test/**/*.js': ['browserify']
         },
         browsers: ['PhantomJS'],
         reporters: ['spec', 'coverage'],
@@ -22,7 +21,7 @@ module.exports = function(config) {
             debug: true,
             transform: [
                 istanbul({
-                    ignore: ['**/*.html', 'test/**/*.spec.js']
+                    ignore: ['**/*.html', 'test/**/*.js']
                 })
             ]
         },

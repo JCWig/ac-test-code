@@ -22,7 +22,7 @@ describe('akam-menu-button', function() {
     beforeEach(function() {
         var self = this;
 
-        angular.mock.module(require('../src/menu-button').name);
+        angular.mock.module(require('../../src/menu-button').name);
         inject(function($compile, $rootScope) {
             var markup = '<akam-menu-button label="Test">' +
                 '<akam-menu-button-item text="Action" ng-click="process()">' +
