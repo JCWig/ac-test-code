@@ -24,7 +24,7 @@ var target = 'dist';
 var bundlePath = path.join(target, filename);
 
 gulp.task('lint', function() {
-    return gulp.src('src/**/*.js')
+    gulp.src('src/**/*.js')
         .pipe(plugins.jshint('src/.jshintrc'))
         .pipe(plugins.jshint.reporter('jshint-stylish'))
         .pipe(plugins.jshint.reporter('fail'));
@@ -62,13 +62,13 @@ gulp.task('browserify', function() {
         bundler.on('update', bundle);
     }
 
-    return bundle();
+    bundle();
 });
 
-gulp.task('build', ['test', 'browserify']);
+gulp.task('build', ['lint', 'test', 'browserify']);
 
 gulp.task('docs', function() {
-    return gulp.src('src/**/*.js')
+    gulp.src('src/**/*.js')
         .pipe(plugins.ngdocs.process({
             title: 'Akamai Components',
             html5Mode: false,
@@ -85,10 +85,10 @@ gulp.task('docs', function() {
 });
 
 gulp.task('test', ['lint'], function () {
-  return karma.server.start({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  });
+    karma.server.start({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    });
 });
 
 gulp.task('serve', ['setWatch', 'browserify', 'docs'], function() {
