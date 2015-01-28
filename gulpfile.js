@@ -26,9 +26,9 @@ var bundlePath = path.join(target, filename);
 
 gulp.task('lint', function() {
     return gulp.src('src/**/*.js')
-        .pipe($.jshint('.jshintrc'))
-        .pipe($.jshint.reporter('jshint-stylish'))
-        .pipe($.jshint.reporter('fail'));
+        .pipe(plugins.jshint('.jshintrc'))
+        .pipe(plugins.jshint.reporter('jshint-stylish'))
+        .pipe(plugins.jshint.reporter('fail'));
 
 });
 
