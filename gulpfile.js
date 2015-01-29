@@ -62,13 +62,13 @@ gulp.task('browserify', function() {
         bundler.on('update', bundle);
     }
 
-    bundle();
+    return bundle();
 });
 
 gulp.task('build', ['lint', 'test', 'browserify']);
 
 gulp.task('docs', function() {
-    gulp.src('src/**/*.js')
+    return gulp.src('src/**/*.js')
         .pipe(plugins.ngdocs.process({
             title: 'Akamai Components',
             html5Mode: false,
@@ -77,11 +77,11 @@ gulp.task('docs', function() {
                 bundlePath + '.map'
             ],
             styles: [
-                './node_modules/pulsar-common-css/dist/styles.css'
+                'node_modules/pulsar-common-css/dist/styles.css',
+                'node_modules/pulsar-common-css/dist/styles.css.map'
             ],
         }))
-        .pipe(gulp.dest('./docs'))
-        .pipe(browserSync.reload({ stream: true }));
+        .pipe(gulp.dest('./docs'));
 });
 
 gulp.task('test', ['lint'], function () {
@@ -96,7 +96,7 @@ gulp.task('serve', ['setWatch', 'browserify', 'docs'], function() {
         server: './docs'
     });
 
-    gulp.watch(bundlePath, ['docs']);
+    gulp.watch(bundlePath, ['docs', browserSync.reload]);
 });
 
 gulp.task('setWatch', function() {
