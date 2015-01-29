@@ -19,9 +19,7 @@ var angular = require('angular');
      *
      * @description Creates an indeterminate progress control
      *
-     * @element div
-     *
-     * @restrict AE
+     * @restrict E
      *
      * @param {String} [label=''] The label to display underneath the
      * spinner.  If omitted, the label does not display.
