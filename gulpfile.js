@@ -95,13 +95,9 @@ gulp.task('test', ['lint'], function () {
 gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
         server: {
-            baseDir: [
-                'examples',
-                'dist',
-                'node_modules/pulsar-common-css/dist',
-                'node_modules/angular'
-            ]
-        }
+            baseDir: "./",
+        },
+        startPath: "/examples/index.html"
     });
 
     gulp.watch([bundlePath, 'node_modules/pulsar-common-css/dist/**', 'examples/*.html'], function() {

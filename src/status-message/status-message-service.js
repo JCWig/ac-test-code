@@ -30,7 +30,7 @@ module.exports = function($document, $compile, $rootScope, $log) {
         
         var wrapper = _getWrapper();
         
-        var newStatusMessage = $compile('<akam-status-message itemId="{{itemId}}" text="{{text}}" title="{{title}}"></akam-status-message>');
+        var newStatusMessage = $compile('<akam-status-message itemId="{{itemId}}" text="{{text}}" title="{{title}}" timeout="{{timeout}}"></akam-status-message>');
         
         var scope = $rootScope.$new();
         scope.itemCount = itemCount;
@@ -38,7 +38,7 @@ module.exports = function($document, $compile, $rootScope, $log) {
         scope.itemId = options.itemId || 'akam-status-message-' + itemCount;
         scope.text = options.text;
         scope.title = options.title;
-        
+        scope.timeout = options.timeout;
         
         wrapper.append(newStatusMessage(scope));
     }
