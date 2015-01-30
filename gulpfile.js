@@ -67,7 +67,7 @@ gulp.task('browserify', function() {
 
 gulp.task('build', ['lint', 'test', 'browserify']);
 
-gulp.task('docs', function() {
+gulp.task('docs', ['browserify'], function() {
     return gulp.src('src/**/*.js')
         .pipe(plugins.ngdocs.process({
             title: 'Akamai Components',
@@ -91,12 +91,21 @@ gulp.task('test', ['lint'], function () {
     });
 });
 
-gulp.task('serve', ['setWatch', 'browserify', 'docs'], function() {
+gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
-        server: './docs'
+        server: {
+            baseDir: [
+                'examples',
+                'dist',
+                'node_modules/pulsar-common-css/dist',
+                'node_modules/angular'
+            ]
+        }
     });
 
-    gulp.watch(bundlePath, ['docs', browserSync.reload]);
+    gulp.watch([bundlePath, 'examples/*.html'], function() {
+        browserSync.reload();
+    });
 });
 
 gulp.task('setWatch', function() {
