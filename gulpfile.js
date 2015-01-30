@@ -104,7 +104,7 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
         }
     });
 
-    gulp.watch([bundlePath, 'examples/*.html'], function() {
+    gulp.watch([bundlePath, 'node_modules/pulsar-common-css/dist/**', 'examples/*.html'], function() {
         browserSync.reload();
     });
 });
