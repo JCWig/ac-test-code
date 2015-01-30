@@ -97,11 +97,11 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
         server: {
             baseDir: "./",
         },
-        startPath: "/examples/index.html"
-    });
-
-    gulp.watch([bundlePath, 'node_modules/pulsar-common-css/dist/**', 'examples/*.html'], function() {
-        browserSync.reload();
+        startPath: "/examples/index.html",
+        injectChanges: true,
+        files: [
+            bundlePath, 'node_modules/pulsar-common-css/dist/*.css', 'examples/*.html'
+        ]
     });
 });
 
