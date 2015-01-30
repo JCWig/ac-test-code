@@ -7,17 +7,27 @@ module.exports = function($log, $timeout) {
         scope: {
             itemId: '@',
             title: '@',
-            text: '@'
+            text: '@',
+            statusType: '@'
         },
+        replace: true,
         template: require('./templates/status-message-directive.tpl.html'),
         link: function(scope, element, attrs) {
             var defaultTimeout = 10000;
             var timer = null;
             
+            if (scope.statusType == null) {
+                scope.statusType = 'success';
+            }
+            
             scope.timeout = attrs.timeout == null ? defaultTimeout : window.parseInt(attrs.timeout, 10);
             if (isNaN(scope.timeout)) {
                 scope.timeout = defaultTimeout;
             }
+            
+            scope.close = function(){
+                element.remove();
+            };
             
             $log.info('creating status message directive');
             
@@ -29,7 +39,7 @@ module.exports = function($log, $timeout) {
                 $log.info('enabling timer');
                 if (scope.timeout > 0) {
                     timer = $timeout(function() {
-                        element.remove();
+                        scope.close();
                     }, scope.timeout);
                 }
             }

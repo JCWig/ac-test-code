@@ -24,24 +24,23 @@ var angular = require('angular');
      * Displays an action's status
      *
      * @example
-     * <example module="statusMessageServiceDemo">
-     * <file name="statusMessage-demo.html">
-     * <body ng-app="statusMessageServiceDemo" style="margin: 200px;" class="common-css">
-     * <div ng-controller="Ctrl">
-     *  <div>
-     *       <button class="button" ng-click="submit()">Show notification</button>
-     *   </div>
-     * </div>
-     * </file>
-     * <file name="Ctrl.js">
-     *   var app = angular.module("statusMessageServiceDemo", ["akamai.components.status-message"]);
-     *   app.controller("Ctrl", ["$scope", "statusMessage", function($scope, statusMessage) {
-     *      $scope.submit = function(){
-     *          statusMessage.show({text: 'Recent action successful'});
-     *      };
-     *   }]);
-     * </file>
-     * </example>
+        <example module="statusMessageServiceDemo">
+            <file name="statusMessage-demo.html">
+                <body ng-app="statusMessageServiceDemo" style="margin: 200px;" class="common-css">
+                    <div ng-controller="Ctrl">
+                        <button class="button" ng-click="submit()">Show notification</button>
+                    </div>
+            </file>
+            
+            <file name="Ctrl.js">
+                var app = angular.module("statusMessageServiceDemo", ["akamai.components.status-message"]);
+                app.controller("Ctrl", ["$scope", "statusMessage", function($scope, statusMessage) {
+                    $scope.submit = function(){
+                        statusMessage.show({text: 'Recent action successful'});
+                    };
+                }]);
+           </file>
+        </example>
      */
 .factory('statusMessage', require('./status-message-service'))
 

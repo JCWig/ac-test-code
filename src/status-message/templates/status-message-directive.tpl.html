@@ -1,7 +1,7 @@
-<li id="{{itemId}}" class="status-message-item">
-    <div class="close">X</div>
+<li id="{{itemId}}" class="status-message-item" ng-class="{{statusType}}">
+    <div class="close" ng-click="close()">X</div>
     <div class="status-message-content">
         <span class="status-message-title" ng-if="title">{{title}}</span>
-        <p>Test Hello: {{text}}</p>
+        <p>{{text}}</p>
     </div>
 </li>
