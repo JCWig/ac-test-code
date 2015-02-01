@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css" />
     <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
     <script type="text/javascript" src="../dist/akamai-components.js"></script>
+    <style>
+        .animate-hide {
+          -webkit-transition: all linear 0.5s;
+          transition: all linear 0.5s;
+          opacity: 1;
+        }
+        
+        .animate-hide.hide-fade {
+          opacity: 0;
+        }
+    </style>
 </head>
 <body ng-app="statusMessageDemo" ng-controller="Ctrl" class="common-css">
     <div class="container">

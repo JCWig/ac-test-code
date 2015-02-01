@@ -1,4 +1,4 @@
-<li id="{{itemId}}" class="status-message-item" ng-class="{{statusType}}">
+<li id="{{itemId}}" class="status-message-item animate-hide" ng-class="{'hide-fade' : closing}">
     <div class="close" ng-click="close()">X</div>
     <div class="status-message-content">
         <span class="status-message-title" ng-if="title">{{title}}</span>
