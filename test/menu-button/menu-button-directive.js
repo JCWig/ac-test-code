@@ -5,10 +5,6 @@ function click(el) {
     ev.initMouseEvent('click', true);
     el.dispatchEvent(ev);
 };
-function keyboardEvent(){
-    
-}
-
 function clickOnMenuButton(self){
     var button = self.element.querySelector('.akam-menu-button > button');
     click(button);
@@ -27,11 +23,11 @@ describe('akam-menu-button', function() {
 
         angular.mock.module(require('../../src/menu-button').name);
         inject(function($compile, $rootScope) {
-            var markup = '<akam-menu-button label="Test">' +
+            var markup = '<div><akam-menu-button label="Test">' +
                 '<akam-menu-button-item text="Action" ng-click="process()">' +
                 '</akam-menu-button-item>' +
                 '<akam-menu-button-item text="Action"></akam-menu-button-item>' +
-                '</akam-menu-button>';
+                '</akam-menu-button></div>';
 
             self.scope = $rootScope.$new();
             self.scope.process = sinon.spy();
@@ -128,14 +124,8 @@ describe('akam-menu-button', function() {
             clickOnMenuButton(this);
         });
         it('should hide dropdown',function(){
-            window.addEventListener("keydown", function(e){
-                if(e.keyCode == 27){
-                    console.log(e.);
-                }
-            });
-            var evt = document.createEvent("Events");
-            evt.initEvent("keydown", true, false);
-
+            var evt = document.createEvent("KeyboardEvent");
+            evt.initEvent("keydown", true, true);
             evt.view = window;
             evt.altKey = false;
             evt.ctrlKey = false;
@@ -143,8 +133,8 @@ describe('akam-menu-button', function() {
             evt.metaKey = false;
             evt.keyCode = 27;
             evt.charCode = 0;
-
             document.dispatchEvent(evt);
+
             testUnopenedConditions(document.querySelector('.akam-menu-button'));
         });
     });*/
