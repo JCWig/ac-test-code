@@ -95,9 +95,9 @@ gulp.task('test', ['lint'], function () {
 gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
         server: {
-            baseDir: "./",
+            baseDir: './',
         },
-        startPath: "/examples/index.html",
+        startPath: '/examples/index.html',
         injectChanges: true,
         files: [
             bundlePath, 'node_modules/pulsar-common-css/dist/*.css', 'examples/*.html'
