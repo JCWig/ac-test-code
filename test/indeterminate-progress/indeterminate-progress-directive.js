@@ -24,11 +24,6 @@ describe('akam-indeterminate-progress', function() {
         scope.$digest();
         document.body.appendChild(self.element);
     };
-    function click(el) {
-        var ev = document.createEvent('MouseEvent');
-        ev.initMouseEvent('click', true);
-        el.dispatchEvent(ev);
-    };
 
     describe('when rendering', function() {
         it('should have the correct class names', function() {
