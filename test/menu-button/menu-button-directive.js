@@ -1,11 +1,4 @@
 'use strict';
-
-function click(el) {
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
-    el.dispatchEvent(ev);
-};
-
 function clickOnMenuButton(self){
     var button = self.element.querySelector('.akam-menu-button > button');
     click(button);

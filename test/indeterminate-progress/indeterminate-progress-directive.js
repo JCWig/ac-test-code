@@ -23,7 +23,7 @@ describe('akam-indeterminate-progress', function() {
         self.element = self.el[0];
         scope.$digest();
         document.body.appendChild(self.element);
-    }
+    };
 
     describe('when rendering', function() {
         it('should have the correct class names', function() {
@@ -124,5 +124,38 @@ describe('akam-indeterminate-progress', function() {
             
             expect(this.element.classList.contains('indeterminate-progress')).to.be.false();
         });    
+    });
+
+    describe('when something changes completed status', function(){
+        beforeEach(function(){
+            var markup = ('<div><div id="parent-element" class="">'+
+                          '<akam-indeterminate-progress completed="{{completed}}">'+
+                          '</akam-indeterminate-progress> </div>'+
+                          '<button id="change-completed"></button></div>');
+            addElement(markup);
+            document.querySelector('#change-completed').addEventListener("click",function(){
+                if(scope.completed){
+                    scope.completed = false;
+                } else {
+                    scope.completed = true;
+                }
+            });
+        });
+        it('should appear when changed to false', function(){
+            scope.completed = true;
+            scope.$digest();
+            expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.false();
+            click(document.querySelector('#change-completed'));
+            scope.$digest();
+            expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.true();
+        });
+        it('should disappear when changed to true', function(){
+            scope.completed = false;
+            scope.$digest();
+            expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.true();
+            click(document.querySelector('#change-completed'));
+            scope.$digest();
+            expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.false(); 
+        })
     });
 });
