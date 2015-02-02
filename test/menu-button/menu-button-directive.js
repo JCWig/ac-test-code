@@ -112,12 +112,12 @@ describe('akam-menu-button', function() {
             click(clickAwayButton);
             document.body.removeChild(clickAwayArea);
         };
-        it('should hide dropdown when clicking button',function(){
+        it('should hide dropdown when clicking outside button',function(){
             var ele = document.querySelector('.akam-menu-button');
             clickAwayCreationAndClick('button');
             testUnopenedConditions(ele);
         });
-        it('should hide dropdown when clicking div',function(){
+        it('should hide dropdown when clicking outside div',function(){
             var ele = document.querySelector('.akam-menu-button');
             clickAwayCreationAndClick('div');
             testUnopenedConditions(ele);
