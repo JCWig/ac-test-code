@@ -18,6 +18,7 @@ var _ = require('lodash');
 var pretty = require('pretty-hrtime');
 var pkg = require('./package.json');
 var path = require('path');
+var fs = require('fs');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -67,7 +68,7 @@ gulp.task('browserify', function() {
 
 gulp.task('build', ['lint', 'test', 'browserify']);
 
-gulp.task('docs', function() {
+gulp.task('docs', ['browserify'], function() {
     return gulp.src('src/**/*.js')
         .pipe(plugins.ngdocs.process({
             title: 'Akamai Components',
@@ -91,14 +92,50 @@ gulp.task('test', ['lint'], function () {
     });
 });
 
-gulp.task('serve', ['setWatch', 'browserify', 'docs'], function() {
+gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
-        server: './docs'
+        server: {
+            baseDir: [
+                'examples',
+                'dist',
+                'node_modules/pulsar-common-css/dist',
+                'node_modules/angular'
+            ]
+        }
     });
 
-    gulp.watch(bundlePath, ['docs', browserSync.reload]);
+    gulp.watch([bundlePath, 'node_modules/pulsar-common-css/dist/**', 'examples/*.html'], function() {
+        browserSync.reload();
+    });
 });
 
 gulp.task('setWatch', function() {
     global.isWatching = true;
 });
+
+gulp.task('linkCss', function(){
+    var commonCssPath = '../pulsar-common-css';
+
+    if( !fs.existsSync(commonCssPath) ){
+        plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
+        return;
+    }
+    
+    plugins.util.log('creating global npm link for common css project');
+    
+    plugins.shell.task(['cd ../pulsar-common-css/', 'npm link', 'cd ../akamai-components/', 'npm link pulsar-common-css'])();
+});
+
+gulp.task('unlinkCss', function(){
+    var commonCssPath = '../pulsar-common-css';
+
+    if( !fs.existsSync(commonCssPath) ){
+        plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
+        return;
+    }
+    
+    plugins.util.log('npm unlinking this project to the common css project');
+    
+    plugins.shell.task(['npm unlink pulsar-common-css', 'cd ../pulsar-common-css/', 'npm unlink', 'cd ../akamai-components/'])();
+});
+
