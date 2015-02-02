@@ -1,0 +1,43 @@
+{
+    "components": {
+        "error": {
+            "invalid-json": "{{name}} json data is invalid.",
+            "data-empty": "{{name}} data can not be empty.",
+            "content-empty": "{{name}} content can not be empty.",
+            "file-notfound": "File is not found."
+        },
+        "warning": {
+            "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+        },
+        "bubblehelp": {
+            "title": "Information"
+        },
+        "determinate-progress": {
+
+        },
+        "indeterminate-progress": {
+
+        },
+        "dialog": {
+
+        },
+        "multiselect-listbox": {
+
+        },
+        "notifications": {
+            "success": "SUCCESS",
+            "warning": "WARNING",
+            "information": "INFORMATION",
+            "error": "ERROR"
+        },
+        "table": {
+
+        },
+        "pagination": {
+
+        },
+        "tooltip": {
+
+        }
+    }
+}
