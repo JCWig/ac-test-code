@@ -146,26 +146,21 @@ describe('akam-indeterminate-progress', function() {
                 }
             });
         });
-        var getClassList = function(self){
-            return self.element.querySelector('#parent-element').classList;
-        };
-        var changeCompleted = function(){
-            click(document.querySelector('#change-completed'));
-            scope.$digest();
-        };
         it('should appear when changed to false', function(){
             scope.completed = true;
             scope.$digest();
-            expect(getClassList(this).contains('indeterminate-progress')).to.be.false();
-            changeCompleted();
-            expect(getClassList(this).contains('indeterminate-progress')).to.be.true();
+            expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.false();
+            click(document.querySelector('#change-completed'));
+            scope.$digest();
+            expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.true();
         });
         it('should disappear when changed to true', function(){
             scope.completed = false;
             scope.$digest();
-            expect(getClassList(this).contains('indeterminate-progress')).to.be.true();
-            changeCompleted();
-            expect(getClassList(this).contains('indeterminate-progress')).to.be.false(); 
+            expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.true();
+            click(document.querySelector('#change-completed'));
+            scope.$digest();
+            expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.false(); 
         })
     });
 });
