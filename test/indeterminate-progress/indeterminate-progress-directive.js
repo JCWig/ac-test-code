@@ -23,7 +23,12 @@ describe('akam-indeterminate-progress', function() {
         self.element = self.el[0];
         scope.$digest();
         document.body.appendChild(self.element);
-    }
+    };
+    function click(el) {
+        var ev = document.createEvent('MouseEvent');
+        ev.initMouseEvent('click', true);
+        el.dispatchEvent(ev);
+    };
 
     describe('when rendering', function() {
         it('should have the correct class names', function() {
@@ -124,5 +129,43 @@ describe('akam-indeterminate-progress', function() {
             
             expect(this.element.classList.contains('indeterminate-progress')).to.be.false();
         });    
+    });
+
+    describe('when something changes completed status', function(){
+        beforeEach(function(){
+            var markup = ('<div><div id="parent-element" class="">'+
+                          '<akam-indeterminate-progress completed="{{completed}}">'+
+                          '</akam-indeterminate-progress> </div>'+
+                          '<button id="change-completed"></button></div>');
+            addElement(markup);
+            document.querySelector('#change-completed').addEventListener("click",function(){
+                if(scope.completed){
+                    scope.completed = false;
+                } else {
+                    scope.completed = true;
+                }
+            });
+        });
+        var getClassList = function(self){
+            return self.element.querySelector('#parent-element').classList;
+        };
+        var changeCompleted = function(){
+            click(document.querySelector('#change-completed'));
+            scope.$digest();
+        };
+        it('should appear when changed to false', function(){
+            scope.completed = true;
+            scope.$digest();
+            expect(getClassList(this).contains('indeterminate-progress')).to.be.false();
+            changeCompleted();
+            expect(getClassList(this).contains('indeterminate-progress')).to.be.true();
+        });
+        it('should disappear when changed to true', function(){
+            scope.completed = false;
+            scope.$digest();
+            expect(getClassList(this).contains('indeterminate-progress')).to.be.true();
+            changeCompleted();
+            expect(getClassList(this).contains('indeterminate-progress')).to.be.false(); 
+        })
     });
 });
