@@ -20,23 +20,25 @@ module.exports = function($log, $timeout) {
                 scope.statusType = 'success';
             }
             
+            element.addClass(scope.statusType);
+            
             scope.timeout = attrs.timeout == null ? defaultTimeout : window.parseInt(attrs.timeout, 10);
             if (isNaN(scope.timeout)) {
                 scope.timeout = defaultTimeout;
             }
             
             scope.close = function(){
-                element.remove();
+                scope.closing = true;
+                $timeout(function(){
+                    element.remove();
+                }, 500);
             };
             
-            $log.info('creating status message directive');
-            
             element.on('$destroy', function() {
-                $log.info('destroying status message');
+                scope.$emit('akam-status-message-destroyed', scope.itemId );
             });
             
             function enableTimer() {
-                $log.info('enabling timer');
                 if (scope.timeout > 0) {
                     timer = $timeout(function() {
                         scope.close();
@@ -45,7 +47,6 @@ module.exports = function($log, $timeout) {
             }
             
             function cancelTimer() {
-                $log.info('canceling timer');
                 if (timer != null) {
                     $timeout.cancel(timer);
                     timer = null;
