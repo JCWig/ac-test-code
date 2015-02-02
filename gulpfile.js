@@ -39,7 +39,7 @@ gulp.task('browserify', function() {
         debug: true
     }));
     var startTime;
-    
+
     function bundle() {
         startTime = process.hrtime();
         return bundler.bundle()
@@ -120,9 +120,9 @@ gulp.task('linkCss', function(){
         plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
         return;
     }
-    
+
     plugins.util.log('creating global npm link for common css project');
-    
+
     plugins.shell.task(['cd ../pulsar-common-css/', 'npm link', 'cd ../akamai-components/', 'npm link pulsar-common-css'])();
 });
 
@@ -133,9 +133,9 @@ gulp.task('unlinkCss', function(){
         plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
         return;
     }
-    
+
     plugins.util.log('npm unlinking this project to the common css project');
-    
+
     plugins.shell.task(['npm unlink pulsar-common-css', 'cd ../pulsar-common-css/', 'npm unlink', 'cd ../akamai-components/'])();
 });
 
