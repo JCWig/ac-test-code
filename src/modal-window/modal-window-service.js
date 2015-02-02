@@ -1,13 +1,19 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($modal, $templateCache, $http, $rootScope, $q) {
+module.exports = function($modal, $templateCache, $rootScope, $q) {
     return {
         open: function(options) {
             var scope = (options.scope || $rootScope).$new();
             var deferred = $q.defer();
             var disabled = false;
             var instance;
+
+            // check that a template was provided
+            if (!(angular.isDefined(options.template) ||
+                  angular.isDefined(options.templateUrl))) {
+                throw new Error('template or templateUrl option required');
+            }
 
             // setup options specific for the modal window
             scope.modalWindow = {
