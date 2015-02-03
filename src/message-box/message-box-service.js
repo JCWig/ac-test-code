@@ -42,6 +42,8 @@ module.exports = function(modalWindow, $rootScope) {
     }
 
     return {
+        _show: show,
+
         showInfo: function(options) {
             options.title = options.title || 'Information';
             options.icon = 'svg-information';
