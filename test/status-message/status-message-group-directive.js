@@ -11,6 +11,7 @@ describe('akamai.components.status-message-group', function() {
     describe('group status messages', function(){
         beforeEach(function() {
             var self = this;
+            var compile;
 
             angular.mock.module(require('../../src/status-message').name);
             inject(function($compile, $rootScope, $timeout) {
@@ -27,6 +28,7 @@ describe('akamai.components.status-message-group', function() {
                     "timeout": 2000
                 }];
                 self.element = $compile(markup)(self.scope)[0];
+                compile = $compile;
                 self.scope.$digest();
                 document.body.appendChild(self.element);
             });
@@ -42,13 +44,39 @@ describe('akamai.components.status-message-group', function() {
                 expect(document.querySelectorAll('.status-message-content')[1].textContent).to.equal('\n            Second Text Field\n        ');
             });
         }); 
-        context('after rendered', function(){
+        context('when rendered', function(){
             it('should disspear after timeout', function(){
                 this.timeout.flush();
                 this.timeout.flush();
                 this.timeout.verifyNoPendingTasks();
                 expect(document.querySelector('#first-item-id')).to.be.null;
                 expect(document.querySelector('#second-item-id')).to.be.null;
+            });
+        });
+    });
+    describe('group status messages with no items', function(){
+        beforeEach(function() {
+            var self = this;
+            var compile;
+
+            angular.mock.module(require('../../src/status-message').name);
+            inject(function($compile, $rootScope, $timeout) {
+                var markup = ('<akam-status-message-group items="items"></akam-status-message-group>');
+                self.scope = $rootScope.$new();
+                self.timeout = $timeout;
+                self.scope.items = null;
+                self.element = $compile(markup)(self.scope)[0];
+                compile = $compile;
+                self.scope.$digest();
+                document.body.appendChild(self.element);
+            });
+        });
+        afterEach(function() {
+            document.body.removeChild(this.element);
+        });
+        context('when rendering', function(){
+            it('should not render any messages', function(){
+                expect(document.querySelector('.status-message-content')).to.be.null;
             });
         });
     });

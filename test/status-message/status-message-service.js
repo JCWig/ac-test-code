@@ -8,7 +8,7 @@ function click(el) {
 };
 
 describe('akamai.components.status-message-service', function() {
-    describe('group status messages', function(){
+    describe('status message service', function(){
         beforeEach(function() {
             var self = this;
             angular.mock.module(require('../../src/status-message').name);
@@ -111,5 +111,48 @@ describe('akamai.components.status-message-service', function() {
                 expect(this.timeout.verifyNoPendingTasks()).to.be.undefined;
             });
         });
+        context('when providing no options', function(){
+            afterEach(function(){
+                var wrapper = document.querySelector('.common-css');
+                if(wrapper){
+                    wrapper.parentNode.removeChild(wrapper);   
+                }
+            });
+            it('should render success with defaults', function(){
+                this.statusMessage.showSuccess();
+                this.scope.$digest();
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('success')).to.be.true;
+                expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            \n        ');
+            });
+            it('should render error with defaults', function(){
+                this.statusMessage.showError();
+                this.scope.$digest();
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('error')).to.be.true;
+                expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            \n        ');
+            });
+            it('should render warning with defaults', function(){
+                this.statusMessage.showWarning();
+                this.scope.$digest();
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('warning')).to.be.true;
+                expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            \n        ');
+            });
+            it('should render warning with defaults', function(){
+                this.statusMessage.showInfo();
+                this.scope.$digest();
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('info')).to.be.true;
+                expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            \n        ');
+            });
+            it('should render base show with defaults', function(){
+                this.statusMessage.show();
+                this.scope.$digest();
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('success')).to.be.true;
+                expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            \n        ');
+            });
+        })
     });
 });

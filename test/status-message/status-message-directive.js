@@ -8,7 +8,7 @@ function click(el) {
 };
 
 describe('akamai.components.status-message', function() {
-    describe('group status messages', function(){
+    describe('status messages', function(){
         beforeEach(function() {
             var self = this;
 
@@ -29,7 +29,6 @@ describe('akamai.components.status-message', function() {
         });
         context('when rendering', function(){
             it('should display correct information', function(){
-                //console.log(document);
                 expect(document.querySelector('.akam-status-message-item-wrapper').id).to.not.be.null;
                 expect(document.querySelector('.status-message-content').textContent).to.equal('\n            add a little bit more text\n        ');
             });
