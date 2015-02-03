@@ -23,7 +23,6 @@ module.exports = function($log) {
 
             scope.$on('akam-status-message-destroyed', function (event, itemId) {
                 removeItemByItemId(itemId);
-                $log.info('status message child removed itself', itemId, scope.items);
             });
         }
     };

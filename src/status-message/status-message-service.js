@@ -34,20 +34,20 @@ module.exports = function($document, $compile, $rootScope, $log) {
         },
         
         showSuccess : function(options){
-            return _show(options, angular.extend({}, options || {}, { statusType : 'success'}));
+            return _show(angular.extend({}, options || {}, { status : 'success'}));
         },
         
         showInfo : function(options){
-            return _show(options, angular.extend({}, options || {}, { statusType : 'info'}));
+            return _show(angular.extend({}, options || {}, { status : 'info'}));
         },
         
         showError: function(options){
             // errors must be closed, therefore set timeout to 0
-            return _show(options, angular.extend({}, options || {}, { timeout : 0, statusType : 'error'}));
+            return _show(angular.extend({}, options || {}, { timeout : 0, status : 'error'}));
         },
         
         showWarning: function(options){
-            return _show(options, angular.extend({}, options || {}, { statusType : 'warning'}));
+            return _show(angular.extend({}, options || {}, { status : 'warning'}));
         }
     };
 };
