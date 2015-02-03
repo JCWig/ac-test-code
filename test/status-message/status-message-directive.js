@@ -30,15 +30,15 @@ describe('akamai.components.status-message', function() {
         context('when rendering', function(){
             it('should display correct information', function(){
                 //console.log(document);
-                expect(document.querySelector('li.akam-status-message-item').id).to.not.be.null;
-                expect(document.querySelector('.status-message-content').textContent).to.equal('\n        add a little bit more text\n    ');
+                expect(document.querySelector('.akam-status-message-item-wrapper').id).to.not.be.null;
+                expect(document.querySelector('.status-message-content').textContent).to.equal('\n            add a little bit more text\n        ');
             });
         });
         context('after rendered', function(){
             it('should disspear after timeout', function(){
                 this.timeout.flush();
                 this.timeout.flush();
-                expect(document.querySelector('li.akam-status-message-item')).to.be.null;
+                expect(document.querySelector('akam-status-message-item-wrapper')).to.be.null;
                 expect(document.querySelector('.status-message-content')).to.be.null;
             });
         });

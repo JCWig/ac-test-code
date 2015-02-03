@@ -25,14 +25,14 @@ describe('akamai.components.status-message-service', function() {
             });
         });
         afterEach(function(){
-            var wrapper = document.querySelector('.akam-status-message-wrapper');
+            var wrapper = document.querySelector('.common-css');
             if(wrapper){
                 wrapper.parentNode.removeChild(wrapper);   
             }
         });
         context('when rendering', function(){
             afterEach(function(){
-                var wrapper = document.querySelector('.akam-status-message-wrapper');
+                var wrapper = document.querySelector('.common-css');
                 if(wrapper){
                     wrapper.parentNode.removeChild(wrapper);   
                 }
@@ -40,33 +40,39 @@ describe('akamai.components.status-message-service', function() {
             it('should display correct information with success', function(){ 
                 this.statusMessage.showSuccess({text : "message_text", timeout: 2000});
                 this.scope.$digest();
-                expect(document.querySelector('.akam-status-message-item').classList.contains('success')).to.be.true;;
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('success')).to.be.true;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
-                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        message_text\n    ');
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            message_text\n        ');
             });
             it('should display correct information with info', function(){ 
                 this.statusMessage.showInfo({text : "message_text2",statustype:"info"});
                 this.scope.$digest();
-                expect(document.querySelector('.akam-status-message-item').classList.contains('info')).to.be.true;;
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('info')).to.be.true;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
-                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        message_text2\n    ');
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            message_text2\n        ');
             });
             it('should display correct information with error', function(){ 
                 this.statusMessage.showError({text : "message_text3", timeout: 2000, statustype:"error"});
                 this.scope.$digest();
-                expect(document.querySelector('.akam-status-message-item').classList.contains('error')).to.be.true;
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('error')).to.be.true;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
-                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        message_text3\n    ');
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            message_text3\n        ');
             });
             it('should display correct information with warning', function(){ 
                 this.statusMessage.showWarning({text : "message_text4", timeout: 2000, statustype:"warning"});
                 this.scope.$digest();
-                expect(document.querySelector('.akam-status-message-item').classList.contains('warning')).to.be.true;
+                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('warning')).to.be.true;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
-                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        message_text4\n    ');
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            message_text4\n        ');
             });
         }); 
         context('when rendered', function(){
+            afterEach(function(){
+                var wrapper = document.querySelector('.common-css');
+                if(wrapper){
+                    wrapper.parentNode.removeChild(wrapper);   
+                }
+            });
             it('should disappear after timeout', function(){
                 this.statusMessage.showSuccess({text : "message_text", timeout: 2000});
                 this.scope.$digest();
@@ -84,25 +90,23 @@ describe('akamai.components.status-message-service', function() {
                 expect(document.querySelector('.status-message-content')).to.be.null; 
             });
             it('should close after mouse enters and leaves', function(){
-                this.statusMessage.showError({text : "message_text6", timeout: 2000, statustype:"error"});
+                this.statusMessage.showSuccess({text : "message_text7", timeout: 2000});
                 this.scope.$digest();
                 var ev = document.createEvent('MouseEvent');
                 ev.initMouseEvent('mouseover', true);
                 var ev2 = document.createEvent('MouseEvent');
                 ev2.initMouseEvent('mouseout', true);
-                document.querySelector('.akam-status-message-item').dispatchEvent(ev);
-                document.querySelector('.akam-status-message-item').dispatchEvent(ev2);
+                document.querySelector('.status-message-content').dispatchEvent(ev);
+                document.querySelector('.status-message-content').dispatchEvent(ev2);
                 this.timeout.flush();
                 this.timeout.flush();
                 expect(document.querySelector('.status-message-content')).to.be.null;  
             });
             it('should stay open while mouse is hovering', function(){
-                this.statusMessage.showError({text : "message_text6", timeout: 2000, statustype:"error"});
+                this.statusMessage.showSuccess({text : "message_text6", timeout: 2000, statustype:"error"});
                 this.scope.$digest();
                 var ev = document.createEvent('MouseEvent');
                 ev.initMouseEvent('mouseover', true);
-                var ev2 = document.createEvent('MouseEvent');
-                ev2.initMouseEvent('mouseout', true);
                 document.querySelector('.akam-status-message-item').dispatchEvent(ev);
                 expect(this.timeout.verifyNoPendingTasks()).to.be.undefined;
             });

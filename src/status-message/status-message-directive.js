@@ -6,17 +6,20 @@ module.exports = function($log, $timeout) {
         restrict: 'E',
         scope: {
             itemId: '@',
-            title: '@',
             text: '@',
-            statusType: '@'
+            status: '@'
         },
         replace: true,
         template: require('./templates/status-message-directive.tpl.html'),
         link: function(scope, element, attrs) {
             var defaultTimeout = 10000;
             var timer = null;
-            scope.statusType = attrs.statustype === '' ? "success" : attrs.statustype;
-            element.addClass(scope.statusType);
+            
+            if (scope.status == null || scope.status === "") {
+                scope.status = 'success';
+            }
+            
+            element.addClass(scope.status);
             
             scope.timeout = attrs.timeout == null ? defaultTimeout : window.parseInt(attrs.timeout, 10);
             if (isNaN(scope.timeout)) {
