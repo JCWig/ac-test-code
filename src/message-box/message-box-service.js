@@ -28,7 +28,7 @@ module.exports = function(modalWindow, $rootScope) {
 
             /* @ngInject */
             controller: function($scope) {
-                var collapsed = false;
+                var collapsed = true;
 
                 $scope.toggle = function() {
                     collapsed = !collapsed;
@@ -45,24 +45,27 @@ module.exports = function(modalWindow, $rootScope) {
         _show: show,
 
         showInfo: function(options) {
+            options = options || {};
             options.title = options.title || 'Information';
             options.icon = 'svg-information';
             options.windowClass = 'information';
-            return show(options);
+            return this._show(options);
         },
 
         showQuestion: function(options) {
+            options = options || {};
             options.title = options.title || 'Question';
             options.icon = 'svg-question';
             options.windowClass = 'information';
-            return show(options);
+            return this._show(options);
         },
 
         showError: function(options) {
+            options = options || {};
             options.title = options.title || 'Error';
             options.icon = 'svg-error';
             options.windowClass = 'error';
-            return show(options);
+            return this._show(options);
         }
     };
 };

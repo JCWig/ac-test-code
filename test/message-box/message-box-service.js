@@ -1,13 +1,20 @@
 'use strict';
 
+function click(el) {
+    var ev = document.createEvent('MouseEvent');
+    ev.initMouseEvent('click', true);
+    el.dispatchEvent(ev);
+};
+
 describe('messageBox service', function() {
     beforeEach(function() {
         var self = this;
 
         angular.mock.module(require('../../src/message-box').name);
-        inject(function(messageBox, $rootScope) {
+        inject(function(messageBox, $rootScope, $timeout) {
             self.messageBox = messageBox;
             self.$rootScope = $rootScope;
+            self.$timeout = $timeout;
         });
     });
 
@@ -78,22 +85,85 @@ describe('messageBox service', function() {
         });
 
         context('when view details is clicked', function() {
-            it('should toggle the visibility of the content');
+            it('should toggle the visibility of the content', function() {
+                var trigger;
+                var el;
+
+                this.messageBox._show({
+                    headline: 'Headline',
+                    text: 'Message',
+                    details: 'Details'
+                });
+                this.$rootScope.$digest();
+
+                el = document.querySelector('.message-box-details > div');
+                trigger = document.querySelector('.message-box-details > span');
+
+                expect(angular.element(el).css('height')).to.equal('0px');
+                click(trigger);
+                this.$timeout.flush();
+                expect(angular.element(el).css('height')).to.not.equal('0px');
+            });
         })
     });
 
     describe('showInfo()', function() {
-        it('should use the information icon');
-        it('should use the information modifier class on the modal');
+        it('should use the information icon', function() {
+            var spy = sinon.spy();
+
+            this.messageBox._show = spy;
+            this.messageBox.showInfo();
+            expect(spy).to.have.been.called;
+            expect(spy.args[0][0].icon).to.equal('svg-information');
+        });
+
+        it('should use the information modifier class on the modal', function() {
+            var spy = sinon.spy();
+
+            this.messageBox._show = spy;
+            this.messageBox.showInfo();
+            expect(spy).to.have.been.called;
+            expect(spy.args[0][0].windowClass).to.equal('information');
+        });
     });
 
     describe('showQuestion()', function() {
-        it('should use the question icon');
-        it('should use the information modifier class on the modal');
+        it('should use the question icon', function() {
+            var spy = sinon.spy();
+
+            this.messageBox._show = spy;
+            this.messageBox.showQuestion();
+            expect(spy).to.have.been.called;
+            expect(spy.args[0][0].icon).to.equal('svg-question');
+        });
+
+        it('should use the information modifier class on the modal', function() {
+            var spy = sinon.spy();
+
+            this.messageBox._show = spy;
+            this.messageBox.showQuestion();
+            expect(spy).to.have.been.called;
+            expect(spy.args[0][0].windowClass).to.equal('information');
+        });
     });
 
     describe('showError()', function() {
-        it('should use the error icon');
-        it('should use the error modifier class on the modal');
+        it('should use the error icon', function() {
+            var spy = sinon.spy();
+
+            this.messageBox._show = spy;
+            this.messageBox.showError();
+            expect(spy).to.have.been.called;
+            expect(spy.args[0][0].icon).to.equal('svg-error');
+        });
+
+        it('should use the error modifier class on the modal', function() {
+            var spy = sinon.spy();
+
+            this.messageBox._show = spy;
+            this.messageBox.showError();
+            expect(spy).to.have.been.called;
+            expect(spy.args[0][0].windowClass).to.equal('error');
+        });
     });
 });
