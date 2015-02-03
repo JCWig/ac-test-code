@@ -45,7 +45,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
             // setup promise that will resolve when submit button is clicked
             scope.submitted = deferred.promise;
             scope.submit = function() {
-                deferred.resolve(instance.close.bind(instance));
+                deferred.resolve(angular.bind(instance, instance.close));
             };
 
             return instance;
