@@ -3,7 +3,7 @@
 /* @ngInject */
 module.exports = function() {
     return {
-        restrict: "E",
+        restrict: "AE",
         scope: {
             label: "@label",
             stateFailed: "@failed",
