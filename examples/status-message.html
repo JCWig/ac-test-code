@@ -24,12 +24,16 @@
         
         <form>
             <div class="form-group">
-              <label for="messageTitle">Message Title</label>
-              <input type="text" id="messageTitle" class="form-control" ng-model="messageTitle" />
-            </div>
-            <div class="form-group">
               <label for="messageText">Message Text</label>
               <input type="text" id="messageText" class="form-control" ng-model="messageText" />
+            </div>
+            <div class="form-group">
+              <label for="status">Status</label><select class="form-control" id="status" ng-model="status">
+                <option>Success</option>
+                <option>Error</option>
+                <option>Warning</option>
+                <option>Info</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="messageTimeout">Timeout</label><input type="text" class="form-control" id="messageTimeout" ng-model="messageTimeout" />
@@ -45,8 +49,9 @@
             $scope.messageTimeout = 3000;
             $scope.messageText = "Basic Message Text";
             $scope.messageTitle = "Message Title";
+            $scope.status = "Error";
             $scope.showStatus = function(){
-                statusMessage.showSuccess({title: $scope.messageTitle, text : $scope.messageText, timeout: $scope.messageTimeout});
+                statusMessage["show" + $scope.status]({text : $scope.messageText, timeout: $scope.messageTimeout});
             };
         }]);
     </script>
