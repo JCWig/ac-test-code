@@ -28,10 +28,11 @@ describe('modalWindow service', function() {
             });
         });
 
-        inject(function(modalWindow, $rootScope, $httpBackend) {
+        inject(function(modalWindow, $rootScope, $httpBackend, $timeout) {
             self.modalWindow = modalWindow;
             self.$rootScope = $rootScope;
             self.$httpBackend = $httpBackend;
+            self.$timeout = $timeout;
         });
     });
 
@@ -161,36 +162,32 @@ describe('modalWindow service', function() {
         });
 
         context('when a user clicks the cancel button', function() {
-            it('should dismiss the modal window', function(done) {
+            it('should dismiss the modal window', function() {
                 var instance = this.modalWindow.open({ template: '<p></p>' });
                 var button;
-
-                // TODO replace with check for removal of DOM element
-                instance.result
-                    .then(function() { return done(new Error()); })
-                    .catch(done);
 
                 this.$rootScope.$digest();
                 button = document.querySelector('.modal-footer button:first-child');
                 click(button);
                 this.$rootScope.$digest();
+                this.$timeout.flush();
+
+                expect(document.querySelector('.modal')).to.be.null;
             });
         });
 
         context('when a user clicks the close icon', function() {
-            it('should dismiss the modal window', function(done) {
+            it('should dismiss the modal window', function() {
                 var instance = this.modalWindow.open({ template: '<p></p>' });
                 var icon;
-
-                // TODO replace with check for removal of DOM element
-                instance.result
-                    .then(function() { return done(new Error()); })
-                    .catch(done);
 
                 this.$rootScope.$digest();
                 icon = document.querySelector('.modal-header i');
                 click(icon);
                 this.$rootScope.$digest();
+                this.$timeout.flush();
+
+                expect(document.querySelector('.modal')).to.be.null;
             });
         });
     });
