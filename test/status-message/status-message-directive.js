@@ -13,11 +13,12 @@ describe('akamai.components.status-message', function() {
             var self = this;
 
             angular.mock.module(require('../../src/status-message').name);
-            inject(function($compile, $rootScope) {
+            inject(function($compile, $rootScope, $timeout) {
                 var markup = '<div>'+
                             '<akam-status-message title="Title" id="identification" text="add a little bit more text" statusType="success"></akam-status-message>'+
                             '</div>';
                 self.scope = $rootScope.$new();
+                self.timeout = $timeout;
                 self.element = $compile(markup)(self.scope)[0];
                 self.scope.$digest();
                 document.body.appendChild(self.element);
@@ -28,11 +29,19 @@ describe('akamai.components.status-message', function() {
         });
         context('when rendering', function(){
             it('should display correct information', function(){
-                expect(document.querySelector('li.status-message-item').id).to.not.be.nullppppppp;
+                expect(document.querySelector('li.status-message-item').id).to.not.be.null;
                 expect(document.querySelector('.status-message-content span').textContent).to.equal('Title');
                 expect(document.querySelector('.status-message-content p').textContent).to.equal('add a little bit more text');
             });
-        }); 
+        });
+        context('after rendered', function(){
+            it('should disspear after timeout', function(){
+                this.timeout.flush();
+                this.timeout.flush();
+                expect(document.querySelector('li.status-message-item')).to.be.null;
+                expect(document.querySelector('.status-message-content')).to.be.null;
+            });
+        });
     });
 
 });
