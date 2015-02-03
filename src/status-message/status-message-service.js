@@ -37,8 +37,8 @@ module.exports = function($document, $compile, $rootScope, $log) {
             return _show(angular.extend({}, options || {}, { status : 'success'}));
         },
         
-        showInfo : function(options){
-            return _show(angular.extend({}, options || {}, { status : 'info'}));
+        showInformation : function(options){
+            return _show(angular.extend({}, options || {}, { status : 'information'}));
         },
         
         showError: function(options){
