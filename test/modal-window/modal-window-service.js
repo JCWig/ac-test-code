@@ -67,7 +67,16 @@ describe('modalWindow service', function() {
             expect(el.textContent).to.equal(title);
         });
 
-        it('should support an icon option');
+        it('should support an icon option', function() {
+            var icon = 'svg-information';
+            var el;
+
+            this.modalWindow.open({ icon: icon, template: '<p></p>' });
+            this.$rootScope.$digest();
+
+            el = document.querySelector('.modal-header i:first-child');
+            expect(el.classList.contains(icon)).to.be.true;
+        });
 
         it('should support a cancel label option', function() {
             var label = 'Close';
