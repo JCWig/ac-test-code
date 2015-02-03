@@ -48,7 +48,7 @@ module.exports = function($document, $compile, $rootScope, $log) {
         },
         
         showWarning: function(options){
-            return _show(angular.extend({}, options || {}, { status : 'warning'}));
+            return _show(angular.extend({}, options || {}, { timeout : 0, status : 'warning'}));
         }
     };
 };
