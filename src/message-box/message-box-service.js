@@ -44,6 +44,25 @@ module.exports = function(modalWindow, $rootScope) {
     return {
         _show: show,
 
+        /**
+         * @ngdoc method
+         *
+         * @name messageBox#showInfo
+         *
+         * @methodOf akamai.components.message-box.service:messageBox
+         *
+         * @description
+         * Open a new information message box with a headline and message.
+         *
+         * @param {object} options A hash supporting a subset of the
+         *   `modalWindow` options and additionally:
+         *   - **headline** - `{string}` - A headline for the message box.
+         *   - **text** - `{string}` - A short message.
+         *   - **details** - `{string=}` - Additional text that is collapsed by
+         *     default.
+         *
+         * @return {object} A `modalWindow` instance
+         */
         showInfo: function(options) {
             options = options || {};
             options.title = options.title || 'Information';
@@ -52,6 +71,21 @@ module.exports = function(modalWindow, $rootScope) {
             return this._show(options);
         },
 
+        /**
+         * @ngdoc method
+         *
+         * @name messageBox#showQuestion
+         *
+         * @methodOf akamai.components.message-box.service:messageBox
+         *
+         * @description
+         * Open a new question message box with a headline and message.
+         *
+         * @param {object} options A has of options documented with
+         *   `messageBox#showInfo`
+         *
+         * @return {object} A `modalWindow` instance
+         */
         showQuestion: function(options) {
             options = options || {};
             options.title = options.title || 'Question';
@@ -60,6 +94,21 @@ module.exports = function(modalWindow, $rootScope) {
             return this._show(options);
         },
 
+        /**
+         * @ngdoc method
+         *
+         * @name messageBox#showError
+         *
+         * @methodOf akamai.components.message-box.service:messageBox
+         *
+         * @description
+         * Open a new error message box with a headline and message.
+         *
+         * @param {object} options A has of options documented with
+         *   `messageBox#showInfo`
+         *
+         * @return {object} A `modalWindow` instance
+         */
         showError: function(options) {
             options = options || {};
             options.title = options.title || 'Error';
