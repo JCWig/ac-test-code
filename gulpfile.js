@@ -19,6 +19,8 @@ var pretty = require('pretty-hrtime');
 var pkg = require('./package.json');
 var path = require('path');
 var fs = require('fs');
+var rsync = require('rsyncwrapper').rsync;
+var globby = require('globby');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -95,17 +97,13 @@ gulp.task('test', ['lint'], function () {
 gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
         server: {
-            baseDir: [
-                'examples',
-                'dist',
-                'node_modules/pulsar-common-css/dist',
-                'node_modules/angular'
-            ]
-        }
-    });
-
-    gulp.watch([bundlePath, 'node_modules/pulsar-common-css/dist/**', 'examples/*.html'], function() {
-        browserSync.reload();
+            baseDir: './',
+        },
+        startPath: '/examples/index.html',
+        injectChanges: true,
+        files: [
+            bundlePath, 'node_modules/pulsar-common-css/dist/*.css', 'examples/*.html'
+        ]
     });
 });
 
@@ -139,3 +137,28 @@ gulp.task('unlinkCss', function(){
     plugins.shell.task(['npm unlink pulsar-common-css', 'cd ../pulsar-common-css/', 'npm unlink', 'cd ../akamai-components/'])();
 });
 
+gulp.task('deploy', function(){
+    plugins.git.revParse({args:'--abbrev-ref HEAD'}, function (err, branchName) {
+        plugins.util.log('current git branch: '+ branchName);
+        //clean up branch name:
+        var cleanBranchName = branchName.replace('feature/', '').replace(' ', '_');
+        plugins.util.log('clean branch name: '+ cleanBranchName);
+        
+        var longFolderName = '315289/dev/jenkins/' + cleanBranchName;
+        
+        plugins.util.log('rsync destination: '+ longFolderName);
+        
+        //TODO: Handle scenarios where the folder needs to be generated on the server side
+        rsync({
+          ssh: true,
+          src: ['./dist', './src', './docs', './examples', './node_modules'],
+          dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
+          exclude: globby.sync(["node_modules/.*", "node_modules/angular-*", "node_modules/!(angular|pulsar-common-css)/", "node_modules/pulsar-common-css/!(dist)", "node_modules/pulsar-common-css/.*"]),
+          recursive: true,
+          args: ["--copy-dirlinks", "--verbose", "--compress"],
+          //dryRun: true
+        }, function(error, stdout, stderr, cmd) {
+            plugins.util.log(error, stdout);
+        });
+    });
+});
