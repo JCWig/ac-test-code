@@ -5,10 +5,6 @@ function click(el) {
     ev.initMouseEvent('click', true);
     el.dispatchEvent(ev);
 };
-function keyboardEvent(){
-    
-}
-
 function clickOnMenuButton(self){
     var button = self.element.querySelector('.akam-menu-button > button');
     click(button);
