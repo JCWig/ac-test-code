@@ -1,10 +1,4 @@
 'use strict';
-
-function click(el) {
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
-    el.dispatchEvent(ev);
-};
 function clickOnMenuButton(self){
     var button = self.element.querySelector('.akam-menu-button > button');
     click(button);
@@ -39,17 +33,18 @@ describe('akam-menu-button', function() {
     afterEach(function() {
         document.body.removeChild(this.element);
     });
-    context('when rendering', function() {
+    describe('when rendering', function() {
         it('should display a button with a label', function() {
             var button = this.element.querySelector('.akam-menu-button > button');
             expect(button.textContent).to.match(/Test/);
         });
+
         it('should hide the menu', function() {
             var div = this.element.querySelector('.akam-menu-button');
             expect(div.classList.contains('open')).to.be.false();
         });
     });
-    context('when clicking the menu button', function() {
+    describe('when clicking the menu button', function() {
         beforeEach(function() {
             clickOnMenuButton(this);
         });
@@ -65,7 +60,7 @@ describe('akam-menu-button', function() {
             expect(items[0].textContent).to.match(/Action/);
         });
     });
-    context('when clicking a menu item', function() {
+    describe('when clicking a menu item', function() {
         beforeEach(function() {
             var button = this.element.querySelector('.akam-menu-button > button');
             var items = this.element.querySelectorAll('.dropdown-menu > li');
@@ -85,21 +80,18 @@ describe('akam-menu-button', function() {
             testUnopenedConditions(div);
         });
     });
-    context('when re-clicking the menu button', function(){
+    describe('when re-clicking the menu button', function(){
         beforeEach(function() {
             clickOnMenuButton(this);
         });
-        it('should hide dropdown', function() {
+        it('clicking menu button should hide dropdown', function() {
             var div = this.element.querySelector('.akam-menu-button');
             expect(div.classList.contains('open')).to.be.true();
             clickOnMenuButton(this);
             testUnopenedConditions(div);
         });
     });
-    context('when clicking away from open dropdown', function(){
-        beforeEach(function() {
-            clickOnMenuButton(this);
-        });
+    describe('when clicking away from open dropdown', function(){
         var clickAwayCreationAndClick = function(ele){
             var clickAwayArea = document.createElement(ele);
             clickAwayArea.setAttribute("id", "click-away");
@@ -108,40 +100,15 @@ describe('akam-menu-button', function() {
             click(clickAwayButton);
             document.body.removeChild(clickAwayArea);
         };
-        it('should hide dropdown when clicking outside button',function(){
+        it('click -button- shoud hide dropdown',function(){
             var ele = document.querySelector('.akam-menu-button');
             clickAwayCreationAndClick('button');
             testUnopenedConditions(ele);
         });
-        it('should hide dropdown when clicking outside div',function(){
+        it('click -div- shoud hide dropdown',function(){
             var ele = document.querySelector('.akam-menu-button');
             clickAwayCreationAndClick('div');
             testUnopenedConditions(ele);
         });
     });
-    /*context('when pressing escape', function(){
-        beforeEach(function() {
-            clickOnMenuButton(this);
-        });
-        it('should hide dropdown',function(){
-            window.addEventListener("keydown", function(e){
-                if(e.keyCode == 27){
-                    console.log(e.);
-                }
-            });
-            var evt = document.createEvent("Events");
-            evt.initEvent("keydown", true, false);
-
-            evt.view = window;
-            evt.altKey = false;
-            evt.ctrlKey = false;
-            evt.shiftKey = false;
-            evt.metaKey = false;
-            evt.keyCode = 27;
-            evt.charCode = 0;
-
-            document.dispatchEvent(evt);
-            testUnopenedConditions(document.querySelector('.akam-menu-button'));
-        });
-    });*/
 });
