@@ -12,7 +12,7 @@ module.exports = function($log, $timeout) {
         replace: true,
         template: require('./templates/status-message-directive.tpl.html'),
         link: function(scope, element, attrs) {
-            var defaultTimeout = 10000;
+            var defaultTimeout = 2000;
             var timer = null;
             
             if (scope.status == null || scope.status === "") {
