@@ -19,7 +19,6 @@ module.exports = function($log, $timeout) {
             if (scope.statusType == null) {
                 scope.statusType = 'success';
             }
-            
             element.addClass(scope.statusType);
             
             scope.timeout = attrs.timeout == null ? defaultTimeout : window.parseInt(attrs.timeout, 10);
