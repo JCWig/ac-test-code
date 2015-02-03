@@ -15,10 +15,7 @@ module.exports = function($log, $timeout) {
         link: function(scope, element, attrs) {
             var defaultTimeout = 10000;
             var timer = null;
-            
-            if (scope.statusType == null) {
-                scope.statusType = 'success';
-            }
+            scope.statusType = attrs.statustype == null ? "success" : attrs.statustype;
             element.addClass(scope.statusType);
             
             scope.timeout = attrs.timeout == null ? defaultTimeout : window.parseInt(attrs.timeout, 10);

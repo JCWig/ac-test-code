@@ -37,28 +37,28 @@ describe('akamai.components.status-message-service', function() {
                 }
             });
             it('should display correct information with success', function(){ 
-                this.statusMessage.showSuccess({text : "message_text", timeout: 2000});
+                this.statusMessage.showSuccess({text : "message_text", timeout: 2000, statustype:"success"});
                 this.scope.$digest();
                 expect(document.querySelector('.akam-status-message-item').classList.contains('success')).to.be.true;;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
                 expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        message_text\n    ');
             });
             it('should display correct information with info', function(){ 
-                this.statusMessage.showInfo({text : "message_text2", timeout: 2000});
+                this.statusMessage.showInfo({text : "message_text2", timeout: 2000, statustype:"info"});
                 this.scope.$digest();
                 expect(document.querySelector('.akam-status-message-item').classList.contains('info')).to.be.true;;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
                 expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        message_text2\n    ');
             });
             it('should display correct information with error', function(){ 
-                this.statusMessage.showError({text : "message_text3", timeout: 2000});
+                this.statusMessage.showError({text : "message_text3", timeout: 2000, statustype:"error"});
                 this.scope.$digest();
                 expect(document.querySelector('.akam-status-message-item').classList.contains('error')).to.be.true;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
                 expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        message_text3\n    ');
             });
             it('should display correct information with warning', function(){ 
-                this.statusMessage.showWarning({text : "message_text4", timeout: 2000});
+                this.statusMessage.showWarning({text : "message_text4", timeout: 2000, statustype:"warning"});
                 this.scope.$digest();
                 expect(document.querySelector('.akam-status-message-item').classList.contains('warning')).to.be.true;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
