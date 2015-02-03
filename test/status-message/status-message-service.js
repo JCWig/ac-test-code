@@ -17,10 +17,11 @@ describe('akamai.components.status-message-service', function() {
                 $controllerProvider.register('Controller', function($scope) {
                 });
             });
-            inject(function(statusMessage, $rootScope, $timeout) {
+            inject(function(statusMessage, $rootScope, $timeout, $compile) {
                 self.statusMessage = statusMessage;
                 self.scope = $rootScope;
                 self.timeout = $timeout;
+                self.$compile = $compile;
             });
         });
         afterEach(function(){
@@ -83,16 +84,27 @@ describe('akamai.components.status-message-service', function() {
                 expect(document.querySelector('.status-message-content')).to.be.null; 
             });
             it('should close after mouse enters and leaves', function(){
+                this.statusMessage.showError({text : "message_text6", timeout: 2000, statustype:"error"});
+                this.scope.$digest();
                 var ev = document.createEvent('MouseEvent');
                 ev.initMouseEvent('mouseover', true);
-                document.querySelector('.akam-status-message-item').dispatchEvent(ev);
-                
                 var ev2 = document.createEvent('MouseEvent');
-                ev.initMouseEvent('mouseleave', true);
+                ev2.initMouseEvent('mouseout', true);
+                document.querySelector('.akam-status-message-item').dispatchEvent(ev);
                 document.querySelector('.akam-status-message-item').dispatchEvent(ev2);
-
+                this.timeout.flush();
                 this.timeout.flush();
                 expect(document.querySelector('.status-message-content')).to.be.null;  
+            });
+            it('should stay open while mouse is hovering', function(){
+                this.statusMessage.showError({text : "message_text6", timeout: 2000, statustype:"error"});
+                this.scope.$digest();
+                var ev = document.createEvent('MouseEvent');
+                ev.initMouseEvent('mouseover', true);
+                var ev2 = document.createEvent('MouseEvent');
+                ev2.initMouseEvent('mouseout', true);
+                document.querySelector('.akam-status-message-item').dispatchEvent(ev);
+                expect(this.timeout.verifyNoPendingTasks()).to.be.undefined;
             });
         });
     });

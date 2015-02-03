@@ -36,7 +36,6 @@ describe('akamai.components.status-message-group', function() {
         });
         context('when rendering', function(){
             it('should display correct information', function(){
-                //console.log(document);
                 expect(document.querySelector('#first-item-id')).to.not.be.null;
                 expect(document.querySelector('#second-item-id')).to.not.be.null;
                 expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        First Text Field\n    ');
