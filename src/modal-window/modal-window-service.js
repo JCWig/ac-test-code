@@ -3,6 +3,43 @@
 /* @ngInject */
 module.exports = function($modal, $templateCache, $rootScope, $q) {
     return {
+        /**
+         * @ngdoc method
+         *
+         * @name modalWindow#open
+         *
+         * @methodOf akamai.components.modal-window.service:modalWindow
+         *
+         * @description
+         * Open a new modal window with a backdrop with the specified options.
+         *
+         * @param {object} options A hash with the specified options:
+         *   - **template** - `{string}` - An inline template to render within the 
+         *     modal body.
+         *   - **templateUrl** - `{string}` - A url referencing a template to
+         *     render within the modal body.
+         *   - **controller** - `{string}` - A controller for the the modal
+         *     instance that can initialize scope.
+         *   - **scope** - `{Scope}` - (default: `$rootScope`) A scope instance
+         *     to use for the modal body content.
+         *   - **title** - `{string}` - (default: `Modal Window Title`) A title
+         *     for the modal window.
+         *   - **icon** - `{string}` - A CSS class representing an icon to display
+         *     to the left of the modal window title.
+         *   - **cancelLabel** - `{string}` (default: `Cancel`) A label for the
+         *     cancel button.
+         *   - **submitLabel** - `{string}` (default: `Save`) A label for the 
+         *     submit button. 
+         * 
+         * @return {object} An instance of the modal with the following
+         *   properties:
+         *   - **close** - `{Function}` - A method to close the modal window that
+         *     accepts a result as an argument.
+         *   - **dismiss** - `{Function}` - A method to dismiss the modal window
+         *     rejecting the `result` promise.
+         *   - **result** - `{Promise}` - A promise representing the result when
+         *     the modal window is closed.
+         */
         open: function(options) {
             var scope = (options.scope || $rootScope).$new();
             var deferred = $q.defer();
