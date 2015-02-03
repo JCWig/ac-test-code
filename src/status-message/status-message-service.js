@@ -13,8 +13,9 @@ module.exports = function($document, $compile, $rootScope, $log) {
      */
     function _getWrapper () {        
         if (wrapper == null) {
-            $rootScope.items = items;
-            wrapper = $compile('<akam-status-message-group items="items"></akam-status-message-group>')($rootScope);
+            var scope = $rootScope.$new();
+            scope.items = items;
+            wrapper = $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
             body.prepend(wrapper);
         }
         
