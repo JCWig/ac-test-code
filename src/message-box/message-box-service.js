@@ -45,18 +45,21 @@ module.exports = function(modalWindow, $rootScope) {
         showInfo: function(options) {
             options.title = options.title || 'Information';
             options.icon = 'svg-information';
+            options.windowClass = 'information';
             return show(options);
         },
 
         showQuestion: function(options) {
             options.title = options.title || 'Question';
             options.icon = 'svg-question';
+            options.windowClass = 'information';
             return show(options);
         },
 
         showError: function(options) {
             options.title = options.title || 'Error';
             options.icon = 'svg-error';
+            options.windowClass = 'error';
             return show(options);
         }
     };
