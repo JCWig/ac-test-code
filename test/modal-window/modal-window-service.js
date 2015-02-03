@@ -165,7 +165,7 @@ describe('modalWindow service', function() {
                 var instance = this.modalWindow.open({ template: '<p></p>' });
                 var button;
 
-                // TODO use chai as promised or detect removal of modal element
+                // TODO replace with check for removal of DOM element
                 instance.result
                     .then(function() { return done(new Error()); })
                     .catch(done);
@@ -173,12 +173,25 @@ describe('modalWindow service', function() {
                 this.$rootScope.$digest();
                 button = document.querySelector('.modal-footer button:first-child');
                 click(button);
-                this.$rootScope.$apply();
+                this.$rootScope.$digest();
             });
         });
 
         context('when a user clicks the close icon', function() {
-            it('should dismiss the modal window');
+            it('should dismiss the modal window', function(done) {
+                var instance = this.modalWindow.open({ template: '<p></p>' });
+                var icon;
+
+                // TODO replace with check for removal of DOM element
+                instance.result
+                    .then(function() { return done(new Error()); })
+                    .catch(done);
+
+                this.$rootScope.$digest();
+                icon = document.querySelector('.modal-header i');
+                click(icon);
+                this.$rootScope.$digest();
+            });
         });
     });
 });
