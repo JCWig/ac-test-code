@@ -20,12 +20,10 @@ describe('akamai.components.status-message-group', function() {
                 self.scope.items = [{
                     "itemId":"first-item-id",
                     "text":"First Text Field",
-                    "title":"First Title",
                     "timeout": 2000
                 },{
                     "itemId":"second-item-id",
                     "text":"Second Text Field",
-                    "title":"Second Title",
                     "timeout": 2000
                 }];
                 self.element = $compile(markup)(self.scope)[0];
@@ -38,12 +36,11 @@ describe('akamai.components.status-message-group', function() {
         });
         context('when rendering', function(){
             it('should display correct information', function(){
-                expect(document.querySelector('#first-item-id')).to.not.be.null
-                expect(document.querySelector('#second-item-id')).to.not.be.null
-                expect(document.querySelectorAll('.status-message-title')[0].textContent).to.equal('First Title');
-                expect(document.querySelectorAll('.status-message-title')[1].textContent).to.equal('Second Title');
-                expect(document.querySelectorAll('p.ng-binding')[0].textContent).to.equal('First Text Field');
-                expect(document.querySelectorAll('p.ng-binding')[1].textContent).to.equal('Second Text Field');
+                //console.log(document);
+                expect(document.querySelector('#first-item-id')).to.not.be.null;
+                expect(document.querySelector('#second-item-id')).to.not.be.null;
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        First Text Field\n    ');
+                expect(document.querySelectorAll('.status-message-content')[1].textContent).to.equal('\n        Second Text Field\n    ');
             });
         }); 
         context('after rendered', function(){
@@ -51,8 +48,8 @@ describe('akamai.components.status-message-group', function() {
                 this.timeout.flush();
                 this.timeout.flush();
                 this.timeout.verifyNoPendingTasks();
-                expect(document.querySelector('#first-item-id')).to.be.null
-                expect(document.querySelector('#second-item-id')).to.be.null
+                expect(document.querySelector('#first-item-id')).to.be.null;
+                expect(document.querySelector('#second-item-id')).to.be.null;
             });
         });
     });
