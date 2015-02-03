@@ -40,8 +40,8 @@ describe('akamai.components.status-message-group', function() {
             it('should display correct information', function(){
                 expect(document.querySelector('#first-item-id')).to.not.be.null;
                 expect(document.querySelector('#second-item-id')).to.not.be.null;
-                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n            First Text Field\n        ');
-                expect(document.querySelectorAll('.status-message-content')[1].textContent).to.equal('\n            Second Text Field\n        ');
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.match(/First Text Field/);
+                expect(document.querySelectorAll('.status-message-content')[1].textContent).to.match(/Second Text Field/);
             });
         }); 
         context('when rendered', function(){
