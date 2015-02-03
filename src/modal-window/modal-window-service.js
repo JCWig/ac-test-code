@@ -18,7 +18,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
          *     modal body.
          *   - **templateUrl** - `{string}` - A url referencing a template to
          *     render within the modal body.
-         *   - **controller** - `{string}` - A controller for the the modal
+         *   - **controller** - `{(Function|string)}` - A controller for the the modal
          *     instance that can initialize scope.
          *   - **scope** - `{Scope}` - (default: `$rootScope`) A scope instance
          *     to use for the modal body content.

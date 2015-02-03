@@ -76,7 +76,14 @@
                 var instance = modalWindow.open(angular.extend({}, $scope.options, {
                     scope: modalScope,
                     template: '<p>Hello {{ name }}</p>',
-                    controller: 'ModalController'
+                    controller: function($scope) {
+                        // listen for when the user clicks the submit button
+                        $scope.submitted.then(function(close) {
+                            // call the supplied close function with an argument to pass as
+                            // the modal window result
+                            close('Hello Developer');
+                        });
+                    }
                 }))
 
                 // listen for the result returned by the modal window
@@ -100,13 +107,6 @@
         })
 
         .controller('ModalController', function($scope) {
-            // listen for when the user clicks the submit button
-            $scope.submitted.then(function(close) {
-                // call the supplied close function with an argument to pass as
-                // the modal window result
-                close('Hello Developer');
-            });
-
             // control the disabled state of the submit button
             $scope.toggle = function() {
                 if ($scope.isSubmitDisabled()) {
