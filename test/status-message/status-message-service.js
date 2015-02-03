@@ -37,14 +37,14 @@ describe('akamai.components.status-message-service', function() {
                 }
             });
             it('should display correct information with success', function(){ 
-                this.statusMessage.showSuccess({text : "message_text", timeout: 2000, statustype:"success"});
+                this.statusMessage.showSuccess({text : "message_text", timeout: 2000});
                 this.scope.$digest();
                 expect(document.querySelector('.akam-status-message-item').classList.contains('success')).to.be.true;;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
                 expect(document.querySelectorAll('.status-message-content')[0].textContent).to.equal('\n        message_text\n    ');
             });
             it('should display correct information with info', function(){ 
-                this.statusMessage.showInfo({text : "message_text2", timeout: 2000, statustype:"info"});
+                this.statusMessage.showInfo({text : "message_text2",statustype:"info"});
                 this.scope.$digest();
                 expect(document.querySelector('.akam-status-message-item').classList.contains('info')).to.be.true;;
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
@@ -81,6 +81,18 @@ describe('akamai.components.status-message-service', function() {
                 click(document.querySelector('i.close'));
                 this.timeout.flush();
                 expect(document.querySelector('.status-message-content')).to.be.null; 
+            });
+            it('should close after mouse enters and leaves', function(){
+                var ev = document.createEvent('MouseEvent');
+                ev.initMouseEvent('mouseover', true);
+                document.querySelector('.akam-status-message-item').dispatchEvent(ev);
+                
+                var ev2 = document.createEvent('MouseEvent');
+                ev.initMouseEvent('mouseleave', true);
+                document.querySelector('.akam-status-message-item').dispatchEvent(ev2);
+
+                this.timeout.flush();
+                expect(document.querySelector('.status-message-content')).to.be.null;  
             });
         });
     });
