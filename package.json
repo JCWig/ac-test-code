@@ -1,97 +1,97 @@
 {
-  "name": "akamai-components",
-  "version": "0.0.1",
-  "author": "Akamai Technologies Inc.",
-  "description": "Akamai components provide a set of Angular.js directives and services that implement UXD guidelines.",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "http://lunastash.akamai.com:7999/fee/akamai-components.git"
-  },
-  "private": false,
-  "publishConfig": {
-    "registry": "https://lunabuild.akamai.com/nexus/content/repositories/npm-internal/"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim",
-      "partialify"
-    ]
-  },
-  "browserify-shim": {
-    "angular": "global:angular"
-  },
-  "dependencies": {
-    "angular": "^1.3.10",
-    "angular-bootstrap-npm": "^0.12.3"
-  },
-  "devDependencies": {
-    "angular-mocks": "^1.3.10",
-    "bootstrap": "^3.3.2",
-    "browser-sync": "^1.9.1",
-    "browserify": "^8.1.1",
-    "browserify-istanbul": "^0.1.3",
-    "browserify-shim": "^3.8.2",
-    "chai": "^1.10.0",
-    "del": "^1.1.1",
-    "globby": "^1.1.0",
-    "gulp": "^3.8.10",
-    "gulp-git": "^0.5.6",
-    "gulp-if": "^1.2.5",
-    "gulp-jscs": "^1.4.0",
-    "gulp-jshint": "^1.9.0",
-    "gulp-load-plugins": "^0.8.0",
-    "gulp-ng-annotate": "^0.5.0",
-    "gulp-ngdocs": "0.2.2",
-    "gulp-plumber": "^0.6.6",
-    "gulp-rename": "^1.2.0",
-    "gulp-shell": "^0.2.11",
-    "gulp-sourcemaps": "^1.3.0",
-    "gulp-uglify": "^1.1.0",
-    "gulp-util": "^3.0.2",
-    "jshint-junit-reporter": "~0.1.0",
-    "jshint-stylish": "^1.0.0",
-    "karma": "0.12.31",
-    "karma-browserify": "^3.0.1",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "0.1.7",
-    "karma-coverage": "0.2.6",
-    "karma-junit-reporter": "0.2.2",
-    "karma-mocha": "^0.1.10",
-    "karma-phantomjs-launcher": "0.1.4",
-    "karma-sinon-chai": "^0.3.0",
-    "karma-spec-reporter": "0.0.16",
-    "lodash": "^3.0.0",
-    "minimist": "^1.1.0",
-    "mocha": "^2.1.0",
-    "moment": "^2.9.0",
-    "partialify": "^3.1.3",
-    "phantomjs": "1.9.15",
-    "plato": "^1.3.0",
-    "pretty-hrtime": "^1.0.0",
-    "pulsar-common-css": "latest",
-    "rsyncwrapper": "^0.4.1",
-    "run-sequence": "^1.0.2",
-    "semver": "^4.2.0",
-    "sinon-chai": "^2.6.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0",
-    "watchify": "^2.2.1"
-  },
-  "files": [
-    "src",
-    "dist"
-  ],
-  "ignore": [
-    "**/.*",
-    "test",
-    "reports",
-    "docs"
-  ],
-  "scripts": {
-    "test": "./node_modules/.bin/gulp test -no-color",
-    "start": "./node_modules/.bin/gulp serve --no-color",
-    "docs": "./node_modules/.bin/gulp docs --no-color",
-    "netstorage": "./node_modules/.bin/gulp deploy --no-color"
-  }
+    "name": "akamai-components",
+    "version": "0.0.1-pre",
+    "author": "Akamai Technologies Inc.",
+    "description": "Akamai components provide a set of Angular.js directives and services that implement UXD guidelines.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "http://lunastash.akamai.com:7999/fee/akamai-components.git"
+    },
+    "private": false,
+    "publishConfig": {
+        "registry": "https://lunabuild.akamai.com/nexus/content/repositories/npm-internal/"
+    },
+    "browserify": {
+        "transform": [
+            "browserify-shim",
+            "partialify"
+        ]
+    },
+    "browserify-shim": {
+        "angular": "global:angular"
+    },
+    "dependencies": {
+        "angular": "^1.3.10",
+        "angular-bootstrap-npm": "^0.12.3"
+    },
+    "devDependencies": {
+        "angular-mocks": "^1.3.10",
+        "bootstrap": "^3.3.2",
+        "browser-sync": "^1.9.1",
+        "browserify": "^8.1.1",
+        "browserify-istanbul": "^0.1.3",
+        "browserify-shim": "^3.8.2",
+        "chai": "^1.10.0",
+        "del": "^1.1.1",
+        "globby": "^1.1.0",
+        "gulp": "^3.8.10",
+        "gulp-git": "^0.5.6",
+        "gulp-if": "^1.2.5",
+        "gulp-jscs": "^1.4.0",
+        "gulp-jshint": "^1.9.0",
+        "gulp-load-plugins": "^0.8.0",
+        "gulp-ng-annotate": "^0.5.0",
+        "gulp-ngdocs": "0.2.2",
+        "gulp-plumber": "^0.6.6",
+        "gulp-rename": "^1.2.0",
+        "gulp-shell": "^0.2.11",
+        "gulp-sourcemaps": "^1.3.0",
+        "gulp-uglify": "^1.1.0",
+        "gulp-util": "^3.0.2",
+        "jshint-junit-reporter": "~0.1.0",
+        "jshint-stylish": "^1.0.0",
+        "karma": "0.12.31",
+        "karma-browserify": "^3.0.1",
+        "karma-chai": "^0.1.0",
+        "karma-chrome-launcher": "0.1.7",
+        "karma-coverage": "0.2.6",
+        "karma-junit-reporter": "0.2.2",
+        "karma-mocha": "^0.1.10",
+        "karma-phantomjs-launcher": "0.1.4",
+        "karma-sinon-chai": "^0.3.0",
+        "karma-spec-reporter": "0.0.16",
+        "lodash": "^3.0.0",
+        "minimist": "^1.1.0",
+        "mocha": "^2.1.0",
+        "moment": "^2.9.0",
+        "partialify": "^3.1.3",
+        "phantomjs": "1.9.15",
+        "plato": "^1.3.0",
+        "pretty-hrtime": "^1.0.0",
+        "pulsar-common-css": "latest",
+        "rsyncwrapper": "^0.4.1",
+        "run-sequence": "^1.0.2",
+        "semver": "^4.2.0",
+        "sinon-chai": "^2.6.0",
+        "vinyl-buffer": "^1.0.0",
+        "vinyl-source-stream": "^1.0.0",
+        "watchify": "^2.2.1"
+    },
+    "files": [
+        "src",
+        "dist"
+    ],
+    "ignore": [
+        "**/.*",
+        "test",
+        "reports",
+        "docs"
+    ],
+    "scripts": {
+        "test": "./node_modules/.bin/gulp test -no-color",
+        "start": "./node_modules/.bin/gulp serve --no-color",
+        "docs": "./node_modules/.bin/gulp docs --no-color",
+        "netstorage": "./node_modules/.bin/gulp deploy --no-color"
+    }
 }
