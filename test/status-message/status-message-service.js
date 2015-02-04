@@ -110,6 +110,15 @@ describe('akamai.components.status-message-service', function() {
                 document.querySelector('.akam-status-message-item').dispatchEvent(ev);
                 expect(this.timeout.verifyNoPendingTasks()).to.be.undefined;
             });
+            it('should stay open when second message is closed', function(){
+                this.statusMessage.showSuccess({text : "message_text6", timeout: 0, statustype:"error"});
+                this.statusMessage.showSuccess({text : "message_text7", timeout: 0, statustype:"error"});
+                this.scope.$digest();
+                click(document.querySelectorAll('i.close')[1]);
+                this.timeout.flush();
+                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.match(/message_text6/);
+                expect(document.querySelector('.status-message-content')[1]).to.be.undefined; 
+            });
         });
         context('when providing no options', function(){
             afterEach(function(){

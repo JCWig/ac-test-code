@@ -17,11 +17,11 @@ describe('akam-menu-button', function() {
 
         angular.mock.module(require('../../src/menu-button').name);
         inject(function($compile, $rootScope) {
-            var markup = '<akam-menu-button label="Test">' +
+            var markup = '<div><akam-menu-button label="Test">' +
                 '<akam-menu-button-item text="Action" ng-click="process()">' +
                 '</akam-menu-button-item>' +
                 '<akam-menu-button-item text="Action"></akam-menu-button-item>' +
-                '</akam-menu-button>';
+                '</akam-menu-button></div>';
 
             self.scope = $rootScope.$new();
             self.scope.process = sinon.spy();
@@ -111,4 +111,23 @@ describe('akam-menu-button', function() {
             testUnopenedConditions(ele);
         });
     });
+    /*context('when pressing escape', function(){
+        beforeEach(function() {
+            clickOnMenuButton(this);
+        });
+        it('should hide dropdown',function(){
+            var evt = document.createEvent("KeyboardEvent");
+            evt.initEvent("keydown", true, true);
+            evt.view = window;
+            evt.altKey = false;
+            evt.ctrlKey = false;
+            evt.shiftKey = false;
+            evt.metaKey = false;
+            evt.keyCode = 27;
+            evt.charCode = 0;
+            document.dispatchEvent(evt);
+
+            testUnopenedConditions(document.querySelector('.akam-menu-button'));
+        });
+    });*/
 });
