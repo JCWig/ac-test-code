@@ -1,5 +1,20 @@
-(function() {
-    'use strict';
+'use strict';
+
+var angular = require('angular');
+
+    /**
+    * @ngdoc overview
+    *
+    * @name akamai.components.i18n
+    *
+    * @description This module provides services and configuration for setting up i18n capabilities for any applications.
+    *
+    */
+    module.exports = angular.module('akamai.components.i18n', [
+        require('angular-bootstrap-npm'),
+        require("pascalprecht.translate")
+    ])
+
 
     /**
      * I18nToken is object that instantiated from i18nToken service, use during run phase
@@ -12,10 +27,14 @@
             localeUrls = [config.localePath],
             localeCookie = config.localeCookie;
 
-        if (urls && urls.length) {
-            localeUrls.push.apply(localeUrls, urls);
+        if (angular.isDefined(urls) {
+            if (angular.isArray(urls)  && urls.length) {
+                localeUrls.push.apply(localeUrls, urls);
+            }
+            else if (angular.isString(urls) && urls.trim().length) {
+                localeUrls.push(urls);
+            }
         }
-
         this.getUrls = function() {
             return localeUrls;
         };

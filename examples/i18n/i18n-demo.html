@@ -3,19 +3,20 @@
 
 <head>
     <link href="../../../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
-    <script src="../../node_modules/angular/angular.js"></script>
-    <script src="../../node_modules/angular-route/angular-route.js"></script>
-    <script src="../node_modules/angular-translate/angular-translate.js"></script>
-    <script src="../src/i18n/i18n.js"></script>
+    <script src="../../../node_modules/angular/angular.js"></script>
+    <script src="../../../node_modules/angular-route/angular-route.js"></script>
+    <script src="../../../node_modules/angular-translate/dist//angular-translate.js"></script>
+    <script type="text/javascript" src="../../../dist/akamai-components.js"></script>
 
     <script>
     //emulate the Billing Center app.js code
     var locale = window.billingCenterLocale = "en_US";
     var appLocalePath = window.billingCenterLocalePath = "./src/json/messages/";
 
-    var app = angular.module("i18nDemo3", ['akamai.components.lakeRouteComponent', "akamai.components.i18n"]);
+    var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
 
     //just
+    /*
     app.config(["i18nTokenProvider", "lakeRouteConfigProvider", function(i18nProvider, lakeRouteConfigProvider) {
 
         //set up the i18n component locale and locale file to load
@@ -46,7 +47,7 @@
             }
         };
     }]);
-
+*/
     app.controller("TranslationPageController", [
         "$scope",
         "$translate",
