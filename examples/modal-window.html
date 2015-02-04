@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Modal Window</title>
+    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+</head>
+<body class="common-css" ng-app="example" ng-controller="ExampleController">
+    <div class="container">
+        <h1>Modal Window Example</h1> 
+        <form>
+            <div class="label-group">
+                <label for="title">Title</label>
+                <input
+                    id="title"
+                    type="text"
+                    ng-model="options.title">
+            </div>
+            <div class="label-group">
+                <label for="icon">Icon</label>
+                <input
+                    id="icon"
+                    type="text"
+                    ng-model="options.icon">
+            </div>
+            <div class="label-group">
+                <label for="cancelLabel">Cancel Label</label>
+                <input
+                    id="cancelLabel"
+                    type="text"
+                    ng-model="options.cancelLabel">
+            </div>
+            <div class="label-group">
+                <label for="submitLabel">Submit Label</label>
+                    <input
+                        id="submitLabel"
+                        type="text"
+                        ng-model="options.submitLabel">
+            </div>
+            <div>
+                <button
+                    type="button"
+                    class="button large"
+                    ng-click="open()">
+                    Open
+                </button>
+                <button
+                    type="button"
+                    class="button large"
+                    ng-click="openWithTemplateUrl()">
+                    Open With Template Url
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../node_modules/angular/angular.min.js"></script>
+    <script src="../dist/akamai-components.min.js"></script>
+    <script>
+        angular.module('example', ['akamai.components.modal-window'])
+
+        .controller('ExampleController', function($scope, $rootScope, modalWindow) {
+            var modalScope = $rootScope.$new();
+
+            modalScope.name = 'Akamai';
+
+            $scope.options = {
+                title: 'Example',
+                icon: '',
+                cancelLabel: 'Cancel',
+                submitLabel: 'Save'
+            };
+
+            $scope.open = function() {
+                // create a new modal window instance with supplied options
+                var instance = modalWindow.open(angular.extend({}, $scope.options, {
+                    scope: modalScope,
+                    template: '<p>Hello {{ name }}</p>',
+                    controller: function($scope) {
+                        // listen for when the user clicks the submit button
+                        $scope.submitted.then(function(close) {
+                            // call the supplied close function with an argument to pass as
+                            // the modal window result
+                            close('Hello Developer');
+                        });
+                    }
+                }))
+
+                // listen for the result returned by the modal window
+                instance.result
+                    .then(function(result) {
+                        console.log('Modal Window returned ' + result);
+                    })
+                    .catch(function() {
+                        console.log('Modal Window was cancelled.');
+                    });
+            };
+
+            $scope.openWithTemplateUrl = function() {
+                // create a new modal window instance with a specific template url
+                modalWindow.open(angular.extend({}, $scope.options, {
+                    scope: modalScope,
+                    templateUrl: 'templates/modal-window.tpl.html',
+                    controller: 'ModalController'
+                }));
+            };
+        })
+
+        .controller('ModalController', function($scope) {
+            // control the disabled state of the submit button
+            $scope.toggle = function() {
+                if ($scope.isSubmitDisabled()) {
+                    $scope.enableSubmit();
+                } else {
+                    $scope.disableSubmit();
+                }
+            };
+        });
+
+    </script>
+</body>
+</html>
