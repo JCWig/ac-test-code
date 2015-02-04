@@ -9,9 +9,9 @@ module.exports = function($document, $compile, $rootScope, $log) {
     var wrapper = null;
     
     /**
-     * A check to make sure we have something to wrap our notices with
+     * A check to make sure we have something to wrap our status messages with
      */
-    function _getWrapper () {        
+    function getWrapper () {        
         if (wrapper == null) {
             var scope = $rootScope.$new();
             scope.items = items;
@@ -22,8 +22,8 @@ module.exports = function($document, $compile, $rootScope, $log) {
         return wrapper;
     }
     
-    function _show(options) {
-        _getWrapper();
+    function show(options) {
+        getWrapper();
         options = options || {};
         options.itemId = 'akam-status-message-' + (++itemCount);
         items.push(options);
@@ -35,20 +35,20 @@ module.exports = function($document, $compile, $rootScope, $log) {
         },
         
         showSuccess : function(options){
-            return _show(angular.extend({}, options || {}, { status : 'success'}));
+            return show(angular.extend({}, options || {}, { status : 'success'}));
         },
         
         showInformation : function(options){
-            return _show(angular.extend({}, options || {}, { status : 'information'}));
+            return show(angular.extend({}, options || {}, { status : 'information'}));
         },
         
         showError: function(options){
             // errors must be closed, therefore set timeout to 0
-            return _show(angular.extend({}, options || {}, { timeout : 0, status : 'error'}));
+            return show(angular.extend({}, options || {}, { timeout : 0, status : 'error'}));
         },
         
         showWarning: function(options){
-            return _show(angular.extend({}, options || {}, { timeout : 0, status : 'warning'}));
+            return show(angular.extend({}, options || {}, { timeout : 0, status : 'warning'}));
         }
     };
 };

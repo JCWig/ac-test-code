@@ -27,6 +27,8 @@ module.exports = function($log, $timeout) {
             }
             
             scope.close = function(){
+                //make sure we're not allowing the callback to (also) occur if the user clicked close
+                cancelTimer();
                 scope.closing = true;
                 $timeout(function(){
                     element.remove();
@@ -35,6 +37,8 @@ module.exports = function($log, $timeout) {
             
             element.on('$destroy', function() {
                 scope.$emit('akam-status-message-destroyed', scope.itemId );
+                element.off('mouseenter', cancelTimer);
+                element.off('mouseleave', enableTimer);
             });
             
             function enableTimer() {
@@ -52,13 +56,8 @@ module.exports = function($log, $timeout) {
                 }
             }
             
-            element.on('mouseenter', function(){
-                cancelTimer();
-            });
-            
-            element.on('mouseleave', function(){
-                enableTimer();
-            });
+            element.on('mouseenter', cancelTimer);
+            element.on('mouseleave', enableTimer);
             
             enableTimer();
         }
