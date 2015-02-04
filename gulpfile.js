@@ -204,3 +204,5 @@ gulp.task('update-package-version', function(callback){
         callback();
     }
 });
+
+gulp.task('prepare-release', ['build', 'update-package-version']);
