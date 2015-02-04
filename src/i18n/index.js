@@ -10,7 +10,7 @@ require('angular-translate');
  * @param {string=} loc  a locale value to be used, if it empty, default locale "en_US" will be used
  * @param {array | string=} urls   array or string type of path and part if any to be added to component default path
  */
-var I18nToken = function(config, loc, urls) {
+function I18nToken(config, loc, urls) {
     var locale = loc || config.defaultLocale,
         localeUrls = [config.localePath],
         localeCookie = config.localeCookie;
@@ -24,11 +24,11 @@ var I18nToken = function(config, loc, urls) {
     }
     this.getUrls = function() {
         return localeUrls;
-    };
+    }
     this.getLocale = function() {
         return locale;
-    };
-};
+    }
+}
 
 
 /**
@@ -117,15 +117,15 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @description i18nToken is simple service for holding I18nToken object values set by i18nTokenProvider in config phase, and will be invoked in run phase
  */
-.service('i18nToken', ["i18nConfig", I18nToken])
+.service('i18nTokenService', ["i18nConfig", I18nToken])
 
 /**
  * This run block sets up the locale value and fires up "translateChangeSuccess" event
  *
- * __NOTE__ Since run block is last flow, so only this block complete finished, the $translation table is loaded.
+ * __NOTE__ Since run block is last flow, so only this block completely finished, the $translation table is loaded.
  */
-.run(['$translate', '$timeout', 'i18nToken', function($translate, $timeout, i18nToken) {
+.run(['$translate', '$timeout', 'i18nTokenService', function($translate, $timeout, i18nTokenService) {
     $timeout(function() {
-        $translate.use(i18nToken.getLocale());
+        $translate.use(i18nTokenService.getLocale());
     });
 }]);

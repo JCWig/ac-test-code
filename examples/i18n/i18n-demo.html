@@ -11,57 +11,57 @@
     <script>
     //emulate the Billing Center app.js code
     var locale = window.billingCenterLocale = "en_US";
-    var appLocalePath = window.billingCenterLocalePath = "./src/json/messages/";
+    var appLocalePath = window.billingCenterLocalePath = "../../locales/json/messages/";
 
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
 
     //just
-    /*
-    app.config(["i18nTokenProvider", "lakeRouteConfigProvider", function(i18nProvider, lakeRouteConfigProvider) {
+    app.config(function(i18nTokenProvider) {
 
         //set up the i18n component locale and locale file to load
-        i18nProvider.useLocale(locale);
-        i18nProvider.usePathAndPart(appLocalePath, "messages_");
+        i18nTokenProvider.useLocale(locale);
+        i18nTokenProvider.usePathAndPart(appLocalePath, "messages_");
 
-        //use similar flow in Billing Center app
-        var route = {
-            controller: "TranslationPageController",
-            templateUrl: "translation-demo.html"
-        };
-        var routes = [];
-        routes.push(route);
-        lakeRouteConfigProvider.setupRoutes(routes, routes[0]);
+    });
+
+    app.controller("TranslationPageController", ["$scope", "$translate", "$rootScope", "$timeout", function($scope, $translate, $rootScope, $timeout) {
+        $rootScope.$on('$translateChangeSuccess', function() {
+            $timeout(function() {
+                console.log($translate.instant('billing-center.no-access'));
+                console.log($translate.instant('components.error.invalid-json', {
+                    name: "Bubblehelp component"
+                }));
+            })
+        })
     }]);
-
-    var routerModule = angular.module('akamai.components.lakeRouteComponent', ["ngRoute"]);
-    routerModule.provider('lakeRouteConfig', ['$routeProvider', function($routeProvider) {
-        return {
-            setupRoutes: function(routes, defaultRoute) {
-                $routeProvider.when('/checkTranslation', defaultRoute);
-            },
-
-            $get: function() {
-                return {
-                    setupRoutes: this.setupRoutes
-                };
-            }
-        };
-    }]);
-*/
-    app.controller("TranslationPageController", [
-        "$scope",
-        "$translate",
-        function($scope, $translate) {
-            console.log($translate.instant('billing-center.no-access'));
-            console.log($translate.instant('components.error.invalid-json', {
-                name: "Bubblehelp component"
-            }));
-        }
-    ]);
     </script>
 
-    <body ng-app="i18nDemo3" class="common-css" style="margin:30px;" translate-cloak>
-        <a href="#checkTranslation">Go to view with translation</a>
-        <div ng-view style="margin:30px;"></div>
+    <body ng-app="i18nDemo3" ng-controller="TranslationPageController" class="common-css" style="margin:30px;" translate-cloak>
+        <div>
+            <h2>Display app and component translated text using directive and filter</h2>
+            <hr>
+            <h4>1. Check with console for javascript translations</h4>
+            <h4>2. Using directive</h4>
+            <div>
+                <span translate>billing-center.no-access</span>
+                <span><b>(key/value obtained from app locale json file)</b></span>
+            </div>
+            <div>
+                <span translate>components.error.invalid-json</span>
+                <span><b>(key/value obtained from component locale json file)</b></span>
+            </div>
+            <br/>
+            <h4>3. Using filter</h4>
+            <div>
+                <div>
+                    <span>{{'billing-center.no-access' | translate}}</span>
+                </div>
+                <div>
+                    <span>{{'components.error.invalid-json' | translate}}</span>
+                </div>
+            </div>
+        </div>
+
     </body>
+
 </html>
