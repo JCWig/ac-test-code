@@ -22,6 +22,7 @@ var fs = require('fs');
 var rsync = require('rsyncwrapper').rsync;
 var globby = require('globby');
 var moment = require('moment');
+var runSequence = require('run-sequence');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -205,4 +206,6 @@ gulp.task('update-package-version', function(callback){
     }
 });
 
-gulp.task('prepare-release', ['build', 'update-package-version']);
+gulp.task('prepare-release', function(){
+    runSequence('build', 'update-package-version');
+});
