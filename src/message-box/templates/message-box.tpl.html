@@ -6,7 +6,7 @@
             View details
             <i ng-class="isCollapsed() ? 'svg-caret-right' : 'svg-caret-down'"></i>
         </span>
-        <div class="collapsible" ng-class="{'collapsed' : isCollapsed()}">
+        <div collapse="isCollapsed()">
             {{ messageBox.details }}
         </div>
     </div>
