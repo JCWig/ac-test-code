@@ -67,7 +67,7 @@ module.exports = function(modalWindow, $rootScope) {
             options = options || {};
             options.title = options.title || 'Information';
             options.icon = 'svg-information';
-            options.windowClass = 'information';
+            options.windowClass = 'information akam-message-box';
             return this._show(options);
         },
 
@@ -81,7 +81,7 @@ module.exports = function(modalWindow, $rootScope) {
          * @description
          * Open a new question message box with a headline and message.
          *
-         * @param {object} options A has of options documented with
+         * @param {object} options A hash of options documented with
          *   `messageBox#showInfo`
          *
          * @return {object} A `modalWindow` instance
@@ -90,7 +90,7 @@ module.exports = function(modalWindow, $rootScope) {
             options = options || {};
             options.title = options.title || 'Question';
             options.icon = 'svg-question';
-            options.windowClass = 'information';
+            options.windowClass = 'question akam-message-box';
             return this._show(options);
         },
 
@@ -104,7 +104,7 @@ module.exports = function(modalWindow, $rootScope) {
          * @description
          * Open a new error message box with a headline and message.
          *
-         * @param {object} options A has of options documented with
+         * @param {object} options A hash of options documented with
          *   `messageBox#showInfo`
          *
          * @return {object} A `modalWindow` instance
@@ -113,7 +113,7 @@ module.exports = function(modalWindow, $rootScope) {
             options = options || {};
             options.title = options.title || 'Error';
             options.icon = 'svg-error';
-            options.windowClass = 'error';
+            options.windowClass = 'error akam-message-box';
             return this._show(options);
         }
     };

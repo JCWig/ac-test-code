@@ -4,7 +4,7 @@ function click(el) {
     var ev = document.createEvent('MouseEvent');
     ev.initMouseEvent('click', true);
     el.dispatchEvent(ev);
-};
+}
 
 describe('messageBox service', function() {
     beforeEach(function() {
@@ -104,7 +104,7 @@ describe('messageBox service', function() {
                 this.$timeout.flush();
                 expect(angular.element(el).css('height')).to.not.equal('0px');
             });
-        })
+        });
     });
 
     describe('showInfo()', function() {
@@ -123,7 +123,7 @@ describe('messageBox service', function() {
             this.messageBox._show = spy;
             this.messageBox.showInfo();
             expect(spy).to.have.been.called;
-            expect(spy.args[0][0].windowClass).to.equal('information');
+            expect(spy.args[0][0].windowClass).to.equal('information akam-message-box');
         });
     });
 
@@ -143,7 +143,7 @@ describe('messageBox service', function() {
             this.messageBox._show = spy;
             this.messageBox.showQuestion();
             expect(spy).to.have.been.called;
-            expect(spy.args[0][0].windowClass).to.equal('information');
+            expect(spy.args[0][0].windowClass).to.equal('question akam-message-box');
         });
     });
 
@@ -163,7 +163,7 @@ describe('messageBox service', function() {
             this.messageBox._show = spy;
             this.messageBox.showError();
             expect(spy).to.have.been.called;
-            expect(spy.args[0][0].windowClass).to.equal('error');
+            expect(spy.args[0][0].windowClass).to.equal('error akam-message-box');
         });
     });
 });
