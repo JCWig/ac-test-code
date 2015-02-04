@@ -21,6 +21,7 @@ var path = require('path');
 var fs = require('fs');
 var rsync = require('rsyncwrapper').rsync;
 var globby = require('globby');
+var moment = require('moment');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -170,4 +171,36 @@ gulp.task('deploy', function(){
             plugins.util.log(error, stdout);
         });
     });
+});
+
+gulp.task('update-package-version', function(callback){
+    var firstDashInVersion = pkg.version.indexOf('-');
+    
+    if (firstDashInVersion > -1) {
+        plugins.util.log('update it to new dev version');
+        
+        var coreVersion = pkg.version.substr(0, firstDashInVersion);
+
+        plugins.git.revParse({args:'HEAD'}, function (err, commitId) {
+            var shortCommitId = commitId.substr(0, 6);
+            var prereleaseVersion = coreVersion + "-" + moment().format("YYYYMMDDTHHmmss") + "-" + shortCommitId;
+            
+            plugins.util.log('new version: '+ prereleaseVersion);
+            
+            pkg.version = prereleaseVersion;
+            
+            fs.writeFile('package.json', JSON.stringify(pkg, null, 4), function(err) {
+                if(err) {
+                    plugins.util.log('error occurred', err);
+                } else {
+                    plugins.util.log('package.json version updated');
+                }
+                
+                callback();
+            }); 
+        });
+    }else{
+        plugins.util.log('leave version as is');
+        callback();
+    }
 });
