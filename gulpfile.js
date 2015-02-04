@@ -106,6 +106,7 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
         server: {
             baseDir: './',
+            directory: true
         },
         startPath: '/examples/index.html',
         injectChanges: true,
