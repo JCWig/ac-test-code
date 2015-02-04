@@ -10,7 +10,7 @@ module.exports = function($log) {
         },
         template: require('./templates/menu-button.tpl.html'),
         link: function() {
-            $log.info('Hello World');
+            $log.info('Hello World!');
         }
     };
 };

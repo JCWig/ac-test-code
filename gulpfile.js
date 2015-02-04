@@ -87,6 +87,14 @@ gulp.task('docs', ['browserify'], function() {
         .pipe(gulp.dest('./docs'));
 });
 
+gulp.task('serve-docs', ['docs'], function() {
+    browserSync({
+        server: {
+            baseDir: './docs'
+        }
+    });
+});
+
 gulp.task('test', ['lint'], function () {
     karma.server.start({
         configFile: __dirname + '/karma.conf.js',

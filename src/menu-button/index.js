@@ -30,7 +30,7 @@ var angular = require('angular');
      * <file name="index.html" >
      * <div ng-controller="Ctrl" class="common-css">
      *   <akam-menu-button label="Choose an application to navigate to">
-     *     <akam-menu-button-item ng-repeat="item in items" text="{{item.appName}}" ng-click="process(item)"></akam-menu-button-item>
+     *     <akam-menu-button-item ng-repeat="item in items track by item.id" text="{{item.appName}}" ng-click="process(item)"></akam-menu-button-item>
      *   </akam-menu-button>
      * </div>
      * </file>
