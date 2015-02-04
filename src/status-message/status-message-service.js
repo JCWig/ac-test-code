@@ -6,25 +6,24 @@ module.exports = function($document, $compile, $rootScope, $log) {
     var body = $document.find('body').eq(0);
     var items = [];
     var itemCount = 0;
-    var wrapper = null;
+    var initialized = false;
     
     /**
      * A check to make sure we have something to wrap our status messages with
      */
-    function getWrapper () {        
-        if (wrapper == null) {
-            var scope = $rootScope.$new();
-            scope.items = items;
-            wrapper = $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
-            body.prepend(wrapper);
-        }
-        
-        return wrapper;
+    function initializeStatusMessageGroup () {
+        var scope = $rootScope.$new();
+        scope.items = items;
+        var wrapper = $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
+        body.prepend(wrapper);
+        return true;
     }
     
     function show(options) {
-        getWrapper();
-        options = options || {};
+        if (!initialized) {
+            initialized = initializeStatusMessageGroup();
+        }
+        options = options;
         options.itemId = 'akam-status-message-' + (++itemCount);
         items.push(options);
     }
