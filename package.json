@@ -92,6 +92,7 @@
         "test": "./node_modules/.bin/gulp test -no-color",
         "start": "./node_modules/.bin/gulp serve --no-color",
         "docs": "./node_modules/.bin/gulp docs --no-color",
-        "netstorage": "./node_modules/.bin/gulp deploy --no-color"
+        "netstorage": "./node_modules/.bin/gulp deploy --no-color",
+        "prepare-release": "./node_modules/.bin/gulp prepare-release --no-color"
     }
 }
