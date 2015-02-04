@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+require('angular-translate');
 
 /**
  * @description I18nToken is object that instantiated from i18nToken service, use during run phase
@@ -38,7 +39,7 @@ var I18nToken = function(config, loc, urls) {
  * @description This module provides services and configuration for setting up i18n capabilities for any applications.
  *
  */
-module.exports = angular.module('akamai.components.i18n', require('angular-translate'))
+module.exports = angular.module('akamai.components.i18n', ['pascalprecht.translate'])
 
 /**
  * @ngdoc service
@@ -70,10 +71,10 @@ module.exports = angular.module('akamai.components.i18n', require('angular-trans
  *
  */
 .config(['$translateProvider', 'i18nConfig', function($translateProvider, config) {
-    $translateProvider.useLoader('i18nLoader', {});
+    $translateProvider.useLoader('i18nCustomLoader', {});
     $translateProvider.preferredLanguage(config.defaultLocale);
     $translateProvider.fallbackLanguage(config.defaultLocale);
-$translateProvider.useLocalStorage();
+    //$translateProvider.useLocalStorage();
     $translateProvider.determinePreferredLanguage();
 }])
 
