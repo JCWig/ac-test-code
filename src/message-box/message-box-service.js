@@ -13,6 +13,7 @@ module.exports = function(modalWindow, $rootScope) {
             throw new Error('text option is required');
         }
 
+        options.backdrop = 'static';
         options.scope = $rootScope.$new();
         options.scope.messageBox = {
             headline: options.headline,
