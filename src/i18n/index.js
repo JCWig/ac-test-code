@@ -35,6 +35,29 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 /**
  * @ngdoc service
  *
+ * @name akamai.components.i18n.service:akamTranslate
+ *
+ * @description akamTranslate is a wrapper service to expose get method for angular $translate service instant method for javascript to use
+ *
+ * @example
+ * <pre>
+ * app.controller("TranslationPageController", ["$scope", "akamTranslate", "$rootScope", "$timeout", function($scope, translate, $rootScope, $timeout) {
+ *       $rootScope.$on('$translateChangeSuccess', function() {
+ *           $timeout(function() {
+ *               console.log(translate.get('billing-center.no-access'));
+ *               console.log(translate.get('components.error.invalid-json', {
+ *                   name: "Bubblehelp component"
+ *               }));
+ *           })
+ *       })
+ *   }]);
+ * </pre>
+ */
+.factory('akamTranslate', require('./i18n-translate-wrapper-service'))
+
+/**
+ * @ngdoc service
+ *
  * @name akamai.components.i18n.service:i18nToken
  *
  * @description i18nToken is simple service for holding I18nToken object values set by i18nTokenProvider in config phase, and will be invoked in run phase
