@@ -9,31 +9,24 @@
     <script type="text/javascript" src="../../../dist/akamai-components.js"></script>
 
     <script>
-    //emulate the Billing Center app.js code
-    var locale = window.billingCenterLocale = "en_US";
-    var appLocalePath = window.billingCenterLocalePath = "../../locales/json/messages/";
+
+    var locale = window.appLocale = "en_US";
+    var localePath = window.appLocalePath = "../../../examples/i18n/locales/json/messages/";
 
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
 
-    //just
     app.config(function(i18nTokenProvider) {
-
-        //set up the i18n component locale and locale file to load
         i18nTokenProvider.useLocale(locale);
-        i18nTokenProvider.usePathAndPart(appLocalePath, "messages_");
-
+        i18nTokenProvider.usePathAndPart(localePath, "messages_");
     });
 
     app.controller("TranslationPageController", ["$scope", "$translate", "$rootScope", "$timeout", function($scope, $translate, $rootScope, $timeout) {
-        $rootScope.$on('$translateChangeSuccess', function() {
-            $timeout(function() {
-                console.log($translate.instant('billing-center.no-access'));
-                console.log($translate.instant('components.error.invalid-json', {
-                    name: "Bubblehelp component"
-                }));
-            })
-        })
+        console.log($translate.instant('billing-center.no-access'));
+        console.log($translate.instant('components.error.invalid-json', {
+            name: "Bubblehelp component"
+        }));
     }]);
+
     </script>
 
     <body ng-app="i18nDemo3" ng-controller="TranslationPageController" class="common-css" style="margin:30px;" translate-cloak>
@@ -61,7 +54,5 @@
                 </div>
             </div>
         </div>
-
     </body>
-
 </html>

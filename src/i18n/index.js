@@ -4,34 +4,6 @@ var angular = require('angular');
 require('angular-translate');
 
 /**
- * @description I18nToken is object that instantiated from i18nToken service, use during run phase
- *
- * @param {object} config default config defined in .constant
- * @param {string=} loc  a locale value to be used, if it empty, default locale "en_US" will be used
- * @param {array | string=} urls   array or string type of path and part if any to be added to component default path
- */
-function I18nToken(config, loc, urls) {
-    var locale = loc || config.defaultLocale,
-        localeUrls = [config.localePath],
-        localeCookie = config.localeCookie;
-
-    if (angular.isDefined(urls)) {
-        if (angular.isArray(urls) && urls.length) {
-            localeUrls.push.apply(localeUrls, urls);
-        } else if (angular.isString(urls) && urls.trim().length) {
-            localeUrls.push(urls);
-        }
-    }
-    this.getUrls = function() {
-        return localeUrls;
-    }
-    this.getLocale = function() {
-        return locale;
-    }
-}
-
-
-/**
  * @ngdoc overview
  *
  * @name akamai.components.i18n
@@ -61,22 +33,14 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 })
 
 /**
- * @ngdoc object
+ * @ngdoc service
  *
- * @name akamai.components.i18n.config
+ * @name akamai.components.i18n.service:i18nToken
  *
- * @description This config block takes $translateProvider and sets up some methods for loading the locale resource file when in run phase.
- *
- * __NOTE__ localeStorage is not used, the browser will not cache the locale string
- *
+ * @description i18nToken is simple service for holding I18nToken object values set by i18nTokenProvider in config phase, and will be invoked in run phase
  */
-.config(['$translateProvider', 'i18nConfig', function($translateProvider, config) {
-    $translateProvider.useLoader('i18nCustomLoader', {});
-    $translateProvider.preferredLanguage(config.defaultLocale);
-    $translateProvider.fallbackLanguage(config.defaultLocale);
-    //$translateProvider.useLocalStorage();
-    $translateProvider.determinePreferredLanguage();
-}])
+/* @ngInject */
+.service('i18nToken')
 
 /**
  * @ngdoc service
@@ -111,21 +75,32 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 .factory('i18nTranslationResolver', require('./i18n-translation-resolver-service'))
 
 /**
- * @ngdoc service
+ * @ngdoc object
  *
- * @name akamai.components.i18n.service:i18nToken
+ * @name akamai.components.i18n.config
  *
- * @description i18nToken is simple service for holding I18nToken object values set by i18nTokenProvider in config phase, and will be invoked in run phase
+ * @description This config block takes $translateProvider and sets up some methods for loading the locale resource file when in run phase.
+ *
+ * __NOTE__ localeStorage is not used, the browser will not cache the locale string
+ *
  */
-.service('i18nTokenService', ["i18nConfig", I18nToken])
+/* @ngInject */
+.config(function($translateProvider, i18nConfig) {
+    $translateProvider.useLoader('i18nCustomLoader', {});
+    $translateProvider.preferredLanguage(i18nConfig.defaultLocale);
+    $translateProvider.fallbackLanguage(i18nConfig.defaultLocale);
+    //$translateProvider.useLocalStorage();
+    $translateProvider.determinePreferredLanguage();
+})
 
 /**
  * This run block sets up the locale value and fires up "translateChangeSuccess" event
  *
  * __NOTE__ Since run block is last flow, so only this block completely finished, the $translation table is loaded.
  */
-.run(['$translate', '$timeout', 'i18nTokenService', function($translate, $timeout, i18nTokenService) {
+/* @ngInject */
+.run(function($translate, $timeout, i18nToken) {
     $timeout(function() {
-        $translate.use(i18nTokenService.getLocale());
+        $translate.use(i18nToken.getLocale());
     });
-}]);
+});

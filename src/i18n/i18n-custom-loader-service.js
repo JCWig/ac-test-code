@@ -1,9 +1,9 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($http, $q, i18nTokenService) {
-    var locale = i18nTokenService.getLocale(),
-        urls = i18nTokenService.getUrls(),
+module.exports = function($http, $q, i18nToken) {
+    var locale = i18nToken.getLocale(),
+        urls = i18nToken.getUrls(),
         localeTable = [];
     return function(options) { //callback func option has: $http, key="en_US"
         var deferred = $q.defer(),

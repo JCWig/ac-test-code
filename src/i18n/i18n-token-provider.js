@@ -2,19 +2,32 @@
 
 /* @ngInject */
 module.exports = function I18nTokenProvider(i18nConfig) {
-    var locale = i18nConfig.defaultLocale,
-        partName = i18nConfig.defaultLocale,
-        urls = [];
-
+    this.locale = i18nConfig.defaultLocale;
+    this.urls = [i18nConfig.localePath];
 
     this.useLocale = function(loc) {
         locale = loc;
-    }
+    };
     this.usePathAndPart = function(path, part) {
-        urls.push(path + part);
-    }
+        if (angular.isDefined(path)) {
+            if (angular.isArray(path) && path.length) {
+                this.urls.push.apply(urls, path + part);
+            } else if (angular.isString(path) && path.trim().length) {
+                this.urls.push(path + part);
+            }
+        }
+    };
 
-    this.$get =  function i18nTokenServiceFactory() {
-        return new I18nToken(i18nConfig, locale, urls);
-    }
+    this.$get = function i18nTokenFactory() {
+        var locale = this.locale,
+            localeUrls = this.urls;
+        return {
+            getUrls: function() {
+                return localeUrls;
+            },
+            getLocale: function() {
+                return locale;
+            }
+        }
+    };
 };
