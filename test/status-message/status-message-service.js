@@ -1,27 +1,21 @@
 'use strict';
 
-
-function click(el) {
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
-    el.dispatchEvent(ev);
-};
-
 describe('akamai.components.status-message-service', function() {
     describe('status message service', function(){
         beforeEach(function() {
             var self = this;
             angular.mock.module(require('../../src/status-message').name);
-            
+            angular.mock.module(require('../utilities').name);
             angular.mock.module(function ($controllerProvider) {
                 $controllerProvider.register('Controller', function($scope) {
                 });
             });
-            inject(function(statusMessage, $rootScope, $timeout, $compile) {
+            inject(function(statusMessage, $rootScope, $timeout, $compile, utilityService) {
                 self.statusMessage = statusMessage;
                 self.scope = $rootScope;
                 self.timeout = $timeout;
                 self.$compile = $compile;
+                self.utilities = utilityService;
             });
         });
         afterEach(function(){
@@ -85,7 +79,7 @@ describe('akamai.components.status-message-service', function() {
                 this.statusMessage.showSuccess({text : "message_text", timeout: 100000});
                 this.scope.$digest();
                 expect(document.querySelector('div.status-message-content')).to.not.be.null
-                click(document.querySelector('i.close'));
+                this.utilities.click(document.querySelector('i.close'));
                 this.timeout.flush();
                 expect(document.querySelector('.status-message-content')).to.be.null; 
             });
@@ -114,7 +108,7 @@ describe('akamai.components.status-message-service', function() {
                 this.statusMessage.showSuccess({text : "message_text6", timeout: 0, statustype:"error"});
                 this.statusMessage.showSuccess({text : "message_text7", timeout: 0, statustype:"error"});
                 this.scope.$digest();
-                click(document.querySelectorAll('i.close')[1]);
+                this.utilities.click(document.querySelectorAll('i.close')[1]);
                 this.timeout.flush();
                 expect(document.querySelectorAll('.status-message-content')[0].textContent).to.match(/message_text6/);
                 expect(document.querySelector('.status-message-content')[1]).to.be.undefined; 

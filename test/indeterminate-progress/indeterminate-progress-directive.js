@@ -8,9 +8,11 @@ describe('akam-indeterminate-progress', function() {
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/indeterminate-progress').name);
-        inject(function($compile, $rootScope) {
+        angular.mock.module(require('../utilities').name);
+        inject(function($compile, $rootScope, utilityService) {
             compile = $compile;
             scope = $rootScope.$new();
+            self.utilities = utilityService;
         });
     });
 
@@ -145,7 +147,7 @@ describe('akam-indeterminate-progress', function() {
             scope.completed = true;
             scope.$digest();
             expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.false();
-            click(document.querySelector('#change-completed'));
+            this.utilities.click(document.querySelector('#change-completed'));
             scope.$digest();
             expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.true();
         });
@@ -153,7 +155,7 @@ describe('akam-indeterminate-progress', function() {
             scope.completed = false;
             scope.$digest();
             expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.true();
-            click(document.querySelector('#change-completed'));
+            this.utilities.click(document.querySelector('#change-completed'));
             scope.$digest();
             expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.false(); 
         })

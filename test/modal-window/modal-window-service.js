@@ -2,12 +2,6 @@
 
 var _ = require('lodash');
 
-function click(el) {
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
-    el.dispatchEvent(ev);
-};
-
 describe('modalWindow service', function() {
     beforeEach(function() {
         var self = this;
@@ -15,6 +9,7 @@ describe('modalWindow service', function() {
         self.notify = sinon.spy();
 
         angular.mock.module(require('../../src/modal-window').name);
+        angular.mock.module(require('../utilities').name);
         angular.mock.module(function ($controllerProvider) {
             $controllerProvider.register('Controller', function($scope) {
                 $scope.submitted.then(self.notify);
@@ -28,11 +23,12 @@ describe('modalWindow service', function() {
             });
         });
 
-        inject(function(modalWindow, $rootScope, $httpBackend, $timeout) {
+        inject(function(modalWindow, $rootScope, $httpBackend, $timeout, utilityService) {
             self.modalWindow = modalWindow;
             self.$rootScope = $rootScope;
             self.$httpBackend = $httpBackend;
             self.$timeout = $timeout;
+            self.utilities = utilityService;
         });
     });
 
@@ -144,11 +140,11 @@ describe('modalWindow service', function() {
             toggle = document.querySelector('.toggle');
             button = document.querySelector('.modal-footer button:last-child');
 
-            click(toggle);
+            this.utilities.click(toggle);
             this.$rootScope.$digest();
             expect(button.disabled).to.be.true;
 
-            click(toggle);
+            this.utilities.click(toggle);
             this.$rootScope.$digest();
             expect(button.disabled).to.be.false;
         });
@@ -164,7 +160,7 @@ describe('modalWindow service', function() {
                 this.$rootScope.$digest();
                 button = document.querySelector('.modal-footer button:last-child');
 
-                click(button);
+                this.utilities.click(button);
                 this.$rootScope.$digest();
                 expect(this.notify).to.have.been.called;
             });
@@ -177,7 +173,7 @@ describe('modalWindow service', function() {
 
                 this.$rootScope.$digest();
                 button = document.querySelector('.modal-footer button:first-child');
-                click(button);
+                this.utilities.click(button);
                 this.$rootScope.$digest();
                 this.$timeout.flush();
 
@@ -192,7 +188,7 @@ describe('modalWindow service', function() {
 
                 this.$rootScope.$digest();
                 icon = document.querySelector('.modal-header i');
-                click(icon);
+                this.utilities.click(icon);
                 this.$rootScope.$digest();
                 this.$timeout.flush();
 

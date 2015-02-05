@@ -1,22 +1,25 @@
 'use strict';
 function clickOnMenuButton(self){
     var button = self.element.querySelector('.akam-menu-button > button');
-    click(button);
+    self.utilities.click(button);
     self.scope.$digest();
 };
 
 function testUnopenedConditions(ele){
     expect(ele.classList.contains('open')).to.be.false();
-    expect(ele.querySelector('button.dropdown-toggle').getAttribute('aria-expanded')).to.equal('false');
+
+    //console.log(ele.querySelector('button.dropdown-toggle'));
+
+    expect(document.querySelector('button.dropdown-toggle').getAttribute('aria-expanded')).to.equal('false');
     expect(getComputedStyle(document.querySelector('.dropdown-menu')).display).to.equal('none');
 };
 
 describe('akam-menu-button', function() {
     beforeEach(function() {
         var self = this;
-
+        angular.mock.module(require('../utilities').name);
         angular.mock.module(require('../../src/menu-button').name);
-        inject(function($compile, $rootScope) {
+        inject(function($compile, $rootScope, utilityService) {
             var markup = '<div><akam-menu-button label="Test">' +
                 '<akam-menu-button-item text="Action" ng-click="process()">' +
                 '</akam-menu-button-item>' +
@@ -27,6 +30,7 @@ describe('akam-menu-button', function() {
             self.scope.process = sinon.spy();
             self.element = $compile(markup)(self.scope)[0];
             self.scope.$digest();
+            self.utilities = utilityService;
             document.body.appendChild(self.element);
         });
     });
@@ -65,9 +69,9 @@ describe('akam-menu-button', function() {
             var button = this.element.querySelector('.akam-menu-button > button');
             var items = this.element.querySelectorAll('.dropdown-menu > li');
 
-            click(button);
+            this.utilities.click(button);
             this.scope.$digest();
-            click(items[0].firstChild);
+            this.utilities.click(items[0].firstChild);
             this.scope.$digest();
         });
 
@@ -92,22 +96,22 @@ describe('akam-menu-button', function() {
         });
     });
     describe('when clicking away from open dropdown', function(){
-        var clickAwayCreationAndClick = function(ele){
+        var clickAwayCreationAndClick = function(ele, self){
             var clickAwayArea = document.createElement(ele);
             clickAwayArea.setAttribute("id", "click-away");
             document.body.appendChild(clickAwayArea);
             var clickAwayButton = document.querySelector('#click-away');
-            click(clickAwayButton);
+            self.utilities.click(clickAwayButton);
             document.body.removeChild(clickAwayArea);
         };
         it('click -button- shoud hide dropdown',function(){
             var ele = document.querySelector('.akam-menu-button');
-            clickAwayCreationAndClick('button');
+            clickAwayCreationAndClick('button', this);
             testUnopenedConditions(ele);
         });
         it('click -div- shoud hide dropdown',function(){
             var ele = document.querySelector('.akam-menu-button');
-            clickAwayCreationAndClick('div');
+            clickAwayCreationAndClick('div', this);
             testUnopenedConditions(ele);
         });
     });
