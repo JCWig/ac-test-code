@@ -10,6 +10,13 @@
         <h1>Message Box Example</h1> 
         <form>
             <div class="label-group">
+                <label for="title">Title</label>
+                <input
+                    id="title"
+                    type="text"
+                    ng-model="options.title">
+            </div>
+            <div class="label-group">
                 <label for="headline">Headline</label>
                 <input
                     id="headline"
