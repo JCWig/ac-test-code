@@ -7,7 +7,7 @@ angular.module('akamai.components', [
     require('./status-message').name,
     require('./modal-window').name,
     require('./indeterminate-progress').name,
-    require('./i18n').name
+    require('./i18n').name,
 ])
 
 .constant('VERSION', require('../package.json').version);
