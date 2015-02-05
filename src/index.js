@@ -4,6 +4,9 @@ var angular = require('angular');
 
 angular.module('akamai.components', [
     require('./menu-button').name,
+    require('./status-message').name,
+    require('./modal-window').name,
+    require('./indeterminate-progress').name,
     require('./i18n').name
 ])
 

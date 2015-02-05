@@ -19,6 +19,10 @@ var pretty = require('pretty-hrtime');
 var pkg = require('./package.json');
 var path = require('path');
 var fs = require('fs');
+var rsync = require('rsyncwrapper').rsync;
+var globby = require('globby');
+var moment = require('moment');
+var runSequence = require('run-sequence');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -85,6 +89,14 @@ gulp.task('docs', ['browserify'], function() {
         .pipe(gulp.dest('./docs'));
 });
 
+gulp.task('serve-docs', ['docs'], function() {
+    browserSync({
+        server: {
+            baseDir: './docs'
+        }
+    });
+});
+
 gulp.task('test', ['lint'], function () {
     karma.server.start({
         configFile: __dirname + '/karma.conf.js',
@@ -96,6 +108,7 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
         server: {
             baseDir: './',
+            directory: true
         },
         startPath: '/examples/index.html',
         injectChanges: true,
@@ -135,3 +148,64 @@ gulp.task('unlinkCss', function(){
     plugins.shell.task(['npm unlink pulsar-common-css', 'cd ../pulsar-common-css/', 'npm unlink', 'cd ../akamai-components/'])();
 });
 
+gulp.task('deploy', function(){
+    plugins.git.revParse({args:'--abbrev-ref HEAD'}, function (err, branchName) {
+        plugins.util.log('current git branch: '+ branchName);
+        //clean up branch name:
+        var cleanBranchName = branchName.replace('feature/', '').replace(' ', '_');
+        plugins.util.log('clean branch name: '+ cleanBranchName);
+        
+        var longFolderName = '315289/dev/jenkins/' + cleanBranchName;
+        
+        plugins.util.log('rsync destination: '+ longFolderName);
+        
+        //TODO: Handle scenarios where the folder needs to be generated on the server side
+        rsync({
+          ssh: true,
+          src: ['./dist', './src', './docs', './examples', './node_modules'],
+          dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
+          exclude: globby.sync(["node_modules/.*", "node_modules/angular-*", "node_modules/!(angular|pulsar-common-css)/", "node_modules/pulsar-common-css/!(dist)", "node_modules/pulsar-common-css/.*"]),
+          recursive: true,
+          args: ["--copy-dirlinks", "--verbose", "--compress"],
+          //dryRun: true
+        }, function(error, stdout, stderr, cmd) {
+            plugins.util.log(error, stdout);
+        });
+    });
+});
+
+gulp.task('update-package-version', function(callback){
+    var firstDashInVersion = pkg.version.indexOf('-');
+    
+    if (firstDashInVersion > -1) {
+        plugins.util.log('update it to new dev version');
+        
+        var coreVersion = pkg.version.substr(0, firstDashInVersion);
+
+        plugins.git.revParse({args:'HEAD'}, function (err, commitId) {
+            var shortCommitId = commitId.substr(0, 6);
+            var prereleaseVersion = coreVersion + "-" + moment().format("YYYYMMDDTHHmmss") + "-" + shortCommitId;
+            
+            plugins.util.log('new version: '+ prereleaseVersion);
+            
+            pkg.version = prereleaseVersion;
+            
+            fs.writeFile('package.json', JSON.stringify(pkg, null, 4), function(err) {
+                if(err) {
+                    plugins.util.log('error occurred', err);
+                } else {
+                    plugins.util.log('package.json version updated');
+                }
+                
+                callback();
+            }); 
+        });
+    }else{
+        plugins.util.log('leave version as is');
+        callback();
+    }
+});
+
+gulp.task('prepare-release', function(){
+    runSequence('build', 'update-package-version');
+});
