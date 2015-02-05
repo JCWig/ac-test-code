@@ -19,7 +19,7 @@ To use the components, an app developer must include a link to the Akamai
 stylesheet in addition to referencing scripts for Angular.js 1.3.x and the
 components.
 
-`
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +34,7 @@ components.
     <script src="path/to/akamai-components.js"></script>
 </body>
 </html>
-`
+```
 
 ## Development
 
