@@ -105,6 +105,27 @@ describe('messageBox service', function() {
                 expect(angular.element(el).css('height')).to.not.equal('0px');
             });
         });
+
+        context('when submit button is clicked', function() {
+            it('should close the message box', function() {
+                var spy = sinon.spy();
+                var box = this.messageBox._show({
+                    headline: 'Headline',
+                    text: 'Message',
+                    details: 'Details'
+                });
+                var button;
+
+                box.result.then(spy);
+                this.$rootScope.$digest();
+
+                button = document.querySelector('.modal-footer button:last-child');
+                click(button);
+                this.$rootScope.$digest();
+
+                expect(spy).to.have.been.called;
+            });
+        });
     });
 
     describe('showInfo()', function() {
