@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-
+var utilities = require('../utilities');
 describe('modalWindow service', function() {
     beforeEach(function() {
         var self = this;
@@ -28,7 +28,6 @@ describe('modalWindow service', function() {
             self.$httpBackend = $httpBackend;
             self.$timeout = $timeout;
         });
-        self.utilities = require('../utilities')();
     });
 
     afterEach(function() {
@@ -139,11 +138,11 @@ describe('modalWindow service', function() {
             toggle = document.querySelector('.toggle');
             button = document.querySelector('.modal-footer button:last-child');
 
-            this.utilities.click(toggle);
+            utilities.click(toggle);
             this.$rootScope.$digest();
             expect(button.disabled).to.be.true;
 
-            this.utilities.click(toggle);
+            utilities.click(toggle);
             this.$rootScope.$digest();
             expect(button.disabled).to.be.false;
         });
@@ -159,7 +158,7 @@ describe('modalWindow service', function() {
                 this.$rootScope.$digest();
                 button = document.querySelector('.modal-footer button:last-child');
 
-                this.utilities.click(button);
+                utilities.click(button);
                 this.$rootScope.$digest();
                 expect(this.notify).to.have.been.called;
             });
@@ -172,7 +171,7 @@ describe('modalWindow service', function() {
 
                 this.$rootScope.$digest();
                 button = document.querySelector('.modal-footer button:first-child');
-                this.utilities.click(button);
+                utilities.click(button);
                 this.$rootScope.$digest();
                 this.$timeout.flush();
 
@@ -187,7 +186,7 @@ describe('modalWindow service', function() {
 
                 this.$rootScope.$digest();
                 icon = document.querySelector('.modal-header i');
-                this.utilities.click(icon);
+                utilities.click(icon);
                 this.$rootScope.$digest();
                 this.$timeout.flush();
 

@@ -1,10 +1,10 @@
 'use strict';
+var utilities = require('../utilities');
 function clickOnMenuButton(self){
     var button = self.element.querySelector('.akam-menu-button > button');
-    self.utilities.click(button);
+    utilities.click(button);
     self.scope.$digest();
 };
-
 function testUnopenedConditions(ele){
     expect(ele.classList.contains('open')).to.be.false();
 
@@ -31,7 +31,6 @@ describe('akam-menu-button', function() {
             self.scope.$digest();
             document.body.appendChild(self.element);
         });
-        self.utilities = require('../utilities')();
     });
     afterEach(function() {
         document.body.removeChild(this.element);
@@ -68,9 +67,9 @@ describe('akam-menu-button', function() {
             var button = this.element.querySelector('.akam-menu-button > button');
             var items = this.element.querySelectorAll('.dropdown-menu > li');
 
-            this.utilities.click(button);
+            utilities.click(button);
             this.scope.$digest();
-            this.utilities.click(items[0].firstChild);
+            utilities.click(items[0].firstChild);
             this.scope.$digest();
         });
 
@@ -100,7 +99,7 @@ describe('akam-menu-button', function() {
             clickAwayArea.setAttribute("id", "click-away");
             document.body.appendChild(clickAwayArea);
             var clickAwayButton = document.querySelector('#click-away');
-            self.utilities.click(clickAwayButton);
+            utilities.click(clickAwayButton);
             document.body.removeChild(clickAwayArea);
         };
         it('click -button- shoud hide dropdown',function(){
