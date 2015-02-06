@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    
+    <style>
+        .container {
+            min-height: 150px;
+        }
+        
+        fieldset > div {
+            min-height: 30px;
+        }
+        
+        fieldset {
+            padding-bottom: 20px; 
+        }
+    </style>
+    <script>
+        var app = angular.module("datePickerDemo", ["akamai.components.date-picker"]);
+        app.controller("Ctrl", ["$scope", function($scope) {
+            $scope.picked="2015-02-01";
+        }]);
+    </script>
+</head>
+<body ng-app="datePickerDemo" ng-controller="Ctrl" class="common-css">
+        <form>
+            <fieldset>
+                <legend>Form Options:</legend>
+                <div>
+                    <label for="label_text">Placeholder</label><br/>
+                    <input type="text" id="placeholder" ng-model="placeholder">
+                </div>
+            </fieldset>
+        </form>
+        
+        The value selected: <input type="text" ng-model="picked">
+
+        Date Picker (Month):
+        <div class="container">
+            <akam-date-picker value="picked" mode="month" placeholder="{{placeholder}}"></akam-date-picker>
+        </div>
+    </body>
+</html>
