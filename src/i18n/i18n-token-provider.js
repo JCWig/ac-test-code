@@ -6,12 +6,12 @@ module.exports = function I18nTokenProvider(i18nConfig) {
     this.urls = [i18nConfig.localePath];
 
     this.useLocale = function(loc) {
-        locale = loc;
+        this.locale = loc;
     };
     this.usePathAndPart = function(path, part) {
         if (angular.isDefined(path)) {
             if (angular.isArray(path) && path.length) {
-                this.urls.push.apply(urls, path + part);
+                this.urls.push.apply(this.urls, path + part);
             } else if (angular.isString(path) && path.trim().length) {
                 this.urls.push(path + part);
             }
@@ -28,6 +28,6 @@ module.exports = function I18nTokenProvider(i18nConfig) {
             getLocale: function() {
                 return locale;
             }
-        }
+        };
     };
 };
