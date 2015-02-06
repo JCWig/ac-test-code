@@ -3,12 +3,12 @@
 /* @ngInject */
 module.exports = function($http, $q, i18nToken) {
     var locale = i18nToken.getLocale(),
-        urls = i18nToken.getUrls(),
-        localeTable = [];
+        urls = i18nToken.getUrls();
     return function(options) { //callback func option has: $http, key="en_US"
         var deferred = $q.defer(),
             deferreds = [],
-            n = urls.length;
+            n = urls.length,
+            localeTable = {};
         while (n > 0) {
             var url = urls[n - 1] + locale + ".json"; //assuming all json file name format has "...en_US.json"
             deferreds.push($http.get(url, {}));
@@ -17,7 +17,9 @@ module.exports = function($http, $q, i18nToken) {
         $q.all(deferreds).then(
             function(responses) { //success
                 angular.forEach(responses, function(resp) {
-                    angular.extend(localeTable, angular.copy(resp.data));
+                    var src = resp.data,
+                        clone = src? angular.copy(resp.data) : {};
+                    angular.extend(localeTable, clone);
                 });
                 //console.log(localeTable);
                 deferred.resolve([localeTable]);

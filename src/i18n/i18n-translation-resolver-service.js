@@ -9,7 +9,7 @@ module.exports = function($q, $timeout, $translate, $rootScope) {
     });
     /**
      * @ngdoc method
-     * @name akamai.components.i18n.i18nTranslationResolver#getTranslations
+     * @name akamai.components.i18n.i18nTranslationResolver#get
      * @methodOf akamai.components.i18n.i18nTranslationResolver
      *
      * @description translate with keys provided
@@ -18,7 +18,7 @@ module.exports = function($q, $timeout, $translate, $rootScope) {
      *
      * Usage:
      *
-     * <pre>i18nTranslationResolver.getTranslations("arrayOfKeys").then(function(results) { ... })</pre>
+     * <pre>i18nTranslationResolver.get("arrayOfKeys").then(function(results) { ... })</pre>
      */
     var translate = function(props) {
         var results = [];
@@ -47,6 +47,6 @@ module.exports = function($q, $timeout, $translate, $rootScope) {
         }
     };
     return {
-        getTranslations: translate
+        get: translate
     };
 };

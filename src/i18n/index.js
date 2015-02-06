@@ -109,6 +109,6 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * _*NOTE* Since run block is last flow, so only this block completely finished, the $translation table is loaded.
  */
 /* @ngInject */
-.run(function($rootScope, $translate, $timeout, i18nToken) {
+.run(function($translate, i18nToken) {
     $translate.use(i18nToken.getLocale());
 });

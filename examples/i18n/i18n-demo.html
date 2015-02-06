@@ -22,7 +22,7 @@
         i18nTokenProvider.usePathAndPart(localePath, "messages_");
     });
 
-    app.controller("TranslationPageController", ["$scope", "akamTranslate", "$rootScope", "$timeout", function($scope, translate, $rootScope, $timeout) {
+    app.controller("TranslationPageController", ["$scope", "akamTranslate", "$rootScope", function($scope, translate, $rootScope) {
         $rootScope.$on('$translateChangeEnd', function() {
                 console.log(translate.get('billing-center.no-access'));
                 console.log(translate.get('components.error.invalid-json', {
