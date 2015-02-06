@@ -46,8 +46,8 @@ module.exports = function($log) {
                 };
                 
                 
-                scope.$watch('value', function(newValue){
-                    if (scope.onchange) {
+                scope.$watch('value', function(newValue, oldValue){
+                    if (scope.onchange && newValue !== oldValue) {
                         scope.onchange({ value: newValue });
                     }
                 });
