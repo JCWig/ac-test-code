@@ -6,7 +6,7 @@ module.exports = function I18nTokenProvider(i18nConfig) {
     this.urls = [i18nConfig.localePath];
 
     this.useLocale = function(loc) {
-        locale = loc;
+        this.locale = loc;
     };
     /**
      * @ngdoc method
@@ -40,6 +40,6 @@ module.exports = function I18nTokenProvider(i18nConfig) {
             getLocale: function() {
                 return locale;
             }
-        }
+        };
     };
 };
