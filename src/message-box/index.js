@@ -16,6 +16,7 @@ module.exports = angular.module('akamai.components.message-box', [
     require('../modal-window').name
 ])
 
+
 /**
  * @ngdoc service
  * @name akamai.components.message-box.service:messageBox
