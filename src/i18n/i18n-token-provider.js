@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function I18nTokenProvider(i18nConfig) {
+module.exports = function i18nTokenProvider(i18nConfig) {
     this.locale = i18nConfig.defaultLocale;
     this.urls = [i18nConfig.localePath];
 

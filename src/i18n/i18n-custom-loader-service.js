@@ -18,7 +18,7 @@ module.exports = function($http, $q, i18nToken) {
             function(responses) { //success
                 angular.forEach(responses, function(resp) {
                     var src = resp.data,
-                        clone = src? angular.copy(resp.data) : {};
+                        clone = src? angular.copy(src) : {};
                     angular.extend(localeTable, clone);
                 });
                 //console.log(localeTable);
