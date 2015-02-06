@@ -17,7 +17,7 @@ module.exports = function() {
             $scope.size = function(){
                 switch ($scope.spinnerSize) {
                     case 'small':
-                        return 'small'
+                        return 'small';
                     case 'large':
                         return 'large';
                     default:
