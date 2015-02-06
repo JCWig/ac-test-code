@@ -39,19 +39,6 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @description akamTranslate is a wrapper service to expose get method for angular $translate service instant method for javascript to use
  *
- * @example
- * <pre>
- * app.controller("TranslationPageController", ["$scope", "akamTranslate", "$rootScope", "$timeout", function($scope, translate, $rootScope, $timeout) {
- *       $rootScope.$on('$translateChangeSuccess', function() {
- *           $timeout(function() {
- *               console.log(translate.get('billing-center.no-access'));
- *               console.log(translate.get('components.error.invalid-json', {
- *                   name: "Bubblehelp component"
- *               }));
- *           })
- *       })
- *   }]);
- * </pre>
  */
 .factory('akamTranslate', require('./i18n-translate-wrapper-service'))
 
@@ -104,7 +91,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @description This config block takes $translateProvider and sets up some methods for loading the locale resource file when in run phase.
  *
- * __NOTE__ localeStorage is not used, the browser will not cache the locale string
+ * *NOTE* localeStorage is not used, the browser will not cache the locale string
  *
  */
 /* @ngInject */
@@ -119,7 +106,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 /**
  * This run block sets up the locale value and fires up "translateChangeEnd" event
  *
- * __NOTE__ Since run block is last flow, so only this block completely finished, the $translation table is loaded.
+ * _*NOTE* Since run block is last flow, so only this block completely finished, the $translation table is loaded.
  */
 /* @ngInject */
 .run(function($rootScope, $translate, $timeout, i18nToken) {

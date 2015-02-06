@@ -16,6 +16,9 @@
 
     app.config(function(i18nTokenProvider) {
         i18nTokenProvider.useLocale(locale);
+        //var arrOfPath = [];
+        //arrOfPath.push(localePath+"messages_");
+        //i18nTokenProvider.usePathAndPart(arrOfPath);
         i18nTokenProvider.usePathAndPart(localePath, "messages_");
     });
 
