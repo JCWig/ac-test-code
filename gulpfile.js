@@ -31,9 +31,9 @@ var bundlePath = path.join(target, filename);
 gulp.task('lint', function() {
     gulp.src('src/**/*.js')
         .pipe(plugins.jshint('src/.jshintrc'))
+        .pipe(plugins.jshint.reporter('jshint-junit-reporter', { outputFile : './reports/unit/jshint.xml'}))
         .pipe(plugins.jshint.reporter('jshint-stylish'))
         .pipe(plugins.jshint.reporter('fail'));
-
 });
 
 // TODO support production argument to disable debug
