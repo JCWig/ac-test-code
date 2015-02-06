@@ -1,2 +1,2 @@
-<input type="text" datepicker-popup="MM/yyyy" ng-model="value" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
-<button class="button" ng-click="open($event)"><i class="luna-calendar"></i></button>
+<input type="text" datepicker-popup="{{format}}" ng-model="value" is-open="opened" datepicker-options="dateOptions" datepicker-mode="mode" placeholder="{{placeholder}}" />
+<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>

@@ -23,6 +23,9 @@
         var app = angular.module("datePickerDemo", ["akamai.components.date-picker"]);
         app.controller("Ctrl", ["$scope", function($scope) {
             $scope.picked="2015-02-01";
+            $scope.mychange = function(value){
+                console.log('yay', value);
+            };
         }]);
     </script>
 </head>
@@ -38,10 +41,15 @@
         </form>
         
         The value selected: <input type="text" ng-model="picked">
+        
+        Date Picker (Day):
+        <div class="container">
+            <akam-date-picker value="picked" mode="day" placeholder="{{placeholder}}"></akam-date-picker>
+        </div>
 
         Date Picker (Month):
         <div class="container">
-            <akam-date-picker value="picked" mode="month" placeholder="{{placeholder}}"></akam-date-picker>
+            <akam-date-picker value="picked" mode="month" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
         </div>
     </body>
 </html>
