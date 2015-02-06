@@ -9,7 +9,6 @@ describe('modalWindow service', function() {
         self.notify = sinon.spy();
 
         angular.mock.module(require('../../src/modal-window').name);
-        angular.mock.module(require('../utilities').name);
         angular.mock.module(function ($controllerProvider) {
             $controllerProvider.register('Controller', function($scope) {
                 $scope.submitted.then(self.notify);
@@ -23,13 +22,13 @@ describe('modalWindow service', function() {
             });
         });
 
-        inject(function(modalWindow, $rootScope, $httpBackend, $timeout, utilityService) {
+        inject(function(modalWindow, $rootScope, $httpBackend, $timeout) {
             self.modalWindow = modalWindow;
             self.$rootScope = $rootScope;
             self.$httpBackend = $httpBackend;
             self.$timeout = $timeout;
-            self.utilities = utilityService;
         });
+        self.utilities = require('../utilities')();
     });
 
     afterEach(function() {

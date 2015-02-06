@@ -5,18 +5,17 @@ describe('akamai.components.status-message-service', function() {
         beforeEach(function() {
             var self = this;
             angular.mock.module(require('../../src/status-message').name);
-            angular.mock.module(require('../utilities').name);
             angular.mock.module(function ($controllerProvider) {
                 $controllerProvider.register('Controller', function($scope) {
                 });
             });
-            inject(function(statusMessage, $rootScope, $timeout, $compile, utilityService) {
+            inject(function(statusMessage, $rootScope, $timeout, $compile) {
                 self.statusMessage = statusMessage;
                 self.scope = $rootScope;
                 self.timeout = $timeout;
                 self.$compile = $compile;
-                self.utilities = utilityService;
             });
+            self.utilities = require('../utilities')();
         });
         afterEach(function(){
             var wrapper = document.querySelector('.common-css');

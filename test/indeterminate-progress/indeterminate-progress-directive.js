@@ -8,12 +8,11 @@ describe('akam-indeterminate-progress', function() {
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/indeterminate-progress').name);
-        angular.mock.module(require('../utilities').name);
-        inject(function($compile, $rootScope, utilityService) {
+        inject(function($compile, $rootScope) {
             compile = $compile;
             scope = $rootScope.$new();
-            self.utilities = utilityService;
         });
+        self.utilities = require('../utilities')();
     });
 
     afterEach(function() {

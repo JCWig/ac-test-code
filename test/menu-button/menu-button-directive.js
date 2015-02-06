@@ -17,9 +17,8 @@ function testUnopenedConditions(ele){
 describe('akam-menu-button', function() {
     beforeEach(function() {
         var self = this;
-        angular.mock.module(require('../utilities').name);
         angular.mock.module(require('../../src/menu-button').name);
-        inject(function($compile, $rootScope, utilityService) {
+        inject(function($compile, $rootScope) {
             var markup = '<div><akam-menu-button label="Test">' +
                 '<akam-menu-button-item text="Action" ng-click="process()">' +
                 '</akam-menu-button-item>' +
@@ -30,9 +29,9 @@ describe('akam-menu-button', function() {
             self.scope.process = sinon.spy();
             self.element = $compile(markup)(self.scope)[0];
             self.scope.$digest();
-            self.utilities = utilityService;
             document.body.appendChild(self.element);
         });
+        self.utilities = require('../utilities')();
     });
     afterEach(function() {
         document.body.removeChild(this.element);
