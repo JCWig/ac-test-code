@@ -20,13 +20,11 @@
     });
 
     app.controller("TranslationPageController", ["$scope", "akamTranslate", "$rootScope", "$timeout", function($scope, translate, $rootScope, $timeout) {
-        $rootScope.$on('$translateChangeSuccess', function() {
-            $timeout(function() {
+        $rootScope.$on('$translateChangeEnd', function() {
                 console.log(translate.get('billing-center.no-access'));
                 console.log(translate.get('components.error.invalid-json', {
                     name: "Bubblehelp component"
                 }));
-            })
         })
     }]);
     </script>

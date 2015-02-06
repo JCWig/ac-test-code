@@ -117,13 +117,11 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 })
 
 /**
- * This run block sets up the locale value and fires up "translateChangeSuccess" event
+ * This run block sets up the locale value and fires up "translateChangeEnd" event
  *
  * __NOTE__ Since run block is last flow, so only this block completely finished, the $translation table is loaded.
  */
 /* @ngInject */
-.run(function($translate, $timeout, i18nToken) {
-    $timeout(function() {
-        $translate.use(i18nToken.getLocale());
-    });
+.run(function($rootScope, $translate, $timeout, i18nToken) {
+    $translate.use(i18nToken.getLocale());
 });
