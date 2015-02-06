@@ -31,6 +31,10 @@ module.exports = function(modalWindow, $rootScope) {
             controller: function($scope) {
                 var collapsed = true;
 
+                $scope.submitted.then(function(close) {
+                    close(true);
+                });
+
                 $scope.toggle = function() {
                     collapsed = !collapsed;
                 };
