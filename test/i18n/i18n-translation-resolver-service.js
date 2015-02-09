@@ -11,5 +11,7 @@ describe('i18n-translation-resolver service', function() {
         });
     });
 
-    afterEach(function() {});
+    afterEach(function() {
+        this.$rootScope.$apply();
+    });
 });

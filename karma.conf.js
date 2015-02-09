@@ -6,6 +6,7 @@ module.exports = function(config) {
     config.set({
         files: [
             'node_modules/angular/angular.min.js',
+            'node_modules/angular-translate/dist/angular-translate.min.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'node_modules/pulsar-common-css/dist/styles.css',
             'node_modules/bootstrap/dist/css/bootstrap.css',

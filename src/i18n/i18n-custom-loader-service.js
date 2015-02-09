@@ -25,7 +25,7 @@ module.exports = function($http, $q, i18nToken) {
                 deferred.resolve([localeTable]);
             },
             function(err) {
-                deferred.reject(err);
+                deferred.reject("Couldn\'t find locale file!");
                 //var $translate = $injector.get("$translate"); //has to use $injector, circular dependency, $translate servcie not done yet
                 //throw new AkamException(err.data, err.statusText);
             });
