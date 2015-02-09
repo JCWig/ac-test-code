@@ -15,29 +15,40 @@ global.clickAwayCreationAndClick = function(ele){
 };
 
 global.getMonthInEnglish = function(num){
-	if(num == 0)
+	var date = new Date();
+	var month = (num || num == 0) ? num : date.getMonth();
+	if(month == 0)
 		return 'January'
-	else if (num == 1 )
+	else if (month == 1 )
 		return 'February'
-	else if (num == 2 )
+	else if (month == 2 )
 		return 'March'
-	else if (num == 3 )
+	else if (month == 3 )
 		return 'April'
-	else if (num == 4 )
+	else if (month == 4 )
 		return 'May'
-	else if (num == 5 )
+	else if (month == 5 )
 		return 'June'
-	else if (num == 6 )
+	else if (month == 6 )
 		return 'July'
-	else if (num == 7 )
+	else if (month == 7 )
 		return 'August'
-	else if (num == 8 )
+	else if (month == 8 )
 		return 'September'
-	else if (num == 9 )
+	else if (month == 9 )
 		return 'October'
-	else if (num == 10 )
+	else if (month == 10 )
 		return 'November'
-	else if (num == 10 )
+	else if (month == 10 )
 		return 'December'
+}
 
+global.getTodaysYear = function(){
+	var date = new Date();
+	return date.getFullYear();
+}
+
+global.getTodaysMonth = function(){
+	var date = new Date();
+	return date.getMonth();
 }
