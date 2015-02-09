@@ -18,11 +18,18 @@
         fieldset {
             padding-bottom: 20px; 
         }
+        
+        input::-webkit-calendar-picker-indicator{
+            display: none;
+        }
+
+        input[type="date"]::-webkit-input-placeholder{ 
+            visibility: hidden !important;
+        }
     </style>
     <script>
         var app = angular.module("datePickerDemo", ["akamai.components.date-picker"]);
         app.controller("Ctrl", ["$scope", function($scope) {
-            $scope.picked="2015-02-01";
             $scope.mychange = function(value){
                 console.log('yay', value);
             };
@@ -39,8 +46,6 @@
                 </div>
             </fieldset>
         </form>
-        
-        The value selected: <input type="text" ng-model="picked">
         
         Date Picker (Day):
         <div class="container">
