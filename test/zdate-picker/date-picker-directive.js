@@ -1,5 +1,14 @@
 'use strict';
 var utilities = require('../utilities');
+var findFirstOfTheMonth = function(){
+    var days = document.querySelectorAll('td.ng-scope');
+    for (var i = 0; i < days.length; i++){
+        if(days[i].textContent.indexOf("01")>=0){
+            return days[i]
+        }
+    }
+    return null;
+}
 describe('zakam-date-picker', function() {
     var compile = null;
     var scope = null;
@@ -59,17 +68,16 @@ describe('zakam-date-picker', function() {
         });
         it('should hide the date-picker when close button clicked', function() {
             utilities.click(document.querySelector('button.btn-success'));
-            scope.$digest();
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
-        });
-        /*it('should hide the date-picker when clear button clicked', function() {
-            click(document.querySelector('button.btn-danger'));
-            expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
-        });
-        it('should hide the date-picker when today button clicked', function() {
-            click(document.querySelector('button.btn-info'));
+        });/*
+        it('should hide the date-picker when clear button clicked', function() {
+            utilities.click(document.querySelector('button.btn-danger'));
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });*/
+        it('should hide the date-picker when today button clicked', function() {
+            utilities.click(document.querySelector('button.btn-info'));
+            expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
+        });
         it('should start on todays month', function(){
             var month = utilities.getMonthInEnglish();
             var year = utilities.getTodaysYear();
@@ -104,13 +112,14 @@ describe('zakam-date-picker', function() {
             var year = utilities.getTodaysYear();
             expect(document.querySelector('button strong.ng-binding').textContent).to.equal(String(year));
         });
-        /*it('should close and save date when date is chosen', function(){
-            console.log(document.querySelector('td.ng-scope button.btn-default'));
-            click(document.querySelector('td.ng-scope button.btn-default'));
+        it('should close and save date when date is chosen', function(){
+            var first = findFirstOfTheMonth();
+            utilities.click(first.querySelector('button'));
             scope.$digest();
-            console.log(scope.value);
+            var firstOfThisMonth = utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-01";
+            expect(document.querySelector('input.ng-valid-date').value).to.equal(firstOfThisMonth);
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
-        });*/
+        });
     });
     describe('when interacting with the month picker', function(){
         beforeEach(function(){
