@@ -47,6 +47,22 @@ describe('messageBox service', function() {
             });
         });
 
+        it('should limit the title to 20 characters', function() {
+            var title = 'I am very long title that should be truncated';
+            var el;
+
+            this.messageBox._show({
+                title: title,
+                headline: 'Headline',
+                text: 'Message',
+                template: '<p></p>'
+            });
+            this.$rootScope.$digest();
+
+            el = document.querySelector('.modal .modal-title');
+            expect(el.textContent).to.have.length(20);
+        });
+
         it('should support a headline option', function() {
             var headline = 'Headline';
             var el;
@@ -58,6 +74,18 @@ describe('messageBox service', function() {
             expect(el.textContent).to.equal(headline);
         });
 
+        it('should limit the headline to 25 characters', function() {
+            var headline = 'A very long headline that will be truncated';
+            var el;
+
+            this.messageBox._show({ headline: headline, text: 'Message' });
+            this.$rootScope.$digest();
+
+            el = document.querySelector('.modal .message-box-headline');
+            expect(el.textContent).to.have.length(25);
+
+        });
+
         it('should support a text option', function() {
             var text = 'Message';
             var el;
@@ -67,6 +95,17 @@ describe('messageBox service', function() {
 
             el = document.querySelector('.modal .message-box-text');
             expect(el.textContent).to.equal(text);
+        });
+
+        it('should limit the text to 220 characters', function() {
+            var text = new Array(300).join('x');
+            var el;
+
+            this.messageBox._show({ headline: 'Headline', text: text });
+            this.$rootScope.$digest();
+
+            el = document.querySelector('.modal .message-box-text');
+            expect(el.textContent).to.have.length(220);
         });
 
         it('should support a details option', function() {

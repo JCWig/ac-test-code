@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(modalWindow, $rootScope) {
+module.exports = function(modalWindow, $rootScope, $filter) {
     function show(options) {
         if (!angular.isDefined(options.headline)) {
             throw new Error('headline option is required');
@@ -13,11 +13,12 @@ module.exports = function(modalWindow, $rootScope) {
             throw new Error('text option is required');
         }
 
+        options.title = options.title ? options.title.substr(0, 20) : '';
         options.backdrop = 'static';
         options.scope = $rootScope.$new();
         options.scope.messageBox = {
-            headline: options.headline,
-            text: options.text,
+            headline: options.headline.substr(0, 25),
+            text: options.text.substr(0, 220),
             details: options.details
         };
 
