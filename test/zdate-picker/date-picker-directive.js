@@ -44,11 +44,12 @@ describe('zakam-date-picker', function() {
     };
     describe('when rendering date picker', function() {
         it('should render all parts', function() {
-            var markup = '<div id="parent-element"><akam-date-picker></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker placeholder="placeholder"></akam-date-picker></div>';
             addElement(markup);
             expect(document.querySelector('input')).to.not.be.null;
             expect(document.querySelector('button.button')).to.not.be.null;
             expect(document.querySelector('ul.dropdown-menu')).to.not.be.null;
+            expect(document.querySelector('input.ng-valid').placeholder).to.equal("placeholder");
         });
         it('should default hide the picker', function(){
             var markup = '<div id="parent-element"><akam-date-picker></akam-date-picker></div>';
@@ -234,7 +235,15 @@ describe('zakam-date-picker', function() {
             var firstOfThisMonth = utilities.getTodaysYear()+"-01";
             expect(document.querySelector('input.ng-valid-date').value).to.equal(firstOfThisMonth);
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
-        });
+        });/*
+        it('should clear chosen month when clear is pressed', function(){
+            var month = findMonthOfYear("January");
+            utilities.click(month.querySelector('button'));
+            scope.$digest();
+            utilities.click(document.querySelector('button.button')); 
+            utilities.click(document.querySelector('button.btn-danger'));
+            expect(document.querySelector('input.ng-valid-date').value).to.match('');
+        });*/
         it('should be able to open and change month', function(){
             var month = findMonthOfYear("January");
             utilities.click(month.querySelector('button'));
