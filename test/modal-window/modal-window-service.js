@@ -1,13 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-
-function click(el) {
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
-    el.dispatchEvent(ev);
-};
-
+var utilities = require('../utilities');
 describe('modalWindow service', function() {
     beforeEach(function() {
         var self = this;
@@ -144,11 +138,11 @@ describe('modalWindow service', function() {
             toggle = document.querySelector('.toggle');
             button = document.querySelector('.modal-footer button:last-child');
 
-            click(toggle);
+            utilities.click(toggle);
             this.$rootScope.$digest();
             expect(button.disabled).to.be.true;
 
-            click(toggle);
+            utilities.click(toggle);
             this.$rootScope.$digest();
             expect(button.disabled).to.be.false;
         });
@@ -164,7 +158,7 @@ describe('modalWindow service', function() {
                 this.$rootScope.$digest();
                 button = document.querySelector('.modal-footer button:last-child');
 
-                click(button);
+                utilities.click(button);
                 this.$rootScope.$digest();
                 expect(this.notify).to.have.been.called;
             });
@@ -177,7 +171,7 @@ describe('modalWindow service', function() {
 
                 this.$rootScope.$digest();
                 button = document.querySelector('.modal-footer button:first-child');
-                click(button);
+                utilities.click(button);
                 this.$rootScope.$digest();
                 this.$timeout.flush();
 
@@ -192,7 +186,7 @@ describe('modalWindow service', function() {
 
                 this.$rootScope.$digest();
                 icon = document.querySelector('.modal-header i');
-                click(icon);
+                utilities.click(icon);
                 this.$rootScope.$digest();
                 this.$timeout.flush();
 

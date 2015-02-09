@@ -1,18 +1,10 @@
 'use strict';
-
-
-function click(el) {
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
-    el.dispatchEvent(ev);
-};
-
+var utilities = require('../utilities');
 describe('akamai.components.status-message-service', function() {
     describe('status message service', function(){
         beforeEach(function() {
             var self = this;
             angular.mock.module(require('../../src/status-message').name);
-            
             angular.mock.module(function ($controllerProvider) {
                 $controllerProvider.register('Controller', function($scope) {
                 });
@@ -85,7 +77,7 @@ describe('akamai.components.status-message-service', function() {
                 this.statusMessage.showSuccess({text : "message_text", timeout: 100000});
                 this.scope.$digest();
                 expect(document.querySelector('div.status-message-content')).to.not.be.null
-                click(document.querySelector('i.close'));
+                utilities.click(document.querySelector('i.close'));
                 this.timeout.flush();
                 expect(document.querySelector('.status-message-content')).to.be.null; 
             });
@@ -114,7 +106,7 @@ describe('akamai.components.status-message-service', function() {
                 this.statusMessage.showSuccess({text : "message_text6", timeout: 0, statustype:"error"});
                 this.statusMessage.showSuccess({text : "message_text7", timeout: 0, statustype:"error"});
                 this.scope.$digest();
-                click(document.querySelectorAll('i.close')[1]);
+                utilities.click(document.querySelectorAll('i.close')[1]);
                 this.timeout.flush();
                 expect(document.querySelectorAll('.status-message-content')[0].textContent).to.match(/message_text6/);
                 expect(document.querySelector('.status-message-content')[1]).to.be.undefined; 
@@ -162,6 +154,6 @@ describe('akamai.components.status-message-service', function() {
                 expect(document.querySelector('#akam-status-message-1')).to.not.be.null;
                 expect(document.querySelectorAll('.status-message-content')[0].textContent).to.match(/ /);
             });
-        })
+        });
     });
 });
