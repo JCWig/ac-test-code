@@ -1,19 +1,10 @@
 'use strict';
 var utilities = require('../utilities');
-var findDayOfMonth = function(dayNum){
-    var days = document.querySelectorAll('td.ng-scope');
-    for (var i = 0; i < days.length; i++){
-        if(days[i].textContent.indexOf(dayNum)>=0){
-            return days[i]
-        }
-    }
-    return null;
-};
-var findMonthOfYear = function(month){
-    var months = document.querySelectorAll('td.ng-scope');
-    for (var i = 0; i < months.length; i++){
-        if(months[i].textContent.indexOf(month)>=0){
-            return months[i]
+var findCertainButton = function(buttonKey){
+    var calendar = document.querySelectorAll('td.ng-scope');
+    for (var i = 0; i < calendar.length; i++){
+        if(calendar[i].textContent.indexOf(buttonKey)>=0){
+            return calendar[i]
         }
     }
     return null;
@@ -22,7 +13,6 @@ describe('zakam-date-picker', function() {
     var compile = null;
     var scope = null;
     var self = this;
-    var value = null;
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/date-picker').name);
@@ -89,9 +79,7 @@ describe('zakam-date-picker', function() {
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
         it('should start on todays month', function(){
-            var month = utilities.getMonthInEnglish();
-            var year = utilities.getTodaysYear();
-            var todaysDate = month + " "+ year;
+            var todaysDate = utilities.getMonthInEnglish() + " "+ utilities.getTodaysYear();
             expect(document.querySelector('button strong.ng-binding').textContent).to.equal(todaysDate);
         });
     });
@@ -106,15 +94,15 @@ describe('zakam-date-picker', function() {
             utilities.click(document.querySelector('button.pull-left')); 
             var month = utilities.getMonthInEnglish(utilities.getTodaysMonth()-1);
             var year = utilities.getTodaysYear();
-            var todaysDate = month + " "+ year;
-            expect(document.querySelector('button strong.ng-binding').textContent).to.equal(todaysDate);
+            var last_month = month + " "+ year;
+            expect(document.querySelector('button strong.ng-binding').textContent).to.equal(last_month);
         });
         it('should change month right when prompted',function(){
             utilities.click(document.querySelector('button.pull-right')); 
             var month = utilities.getMonthInEnglish(utilities.getTodaysMonth()+1);
             var year = utilities.getTodaysYear();
-            var todaysDate = month + " "+ year;
-            expect(document.querySelector('button strong.ng-binding').textContent).to.equal(todaysDate);
+            var next_month = month + " "+ year;
+            expect(document.querySelector('button strong.ng-binding').textContent).to.equal(next_month);
         });
         it('should load up month screen of current year when prompted', function(){
             expect(document.querySelector('table').getAttribute('ng-switch-when')).to.equal("day");
@@ -124,7 +112,7 @@ describe('zakam-date-picker', function() {
             expect(document.querySelector('button strong.ng-binding').textContent).to.equal(String(year));
         });
         it('should close and save date when date is chosen', function(){
-            var day = findDayOfMonth("01");
+            var day = findCertainButton("01");
             utilities.click(day.querySelector('button'));
             scope.$digest();
             var firstOfThisMonth = utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-01";
@@ -132,13 +120,13 @@ describe('zakam-date-picker', function() {
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
         it('should be able to open and change date', function(){
-            var day = findDayOfMonth("01");
+            var day = findCertainButton("01");
             expect(scope.mychange).to.not.have.been.called;
             utilities.click(day.querySelector('button'));
             expect(scope.mychange).to.have.been.called;
             scope.$digest();
             utilities.click(document.querySelector('button.button'));
-            var day2 = findDayOfMonth("02");
+            var day2 = findCertainButton("02");
             utilities.click(day2.querySelector('button'));
             scope.$digest();
             var firstOfThisMonth = utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-02";
@@ -219,13 +207,13 @@ describe('zakam-date-picker', function() {
         });
         it('should change year left when prompted', function(){
             utilities.click(document.querySelector('button.pull-left')); 
-            var year = String(utilities.getTodaysYear()-1);
-            expect(document.querySelector('button strong.ng-binding').textContent).to.equal(year);
+            var last_year = String(utilities.getTodaysYear()-1);
+            expect(document.querySelector('button strong.ng-binding').textContent).to.equal(last_year);
         });
         it('should change year rights when prompted', function(){
             utilities.click(document.querySelector('button.pull-right')); 
-            var year = String(utilities.getTodaysYear()+1);
-            expect(document.querySelector('button strong.ng-binding').textContent).to.equal(year);
+            var next_year = String(utilities.getTodaysYear()+1);
+            expect(document.querySelector('button strong.ng-binding').textContent).to.equal(next_year);
         });
         it('should load year picker when prompted', function(){
             expect(document.querySelector('table').getAttribute('ng-switch-when')).to.equal("month");
@@ -233,7 +221,7 @@ describe('zakam-date-picker', function() {
             expect(document.querySelector('table').getAttribute('ng-switch-when')).to.equal("year");  
         });
         it('should close and save month when month is chosen', function(){
-            var month = findMonthOfYear("January");
+            var month = findCertainButton("January");
             utilities.click(month.querySelector('button'));
             scope.$digest();
             var firstOfThisMonth = utilities.getTodaysYear()+"-01";
@@ -241,7 +229,7 @@ describe('zakam-date-picker', function() {
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
         it('should clear chosen month when clear is pressed', function(){
-            var month = findMonthOfYear("January");
+            var month = findCertainButton("January");
             utilities.click(month.querySelector('button'));
             scope.$digest();
             utilities.click(document.querySelector('button.button')); 
@@ -249,12 +237,12 @@ describe('zakam-date-picker', function() {
             expect(document.querySelector('input.ng-valid-date').value).to.equal('');
         });
         it('should be able to open and change month', function(){
-            var month = findMonthOfYear("January");
+            var month = findCertainButton("January");
             expect(scope.mychange).to.not.have.been.called;
             utilities.click(month.querySelector('button'));
             scope.$digest();
             utilities.click(document.querySelector('button.button')); 
-            var month2 = findMonthOfYear("February");
+            var month2 = findCertainButton("February");
             utilities.click(month2.querySelector('button'));
             scope.$digest();
             expect(scope.mychange).to.have.been.called
