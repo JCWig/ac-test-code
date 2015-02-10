@@ -127,6 +127,16 @@ describe('modalWindow service', function() {
             expect(el.textContent).to.equal(scope.name);
             this.$httpBackend.verifyNoOutstandingRequest();
         });
+
+        it('should support a hide submit button option', function() {
+            var el;
+
+            this.modalWindow.open({ hideSubmit: true, template: '<p></p>' });
+            this.$rootScope.$digest();
+
+            el = document.querySelectorAll('.modal-footer button');
+            expect(el).to.have.length(1);
+        });
         
         it('should support toggling the submit button disabled state', function() {
             var template = '<button class="toggle" ng-click="toggle()"></button>';
