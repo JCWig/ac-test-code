@@ -16,6 +16,7 @@ describe('akam-pagination directive', function() {
         it('should display a next button');
         it('should display the first page');
         it('should display the last page');
+        it('should display a maximum of seven pages');
         it('should display the page size options');
 
         context('when total item count is less than 25', function() {
@@ -33,11 +34,11 @@ describe('akam-pagination directive', function() {
         });
 
         context('when the current page is > 3 away from the first', function() {
-            it('should display ellipsis after the first page');
+            it('should display an ellipsis after the first page');
         });
 
         context('when the current page is > 3 away from the last', function() {
-            it('should display ellipsis before the last page');
+            it('should display an ellipsis before the last page');
         });
     });
 
