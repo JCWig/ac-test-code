@@ -1,2 +1,4 @@
-<input type="date" datepicker-popup="{{format}}" ng-model="value" is-open="opened" datepicker-options="dateOptions" datepicker-mode="mode" placeholder="{{placeholder}}" />
-<button class="button" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+<div class="akam-date-picker">
+    <input type="text" datepicker-popup="{{format}}" ng-model="value" is-open="opened" datepicker-options="dateOptions" datepicker-mode="mode" placeholder="{{placeholder}}" ng-click="open($event)" readonly="readonly" />
+    <button class="button" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+</div>
