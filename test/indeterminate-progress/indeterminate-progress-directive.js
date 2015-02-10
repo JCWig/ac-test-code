@@ -1,5 +1,5 @@
 'use strict';
-
+var utilities = require('../utilities');
 describe('akam-indeterminate-progress', function() {
     var compile = null;
     var scope = null;
@@ -145,7 +145,7 @@ describe('akam-indeterminate-progress', function() {
             scope.completed = true;
             scope.$digest();
             expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.false();
-            click(document.querySelector('#change-completed'));
+            utilities.click(document.querySelector('#change-completed'));
             scope.$digest();
             expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.true();
         });
@@ -153,7 +153,7 @@ describe('akam-indeterminate-progress', function() {
             scope.completed = false;
             scope.$digest();
             expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.true();
-            click(document.querySelector('#change-completed'));
+            utilities.click(document.querySelector('#change-completed'));
             scope.$digest();
             expect(this.element.querySelector('#parent-element').classList.contains('indeterminate-progress')).to.be.false(); 
         })

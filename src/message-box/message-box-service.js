@@ -3,21 +3,22 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(modalWindow, $rootScope) {
+module.exports = function(modalWindow, $rootScope, $filter) {
     function show(options) {
-        if (!angular.isDefined(options.headline)) {
+        if (options.headline == null) {
             throw new Error('headline option is required');
         }
 
-        if (!angular.isDefined(options.text)) {
+        if (options.text == null) {
             throw new Error('text option is required');
         }
 
+        options.title = options.title ? options.title.substr(0, 20) : '';
         options.backdrop = 'static';
         options.scope = $rootScope.$new();
         options.scope.messageBox = {
-            headline: options.headline,
-            text: options.text,
+            headline: options.headline.substr(0, 25),
+            text: options.text.substr(0, 220),
             details: options.details
         };
 
@@ -61,8 +62,8 @@ module.exports = function(modalWindow, $rootScope) {
          *
          * @param {object} options A hash supporting a subset of the
          *   `modalWindow` options and additionally:
-         *   - **headline** - `{string}` - A headline for the message box.
-         *   - **text** - `{string}` - A short message.
+         *   - **headline** - `{string}` - A headline for the message box. (limited to 25 characters)
+         *   - **text** - `{string}` - A short message. (limited to 220 characters)
          *   - **details** - `{string=}` - Additional text that is collapsed by
          *     default.
          *
