@@ -78,34 +78,34 @@ describe('i18nTokenProvider', function() {
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should array "urls" not to add value if given string as integer value ', function() {
+        it('should array "urls" not to add app locale value if given string as integer value ', function() {
 
             provider.addAppLocalePath(123);
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should array "urls" not to add value if given array as undefined', function() {
+        it('should array "urls" not to add app locale value if given array as undefined', function() {
             var arrOfPath;
 
             provider.addAppLocalePath(arrOfPath);
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should array "urls" not to add value if given array as empty', function() {
+        it('should array "urls" not to add app locale value if given array as empty', function() {
 
             var arrOfPath = [];
 
             provider.addAppLocalePath(arrOfPath);
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should array "urls" not to add value if given array as null', function() {
+        it('should array "urls" not to add app locale value if given array as null', function() {
             var arrOfPath = null;
 
             provider.addAppLocalePath(arrOfPath);
@@ -128,14 +128,14 @@ describe('i18nTokenProvider', function() {
         it('should array "urls" contain correct value as string given no part value ', function() {
             provider.addComponentLocalePath("../../");
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal("../../");
         });
 
         it('should array "urls" contain correct value given with part value ', function() {
             provider.addComponentLocalePath("../../", "_components");
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal("../../_components");
         });
 
@@ -145,41 +145,41 @@ describe('i18nTokenProvider', function() {
 
             provider.addComponentLocalePath(arrOfPath);
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal("../../_components");
         });
 
-        it('should array "urls" not to add value if given string as integer value ', function() {
+        it('should array "urls" not to add component locale value if given string as integer value ', function() {
 
             provider.addComponentLocalePath(123);
 
             expect(provider.urls.length).to.equal(1);
         });
 
-        it('should array "urls" not to add value if given array as undefined', function() {
+        it('should array "urls" not to add component locale value if given array as undefined', function() {
             var arrOfPath;
 
             provider.addComponentLocalePath(arrOfPath);
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should array "urls" not to add value if given array as empty', function() {
+        it('should array "urls" not to add component locale value if given array as empty', function() {
             var arrOfPath = [];
 
             provider.addComponentLocalePath(arrOfPath);
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should array "urls" not to add value if given array as null', function() {
+        it('should array "urls" not to add component locale value if given array as null', function() {
             var arrOfPath = null;
 
             provider.addComponentLocalePath(arrOfPath);
 
-            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls.length === 2).to.be.false;
             expect(provider.urls[0]).to.equal(config.localePath);
         });
     });
