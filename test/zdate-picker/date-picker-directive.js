@@ -99,7 +99,7 @@ describe('zakam-date-picker', function() {
         beforeEach(function(){
             var markup = '<div id="parent-element"><akam-date-picker></akam-date-picker></div>';
             addElement(markup);
-            utilities.click(document.querySelector('button.button'));
+            utilities.click(document.querySelector('button.button')); 
         });
         it('should change month left when prompted',function(){
             utilities.click(document.querySelector('button.pull-left')); 
@@ -134,10 +134,12 @@ describe('zakam-date-picker', function() {
             var day = findDayOfMonth("01");
             utilities.click(day.querySelector('button'));
             scope.$digest();
+            console.log(scope.value);
             utilities.click(document.querySelector('button.button'));
             var day2 = findDayOfMonth("02");
             utilities.click(day2.querySelector('button'));
             scope.$digest();
+            console.log(scope.value);
             var firstOfThisMonth = utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-02";
             expect(document.querySelector('input.ng-valid-date').value).to.equal(firstOfThisMonth);
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
@@ -209,7 +211,12 @@ describe('zakam-date-picker', function() {
     });
     describe('when interacting with only month picker', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker mode="month"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker mode="month" onchange="scope.mychange(value)"></akam-date-picker></div>';
+            scope.mychange = function(value){
+                console.log("HELLO:  " + value);
+                scope.value = value;
+            };
+            scope.mychange = sinon.spy();
             addElement(markup);
             utilities.click(document.querySelector('button.button')); 
         });
@@ -248,9 +255,13 @@ describe('zakam-date-picker', function() {
             var month = findMonthOfYear("January");
             utilities.click(month.querySelector('button'));
             scope.$digest();
+            console.log(scope.value);
             utilities.click(document.querySelector('button.button')); 
             var month2 = findMonthOfYear("February");
             utilities.click(month2.querySelector('button'));
+            scope.$digest();
+            console.log(scope.value);
+            expect(scope.mychange).to.have.been.called
             var firstOfThisMonth = utilities.getTodaysYear()+"-02";
             expect(document.querySelector('input.ng-valid-date').value).to.equal(firstOfThisMonth);
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
