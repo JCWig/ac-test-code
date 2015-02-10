@@ -4,15 +4,34 @@ describe('akam-pagination directive', function() {
     beforeEach(function() {
         var self = this;
 
-        angular.mock.module(require('../../src/pagination'));
+        angular.mock.module(require('../../src/pagination').name);
         inject(function($compile, $rootScope) {
+            var markup = '<akam-pagination total-items="pager.count" ' +
+                'current-page="pager.page"></akam-pagination>';
+
+            self.scope = $rootScope.$new();
+            self.scope.pager = { count: 85, page: 4 };
+            self.element = $compile(markup)(self.scope)[0];
+            self.scope.$digest();
         });
     });
 
     context('when rendering', function() {
-        it('should display the total item count');
-        it('should highlight the current active page');
-        it('should display a previous button');
+        it('should display the total item count', function() {
+            var el = this.element.querySelector('.total-items');
+            expect(el.textContent).to.match(new RegExp(this.scope.pager.count));
+        });
+
+        it('should highlight the current active page', function() {
+            var el = this.element.querySelector('li.active');
+            expect(el.textContent).to.match(new RegExp(this.scope.pager.page));
+        });
+
+        it('should display a previous button', function() {
+            var el = this.element.querySelector('li:first-child');
+            expect(el.textContent).to.match(/Previous/);
+        });
+
         it('should display a next button');
         it('should display the first page');
         it('should display the last page');
