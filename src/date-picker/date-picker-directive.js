@@ -25,7 +25,8 @@ module.exports = function($log) {
                     scope.format= 'yyyy-MM-dd';
                     scope.dateOptions = {
                       startingDay: 1,
-                      showWeeks: false
+                      showWeeks: false,
+                      autoclose: true
                     };
                 }else{
                     scope.format= 'yyyy-MM';
@@ -33,7 +34,8 @@ module.exports = function($log) {
                       startingDay: 1,
                       minMode: 'month',
                       showWeeks: false,
-                      datepickerMode: 'month'
+                      datepickerMode: 'month',
+                      autoclose: true
                     };
                 }
             },
@@ -44,7 +46,6 @@ module.exports = function($log) {
                 
                     scope.opened = true;
                 };
-                
                 
                 scope.$watch('value', function(newValue, oldValue){
                     if (scope.onchange && newValue !== oldValue) {
