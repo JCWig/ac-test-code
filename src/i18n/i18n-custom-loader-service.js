@@ -1,16 +1,18 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($http, $q, i18nToken) {
+module.exports = function($http, $q, i18nToken, i18nConfig) {
     var locale = i18nToken.getLocale(),
         urls = i18nToken.getUrls();
     return function(options) { //callback func option has: $http, key="en_US"
-        var deferred = $q.defer(),
-            deferreds = [],
-            n = urls.length,
-            localeTable = {};
+        var deferred = $q.defer(), deferreds = [], n = urls.length, localeTable = {}, url;
         while (n > 0) {
-            var url = urls[n - 1] + locale + ".json"; //assuming all json file name format has "...en_US.json"
+            if (n===1) {
+                url = urls[0] + i18nConfig.defaultLocale + ".json"; //component locale always en_US for now
+            }
+            else {
+                 url = urls[n - 1] + locale + ".json"; //assuming all json file, and file format has "...en_US.json"
+            }
             deferreds.push($http.get(url, {}));
             n--;
         }
@@ -21,7 +23,6 @@ module.exports = function($http, $q, i18nToken) {
                         clone = src? angular.copy(src) : {};
                     angular.extend(localeTable, clone);
                 });
-                //console.log(localeTable);
                 deferred.resolve([localeTable]);
             },
             function(err) {

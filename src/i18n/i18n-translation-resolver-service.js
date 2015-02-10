@@ -18,7 +18,7 @@ module.exports = function($q, $timeout, $translate, $rootScope) {
      *
      * Usage:
      *
-     * <pre>i18nTranslationResolver.get("arrayOfKeys").then(function(results) { ... })</pre>
+     * <pre>i18nTranslationResolver.get("arrayOfKeys").then(function(arrOfResults) { ... })</pre>
      */
     var translate = function(props) {
         var results = [];

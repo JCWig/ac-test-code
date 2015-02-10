@@ -2,44 +2,22 @@
 
 describe('i18nCustomLoader service', function() {
 
-    var appLocaleJson, componentLocaleJson, provider, value, loader, service, config, $scope, $http, $q, $httpBackend, $translate;
-
-    appLocaleJson = {
-        "billing-center.no-access": "You have no access to Billing Center application.",
-        "reseller-tools.incorrect-date": "Incorrect date format. Please fix the date and try again."
-    };
-    componentLocaleJson = {
-        "components": {
-            "error": {
-                "invalid-json": "{{name}} json data is invalid.",
-                "data-empty": "{{name}} data can not be empty."
-            }
-        }
-    };
+    var value, loader, config, translate, $translate;
 
     beforeEach(function() {
-
         angular.mock.module(require('../../src/i18n').name);
-
-        angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
-            //provider = i18nTokenProvider;
-
-            //i18nTokenProvider.useLocale("en_DE");
-
-            $provide.factory('i18nCustomLoader', function($q, $http, i18nToken) {
-                return function(options) { //callback func option has: $http, key="en_US"
-
+        angular.mock.module(function($provide, $translateProvider) {
+            $provide.factory('i18nCustomLoader', function($q, $timeout) {
+                return function(options) {
                     var deferred = $q.defer(),
                         promise = deferred.promise,
                         deferreds = [],
                         localeTable = {};
-
                     promise.then(function(translation) {
-                        value = angular.toJson(translation);
+                        value = translation;
                     });
-
-                    deferreds.push(appLocaleJson);
-                    deferreds.push(componentLocaleJson);
+                    deferreds.push(require("../../locales/component-locales/en_US.json"));
+                    deferreds.push(require("../../examples/i18n/locales/json/messages/messages_en_US.json"));
                     $q.all(deferreds).then(
                         function(responses) { //success
                             angular.forEach(responses, function(resp) {
@@ -47,26 +25,29 @@ describe('i18nCustomLoader service', function() {
                                     clone = src ? angular.copy(src) : {};
                                 angular.extend(localeTable, clone);
                             });
-
-                            deferred.resolve(localeTable);
+                            $timeout(function() {
+                                deferred.resolve(localeTable);
+                            });
                         }
                     );
                     return deferred.promise;
                 };
             });
-
             $translateProvider.useLoader('i18nCustomLoader');
         });
-
     });
 
     beforeEach(function() {
-
-        inject(function(_$translate_, _$httpBackend_, i18nCustomLoader, $rootScope) {
-            $httpBackend = _$httpBackend_;
+        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, akamTranslate) {
             $translate = _$translate_;
-            $scope = $rootScope;
             loader = i18nCustomLoader;
+            config = i18nConfig;
+            translate = akamTranslate;
+            $timeout(function() {
+                $translate.use(config.defaultLocale);
+            });
+            $timeout.flush();
+            $rootScope.$digest();
         });
     });
 
@@ -77,33 +58,39 @@ describe('i18nCustomLoader service', function() {
     it('should return a promise', function() {
         var promise = loader();
         expect(promise).to.be.not.undefined;
+        expect(promise.then).to.be.not.undefined;
+        expect(typeof promise.then).to.equal("function");
     });
 
-    it('should return a promise', function() {
+     it('should return csame key value if key not found from tranlsation table', function() {
+        expect(translate.get("somekey.someotherkey")).to.equal("somekey.someotherkey");
+    });
 
-        $scope.$digest();
-        value = JSON.parse(value);
-        //console.log(typeof value);
-        //expect(keys).toEqual('billing-center.no-access');
-        //expect(value).toEqual('');
+    it('should return correct translate value given app locale key from combined translation table', function() {
+        expect(translate.get("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+    });
+
+    it('should return correct translate value given component locale key from combined translation table', function() {
+        expect(translate.get("components.error.invalid-json")).to.equal(" json data is invalid.");
+        expect(translate.get("components.error.invalid-json", {name:"bubblehelp"})).to.equal("bubblehelp json data is invalid.");
+    });
+
+    it('should return correct translate value given locale key from combined translation table', function() {
+        expect(translate.get("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
+        expect(translate.get("components.error.file-notfound")).to.equal("File is not found.");
     });
 });
 
 describe('i18nToken service', function() {
 
-    var provider, loader, service, config, $scope, $http, $q, $httpBackend;
+    var service;
 
     beforeEach(function() {
-
         angular.mock.module(require('../../src/i18n').name);
-
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
-            provider = i18nTokenProvider;
-
             i18nTokenProvider.useLocale("en_DE");
             i18nTokenProvider.addAppLocalePath("../../", "_app");
             i18nTokenProvider.addComponentLocalePath("../../", "_component");
-
             $provide.factory('i18nCustomLoader', function($q, i18nToken) {
                 var locale = i18nToken.getLocale(),
                     urls = i18nToken.getUrls();
@@ -113,23 +100,14 @@ describe('i18nToken service', function() {
                     return deferred.promise;
                 };
             });
-
             $translateProvider.useLoader('i18nCustomLoader');
         });
 
-        inject(function(i18nCustomLoader, i18nToken, i18nConfig, $rootScope) {
-            loader = i18nCustomLoader;
+        inject(function(i18nToken) {
             service = i18nToken;
-            config = i18nConfig;
-            $scope = $rootScope.$new();
         });
     });
 
-    //context('i18nTokenService has getLocale() method', function() {
-    //   sinon.stub(this.$http, 'get', function() {
-    //   return null;
-    // });
-    //
     it('should be defined', function() {
         expect(service).to.not.be.undefined;
     });

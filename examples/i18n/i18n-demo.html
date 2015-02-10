@@ -8,8 +8,14 @@
     <script src="../../../node_modules/angular-translate/dist//angular-translate.js"></script>
     <script type="text/javascript" src="../../../dist/akamai-components.js"></script>
 
+    <style>
+    .translate-cloak {
+        display: none !important;
+    }
+    </style>
+
     <script>
-    var locale = "en_US";
+    var locale = "en_US"; //"de_DE"|"zh_CN"
     var appLocalePath = "../../../examples/i18n/locales/json/messages/";
     var componentLocalePath = "../../../locales/component-locales/";
 
@@ -27,10 +33,10 @@
 
     app.controller("TranslationPageController", ["$scope", "akamTranslate", "$rootScope", function($scope, translate, $rootScope) {
         $rootScope.$on('$translateChangeEnd', function() {
-                console.log(translate.get('billing-center.no-access'));
-                console.log(translate.get('components.error.invalid-json', {
-                    name: "Bubblehelp component"
-                }));
+            console.log(translate.get('reseller-tools.note'));
+            console.log(translate.get('components.error.invalid-json', {
+                name: "Bubblehelp component"
+            }));
         })
     }]);
     </script>
@@ -42,7 +48,7 @@
             <h4>1. Check with console for javascript translations</h4>
             <h4>2. Using directive</h4>
             <div>
-                <span translate>billing-center.no-access</span>
+                <span translate>reseller-tools.note</span>
                 <span><b>(key/value obtained from app locale json file)</b></span>
             </div>
             <div>
@@ -53,7 +59,7 @@
             <h4>3. Using filter</h4>
             <div>
                 <div>
-                    <span>{{'billing-center.no-access' | translate}}</span>
+                    <span>{{'reseller-tools.note' | translate}}</span>
                 </div>
                 <div>
                     <span>{{'components.error.invalid-json' | translate}}</span>
@@ -61,4 +67,5 @@
             </div>
         </div>
     </body>
+
 </html>

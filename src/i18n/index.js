@@ -7,6 +7,7 @@ require('angular-translate');
  * @ngdoc overview
  *
  * @name akamai.components.i18n
+ * @requires angular-translate
  *
  * @description This module provides services and configuration for setting up i18n capabilities for any applications.
  *
@@ -92,15 +93,20 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @description This config block takes $translateProvider and sets up some methods for loading the locale resource file when in run phase.
  *
  * *NOTE* localeStorage is not used, the browser will not cache the locale string
+ * *NOTE* To prevent from page flicks due to async nature, we suggest any usages of translate in markup,
+ * add "tranalate-cloak" on body tag, and add .translate-cloak {display: none !important; } in CSS.
+
  *
  */
 /* @ngInject */
 .config(function($translateProvider, i18nConfig) {
-    $translateProvider.useLoader('i18nCustomLoader', {});
-    $translateProvider.preferredLanguage(i18nConfig.defaultLocale);
-    $translateProvider.fallbackLanguage(i18nConfig.defaultLocale);
-    //$translateProvider.useLocalStorage();
-    $translateProvider.determinePreferredLanguage();
+    $translateProvider
+        .useLoader('i18nCustomLoader')
+        .useSanitizeValueStrategy('escaped')
+        .preferredLanguage(i18nConfig.defaultLocale)
+        .fallbackLanguage(i18nConfig.defaultLocale)
+        .determinePreferredLanguage();
+
 })
 
 /**
