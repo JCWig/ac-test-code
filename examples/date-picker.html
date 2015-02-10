@@ -30,6 +30,8 @@
     <script>
         var app = angular.module("datePickerDemo", ["akamai.components.date-picker"]);
         app.controller("Ctrl", ["$scope", function($scope) {
+            $scope.min = new Date(2015, 02, 01);
+            $scope.max = new Date(2015, 03, 01);
             $scope.mychange = function(value){
                 console.log('yay', value);
             };
@@ -49,12 +51,12 @@
         
         Date Picker (Day):
         <div class="container">
-            <akam-date-picker value="picked1" mode="day" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
+            <akam-date-picker value="picked1" mode="day" min="{{min}}" max="{{max}}" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
         </div>
 
         Date Picker (Month):
         <div class="container">
-            <akam-date-picker value="picked2" mode="month" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
+            <akam-date-picker value="picked2" mode="month" min="{{min}}" max="{{max}}" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
         </div>
     </body>
 </html>

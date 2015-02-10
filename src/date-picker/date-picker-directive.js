@@ -13,7 +13,9 @@ module.exports = function($log) {
             value: '=',
             placeholder: '@',
             mode : '@',
-            onchange: '&'
+            onchange: '&',
+            min : '@',
+            max : '@'
         },
         template: require('./templates/date-picker.tpl.html'),
         link: {
