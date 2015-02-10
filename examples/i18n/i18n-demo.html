@@ -23,9 +23,6 @@
 
     app.config(function(i18nTokenProvider) {
         i18nTokenProvider.useLocale(locale);
-        //var arrOfPath = [];
-        //arrOfPath.push(appLocalePath+"messages_");
-        //i18nTokenProvider.addAppLocalePath(arrOfPath);
         i18nTokenProvider.addAppLocalePath(appLocalePath, "messages_");
         //optional
         i18nTokenProvider.addComponentLocalePath(componentLocalePath);

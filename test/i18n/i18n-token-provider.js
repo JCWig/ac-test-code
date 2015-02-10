@@ -5,9 +5,7 @@ describe('i18nTokenProvider', function() {
     var provider, config;
 
     beforeEach(function() {
-
         angular.mock.module(require('../../src/i18n').name);
-
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
@@ -95,7 +93,6 @@ describe('i18nTokenProvider', function() {
 
             expect(provider.urls.length).to.equal(1);
             expect(provider.urls[0]).to.equal(config.localePath);
-
         });
 
         it('should array "urls" not to add value if given array as empty', function() {
@@ -106,7 +103,6 @@ describe('i18nTokenProvider', function() {
 
             expect(provider.urls.length).to.equal(1);
             expect(provider.urls[0]).to.equal(config.localePath);
-
         });
 
         it('should array "urls" not to add value if given array as null', function() {
@@ -116,7 +112,6 @@ describe('i18nTokenProvider', function() {
 
             expect(provider.urls.length).to.equal(1);
             expect(provider.urls[0]).to.equal(config.localePath);
-
         });
     });
 
@@ -168,18 +163,15 @@ describe('i18nTokenProvider', function() {
 
             expect(provider.urls.length).to.equal(1);
             expect(provider.urls[0]).to.equal(config.localePath);
-
         });
 
         it('should array "urls" not to add value if given array as empty', function() {
-
             var arrOfPath = [];
 
             provider.addComponentLocalePath(arrOfPath);
 
             expect(provider.urls.length).to.equal(1);
             expect(provider.urls[0]).to.equal(config.localePath);
-
         });
 
         it('should array "urls" not to add value if given array as null', function() {
