@@ -251,4 +251,60 @@ describe('zakam-date-picker', function() {
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
     });
+    describe('when interacting with min and max date', function(){
+        beforeEach(function(){
+            var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" onchange="mychange(value)" value="picked1"></akam-date-picker></div>';
+            scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 5);
+            scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
+            scope.mychange = sinon.spy();
+            addElement(markup);
+            utilities.click(document.querySelector('button.button')); 
+        });
+        it('should be unable to choose day above maximum', function(){
+            var dayAboveMax = findCertainButton("20");
+            expect(dayAboveMax.getAttribute('aria-disabled')).to.match(/true/);
+        });
+        it('should be unable to choose day below minimum', function(){
+            var dayBelowMin = findCertainButton("02");
+            expect(dayBelowMin.getAttribute('aria-disabled')).to.match(/true/);
+        });
+        it('should be unable to choose month below minimum', function(){
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            var monthBelowMin = findCertainButton(utilities.getMonthInEnglish(utilities.getTodaysMonth()-1));
+            expect(monthBelowMin.getAttribute('aria-disabled')).to.match(/true/);
+        });
+        it('should be unable to choose month above maximum', function(){
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            var monthAboveMax = findCertainButton(utilities.getMonthInEnglish(utilities.getTodaysMonth()+1));
+            expect(monthAboveMax.getAttribute('aria-disabled')).to.match(/true/);
+        });
+        it('should be unable to choose year below minimum', function(){
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            var yearBelowMin = findCertainButton(String(utilities.getTodaysYear()-1));
+            expect(yearBelowMin.getAttribute('aria-disabled')).to.match(/true/);
+        });
+        it('should be unable to choose year above maximum', function(){
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            var yearAboveMax = findCertainButton(String(utilities.getTodaysYear()+1));
+            expect(yearAboveMax.getAttribute('aria-disabled')).to.match(/true/);
+        });
+        it('should be able to choose date within range', function(){
+            var dayWithinRange = findCertainButton("09");
+            expect(dayWithinRange.getAttribute('aria-disabled')).to.match(/false/);
+        });
+        it('should be able to choose month within range', function(){
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            var monthWithinRange = findCertainButton(utilities.getMonthInEnglish());
+            expect(monthWithinRange.getAttribute('aria-disabled')).to.match(/false/);
+        });
+        it('should be able to choose year within range', function(){
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            utilities.click(document.querySelector('button strong.ng-binding').parentNode);
+            var yearWithinRange = findCertainButton(utilities.getTodaysYear());
+            expect(yearWithinRange.getAttribute('aria-disabled')).to.match(/false/);
+        });
+
+    });
 });
