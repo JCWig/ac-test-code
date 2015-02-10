@@ -9,7 +9,7 @@ var findCertainButton = function(buttonKey){
     }
     return null;
 };
-describe('zakam-date-picker', function() {
+describe('akam-date-picker', function() {
     var compile = null;
     var scope = null;
     var self = this;
