@@ -2,7 +2,9 @@
     <span class="total-items">{{ totalItems }} results</span>
     <ul class="pagination" ng-if="hasPages()">
         <li ng-class="{ disabled: isFirstPageActive() }">
-            <a href="javascript:void(0)" ng-click="selectPage(currentPage - 1)">Previous</a>
+            <a href="javascript:void(0)" ng-click="selectPage(currentPage - 1)">
+                <i class="luna-arrow_smLeft"></i>
+            </a>
         </li>
         <li ng-class="{ active: isFirstPageActive() }">
             <a href="javascript:void(0)" ng-click="selectPage(1)">1</a>
@@ -18,7 +20,9 @@
             <a href="javascript:void(0)" ng-click="selectPage(totalPages)">{{ totalPages }}</a>
         </li>
         <li ng-class="{ disabled: isLastPageActive() }">
-            <a href="javascript:void(0)" ng-click="selectPage(currentPage + 1)">Next</a>
+            <a href="javascript:void(0)" ng-click="selectPage(currentPage + 1)">
+                <i class="luna-arrow_smRight"></i>
+            </a>
         </li>
     </ul>
     <div class="page-size" ng-if="hasPages()">
