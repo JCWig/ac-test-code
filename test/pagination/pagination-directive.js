@@ -260,7 +260,7 @@ describe('akam-pagination directive', function() {
         });
     });
 
-    context('when the page size is changed', function() {
+    context('when a page size is clicked', function() {
         it('should highlight the new page size', function() {
             var el = this.element.querySelector('.page-size li:last-child');
 
@@ -279,6 +279,20 @@ describe('akam-pagination directive', function() {
             this.scope.$digest();
 
             expect(this.scope.onchangesize).to.have.been.calledWith(100);
+        });
+    });
+
+    context('when the active page size is clicked', function() {
+        it('should do nothing', function() {
+            var el = this.element.querySelector('.page-size li:first-child');
+
+            expect(el.classList.contains('active')).to.be.true;
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            el = this.element.querySelector('.page-size li:first-child');
+            expect(el.classList.contains('active')).to.be.true;
         });
     });
 
