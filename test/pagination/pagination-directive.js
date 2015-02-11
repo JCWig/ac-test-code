@@ -9,13 +9,13 @@ describe('akam-pagination directive', function() {
         angular.mock.module(require('../../src/pagination').name);
         inject(function($compile, $rootScope) {
             var markup = '<akam-pagination total-items="pager.count" ' +
-                'current-page="pager.page" onchangepage="onchangepage(page)">' +
-                '</akam-pagination>';
+                'current-page="pager.page" onchangepage="onchangepage(page)" ' +
+                'page-size="pager.size"></akam-pagination>';
 
             self.scope = $rootScope.$new();
             self.scope.onchangepage = sinon.spy();
             self.scope.onchangesize = sinon.spy();
-            self.scope.pager = { count: 85, page: 5 };
+            self.scope.pager = { count: 220, page: 5, size: 25 };
             self.element = $compile(markup)(self.scope)[0];
             self.scope.$digest();
         });
@@ -55,7 +55,7 @@ describe('akam-pagination directive', function() {
         it('should display pages', function() {
             var items;
 
-            this.scope.pager.count = 23;
+            this.scope.pager.count = 53;
             this.scope.pager.page = 2;
             this.scope.$digest();
 
@@ -86,10 +86,26 @@ describe('akam-pagination directive', function() {
             });
         });
 
-        context('when total item count is less than 25', function() {
-            it('should hide pagination');
-            it('should hide page size options');
-            it('should display the the total item count');
+        context('when total item count is less than two pages', function() {
+            beforeEach(function() {
+                this.scope.pager.count = 25;
+                this.scope.$digest();
+            });
+
+            it('should hide pagination', function() {
+                var el = this.element.querySelector('.pagination');
+                expect(el).to.be.null;
+            });
+
+            it('should hide page size options', function() {
+                var el = this.element.querySelector('.page-size');
+                expect(el).to.be.null;
+            });
+
+            it('should display the the total item count', function() {
+                var el = this.element.querySelector('.total-items');
+                expect(el).to.not.be.null;
+            });
         });
 
         context('when the last page is the current page', function() {
@@ -170,9 +186,7 @@ describe('akam-pagination directive', function() {
             this.scope.$digest();
 
             expect(this.scope.onchangepage).to.have.been.calledWith(3);
-
         });
-
     });
 
     context('when an active page is clicked', function() {

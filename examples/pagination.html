@@ -7,7 +7,30 @@
 </head>
 <body class="common-css" ng-app="example" ng-controller="ExampleController">
     <div class="container">
-        <akam-pagination total-items="pager.totalItems" current-page="pager.page">
+        <h1>Pagination Example</h1>
+        <form>
+            <div class="form-group">
+                <label for="totalItems">Total Items</label>
+                <input
+                    type="number"
+                    id="totalItems"
+                    class="form-control"
+                    ng-model="pager.totalItems">
+            </div>
+            <div class="form-group">
+                <label for="currentPage">Current Page</label>
+                <input
+                    type="number"
+                    id="currentPage"
+                    class="form-control"
+                    ng-model="pager.page">
+            </div>
+        </form>
+        <akam-pagination
+            total-items="pager.totalItems"
+            current-page="pager.page"
+            page-size="pager.size"
+            onchangepage="pageChanged(page)">
         </akam-pagination>
     </div> 
 
@@ -19,7 +42,12 @@
         .controller('ExampleController', function($scope) {
             $scope.pager = {
                 totalItems: 125,
-                page: 7 
+                page: 7,
+                size: 22
+            };
+
+            $scope.pageChanged = function(page) {
+                console.log('The page changed to: ', page);
             };
         });
     </script>

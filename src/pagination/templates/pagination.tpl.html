@@ -1,24 +1,36 @@
 <div class="akam-pagination">
     <span class="total-items">{{ totalItems }} results</span>
-    <ul class="pagination">
+    <ul class="pagination" ng-if="hasPages()">
         <li ng-class="{ disabled: isFirstPageActive() }">
-            <a ng-click="selectPage(currentPage - 1)">Previous</a>
+            <a href="javascript:void(0)" ng-click="selectPage(currentPage - 1)">Previous</a>
         </li>
         <li ng-class="{ active: isFirstPageActive() }">
-            <a ng-click="selectPage(1)">1</a>
+            <a href="javascript:void(0)" ng-click="selectPage(1)">1</a>
         </li>
         <li ng-if="showFirstPageEllipsis()"><span>&#8230;</span></li>
         <li
             ng-repeat="page in pages track by $index"
             ng-class="{ active: page.active }">
-            <a ng-click="selectPage(page.number)">{{ page.number }}</a>
+            <a href="javascript:void(0)" ng-click="selectPage(page.number)">{{ page.number }}</a>
         </li>
         <li ng-if="showLastPageEllipsis()"><span>&#8230;</span></li>
         <li ng-class="{ active: isLastPageActive() }">
-            <a ng-click="selectPage(totalPages)">{{ totalPages }}</a>
+            <a href="javascript:void(0)" ng-click="selectPage(totalPages)">{{ totalPages }}</a>
         </li>
         <li ng-class="{ disabled: isLastPageActive() }">
-            <a ng-click="selectPage(currentPage + 1)">Next</a>
+            <a href="javascript:void(0)" ng-click="selectPage(currentPage + 1)">Next</a>
         </li>
     </ul>
+    <div class="page-size" ng-if="hasPages()">
+        <span>Show Entries:</span>
+        <ul>
+            <li
+                ng-repeat="size in sizes track by $index"
+                ng-class="{ active: isSizeActive(size) }">
+                <a href="javascript:void(0)" ng-click="selectSize(size)">
+                    {{ size }}
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>
