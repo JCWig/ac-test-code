@@ -8,7 +8,8 @@ module.exports = function() {
             totalItems: '=',
             currentPage: '=',
             pageSize: '=',
-            onchangepage: '&'
+            onchangepage: '&',
+            onchangesize: '&'
         },
         template: require('./templates/pagination.tpl.html'),
         link: function(scope, element) {
@@ -73,7 +74,7 @@ module.exports = function() {
             };
 
             scope.isSizeActive = function(size) {
-                return size === scope.size;
+                return size === scope.pageSize;
             };
 
             scope.isFirstPageActive = function() {
@@ -97,6 +98,13 @@ module.exports = function() {
                 if ((page !== scope.currentPage) && (inBounds(page))) {
                     scope.currentPage = page;
                     scope.onchangepage({ page: page });
+                }
+            };
+
+            scope.selectSize = function(size) {
+                if (size !== scope.pageSize) {
+                    scope.pageSize = size;
+                    scope.onchangesize({ size: size });
                 }
             };
 

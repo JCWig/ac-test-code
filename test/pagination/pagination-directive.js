@@ -10,7 +10,8 @@ describe('akam-pagination directive', function() {
         inject(function($compile, $rootScope) {
             var markup = '<akam-pagination total-items="pager.count" ' +
                 'current-page="pager.page" onchangepage="onchangepage(page)" ' +
-                'page-size="pager.size"></akam-pagination>';
+                'page-size="pager.size" onchangesize="onchangesize(size)">' +
+                '</akam-pagination>';
 
             self.scope = $rootScope.$new();
             self.scope.onchangepage = sinon.spy();
@@ -72,7 +73,22 @@ describe('akam-pagination directive', function() {
             expect(items).to.have.length(7 + 2 + 2);
         });
 
-        it('should display the page size options');
+        it('should display the page size options', function() {
+            var el = this.element.querySelectorAll('.page-size li');
+            expect(el).to.have.length(3);
+        });
+
+        context('when the page size is not set', function() {
+            it('should default to 25', function() {
+                var el;
+
+                this.scope.pager.size = null;
+                this.scope.$digest();
+
+                el = this.element.querySelector('.page-size li:first-child');
+                expect(el.classList.contains('active')).to.be.true;
+            });
+        });
 
         context('when the current page is not set', function() {
             it('should default to the first page', function() {
@@ -245,12 +261,46 @@ describe('akam-pagination directive', function() {
     });
 
     context('when the page size is changed', function() {
-        it('should highlight the new page size');
-        it('should trigger the onchangesize callback');
+        it('should highlight the new page size', function() {
+            var el = this.element.querySelector('.page-size li:last-child');
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            el = this.element.querySelector('.page-size li:last-child');
+            expect(el.classList.contains('active')).to.be.true;
+
+        });
+
+        it('should trigger the onchangesize callback', function() {
+            var el = this.element.querySelector('.page-size li:last-child');
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            expect(this.scope.onchangesize).to.have.been.calledWith(100);
+        });
     });
 
     context('when the total item count is updated', function() {
-        it('should display the updated total item count');
-        it('should update the pagination controls');
+        it('should display the updated total item count', function() {
+            var el;
+
+            this.scope.pager.count = 450;
+            this.scope.$digest();
+
+            el = this.element.querySelector('.total-items');
+            expect(el.textContent).to.match(new RegExp(this.scope.pager.count));
+        });
+
+        it('should update the pagination controls', function() {
+            var el;
+
+            this.scope.pager.count = 500;
+            this.scope.$digest();
+
+            el = this.element.querySelector('.pagination li:nth-last-child(2)');
+            expect(el.textContent).to.match(/20/);
+        });
     });
 });
