@@ -9,6 +9,7 @@ module.exports = function(config) {
             'node_modules/angular-mocks/angular-mocks.js',
             'node_modules/pulsar-common-css/dist/styles.css',
             'node_modules/bootstrap/dist/css/bootstrap.css',
+            'node_modules/moment/moment.js',
             'test/*.js',
             'test/**/*.js'
         ],
