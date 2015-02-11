@@ -22,25 +22,35 @@ describe('akam-data-table', function() {
         document.body.appendChild(self.element);
     };
     context('when rendering data table', function() {
+        it('should have a title', function(){});
         it('should show progress bar until fully rendered', function(){});
         it('should render all parts', function() {});
         it('should not have anything selected', function() {});
         it('should have filter be clear', function() {});
-        it('should have options for how many rows are displayed', function(){});
+        it('should have option for how many rows are displayed', function(){});
     });
     context('when data table is rendered', function(){
-        it('should display the total number found', function(){});
+        it('should display the total number of results', function(){});
         it('should display action options on mouse hover of a row', function(){});
         it('should show indeterminate progress bar when refreshed', function(){});
     });
-    context('when data table is given below minimum columns', function(){
-    });
-    context('when data table is given above maximum columns', function(){
+    context('when data table is loaded', function(){
+        it('should be able to render without a toolbar', function(){});
+        it('should be able to render without bulk delete', function(){});
+        it('should be able to render without filter', function(){});
+        it('should be able to render without export', function(){});
+        it('should be able to render with only bulk delete', function(){});
+        it('should be able to render with only export', function(){});
+        it('should be able to render with only filter', function(){});
     });
     context('when rendered with bulk actions', function(){
         it('should be rendered with checkboxes column', function(){});
         it('should be able to select an item', function(){});
         it('should be able to deselect an item', function(){});
+    });
+    context('when data table is given below minimum columns (6)', function(){
+    });
+    context('when data table is given above maximum columns (12)', function(){
     });
     context('when selecting an item', function(){
         it('should update selected checkbox', function(){});
@@ -87,7 +97,7 @@ describe('akam-data-table', function() {
     context('when interacting with the filter bar', function(){
         it('should filter based on input beginning-middle-end matches', function(){});
         it('should change text color of matching input', function(){});
-    });    
+    });
     context('when grouping items', function(){
         it('should display icon representing grouping of items',function(){});
         it('should use grouping/hierarchal tree to render',function(){});
@@ -98,7 +108,8 @@ describe('akam-data-table', function() {
     context('when using action button', function(){
         it('should display all actions that can be taken', function(){});        
         it('should be able to be closed and no action taken', function(){});
-        it('should perform an action on that row if asked to', function(){});
+        it('should perform an action on that row if pressed', function(){});
+        it('should be able to take user to a different location', function(){});
     });
     context('when mouseover events occur', function(){
         it('should change color of the row mouse is over', function(){});        
