@@ -6,7 +6,8 @@ module.exports = function() {
         restrict: 'E',
         scope: {
             totalItems: '=',
-            currentPage: '='
+            currentPage: '=',
+            onchangepage: '&'
         },
         template: require('./templates/pagination.tpl.html'),
         link: function(scope, element) {
@@ -73,6 +74,7 @@ module.exports = function() {
             scope.selectPage = function(page) {
                 if ((page !== scope.page) && (inBounds(page))) {
                     scope.currentPage = page;
+                    scope.onchangepage({ page: page });
                 }
             };
 

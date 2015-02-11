@@ -2,23 +2,23 @@
     <span class="total-items">{{ totalItems }} results</span>
     <ul class="pagination">
         <li ng-class="{ disabled: isFirstPageActive() }">
-            <a href ng-click="selectPage(currentPage - 1)">Previous</a>
+            <a ng-click="selectPage(currentPage - 1)">Previous</a>
         </li>
         <li ng-class="{ active: isFirstPageActive() }">
-            <a href ng-click="selectPage(1)">1</a>
+            <a ng-click="selectPage(1)">1</a>
         </li>
         <li ng-if="showFirstPageEllipsis()"><span>&#8230;</span></li>
         <li
             ng-repeat="page in pages track by $index"
             ng-class="{ active: page.active }">
-            <a href ng-click="selectPage(page.number)">{{ page.number }}</a>
+            <a ng-click="selectPage(page.number)">{{ page.number }}</a>
         </li>
         <li ng-if="showLastPageEllipsis()"><span>&#8230;</span></li>
         <li ng-class="{ active: isLastPageActive() }">
-            <a href ng-click="selectPage(totalPages)">{{ totalPages }}</a>
+            <a ng-click="selectPage(totalPages)">{{ totalPages }}</a>
         </li>
         <li ng-class="{ disabled: isLastPageActive() }">
-            <a href ng-click="selectPage(currentPage + 1)">Next</a>
+            <a ng-click="selectPage(currentPage + 1)">Next</a>
         </li>
     </ul>
 </div>

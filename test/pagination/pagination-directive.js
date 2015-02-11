@@ -1,5 +1,7 @@
 'use strict';
 
+var utils = require('../utilities');
+
 describe('akam-pagination directive', function() {
     beforeEach(function() {
         var self = this;
@@ -7,10 +9,13 @@ describe('akam-pagination directive', function() {
         angular.mock.module(require('../../src/pagination').name);
         inject(function($compile, $rootScope) {
             var markup = '<akam-pagination total-items="pager.count" ' +
-                'current-page="pager.page"></akam-pagination>';
+                'current-page="pager.page" onchangepage="onchangepage(page)">' +
+                '</akam-pagination>';
 
             self.scope = $rootScope.$new();
-            self.scope.pager = { count: 85, page: 4 };
+            self.scope.onchangepage = sinon.spy();
+            self.scope.onchangesize = sinon.spy();
+            self.scope.pager = { count: 85, page: 5 };
             self.element = $compile(markup)(self.scope)[0];
             self.scope.$digest();
         });
@@ -23,20 +28,63 @@ describe('akam-pagination directive', function() {
         });
 
         it('should highlight the current active page', function() {
-            var el = this.element.querySelector('li.active');
+            var el = this.element.querySelector('.pagination li.active');
             expect(el.textContent).to.match(new RegExp(this.scope.pager.page));
         });
 
         it('should display a previous button', function() {
-            var el = this.element.querySelector('li:first-child');
+            var el = this.element.querySelector('.pagination li:first-child');
             expect(el.textContent).to.match(/Previous/);
         });
 
-        it('should display a next button');
-        it('should display the first page');
-        it('should display the last page');
-        it('should display a maximum of seven pages');
+        it('should display a next button', function() {
+            var el = this.element.querySelector('.pagination li:last-child');
+            expect(el.textContent).to.match(/Next/);
+        });
+
+        it('should display the first page', function() {
+            var el = this.element.querySelector('.pagination li:nth-child(2)');
+            expect(el.textContent).to.match(/1/);
+        });
+
+        it('should display the last page', function() {
+            var el = this.element.querySelector('.pagination li:nth-last-child(2)');
+            expect(el.textContent).to.match(/9/);
+        });
+
+        it('should display pages', function() {
+            var items;
+
+            this.scope.pager.count = 23;
+            this.scope.pager.page = 2;
+            this.scope.$digest();
+
+            // the list contains 3 pages and the next/previous buttons
+            items = this.element.querySelectorAll('.pagination li');
+            expect(items).to.have.length(3 + 2);
+        });
+
+        it('should display a maximum of seven pages', function() {
+            var items = this.element.querySelectorAll('.pagination li');
+
+            // the list contains 2 ellipsis and the next/previous buttons in
+            // addition to the 7 maximum pages
+            expect(items).to.have.length(7 + 2 + 2);
+        });
+
         it('should display the page size options');
+
+        context('when the current page is not set', function() {
+            it('should default to the first page', function() {
+                var el;
+
+                this.scope.pager.page = null;
+                this.scope.$digest();
+                
+                el = this.element.querySelector('.pagination li:nth-child(2)');
+                expect(el.classList.contains('active')).to.be.true;
+            });
+        });
 
         context('when total item count is less than 25', function() {
             it('should hide pagination');
@@ -45,35 +93,141 @@ describe('akam-pagination directive', function() {
         });
 
         context('when the last page is the current page', function() {
-            it('should disable the next button');
+            it('should disable the next button', function() {
+                var el = this.element.querySelector('.pagination li:last-child');
+
+                expect(el.classList.contains('disabled')).to.be.false;
+
+                this.scope.pager.page = 9;
+                this.scope.$digest();
+
+                el = this.element.querySelector('.pagination li:last-child');
+                expect(el.classList.contains('disabled')).to.be.true;
+            });
         });
 
         context('when the first page is the current page', function() {
-            it('should disable the previous button');
+            it('should disable the previous button', function() {
+                var el = this.element.querySelector('.pagination li:first-child');
+
+                expect(el.classList.contains('disabled')).to.be.false;
+
+                this.scope.pager.page = 1;
+                this.scope.$digest();
+
+                el = this.element.querySelector('.pagination li:first-child');
+                expect(el.classList.contains('disabled')).to.be.true;
+            });
         });
 
         context('when the current page is > 3 away from the first', function() {
-            it('should display an ellipsis after the first page');
+            it('should display an ellipsis after the first page', function() {
+                var el = this.element.querySelector('.pagination li:nth-child(3)');
+
+                expect(el.textContent).to.equal(String.fromCharCode(8230));
+
+                this.scope.pager.page = 3;
+                this.scope.$digest();
+
+                el = this.element.querySelector('.pagination li:nth-child(3)');
+                expect(el.textContent).to.not.equal(String.fromCharCode(8230));
+            });
         });
 
         context('when the current page is > 3 away from the last', function() {
-            it('should display an ellipsis before the last page');
+            it('should display an ellipsis before the last page', function() {
+                var el =
+                    this.element.querySelector('.pagination li:nth-last-child(3)');
+
+                expect(el.textContent).to.equal(String.fromCharCode(8230));
+
+                this.scope.pager.page = 7;
+                this.scope.$digest();
+
+                el = this.element.querySelector('.pagination li:nth-last-child(3)');
+                expect(el.textContent).to.not.equal(String.fromCharCode(8230));
+            });
         });
     });
 
     context('when a page is clicked', function() {
-        it('should highlight the clicked page');
-        it('should trigger the onchangepage callback');
+        it('should highlight the clicked page', function() {
+            var el = this.element.querySelector('.pagination li:nth-child(4)');
+
+            expect(el.classList.contains('active')).to.be.false;
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            el = this.element.querySelector('.pagination li:nth-child(4)');
+            expect(el.classList.contains('active')).to.be.true;
+        });
+
+        it('should trigger the onchangepage callback', function() {
+            var el = this.element.querySelector('.pagination li:nth-child(4)');
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            expect(this.scope.onchangepage).to.have.been.calledWith(3);
+
+        });
+
+    });
+
+    context('when an active page is clicked', function() {
+        it('should do nothing', function() {
+            var el = this.element.querySelector('.pagination li:nth-child(6)');
+
+            expect(el.classList.contains('active')).to.be.true;
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            expect(this.scope.onchangepage).to.not.have.been.called;
+        });
     });
 
     context('when the previous button is clicked', function() {
-        it('should highlight the previous page');
-        it('should trigger the onchangepage callback');
+        it('should highlight the previous page', function() {
+            var el = this.element.querySelector('.pagination li:first-child');
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            el = this.element.querySelector('.pagination li:nth-child(5)');
+            expect(el.classList.contains('active')).to.be.true;
+        });
+
+        it('should trigger the onchangepage callback', function() {
+            var el = this.element.querySelector('.pagination li:first-child');
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            expect(this.scope.onchangepage).to.have.been.calledWith(4);
+        });
     });
 
     context('when the next button is clicked', function() {
-        it('should highlight the next page');
-        it('should trigger the onchangepage callback');
+        it('should highlight the next page', function() {
+            var el = this.element.querySelector('.pagination li:last-child');
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            el = this.element.querySelector('.pagination li:nth-last-child(5)');
+            expect(el.classList.contains('active')).to.be.true;
+        });
+
+        it('should trigger the onchangepage callback', function() {
+            var el = this.element.querySelector('.pagination li:last-child');
+
+            utils.click(el.querySelector('a'));
+            this.scope.$digest();
+
+            expect(this.scope.onchangepage).to.have.been.calledWith(6);
+        });
     });
 
     context('when the page size is changed', function() {
