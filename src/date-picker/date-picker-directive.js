@@ -26,15 +26,18 @@ module.exports = function($log) {
                 if ( scope.mode === PICKER_TYPES.day) {
                     scope.format= 'yyyy-MM-dd';
                     scope.dateOptions = {
-                      startingDay: 1,
+                      startingDay: 0,
                       showWeeks: false,
-                      autoclose: true
+                      autoclose: true,
+                      minMode: 'day',
+                      maxMode: 'day'
                     };
                 }else{
                     scope.format= 'yyyy-MM';
                     scope.dateOptions = {
-                      startingDay: 1,
+                      startingDay: 0,
                       minMode: 'month',
+                      maxMode: 'month',
                       showWeeks: false,
                       datepickerMode: 'month',
                       autoclose: true

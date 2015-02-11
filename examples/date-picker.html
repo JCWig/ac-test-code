@@ -22,6 +22,72 @@
         
         .akam-date-picker ul.dropdown-menu {
             padding: 10px;
+            outline: none;
+            border: 1px solid #ccc;
+        }
+        
+        .akam-date-picker ul.dropdown-menu > li * {
+            outline: none;
+        }
+
+        .akam-date-picker ul.dropdown-menu table {
+            border-color: #c8c8c8;
+        }
+        
+        .akam-date-picker ul.dropdown-menu td button.active {
+            background-color: #ffffff;
+        }
+        
+        .akam-date-picker ul.dropdown-menu td button.btn-info {
+            background-color: #0099CC;
+        }
+        
+        .akam-date-picker ul.dropdown-menu td button:hover {
+            background-color: #CEE7FF;
+        }
+        
+        .akam-date-picker ul.dropdown-menu thead th button[role="heading"],
+        .akam-date-picker ul.dropdown-menu thead th button[role="heading"]:hover,
+        .akam-date-picker ul.dropdown-menu thead th button[role="heading"]:active,
+        .akam-date-picker ul.dropdown-menu thead th button[role="heading"]:focus
+        {
+            border: none;
+            outline: 0;
+            background-color: #FFFFFF;
+            box-shadow: none;
+        }
+        
+        .akam-date-picker ul.dropdown-menu thead th button[role="heading"] strong {
+            font-size: 14px;
+            color: #666666;
+            font-weight: normal;
+        }
+        
+        .akam-date-picker ul.dropdown-menu thead tr:first-child th {
+            padding-bottom: 15px;
+        }
+        
+        .akam-date-picker ul.dropdown-menu thead th small {
+            font-weight: bold;
+            font-size: 11px;
+            color: #666666;
+            text-align: center;
+        }
+        
+        .akam-date-picker ul.dropdown-menu tbody td {
+            padding: 0;
+        }
+        
+        .akam-date-picker ul.dropdown-menu tbody td button {
+            padding: 0;
+            width: 25px !important;
+            height: 22px;
+            border-radius: 0;
+        }
+        
+        .akam-date-picker ul.dropdown-menu tbody td button[disabled]{
+            background-color: #e6e6e6;
+            color: #c8c8c8;
         }
         
     </style>
@@ -49,12 +115,12 @@
         
         Date Picker (Day):
         <div class="container">
-            <akam-date-picker value="picked1" mode="day" min="{{min}}" max="{{max}}" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
+            <akam-date-picker value="picked1" mode="day" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
         </div>
 
         Date Picker (Month):
         <div class="container">
-            <akam-date-picker value="picked2" mode="month" min="{{min}}" max="{{max}}" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
+            <akam-date-picker value="picked2" mode="month" placeholder="{{placeholder}}" onchange="mychange(value)"></akam-date-picker>
         </div>
     </body>
 </html>
