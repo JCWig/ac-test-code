@@ -34,13 +34,13 @@ describe('akam-pagination directive', function() {
         });
 
         it('should display a previous button', function() {
-            var el = this.element.querySelector('.pagination li:first-child');
-            expect(el.textContent).to.match(/Previous/);
+            var el = this.element.querySelector('.pagination li:first-child i');
+            expect(el.classList.contains('luna-arrow_smLeft')).to.be.true;
         });
 
         it('should display a next button', function() {
-            var el = this.element.querySelector('.pagination li:last-child');
-            expect(el.textContent).to.match(/Next/);
+            var el = this.element.querySelector('.pagination li:last-child i');
+            expect(el.classList.contains('luna-arrow_smRight')).to.be.true;
         });
 
         it('should display the first page', function() {
