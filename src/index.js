@@ -8,7 +8,8 @@ angular.module('akamai.components', [
     require('./modal-window').name,
     require('./message-box').name,
     require('./status-message').name,
-    require('./date-picker').name
+    require('./date-picker').name,
+    require('./pagination').name
 ])
 
 .constant('VERSION', require('../package.json').version);
