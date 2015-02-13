@@ -13,8 +13,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
          * @description Opens a new modal window with a backdrop with
          * the specified options.
          *
-         * @param {object} options An object with the specified
-         * options:
+         * @param {object} options A hash with the specified options:
          *
          *   - `template` `{string}` An inline template to render
          *     within the modal body.
@@ -45,13 +44,13 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
          *     dismissed.
          *
          * @return {object} An instance of the modal with the following
-         *   properties:
+         * properties:
          *
          *   - `close` `{Function}` A method to close the modal window
          *     that accepts a result as an argument.
          *
          *   - `dismiss` `{Function}` A method to dismiss the modal
-         *     window rejecting the `result` promise.
+         *     window, rejecting the `result` promise.
          *
          *   - `result` `{Promise}` A promise representing the result
          *     when the modal window is closed.
