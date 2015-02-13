@@ -5,7 +5,7 @@ var angular = require('angular');
 /**
  * @ngdoc overview
  *
- * @name akamai.components.messsage-box
+ * @name akamai.components.message-box
  *
  * @description
  * Present a dialog containing a message and optional details to the user
