@@ -15,7 +15,8 @@ module.exports = function($log) {
             mode : '@',
             onchange: '&',
             min : '@',
-            max : '@'
+            max : '@',
+            format: '@'
         },
         template: require('./templates/date-picker.tpl.html'),
         link: {
@@ -24,7 +25,7 @@ module.exports = function($log) {
                 scope.mode = (scope.mode in PICKER_TYPES) ? scope.mode : PICKER_TYPES.day;
 
                 if ( scope.mode === PICKER_TYPES.day) {
-                    scope.format= 'EEE, MMM dd, yyyy';
+                    scope.format = scope.format || 'EEE, MMM dd, yyyy';
                     scope.dateOptions = {
                       startingDay: 0,
                       showWeeks: false,
@@ -33,7 +34,7 @@ module.exports = function($log) {
                       maxMode: 'day'
                     };
                 }else{
-                    scope.format= 'MMM yyyy';
+                    scope.format= scope.format || 'MMM yyyy';
                     scope.dateOptions = {
                       startingDay: 0,
                       minMode: 'month',
