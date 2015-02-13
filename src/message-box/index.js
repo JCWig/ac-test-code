@@ -8,8 +8,9 @@ var angular = require('angular');
  * @name akamai.components.message-box
  *
  * @description
- * Present a dialog containing a message and optional details to the user
- * and request action before continuing.
+ * Presents a modal dialog displaying a message, optional details, and
+ * a prompt for an action necessary to continue.
+ *
  */
 module.exports = angular.module('akamai.components.message-box', [
     require('angular-bootstrap-npm'),
@@ -19,9 +20,12 @@ module.exports = angular.module('akamai.components.message-box', [
 
 /**
  * @ngdoc service
+ *
  * @name akamai.components.message-box.service:messageBox
  *
  * @description
- * Provide methods to open information, question, and error message boxes.
+ * Provides methods to open information, question, and error message
+ * boxes.
+ *
  */
 .factory('messageBox', require('./message-box-service'));
