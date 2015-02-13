@@ -57,15 +57,21 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          *
          * @methodOf akamai.components.message-box.service:messageBox
          *
-         * @description
-         * Open a new information message box with a headline and message.
+         * @description Opens a new message box with a headline and
+         * message.
          *
-         * @param {object} options A hash supporting a subset of the
-         *   `modalWindow` options and additionally:
-         *   - **headline** - `{string}` - A headline for the message box. (limited to 25 characters)
-         *   - **text** - `{string}` - A short message. (limited to 220 characters)
-         *   - **details** - `{string=}` - Additional text that is collapsed by
-         *     default.
+         * @param {object} options An object supporting a subset of
+         *   {@link akamai.components.modal-window `modalWindow`}
+         *   options, along with:
+         *
+         * - __headline__ - `{string}` - A headline for the message
+               box, limited to 25 characters.
+         *
+         * - __text__ - `{string}` - A short message, limited to 220
+               characters.
+         *
+         * - __details__ - `{string=}` - Additional text that is
+         *     collapsed by default.
          *
          * @return {object} A `modalWindow` instance
          */
@@ -85,7 +91,7 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          * @methodOf akamai.components.message-box.service:messageBox
          *
          * @description
-         * Open a new question message box with a headline and message.
+         * Opens a new question message box with a headline and message.
          *
          * @param {object} options A hash of options documented with
          *   `messageBox#showInfo`
@@ -108,7 +114,7 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          * @methodOf akamai.components.message-box.service:messageBox
          *
          * @description
-         * Open a new error message box with a headline and message.
+         * Opens a new error message box with a headline and message.
          *
          * @param {object} options A hash of options documented with
          *   `messageBox#showInfo`
