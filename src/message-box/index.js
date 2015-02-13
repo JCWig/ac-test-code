@@ -7,9 +7,9 @@ var angular = require('angular');
  *
  * @name akamai.components.message-box
  *
- * @description
- * Presents a modal dialog displaying a message, optional details, and
- * a prompt for an action necessary to continue.
+ * @description Presents a modal dialog displaying a message, optional
+ * details, and a prompt for an action necessary to continue. It is a
+ * type of {@link akamai.components.modal-window modal window}.
  *
  */
 module.exports = angular.module('akamai.components.message-box', [
@@ -24,8 +24,11 @@ module.exports = angular.module('akamai.components.message-box', [
  * @name akamai.components.message-box.service:messageBox
  *
  * @description
- * Provides methods to open information, question, and error message
- * boxes.
+ *
+ * Provides methods to open specialized windows for questions, errors,
+ * or to provide basic information. Each requires a `headline` along
+ * with descriptive `text`.
  *
  */
 .factory('messageBox', require('./message-box-service'));
+
