@@ -7,9 +7,9 @@ var angular = require('angular');
  *
  * @name akamai.components.modal-window
  *
- * @description
- * Present a dialog to the user requiring an action to continue the
- * application workflow.
+ * @description Presents a dialog requiring an action to continue the
+ * application's workflow.
+ *
  */
 module.exports = angular.module('akamai.components.modal-window', [
     require('angular-bootstrap-npm')
@@ -17,10 +17,10 @@ module.exports = angular.module('akamai.components.modal-window', [
 
 /**
  * @ngdoc service
+ *
  * @name akamai.components.modal-window.service:modalWindow
  *
- * @description
- * Provide a method to open new modal window instances.
+ * @description Provides a method to open new modal window instances.
  *
  */
 .factory('modalWindow', require('./modal-window-service'))
