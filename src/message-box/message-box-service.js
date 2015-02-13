@@ -60,7 +60,7 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          * @description Opens a new message box to present general
          * information.
          *
-         * @param {object} options An object supporting a subset of
+         * @param {object} options A hash supporting a subset of
          * {@link akamai.components.modal-window `modalWindow`}
          * options, along with:
          *
