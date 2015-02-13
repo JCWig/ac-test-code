@@ -148,7 +148,7 @@ describe('akam-date-picker', function() {
             expect(document.querySelector('button strong.ng-binding').textContent).to.equal(next_year);
         });
         it('should close and save month when month is chosen', function(){
-            var month = findCertainButton("January");
+            var month = findCertainButton("Jan");
             utilities.click(month.querySelector('button'));
             scope.$digest();
             var firstOfThisMonth = utilities.getTodaysYear()+"-01";
@@ -156,12 +156,12 @@ describe('akam-date-picker', function() {
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
         it('should be able to open and change month', function(){
-            var month = findCertainButton("January");
+            var month = findCertainButton("Jan");
             expect(scope.mychange).to.not.have.been.called;
             utilities.click(month.querySelector('button'));
             scope.$digest();
             utilities.click(document.querySelector('button.button')); 
-            var month2 = findCertainButton("February");
+            var month2 = findCertainButton("Feb");
             utilities.click(month2.querySelector('button'));
             scope.$digest();
             expect(scope.mychange).to.have.been.called
@@ -203,8 +203,8 @@ describe('akam-date-picker', function() {
         });
         it('should be unable to choose month below minimum', function(){
             utilities.click(document.querySelector('button strong.ng-binding').parentNode);
-            var monthBelowMinEnglish= utilities.getMonthInEnglish(utilities.getTodaysMonth()-1);
-            if(monthBelowMinEnglish === "December"){
+            var monthBelowMinEnglish= utilities.getMonthInEnglish(utilities.getTodaysMonth()-1).slice(0,3);
+            if(monthBelowMinEnglish === "Dec"){
                 utilities.click(document.querySelector('button.pull-left')); 
             }
             var monthBelowMin = findCertainButton(monthBelowMinEnglish);
@@ -212,8 +212,8 @@ describe('akam-date-picker', function() {
         });
         it('should be unable to choose month above maximum', function(){
             utilities.click(document.querySelector('button strong.ng-binding').parentNode);
-            var monthAboveMaxEnglish = utilities.getMonthInEnglish(utilities.getTodaysMonth()+1);
-            if(monthAboveMaxEnglish === "January"){
+            var monthAboveMaxEnglish = utilities.getMonthInEnglish(utilities.getTodaysMonth()+1).slice(0,3);
+            if(monthAboveMaxEnglish === "Jan"){
                 utilities.click(document.querySelector('button.pull-right')); 
             }
             var monthAboveMax = findCertainButton(monthAboveMaxEnglish);
@@ -221,7 +221,7 @@ describe('akam-date-picker', function() {
         });
         it('should be able to choose month within range', function(){
             utilities.click(document.querySelector('button strong.ng-binding').parentNode);
-            var monthWithinRange = findCertainButton(utilities.getMonthInEnglish());
+            var monthWithinRange = findCertainButton(utilities.getMonthInEnglish().slice(0,3));
             expect(monthWithinRange.getAttribute('aria-disabled')).to.match(/false/);
         });
     });
