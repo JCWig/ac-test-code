@@ -40,7 +40,8 @@ module.exports = function($log) {
                       maxMode: 'month',
                       showWeeks: false,
                       datepickerMode: 'month',
-                      autoclose: true
+                      autoclose: true,
+                      formatMonth: 'MMM'
                     };
                 }
             },
