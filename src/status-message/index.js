@@ -24,9 +24,9 @@ var angular = require('angular');
      *
      * @restrict E
      *
-     * @param {String} [text=''] The text to display.
+     * @param {String} text The required text to display.
      *
-     * @param {String} [title=''] The title to display.
+     * @param {String} title The required title to display.
      *
      * @example This example shows the minimum configuration needed to
      * initialize a `akamStatusMessage` component.
