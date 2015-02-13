@@ -7,7 +7,7 @@ var angular = require('angular');
  *
  * @name akamai.components.modal-window
  *
- * @description Presents a dialog requiring an action to continue the
+ * @description Presents a window requiring an action to continue the
  * application's workflow.
  *
  */
