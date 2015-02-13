@@ -24,7 +24,7 @@ var angular = require('angular');
      *
      * @restrict AE
      *
-     * @param {String} [label=''] The label to display beneath the
+     * @param {String} label The label to display beneath the
      * spinner.  If omitted, the label does not display.
      *
      * @param {Boolean} [failed=false] Indicates if the indeterminate
