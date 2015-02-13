@@ -20,13 +20,13 @@ var angular = require('angular');
      *
      * @name akamai.components.status-message.directive:akamStatusMessage
      *
-     * @description Creates a status message control
+     * @description Creates a status message control.
      *
      * @restrict E
      *
      * @param {String} [text=''] The text to display.
      *
-     * @param {String} [title=''] The title to display
+     * @param {String} [title=''] The title to display.
      *
      * @example This example shows the minimum configuration needed to
      * initialize a `akamStatusMessage` component.
@@ -54,11 +54,12 @@ var angular = require('angular');
      *
      * @name akamai.components.status-message.directive:akamStatusMessageGroup
      *
-     * @description Creates a status message group control
+     * @description Creates a status message group control.
      *
      * @restrict E
      *
-     * @param {Array} [items=empty array] status message object items to display
+     * @param {Array} [items=empty array] Status message object items
+     * to display.
      *
      * @example This example shows the minimum configuration needed to
      * initialize a `akamStatusMessageGroup` component.
@@ -89,9 +90,7 @@ var angular = require('angular');
      *
      * @object
      *
-     * @description
-     *
-     * Displays an action's status
+     * @description Displays an action's status.
      *
      * @example
         <example module="statusMessageServiceDemo">
