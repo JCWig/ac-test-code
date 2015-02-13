@@ -24,7 +24,7 @@ module.exports = function($log) {
                 scope.mode = (scope.mode in PICKER_TYPES) ? scope.mode : PICKER_TYPES.day;
 
                 if ( scope.mode === PICKER_TYPES.day) {
-                    scope.format= 'yyyy-MM-dd';
+                    scope.format= 'EEE, MMM dd, yyyy';
                     scope.dateOptions = {
                       startingDay: 0,
                       showWeeks: false,
@@ -33,7 +33,7 @@ module.exports = function($log) {
                       maxMode: 'day'
                     };
                 }else{
-                    scope.format= 'yyyy-MM';
+                    scope.format= 'MMM yyyy';
                     scope.dateOptions = {
                       startingDay: 0,
                       minMode: 'month',
@@ -50,7 +50,7 @@ module.exports = function($log) {
                     $event.preventDefault();
                     $event.stopPropagation();
                 
-                    scope.opened = true;
+                    scope.opened = !scope.opened;
                 };
                 
                 scope.$watch('value', function(newValue, oldValue){
