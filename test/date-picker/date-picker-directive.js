@@ -54,6 +54,14 @@ describe('akam-date-picker', function() {
             utilities.click(document.querySelector('button.button'));
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: block'); 
         });
+        it('should close the date-picker', function() {
+            var markup = '<div id="parent-element"><akam-date-picker></akam-date-picker></div>';
+            addElement(markup);
+            utilities.click(document.querySelector('button.button'));
+            expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: block'); 
+            utilities.click(document.querySelector('button.button'));
+            expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
+        });
     });
     describe('when date picker is loaded', function(){
         beforeEach(function(){
