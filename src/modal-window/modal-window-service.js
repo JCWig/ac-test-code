@@ -24,8 +24,6 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
          *     to use for the modal body content.
          *   - **title** - `{string}` - (default: `Modal Window Title`) A title
          *     for the modal window.
-         *   - **icon** - `{string}` - A CSS class representing an icon to display
-         *     to the left of the modal window title.
          *   - **cancelLabel** - `{string}` (default: `Cancel`) A label for the
          *     cancel button.
          *   - **submitLabel** - `{string}` (default: `Save`) A label for the 
