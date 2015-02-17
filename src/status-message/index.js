@@ -8,7 +8,7 @@ var angular = require('angular');
     * @name akamai.components.status-message
     *
     * @description Provides a directive that creates Luna- and
-    * Pulsar-compatible status messages. These provide users with
+    * Pulsar-compatible status messages. These offer users
     * unobtrusive, transient feedback on their actions and emerging
     * system conditions, but without interrupting their workflow.
     *
