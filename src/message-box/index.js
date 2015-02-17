@@ -31,4 +31,3 @@ module.exports = angular.module('akamai.components.message-box', [
  *
  */
 .factory('messageBox', require('./message-box-service'));
-

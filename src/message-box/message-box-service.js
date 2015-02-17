@@ -73,8 +73,9 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          * - `details` (string) Optional additional text, which
          *   appears collapsed by default.
          *
-         * @return {object} A {@link akamai.components.modal-window
-         * `modalWindow`} instance.
+         * @return {object} A
+         * {@link akamai.components.modal-window `modalWindow`}
+         * instance.
          *
          */
         showInfo: function(options) {
@@ -97,8 +98,9 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          * @param {object} options A hash of options detailed above in
          * `showInfo()`
          *
-         * @return {object} A {@link akamai.components.modal-window
-         * `modalWindow`} instance.
+         * @return {object} A 
+         * {@link akamai.components.modal-window `modalWindow`}
+         * instance.
          *
          */
         showQuestion: function(options) {
@@ -121,8 +123,9 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          * @param {object} options A hash of options detailed below in
          * `showInfo()`
          *
-         * @return {object} A {@link akamai.components.modal-window
-         * `modalWindow`} instance.
+         * @return {object} A
+         * {@link akamai.components.modal-window `modalWindow`}
+         * instance.
          *
          */
         showError: function(options) {
