@@ -8,6 +8,7 @@ module.exports = function($log) {
     };
 
     return {
+        replace: true,
         restrict: 'E',
         scope: {
             value: '=',
@@ -46,13 +47,17 @@ module.exports = function($log) {
                     };
                 }
             },
-            post: function(scope) {
+            post: function(scope, element) {
                 scope.open = function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
                 
                     scope.opened = !scope.opened;
                 };
+                
+                scope.$watch('opened', function(newValue){
+                    element.toggleClass('opened', newValue);
+                });
                 
                 scope.$watch('value', function(newValue, oldValue){
                     if (scope.onchange && newValue !== oldValue) {
