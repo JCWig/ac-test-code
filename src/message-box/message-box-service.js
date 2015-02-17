@@ -64,13 +64,13 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          * {@link akamai.components.modal-window `modalWindow`}
          * options, along with:
          *
-         * - `headline` `{string}` A required headline for the message
+         * - `headline` (string) A required headline for the message
          *   box, limited to 25 characters.
          *
-         * - `text` `{string}` A required message, limited to 220
+         * - `text` (string) A required message, limited to 220
          *   characters.
          *
-         * - `details` `{string=}` Optional additional text, which
+         * - `details` (string) Optional additional text, which
          *   appears collapsed by default.
          *
          * @return {object} A {@link akamai.components.modal-window
