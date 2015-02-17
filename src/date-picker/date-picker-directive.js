@@ -48,7 +48,7 @@ module.exports = function($log) {
                 }
             },
             post: function(scope, element) {
-                scope.open = function($event) {
+                scope.toggle = function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
                 
