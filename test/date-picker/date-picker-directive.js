@@ -95,24 +95,24 @@ describe('akam-date-picker', function() {
         });
         it('should close and save date when date is chosen', function(){
             var day = findCertainButton("01");
+            expect(scope.mychange).to.not.have.been.called;
             utilities.click(day.querySelector('button'));
             scope.$digest();
-            var firstOfThisMonth = utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-01";
-            expect(document.querySelector('input.ng-valid-date').value).to.equal(firstOfThisMonth);
+            var dayString = utilities.getFormattedDate(utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-01");
+            expect(scope.mychange).to.have.been.called;
+            expect(document.querySelector('input.ng-valid-date').value).to.equal(dayString);
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
         it('should be able to open and change date', function(){
             var day = findCertainButton("01");
-            expect(scope.mychange).to.not.have.been.called;
             utilities.click(day.querySelector('button'));
-            expect(scope.mychange).to.have.been.called;
             scope.$digest();
             utilities.click(document.querySelector('button.button'));
             var day2 = findCertainButton("02");
             utilities.click(day2.querySelector('button'));
             scope.$digest();
-            var firstOfThisMonth = utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-02";
-            expect(document.querySelector('input.ng-valid-date').value).to.equal(firstOfThisMonth);
+            var dayString = utilities.getFormattedDate(utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-02");
+            expect(document.querySelector('input.ng-valid-date').value).to.equal(dayString);
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
     });
@@ -130,7 +130,7 @@ describe('akam-date-picker', function() {
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         })
     });
-    describe('when interacting with only month picker', function(){
+    describe('when interacting with month picker', function(){
         beforeEach(function(){
             var markup = '<div id="parent-element"><akam-date-picker mode="month" onchange="mychange(value)" value="picked1"></akam-date-picker></div>';
             scope.mychange = sinon.spy();
@@ -148,25 +148,25 @@ describe('akam-date-picker', function() {
             expect(document.querySelector('button strong.ng-binding').textContent).to.equal(next_year);
         });
         it('should close and save month when month is chosen', function(){
+            expect(scope.mychange).to.not.have.been.called;
             var month = findCertainButton("Jan");
             utilities.click(month.querySelector('button'));
             scope.$digest();
-            var firstOfThisMonth = utilities.getTodaysYear()+"-01";
-            expect(document.querySelector('input.ng-valid-date').value).to.equal(firstOfThisMonth);
+            var firstMonthOfThisYearString = "Jan "+utilities.getTodaysYear();
+            expect(scope.mychange).to.have.been.called
+            expect(document.querySelector('input.ng-valid-date').value).to.equal(firstMonthOfThisYearString);
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
         it('should be able to open and change month', function(){
             var month = findCertainButton("Jan");
-            expect(scope.mychange).to.not.have.been.called;
             utilities.click(month.querySelector('button'));
             scope.$digest();
             utilities.click(document.querySelector('button.button')); 
             var month2 = findCertainButton("Feb");
             utilities.click(month2.querySelector('button'));
             scope.$digest();
-            expect(scope.mychange).to.have.been.called
-            var firstOfThisMonth = utilities.getTodaysYear()+"-02";
-            expect(document.querySelector('input.ng-valid-date').value).to.equal(firstOfThisMonth);
+            var secondMonthOfThisYearString = "Feb "+utilities.getTodaysYear();
+            expect(document.querySelector('input.ng-valid-date').value).to.equal(secondMonthOfThisYearString);
             expect(document.querySelector('ul.dropdown-menu').getAttribute('style')).to.contain('display: none'); 
         });
     });

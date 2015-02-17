@@ -31,5 +31,9 @@ module.exports = {
 			numStr = "0"+numStr;
 		}
 		return numStr;
+	},
+	getFormattedDate: function(dateString){
+		var dateObject = moment(dateString);
+        return dateObject.format("ddd, MMM DD, YYYY");
 	}
 }
