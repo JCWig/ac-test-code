@@ -72,7 +72,7 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('build', function(){
-    runSequence('test', 'browserify');
+    runSequence('test', 'browserify', 'copy-resources-to-dist');
 });
 
 gulp.task('docs', ['browserify'], function() {
@@ -175,6 +175,11 @@ gulp.task('deploy', function(){
             plugins.util.log(error, stdout);
         });
     });
+});
+
+gulp.task('copy-resources-to-dist', function() {
+  return gulp.src('locales/**', { base: '.' } )
+      .pipe(gulp.dest('dist'));
 });
 
 gulp.task('update-package-version', function(callback){
