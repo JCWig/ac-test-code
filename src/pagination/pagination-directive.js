@@ -14,9 +14,9 @@ module.exports = function() {
         template: require('./templates/pagination.tpl.html'),
         link: function(scope, element) {
             var maxPages = 7;
-            var defaultSize = 25;
+            var defaultSize = 10;
 
-            scope.sizes = [25, 50, 100];
+            scope.sizes = [10, 25, 50];
 
             function inBounds(page) {
                 return page >= 1 && page <= scope.totalPages;
