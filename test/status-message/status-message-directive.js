@@ -1,12 +1,5 @@
 'use strict';
 
-
-function click(el) {
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
-    el.dispatchEvent(ev);
-};
-
 describe('akamai.components.status-message', function() {
     describe('status messages', function(){
         beforeEach(function() {

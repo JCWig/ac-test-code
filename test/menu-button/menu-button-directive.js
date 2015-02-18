@@ -1,20 +1,22 @@
 'use strict';
+var utilities = require('../utilities');
 function clickOnMenuButton(self){
     var button = self.element.querySelector('.akam-menu-button > button');
-    click(button);
+    utilities.click(button);
     self.scope.$digest();
 };
-
 function testUnopenedConditions(ele){
     expect(ele.classList.contains('open')).to.be.false();
-    expect(ele.querySelector('button.dropdown-toggle').getAttribute('aria-expanded')).to.equal('false');
+
+    //console.log(ele.querySelector('button.dropdown-toggle'));
+
+    expect(document.querySelector('button.dropdown-toggle').getAttribute('aria-expanded')).to.equal('false');
     expect(getComputedStyle(document.querySelector('.dropdown-menu')).display).to.equal('none');
 };
 
 describe('akam-menu-button', function() {
     beforeEach(function() {
         var self = this;
-
         angular.mock.module(require('../../src/menu-button').name);
         inject(function($compile, $rootScope) {
             var markup = '<div><akam-menu-button label="Test">' +
@@ -65,9 +67,9 @@ describe('akam-menu-button', function() {
             var button = this.element.querySelector('.akam-menu-button > button');
             var items = this.element.querySelectorAll('.dropdown-menu > li');
 
-            click(button);
+            utilities.click(button);
             this.scope.$digest();
-            click(items[0].firstChild);
+            utilities.click(items[0].firstChild);
             this.scope.$digest();
         });
 
@@ -92,22 +94,22 @@ describe('akam-menu-button', function() {
         });
     });
     describe('when clicking away from open dropdown', function(){
-        var clickAwayCreationAndClick = function(ele){
+        var clickAwayCreationAndClick = function(ele, self){
             var clickAwayArea = document.createElement(ele);
             clickAwayArea.setAttribute("id", "click-away");
             document.body.appendChild(clickAwayArea);
             var clickAwayButton = document.querySelector('#click-away');
-            click(clickAwayButton);
+            utilities.click(clickAwayButton);
             document.body.removeChild(clickAwayArea);
         };
         it('click -button- shoud hide dropdown',function(){
             var ele = document.querySelector('.akam-menu-button');
-            clickAwayCreationAndClick('button');
+            clickAwayCreationAndClick('button', this);
             testUnopenedConditions(ele);
         });
         it('click -div- shoud hide dropdown',function(){
             var ele = document.querySelector('.akam-menu-button');
-            clickAwayCreationAndClick('div');
+            clickAwayCreationAndClick('div', this);
             testUnopenedConditions(ele);
         });
     });

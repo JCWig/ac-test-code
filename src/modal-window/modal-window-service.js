@@ -24,12 +24,12 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
          *     to use for the modal body content.
          *   - **title** - `{string}` - (default: `Modal Window Title`) A title
          *     for the modal window.
-         *   - **icon** - `{string}` - A CSS class representing an icon to display
-         *     to the left of the modal window title.
          *   - **cancelLabel** - `{string}` (default: `Cancel`) A label for the
          *     cancel button.
          *   - **submitLabel** - `{string}` (default: `Save`) A label for the 
          *     submit button. 
+         *   - **hideSubmit** - `{boolean}` (default: `false`) A flag to hide the
+         *     submit button and only allow the modal to be dismissed.
          * 
          * @return {object} An instance of the modal with the following
          *   properties:
@@ -60,6 +60,11 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
                 submitLabel: options.submitLabel || 'Save',
                 template: options.template,
                 templateUrl: options.templateUrl
+            };
+
+            scope.isSubmitHidden = function() {
+                return angular.isDefined(options.hideSubmit) ?
+                   options.hideSubmit : false;
             };
 
             // provide methods to control submit button disabled state

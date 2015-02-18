@@ -27,13 +27,14 @@ var runSequence = require('run-sequence');
 var filename = pkg.name + '.js';
 var target = 'dist';
 var bundlePath = path.join(target, filename);
+var del = require('del');
 
 gulp.task('lint', function() {
     gulp.src('src/**/*.js')
         .pipe(plugins.jshint('src/.jshintrc'))
+        .pipe(plugins.jshint.reporter('jshint-junit-reporter', { outputFile : './reports/unit/jshint.xml'}))
         .pipe(plugins.jshint.reporter('jshint-stylish'))
         .pipe(plugins.jshint.reporter('fail'));
-
 });
 
 // TODO support production argument to disable debug
@@ -70,7 +71,9 @@ gulp.task('browserify', function() {
     return bundle();
 });
 
-gulp.task('build', ['lint', 'test', 'browserify']);
+gulp.task('build', function(){
+    runSequence('test', 'browserify');
+});
 
 gulp.task('docs', ['browserify'], function() {
     return gulp.src('src/**/*.js')
@@ -97,7 +100,7 @@ gulp.task('serve-docs', ['docs'], function() {
     });
 });
 
-gulp.task('test', ['lint'], function () {
+gulp.task('test', ['clean', 'lint'], function () {
     karma.server.start({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
@@ -162,7 +165,7 @@ gulp.task('deploy', function(){
         //TODO: Handle scenarios where the folder needs to be generated on the server side
         rsync({
           ssh: true,
-          src: ['./dist', './src', './docs', './examples', './node_modules'],
+          src: ['./dist', './examples', './node_modules'],
           dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
           exclude: globby.sync(["node_modules/.*", "node_modules/angular-*", "node_modules/!(angular|pulsar-common-css)/", "node_modules/pulsar-common-css/!(dist)", "node_modules/pulsar-common-css/.*"]),
           recursive: true,
@@ -209,3 +212,6 @@ gulp.task('update-package-version', function(callback){
 gulp.task('prepare-release', function(){
     runSequence('build', 'update-package-version');
 });
+
+// Clean Output Directory
+gulp.task('clean', del.bind(null, ['dist', 'reports'], {dot: true}));

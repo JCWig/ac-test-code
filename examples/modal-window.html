@@ -17,13 +17,6 @@
                     ng-model="options.title">
             </div>
             <div class="label-group">
-                <label for="icon">Icon</label>
-                <input
-                    id="icon"
-                    type="text"
-                    ng-model="options.icon">
-            </div>
-            <div class="label-group">
                 <label for="cancelLabel">Cancel Label</label>
                 <input
                     id="cancelLabel"
@@ -37,6 +30,12 @@
                         type="text"
                         ng-model="options.submitLabel">
             </div>
+            <input
+                id="hideSubmit"
+                type="checkbox"
+                class="fee"
+                ng-model="options.hideSubmit">
+            <label for="hideSubmit">Hide Submit</label>
             <div>
                 <button
                     type="button"
@@ -66,9 +65,9 @@
 
             $scope.options = {
                 title: 'Example',
-                icon: '',
                 cancelLabel: 'Cancel',
-                submitLabel: 'Save'
+                submitLabel: 'Save',
+                hideSubmit: false
             };
 
             $scope.open = function() {
