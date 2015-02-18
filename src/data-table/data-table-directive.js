@@ -16,8 +16,23 @@ module.exports = function($log) {
                     throw "Column may not be null/undefined";
                 }
                 
-                scope.data.sort(column.sort);
+                var sortDirection = scope.sortInfo.sortDirection;
+                scope.data.sort(angular.bind(column, column.sort));
+                if (sortDirection === 'DESC') {
+                    scope.data.reverse();
+                }
+                
+                scope.sortInfo = {
+                    sortedColumn : column.id,
+                    sortDirection : sortDirection === 'ASC' ? 'DESC' : 'ASC'
+                };
             };
+            
+            scope.sortInfo = {
+                sortedColumn : null,
+                sortDirection: 'ASC'
+            };
+            
             scope.data = [
                 {
                     first : "Yair",
@@ -59,7 +74,7 @@ module.exports = function($log) {
                     },
                     header : 'Full Name',
                     sort : function(objA, objB){
-                        return objA.first > objB.first ? 1 : objA.first < objB.first ? -1 : 0;
+                        return this.text(objA).localeCompare(this.text(objB));
                     }
                 },
                 {
