@@ -17,21 +17,18 @@
     <script>
     var locale = "en_US"; //"de_DE"|"zh_CN"
     var appLocalePath = "../../../examples/i18n/locales/json/messages/";
-    var componentLocalePath = "../../../locales/component-locales/";
 
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
 
     app.config(function(i18nTokenProvider) {
         i18nTokenProvider.useLocale(locale);
         i18nTokenProvider.addAppLocalePath(appLocalePath, "messages_");
-        //optional
-        i18nTokenProvider.addComponentLocalePath(componentLocalePath);
     });
 
-    app.controller("TranslationPageController", ["$scope", "akamTranslate", "$rootScope", function($scope, translate, $rootScope) {
+    app.controller("TranslationPageController", ["$scope", "akamTranslate", "$rootScope", function($scope, akamTranslate, $rootScope) {
         $rootScope.$on('$translateChangeEnd', function() {
-            console.log(translate.get('reseller-tools.note'));
-            console.log(translate.get('components.error.invalid-json', {
+            console.log(akamTranslate.sync('reseller-tools.note'));
+            console.log(akamTranslate.sync('components.error.invalid-json', {
                 name: "Bubblehelp component"
             }));
         })
