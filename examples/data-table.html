@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    
+    <style>
+        .container {
+            min-height: 150px;
+        }
+        
+        form {
+            padding-bottom:20px;
+        }
+        
+        .akam-data-table {
+            width: 100%;
+        }
+    </style>
+    <script>
+        var app = angular.module("dataTableDemo", ["akamai.components.data-table"]);
+        app.controller("Ctrl", ["$scope", function($scope) {
+
+        }]);
+    </script>
+</head>
+<body ng-app="dataTableDemo" ng-controller="Ctrl" class="common-css">
+    <div class="container">
+        <h1>Data Table Example</h1>
+        
+        <br />
+
+        <div class="container">
+            <akam-data-table></akam-data-table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<div class="akam-data-table-container">
+    <table class="akam-data-table">
+        <thead>
+            <tr>
+                <th ng-repeat="column in columns" ng-class="column.class" ng-click="sortColumn(column)">
+                    {{column.header}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in data">
+                <td ng-repeat="column in columns" ng-class="column.class">
+                    {{column.text(item)}}
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            Pagination and Results Info
+        </tfoot>
+    </table>
+</div>
