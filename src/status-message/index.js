@@ -7,7 +7,10 @@ var angular = require('angular');
     *
     * @name akamai.components.status-message
     *
-    * @description Provides a directive to use in order to create Luna and Pulsar compatible status messages.
+    * @description Provides a directive that creates Luna- and
+    * Pulsar-compatible status messages. These offer users
+    * unobtrusive, transient feedback on their actions and emerging
+    * system conditions, but without interrupting their workflow.
     *
     */
     module.exports = angular.module('akamai.components.status-message', [])
@@ -17,13 +20,13 @@ var angular = require('angular');
      *
      * @name akamai.components.status-message.directive:akamStatusMessage
      *
-     * @description Creates a status message control
+     * @description Creates a status message control.
      *
      * @restrict E
      *
-     * @param {String} [text=''] The text to display.
+     * @param {String} text The required text to display.
      *
-     * @param {String} [title=''] The title to display
+     * @param {String} title The required title to display.
      *
      * @example This example shows the minimum configuration needed to
      * initialize a `akamStatusMessage` component.
@@ -51,11 +54,12 @@ var angular = require('angular');
      *
      * @name akamai.components.status-message.directive:akamStatusMessageGroup
      *
-     * @description Creates a status message group control
+     * @description Creates a status message group control.
      *
      * @restrict E
      *
-     * @param {Array} [items=empty array] status message object items to display
+     * @param {Array} [items=empty array] Status message object items
+     * to display.
      *
      * @example This example shows the minimum configuration needed to
      * initialize a `akamStatusMessageGroup` component.
@@ -86,9 +90,7 @@ var angular = require('angular');
      *
      * @object
      *
-     * @description
-     *
-     * Displays an action's status
+     * @description Displays an action's status.
      *
      * @example
         <example module="statusMessageServiceDemo">
