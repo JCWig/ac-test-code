@@ -24,6 +24,10 @@
         "multiselect-listbox": {
 
         },
+        "message-box" : {
+          "no" : "No",
+          "yes" : "Yes"
+        },
         "notifications": {
             "success": "SUCCESS",
             "warning": "WARNING",

@@ -13,7 +13,8 @@ var angular = require('angular');
  */
 module.exports = angular.module('akamai.components.message-box', [
     require('angular-bootstrap-npm'),
-    require('../modal-window').name
+    require('../modal-window').name,
+    require('../i18n').name
 ])
 
 
