@@ -7,7 +7,10 @@ var angular = require('angular');
     *
     * @name akamai.components.indeterminate-progress
     *
-    * @description Provides a directive to use in order to create Luna and Pulsar compatible indeterminate progress elements.
+    * @description Provides a directive that creates Luna- and
+    * Pulsar-compatible indeterminate progress elements. These
+    * elements provide users feedback that an operation is in progress,
+    * status of which can't be accurately measured.
     *
     */
     module.exports = angular.module('akamai.components.indeterminate-progress', [])
@@ -21,7 +24,7 @@ var angular = require('angular');
      *
      * @restrict AE
      *
-     * @param {String} [label=''] The label to display underneath the
+     * @param {String} label The label to display beneath the
      * spinner.  If omitted, the label does not display.
      *
      * @param {Boolean} [failed=false] Indicates if the indeterminate
