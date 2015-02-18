@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(modalWindow, $rootScope, $filter) {
+module.exports = function(modalWindow, akamTranslate, $rootScope, $filter) {
     function show(options) {
         if (options.headline == null) {
             throw new Error('headline option is required');
@@ -22,8 +22,8 @@ module.exports = function(modalWindow, $rootScope, $filter) {
             details: options.details
         };
 
-        options.cancelLabel = options.cancelLabel || 'No';
-        options.submitLabel = options.submitLabel || 'Yes';
+        options.cancelLabel = options.cancelLabel || akamTranslate.instant('components.message-box.no');
+        options.submitLabel = options.submitLabel || akamTranslate.instant('components.message-box.yes');
 
         return modalWindow.open(angular.extend(options, {
             template: require('./templates/message-box.tpl.html'),

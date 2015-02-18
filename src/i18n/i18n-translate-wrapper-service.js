@@ -2,7 +2,6 @@
 
 /* @ngInject */
 module.exports = function($translate) {
-
     // use sync
     var syncMethod = function(key, args) {
         return $translate.instant(key, args);
