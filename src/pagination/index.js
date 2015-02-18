@@ -23,8 +23,7 @@ module.exports = angular.module('akamai.components.pagination', [])
  *
  * @param {Number} [totalItems] The number of results in the list to page.
  * @param {Number} [currentPage=1] The currently selected page.
- * @param {Number} [pageSize=25] The page size (valid sizes include 25, 50,
- *   and 100).
+ * @param {Number} [pageSize=10] The page size (valid sizes include 10, 25, and 50).
  * @param {expression} [onchangepage] An angular expression to evaluate when the
  *   page changes. Page number is available as `page`.
  * @param {expression} [onchangesize] An angular expression to evaluate when the
