@@ -95,6 +95,6 @@
         "build": "./node_modules/.bin/gulp build --no-color",
         "docs": "./node_modules/.bin/gulp docs --no-color",
         "netstorage": "./node_modules/.bin/gulp deploy --no-color",
-        "prepare-release": "./node_modules/.bin/gulp prepare-release --no-color"
+        "prepare-release": "npm run build && ./node_modules/.bin/gulp update-package-version --no-color"
     }
 }

@@ -73,7 +73,18 @@
             };
 
             $scope.showInfoBox = function() {
-                messageBox.showInfo(angular.extend({}, $scope.options));
+                var box = messageBox.showInfo(
+                    angular.extend({}, $scope.options));
+
+                // detect which button was clicked with the modal instance
+                // result promise
+                box.result
+                    .then(function() {
+                        console.log('Yes was clicked.');
+                    })
+                    .catch(function() {
+                        console.log('No was clicked.');
+                    });
             };
 
             $scope.showQuestionBox = function() {

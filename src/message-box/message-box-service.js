@@ -3,21 +3,22 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(modalWindow, $rootScope) {
+module.exports = function(modalWindow, $rootScope, $filter) {
     function show(options) {
-        if (!angular.isDefined(options.headline)) {
+        if (options.headline == null) {
             throw new Error('headline option is required');
         }
 
-        if (!angular.isDefined(options.text)) {
+        if (options.text == null) {
             throw new Error('text option is required');
         }
 
+        options.title = options.title ? options.title.substr(0, 20) : '';
         options.backdrop = 'static';
         options.scope = $rootScope.$new();
         options.scope.messageBox = {
-            headline: options.headline,
-            text: options.text,
+            headline: options.headline.substr(0, 25),
+            text: options.text.substr(0, 220),
             details: options.details
         };
 
@@ -30,6 +31,10 @@ module.exports = function(modalWindow, $rootScope) {
             /* @ngInject */
             controller: function($scope) {
                 var collapsed = true;
+
+                $scope.submitted.then(function(close) {
+                    close(true);
+                });
 
                 $scope.toggle = function() {
                     collapsed = !collapsed;
@@ -52,17 +57,26 @@ module.exports = function(modalWindow, $rootScope) {
          *
          * @methodOf akamai.components.message-box.service:messageBox
          *
-         * @description
-         * Open a new information message box with a headline and message.
+         * @description Opens a new message box to present general
+         * information.
          *
-         * @param {object} options A hash supporting a subset of the
-         *   `modalWindow` options and additionally:
-         *   - **headline** - `{string}` - A headline for the message box.
-         *   - **text** - `{string}` - A short message.
-         *   - **details** - `{string=}` - Additional text that is collapsed by
-         *     default.
+         * @param {object} options A hash supporting a subset of
+         * {@link akamai.components.modal-window `modalWindow`}
+         * options, along with:
          *
-         * @return {object} A `modalWindow` instance
+         * - `headline` (string) A required headline for the message
+         *   box, limited to 25 characters.
+         *
+         * - `text` (string) A required message, limited to 220
+         *   characters.
+         *
+         * - `details` (string) Optional additional text, which
+         *   appears collapsed by default.
+         *
+         * @return {object} A
+         * {@link akamai.components.modal-window `modalWindow`}
+         * instance.
+         *
          */
         showInfo: function(options) {
             options = options || {};
@@ -79,13 +93,15 @@ module.exports = function(modalWindow, $rootScope) {
          *
          * @methodOf akamai.components.message-box.service:messageBox
          *
-         * @description
-         * Open a new question message box with a headline and message.
+         * @description Opens a new message box that asks a question.
          *
-         * @param {object} options A hash of options documented with
-         *   `messageBox#showInfo`
+         * @param {object} options A hash of options detailed above in
+         * `showInfo()`
          *
-         * @return {object} A `modalWindow` instance
+         * @return {object} A 
+         * {@link akamai.components.modal-window `modalWindow`}
+         * instance.
+         *
          */
         showQuestion: function(options) {
             options = options || {};
@@ -102,13 +118,15 @@ module.exports = function(modalWindow, $rootScope) {
          *
          * @methodOf akamai.components.message-box.service:messageBox
          *
-         * @description
-         * Open a new error message box with a headline and message.
+         * @description Opens a new message box to acknowledge errors.
          *
-         * @param {object} options A hash of options documented with
-         *   `messageBox#showInfo`
+         * @param {object} options A hash of options detailed below in
+         * `showInfo()`
          *
-         * @return {object} A `modalWindow` instance
+         * @return {object} A
+         * {@link akamai.components.modal-window `modalWindow`}
+         * instance.
+         *
          */
         showError: function(options) {
             options = options || {};

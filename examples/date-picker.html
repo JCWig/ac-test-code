@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    
+    <style>
+        .container {
+            min-height: 150px;
+        }
+        
+        form {
+            padding-bottom:20px;
+        }
+    </style>
+    <script>
+        var app = angular.module("datePickerDemo", ["akamai.components.date-picker"]);
+        app.controller("Ctrl", ["$scope", function($scope) {
+            $scope.min = new Date(2015, 1, 05);
+            $scope.max = new Date(2015, 3, 01);
+            $scope.mychange = function(value){
+                console.log('yay', value);
+            };
+        }]);
+    </script>
+</head>
+<body ng-app="datePickerDemo" ng-controller="Ctrl" class="common-css">
+    <div class="container">
+        <h1>Date Picker Example</h1>
+        
+        <br />
+        
+        <div class="container">
+            Date Picker (Day):
+            <akam-date-picker value="picked1" min="{{min}}" mode="day" placeholder="date picker" onchange="mychange(value)"></akam-date-picker>
+        </div>
+
+        <div class="container">
+            Date Picker (Month):
+            <akam-date-picker value="picked2" mode="month" placeholder="month picker" onchange="mychange(value)"></akam-date-picker>
+        </div>
+    </div>
+</body>
+</html>

@@ -9,8 +9,11 @@ module.exports = function(config) {
             'node_modules/angular-translate/dist/angular-translate.min.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'node_modules/pulsar-common-css/dist/styles.css',
+            {pattern: 'node_modules/pulsar-common-css/dist/images/*', included: false, served: true},
+            {pattern: 'node_modules/bootstrap/dist/fonts/*', included: false, served: true},
             'node_modules/bootstrap/dist/css/bootstrap.css',
-            'test/utilities.js',
+            'node_modules/moment/moment.js',
+            'test/*.js',
             'test/**/*.js'
         ],
         frameworks: ['browserify', 'mocha', 'chai', 'sinon-chai'],
