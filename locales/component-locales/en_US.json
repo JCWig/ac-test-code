@@ -1,5 +1,6 @@
 {
     "components": {
+        "name": "Akamai Common Components",
         "error": {
             "invalid-json": "{{name}} json data is invalid.",
             "data-empty": "{{name}} data can not be empty.",
@@ -38,7 +39,10 @@
 
         },
         "pagination": {
-
+            "label": {
+                "result:": "Result",
+                "show-entries": "Show Entries:"
+            }
         },
         "tooltip": {
 

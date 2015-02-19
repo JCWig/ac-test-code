@@ -15,32 +15,6 @@ describe('i18nTokenProvider', function() {
         });
     });
 
-    describe('$i18nTokenProvider#useLocale', function() {
-
-        it('should be defined', function() {
-            expect(provider.useLocale).to.not.be.undefined;
-        });
-
-        it('should be a function', function() {
-            expect(typeof(provider.useLocale)).to.equal('function');
-        });
-
-        it('should variable "locale" init value be "en_US"', function() {
-            expect(provider.currentLocale).to.equal(config.defaultLocale);
-        });
-
-        it('should variable "urls" value be "../../../locales/component-locales/" if not added ', function() {
-            expect(typeof(provider.urls)).to.not.equal('undefined');
-            expect(provider.urls[0]).to.equal(config.localePath);
-        });
-
-        it('should variable "locale" value be "de_DE" if set from useLocale', function() {
-            provider.useLocale("de_DE");
-            expect(provider.currentLocale).to.equal("de_DE");
-        });
-
-    });
-
     describe('$i18nTokenProvider#addAppLocalePath', function() {
 
         it('should be defined', function() {
@@ -51,7 +25,7 @@ describe('i18nTokenProvider', function() {
             expect(typeof(provider.addAppLocalePath)).to.equal('function');
         });
 
-        it('should "urls"  contain correct value as string given no part value ', function() {
+        it('should urls  contain correct value as string given no part value ', function() {
             provider.addAppLocalePath("../../");
 
             expect(provider.urls.length).to.equal(2);
@@ -59,7 +33,7 @@ describe('i18nTokenProvider', function() {
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should "urls"  contain correct value given with part value ', function() {
+        it('should urls  contain correct value given with part value ', function() {
             provider.addAppLocalePath("../../", "_app");
 
             expect(provider.urls.length).to.equal(2);
@@ -67,7 +41,7 @@ describe('i18nTokenProvider', function() {
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should "urls" contain correct value given as array ', function() {
+        it('should urls contain correct value given as array ', function() {
             var arrOfPath = [];
             arrOfPath.push("../../_app");
 
@@ -86,7 +60,7 @@ describe('i18nTokenProvider', function() {
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should "urls" not to add app locale value if given array as undefined', function() {
+        it('should urls not to add app locale value if given array as undefined', function() {
             var arrOfPath;
 
             provider.addAppLocalePath(arrOfPath);
@@ -95,7 +69,7 @@ describe('i18nTokenProvider', function() {
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should "urls" not to add app locale value if given array as empty', function() {
+        it('should urls not to add app locale value if given array as empty', function() {
 
             var arrOfPath = [];
 
@@ -105,7 +79,7 @@ describe('i18nTokenProvider', function() {
             expect(provider.urls[0]).to.equal(config.localePath);
         });
 
-        it('should "urls" not to add app locale value if given array as null', function() {
+        it('should urls not to add app locale value if given array as null', function() {
             var arrOfPath = null;
 
             provider.addAppLocalePath(arrOfPath);

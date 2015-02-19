@@ -11,7 +11,6 @@ describe('messageBox service', function() {
         var self = this;
 
         angular.mock.module(require('../../src/message-box').name);
-        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider) {
             $provide.factory('i18nCustomLoader', function($q, $timeout) {
                 return function(options) {

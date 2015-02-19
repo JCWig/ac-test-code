@@ -2,6 +2,7 @@
 
 var angular = require('angular');
 require('angular-translate');
+require('angular-cookies');
 
 /**
  * @ngdoc overview
@@ -12,7 +13,7 @@ require('angular-translate');
  * @description This module provides services and configuration for setting up i18n capabilities for any applications.
  *
  */
-module.exports = angular.module('akamai.components.i18n', ['pascalprecht.translate'])
+module.exports = angular.module('akamai.components.i18n', ['pascalprecht.translate', 'ngCookies'])
 
 /**
  * @ngdoc service
@@ -23,7 +24,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * | key | value | type | description
  * |-----------|-----------------|-----------------------------------------------------------------------------|
- * | localeCookie | AKALOCALE | {@type string} | This cookie name is widely used from some of Luna apps |
+ * | localeCookie | AKALOCALE | {@type string} | This cookie name is widely used from Luna portal apps |
  * | localePath | 'pulsar/akamai-components/locales/1.0.0/' | {@type string} | This path value is to component locale file. (subject to change) |
  * | defaultLocale | en_US | {@type string} | Default locale string value. |
  */
@@ -38,12 +39,30 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:akamTranslate
  *
- * @description akamTranslate is a service - a wrapper for $tranlate service.
- * It contains 2 methods, akamTranslate.sync(key, args) is for sync method  same as $translate.instant(key, args),
- * and akamTranslate.async(keys) ior akamTranslate.async(key, args) for aync way, same as $translate(key, args).then(function(results) {})
+ * @description akamTranslate is a service - basically a wrapper for $tranlate service.
+ * This service contains 2 API methods, translate.sync(key, args) is for sync method  same as $translate.instant(key, args),
+ * and translate.async(keys) ior akamTranslate.async(key, args) for aync way, same as $translate(key, args).then(function(results) {})
  *
  */
-.factory('akamTranslate', require('./i18n-translate-wrapper-service'))
+.factory('translate', require('./translate-service'))
+
+/**
+ * @ngdoc directive
+ *
+ * @name akamai.components.i18n.directive:akamTranslate
+ *
+ * @description A directive used in the dom element where you want to translate the key
+ *
+ * An example of usage:
+ *
+ * <pre>
+ * <any akam-translate="anykey.anykey"></any>
+ * </pre>
+ *
+ * @restrict A
+ *
+ */
+.directive('akamTranslate', require('./translate-directive'))
 
 /**
  * @ngdoc service

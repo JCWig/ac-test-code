@@ -2,7 +2,7 @@
 
 describe('i18nCustomLoader service', function() {
 
-    var value, loader, config, translate, $translate;
+    var value, loader, config, translation, $translate;
 
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
@@ -38,11 +38,11 @@ describe('i18nCustomLoader service', function() {
     });
 
     beforeEach(function() {
-        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, akamTranslate) {
+        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate) {
             $translate = _$translate_;
             loader = i18nCustomLoader;
             config = i18nConfig;
-            translate = akamTranslate;
+            translation = translate;
             $timeout(function() {
                 $translate.use(config.defaultLocale);
             });
@@ -63,21 +63,21 @@ describe('i18nCustomLoader service', function() {
     });
 
      it('should return csame key value if key not found from tranlsation table', function() {
-        expect(translate.sync("somekey.someotherkey")).to.equal("somekey.someotherkey");
+        expect(translation.sync("somekey.someotherkey")).to.equal("somekey.someotherkey");
     });
 
     it('should return correct translate value given app locale key from combined translation table', function() {
-        expect(translate.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+        expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
     });
 
     it('should return correct translate value given component locale key from combined translation table', function() {
-        expect(translate.sync("components.error.invalid-json")).to.equal(" json data is invalid.");
-        expect(translate.sync("components.error.invalid-json", {name:"bubblehelp"})).to.equal("bubblehelp json data is invalid.");
+        expect(translation.sync("components.error.invalid-json")).to.equal(" json data is invalid.");
+        expect(translation.sync("components.error.invalid-json", {name:"bubblehelp"})).to.equal("bubblehelp json data is invalid.");
     });
 
     it('should return correct translate value given locale key from combined translation table', function() {
-        expect(translate.sync("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
-        expect(translate.sync("components.error.file-notfound")).to.equal("File is not found.");
+        expect(translation.sync("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
+        expect(translation.sync("components.error.file-notfound")).to.equal("File is not found.");
     });
 });
 
@@ -88,7 +88,6 @@ describe('i18nToken service', function() {
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
-            i18nTokenProvider.useLocale("en_DE");
             i18nTokenProvider.addAppLocalePath("../../", "_app");
             $provide.factory('i18nCustomLoader', function($q, i18nToken) {
                 var locale = i18nToken.getCurrentLocale(),
@@ -120,7 +119,7 @@ describe('i18nToken service', function() {
     });
 
     it('should "getLocale" method return default locale value', function() {
-        expect(service.getCurrentLocale()).to.equal("en_DE");
+        expect(service.getCurrentLocale()).to.equal("en_US");
     });
 
     it('should "getUrls" method return correct app url value', function() {

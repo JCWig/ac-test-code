@@ -7,6 +7,18 @@ describe('akam-pagination directive', function() {
         var self = this;
 
         angular.mock.module(require('../../src/pagination').name);
+        angular.mock.module(function($provide, $translateProvider) {
+            $provide.factory('i18nCustomLoader', function($q, $timeout) {
+                return function(options) {
+                    var deferred = $q.defer();
+                    $timeout(function() {
+                        deferred.resolve({});
+                    });
+                    return deferred.promise;
+                };
+            });
+            $translateProvider.useLoader('i18nCustomLoader');
+        });
         inject(function($compile, $rootScope) {
             var markup = '<akam-pagination total-items="pager.count" ' +
                 'current-page="pager.page" onchangepage="onchangepage(page)" ' +
@@ -96,7 +108,7 @@ describe('akam-pagination directive', function() {
 
                 this.scope.pager.page = null;
                 this.scope.$digest();
-                
+
                 el = this.element.querySelector('.pagination li:nth-child(2)');
                 expect(el.classList.contains('active')).to.be.true;
             });

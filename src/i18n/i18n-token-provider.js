@@ -2,7 +2,7 @@
 
 /* @ngInject */
 module.exports = function i18nTokenProvider(i18nConfig) {
-    this.currentLocale = i18nConfig.defaultLocale;
+    //this.currentLocale = i18nConfig.defaultLocale;
     this.urls = [i18nConfig.localePath];
     var self = this;
 
@@ -25,9 +25,6 @@ module.exports = function i18nTokenProvider(i18nConfig) {
         }
     };
 
-    this.useLocale = function(loc) {
-        this.currentLocale = loc;
-    };
     /**
      * @ngdoc method
      * @name akamai.components.i18n.I18nTokenProvider#addAppLocalePath
@@ -44,11 +41,13 @@ module.exports = function i18nTokenProvider(i18nConfig) {
     };
 
 /**
- * i18nToken is a simple service to expose 2 methods and pass values set by the provider
+ * i18nToken is a simple service to expose a setter method to pass app locale file value set by the provider in config phase
+ * the locale value is determined by AKALOCALE cookie set by Luna portal, all app will ne using that, fallback value will be "en_US"
  * @return {object} it returns object hash contains 2 getter methods for mainly customLoader to use
  */
-    this.$get = function i18nTokenFactory() {
-        var locale = this.currentLocale,
+    this.$get = function i18nTokenFactory($cookieStore, i18nConfig) {
+        var cookieLocale = $cookieStore.get(i18nConfig.localeCookie),
+            locale =  cookieLocale? atob(cookieLocale) : i18nConfig.defaultLocale,
             localeUrls = this.urls;
         return {
             getUrls: function() {

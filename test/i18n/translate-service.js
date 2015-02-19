@@ -1,6 +1,6 @@
 'use strict';
 
-describe('i18n-translate-wrapper service', function() {
+describe('translate service', function() {
     var akTranslate, config, $translate, $rootScope, $timeout, $q, $scope;
 
     var translationMock = {
@@ -31,8 +31,8 @@ describe('i18n-translate-wrapper service', function() {
             }]);
         });
 
-        inject(function(akamTranslate, _$q_, i18nConfig, _$rootScope_, _$translate_, _$timeout_) {
-            akTranslate = akamTranslate;
+        inject(function(translate, _$q_, i18nConfig, _$rootScope_, _$translate_, _$timeout_) {
+            akTranslate = translate;
             $rootScope = _$rootScope_;
             $translate = _$translate_;
             $timeout = _$timeout_;
