@@ -11,7 +11,7 @@ var angular = require('angular');
     * Pulsar-compatible data tables.
     *
     */
-    module.exports = angular.module('akamai.components.data-table', [])
+    module.exports = angular.module('akamai.components.data-table', ['akamai.components.indeterminate-progress'])
 
     /**
      * @ngdoc directive

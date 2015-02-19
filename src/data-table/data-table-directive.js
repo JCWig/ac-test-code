@@ -8,7 +8,8 @@ module.exports = function($log) {
         scope: {
             mydata: '@',
             mycolumns: '=',
-            getSelectedItems: '&'
+            getSelectedItems: '&',
+            loading: '='
         },
         template: require('./templates/data-table.tpl.html'),
         link: function(scope, element, attrs) {

@@ -29,7 +29,13 @@
     </style>
     <script>
         var app = angular.module("dataTableDemo", ["akamai.components.data-table"]);
-        app.controller("Ctrl", ["$scope", function(scope) {
+        app.controller("Ctrl", ["$scope", "$timeout", function(scope, $timeout) {
+            scope.loading = true;
+            
+            $timeout(function(){
+                scope.loading = false;
+            }, 2000);
+            
             scope.data = [
                 {
                     first : "Yair",
@@ -96,7 +102,7 @@
         <br />
 
         <div class="container">
-            <akam-data-table mydata="{{data}}" mycolumns="columns"></akam-data-table>
+            <akam-data-table mydata="{{data}}" mycolumns="columns" loading="loading"></akam-data-table>
         </div>
     </div>
 </body>
