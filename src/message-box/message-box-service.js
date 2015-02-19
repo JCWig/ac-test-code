@@ -22,8 +22,8 @@ module.exports = function(modalWindow, akamTranslate, $rootScope, $filter) {
             details: options.details
         };
 
-        options.cancelLabel = options.cancelLabel || akamTranslate.instant('components.message-box.no');
-        options.submitLabel = options.submitLabel || akamTranslate.instant('components.message-box.yes');
+        options.cancelLabel = options.cancelLabel || akamTranslate.sync('components.message-box.no');
+        options.submitLabel = options.submitLabel || akamTranslate.sync('components.message-box.yes');
 
         return modalWindow.open(angular.extend(options, {
             template: require('./templates/message-box.tpl.html'),
