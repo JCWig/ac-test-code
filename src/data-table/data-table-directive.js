@@ -28,6 +28,21 @@ module.exports = function($log) {
                 };
             };
             
+            scope.isSortable = function(column){
+                return (column.sort != null);
+            };
+            
+            scope.getColumnClasses = function(column, isHeader){
+                var output = '';
+                
+                if(isHeader && scope.isSortable(column)){
+                    output = 'util-clickable ';
+                }
+                
+                output += column.className ? column.className : 'data-table-' + column.id.toLowerCase();
+                return output;
+            };
+            
             scope.sortInfo = {
                 sortedColumn : null,
                 sortDirection: 'ASC'
@@ -75,7 +90,8 @@ module.exports = function($log) {
                     header : 'Full Name',
                     sort : function(objA, objB){
                         return this.text(objA).localeCompare(this.text(objB));
-                    }
+                    },
+                    className : 'column-full-text-name'
                 },
                 {
                     id : "EmployeeID",

@@ -2,14 +2,14 @@
     <table class="akam-data-table">
         <thead>
             <tr>
-                <th ng-repeat="column in columns" ng-class="column.class" ng-click="sortColumn(column)">
+                <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)">
                     {{column.header}}
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="item in data">
-                <td ng-repeat="column in columns" ng-class="column.class">
+                <td ng-repeat="column in columns" ng-class="getColumnClasses(column, false)">
                     {{column.text(item)}}
                 </td>
             </tr>
