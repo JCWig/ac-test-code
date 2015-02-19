@@ -7,7 +7,7 @@ module.exports = function($log) {
         restrict: 'E',
         scope: {
             mydata: '@',
-            mycolumns: '&',
+            mycolumns: '=',
             getSelectedItems: '&'
         },
         template: require('./templates/data-table.tpl.html'),
@@ -20,7 +20,7 @@ module.exports = function($log) {
             });
             
             scope.$watch('mycolumns', function(newValue){
-                scope.columns = newValue() || [];
+                scope.columns = newValue || [];
             });
                 
             scope.showCheckboxes = true;
