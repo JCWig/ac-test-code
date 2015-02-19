@@ -1,7 +1,7 @@
 'use strict';
 
 describe('i18n-translate-wrapper service', function() {
-    var akTranslate, config, $translate, $rootScope, $timeout;
+    var akTranslate, config, $translate, $rootScope, $timeout, $q, $scope;
 
     var translationMock = {
         'TRANSLATION_ID': 'Lorem Ipsum {{value}}',
@@ -31,11 +31,13 @@ describe('i18n-translate-wrapper service', function() {
             }]);
         });
 
-        inject(function(akamTranslate, i18nConfig, _$rootScope_, _$translate_, _$timeout_) {
+        inject(function(akamTranslate, _$q_, i18nConfig, _$rootScope_, _$translate_, _$timeout_) {
             akTranslate = akamTranslate;
             $rootScope = _$rootScope_;
             $translate = _$translate_;
             $timeout = _$timeout_;
+            $q = _$q_;
+            $scope = $rootScope.$new();
             config = i18nConfig;
         });
     });
@@ -45,16 +47,39 @@ describe('i18n-translate-wrapper service', function() {
             expect(akTranslate).to.not.be.undefined;
         });
 
-        it('should have akamTranslate#get method defined', function() {
-            expect(akTranslate.get).to.not.be.undefined;
+        it('should have akamTranslate#sync method defined', function() {
+            expect(akTranslate.sync).to.not.be.undefined;
         });
 
-        it('should akamTranslate#get be a function', function() {
-            expect(typeof akTranslate.get).to.equal("function");
+        it('should akamTranslate#sync be a function', function() {
+            expect(typeof akTranslate.sync).to.equal("function");
         });
 
-        it('should get return key since it is not ready', function() {
-            expect(akTranslate.get("somekey.somemorekey")).to.be.equal("somekey.somemorekey");
+        it('should have akamTranslate#async method defined', function() {
+            expect(akTranslate.async).to.not.be.undefined;
+        });
+
+        it('should akamTranslate#async be a function', function() {
+            expect(typeof akTranslate.async).to.equal("function");
+        });
+
+        it('should sync function return key since translation table is not loaded', function() {
+            expect(akTranslate.sync("somekey.somemorekey")).to.be.equal("somekey.somemorekey");
+        });
+
+
+        it('should async functon return key since translation table is not loaded', function() {
+            var key = "something.something";
+            var fst = $q.defer();
+
+            fst.resolve(key);
+
+            fst = akTranslate.async(key);
+            fst.then(function(value) {
+                value.should.eql(key);
+                done();
+            });
+            $scope.$apply();
         });
 
         it("should '$translateChangeEnd' be called", function() {
@@ -67,18 +92,73 @@ describe('i18n-translate-wrapper service', function() {
             });
         });
 
-        it("should #get method translate without given variable replacement", function() {
-            expect(akTranslate.get("TRANSLATION_ID")).to.be.equal("Lorem Ipsum ")
+        it("should #sync method translate without given variable replacement", function() {
+            expect(akTranslate.sync("TRANSLATION_ID")).to.be.equal("Lorem Ipsum ")
         });
 
-        it("should #get method translate given variable replacement", function() {
-            expect(akTranslate.get("TRANSLATION_ID", { "value": "Sean"})).to.be.equal("Lorem Ipsum Sean");
+        it("should #sync method translate given variable replacement", function() {
+            expect(akTranslate.sync("TRANSLATION_ID", {
+                "value": "Sean"
+            })).to.be.equal("Lorem Ipsum Sean");
         });
 
-        it("should #get method translate to be appended given variable replacement of integer", function() {
-            expect(akTranslate.get("TRANSLATION_ID_3", {
+        it("should #sync method translate to be appended given variable replacement of integer", function() {
+            expect(akTranslate.sync("TRANSLATION_ID_3", {
                 "value": "2"
             })).to.be.equal("Lorem Ipsum 22");
         });
+
+        it('should async functon return translated value from valid key', function() {
+            var key = "TRANSLATION_ID";
+            var d = $q.defer();
+
+            d = akTranslate.async(key);
+            d.then(function(value) {
+                value.should.eql("Lorem Ipsum ");
+                done();
+            });
+            $scope.$apply();
+        });
+
+        it('should async functon return translated value from valid key with variable replacement', function() {
+            var key = "TRANSLATION_ID";
+            var d = $q.defer();
+            d = akTranslate.async(key, {
+                value: "sean"
+            });
+            d.then(function(value) {
+                value.should.eql("Lorem Ipsum sean");
+                done();
+            });
+            $scope.$apply();
+        });
+
+        it('should async functon return translated value with adding integer values from valid key with variable replacement', function() {
+            var key = "TRANSLATION_ID_3";
+            var d = $q.defer();
+
+            d = akTranslate.async(key, {
+                value: "2"
+            });
+            d.then(function(value) {
+                value.should.eql("Lorem Ipsum 22");
+                done();
+            });
+            $scope.$apply();
+        });
+
+        it('should async functon take array of keys return key value object', function() {
+            var keys = ["TRANSLATION_ID", "TRANSLATION_ID_3"];
+            var d = $q.defer();
+
+            d = akTranslate.async(keys);
+            d.then(function(values) {
+                values[keys[0]].should.eql("Lorem Ipsum ");
+                values[keys[1]].should.eql("Lorem Ipsum 2 ");
+                done();
+            });
+            $scope.$apply();
+        });
+
     });
 });

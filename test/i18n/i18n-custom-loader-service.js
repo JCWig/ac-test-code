@@ -63,21 +63,21 @@ describe('i18nCustomLoader service', function() {
     });
 
      it('should return csame key value if key not found from tranlsation table', function() {
-        expect(translate.get("somekey.someotherkey")).to.equal("somekey.someotherkey");
+        expect(translate.sync("somekey.someotherkey")).to.equal("somekey.someotherkey");
     });
 
     it('should return correct translate value given app locale key from combined translation table', function() {
-        expect(translate.get("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+        expect(translate.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
     });
 
     it('should return correct translate value given component locale key from combined translation table', function() {
-        expect(translate.get("components.error.invalid-json")).to.equal(" json data is invalid.");
-        expect(translate.get("components.error.invalid-json", {name:"bubblehelp"})).to.equal("bubblehelp json data is invalid.");
+        expect(translate.sync("components.error.invalid-json")).to.equal(" json data is invalid.");
+        expect(translate.sync("components.error.invalid-json", {name:"bubblehelp"})).to.equal("bubblehelp json data is invalid.");
     });
 
     it('should return correct translate value given locale key from combined translation table', function() {
-        expect(translate.get("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
-        expect(translate.get("components.error.file-notfound")).to.equal("File is not found.");
+        expect(translate.sync("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
+        expect(translate.sync("components.error.file-notfound")).to.equal("File is not found.");
     });
 });
 
@@ -90,9 +90,8 @@ describe('i18nToken service', function() {
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
             i18nTokenProvider.useLocale("en_DE");
             i18nTokenProvider.addAppLocalePath("../../", "_app");
-            i18nTokenProvider.addComponentLocalePath("../../", "_component");
             $provide.factory('i18nCustomLoader', function($q, i18nToken) {
-                var locale = i18nToken.getLocale(),
+                var locale = i18nToken.getCurrentLocale(),
                     urls = i18nToken.getUrls();
                 return function(options) {
                     var deferred = $q.defer();
@@ -113,7 +112,7 @@ describe('i18nToken service', function() {
     });
 
     it('should have "getLocale" method defined', function() {
-        expect(service.getLocale).to.not.be.undefined;
+        expect(service.getCurrentLocale).to.not.be.undefined;
     });
 
     it('should have "getUrls" method defined', function() {
@@ -121,16 +120,11 @@ describe('i18nToken service', function() {
     });
 
     it('should "getLocale" method return default locale value', function() {
-        expect(service.getLocale()).to.equal("en_DE");
+        expect(service.getCurrentLocale()).to.equal("en_DE");
     });
 
     it('should "getUrls" method return correct app url value', function() {
         expect(service.getUrls().length).to.equal(2);
         expect(service.getUrls()[1]).to.equal("../../_app");
-    });
-
-    it('should "getUrls" method return correct component url value', function() {
-        expect(service.getUrls().length).to.equal(2);
-        expect(service.getUrls()[0]).to.equal("../../_component");
     });
 });

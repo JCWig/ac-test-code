@@ -98,7 +98,7 @@ module.exports = function(modalWindow, akamTranslate, $rootScope, $filter) {
          * @param {object} options A hash of options detailed above in
          * `showInfo()`
          *
-         * @return {object} A 
+         * @return {object} A
          * {@link akamai.components.modal-window `modalWindow`}
          * instance.
          *
