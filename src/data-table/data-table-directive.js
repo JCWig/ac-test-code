@@ -1,23 +1,26 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log) {
+module.exports = function($log, $q) {
     return {
         replace: true,
         restrict: 'E',
         scope: {
-            mydata: '@',
+            mydata: '=',
             mycolumns: '=',
-            getSelectedItems: '&',
-            loading: '='
+            getSelectedItems: '&'
         },
         template: require('./templates/data-table.tpl.html'),
         link: function(scope, element, attrs) {
             scope.data = [];
             scope.columns = [];
+            scope.loading = true;
             
             scope.$watch('mydata', function(newValue) {
-                scope.data = scope.$eval(newValue) || [];
+                $q.when(scope.mydata).then(function(data){
+                    scope.data = data;
+                    scope.loading = false;
+                });
             });
             
             scope.$watch('mycolumns', function(newValue){

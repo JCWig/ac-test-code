@@ -32,46 +32,47 @@
         }
     </style>
     <script>
+        var BASE_DATA = [
+            {
+                first : "Yair",
+                last : "Leviel",
+                id : 1234,
+                bu : "Luna"
+            },
+            {
+                first : "Shawn",
+                last: "Dahlen",
+                id : 1357,
+                bu : "Luna"
+            },
+            {
+                first : "Nick",
+                last: "Leon",
+                id : 2468,
+                bu : "Luna"
+            },
+            {
+                first : "Sean",
+                last: "Wang",
+                id : 2002,
+                bu : "Luna"
+            },
+            {
+                first : "Mike",
+                last: "D",
+                id : 1001,
+                bu : "Luna"
+            }
+        ];
         var app = angular.module("dataTableDemo", ["akamai.components.data-table"]);
-        app.controller("Ctrl", ["$scope", "$timeout", function(scope, $timeout) {
-            scope.loading = true;
-            
+        app.controller("Ctrl", ["$scope", "$timeout", "$q", function(scope, $timeout, $q) {
+            var deferred = $q.defer();
+            scope.mydata = deferred.promise;
+            scope.basedata = BASE_DATA;
+        
             $timeout(function(){
-                scope.loading = false;
+                deferred.resolve(BASE_DATA);
             }, 2000);
-            
-            scope.data = [
-                {
-                    first : "Yair",
-                    last : "Leviel",
-                    id : 1234,
-                    bu : "Luna"
-                },
-                {
-                    first : "Shawn",
-                    last: "Dahlen",
-                    id : 1357,
-                    bu : "Luna"
-                },
-                {
-                    first : "Nick",
-                    last: "Leon",
-                    id : 2468,
-                    bu : "Luna"
-                },
-                {
-                    first : "Sean",
-                    last: "Wang",
-                    id : 2002,
-                    bu : "Luna"
-                },
-                {
-                    first : "Mike",
-                    last: "D",
-                    id : 1001,
-                    bu : "Luna"
-                }
-            ];
             
             scope.columns = [
                 {
@@ -106,7 +107,13 @@
         <br />
 
         <div class="container">
-            <akam-data-table mydata="{{data}}" mycolumns="columns" loading="loading"></akam-data-table>
+            DATA USING PROMISE
+            <akam-data-table mydata="mydata" mycolumns="columns"></akam-data-table>
+        </div>
+        
+        <div class="container">
+            DATA DIRECT
+            <akam-data-table mydata="basedata" mycolumns="columns"></akam-data-table>
         </div>
     </div>
 </body>
