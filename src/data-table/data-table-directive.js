@@ -7,10 +7,34 @@ module.exports = function($log) {
         restrict: 'E',
         scope: {
             data: '@',
-            columns: '@'
+            columns: '@',
+            getSelectedItems: '&'
         },
         template: require('./templates/data-table.tpl.html'),
         link: function(scope, element) {
+            scope.showCheckboxes = true;
+            scope.state = {
+                allSelected : false
+            };
+            
+            scope.numberOfColumns = function(){
+                return scope.columns.length + (scope.showCheckboxes ? 1 : 0);
+            };
+            
+            scope.$watch('state.allSelected', function(newValue){
+                scope.data.forEach(function(currentValue, index){
+                    currentValue.selected = newValue;
+                });
+            });
+            
+            scope.getSelectedItems = function(){
+                var filtered = scope.data.filter(function(item){
+                    return !!item.selected;
+                });
+                
+                return filtered;
+            };
+            
             scope.sortColumn = function(column){
                 if (column == null) {
                     throw "Column may not be null/undefined";
