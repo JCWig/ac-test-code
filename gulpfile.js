@@ -23,6 +23,7 @@ var rsync = require('rsyncwrapper').rsync;
 var globby = require('globby');
 var moment = require('moment');
 var runSequence = require('run-sequence');
+var mkdirp = require('mkdirp');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -214,4 +215,8 @@ gulp.task('prepare-release', function(){
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['dist', 'reports'], {dot: true}));
+gulp.task('clean', function(){
+    mkdirp('./reports/coverage');
+    mkdirp('./reports/unit');
+    del(['dist', 'reports/unit/*', 'reports/coverage/*'], {dot: true});
+});
