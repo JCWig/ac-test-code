@@ -1,0 +1,33 @@
+<div class="akam-data-table-container">
+    <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
+    <table class="akam-data-table">
+        <thead>
+            <tr>
+                <th ng-if="showCheckboxes">
+                    <input type="checkbox" ng-model="state.allSelected" id="allSelected"><label for="allSelected"></label>
+                </th>
+                <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)">
+                    {{column.header}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in data" ng-class="{'row-selected' : item.selected, 'util-clickable' : showCheckboxes}" ng-click="item.selected = !item.selected">
+                <td ng-if="showCheckboxes">
+                    <input type="checkbox" ng-model="item.selected" id="item_{{$index}}"><label for="item_{{$index}}"></label>
+                </td>
+                <td ng-repeat="column in columns" ng-class="getColumnClasses(column, false)">
+                    {{column.text(item)}}
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="{{numberOfColumns()}}">
+                    Pagination and Results Info<br>
+                    <div>Selected Items: {{getSelectedItems()}}</div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
