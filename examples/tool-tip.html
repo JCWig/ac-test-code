@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css" />
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+    <script type="text/javascript" src="../dist/akamai-components.js"></script>
+</head>
+<body ng-app="toolTipDemo" ng-controller="Ctrl" class="common-css">
+    <div class="container">
+        <h1>Tool Tip Example</h1>
+        
+        <form>
+            <div class="form-group">
+              <p> Here is a basic tool tip example 
+                <akam-tool-tip text="EXAMPLE-CITY-BITCH" trigger-text="HERE"> </akam-tool-tip>
+                <a tooltip="On the Bottom!" tooltip-placement="bottom" href="#">bottom</a>
+              </p>
+            </div>
+        </form>
+    </div>
+    
+    <script type="text/javascript">
+        angular.module("toolTipDemo", ["akamai.components.tool-tip"])
+        .controller("Ctrl", ["$scope", function($scope) {
+        }]);
+    </script>
+</body>
+</html>
