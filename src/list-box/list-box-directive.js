@@ -41,7 +41,6 @@ module.exports = function($log, $q, idService) {
     
     var getColumnContent = function(column, item, defaultValue){
         var columnContent = column.content;
-        
         if (angular.isString(columnContent)) {
             if (columnContent in item) {
                 // retrieve the property for the item with the same name
@@ -54,7 +53,6 @@ module.exports = function($log, $q, idService) {
             // return the content based on the result of the function call
             return column.content(item) || defaultValue;
         }
-        
         throw "The column content field is using an unknown type.  Content field may only be String or Function type";
     };
 
@@ -149,6 +147,7 @@ module.exports = function($log, $q, idService) {
 
                 // if sorting is turned off, just stop
                 if (!scope.isSortable(column)) {
+                    console.log("HELLO")
                     return null;
                 }
                 
@@ -157,6 +156,9 @@ module.exports = function($log, $q, idService) {
                     return SORT_TYPES[columnSort];
                 }
                 
+                if(angular.isFunction(columnSort)){
+                    return columnSort;
+                }
                 //begin detection process
                 var contentForFirstRow = scope.getColumnContent(column, scope.data[0]);
                 
