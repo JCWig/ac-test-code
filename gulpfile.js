@@ -165,7 +165,7 @@ gulp.task('deploy', function(){
         //TODO: Handle scenarios where the folder needs to be generated on the server side
         rsync({
           ssh: true,
-          src: ['./dist', './src', './docs', './examples', './node_modules'],
+          src: ['./dist', './examples', './node_modules'],
           dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
           exclude: globby.sync(["node_modules/.*", "node_modules/angular-*", "node_modules/!(angular|pulsar-common-css)/", "node_modules/pulsar-common-css/!(dist)", "node_modules/pulsar-common-css/.*"]),
           recursive: true,

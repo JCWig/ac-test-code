@@ -61,7 +61,7 @@ describe('modalWindow service', function() {
             expect(el.textContent).to.equal(title);
         });
 
-        it('should support an icon option', function() {
+        it('should support a private icon option', function() {
             var icon = 'svg-information';
             var el;
 

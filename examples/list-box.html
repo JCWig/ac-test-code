@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    
+    <style>
+        .container {
+            min-height: 150px;
+        }
+        
+        form {
+            padding-bottom:20px;
+        }
+        
+        .akam-list-box {
+            width: 100%;
+        }
+        
+        .column-employeeid {
+            width: 20%;
+        }
+        
+        td.column-full-text-name {
+            text-decoration: underline;
+        }
+        
+        tr.row-selected {
+            background-color: #cecece;
+        }
+    </style>
+    <script>
+        var BASE_DATA = [
+            {
+                first : "Yair",
+                last : "Leviel",
+                id : 234,
+                bu : "Luna"
+            },
+            {
+                first : "Shawn",
+                last: "Dahlen",
+                id : 1357,
+                bu : "Luna"
+            },
+            {
+                first : "Nick",
+                last: "Leon",
+                id : 2468,
+                bu : "Luna"
+            },
+            {
+                first : "Sean",
+                last: "Wang",
+                id : 2002,
+                bu : "Luna"
+            },
+            {
+                first : "Mike",
+                last: "D",
+                id : 1001,
+                bu : "Luna"
+            }
+        ];
+        var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
+        app.controller("Ctrl", ["$scope", "$timeout", "$q", function(scope, $timeout, $q) {
+            var deferred = $q.defer();
+            scope.mydata = deferred.promise;
+            scope.basedata = BASE_DATA;
+        
+            $timeout(function(){
+                deferred.resolve(BASE_DATA);
+            }, 2000);
+            
+            scope.columns = [
+                {
+                    content : function(obj){
+                        return obj.first + ' ' + obj.last;
+                    },
+                    header : 'Full Name',
+                    className : 'column-full-text-name'
+                },
+                {
+                    content : 'id',
+                    header : 'Employee ID'
+                }
+            ];
+        }]);
+    </script>
+</head>
+<body ng-app="listBoxDemo" ng-controller="Ctrl" class="common-css">
+    <div class="container">
+        <h1>List Box Example</h1>
+        
+        <br />
+
+        <div class="container">
+            DATA USING PROMISE
+            <akam-list-box mydata="mydata" mycolumns="columns"></akam-list-box>
+        </div>
+        
+        <div class="container">
+            DATA DIRECT
+            <akam-list-box mydata="basedata" mycolumns="columns"></akam-list-box>
+        </div>
+    </div>
+</body>
+</html>

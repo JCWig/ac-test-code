@@ -17,13 +17,6 @@
                     ng-model="options.title">
             </div>
             <div class="label-group">
-                <label for="icon">Icon</label>
-                <input
-                    id="icon"
-                    type="text"
-                    ng-model="options.icon">
-            </div>
-            <div class="label-group">
                 <label for="cancelLabel">Cancel Label</label>
                 <input
                     id="cancelLabel"
@@ -72,7 +65,6 @@
 
             $scope.options = {
                 title: 'Example',
-                icon: '',
                 cancelLabel: 'Cancel',
                 submitLabel: 'Save',
                 hideSubmit: false
@@ -114,6 +106,13 @@
         })
 
         .controller('ModalController', function($scope) {
+            // listen for when the user clicks the submit button
+            $scope.submitted.then(function(close) {
+                // call the supplied close function with an argument to pass as
+                // the modal window result
+                close('Hello Developer');
+            });
+
             // control the disabled state of the submit button
             $scope.toggle = function() {
                 if ($scope.isSubmitDisabled()) {
