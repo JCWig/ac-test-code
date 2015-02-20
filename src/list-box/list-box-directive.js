@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log, $q, idService) {
+module.exports = function($log, $q, uuid) {
     var SORT_TYPES = {
         generic : function(objA, objB){
             var aContent = getColumnContent(this, objA, null);
@@ -39,6 +39,11 @@ module.exports = function($log, $q, idService) {
         }
     };
     
+    var SORT_DIRECTIONS = {
+        'ASC' : 'ASC',
+        'DESC' : 'DESC'
+    };
+    
     var getColumnContent = function(column, item, defaultValue){
         var columnContent = column.content;
         
@@ -71,10 +76,36 @@ module.exports = function($log, $q, idService) {
             scope.data = [];
             scope.columns = [];
             scope.loading = true;
-            scope.tableId = idService.guid();
+            scope.tableId = uuid.guid();
+            
+            scope.state = {
+                sortInfo : {
+                    sortedColumn : null,
+                    sortDirection: SORT_DIRECTIONS.ASC
+                },
+                viewSelectedOnly : false,
+                allSelected : false,
+                filter : "",
+                search : {
+                    '$' : '' 
+                }
+            };
+            
+            scope.updateSearchFilter = function(){
+                if (scope.state.viewSelectedOnly === true) {
+                    scope.state.search = {
+                        'selected' : true,
+                        '$' : scope.state.filter
+                    };
+                }else{
+                    scope.state.search = {
+                        '$' : scope.state.filter
+                    };
+                }
+            };
             
             scope.getColumnContent = getColumnContent;
-            
+
             scope.$watch('mydata', function(newValue) {
                 $q.when(scope.mydata).then(function(data){
                     scope.data = angular.copy(data);
@@ -87,9 +118,6 @@ module.exports = function($log, $q, idService) {
             });
                 
             scope.showCheckboxes = true;
-            scope.state = {
-                allSelected : false
-            };
             
             scope.numberOfColumns = function(){
                 return scope.columns.length + (scope.showCheckboxes ? 1 : 0);
@@ -127,8 +155,23 @@ module.exports = function($log, $q, idService) {
                     return;
                 }
                 
-                var sortDirection = scope.sortInfo.sortDirection;
-                if (sortDirection === 'DESC') {
+                var sortInfo = scope.state.sortInfo;
+                
+                // first check if the column we're sorting is the same column from the last sort
+                var isSameColumnFromLastSort = sortInfo.sortedColumn === column;
+                
+                var sortDirection;
+                
+                if(isSameColumnFromLastSort){
+                    // if we're sorting the same column, just flip the order and go
+                    var lastSortDirection = sortInfo.sortDirection;
+                    sortDirection = lastSortDirection === SORT_DIRECTIONS.ASC ? SORT_DIRECTIONS.DESC : SORT_DIRECTIONS.ASC;
+                } else{
+                    // otherwise, start the sort from the user defined override or default value 
+                    sortDirection = column.sortDirection || SORT_DIRECTIONS.ASC;
+                }
+                
+                if (sortDirection === SORT_DIRECTIONS.DESC) {
                     var originalSortFunc = angular.bind(column, sortFunc);
                     var reverseSortFunc = function(objA, objB) {
                         return -( originalSortFunc(objA, objB) );
@@ -138,9 +181,9 @@ module.exports = function($log, $q, idService) {
                 
                 scope.data.sort(angular.bind(column, sortFunc));
                 
-                scope.sortInfo = {
+                scope.state.sortInfo = {
                     sortedColumn : column,
-                    sortDirection : sortDirection === 'ASC' ? 'DESC' : 'ASC'
+                    sortDirection : sortDirection
                 };
             };
             
@@ -179,16 +222,20 @@ module.exports = function($log, $q, idService) {
                 var output = '';
                 
                 if(isHeader && scope.isSortable(column)){
-                    output = 'util-clickable ';
+                    output = scope.getColumnSortClass(column) + ' util-clickable ';
                 }
                 
                 output += column.className ? column.className : 'column';
                 return output;
             };
             
-            scope.sortInfo = {
-                sortedColumn : null,
-                sortDirection: 'ASC'
+            scope.getColumnSortClass = function(column){
+                var sortInfo = scope.state.sortInfo;
+                if (column !== sortInfo.sortedColumn) {
+                    return '';
+                }
+                
+                return 'column-sorted ' + sortInfo.sortDirection.toLowerCase();
             };
         }
     };

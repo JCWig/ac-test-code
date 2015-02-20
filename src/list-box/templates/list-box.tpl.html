@@ -1,5 +1,8 @@
 <div class="akam-list-box-container">
     <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
+    <div class="list-box-filter-container">
+        <input class="list-box-filter util-full-width" ng-model="state.filter" ng-change="updateSearchFilter()">
+    </div>
     <table class="akam-list-box">
         <thead>
             <tr>
@@ -7,12 +10,12 @@
                     <input type="checkbox" ng-model="state.allSelected" id="{{tableId + 'allSelected'}}"><label for="{{tableId + 'allSelected'}}"></label>
                 </th>
                 <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)">
-                    {{column.header}}
+                    {{column.header}} <i></i>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in data" ng-class="{ 'row-selected' : item.selected }">
+            <tr ng-repeat="item in data | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
                 <td ng-if="showCheckboxes">
                     <input type="checkbox" ng-model="item.selected" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
                 </td>
@@ -21,13 +24,13 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="{{numberOfColumns()}}">
-                    Pagination and Results Info<br>
-                    <div>Selected Items: {{getSelectedItems()}}</div>
-                </td>
-            </tr>
-        </tfoot>
     </table>
+    <div>
+        <span class="util-pull-left">
+            Selected: {{getSelectedItems().length}}
+        </span>
+        <span class="util-pull-right">
+            <input type="checkbox" ng-model="state.viewSelectedOnly" ng-change="updateSearchFilter();" id="{{tableId + 'viewSelectedOnly'}}"><label for="{{tableId + 'viewSelectedOnly'}}">View selected only</label>
+        </span>
+    </div>
 </div>

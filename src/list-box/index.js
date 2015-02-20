@@ -12,7 +12,7 @@ var angular = require('angular');
     *
     */
     module.exports = angular.module('akamai.components.list-box', [
-        require('../id-service').name,
+        require('../uuid').name,
         require('../indeterminate-progress').name
     ])
 

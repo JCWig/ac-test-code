@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 angular.module('akamai.components', [
-    require('./id-service').name,
+    require('./uuid').name,
     require('./indeterminate-progress').name,
     require('./menu-button').name,
     require('./modal-window').name,
