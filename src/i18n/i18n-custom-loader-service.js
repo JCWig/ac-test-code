@@ -1,12 +1,13 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($http, $q, i18nToken, i18nConfig) {
+module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
     var locale = i18nToken.getCurrentLocale(),
         urls = i18nToken.getUrls();
     return function(options) {
         var deferred = $q.defer(), deferreds = [], n = urls.length, localeTable = {}, url;
         while (n > 0) {
+            //att suffix name might be issue here
              url = urls[n - 1] + locale + ".json";
             deferreds.push($http.get(url, {}));
             n--;
@@ -21,7 +22,10 @@ module.exports = function($http, $q, i18nToken, i18nConfig) {
                 deferred.resolve([localeTable]);
             },
             function(err) {
-                deferred.reject("Couldn\'t find locale file!");
+                //just resolve gracefully
+                deferred.resolve({});
+                //log by ourself
+                $log.error("Couldn\'t find locale file!");
             });
         return deferred.promise;
     };

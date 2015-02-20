@@ -66,18 +66,17 @@ describe('i18nCustomLoader service', function() {
         expect(translation.sync("somekey.someotherkey")).to.equal("somekey.someotherkey");
     });
 
-    it('should return correct translate value given app locale key from combined translation table', function() {
+    it('should return correct translated value given app locale key from combined translation table', function() {
         expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
     });
 
-    it('should return correct translate value given component locale key from combined translation table', function() {
-        expect(translation.sync("components.error.invalid-json")).to.equal(" json data is invalid.");
-        expect(translation.sync("components.error.invalid-json", {name:"bubblehelp"})).to.equal("bubblehelp json data is invalid.");
+    it('should return correct translated value given component locale key from combined translation table', function() {
+        expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
     });
 
-    it('should return correct translate value given locale key from combined translation table', function() {
+    it('should return correct translated value given locale key from combined translation table', function() {
         expect(translation.sync("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
-        expect(translation.sync("components.error.file-notfound")).to.equal("File is not found.");
+        expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
     });
 });
 

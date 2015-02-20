@@ -1,6 +1,16 @@
 'use strict';
 
 var utils = require('../utilities');
+var translationMock = {
+    "components": {
+        "pagination": {
+            "label": {
+                "results": "Results: ",
+                "show-entries": "Show Entries: "
+            }
+        }
+    }
+};
 
 describe('akam-pagination directive', function() {
     beforeEach(function() {
@@ -12,23 +22,28 @@ describe('akam-pagination directive', function() {
                 return function(options) {
                     var deferred = $q.defer();
                     $timeout(function() {
-                        deferred.resolve({});
+                        deferred.resolve(translationMock);
                     });
                     return deferred.promise;
                 };
             });
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function($compile, $rootScope) {
+        inject(function($compile, $rootScope, $timeout) {
             var markup = '<akam-pagination total-items="pager.count" ' +
                 'current-page="pager.page" onchangepage="onchangepage(page)" ' +
                 'page-size="pager.size" onchangesize="onchangesize(size)">' +
                 '</akam-pagination>';
 
             self.scope = $rootScope.$new();
+            self.timeout = $timeout;
             self.scope.onchangepage = sinon.spy();
             self.scope.onchangesize = sinon.spy();
-            self.scope.pager = { count: 220, page: 5, size: 25 };
+            self.scope.pager = {
+                count: 220,
+                page: 5,
+                size: 25
+            };
             self.element = $compile(markup)(self.scope)[0];
             self.scope.$digest();
         });
@@ -327,6 +342,28 @@ describe('akam-pagination directive', function() {
 
             el = this.element.querySelector('.pagination li:nth-last-child(2)');
             expect(el.textContent).to.match(/20/);
+        });
+    });
+
+    context('after rendering', function() {
+        it('should translated result label display correctly', function() {
+            var el;
+
+            this.timeout.flush();
+            this.scope.$digest();
+
+            el = this.element.querySelector('.total-items');
+            expect(el.textContent).to.contain("Results: ");
+        });
+
+        it('should translated show entries label display correctly', function() {
+            var el;
+
+            this.timeout.flush();
+            this.scope.$digest();
+
+            el = this.element.querySelector('.page-size').childNodes[1];
+            expect(el.textContent).to.contain("Show Entries: ");
         });
     });
 });

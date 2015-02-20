@@ -7,6 +7,14 @@ function click(el) {
 }
 
 describe('messageBox service', function() {
+    var translationMock = {
+        "components": {
+            "message-box": {
+                "no": "No",
+                "yes": "Yes"
+            }
+        }
+    };
     beforeEach(function() {
         var self = this;
 
@@ -16,7 +24,7 @@ describe('messageBox service', function() {
                 return function(options) {
                     var deferred = $q.defer();
                     $timeout(function() {
-                        deferred.resolve({});
+                        deferred.resolve(translationMock);
                     });
                     return deferred.promise;
                 };
@@ -94,8 +102,10 @@ describe('messageBox service', function() {
         });
 
         it('should cancelLabel display translation key if not provide one', function() {
-            var cancelLabelKey = 'components.message-box.no';
+            var cancelLabelKey = 'No';
             var el;
+
+            this.$timeout.flush();
 
             this.messageBox._show({
                 headline: 'headline',
@@ -109,8 +119,10 @@ describe('messageBox service', function() {
         });
 
         it('should submitLabel display translation key if not provide one', function() {
-            var submitLabelKey = 'components.message-box.yes';
+            var submitLabelKey = 'Yes';
             var el;
+
+            this.$timeout.flush();
 
             this.messageBox._show({
                 headline: 'headline',
