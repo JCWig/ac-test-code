@@ -224,7 +224,7 @@ module.exports = function($log, $q, uuid) {
                 var output = '';
                 
                 if(isHeader && scope.isSortable(column)){
-                    output = scope.getColumnSortClass(column) + ' util-clickable ';
+                    output = scope.getColumnSortClass(column) + ' ';
                 }
                 
                 output += column.className ? column.className : 'column';
@@ -234,10 +234,10 @@ module.exports = function($log, $q, uuid) {
             scope.getColumnSortClass = function(column){
                 var sortInfo = scope.state.sortInfo;
                 if (column !== sortInfo.sortedColumn) {
-                    return '';
+                    return 'column-sortable';
                 }
                 
-                return 'column-sorted ' + sortInfo.sortDirection.toLowerCase();
+                return 'column-sortable column-sorted ' + sortInfo.sortDirection.toLowerCase();
             };
         }
     };
