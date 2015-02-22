@@ -1,12 +1,12 @@
-<div class="akam-list-box-container">
+<div class="akam-list-box">
     <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
-    <div class="list-box-filter-container">
-        <input class="list-box-filter util-full-width" ng-model="state.filter" ng-change="updateSearchFilter()">
+    <div class="list-box-filter">
+        <input type="text" ng-model="state.filter" ng-change="updateSearchFilter()">
     </div>
-    <table class="akam-list-box">
+    <table class="list-box-data">
         <thead>
             <tr>
-                <th ng-if="showCheckboxes">
+                <th ng-if="showCheckboxes" class="column-checkbox">
                     <input type="checkbox" ng-model="state.allSelected" id="{{tableId + 'allSelected'}}"><label for="{{tableId + 'allSelected'}}"></label>
                 </th>
                 <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)">
@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="item in data | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
-                <td ng-if="showCheckboxes">
+                <td ng-if="showCheckboxes" class="column-checkbox">
                     <input type="checkbox" ng-model="item.selected" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
                 </td>
                 <td ng-repeat="column in columns" ng-class="getColumnClasses(column, false)">
@@ -25,7 +25,7 @@
             </tr>
         </tbody>
     </table>
-    <div>
+    <div class="list-box-footer">
         <span class="util-pull-left">
             Selected: {{getSelectedItems().length}}
         </span>
