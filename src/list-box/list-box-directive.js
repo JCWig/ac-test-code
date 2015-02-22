@@ -69,6 +69,7 @@ module.exports = function($log, $q, uuid) {
         scope: {
             mydata: '=',
             mycolumns: '=',
+            filterPlaceholder : "@",
             getSelectedItems: '&'
         },
         template: require('./templates/list-box.tpl.html'),
@@ -77,6 +78,7 @@ module.exports = function($log, $q, uuid) {
             scope.columns = [];
             scope.loading = true;
             scope.tableId = uuid.guid();
+            scope.filterPlaceholder = scope.filterPlaceholder || "Filter";
             
             scope.state = {
                 sortInfo : {
