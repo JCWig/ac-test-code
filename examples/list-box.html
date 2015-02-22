@@ -54,7 +54,19 @@
                 last: "D",
                 id : 1001,
                 bu : "Luna"
-            }
+            },
+            {
+                first : "Ryan",
+                last: "Silva",
+                id : 4781,
+                bu : "Kona"
+            },
+            {
+                first : "Miguel",
+                last: "Bollar",
+                id : 9988,
+                bu : "GTM"
+            },
         ];
         var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
         app.controller("Ctrl", ["$scope", "$timeout", "$q", function(scope, $timeout, $q) {
@@ -72,11 +84,17 @@
                         return obj.first + ' ' + obj.last;
                     },
                     header : 'Full Name',
-                    className : 'column-full-text-name'
+                    className : 'column-full-name'
                 },
                 {
                     content : 'id',
-                    header : 'Employee ID'
+                    header : 'Employee ID',
+                    className : 'column-employeeid'
+                },
+                {
+                    content : 'bu',
+                    header : 'Business Unit',
+                    className : 'column-bu'
                 }
             ];
         }]);
