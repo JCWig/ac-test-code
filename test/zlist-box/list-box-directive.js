@@ -4,14 +4,18 @@ describe('akam-list-box', function() {
     var compile = null;
     var scope = null;
     var self = this;
-
+    var timeout = null
+    var q = null
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/list-box').name);
-        inject(function($compile, $rootScope) {
+        inject(function($compile, $rootScope, $timeout, $q) {
             compile = $compile;
             scope = $rootScope.$new();
+            timeout = $timeout;
+            q = $q;
         });
+
         scope.mydata = [
             {
                 first : 'Yair',
@@ -131,6 +135,19 @@ describe('akam-list-box', function() {
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup)
             expect(document.querySelector('div.list-box-filter input[type="text"]').value).to.equal('');
+        });
+        it('should display indeterminate progress when loading', function() {
+            var deferred = q.defer();
+            scope.delayeddata = deferred.promise;
+            timeout(function(){
+                deferred.resolve(scope.mydata);
+            }, 2000);
+            var markup = '<akam-list-box data="delayeddata" schema="columns"></akam-list-box>';
+            addElement(markup)
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/false/);
+            timeout.flush();
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(document.querySelectorAll('tbody tr')).to.have.length(scope.mydata.length);
         });
     });
     context('when nothing is selected', function(){
@@ -441,11 +458,12 @@ describe('akam-list-box', function() {
             utilities.click(document.querySelectorAll('.akam-list-box thead tr th')[1]);
             expect(document.querySelector('tbody tr').querySelectorAll('td')[1].textContent).to.match(/ /);
             expect(document.querySelectorAll('tbody tr')[2].querySelectorAll('td')[1].textContent).to.match(/Nick/);
-        });
-        it('should recognize null content when sorting dates', function(){
+        });*/
+        it('should recognize null content when sorting name', function(){
             scope.baddata = [
-                {'name' : "Kevin"},
                 {name : null},
+                {name : null},
+                {'name' : "Kevin"},
                 {name : null},
                 {name: "James"}];
             scope.columns = [
@@ -456,9 +474,9 @@ describe('akam-list-box', function() {
             addElement(markup);
             utilities.click(document.querySelectorAll('.akam-list-box thead tr th')[1]);
             expect(document.querySelector('tbody tr').querySelectorAll('td')[1].textContent).to.contain('');
-            expect(document.querySelectorAll('tbody tr')[2].querySelectorAll('td')[1].textContent).to.contain('James')
-            expect(document.querySelectorAll('tbody tr')[3].querySelectorAll('td')[1].textContent).to.contain('Kevin')
-        });*/
+            expect(document.querySelectorAll('tbody tr')[3].querySelectorAll('td')[1].textContent).to.contain('James')
+            expect(document.querySelectorAll('tbody tr')[4].querySelectorAll('td')[1].textContent).to.contain('Kevin')
+        });
         it('should not bother sorting one row', function(){
             scope.mydata = [
                 {'name' : "Kevin"}
@@ -504,6 +522,29 @@ describe('akam-list-box', function() {
                 addElement(markup)
             } catch (e){
                 expect(e).to.equal("The column content field is using an unknown type.  Content field may only be String or Function type");
+            }
+        });
+        it('should throw error when data is not an array', function(){
+            scope.mydata = null
+            scope.columns = [
+                {content : null, 
+                header : 'Name'},
+            ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+            try{
+                addElement(markup)
+            } catch (e){
+                expect(e).to.equal("Data must be an array");
+            }
+        });
+        it('should throw error when schema is not an array', function(){
+            scope.mydata = [];
+            scope.columns = null;
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+            try{
+                addElement(markup)
+            } catch (e){
+                expect(e).to.equal("Schema must be an array");
             }
         });
     });
