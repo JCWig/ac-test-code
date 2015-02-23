@@ -112,10 +112,6 @@ module.exports = function($log, $q, uuid, $filter) {
                 
             scope.showCheckboxes = attrs.showCheckboxes !== 'false';
             
-            scope.numberOfColumns = function(){
-                return scope.columns.length + (scope.showCheckboxes ? 1 : 0);
-            };
-            
             scope.$watch('state.allSelected', function(newValue){
                 if(!scope.dataTable){
                     return;
@@ -169,7 +165,7 @@ module.exports = function($log, $q, uuid, $filter) {
                     isReversed = !!column.reversed;
                 }
                 
-                var predicate = angular.isString(column.content) ? ('+item.' + column.content) : function(obj){ return angular.bind(obj.item, column.content)(); };
+                var predicate = scope.getColumnPredicate(column);
                 
                 scope.state.sortInfo = {
                     sortedColumn : column,
@@ -178,6 +174,22 @@ module.exports = function($log, $q, uuid, $filter) {
                 };
                 
                 scope.dataTable = orderBy(scope.dataTable, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
+            };
+            
+            scope.getColumnPredicate = function(column){
+                var predicate;
+                
+                if (column.sort === false) {
+                    return null;
+                }
+                
+                if (column.sort != null && column.sort !== true) {
+                    predicate = angular.isString(column.sort) ? ('+item.' + column.sort) : function(obj){ return angular.bind(obj.item, column.sort)(); };
+                }else{
+                    predicate = angular.isString(column.content) ? ('+item.' + column.content) : function(obj){ return angular.bind(obj.item, column.content)(); };
+                }
+                
+                return predicate;
             };
             
             scope.isSortable = function(column){

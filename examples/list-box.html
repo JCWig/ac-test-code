@@ -28,43 +28,50 @@
                 first : "Yair",
                 last : "Leviel",
                 id : 234,
-                bu : "Luna"
+                bu : "Luna",
+                color: "RED"
             },
             {
                 first : "Shawn",
                 last: "Dahlen",
                 id : 1357,
-                bu : "Luna"
+                bu : "Luna",
+                color: "GREEN"
             },
             {
                 first : "Nick",
                 last: "Leon",
                 id : 2468,
-                bu : "Luna"
+                bu : "Luna",
+                color: "YELLOW"
             },
             {
                 first : "Sean",
                 last: "Wang",
                 id : 2002,
-                bu : "Luna"
+                bu : "Luna",
+                color: "RED"
             },
             {
                 first : "Mike",
                 last: "D",
                 id : 1001,
-                bu : "Luna"
+                bu : "Luna",
+                color: "GREEN"
             },
             {
                 first : "Ryan",
                 last: "Silva",
                 id : 4781,
-                bu : "Kona"
+                bu : "Kona",
+                color: "YELLOW"
             },
             {
                 first : "Miguel",
                 last: "Bollar",
                 id : 9988,
-                bu : "GTM"
+                bu : "GTM",
+                color: "RED"
             },
         ];
         var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
@@ -95,7 +102,20 @@
                     content : 'bu',
                     header : 'Business Unit',
                     className : 'column-bu'
-                }
+                },
+                {
+                    content : 'color',
+                    header : 'Color',
+                    className : 'column-color',
+                    sort: function(){
+                        var colorsValues = {
+                            'RED' : 1,
+                            'YELLOW' : 2,
+                            'GREEN' : 3
+                        };
+                        return colorsValues[this.color];
+                    }
+                },
             ];
             
             scope.mychange = function(value){
