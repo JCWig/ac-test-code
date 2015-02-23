@@ -1,38 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log, $q, uuid) {
-    var SORT_TYPES = {
-        generic : function(objA, objB){
-            var aContent = objA.cells[this.index];
-            var bContent = objB.cells[this.index];
-            
-            //handle null cases
-            if (aContent == null || bContent == null) {
-                return (aContent == null && bContent == null) ? 0 : (bContent == null) ? 1 : -1;
-            }
-            
-            return aContent > bContent ? 1 : (bContent > aContent ? -1 : 0);
-        },
-        text : function(objA, objB) {
-            var aContent = objA.cells[this.index];
-            var bContent = objB.cells[this.index];
-            
-            //NOTE: this method can only be applied to Strings.
-            return aContent.localeCompare(bContent);
-        },
-        number : function(objA, objB){
-            var aContent = objA.cells[this.index];
-            var bContent = objB.cells[this.index];
-            return aContent - bContent;
-        }
-    };
-    
-    var SORT_DIRECTIONS = {
-        'ASC' : 'ASC',
-        'DESC' : 'DESC'
-    };
-
+module.exports = function($log, $q, uuid, $filter) {
     return {
         replace: true,
         restrict: 'E',
@@ -45,6 +14,7 @@ module.exports = function($log, $q, uuid) {
         },
         template: require('./templates/list-box.tpl.html'),
         link: function(scope, element, attrs) {
+            var orderBy = $filter('orderBy');
             scope.loading = true;
             scope.tableId = uuid.guid();
             scope.filterPlaceholder = scope.filterPlaceholder || "Filter";
@@ -53,7 +23,8 @@ module.exports = function($log, $q, uuid) {
             scope.state = {
                 sortInfo : {
                     sortedColumn : null,
-                    sortDirection: SORT_DIRECTIONS.ASC
+                    predicate : null,
+                    reverseSort : false
                 },
                 viewSelectedOnly : false,
                 allSelected : false,
@@ -89,7 +60,7 @@ module.exports = function($log, $q, uuid) {
                     }
                 }else if (angular.isFunction(columnContent)) {
                     // return the content based on the result of the function call
-                    return column.content(item) || defaultValue;
+                    return angular.bind(item, column.content)() || defaultValue;
                 }
                 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
@@ -182,75 +153,31 @@ module.exports = function($log, $q, uuid) {
                 if (!angular.isArray(scope.dataTable) || scope.dataTable.length < 2) {
                     return;
                 }
-                
-                // default to text compare
-                var sortFunc = scope.detectSortingFunction(column);
-                
-                // this means there is no sort available
-                if (sortFunc == null) {
-                    return;
-                }
-                
+
                 var sortInfo = scope.state.sortInfo;
                 
                 // first check if the column we're sorting is the same column from the last sort
                 var isSameColumnFromLastSort = sortInfo.sortedColumn === column;
                 
-                var sortDirection;
+                var isReversed = false;
                 
                 if(isSameColumnFromLastSort){
                     // if we're sorting the same column, just flip the order and go
-                    var lastSortDirection = sortInfo.sortDirection;
-                    sortDirection = lastSortDirection === SORT_DIRECTIONS.ASC ? SORT_DIRECTIONS.DESC : SORT_DIRECTIONS.ASC;
+                    isReversed = !sortInfo.reverseSort;
                 } else{
                     // otherwise, start the sort from the user defined override or default value 
-                    sortDirection = column.sortDirection || SORT_DIRECTIONS.ASC;
+                    isReversed = !!column.reversed;
                 }
                 
-                if (sortDirection === SORT_DIRECTIONS.DESC) {
-                    var originalSortFunc = angular.bind(column, sortFunc);
-                    var reverseSortFunc = function(objA, objB) {
-                        return -( originalSortFunc(objA, objB) );
-                    };
-                    sortFunc = reverseSortFunc;
-                }
-                
-                scope.dataTable.sort(angular.bind(column, sortFunc));
+                var predicate = angular.isString(column.content) ? ('+item.' + column.content) : function(obj){ return angular.bind(obj.item, column.content)(); };
                 
                 scope.state.sortInfo = {
                     sortedColumn : column,
-                    sortDirection : sortDirection
+                    predicate : predicate,
+                    reverseSort : isReversed
                 };
-            };
-            
-            scope.detectSortingFunction = function(column){
-                var columnSort = column.sort;
-
-                // if sorting is turned off, just stop
-                if (!scope.isSortable(column)) {
-                    return null;
-                }
                 
-                // if the sort is a string, and it's known, use the sort requested
-                if (angular.isString(columnSort) && columnSort in SORT_TYPES) {
-                    return SORT_TYPES[columnSort];
-                }
-                
-                // handle user defined sorting function
-                if (angular.isFunction(columnSort)) {
-                    return columnSort;
-                }
-
-                //begin detection process
-                var contentForFirstRow = scope.dataTable[0].cells[column.index];
-                
-                if (angular.isString(contentForFirstRow)) {
-                    return SORT_TYPES.text;
-                } else if (angular.isNumber(contentForFirstRow)) {
-                    return SORT_TYPES.number;
-                } else {
-                    return SORT_TYPES.generic;
-                }
+                scope.dataTable = orderBy(scope.dataTable, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
             };
             
             scope.isSortable = function(column){
@@ -274,7 +201,7 @@ module.exports = function($log, $q, uuid) {
                     return 'column-sortable';
                 }
                 
-                return 'column-sortable column-sorted ' + sortInfo.sortDirection.toLowerCase();
+                return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
         }
     };
