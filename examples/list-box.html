@@ -79,8 +79,9 @@
             
             scope.columns = [
                 {
-                    content : function(obj){
-                        return obj.first + ' ' + obj.last;
+                    //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                    content : function(){
+                        return this.first + ' ' + this.last;
                     },
                     header : 'Full Name',
                     className : 'column-full-name'
