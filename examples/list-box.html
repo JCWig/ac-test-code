@@ -97,6 +97,10 @@
                     className : 'column-bu'
                 }
             ];
+            
+            scope.mychange = function(value){
+                console.log('yay', value);
+            };
         }]);
     </script>
 </head>
@@ -108,12 +112,14 @@
 
         <div class="container">
             <h3>DATA USING PROMISE</h3>
-            <akam-list-box mydata="mydata" mycolumns="columns"></akam-list-box>
+            <akam-list-box data="mydata" schema="columns" on-change="mychange(value)" selected-items="selectedItems1"></akam-list-box>
+            <span>Selected Items: {{selectedItems1}}</span>
         </div>
         
         <div class="container">
             <h3>DATA DIRECT</h3>
-            <akam-list-box mydata="basedata" mycolumns="columns"></akam-list-box>
+            <akam-list-box data="basedata" schema="columns" on-change="mychange(value)" selected-items="selectedItems2"></akam-list-box>
+            <span>Selected Items: {{selectedItems2}}</span>
         </div>
     </div>
 </body>

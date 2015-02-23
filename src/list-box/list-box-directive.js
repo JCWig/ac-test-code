@@ -4,8 +4,8 @@
 module.exports = function($log, $q, uuid) {
     var SORT_TYPES = {
         generic : function(objA, objB){
-            var aContent = getColumnContent(this, objA, null);
-            var bContent = getColumnContent(this, objB, null);
+            var aContent = objA.cells[this.index];
+            var bContent = objB.cells[this.index];
             
             //handle null cases
             if (aContent == null || bContent == null) {
@@ -15,20 +15,21 @@ module.exports = function($log, $q, uuid) {
             return aContent > bContent ? 1 : (bContent > aContent ? -1 : 0);
         },
         text : function(objA, objB) {
-            var aContent = getColumnContent(this, objA, "");
-            var bContent = getColumnContent(this, objB, "");
+            var aContent = objA.cells[this.index];
+            var bContent = objB.cells[this.index];
+            
             //NOTE: this method can only be applied to Strings.
             return aContent.localeCompare(bContent);
         },
         number : function(objA, objB){
-            var aContent = getColumnContent(this, objA, 0);
-            var bContent = getColumnContent(this, objB, 0);
+            var aContent = objA.cells[this.index];
+            var bContent = objB.cells[this.index];
             return aContent - bContent;
         },
         date : function(objA, objB){
             // Convert the date into a number and compare numbers
-            var aContent = getColumnContent(this, objA, null);
-            var bContent = getColumnContent(this, objB, null);
+            var aContent = objA.cells[this.index];
+            var bContent = objB.cells[this.index];
             
             //handle null cases
             if (aContent == null || bContent == null) {
@@ -43,42 +44,23 @@ module.exports = function($log, $q, uuid) {
         'ASC' : 'ASC',
         'DESC' : 'DESC'
     };
-    
-    var getColumnContent = function(column, item, defaultValue){
-        var columnContent = column.content;
-        
-        if (angular.isString(columnContent)) {
-            if (columnContent in item) {
-                // retrieve the property for the item with the same name
-                return item[columnContent] || defaultValue;
-            }else{
-                // this means that the property is undefined in the object
-                return defaultValue;
-            }
-        }else if (angular.isFunction(columnContent)) {
-            // return the content based on the result of the function call
-            return column.content(item) || defaultValue;
-        }
-        
-        throw "The column content field is using an unknown type.  Content field may only be String or Function type";
-    };
 
     return {
         replace: true,
         restrict: 'E',
         scope: {
-            mydata: '=',
-            mycolumns: '=',
+            data: '=',
+            schema: '=',
             filterPlaceholder : "@",
-            getSelectedItems: '&'
+            selectedItems: '=?',
+            onChange : "&"
         },
         template: require('./templates/list-box.tpl.html'),
         link: function(scope, element, attrs) {
-            scope.data = [];
-            scope.columns = [];
             scope.loading = true;
             scope.tableId = uuid.guid();
             scope.filterPlaceholder = scope.filterPlaceholder || "Filter";
+            scope.selectedItems = scope.selectedItems || [];
             
             scope.state = {
                 sortInfo : {
@@ -89,7 +71,7 @@ module.exports = function($log, $q, uuid) {
                 allSelected : false,
                 filter : "",
                 search : {
-                    '$' : '' 
+                    'cells' : '' 
                 }
             };
             
@@ -97,46 +79,110 @@ module.exports = function($log, $q, uuid) {
                 if (scope.state.viewSelectedOnly === true) {
                     scope.state.search = {
                         'selected' : true,
-                        '$' : scope.state.filter
+                        'cells' : scope.state.filter
                     };
                 }else{
                     scope.state.search = {
-                        '$' : scope.state.filter
+                        'cells' : scope.state.filter
                     };
                 }
             };
             
-            scope.getColumnContent = getColumnContent;
+            scope.getColumnContent = function(column, item, defaultValue){
+                var columnContent = column.content;
+                
+                if (angular.isString(columnContent)) {
+                    if (columnContent in item) {
+                        // retrieve the property for the item with the same name
+                        return item[columnContent] || defaultValue;
+                    }else{
+                        // this means that the property is undefined in the object
+                        return defaultValue;
+                    }
+                }else if (angular.isFunction(columnContent)) {
+                    // return the content based on the result of the function call
+                    return column.content(item) || defaultValue;
+                }
+                
+                throw "The column content field is using an unknown type.  Content field may only be String or Function type";
+            };
+            
+            scope.processDataTable = function(){
+                // we can only really process the data if both fields are set
+                if (scope.columns == null || scope.internalData == null) {
+                    return;
+                }
+                
+                // do the same process as ng-repeat, except we do this only once to cache the output
+                var dataTableOutput = new Array(scope.internalData.length);
+                angular.forEach(scope.internalData, function(dataItem, key) {
+                    dataTableOutput[key] = {
+                        selected : false,
+                        cells : scope.columns.map(
+                            function (column) {
+                                return scope.getColumnContent(column, dataItem, column.defaultValue);
+                            }
+                        ),
+                        item : dataItem
+                    };
+                });
+                
+                scope.dataTable = dataTableOutput;
+                scope.loading = false;
+            };
+            
+            scope.$watch('data', function(newValue) {
+                scope.loading = true;
+                $q.when(scope.data).then(function(data){
+                    if (!angular.isArray(data)) {
+                        throw "Data must be an array";
+                    }
 
-            scope.$watch('mydata', function(newValue) {
-                $q.when(scope.mydata).then(function(data){
-                    scope.data = angular.copy(data);
-                    scope.loading = false;
+                    scope.internalData = data;
+                    scope.processDataTable();
                 });
             });
             
-            scope.$watch('mycolumns', function(newValue){
-                scope.columns = angular.copy(newValue) || [];
+            scope.$watch('schema', function(newValue){
+                if (!angular.isArray(newValue)) {
+                    throw "Schema must be an array";
+                }
+                scope.columns = angular.copy(newValue).map(function(value, index){ value.index = index; return value;});
+                scope.processDataTable();
             });
                 
-            scope.showCheckboxes = true;
+            scope.showCheckboxes = attrs.showCheckboxes !== 'false';
             
             scope.numberOfColumns = function(){
                 return scope.columns.length + (scope.showCheckboxes ? 1 : 0);
             };
             
             scope.$watch('state.allSelected', function(newValue){
-                scope.data.forEach(function(currentValue, index){
+                if(!scope.dataTable){
+                    return;
+                }
+ 
+                scope.dataTable.forEach(function(currentValue, index){
                     currentValue.selected = newValue;
                 });
+                
+                scope.updateChanged();
             });
             
-            scope.getSelectedItems = function(){
-                var filtered = scope.data.filter(function(item){
-                    return !!item.selected;
+            
+            scope.updateChanged = function(){
+                var selectedItemsList = [];
+                
+                angular.forEach(scope.dataTable, function(tableItem){
+                    if (tableItem.selected) {
+                        selectedItemsList.push(tableItem.item);
+                    }
                 });
                 
-                return filtered;
+                scope.selectedItems = selectedItemsList;
+                if (scope.onChange) {
+                    scope.onChange({value : selectedItemsList});
+                }
             };
             
             scope.sortColumn = function(column){
@@ -145,7 +191,7 @@ module.exports = function($log, $q, uuid) {
                 }
                 
                 // make sure we have a valid dataset to sort & ensure at least 2 elements
-                if (!angular.isArray(scope.data) || scope.data.length < 2) {
+                if (!angular.isArray(scope.dataTable) || scope.dataTable.length < 2) {
                     return;
                 }
                 
@@ -181,7 +227,7 @@ module.exports = function($log, $q, uuid) {
                     sortFunc = reverseSortFunc;
                 }
                 
-                scope.data.sort(angular.bind(column, sortFunc));
+                scope.dataTable.sort(angular.bind(column, sortFunc));
                 
                 scope.state.sortInfo = {
                     sortedColumn : column,
@@ -208,7 +254,7 @@ module.exports = function($log, $q, uuid) {
                 }
 
                 //begin detection process
-                var contentForFirstRow = scope.getColumnContent(column, scope.data[0]);
+                var contentForFirstRow = scope.dataTable[0].cells[column.index];
                 
                 if (angular.isString(contentForFirstRow)) {
                     return SORT_TYPES.text;
