@@ -22,10 +22,10 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
                 deferred.resolve([localeTable]);
             },
             function(err) {
+                //log for ourself in console: Object {message: "Cannot GET /locales/en_US.json↵", status: 404}
+                $log.error({"message": err.data, "status": err.status});
                 //just resolve gracefully
                 deferred.resolve({});
-                //log for ourself
-                $log.error("Couldn\'t find locale file!");
             });
         return deferred.promise;
     };
