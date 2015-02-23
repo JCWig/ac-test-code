@@ -164,7 +164,7 @@ describe('akam-list-box', function() {
             utilities.click(selectAllCheckbox);
             var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
             expect(checkboxes).to.have.length(scope.mydata.length+1); //Additional One for the overall checkbox
-            //NEED A TEST WHEN SELECTED ITEMS IS UPDATED TO JUST BE A NUMBER LIKE IN UXD SPECIFICATIONS
+            
         });
         it('should be able to deselect all items at once', function() {
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
@@ -225,23 +225,6 @@ describe('akam-list-box', function() {
             utilities.click(sortByColumnFourCustom);
             expect(document.querySelector('tbody tr').querySelectorAll('td')[3].textContent).to.match(/Green/);
             expect(document.querySelectorAll('tbody tr')[2].querySelectorAll('td')[3].textContent).to.match(/Red/);
-        });
-        it('should be able to sort by date', function(){
-            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
-            addElement(markup);
-            var sortByColumnFiveDate = document.querySelectorAll('.akam-list-box thead tr th')[4];
-            utilities.click(sortByColumnFiveDate);
-            expect(document.querySelector('tbody tr').querySelectorAll('td')[4].textContent).to.contain('2000-11-20');
-            expect(document.querySelectorAll('tbody tr')[2].querySelectorAll('td')[4].textContent).to.contain('2002-11-20');
-        });
-        it('should be able to reverse sort by date', function(){
-            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
-            addElement(markup);
-            var sortByColumnFiveDate = document.querySelectorAll('.akam-list-box thead tr th')[4];
-            utilities.click(sortByColumnFiveDate);
-            utilities.click(sortByColumnFiveDate);
-            expect(document.querySelector('tbody tr').querySelectorAll('td')[4].textContent).to.contain('2002-11-20');
-            expect(document.querySelectorAll('tbody tr')[2].querySelectorAll('td')[4].textContent).to.contain('2000-11-20');
         });
         it('should be able to generic sort', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
