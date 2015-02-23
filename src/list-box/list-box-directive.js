@@ -202,6 +202,11 @@ module.exports = function($log, $q, uuid) {
                     return SORT_TYPES[columnSort];
                 }
                 
+                // handle user defined sorting function
+                if (angular.isFunction(columnSort)) {
+                    return columnSort;
+                }
+
                 //begin detection process
                 var contentForFirstRow = scope.getColumnContent(column, scope.data[0]);
                 
