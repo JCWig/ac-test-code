@@ -5,20 +5,18 @@ var angular = require('angular');
     /**
     * @ngdoc overview
     *
-    * @name akamai.components.ids
+    * @name akamai.components.uuid
     *
     * @description Provides a factory service that generates pseudo
     * random universally unique ids.
-    * unobtrusive, transient feedback on their actions and emerging
-    * system conditions, but without interrupting their workflow.
     *
     */
-    module.exports = angular.module('akamai.components.ids', [])
+    module.exports = angular.module('akamai.components.uuid', [])
     
     /**
      * @ngdoc object
      *
-     * @name akamai.components.ids.idService
+     * @name akamai.components.uuid.uuid
      *
      * @object
      *
@@ -26,4 +24,4 @@ var angular = require('angular');
      * uuid and guid values.
      *
      */
-.factory('idService', require('./id-service'));
+.factory('uuid', require('./uuid-service'));

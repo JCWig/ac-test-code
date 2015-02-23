@@ -15,20 +15,12 @@
             padding-bottom:20px;
         }
         
-        .akam-list-box {
-            width: 100%;
-        }
-        
         .column-employeeid {
             width: 20%;
         }
         
         td.column-full-text-name {
             text-decoration: underline;
-        }
-        
-        tr.row-selected {
-            background-color: #cecece;
         }
     </style>
     <script>
@@ -62,7 +54,19 @@
                 last: "D",
                 id : 1001,
                 bu : "Luna"
-            }
+            },
+            {
+                first : "Ryan",
+                last: "Silva",
+                id : 4781,
+                bu : "Kona"
+            },
+            {
+                first : "Miguel",
+                last: "Bollar",
+                id : 9988,
+                bu : "GTM"
+            },
         ];
         var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
         app.controller("Ctrl", ["$scope", "$timeout", "$q", function(scope, $timeout, $q) {
@@ -80,13 +84,23 @@
                         return obj.first + ' ' + obj.last;
                     },
                     header : 'Full Name',
-                    className : 'column-full-text-name'
+                    className : 'column-full-name'
                 },
                 {
                     content : 'id',
-                    header : 'Employee ID'
+                    header : 'Employee ID',
+                    className : 'column-employeeid'
+                },
+                {
+                    content : 'bu',
+                    header : 'Business Unit',
+                    className : 'column-bu'
                 }
             ];
+            
+            scope.mychange = function(value){
+                console.log('yay', value);
+            };
         }]);
     </script>
 </head>
@@ -97,13 +111,15 @@
         <br />
 
         <div class="container">
-            DATA USING PROMISE
-            <akam-list-box mydata="mydata" mycolumns="columns"></akam-list-box>
+            <h3>DATA USING PROMISE</h3>
+            <akam-list-box data="mydata" schema="columns" on-change="mychange(value)" selected-items="selectedItems1"></akam-list-box>
+            <span>Selected Items: {{selectedItems1}}</span>
         </div>
         
         <div class="container">
-            DATA DIRECT
-            <akam-list-box mydata="basedata" mycolumns="columns"></akam-list-box>
+            <h3>DATA DIRECT</h3>
+            <akam-list-box data="basedata" schema="columns" on-change="mychange(value)" selected-items="selectedItems2"></akam-list-box>
+            <span>Selected Items: {{selectedItems2}}</span>
         </div>
     </div>
 </body>
