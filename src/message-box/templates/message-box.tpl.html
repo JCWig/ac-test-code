@@ -1,5 +1,5 @@
 <div class="message-box">
-    <h3 class="message-box-headline">{{ messageBox.headline }}</h3>
+    <h3 class="message-box-headline" ng-if="messageBox.headline">{{ messageBox.headline }}</h3>
     <p class="message-box-text">{{ messageBox.text }}</p>
     <div class="message-box-details" ng-if="messageBox.details">
         <span ng-click="toggle()">
