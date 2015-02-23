@@ -30,7 +30,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
-    localePath: '../../../locales/component-locales/', //'pulsar/akamai-components/locales/1.0.0/',
+    localePath: '../../../locales/', //'pulsar/akamai-components/locales/1.0.0/',
     defaultLocale: 'en_US'
 })
 
@@ -40,9 +40,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @name akamai.components.i18n.service:akamTranslate
  *
  * @description akamTranslate is a service - basically a wrapper for $tranlate service.
- * This service contains 2 API methods, translate.sync(key, args) is for sync method  same as $translate.instant(key, args),
- * and translate.async(keys) ior akamTranslate.async(key, args) for aync way, same as $translate(key, args).then(function(results) {})
- *
+ * This service contains 2 API methods, translate.sync(key, args) is for blocking method  same as $translate.instant(key, args),
+ * and translate.async(keys) ior akamTranslate.async(key, args) for non-blocking fashion, same as $translate(key, args).then(function(results) {})
+ * *NOTE* usage examples are detailed in translate-service.js
  */
 .factory('translate', require('./translate-service'))
 
@@ -52,6 +52,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @name akamai.components.i18n.directive:akamTranslate
  *
  * @description A directive used in the dom element where you want to translate the key
+ * *NOTE* No filter usage for now. There will be no append functionalities. If there is need, resolve it in the javascript.
  *
  * An example of usage:
  *
@@ -120,10 +121,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 
 /**
  * This run block tells angular $translate service to use per language key, so the current translation table will be based upon that.
- *
- * _*NOTE* Since run block is last flow, so only this block completely finished, the $translation table is loaded.
- * Since $translate srvice is NOT 2 way binding, it uses it, and forget, so in order to have 2 way binding,
- * we suggest to wrap around events like :$rootScope.$on("translateChangeEnd") or "translateChangeSuccess"
+ * *NOTE* Since run block is last flow, only this block completed, the $translation table is sure loaded.
  */
 /* @ngInject */
 .run(function($translate, i18nToken) {

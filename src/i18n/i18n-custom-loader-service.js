@@ -7,7 +7,7 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
     return function(options) {
         var deferred = $q.defer(), deferreds = [], n = urls.length, localeTable = {}, url;
         while (n > 0) {
-            //att suffix name might be issue here
+            //locale value is decoded locale from cookie AKALOCALE, it also can be special one: en_US_att
              url = urls[n - 1] + locale + ".json";
             deferreds.push($http.get(url, {}));
             n--;
@@ -24,7 +24,7 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
             function(err) {
                 //just resolve gracefully
                 deferred.resolve({});
-                //log by ourself
+                //log for ourself
                 $log.error("Couldn\'t find locale file!");
             });
         return deferred.promise;

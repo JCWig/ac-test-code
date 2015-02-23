@@ -90,8 +90,8 @@ module.exports = function($translate) {
          *
          * </pre>
          * *NOTE* The event is on the $rootScope only
-         * *NOTE* In most cases, the translation table is loaded, this bolocking call should return correct translated value,
-         * but if not, it may suggest that you need to look into non-blocking call which is to use async method
+         * *NOTE* In most cases, the translation table has been loaded, this blocking call should return correct translated value,
+         * but if uncertain, we suggest you need to look into non-blocking call which is to use async method
          *
          * @param {string} key string of key name
          * @param {object=} args is hash that contains variable replacements
