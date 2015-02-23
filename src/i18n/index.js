@@ -37,9 +37,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 /**
  * @ngdoc service
  *
- * @name akamai.components.i18n.service:akamTranslate
+ * @name akamai.components.i18n.service:translate
  *
- * @description akamTranslate is a service - basically a wrapper for $tranlate service.
+ * @description translate is a service - basically a wrapper for $tranlate service.
  * This service contains 2 API methods, translate.sync(key, args) is for blocking method  same as $translate.instant(key, args),
  * and translate.async(keys) ior akamTranslate.async(key, args) for non-blocking fashion, same as $translate(key, args).then(function(results) {})
  * *NOTE* usage examples are detailed in translate-service.js
