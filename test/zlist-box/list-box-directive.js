@@ -60,17 +60,13 @@ describe('akam-list-box', function() {
             {
                 content:"color",
                 header:"Favorite Color",
-                sort: function(objA, objB){
-                    var COLORS = {
-                        Red : 0,
-                        Yellow: 1,
-                        Green : 2
+                sort: function(){
+                    var colorsValues = {
+                        'Red' : 1,
+                        'Yellow' : 2,
+                        'Green' : 3
                     };
-                    //convert ENUM values into numbers
-                    console.log(objA);
-                    var valA = COLORS[objA.item.color];
-                    var valB = COLORS[objB.item.color];
-                    return valA - valB;
+                    return colorsValues[this.color];
                 }
             },
             {
@@ -267,11 +263,24 @@ describe('akam-list-box', function() {
             document.body.removeChild(this.element);
         });
         it('should be able to select an item', function(){
-            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
+            scope.mychange = sinon.spy();
+            var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>'
             addElement(markup);
             utilities.click(document.querySelector('tbody tr').querySelectorAll('td')[0].querySelector('input'));
             var checkedCheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
             expect(checkedCheckbox).to.have.length(1);
+            expect(scope.mychange).to.have.been.called;
+        });
+        it('should be able to select an item', function(){
+            scope.mychange = sinon.spy();
+            var markup = '<akam-list-box data="mydata" schema="columns" on-change="null"></akam-list-box>'
+            addElement(markup);
+            scope.$$childHead.onChange = false;
+            utilities.click(document.querySelector('tbody tr').querySelectorAll('td')[0].querySelector('input'));
+            scope.$digest();
+            var checkedCheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
+            expect(checkedCheckbox).to.have.length(1);
+            expect(scope.mychange).to.not.have.been.called;
         });
         it('should update total selected field', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
@@ -442,21 +451,22 @@ describe('akam-list-box', function() {
         afterEach(function() {
             document.body.removeChild(this.element);
         });
-        /*it('should recognize null content when sorting generic', function(){
+        it('should recognize null content when rednering', function(){
             scope.baddata = [
-                {first : null},
                 {first : "Nick"},
-                {first: null}];
+                {first: "Kevin"}];
             scope.columns = [
-                {content : "first", 
+                {content : function(){
+                    return null;
+                }, 
                 header : 'Full Name'}
             ];
             var markup = '<akam-list-box data="baddata" schema="columns"></akam-list-box>'
             addElement(markup);
             utilities.click(document.querySelectorAll('.akam-list-box thead tr th')[1]);
             expect(document.querySelector('tbody tr').querySelectorAll('td')[1].textContent).to.match(/ /);
-            expect(document.querySelectorAll('tbody tr')[2].querySelectorAll('td')[1].textContent).to.match(/Nick/);
-        });*/
+            expect(document.querySelectorAll('tbody tr').length).to.equal(2);
+        });
         it('should recognize null content when sorting name', function(){
             scope.baddata = [
                 {name : null},
@@ -490,13 +500,37 @@ describe('akam-list-box', function() {
         });
         it('should be able to turn off sorting', function(){
             scope.mydata = [
-                {'name' : "Kevin"}
+                {'name' : "Kevin"},
+                {'name' : "Alejandro"}
             ]
             scope.columns = [
                 {content : 'name', 
                 header : 'Name',
                 sort:false}
             ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
+            addElement(markup);
+            utilities.click(document.querySelectorAll('.akam-list-box thead tr th')[1]);
+            expect(document.querySelector('tbody tr').querySelectorAll('td')[1].textContent).to.match(/Kevin/);
+        });
+        it('should be able to determine sorting method', function(){
+            scope.mydata = [
+                {'name' : "Kevin"},
+                {'name' : "Alejandro"}
+            ]
+            scope.columns = [
+                {content : 'name', 
+                header : 'Name',
+                sort:null}
+            ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
+            addElement(markup);
+            utilities.click(document.querySelectorAll('.akam-list-box thead tr th')[1]);
+            expect(document.querySelector('tbody tr').querySelectorAll('td')[1].textContent).to.match(/Alejandro/);
+        });
+        it('should be able to sort on different field', function(){
+            scope.mydata = [{'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8}];
+            scope.columns = [{content : 'name', header : 'Name',sort:'id'}];
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
             addElement(markup);
             utilities.click(document.querySelectorAll('.akam-list-box thead tr th')[1]);
