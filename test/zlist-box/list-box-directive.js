@@ -579,5 +579,23 @@ describe('akam-list-box', function() {
                 expect(e).to.equal("Schema must be an array");
             }
         });
+        it('should throw error when sort column is null', function(){
+            scope.mydata = [
+                {'name' : "Kevin"},
+                {'name' : "Alejandro"}
+            ]
+            scope.columns = [
+                {content : 'name', 
+                header : 'Name',
+                sort:null}
+            ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
+            addElement(markup);
+            try{
+                scope.$$childHead.sortColumn(undefined);
+            } catch (e){
+                expect(e).to.equal("Column may not be null/undefined");
+            }
+        });
     });
 });
