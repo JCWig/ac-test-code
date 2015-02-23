@@ -65,6 +65,7 @@
     "karma-spec-reporter": "0.0.16",
     "lodash": "^3.0.0",
     "minimist": "^1.1.0",
+    "mkdirp": "^0.5.0",
     "mocha": "^2.1.0",
     "moment": "^2.9.0",
     "partialify": "^3.1.3",
