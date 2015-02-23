@@ -25,18 +25,6 @@ module.exports = function($log, $q, uuid) {
             var aContent = objA.cells[this.index];
             var bContent = objB.cells[this.index];
             return aContent - bContent;
-        },
-        date : function(objA, objB){
-            // Convert the date into a number and compare numbers
-            var aContent = objA.cells[this.index];
-            var bContent = objB.cells[this.index];
-            
-            //handle null cases
-            if (aContent == null || bContent == null) {
-                return (aContent == null && bContent == null) ? 0 : (bContent == null) ? 1 : -1;
-            }
-
-            return aContent.getTime() - bContent.getTime();
         }
     };
     
@@ -260,8 +248,6 @@ module.exports = function($log, $q, uuid) {
                     return SORT_TYPES.text;
                 } else if (angular.isNumber(contentForFirstRow)) {
                     return SORT_TYPES.number;
-                }else if (angular.isDate(contentForFirstRow)) {
-                    return SORT_TYPES.date;
                 } else {
                     return SORT_TYPES.generic;
                 }
