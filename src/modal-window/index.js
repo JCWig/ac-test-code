@@ -12,7 +12,8 @@ var angular = require('angular');
  * application workflow.
  */
 module.exports = angular.module('akamai.components.modal-window', [
-    require('angular-bootstrap-npm')
+    require('angular-bootstrap-npm'),
+    require('../i18n').name
 ])
 
 /**

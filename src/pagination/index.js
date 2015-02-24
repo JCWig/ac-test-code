@@ -10,7 +10,9 @@ var angular = require('angular');
  * @description
  * Enable a user to page through a set of results and set the page size.
  */
-module.exports = angular.module('akamai.components.pagination', [])
+module.exports = angular.module('akamai.components.pagination', [
+    require('../i18n').name
+])
 
 /**
  * @ngdoc directive

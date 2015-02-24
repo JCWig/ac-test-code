@@ -7,10 +7,30 @@ function click(el) {
 }
 
 describe('messageBox service', function() {
+    var translationMock = {
+        "components": {
+            "message-box": {
+                "no": "No",
+                "yes": "Yes"
+            }
+        }
+    };
     beforeEach(function() {
         var self = this;
 
         angular.mock.module(require('../../src/message-box').name);
+        angular.mock.module(function($provide, $translateProvider) {
+            $provide.factory('i18nCustomLoader', function($q, $timeout) {
+                return function(options) {
+                    var deferred = $q.defer();
+                    $timeout(function() {
+                        deferred.resolve(translationMock);
+                    });
+                    return deferred.promise;
+                };
+            });
+            $translateProvider.useLoader('i18nCustomLoader');
+        });
         inject(function(messageBox, $rootScope, $timeout) {
             self.messageBox = messageBox;
             self.$rootScope = $rootScope;
@@ -33,7 +53,9 @@ describe('messageBox service', function() {
     describe('_show()', function() {
         context('when no headline option is provided', function() {
             it('should throw an error', function() {
-                var opts = { text: 'Some text' };
+                var opts = {
+                    text: 'Some text'
+                };
                 var fn = angular.bind(this.messageBox, this.messageBox._show, opts);
                 expect(fn).to.throw(Error);
             });
@@ -41,7 +63,9 @@ describe('messageBox service', function() {
 
         context('when no text option is provided', function() {
             it('should throw an error', function() {
-                var opts = { headline: 'Some text' };
+                var opts = {
+                    headline: 'Some text'
+                };
                 var fn = angular.bind(this.messageBox, this.messageBox._show, opts);
                 expect(fn).to.throw(Error);
             });
@@ -67,18 +91,59 @@ describe('messageBox service', function() {
             var headline = 'Headline';
             var el;
 
-            this.messageBox._show({ headline: headline, text: 'Message' });
+            this.messageBox._show({
+                headline: headline,
+                text: 'Message'
+            });
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal .message-box-headline');
             expect(el.textContent).to.equal(headline);
         });
 
+        it('should cancelLabel display translation key if not provide one', function() {
+            var cancelLabelKey = 'No';
+            var el;
+
+            this.$timeout.flush();
+
+            this.messageBox._show({
+                headline: 'headline',
+                text: 'Message',
+                cancelLabel: ""
+            });
+            this.$rootScope.$digest();
+
+            el = document.querySelector('.modal .button:not(.primary)');
+            expect(el.textContent).to.contain(cancelLabelKey);
+        });
+
+        it('should submitLabel display translation key if not provide one', function() {
+            var submitLabelKey = 'Yes';
+            var el;
+
+            this.$timeout.flush();
+
+            this.messageBox._show({
+                headline: 'headline',
+                text: 'Message',
+                submitLabel: ''
+            });
+            this.$rootScope.$digest();
+
+            el = document.querySelector('.modal button.primary');
+            expect(el.textContent).to.contain(submitLabelKey);
+        });
+
+
         it('should limit the headline to 25 characters', function() {
             var headline = 'A very long headline that will be truncated';
             var el;
 
-            this.messageBox._show({ headline: headline, text: 'Message' });
+            this.messageBox._show({
+                headline: headline,
+                text: 'Message'
+            });
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal .message-box-headline');
@@ -90,7 +155,10 @@ describe('messageBox service', function() {
             var text = 'Message';
             var el;
 
-            this.messageBox._show({ headline: 'Headline', text: text });
+            this.messageBox._show({
+                headline: 'Headline',
+                text: text
+            });
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal .message-box-text');
@@ -101,7 +169,10 @@ describe('messageBox service', function() {
             var text = new Array(300).join('x');
             var el;
 
-            this.messageBox._show({ headline: 'Headline', text: text });
+            this.messageBox._show({
+                headline: 'Headline',
+                text: text
+            });
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal .message-box-text');

@@ -42,7 +42,7 @@ var angular = require('angular');
      *      { appName : 'Billing Center', id : 'bc' },
      *      { appName : 'Property Manager', id : 'pm' }
      *    ];
-     *     
+     *
      *    $scope.process = function(item){
      *       $log.info('you clicked on the the app: ' + item.appName + '. AppId: ' + item.id);
      *    };
@@ -62,7 +62,7 @@ var angular = require('angular');
  *
  * @restrict E
  *
- * @param {String} [label=""] The label to use for the menu 
+ * @param {String} [label=""] The label to use for the menu
  * @example see {@link akamai.components.menu-button.directive:akamMenuButton}
  **/
 .directive('akamMenuButtonItem', require('./menu-button-item-directive')({
