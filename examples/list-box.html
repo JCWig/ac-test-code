@@ -73,6 +73,20 @@
                 bu : "GTM",
                 color: "RED"
             },
+            {
+                first : "Tom",
+                last: "O'Hare",
+                id : 4567,
+                bu : "Luna",
+                color: "GREEN"
+            },
+            {
+                first : "Nick",
+                last: "Pettazzoni",
+                id : 777,
+                bu : "Luna",
+                color: "YELLOW"
+            },
         ];
         var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
         app.controller("Ctrl", ["$scope", "$timeout", "$q", function(scope, $timeout, $q) {
@@ -95,13 +109,8 @@
                 },
                 {
                     content : 'id',
-                    header : 'Employee ID',
+                    header : 'Emp. ID',
                     className : 'column-employeeid'
-                },
-                {
-                    content : 'bu',
-                    header : 'Business Unit',
-                    className : 'column-bu'
                 },
                 {
                     content : 'color',
