@@ -275,7 +275,7 @@ describe('akam-list-box', function() {
             expect(rowOneColumnFour.textContent).to.match(/Green/);
             expect(rowThreeColumnFour.textContent).to.match(/Red/);
         });
-        it('should be able to generic sort', function(){
+        it('should be able to sort generically', function(){
             var sortByColumnSixGeneric = document.querySelectorAll(TABLE_COLUMN_HEADER)[5];
             utilities.click(sortByColumnSixGeneric);
 
@@ -285,7 +285,7 @@ describe('akam-list-box', function() {
             expect(rowOneColumnSix.textContent).to.contain('["goodbye"]');
             expect(rowThreeColumnSix.textContent).to.contain('["shake it off"]');
         });
-        it('should be able to reverse generic sort', function(){
+        it('should be able to sort reverse generically', function(){
             var sortByColumnSixGeneric = document.querySelectorAll(TABLE_COLUMN_HEADER)[5];
             utilities.click(sortByColumnSixGeneric);
             utilities.click(sortByColumnSixGeneric);
@@ -313,7 +313,7 @@ describe('akam-list-box', function() {
         afterEach(function() {
             document.body.removeChild(this.element);
         });
-        it('should be able to select an item', function(){
+        it('should be able to select an item with on-change', function(){
             scope.mychange = sinon.spy();
             var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>'
             addElement(markup);
@@ -325,7 +325,7 @@ describe('akam-list-box', function() {
             expect(checkedCheckbox).to.have.length(1);
             expect(scope.mychange).to.have.been.called;
         });
-        it('should be able to select an item', function(){
+        it('should be able to select an item without on-change', function(){
             scope.mychange = sinon.spy();
             var markup = '<akam-list-box data="mydata" schema="columns" on-change="null"></akam-list-box>'
             addElement(markup);
