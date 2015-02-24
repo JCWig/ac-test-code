@@ -17,12 +17,18 @@
     </style>
     <script>
         var app = angular.module("datePickerDemo", ["akamai.components.date-picker"]);
-        app.controller("Ctrl", ["$scope", function($scope) {
+        app.controller("Ctrl", ["$scope", "$timeout", function($scope, $timeout) {
+            $scope.picked1 = new Date(2015, 1, 10);
+        
             $scope.min = new Date(2015, 1, 05);
             $scope.max = new Date(2015, 3, 01);
             $scope.mychange = function(value){
                 console.log('yay', value);
             };
+            
+            $timeout(function(){
+                $scope.picked1 = new Date(2015, 1, 11);
+            }, 2000);
         }]);
     </script>
 </head>
