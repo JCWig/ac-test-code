@@ -25,12 +25,12 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * | key | value | type | description
  * |-----------|-----------------|-----------------------------------------------------------------------------|
  * | localeCookie | AKALOCALE | {@type string} | This cookie name is widely used from Luna portal apps |
- * | localePath | 'pulsar/akamai-components/locales/1.0.0/' | {@type string} | This path value is to component locale file. (subject to change) |
+ * | localePath | 'assets/akamai-components/0.0.1/locales/' | {@type string} | This path value is to component locale file. (subject to change) |
  * | defaultLocale | en_US | {@type string} | Default locale string value. |
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
-    localePath: '../../../locales/', //'pulsar/akamai-components/locales/1.0.0/',
+    localePath: '/assets/akamai-components/0.0.1/locales/',
     defaultLocale: 'en_US'
 })
 
