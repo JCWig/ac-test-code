@@ -136,8 +136,8 @@ describe('messageBox service', function() {
         });
 
 
-        it('should limit the headline to 25 characters', function() {
-            var headline = 'A very long headline that will be truncated';
+        it('should limit the headline to 48 characters', function() {
+            var headline = 'A very long headline that will be truncated to 48 chars';
             var el;
 
             this.messageBox._show({
@@ -147,7 +147,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal .message-box-headline');
-            expect(el.textContent).to.have.length(25);
+            expect(el.textContent).to.have.length(48);
 
         });
 
