@@ -31,28 +31,28 @@ describe('akam-modal-window-body directive', function() {
 
     context('when rendering', function() {
         it('should render an inline template', function() {
-            var element;
+            var modalWindow;
 
             this.scope.modalWindow.template = this.template;
-            element = this.link(this.scope)[0];
+            modalWindow = this.link(this.scope)[0];
             this.scope.$digest();
 
-            expect(element.childNodes).to.have.length(1);
-            expect(element.textContent).to.equal('Hello Akamai');
+            expect(modalWindow.childNodes).to.have.length(1);
+            expect(modalWindow.textContent).to.equal('Hello Akamai');
         });
 
         it('should render a template url', function() {
             var url = 'modal-window/template.html';
-            var element;
+            var modalWindow;
 
             this.$httpBackend.whenGET(url).respond(this.template);
             this.scope.modalWindow.templateUrl = url;
-            element = this.link(this.scope)[0];
+            modalWindow = this.link(this.scope)[0];
             this.$httpBackend.flush();
 
             this.$httpBackend.verifyNoOutstandingRequest();
-            expect(element.childNodes).to.have.length(1);
-            expect(element.textContent).to.equal('Hello Akamai');
+            expect(modalWindow.childNodes).to.have.length(1);
+            expect(modalWindow.textContent).to.equal('Hello Akamai');
         });
     });
 });
