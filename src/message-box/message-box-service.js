@@ -17,7 +17,7 @@ module.exports = function(modalWindow, translate, $rootScope, $filter) {
         options.backdrop = 'static';
         options.scope = $rootScope.$new();
         options.scope.messageBox = {
-            headline: options.headline.substr(0, 25),
+            headline: options.headline.substr(0, 48),
             text: options.text.substr(0, 220),
             details: options.details
         };

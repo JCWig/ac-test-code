@@ -30,7 +30,7 @@
         <ul>
             <li
                 ng-repeat="size in sizes track by $index"
-                ng-class="{ active: isSizeActive(size) }">
+                ng-class="{ active: isSizeActive(size), disabled: isSizeDisabled(size) }">
                 <a href="javascript:void(0)" ng-click="selectSize(size)">
                     {{ size }}
                 </a>

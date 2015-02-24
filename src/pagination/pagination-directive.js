@@ -18,9 +18,10 @@ module.exports = function(translate) {
 
             scope.sizes = [10, 25, 50];
 
-            translate.async("components.pagination.label.results").then(function(value) {
-                scope.resultText = value;
-            });
+            translate.async("components.pagination.label.results")
+                .then(function(value) {
+                    scope.resultText = value;
+                });
 
             function inBounds(page) {
                 return page >= 1 && page <= scope.totalPages;
@@ -81,6 +82,10 @@ module.exports = function(translate) {
                 return size === scope.pageSize;
             };
 
+            scope.isSizeDisabled = function(size) {
+                return scope.totalItems < size;
+            };
+
             scope.isFirstPageActive = function() {
                 return scope.currentPage === 1;
             };
@@ -106,7 +111,8 @@ module.exports = function(translate) {
             };
 
             scope.selectSize = function(size) {
-                if (size !== scope.pageSize) {
+                if ((size !== scope.pageSize) &&
+                    (!scope.isSizeDisabled(size))) {
                     scope.pageSize = size;
                     scope.onchangesize({ size: size });
                 }

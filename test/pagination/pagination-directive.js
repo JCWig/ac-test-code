@@ -138,7 +138,8 @@ describe('akam-pagination directive', function() {
 
         context('when total item count is less than two pages', function() {
             beforeEach(function() {
-                this.scope.pager.count = 25;
+                this.scope.pager.count = 9;
+                this.scope.pager.size = 10;
                 this.scope.$digest();
             });
 
@@ -155,6 +156,25 @@ describe('akam-pagination directive', function() {
             it('should display the the total item count', function() {
                 var totalNumberOfItemsSpan = this.element.querySelector(TOTAL_ITEMS_SPAN);
                 expect(totalNumberOfItemsSpan).to.not.be.null;
+            });
+        });
+
+        context('when total item count is less than a page size', function() {
+            it('should disable the page size', function() {
+                var pageSizes;
+                var el;
+
+                this.scope.pager.count = 24;
+                this.scope.pager.size = 10;
+                this.scope.$digest();
+
+                pageSizes = this.element.querySelectorAll('.page-size li');
+                expect(pageSizes[0].classList.contains('disabled')).to.be.false;
+                expect(pageSizes[1].classList.contains('disabled')).to.be.true;
+
+                utils.click(pageSizes[1].querySelector('a'));
+                el = this.element.querySelector('.page-size li:nth-child(2)');
+                expect(el.classList.contains('active')).to.be.false;
             });
         });
 
