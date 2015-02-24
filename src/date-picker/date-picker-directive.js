@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log) {
+module.exports = function($log, $filter) {
     var PICKER_TYPES = {
         'day' : 'day',
         'month' : 'month'
@@ -60,6 +60,9 @@ module.exports = function($log) {
                 });
                 
                 scope.$watch('value', function(newValue, oldValue){
+                    if (angular.isDate(newValue)) {
+                        element.find('input').val( $filter('date')(newValue, scope.format) );
+                    }
                     if (scope.onchange && newValue !== oldValue) {
                         scope.onchange({ value: newValue });
                     }
