@@ -1,9 +1,10 @@
 'use strict';
 
 describe('akam-modal-window-body directive', function() {
+    var compile = null;
+    var self = this;
     beforeEach(function() {
-        var self = this;
-
+        self = this;
         angular.mock.module(require('../../src/modal-window').name);
         angular.mock.module(function($provide, $translateProvider) {
             $provide.factory('i18nCustomLoader', function($q, $timeout) {
@@ -18,41 +19,48 @@ describe('akam-modal-window-body directive', function() {
             $translateProvider.useLoader('i18nCustomLoader');
         });
         inject(function($compile, $rootScope, $httpBackend) {
-            var markup = '<akam-modal-window-body></akam-modal-window-body>';
-
-            self.template = '<span>Hello {{ name }}</span>';
             self.$httpBackend = $httpBackend;
             self.scope = $rootScope.$new();
             self.scope.modalWindow = {};
             self.scope.name = 'Akamai';
-            self.link = $compile(markup);
+            compile = $compile;
         });
     });
-
+    afterEach(function(){
+        document.body.removeChild(self.element);
+    });
+    function addElement(markup) {
+        self.el = compile(markup)(self.scope);
+        self.element = self.el[0];
+        self.scope.$digest();
+        document.body.appendChild(self.element);
+    };
     context('when rendering', function() {
         it('should render an inline template', function() {
-            var modalWindow;
+            var markup = '<akam-modal-window-body></akam-modal-window-body>';
+            var template = '<span>Hello {{ name }}</span>';
 
-            this.scope.modalWindow.template = this.template;
-            modalWindow = this.link(this.scope)[0];
-            this.scope.$digest();
+            this.scope.modalWindow.template = template;
+            addElement(markup)
 
-            expect(modalWindow.childNodes).to.have.length(1);
-            expect(modalWindow.textContent).to.equal('Hello Akamai');
+            expect(self.element.childNodes).to.have.length(1);
+            expect(self.element.textContent).to.equal('Hello Akamai');
         });
 
         it('should render a template url', function() {
+            var markup = '<akam-modal-window-body></akam-modal-window-body>';
+            var template = '<span>Hello {{ name }}</span>';
             var url = 'modal-window/template.html';
             var modalWindow;
 
-            this.$httpBackend.whenGET(url).respond(this.template);
+            this.$httpBackend.whenGET(url).respond(template);
             this.scope.modalWindow.templateUrl = url;
-            modalWindow = this.link(this.scope)[0];
+            addElement(markup)
             this.$httpBackend.flush();
 
             this.$httpBackend.verifyNoOutstandingRequest();
-            expect(modalWindow.childNodes).to.have.length(1);
-            expect(modalWindow.textContent).to.equal('Hello Akamai');
+            expect(self.element.childNodes).to.have.length(1);
+            expect(self.element.textContent).to.equal('Hello Akamai');
         });
     });
 });

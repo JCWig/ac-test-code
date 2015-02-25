@@ -386,7 +386,7 @@ describe('akam-pagination directive', function() {
             this.scope.$digest();
 
             totalNumberOfItemsSpan = this.element.querySelector(TOTAL_ITEMS_SPAN);
-            expect(totalNumberOfItemsSpan.textContent).to.contain("Results: ");
+            expect(totalNumberOfItemsSpan.textContent).to.match(/Results: /);
         });
 
         it('should translated show entries label display correctly', function() {
@@ -396,7 +396,7 @@ describe('akam-pagination directive', function() {
             this.scope.$digest();
 
             showEntriesSpan = this.element.querySelector('.page-size').childNodes[1];
-            expect(showEntriesSpan.textContent).to.contain("Show Entries: ");
+            expect(showEntriesSpan.textContent).to.match(/Show Entries: /);
         });
     });
 });
