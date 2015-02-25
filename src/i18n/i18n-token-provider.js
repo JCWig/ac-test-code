@@ -2,8 +2,8 @@
 
 /* @ngInject */
 module.exports = function i18nTokenProvider(i18nConfig) {
-    //this.currentLocale = i18nConfig.defaultLocale;
-    this.urls = [i18nConfig.localePath];
+    var compLocalePath = i18nConfig.localePath.replace(/\{version\}/g, i18nConfig.baseVersion);
+    this.urls = [compLocalePath];
     var self = this;
 
     /**

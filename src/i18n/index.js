@@ -25,19 +25,22 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * | key | value | type | description
  * |-----------|-----------------|-----------------------------------------------------------------------------|
  * | localeCookie | AKALOCALE | {@type string} | This cookie name is widely used from Luna portal apps |
- * | localePath | 'assets/akamai-components/0.0.1/locales/' | {@type string} | This path value is to component locale file. (subject to change) |
+ * | localePath | 'assets/akamai-components/{version}/locales/' | {@type string} | This path value is to component locale file. (subject to change) |
  * | defaultLocale | en_US | {@type string} | Default locale string value. |
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
-    localePath: '/assets/akamai-components/0.0.1/locales/',
-    defaultLocale: 'en_US'
+    localePath: '/assets/akamai-components/{version}/locales/',
+    defaultLocale: 'en_US',
+    baseVersion: "0.0.1"
 })
 
 /**
  * @ngdoc service
  *
  * @name akamai.components.i18n.service:translate
+ *
+ * @requires pascalprecht.translate.$translate
  *
  * @description translate is a service - basically a wrapper for $tranlate service.
  * This service contains 2 API methods, translate.sync(key, args) is for blocking method  same as $translate.instant(key, args),
@@ -50,9 +53,8 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @ngdoc directive
  *
  * @name akamai.components.i18n.directive:akamTranslate
- *
+ * @requires translate
  * @description A directive used in the dom element where you want to translate the key
- * *NOTE* No filter usage for now. There will be no append functionalities. If there is need, resolve it in the javascript.
  *
  * An example of usage:
  *
@@ -64,6 +66,26 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  */
 .directive('akamTranslate', require('./translate-directive'))
+
+/**
+ * @ngdoc filter
+ *
+ * @name akamai.components.i18n.filter:akamTranslate
+ * @requires translate
+ * @description A filter used in the dom element where you want to translate the key
+ *
+ * An example of usage:
+ *
+ * <pre>
+ * <any>{{"translationId" | akamTranslate}}</any>
+ * </pre>
+ *
+ * <pre>
+ * <any abc="{number: myNumber}">{{"translationId" | akamTranslate : abc}}</any>
+ * </pre>
+ *
+ */
+.filter('akamTranslate', require('./translate-filter'))
 
 /**
  * @ngdoc service
