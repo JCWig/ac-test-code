@@ -15,7 +15,7 @@ describe('i18nTokenProvider', function() {
         });
     });
 
-    describe('$i18nTokenProvider#addAppLocalePath', function() {
+    context('when $i18nTokenProvider#addAppLocalePath', function() {
 
         it('should be defined', function() {
             expect(provider.addAppLocalePath).to.not.be.undefined;
