@@ -86,7 +86,18 @@ module.exports = function($log, $q, uuid, $filter) {
                     };
                 });
                 
+                var autoSortableColumns = scope.columns.filter(
+                    function (col) {
+                        return col.sort !== false && col.autoSort !== false;
+                    }
+                );
+                
                 scope.dataTable = dataTableOutput;
+                
+                if (autoSortableColumns.length > 0) {
+                    scope.sortColumn(autoSortableColumns[0]);
+                }
+                
                 scope.loading = false;
             };
             
