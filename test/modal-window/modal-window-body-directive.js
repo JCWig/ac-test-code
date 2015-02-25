@@ -5,6 +5,18 @@ describe('akam-modal-window-body directive', function() {
         var self = this;
 
         angular.mock.module(require('../../src/modal-window').name);
+        angular.mock.module(function($provide, $translateProvider) {
+            $provide.factory('i18nCustomLoader', function($q, $timeout) {
+                return function(options) {
+                    var deferred = $q.defer();
+                    $timeout(function() {
+                        deferred.resolve({});
+                    });
+                    return deferred.promise;
+                };
+            });
+            $translateProvider.useLoader('i18nCustomLoader');
+        });
         inject(function($compile, $rootScope, $httpBackend) {
             var markup = '<akam-modal-window-body></akam-modal-window-body>';
 

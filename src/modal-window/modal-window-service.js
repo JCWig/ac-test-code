@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($modal, $templateCache, $rootScope, $q) {
+module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
     return {
         /**
          * @ngdoc method
@@ -14,7 +14,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
          * Open a new modal window with a backdrop with the specified options.
          *
          * @param {object} options A hash with the specified options:
-         *   - **template** - `{string}` - An inline template to render within the 
+         *   - **template** - `{string}` - An inline template to render within the
          *     modal body.
          *   - **templateUrl** - `{string}` - A url referencing a template to
          *     render within the modal body.
@@ -26,11 +26,11 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
          *     for the modal window.
          *   - **cancelLabel** - `{string}` (default: `Cancel`) A label for the
          *     cancel button.
-         *   - **submitLabel** - `{string}` (default: `Save`) A label for the 
-         *     submit button. 
+         *   - **submitLabel** - `{string}` (default: `Save`) A label for the
+         *     submit button.
          *   - **hideSubmit** - `{boolean}` (default: `false`) A flag to hide the
          *     submit button and only allow the modal to be dismissed.
-         * 
+         *
          * @return {object} An instance of the modal with the following
          *   properties:
          *   - **close** - `{Function}` - A method to close the modal window that
@@ -49,15 +49,15 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
             // check that a template was provided
             if (!(angular.isDefined(options.template) ||
                   angular.isDefined(options.templateUrl))) {
-                throw new Error('template or templateUrl option required');
+                throw new Error('Modal Window template or templateUrl option required');
             }
 
             // setup options specific for the modal window
             scope.modalWindow = {
-                title: options.title || 'Modal Window Title',
+                title: options.title || translate.sync('components.modal-window.title'),
                 icon: options.icon,
-                cancelLabel: options.cancelLabel || 'Cancel',
-                submitLabel: options.submitLabel || 'Save',
+                cancelLabel: options.cancelLabel || translate.sync('components.modal-window.label.cancel'),
+                submitLabel: options.submitLabel || translate.sync('components.modal-window.label.save'),
                 template: options.template,
                 templateUrl: options.templateUrl
             };
