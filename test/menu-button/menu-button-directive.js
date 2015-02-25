@@ -7,8 +7,7 @@ var DROP_DOWN_MENU = '.dropdown-menu';
 
 
 function clickOnMenuButton(self){
-    var menuButton = self.element.querySelector(MENU_BUTTON_BUTTON);
-    utilities.click(menuButton);
+    utilities.click(MENU_BUTTON_BUTTON);
     self.scope.$digest();
 };
 

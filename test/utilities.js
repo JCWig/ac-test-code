@@ -1,6 +1,12 @@
 'use strict'
 module.exports = {
-	click : function(el) {
+	click : function(obj) {
+		var el;
+		if(typeof obj == 'string' || obj instanceof String){
+			el = document.querySelector(obj);
+		} else {
+			el = obj;
+		}
     	var ev = document.createEvent('MouseEvent');
     	ev.initMouseEvent('click', true);
     	el.dispatchEvent(ev);

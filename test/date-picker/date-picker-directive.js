@@ -65,21 +65,17 @@ describe('akam-date-picker', function() {
             addElement(markup);
         });
         it('should display the date-picker', function() {
-            var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-
-            utilities.click(toggleDatePickerButton);
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON);
             var datePicker = document.querySelector(DATE_PICKER);
 
             expect(datePicker.getAttribute('style')).to.contain('display: block'); 
         });
         it('should close the date-picker', function() {
-            var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-            
-            utilities.click(toggleDatePickerButton);
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON);
             var datePicker = document.querySelector(DATE_PICKER);
             expect(datePicker.getAttribute('style')).to.contain('display: block'); 
             
-            utilities.click(toggleDatePickerButton);
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON);
             datePicker = document.querySelector(DATE_PICKER);
             expect(datePicker.getAttribute('style')).to.contain('display: none'); 
         });
@@ -88,8 +84,7 @@ describe('akam-date-picker', function() {
         beforeEach(function(){
             var markup = '<div id="parent-element"><akam-date-picker mode="day" value="picked1" onchange="mychange(value)"></akam-date-picker></div>';
             addElement(markup);
-            var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-            utilities.click(toggleDatePickerButton);
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON);
         });
         it('should hide the date-picker upon click away', function() {
             var datePicker = document.querySelector(DATE_PICKER);
@@ -114,12 +109,10 @@ describe('akam-date-picker', function() {
             var markup = '<div id="parent-element"><akam-date-picker mode="day" value="picked1" onchange="mychange(value)"></akam-date-picker></div>';
             scope.mychange = sinon.spy();
             addElement(markup);
-            var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-            utilities.click(toggleDatePickerButton);
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON);
         });
         it('should change month left when prompted',function(){
-            var buttonToGoBackwardsOneMonth = document.querySelector(NAVIGATE_DATEPICKER_BACKWARDS)
-            utilities.click(buttonToGoBackwardsOneMonth); 
+            utilities.click(NAVIGATE_DATEPICKER_BACKWARDS); 
 
             var month = utilities.getMonthInEnglish(utilities.getTodaysMonth()-1);
             var year = utilities.getTodaysYear();
@@ -129,8 +122,7 @@ describe('akam-date-picker', function() {
             expect(displayedHeaderOfDatePicker.textContent).to.equal(last_month);
         });
         it('should change month right when prompted',function(){
-            var buttonToGoAheadOneMonth = document.querySelector(NAVIGATE_DATEPICKER_FORWARDS)
-            utilities.click(buttonToGoAheadOneMonth); 
+            utilities.click(NAVIGATE_DATEPICKER_FORWARDS); 
 
             var month = utilities.getMonthInEnglish(utilities.getTodaysMonth()+1);
             var year = utilities.getTodaysYear();
@@ -197,12 +189,10 @@ describe('akam-date-picker', function() {
             var markup = '<div id="parent-element"><akam-date-picker mode="month" onchange="mychange(value)" value="picked1"></akam-date-picker></div>';
             scope.mychange = sinon.spy();
             addElement(markup);
-            var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-            utilities.click(toggleDatePickerButton); 
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON); 
         });
         it('should change year left when prompted', function(){
-            var buttonToGoBackwardsOneYear = document.querySelector(NAVIGATE_DATEPICKER_BACKWARDS)
-            utilities.click(buttonToGoBackwardsOneYear); 
+            utilities.click(NAVIGATE_DATEPICKER_BACKWARDS); 
 
             var last_year = String(utilities.getTodaysYear()-1);
 
@@ -210,8 +200,7 @@ describe('akam-date-picker', function() {
             expect(displayedHeaderOfDatePicker.textContent).to.equal(last_year);
         });
         it('should change year rights when prompted', function(){
-            var buttonToGoForwardsOneYear = document.querySelector(NAVIGATE_DATEPICKER_FORWARDS)
-            utilities.click(buttonToGoForwardsOneYear); 
+            utilities.click(NAVIGATE_DATEPICKER_FORWARDS); 
             
             var next_year = String(utilities.getTodaysYear()+1);
 
@@ -236,8 +225,7 @@ describe('akam-date-picker', function() {
             utilities.click(januaryMonthButton);
             scope.$digest();
 
-            var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-            utilities.click(toggleDatePickerButton);
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON);
 
             var februaryMonthButton = findCertainButton("Feb").querySelector('button');
             utilities.click(februaryMonthButton);
@@ -259,8 +247,7 @@ describe('akam-date-picker', function() {
             scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
             scope.mychange = sinon.spy();
             addElement(markup);
-            var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-            utilities.click(toggleDatePickerButton); 
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON); 
         });
         it('should be unable to choose day above maximum', function(){
             var dayAboveMax = findCertainButton("20");
@@ -282,14 +269,12 @@ describe('akam-date-picker', function() {
             scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
             scope.mychange = sinon.spy();
             addElement(markup);
-            var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-            utilities.click(toggleDatePickerButton); 
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON); 
         });
         it('should be unable to choose month below minimum', function(){
             var monthBelowMinEnglish= utilities.getMonthInEnglish(utilities.getTodaysMonth()-1).slice(0,3);
             if(monthBelowMinEnglish === "Dec"){
-                var buttonToGoBackwardsOneMonth = document.querySelector(NAVIGATE_DATEPICKER_BACKWARDS)
-                utilities.click(buttonToGoBackwardsOneMonth);
+                utilities.click(NAVIGATE_DATEPICKER_BACKWARDS);
             }
             var monthBelowMin = findCertainButton(monthBelowMinEnglish);
             expect(monthBelowMin.getAttribute('aria-disabled')).to.match(/true/);
@@ -297,8 +282,7 @@ describe('akam-date-picker', function() {
         it('should be unable to choose month above maximum', function(){
             var monthAboveMaxEnglish = utilities.getMonthInEnglish(utilities.getTodaysMonth()+1).slice(0,3);
             if(monthAboveMaxEnglish === "Jan"){
-                var buttonToGoAheadOneMonth = document.querySelector(NAVIGATE_DATEPICKER_FORWARDS)
-                utilities.click(buttonToGoAheadOneMonth); 
+                utilities.click(NAVIGATE_DATEPICKER_FORWARDS); 
             }
             var monthAboveMax = findCertainButton(monthAboveMaxEnglish);
             expect(monthAboveMax.getAttribute('aria-disabled')).to.match(/true/);
