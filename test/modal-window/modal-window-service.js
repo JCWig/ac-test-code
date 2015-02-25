@@ -2,6 +2,17 @@
 
 var _ = require('lodash');
 var utilities = require('../utilities');
+var translationMock = {
+    "components": {
+        "modal-window": {
+            "label": {
+                "cancel": "Cancel",
+                "save": "Save"
+            },
+            "title": "Modal Window"
+        }
+    }
+};
 describe('modalWindow service', function() {
     beforeEach(function() {
         var self = this;
@@ -9,7 +20,19 @@ describe('modalWindow service', function() {
         self.notify = sinon.spy();
 
         angular.mock.module(require('../../src/modal-window').name);
-        angular.mock.module(function ($controllerProvider) {
+        angular.mock.module(function($provide, $translateProvider) {
+            $provide.factory('i18nCustomLoader', function($q, $timeout) {
+                return function(options) {
+                    var deferred = $q.defer();
+                    $timeout(function() {
+                        deferred.resolve(translationMock);
+                    });
+                    return deferred.promise;
+                };
+            });
+            $translateProvider.useLoader('i18nCustomLoader');
+        });
+        angular.mock.module(function($controllerProvider) {
             $controllerProvider.register('Controller', function($scope) {
                 $scope.submitted.then(self.notify);
                 $scope.toggle = function() {
@@ -54,7 +77,10 @@ describe('modalWindow service', function() {
             var title = 'Hello Akamai';
             var el;
 
-            this.modalWindow.open({ title: title, template: '<p></p>' });
+            this.modalWindow.open({
+                title: title,
+                template: '<p></p>'
+            });
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal .modal-title');
@@ -65,7 +91,10 @@ describe('modalWindow service', function() {
             var icon = 'svg-information';
             var el;
 
-            this.modalWindow.open({ icon: icon, template: '<p></p>' });
+            this.modalWindow.open({
+                icon: icon,
+                template: '<p></p>'
+            });
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal-header i:first-child');
@@ -76,7 +105,10 @@ describe('modalWindow service', function() {
             var label = 'Close';
             var el;
 
-            this.modalWindow.open({ cancelLabel: label, template: '<p></p>' });
+            this.modalWindow.open({
+                cancelLabel: label,
+                template: '<p></p>'
+            });
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal-footer button:first-child');
@@ -87,7 +119,10 @@ describe('modalWindow service', function() {
             var label = 'Submit';
             var el;
 
-            this.modalWindow.open({ submitLabel: label, template: '<p></p>' });
+            this.modalWindow.open({
+                submitLabel: label,
+                template: '<p></p>'
+            });
             this.$rootScope.$digest();
 
             el = document.querySelector('.modal-footer button:last-child');
@@ -131,19 +166,25 @@ describe('modalWindow service', function() {
         it('should support a hide submit button option', function() {
             var el;
 
-            this.modalWindow.open({ hideSubmit: true, template: '<p></p>' });
+            this.modalWindow.open({
+                hideSubmit: true,
+                template: '<p></p>'
+            });
             this.$rootScope.$digest();
 
             el = document.querySelectorAll('.modal-footer button');
             expect(el).to.have.length(1);
         });
-        
+
         it('should support toggling the submit button disabled state', function() {
             var template = '<button class="toggle" ng-click="toggle()"></button>';
             var toggle;
             var button;
 
-            this.modalWindow.open({ template: template, controller: 'Controller' });
+            this.modalWindow.open({
+                template: template,
+                controller: 'Controller'
+            });
             this.$rootScope.$digest();
             toggle = document.querySelector('.toggle');
             button = document.querySelector('.modal-footer button:last-child');
@@ -162,7 +203,7 @@ describe('modalWindow service', function() {
                 var button;
 
                 this.modalWindow.open({
-                    template:  '<p></p>',
+                    template: '<p></p>',
                     controller: 'Controller'
                 });
                 this.$rootScope.$digest();
@@ -176,7 +217,9 @@ describe('modalWindow service', function() {
 
         context('when a user clicks the cancel button', function() {
             it('should dismiss the modal window', function() {
-                var instance = this.modalWindow.open({ template: '<p></p>' });
+                var instance = this.modalWindow.open({
+                    template: '<p></p>'
+                });
                 var button;
 
                 this.$rootScope.$digest();
@@ -191,7 +234,9 @@ describe('modalWindow service', function() {
 
         context('when a user clicks the close icon', function() {
             it('should dismiss the modal window', function() {
-                var instance = this.modalWindow.open({ template: '<p></p>' });
+                var instance = this.modalWindow.open({
+                    template: '<p></p>'
+                });
                 var icon;
 
                 this.$rootScope.$digest();
@@ -201,6 +246,56 @@ describe('modalWindow service', function() {
                 this.$timeout.flush();
 
                 expect(document.querySelector('.modal')).to.be.null;
+            });
+        });
+
+        context('when missing static label values', function() {
+            it('should display translated default title text', function() {
+                var title = 'Modal Window';
+                var el;
+
+                this.$timeout.flush();
+
+                this.modalWindow.open({
+                    title: "",
+                    template: '<p></p>'
+                });
+                this.$rootScope.$digest();
+
+                el = document.querySelector('.modal .modal-title');
+                expect(el.textContent).to.eql(title);
+            });
+
+            it('should display translated default cancel button text', function() {
+                var cancelLabel = 'Cancel';
+                var el;
+
+                this.$timeout.flush();
+
+                this.modalWindow.open({
+                    cancelLabel: "",
+                    template: '<p></p>'
+                });
+                this.$rootScope.$digest();
+
+                el = document.querySelector('.modal-footer button:first-child');
+                expect(el.textContent).to.contain(cancelLabel);
+            });
+
+            it('should display translated default submit button text', function() {
+                var submitLabel = 'Save';
+                var el;
+
+                this.$timeout.flush();
+
+                this.modalWindow.open({
+                    submitLabel: "",
+                    template: '<p></p>'
+                });
+                this.$rootScope.$digest();
+
+                el = document.querySelector('.modal-footer button:last-child');
+                expect(el.textContent).to.contain(submitLabel);
             });
         });
     });

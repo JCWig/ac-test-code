@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function() {
+module.exports = function(translate) {
     return {
         restrict: 'E',
         scope: {
@@ -17,6 +17,11 @@ module.exports = function() {
             var defaultSize = 10;
 
             scope.sizes = [10, 25, 50];
+
+            translate.async("components.pagination.label.results")
+                .then(function(value) {
+                    scope.resultText = value;
+                });
 
             function inBounds(page) {
                 return page >= 1 && page <= scope.totalPages;
@@ -57,7 +62,7 @@ module.exports = function() {
                 // check bounds for pages
                 start = start + count > scope.totalPages ?
                     scope.totalPages - (maxPages - 2) : start;
-                start = start >= 2 ? start : 2; 
+                start = start >= 2 ? start : 2;
 
                 // setup the page objects for rendering
                 scope.pages = [];
@@ -70,11 +75,15 @@ module.exports = function() {
             }
 
             scope.hasPages = function() {
-                return scope.totalItems > scope.pageSize; 
+                return scope.totalItems > scope.pageSize;
             };
 
             scope.isSizeActive = function(size) {
                 return size === scope.pageSize;
+            };
+
+            scope.isSizeDisabled = function(size) {
+                return scope.totalItems < size;
             };
 
             scope.isFirstPageActive = function() {
@@ -102,7 +111,8 @@ module.exports = function() {
             };
 
             scope.selectSize = function(size) {
-                if (size !== scope.pageSize) {
+                if ((size !== scope.pageSize) &&
+                    (!scope.isSizeDisabled(size))) {
                     scope.pageSize = size;
                     scope.onchangesize({ size: size });
                 }

@@ -4,6 +4,7 @@ var angular = require('angular');
 
 angular.module('akamai.components', [
     require('./uuid').name,
+    require('./i18n').name,
     require('./indeterminate-progress').name,
     require('./menu-button').name,
     require('./modal-window').name,
