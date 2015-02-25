@@ -11,14 +11,16 @@ var translationMock = {
         }
     }
 };
+
 var PREVIOUS_BUTTON = '.pagination li:first-child';
 var NEXT_BUTTON = '.pagination li:last-child'
 var TOTAL_ITEMS_SPAN = '.total-items';
-var PAGINATION_INDEX =  '.pagination li:nth-child';
+var PAGINATION_INDEX_NTH =  '.pagination li:nth-child';
 var PAGINATION_INDEX_REVERSE =  '.pagination li:nth-last-child';
 var PAGE_SIZE_SMALLEST = '.page-size li:first-child';
 var PAGE_SIZE_LARGEST = '.page-size li:last-child';
 var PAGE_SIZE_NTH = '.page-size li:nth-child';
+var PAGE_SIZES= '.page-size li'
 describe('akam-pagination directive', function() {
     beforeEach(function() {
         var self = this;
@@ -78,7 +80,7 @@ describe('akam-pagination directive', function() {
         });
 
         it('should display the first page', function() {
-            var firstPageIndex = this.element.querySelector(PAGINATION_INDEX+'(2)');
+            var firstPageIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(2)');
             expect(firstPageIndex.textContent).to.match(/1/);
         });
 
@@ -108,7 +110,7 @@ describe('akam-pagination directive', function() {
         });
 
         it('should display the page size options', function() {
-            var pageSizeOptions = this.element.querySelectorAll('.page-size li');
+            var pageSizeOptions = this.element.querySelectorAll(PAGE_SIZES);
             expect(pageSizeOptions).to.have.length(3);
         });
 
@@ -131,7 +133,7 @@ describe('akam-pagination directive', function() {
                 this.scope.pager.page = null;
                 this.scope.$digest();
 
-                firstPageIndex = this.element.querySelector(PAGINATION_INDEX+'(2)');
+                firstPageIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(2)');
                 expect(firstPageIndex.classList.contains('active')).to.be.true;
             });
         });
@@ -162,19 +164,23 @@ describe('akam-pagination directive', function() {
         context('when total item count is less than a page size', function() {
             it('should disable the page size', function() {
                 var pageSizes;
-                var el;
-
+                var smallestPageSizeOption;
+                var secondSmallestPageSizeOption;
                 this.scope.pager.count = 24;
                 this.scope.pager.size = 10;
                 this.scope.$digest();
 
-                pageSizes = this.element.querySelectorAll('.page-size li');
-                expect(pageSizes[0].classList.contains('disabled')).to.be.false;
-                expect(pageSizes[1].classList.contains('disabled')).to.be.true;
+                pageSizes = this.element.querySelectorAll(PAGE_SIZES);
+                smallestPageSizeOption = pageSizes[0];
+                secondSmallestPageSizeOption = pageSizes[1];
 
-                utils.click(pageSizes[1].querySelector('a'));
-                el = this.element.querySelector('.page-size li:nth-child(2)');
-                expect(el.classList.contains('active')).to.be.false;
+                expect(smallestPageSizeOption.classList.contains('disabled')).to.be.false;
+                expect(secondSmallestPageSizeOption.classList.contains('disabled')).to.be.true;
+
+                utils.click(secondSmallestPageSizeOption.querySelector('a'));
+                secondSmallestPageSizeOption = this.element.querySelector(PAGE_SIZE_NTH+'(2)');
+                
+                expect(secondSmallestPageSizeOption.classList.contains('active')).to.be.false;
             });
         });
 
@@ -208,14 +214,14 @@ describe('akam-pagination directive', function() {
 
         context('when the current page is > 3 away from the first', function() {
             it('should display an ellipsis after the first page', function() {
-                var thirdClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX+'(3)');
+                var thirdClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(3)');
 
                 expect(thirdClickablePaginationIndex.textContent).to.equal(String.fromCharCode(8230));
 
                 this.scope.pager.page = 3;
                 this.scope.$digest();
 
-                thirdClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX+'(3)');
+                thirdClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(3)');
                 expect(thirdClickablePaginationIndex.textContent).to.not.equal(String.fromCharCode(8230));
             });
         });
@@ -238,19 +244,19 @@ describe('akam-pagination directive', function() {
 
     context('when a page is clicked', function() {
         it('should highlight the clicked page', function() {
-            var fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX+'(4)');
+            var fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(4)');
 
             expect(fourthClickablePaginationIndex.classList.contains('active')).to.be.false;
 
             utils.click(fourthClickablePaginationIndex.querySelector('a'));
             this.scope.$digest();
 
-            fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX+'(4)');
+            fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(4)');
             expect(fourthClickablePaginationIndex.classList.contains('active')).to.be.true;
         });
 
         it('should trigger the onchangepage callback', function() {
-            var fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX+'(4)');
+            var fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(4)');
 
             utils.click(fourthClickablePaginationIndex.querySelector('a'));
             this.scope.$digest();
@@ -261,7 +267,7 @@ describe('akam-pagination directive', function() {
 
     context('when an active page is clicked', function() {
         it('should do nothing', function() {
-            var sixthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX+'(6)');
+            var sixthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(6)');
 
             expect(sixthClickablePaginationIndex.classList.contains('active')).to.be.true;
 
@@ -279,7 +285,7 @@ describe('akam-pagination directive', function() {
             utils.click(previousButton.querySelector('a'));
             this.scope.$digest();
 
-            var paginationIndexBeforeOldSelectedIndex = this.element.querySelector(PAGINATION_INDEX+'(5)');
+            var paginationIndexBeforeOldSelectedIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(5)');
             expect(paginationIndexBeforeOldSelectedIndex.classList.contains('active')).to.be.true;
         });
 
