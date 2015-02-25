@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="../node_modules/angular/angular.js"></script>
-    <script src="../dist/akamai-components.js"></script>
     <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
     <style>
         .container {
@@ -17,6 +15,41 @@
             padding-bottom: 20px; 
         }
     </style>
+</head>
+<body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" class="common-css">
+    <form>
+        <fieldset>
+            <legend>Form Options:</legend>
+            <div>
+                <input type="checkbox" id="check_completed" ng-model="completed" value="completed"><label for="check_completed">Completed</label>
+            </div>
+            <div>
+                <input type="checkbox" id="check_failed" ng-model="failed" value="failed"><label for="check_failed">Failed</label>
+            </div>
+            <div>
+                <label for="label_text">Label Text</label><br/>
+                <input type="text" id="label_text" ng-model="label">
+            </div>
+        </fieldset>
+    </form>
+
+    Regular:
+    <div class="container">
+        <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}"></akam-indeterminate-progress>
+    </div>
+
+    Small:
+    <div class="container">
+        <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}" size="small"></akam-indeterminate-progress>
+    </div>
+
+    Large
+    <div class="container">
+        <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}" size="large"></akam-indeterminate-progress>
+    </div>
+
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
     <script>
         var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress"]);
         app.controller("Ctrl", ["$scope", function($scope) {
@@ -25,37 +58,5 @@
             $scope.size="regular";
         }]);
     </script>
-</head>
-<body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" class="common-css">
-        <form>
-            <fieldset>
-                <legend>Form Options:</legend>
-                <div>
-                    <input type="checkbox" id="check_completed" ng-model="completed" value="completed"><label for="check_completed">Completed</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="check_failed" ng-model="failed" value="failed"><label for="check_failed">Failed</label>
-                </div>
-                <div>
-                    <label for="label_text">Label Text</label><br/>
-                    <input type="text" id="label_text" ng-model="label">
-                </div>
-            </fieldset>
-        </form>
-        
-        Regular:
-        <div class="container">
-            <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}""></akam-indeterminate-progress>
-        </div>
-        
-        Small:
-        <div class="container">
-            <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}" size="small"></akam-indeterminate-progress>
-        </div>
-
-        Large
-        <div class="container">
-            <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}" size="large"></akam-indeterminate-progress>
-        </div>
-    </body>
+</body>
 </html>
