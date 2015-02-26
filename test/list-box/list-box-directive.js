@@ -380,6 +380,70 @@ describe('akam-list-box', function() {
 
             expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
         });
+        it('should default sort by second column if first column is unsortable', function(){
+            scope.mydata = [
+                {'name' : "Kevin", 'id':25},
+                {'name' : "Alejandro", 'id':17}
+            ]
+            scope.columns = [
+                {content : 'name', header : 'Name',sort:false},
+                {content:"id",header:"Id"}
+            ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
+            addElement(markup);
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
+            expect(rowOneColumnTwo.textContent).to.match(/Alejandro/);
+        });
+        it('should not default if all columns are unsortable', function(){
+            scope.mydata = [
+                {'name' : "Kevin", 'id':25},
+                {'name' : "Alejandro", 'id':17}
+            ]
+            scope.columns = [
+                {content : 'name', header : 'Name',sort:false},
+                {content:"id",header:"Id",sort:false}
+            ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
+            addElement(markup);
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
+            expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
+        });
+        it('should default sort based upon custom function if provided', function(){
+            scope.mydata = [
+                {'name' : "Roy Harper", 'id':25,color:'Yellow'},
+                {'name' : "Dinah Laurel Lance", 'id':17, color:'Green'},
+                {'name' : "Oliver Queen", 'id':17, color:'Red'}
+            ]
+            scope.columns = [
+                {content : 'name', header : 'Name',sort:false},
+                {content:"id",header:"Id",sort:false},
+                {content:"color",header:"Favorite Color",sort: function(){
+                    var colorsValues = {
+                        'Red' : 1,
+                        'Yellow' : 2,
+                        'Green' : 3
+                    };
+                    return colorsValues[this.color];
+                }}
+            ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
+            addElement(markup);
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
+            expect(rowOneColumnTwo.textContent).to.match(/Oliver Queen/);
+        });
+        it('should be able to sort on different field', function(){
+            scope.mydata = [{'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8}];
+            scope.columns = [{content : 'name', header : 'Name',sort:'id'}];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
+            addElement(markup);
+
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
+            expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
+        });
     });
     context('when selecting an item', function(){
         afterEach(function() {
