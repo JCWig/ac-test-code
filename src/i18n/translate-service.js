@@ -17,9 +17,7 @@ module.exports = function($translate) {
     return {
         /**
          * @ngdoc method
-         *
          * @name akamai.components.i18n.akamTranslate#async
-         *
          * @methodOf akamai.components.i18n.akamTranslate
          *
          * @description async method provides atlernative usage in trasnlating the keys in non-blocking fashion
