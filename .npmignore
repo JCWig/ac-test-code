@@ -1,0 +1,12 @@
+.*
+*.markdown
+*.md
+test/
+bin/
+gulpfile.js
+node_modules/
+src/*
+karma.conf.js
+index.html
+xunit.xml
+npm-shrinkwrap.json

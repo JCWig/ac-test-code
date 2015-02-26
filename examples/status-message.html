@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Akamai Component Examples</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css" />
-    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
-    <script type="text/javascript" src="../dist/akamai-components.js"></script>
     <style>
         .animate-hide {
           -webkit-transition: opacity linear 0.5s;
@@ -43,6 +40,8 @@
         </form>
     </div>
     
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+    <script type="text/javascript" src="../dist/akamai-components.js"></script>
     <script type="text/javascript">
         angular.module("statusMessageDemo", ["akamai.components.status-message"])
         .controller("Ctrl", ["$scope", "statusMessage", function($scope, statusMessage) {

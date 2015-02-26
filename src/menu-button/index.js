@@ -43,7 +43,7 @@ var angular = require('angular');
      *      { appName : 'Billing Center', id : 'bc' },
      *      { appName : 'Property Manager', id : 'pm' }
      *    ];
-     *     
+     *
      *    $scope.process = function(item){
      *       $log.info('you clicked on the the app: ' + item.appName + '. AppId: ' + item.id);
      *    };
