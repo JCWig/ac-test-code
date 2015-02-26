@@ -16,7 +16,7 @@ module.exports = function($translate) {
     };
     return {
         /**
-         * ngdoc method
+         * @ngdoc method
          *
          * @name akamai.components.i18n.akamTranslate#async
          *
@@ -69,7 +69,7 @@ module.exports = function($translate) {
         async: asyncMethod,
 
         /**
-         * ngdoc method
+         * @ngdoc method
          *
          * @name akamai.components.i18n.akamTranslate#sync
          *

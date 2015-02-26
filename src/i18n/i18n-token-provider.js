@@ -25,7 +25,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
     };
 
     /**
-     * ngdoc method
+     * @ngdoc method
      * @name akamai.components.i18n.I18nTokenProvider#addAppLocalePath
      * @methodOf akamai.components.i18n.I18nTokenProvider
      *
