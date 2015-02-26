@@ -16,8 +16,10 @@ module.exports = function($translate) {
     };
     return {
         /**
-         * @ngdoc method
+         * ngdoc method
+         *
          * @name akamai.components.i18n.akamTranslate#async
+         *
          * @methodOf akamai.components.i18n.akamTranslate
          *
          * @description async method provides atlernative usage in trasnlating the keys in non-blocking fashion
@@ -67,8 +69,10 @@ module.exports = function($translate) {
         async: asyncMethod,
 
         /**
-         * @ngdoc method
+         * ngdoc method
+         *
          * @name akamai.components.i18n.akamTranslate#sync
+         *
          * @methodOf akamai.components.i18n.akamTranslate
          *
          * @description sync method provides atlernative usage in translating the keys in blocking fashion
