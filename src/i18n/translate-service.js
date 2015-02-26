@@ -68,9 +68,7 @@ module.exports = function($translate) {
 
         /**
          * @ngdoc method
-         *
          * @name akamai.components.i18n.akamTranslate#sync
-         *
          * @methodOf akamai.components.i18n.akamTranslate
          *
          * @description sync method provides atlernative usage in translating the keys in blocking fashion
