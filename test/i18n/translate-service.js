@@ -41,8 +41,7 @@ describe('translate service', function() {
             config = i18nConfig;
         });
     });
-
-    describe("akamTranslate", function() {
+    context("when using akamTranslate service", function() {
         it('should service be defined', function() {
             expect(akTranslate).to.not.be.undefined;
         });
@@ -66,7 +65,6 @@ describe('translate service', function() {
         it('should sync function return key since translation table is not loaded', function() {
             expect(akTranslate.sync("somekey.somemorekey")).to.be.equal("somekey.somemorekey");
         });
-
 
         it('should async functon return key since translation table is not loaded', function() {
             var key = "something.something";
@@ -117,7 +115,11 @@ describe('translate service', function() {
                 value.should.eql("Lorem Ipsum ");
                 done();
             });
-            $scope.$apply();
+            try {
+                $scope.$apply();
+            } catch(e){
+                expect(e).to.equal('SHOULD NOT REACH FAILURE CASE')
+            }
         });
 
         it('should async functon return translated value from valid key with variable replacement', function() {
@@ -130,7 +132,11 @@ describe('translate service', function() {
                 value.should.eql("Lorem Ipsum sean");
                 done();
             });
-            $scope.$apply();
+            try {
+                $scope.$apply();
+            } catch(e){
+                expect(e).to.equal('SHOULD NOT REACH FAILURE CASE')
+            }
         });
 
         it('should async functon return translated value with adding integer values from valid key with variable replacement', function() {
@@ -144,7 +150,11 @@ describe('translate service', function() {
                 value.should.eql("Lorem Ipsum 22");
                 done();
             });
-            $scope.$apply();
+            try {
+                $scope.$apply();
+            } catch(e){
+                expect(e).to.equal('SHOULD NOT REACH FAILURE CASE')
+            }
         });
 
         it('should async functon take array of keys return key value object', function() {
@@ -157,7 +167,11 @@ describe('translate service', function() {
                 values[keys[1]].should.eql("Lorem Ipsum 2 ");
                 done();
             });
-            $scope.$apply();
+            try {
+                $scope.$apply();
+            } catch(e){
+                expect(e).to.equal('SHOULD NOT REACH FAILURE CASE')
+            }
         });
 
     });

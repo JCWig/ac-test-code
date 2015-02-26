@@ -10,35 +10,49 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
          *
          * @methodOf akamai.components.modal-window.service:modalWindow
          *
-         * @description
-         * Open a new modal window with a backdrop with the specified options.
+         * @description Opens a new modal window.
          *
-         * @param {object} options A hash with the specified options:
-         *   - **template** - `{string}` - An inline template to render within the
-         *     modal body.
-         *   - **templateUrl** - `{string}` - A url referencing a template to
-         *     render within the modal body.
-         *   - **controller** - `{(Function|string)}` - A controller for the the modal
-         *     instance that can initialize scope.
-         *   - **scope** - `{Scope}` - (default: `$rootScope`) A scope instance
-         *     to use for the modal body content.
-         *   - **title** - `{string}` - (default: `Modal Window Title`) A title
-         *     for the modal window.
-         *   - **cancelLabel** - `{string}` (default: `Cancel`) A label for the
-         *     cancel button.
-         *   - **submitLabel** - `{string}` (default: `Save`) A label for the
-         *     submit button.
-         *   - **hideSubmit** - `{boolean}` (default: `false`) A flag to hide the
-         *     submit button and only allow the modal to be dismissed.
+         * @param {object} options A hash with the options specified below.
+         *
+         * @param {string} [options.cancelLabel=Cancel] A label for
+         * the cancel button.
+         *
+         * @param {Function|string} options.controller A controller
+         * for the modal instance that can initialize scope.
+         *
+         * @param {boolean} [options.hideSubmit=false] A flag to hide
+         * the submit button and only allow the modal to be dismissed.
+         *
+         * @param {string} options.icon A CSS class representing an
+         * icon to display to the left of the modal window title.
+         *
+         * @param {Scope} [options.scope=$rootScope] A scope
+         * instance to use for the modal body content.
+         *
+         * @param {string} [options.submitLabel=Save] A label for the
+         * submit button.
+         *
+         * @param {string} options.template An inline template to
+         * render within the body of the modal window.
+         *
+         * @param {string} options.templateUrl A URL referencing a
+         * template to render within the body of the modal window.
+         *
+         * @param {string} [options.title=Modal Window Title] A
+         * title for the modal window.
          *
          * @return {object} An instance of the modal with the following
-         *   properties:
-         *   - **close** - `{Function}` - A method to close the modal window that
-         *     accepts a result as an argument.
-         *   - **dismiss** - `{Function}` - A method to dismiss the modal window
-         *     rejecting the `result` promise.
-         *   - **result** - `{Promise}` - A promise representing the result when
-         *     the modal window is closed.
+         * properties:
+         *
+         * - `close` (Function) A method to close the modal window
+         *   that accepts a result as an argument.
+         *
+         * - `dismiss` (Function) A method to dismiss the modal
+         *   window, rejecting the `result` promise.
+         *
+         * - `result` (Promise) A promise representing the result
+         *   when the modal window is closed.
+         *
          */
         open: function(options) {
             var scope = (options.scope || $rootScope).$new();

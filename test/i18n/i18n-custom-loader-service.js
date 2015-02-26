@@ -50,33 +50,34 @@ describe('i18nCustomLoader service', function() {
             $rootScope.$digest();
         });
     });
+    context('when using custom Loader server', function(){
+        it('should custom loader be defined', function() {
+            expect(loader).to.be.not.undefined;
+        });
 
-    it('should custom loader be defined', function() {
-        expect(loader).to.be.not.undefined;
-    });
+        it('should return a promise', function() {
+            var promise = loader();
+            expect(promise).to.be.not.undefined;
+            expect(promise.then).to.be.not.undefined;
+            expect(typeof promise.then).to.equal("function");
+        });
 
-    it('should return a promise', function() {
-        var promise = loader();
-        expect(promise).to.be.not.undefined;
-        expect(promise.then).to.be.not.undefined;
-        expect(typeof promise.then).to.equal("function");
-    });
+        it('should return csame key value if key not found from tranlsation table', function() {
+            expect(translation.sync("somekey.someotherkey")).to.equal("somekey.someotherkey");
+        });
 
-    it('should return csame key value if key not found from tranlsation table', function() {
-        expect(translation.sync("somekey.someotherkey")).to.equal("somekey.someotherkey");
-    });
+        it('should return correct translated value given app locale key from combined translation table', function() {
+            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+        });
 
-    it('should return correct translated value given app locale key from combined translation table', function() {
-        expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-    });
+        it('should return correct translated value given component locale key from combined translation table', function() {
+            expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
+        });
 
-    it('should return correct translated value given component locale key from combined translation table', function() {
-        expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
-    });
-
-    it('should return correct translated value given locale key from combined translation table', function() {
-        expect(translation.sync("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
-        expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
+        it('should return correct translated value given locale key from combined translation table', function() {
+            expect(translation.sync("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
+            expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
+        });
     });
 });
 
@@ -117,29 +118,30 @@ describe('i18nToken service', function() {
         // clean up
         cookieStore.remove('AKALOCALE');
     });
+    context('when using token service', function(){
+        it('should be defined', function() {
+            expect(service).to.not.be.undefined;
+        });
 
-    it('should be defined', function() {
-        expect(service).to.not.be.undefined;
+        it('should have "getLocale" method defined', function() {
+            expect(service.getCurrentLocale).to.not.be.undefined;
+        });
+
+        it('should have "getUrls" method defined', function() {
+            expect(service.getUrls).to.not.be.undefined;
+        });
+
+        it('should "getLocale" method return default locale value', function() {
+            expect(service.getCurrentLocale()).to.equal("en_US");
+        });
+
+        it('should "getUrls" method return correct app url value', function() {
+            var urlValues = service.getUrls();
+            expect(urlValues.length).to.equal(2);
+            expect(urlValues[1]).to.equal("../../_app");
+        });
     });
-
-    it('should have "getLocale" method defined', function() {
-        expect(service.getCurrentLocale).to.not.be.undefined;
-    });
-
-    it('should have "getUrls" method defined', function() {
-        expect(service.getUrls).to.not.be.undefined;
-    });
-
-    it('should "getLocale" method return default locale value', function() {
-        expect(service.getCurrentLocale()).to.equal("en_US");
-    });
-
-    it('should "getUrls" method return correct app url value', function() {
-        expect(service.getUrls().length).to.equal(2);
-        expect(service.getUrls()[1]).to.equal("../../_app");
-    });
-
-    context('locale cookie set to "en_US', function() {
+    context('when locale cookie set to "en_US', function() {
 
         it("should cookie locale value not same as 'en_US' because it is encoded", function() {
             var locale = cookieStore.get("AKALOCALE");

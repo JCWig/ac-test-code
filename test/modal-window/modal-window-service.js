@@ -13,6 +13,10 @@ var translationMock = {
         }
     }
 };
+var CANCEL_BUTTON = '.modal-footer button:first-child'
+var SUBMIT_BUTTON = '.modal-footer button:last-child'
+var MODAL_BODY = '.modal-body';
+var MODAL_TITLE = '.modal .modal-title'
 describe('modalWindow service', function() {
     beforeEach(function() {
         var self = this;
@@ -68,14 +72,13 @@ describe('modalWindow service', function() {
     describe('open()', function() {
         context('when no template option is provided', function() {
             it('should throw an error', function() {
-                var fn = _.partial(this.modalWindow.open, {});
-                expect(fn).to.throw(Error);
+                var openFunction = _.partial(this.modalWindow.open, {});
+                expect(openFunction).to.throw(Error);
             });
         });
 
         it('should support a title option', function() {
             var title = 'Hello Akamai';
-            var el;
 
             this.modalWindow.open({
                 title: title,
@@ -83,13 +86,12 @@ describe('modalWindow service', function() {
             });
             this.$rootScope.$digest();
 
-            el = document.querySelector('.modal .modal-title');
-            expect(el.textContent).to.equal(title);
+            var modalTitle = document.querySelector(MODAL_TITLE);
+            expect(modalTitle.textContent).to.equal(title);
         });
 
         it('should support a private icon option', function() {
             var icon = 'svg-information';
-            var el;
 
             this.modalWindow.open({
                 icon: icon,
@@ -97,13 +99,12 @@ describe('modalWindow service', function() {
             });
             this.$rootScope.$digest();
 
-            el = document.querySelector('.modal-header i:first-child');
-            expect(el.classList.contains(icon)).to.be.true;
+            var modalPrivateIcon = document.querySelector('.modal-header i:first-child');
+            expect(modalPrivateIcon.classList.contains(icon)).to.be.true;
         });
 
         it('should support a cancel label option', function() {
             var label = 'Close';
-            var el;
 
             this.modalWindow.open({
                 cancelLabel: label,
@@ -111,13 +112,12 @@ describe('modalWindow service', function() {
             });
             this.$rootScope.$digest();
 
-            el = document.querySelector('.modal-footer button:first-child');
-            expect(el.textContent).to.match(new RegExp(label));
+            var cancelButton = document.querySelector(CANCEL_BUTTON);
+            expect(cancelButton.textContent).to.match(new RegExp(label));
         });
 
         it('should support a submit label option', function() {
             var label = 'Submit';
-            var el;
 
             this.modalWindow.open({
                 submitLabel: label,
@@ -125,13 +125,12 @@ describe('modalWindow service', function() {
             });
             this.$rootScope.$digest();
 
-            el = document.querySelector('.modal-footer button:last-child');
-            expect(el.textContent).to.match(new RegExp(label));
+            var submitButton = document.querySelector(SUBMIT_BUTTON);
+            expect(submitButton.textContent).to.match(new RegExp(label));
         });
 
         it('should support an inline template option', function() {
             var scope = this.$rootScope.$new();
-            var el;
 
             scope.name = 'Akamai';
             this.modalWindow.open({
@@ -140,15 +139,14 @@ describe('modalWindow service', function() {
             });
             this.$rootScope.$digest();
 
-            el = document.querySelector('.modal-body');
-            expect(el.textContent).to.equal(scope.name);
+            var modalBody = document.querySelector(MODAL_BODY);
+            expect(modalBody.textContent).to.equal(scope.name);
         });
 
         it('should support a template url option', function() {
             var url = 'modal-window/template.html';
             var template = '<span>{{ name }}</span>';
             var scope = this.$rootScope.$new();
-            var el;
 
             scope.name = 'Akamai';
             this.$httpBackend.whenGET(url).respond(template);
@@ -158,58 +156,56 @@ describe('modalWindow service', function() {
             });
             this.$httpBackend.flush();
 
-            el = document.querySelector('.modal-body');
-            expect(el.textContent).to.equal(scope.name);
+            var modalBody = document.querySelector(MODAL_BODY);
+            expect(modalBody.textContent).to.equal(scope.name);
             this.$httpBackend.verifyNoOutstandingRequest();
         });
 
         it('should support a hide submit button option', function() {
-            var el;
-
             this.modalWindow.open({
                 hideSubmit: true,
                 template: '<p></p>'
             });
             this.$rootScope.$digest();
 
-            el = document.querySelectorAll('.modal-footer button');
-            expect(el).to.have.length(1);
+            var allModalButtonsInFooter = document.querySelectorAll('.modal-footer button');
+            expect(allModalButtonsInFooter).to.have.length(1);
         });
 
         it('should support toggling the submit button disabled state', function() {
             var template = '<button class="toggle" ng-click="toggle()"></button>';
-            var toggle;
-            var button;
+            var toggleSubmitButton;
+            var submitButton;
 
             this.modalWindow.open({
                 template: template,
                 controller: 'Controller'
             });
             this.$rootScope.$digest();
-            toggle = document.querySelector('.toggle');
-            button = document.querySelector('.modal-footer button:last-child');
+            toggleSubmitButton = document.querySelector('.toggle');
+            submitButton = document.querySelector(SUBMIT_BUTTON);
 
-            utilities.click(toggle);
+            utilities.click(toggleSubmitButton);
             this.$rootScope.$digest();
-            expect(button.disabled).to.be.true;
+            expect(submitButton.disabled).to.be.true;
 
-            utilities.click(toggle);
+            utilities.click(toggleSubmitButton);
             this.$rootScope.$digest();
-            expect(button.disabled).to.be.false;
+            expect(submitButton.disabled).to.be.false;
         });
 
         context('when a user clicks the submit button', function() {
             it('should notify the modal window to return a result', function() {
-                var button;
+                var submitButton;
 
                 this.modalWindow.open({
                     template: '<p></p>',
                     controller: 'Controller'
                 });
                 this.$rootScope.$digest();
-                button = document.querySelector('.modal-footer button:last-child');
+                submitButton = document.querySelector(SUBMIT_BUTTON);
 
-                utilities.click(button);
+                utilities.click(submitButton);
                 this.$rootScope.$digest();
                 expect(this.notify).to.have.been.called;
             });
@@ -220,15 +216,16 @@ describe('modalWindow service', function() {
                 var instance = this.modalWindow.open({
                     template: '<p></p>'
                 });
-                var button;
+                var cancelButton;
 
                 this.$rootScope.$digest();
-                button = document.querySelector('.modal-footer button:first-child');
-                utilities.click(button);
+                cancelButton = document.querySelector(CANCEL_BUTTON);
+                utilities.click(cancelButton);
                 this.$rootScope.$digest();
                 this.$timeout.flush();
+                var modalWindow = document.querySelector('.modal');
 
-                expect(document.querySelector('.modal')).to.be.null;
+                expect(modalWindow).to.be.null;
             });
         });
 
@@ -237,22 +234,23 @@ describe('modalWindow service', function() {
                 var instance = this.modalWindow.open({
                     template: '<p></p>'
                 });
-                var icon;
+                var closeIcon;
 
                 this.$rootScope.$digest();
-                icon = document.querySelector('.modal-header i');
-                utilities.click(icon);
+                closeIcon = document.querySelector('.modal-header i');
+                utilities.click(closeIcon);
                 this.$rootScope.$digest();
                 this.$timeout.flush();
+                var modalWindow = document.querySelector('.modal');
 
-                expect(document.querySelector('.modal')).to.be.null;
+                expect(modalWindow).to.be.null;
             });
         });
 
         context('when missing static label values', function() {
             it('should display translated default title text', function() {
                 var title = 'Modal Window';
-                var el;
+                var modalTitle;
 
                 this.$timeout.flush();
 
@@ -262,13 +260,13 @@ describe('modalWindow service', function() {
                 });
                 this.$rootScope.$digest();
 
-                el = document.querySelector('.modal .modal-title');
-                expect(el.textContent).to.eql(title);
+                modalTitle = document.querySelector(MODAL_TITLE);
+                expect(modalTitle.textContent).to.eql(title);
             });
 
             it('should display translated default cancel button text', function() {
                 var cancelLabel = 'Cancel';
-                var el;
+                var cancelButton;
 
                 this.$timeout.flush();
 
@@ -278,13 +276,14 @@ describe('modalWindow service', function() {
                 });
                 this.$rootScope.$digest();
 
-                el = document.querySelector('.modal-footer button:first-child');
-                expect(el.textContent).to.contain(cancelLabel);
+
+                cancelButton = document.querySelector(CANCEL_BUTTON);
+                expect(cancelButton.textContent).to.contain(cancelLabel);
             });
 
             it('should display translated default submit button text', function() {
                 var submitLabel = 'Save';
-                var el;
+                var submitButton;
 
                 this.$timeout.flush();
 
@@ -294,8 +293,8 @@ describe('modalWindow service', function() {
                 });
                 this.$rootScope.$digest();
 
-                el = document.querySelector('.modal-footer button:last-child');
-                expect(el.textContent).to.contain(submitLabel);
+                submitButton = document.querySelector(SUBMIT_BUTTON);
+                expect(submitButton.textContent).to.contain(submitLabel);
             });
         });
     });
