@@ -12,7 +12,25 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
          *
          * @description Opens a new modal window.
          *
-         * @param {object} options A hash with the specified options:
+         * @param {object} options A hash with the options specified below.
+         *
+         * @param {string} [options.cancelLabel=Cancel] A label for
+         * the cancel button.
+         *
+         * @param {Function|string} options.controller A controller
+         * for the modal instance that can initialize scope.
+         *
+         * @param {boolean} [options.hideSubmit=false] A flag to hide
+         * the submit button and only allow the modal to be dismissed.
+         *
+         * @param {string} options.icon A CSS class representing an
+         * icon to display to the left of the modal window title.
+         *
+         * @param {Scope} [options.scope=$rootScope] A scope
+         * instance to use for the modal body content.
+         *
+         * @param {string} [options.submitLabel=Save] A label for the
+         * submit button.
          *
          * @param {string} options.template An inline template to
          * render within the body of the modal window.
@@ -20,26 +38,8 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
          * @param {string} options.templateUrl A URL referencing a
          * template to render within the body of the modal window.
          *
-         * @param {Function|string} options.controller A controller
-         * for the modal instance that can initialize scope.
-         *
-         * @param {Scope} [options.scope=$rootScope] A scope
-         * instance to use for the modal body content.
-         *
          * @param {string} [options.title=Modal Window Title] A
          * title for the modal window.
-         *
-         * @param {string} options.icon A CSS class representing an
-         * icon to display to the left of the modal window title.
-         *
-         * @param {string} [options.cancelLabel=Cancel] A label for
-         * the cancel button.
-         *
-         * @param {string} [options.submitLabel=Save] A label for the
-         * submit button.
-         *
-         * @param {boolean} [options.hideSubmit=false] A flag to hide
-         * the submit button and only allow the modal to be dismissed.
          *
          * @return {object} An instance of the modal with the following
          * properties:
