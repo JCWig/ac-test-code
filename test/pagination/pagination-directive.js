@@ -340,6 +340,15 @@ describe('akam-pagination directive', function() {
 
             expect(this.scope.onchangesize).to.have.been.calledWith(50);
         });
+        it('should trigger the change total number of pages', function() {
+            var greatestPageSizeOption = this.element.querySelector(PAGE_SIZE_LARGEST);
+            utils.click(greatestPageSizeOption.querySelector('a'));
+            this.scope.$digest();
+
+            var lastPage = this.element.querySelector(PAGINATION_INDEX_REVERSE+'(2)');
+
+            expect(lastPage.textContent).to.match(/5/);
+        });
     });
 
     context('when the active page size is clicked', function() {
@@ -353,6 +362,22 @@ describe('akam-pagination directive', function() {
 
             secondLargestPageSizeOption = this.element.querySelector(PAGE_SIZE_NTH+'(2)');
             expect(secondLargestPageSizeOption.classList.contains('active')).to.be.true;
+        });
+    });
+
+    context('when setting page outside of the given range', function() {
+        it('should default to greatest page when greater than it', function() {
+            this.scope.pager.page = 100;
+            this.scope.$digest();
+            
+            expect(this.scope.pager.page).to.equal(1)
+        });
+        it('should default to first page when negative than it', function() {
+            this.scope.pager.page = -1;
+            this.scope.$digest();
+            this.scope.$digest();
+            
+            expect(this.scope.pager.page).to.equal(1)
         });
     });
 
