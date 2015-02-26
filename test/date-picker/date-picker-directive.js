@@ -100,8 +100,13 @@ describe('akam-date-picker', function() {
             var datePicker = document.querySelector(DATE_PICKER);
             var displayedHeaderOfDatePicker = document.querySelector(HEADER_DISPLAYED_ON_DATEPICKER);
 
+
             expect(datePicker.getAttribute('style')).to.contain('display: block'); 
             expect(displayedHeaderOfDatePicker.textContent).to.equal(todaysDate);
+        });
+        it('should have todays date highlighted', function(){
+            var todaysButton = findCertainButton(utilities.getTodaysDay()).querySelector('span');
+            expect(todaysButton.classList.contains('text-info')).to.be.true;
         });
     });
     context('when interacting with the date picker', function(){
@@ -182,7 +187,37 @@ describe('akam-date-picker', function() {
         it('should default hide the picker',function(){
             var datePicker = document.querySelector(DATE_PICKER);
             expect(datePicker.getAttribute('style')).to.contain('display: none'); 
-        })
+        });
+        it('should have todays month highlighted', function(){
+            var thisMonth = utilities.getMonthInEnglish(utilities.getTodaysMonth()).slice(0,3);
+            var todaysMonthButton = findCertainButton(thisMonth).querySelector('span');
+            expect(todaysMonthButton.classList.contains('text-info')).to.be.true;
+        });
+        it('should have every month', function(){
+            var januaryMonthButton = findCertainButton("Jan").querySelector('button');
+            var februaryMonthButton = findCertainButton("Feb").querySelector('button');
+            var marchMonthButton = findCertainButton("Mar").querySelector('button');
+            var aprilMonthButton = findCertainButton("Apr").querySelector('button');
+            var juneMonthButton = findCertainButton("Jun").querySelector('button');
+            var julyMonthButton = findCertainButton("Jul").querySelector('button');
+            var augustMonthButton = findCertainButton("Aug").querySelector('button');
+            var septemberMonthButton = findCertainButton("Sep").querySelector('button');
+            var octoberMonthButton = findCertainButton("Oct").querySelector('button');
+            var novemberMonthButton = findCertainButton("Nov").querySelector('button');
+            var decemberMonthButton = findCertainButton("Dec").querySelector('button');
+            
+            expect(januaryMonthButton).to.not.be.null
+            expect(februaryMonthButton).to.not.be.null
+            expect(marchMonthButton).to.not.be.null
+            expect(aprilMonthButton).to.not.be.null
+            expect(juneMonthButton).to.not.be.null
+            expect(julyMonthButton).to.not.be.null
+            expect(augustMonthButton).to.not.be.null
+            expect(septemberMonthButton).to.not.be.null
+            expect(octoberMonthButton).to.not.be.null
+            expect(novemberMonthButton).to.not.be.null
+            expect(decemberMonthButton).to.not.be.null
+        });
     });
     context('when interacting with month picker', function(){
         beforeEach(function(){

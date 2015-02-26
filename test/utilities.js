@@ -11,6 +11,17 @@ module.exports = {
     	ev.initMouseEvent('click', true);
     	el.dispatchEvent(ev);
     },
+    mouseHover: function(obj){
+    	var el;
+		if(typeof obj == 'string' || obj instanceof String){
+			el = document.querySelector(obj);
+		} else {
+			el = obj;
+		}
+    	var ev = document.createEvent('MouseEvent');
+    	ev.initMouseEvent('mouseover', true);
+    	el.dispatchEvent(ev);
+    },
     clickAwayCreationAndClick : function(ele){
 		var clickAwayArea = document.createElement(ele);
 		clickAwayArea.setAttribute("id", "click-away");
@@ -41,5 +52,9 @@ module.exports = {
 	getFormattedDate: function(dateString){
 		var dateObject = moment(dateString);
         return dateObject.format("ddd, MMM DD, YYYY");
+	},
+	getTodaysDay: function(){
+		var date = new Date();
+		return date.getDate();
 	}
 }
