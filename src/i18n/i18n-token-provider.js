@@ -2,8 +2,8 @@
 
 /* @ngInject */
 module.exports = function i18nTokenProvider(i18nConfig) {
-    //this.currentLocale = i18nConfig.defaultLocale;
-    this.urls = [i18nConfig.localePath];
+    var compLocalePath = i18nConfig.localePath.replace(/\{version\}/g, i18nConfig.baseVersion);
+    this.urls = [compLocalePath];
     var self = this;
 
     /**
@@ -43,6 +43,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
      * The locale value here is determined by AKALOCALE cookie set by Luna portal, all app will be based on and using that, fallback value will be "en_US"
      * @return {object} it returns object hash contains 2 getter methods mainly for customLoader to use
      */
+    /* @ngInject */
     this.$get = function i18nTokenFactory($cookieStore, i18nConfig) {
         var cookieLocale = $cookieStore.get(i18nConfig.localeCookie),
             locale =  cookieLocale? atob(cookieLocale.split('+')[0]) : i18nConfig.defaultLocale,

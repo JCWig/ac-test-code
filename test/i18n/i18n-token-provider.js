@@ -25,20 +25,26 @@ describe('i18nTokenProvider', function() {
             expect(typeof(provider.addAppLocalePath)).to.equal('function');
         });
 
+        it('should urls  contain correct component locale path ', function() {
+            var compPath = config.localePath.replace(/\{version\}/g, config.baseVersion);
+
+            expect(provider.urls.length).to.equal(1);
+            expect(provider.urls[0]).to.equal(compPath);
+        });
+
         it('should urls  contain correct value as string given no part value ', function() {
             provider.addAppLocalePath("../../");
 
             expect(provider.urls.length).to.equal(2);
             expect(provider.urls[1]).to.equal("../../");
-            expect(provider.urls[0]).to.equal(config.localePath);
         });
 
         it('should urls  contain correct value given with part value ', function() {
             provider.addAppLocalePath("../../", "_app");
+            var compPath = config.localePath.replace(/\{version\}/g, config.baseVersion);
 
             expect(provider.urls.length).to.equal(2);
             expect(provider.urls[1]).to.equal("../../_app");
-            expect(provider.urls[0]).to.equal(config.localePath);
         });
 
         it('should urls contain correct value given as array ', function() {
@@ -49,15 +55,13 @@ describe('i18nTokenProvider', function() {
 
             expect(provider.urls.length).to.equal(2);
             expect(provider.urls[1]).to.equal("../../_app");
-            expect(provider.urls[0]).to.equal(config.localePath);
         });
 
         it('should "urls" not to add app locale value if given string as integer value ', function() {
 
             provider.addAppLocalePath(123);
 
-            expect(provider.urls.length === 2).to.be.false;
-            expect(provider.urls[0]).to.equal(config.localePath);
+            expect(provider.urls.length === 1).to.be.true;
         });
 
         it('should urls not to add app locale value if given array as undefined', function() {
@@ -65,8 +69,7 @@ describe('i18nTokenProvider', function() {
 
             provider.addAppLocalePath(arrOfPath);
 
-            expect(provider.urls.length === 2).to.be.false;
-            expect(provider.urls[0]).to.equal(config.localePath);
+            expect(provider.urls.length === 1).to.be.true;
         });
 
         it('should urls not to add app locale value if given array as empty', function() {
@@ -75,8 +78,7 @@ describe('i18nTokenProvider', function() {
 
             provider.addAppLocalePath(arrOfPath);
 
-            expect(provider.urls.length === 2).to.be.false;
-            expect(provider.urls[0]).to.equal(config.localePath);
+            expect(provider.urls.length === 1).to.be.true;
         });
 
         it('should urls not to add app locale value if given array as null', function() {
@@ -85,7 +87,6 @@ describe('i18nTokenProvider', function() {
             provider.addAppLocalePath(arrOfPath);
 
             expect(provider.urls.length).to.equal(1);
-            expect(provider.urls[0]).to.equal(config.localePath);
         });
     });
 });
