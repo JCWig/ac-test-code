@@ -1,22 +1,49 @@
 'use strict';
 
 var utils = require('../utilities');
+var translationMock = {
+    "components": {
+        "pagination": {
+            "label": {
+                "results": "Results: ",
+                "show-entries": "Show Entries: "
+            }
+        }
+    }
+};
 
 describe('akam-pagination directive', function() {
     beforeEach(function() {
         var self = this;
 
         angular.mock.module(require('../../src/pagination').name);
-        inject(function($compile, $rootScope) {
+        angular.mock.module(function($provide, $translateProvider) {
+            $provide.factory('i18nCustomLoader', function($q, $timeout) {
+                return function(options) {
+                    var deferred = $q.defer();
+                    $timeout(function() {
+                        deferred.resolve(translationMock);
+                    });
+                    return deferred.promise;
+                };
+            });
+            $translateProvider.useLoader('i18nCustomLoader');
+        });
+        inject(function($compile, $rootScope, $timeout) {
             var markup = '<akam-pagination total-items="pager.count" ' +
                 'current-page="pager.page" onchangepage="onchangepage(page)" ' +
                 'page-size="pager.size" onchangesize="onchangesize(size)">' +
                 '</akam-pagination>';
 
             self.scope = $rootScope.$new();
+            self.timeout = $timeout;
             self.scope.onchangepage = sinon.spy();
             self.scope.onchangesize = sinon.spy();
-            self.scope.pager = { count: 220, page: 5, size: 25 };
+            self.scope.pager = {
+                count: 220,
+                page: 5,
+                size: 25
+            };
             self.element = $compile(markup)(self.scope)[0];
             self.scope.$digest();
         });
@@ -96,7 +123,7 @@ describe('akam-pagination directive', function() {
 
                 this.scope.pager.page = null;
                 this.scope.$digest();
-                
+
                 el = this.element.querySelector('.pagination li:nth-child(2)');
                 expect(el.classList.contains('active')).to.be.true;
             });
@@ -104,7 +131,8 @@ describe('akam-pagination directive', function() {
 
         context('when total item count is less than two pages', function() {
             beforeEach(function() {
-                this.scope.pager.count = 25;
+                this.scope.pager.count = 9;
+                this.scope.pager.size = 10;
                 this.scope.$digest();
             });
 
@@ -121,6 +149,25 @@ describe('akam-pagination directive', function() {
             it('should display the the total item count', function() {
                 var el = this.element.querySelector('.total-items');
                 expect(el).to.not.be.null;
+            });
+        });
+
+        context('when total item count is less than a page size', function() {
+            it('should disable the page size', function() {
+                var pageSizes;
+                var el;
+
+                this.scope.pager.count = 24;
+                this.scope.pager.size = 10;
+                this.scope.$digest();
+
+                pageSizes = this.element.querySelectorAll('.page-size li');
+                expect(pageSizes[0].classList.contains('disabled')).to.be.false;
+                expect(pageSizes[1].classList.contains('disabled')).to.be.true;
+
+                utils.click(pageSizes[1].querySelector('a'));
+                el = this.element.querySelector('.page-size li:nth-child(2)');
+                expect(el.classList.contains('active')).to.be.false;
             });
         });
 
@@ -315,6 +362,28 @@ describe('akam-pagination directive', function() {
 
             el = this.element.querySelector('.pagination li:nth-last-child(2)');
             expect(el.textContent).to.match(/20/);
+        });
+    });
+
+    context('after rendering', function() {
+        it('should translated result label display correctly', function() {
+            var el;
+
+            this.timeout.flush();
+            this.scope.$digest();
+
+            el = this.element.querySelector('.total-items');
+            expect(el.textContent).to.contain("Results: ");
+        });
+
+        it('should translated show entries label display correctly', function() {
+            var el;
+
+            this.timeout.flush();
+            this.scope.$digest();
+
+            el = this.element.querySelector('.page-size').childNodes[1];
+            expect(el.textContent).to.contain("Show Entries: ");
         });
     });
 });

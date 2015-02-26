@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($modal, $templateCache, $rootScope, $q) {
+module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
     return {
         /**
          * @ngdoc method
@@ -14,33 +14,32 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
          *
          * @param {object} options A hash with the specified options:
          *
-         * - `template` (string) An inline template to render
-         *   within the body of the modal window.
+         * @param {string} options.template An inline template to
+         * render within the body of the modal window.
          *
-         * - `templateUrl` (string) A URL referencing a template
-         *   to render within the body of the modal window.
+         * @param {string} options.templateUrl A URL referencing a
+         * template to render within the body of the modal window.
          *
-         * - `controller` (Function or string) A controller for the
-         *   modal instance that can initialize scope.
+         * @param {Function|string} options.controller A controller
+         * for the modal instance that can initialize scope.
          *
-         * - `scope` (Scope; default: `$rootScope`) A scope
-         *   instance to use for the modal body content.
+         * @param {Scope} [options.scope=$rootScope] A scope
+         * instance to use for the modal body content.
          *
-         * - `title` (string; default: `Modal Window Title`) A
-         *   title for the modal window.
+         * @param {string} [options.title=Modal Window Title] A
+         * title for the modal window.
          *
-         * - `icon` (string) A CSS class representing an icon to
-         *   display to the left of the modal window title.
+         * @param {string} options.icon A CSS class representing an
+         * icon to display to the left of the modal window title.
          *
-         * - `cancelLabel` (string; default: `Cancel`) A label
-         *   for the cancel button.
+         * @param {string} [options.cancelLabel=Cancel] A label for
+         * the cancel button.
          *
-         * - `submitLabel` (string; default: `Save`) A label for
-         *   the submit button.
+         * @param {string} [options.submitLabel=Save] A label for the
+         * submit button.
          *
-         * - `hideSubmit` (boolean; default: `false`) A flag to
-         *   hide the submit button and only allow the modal to be
-         *   dismissed.
+         * @param {boolean} [options.hideSubmit=false] A flag to hide
+         * the submit button and only allow the modal to be dismissed.
          *
          * @return {object} An instance of the modal with the following
          * properties:
@@ -64,15 +63,15 @@ module.exports = function($modal, $templateCache, $rootScope, $q) {
             // check that a template was provided
             if (!(angular.isDefined(options.template) ||
                   angular.isDefined(options.templateUrl))) {
-                throw new Error('template or templateUrl option required');
+                throw new Error('Modal Window template or templateUrl option required');
             }
 
             // setup options specific for the modal window
             scope.modalWindow = {
-                title: options.title || 'Modal Window Title',
+                title: options.title || translate.sync('components.modal-window.title'),
                 icon: options.icon,
-                cancelLabel: options.cancelLabel || 'Cancel',
-                submitLabel: options.submitLabel || 'Save',
+                cancelLabel: options.cancelLabel || translate.sync('components.modal-window.label.cancel'),
+                submitLabel: options.submitLabel || translate.sync('components.modal-window.label.save'),
                 template: options.template,
                 templateUrl: options.templateUrl
             };
