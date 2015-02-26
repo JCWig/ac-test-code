@@ -180,6 +180,24 @@ describe('messageBox service', function() {
             var messageBoxDetails = document.querySelector('.modal .message-box-details > div');
             expect(messageBoxDetails.textContent).to.match(new RegExp(details));
         });
+        it('should have a close icon button which can close', function(){
+            var details = 'Message details';
+
+            this.messageBox._show({
+                headline: 'Headline',
+                text: 'Message',
+                details: details
+            });
+            this.$rootScope.$digest();
+
+            var closeIcon = document.querySelector('.modal-footer button');
+            expect(closeIcon).to.not.be.null;
+            utilities.click(closeIcon);
+            this.$rootScope.$digest();
+            this.$timeout.flush();
+            this.$timeout.flush();
+            expect(document.querySelector('.modal-content')).to.be.null
+        }); 
 
         context('when view details is clicked', function() {
             it('should toggle the visibility of the content', function() {
@@ -218,6 +236,57 @@ describe('messageBox service', function() {
                 this.$rootScope.$digest();
 
                 expect(spyOnResultFunction).to.have.been.called;
+            });
+        });
+        context('when cancel button is clicked', function() {
+            it('should close the message box', function() {
+                var spyOnResultFunction = sinon.spy();
+                var messageBox = this.messageBox._show({
+                    headline: 'Headline',
+                    text: 'Message',
+                    details: 'Details'
+                });
+
+                this.$rootScope.$digest();
+
+                var cancelModalButton = document.querySelector('.modal-footer button');
+                utilities.click(cancelModalButton);
+                this.$rootScope.$digest();
+                this.$timeout.flush();
+                this.$timeout.flush();
+                expect(document.querySelector('.modal-content')).to.be.null
+                expect(spyOnResultFunction).to.not.have.been.called;
+            });
+        });
+        context('when message box has been closed somehow', function(){
+            it('should be able to be opened with new data', function(){
+                var title = 'I am very long title that should be truncated';
+                var title2 = 'I am a very different title from the one before hand';
+                this.messageBox._show({
+                    title: title,
+                    headline: 'Headline',
+                    text: 'Message'
+                });
+                this.$rootScope.$digest();
+                var closeIcon = document.querySelector('.modal-content i.close-icon');                
+                utilities.click(closeIcon);
+                this.$timeout.flush();
+                this.$timeout.flush();
+                this.$rootScope.$digest();
+                this.messageBox._show({
+                    title: title2,
+                    headline: 'a new headline',
+                    text: 'All the messages'
+                });
+                this.$rootScope.$digest();
+                var modalTitle = document.querySelector('.modal .modal-title');
+                var modalHeadline= document.querySelector('.modal .message-box-headline');
+                var modalMessageBoxText = document.querySelector('.modal .message-box-text');
+                
+                
+                expect(modalTitle.textContent).to.equal('I am a very differen');   
+                expect(modalHeadline.textContent).to.equal('a new headline');   
+                expect(modalMessageBoxText.textContent).to.equal('All the messages');   
             });
         });
     });
