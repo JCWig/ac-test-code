@@ -1,17 +1,14 @@
 'use strict';
 var utilities = require('../utilities');
+var MENU_BUTTON_WRAPPER = '.akam-menu-button';
+var MENU_BUTTON_BUTTON = '.akam-menu-button button';
+var MENU_BUTTON_ITEMS = '.akam-menu-button li';
+var DROP_DOWN_MENU = '.dropdown-menu';
+
+
 function clickOnMenuButton(self){
-    var button = self.element.querySelector('.akam-menu-button > button');
-    utilities.click(button);
+    utilities.click(MENU_BUTTON_BUTTON);
     self.scope.$digest();
-};
-function testUnopenedConditions(ele){
-    expect(ele.classList.contains('open')).to.be.false();
-
-    //console.log(ele.querySelector('button.dropdown-toggle'));
-
-    expect(document.querySelector('button.dropdown-toggle').getAttribute('aria-expanded')).to.equal('false');
-    expect(getComputedStyle(document.querySelector('.dropdown-menu')).display).to.equal('none');
 };
 
 describe('akam-menu-button', function() {
@@ -35,82 +32,93 @@ describe('akam-menu-button', function() {
     afterEach(function() {
         document.body.removeChild(this.element);
     });
-    describe('when rendering', function() {
+    context('when rendering', function() {
         it('should display a button with a label', function() {
-            var button = this.element.querySelector('.akam-menu-button > button');
-            expect(button.textContent).to.match(/Test/);
+            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON);
+            expect(menuButton.textContent).to.match(/Test/);
         });
 
         it('should hide the menu', function() {
-            var div = this.element.querySelector('.akam-menu-button');
-            expect(div.classList.contains('open')).to.be.false();
+            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
         });
     });
-    describe('when clicking the menu button', function() {
+    context('when clicking the menu button', function() {
         beforeEach(function() {
             clickOnMenuButton(this);
         });
         it('should display the menu', function() {
-            var div = this.element.querySelector('.akam-menu-button');
-            expect(div.classList.contains('open')).to.be.true();
-            expect(div.querySelector('button.dropdown-toggle').getAttribute('aria-expanded')).to.equal('true');
-            expect(getComputedStyle(document.querySelector('.dropdown-menu')).display).to.equal('block');
+            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            expect(menuButtonWrapper.classList.contains('open')).to.be.true();
+            expect(menuButtonWrapper.querySelector('button.dropdown-toggle').getAttribute('aria-expanded')).to.equal('true');
+
+            var dropDownMenu = document.querySelector(DROP_DOWN_MENU);
+
+            expect(getComputedStyle(dropDownMenu).display).to.equal('block');
         });
         it('should display the menu items', function() {
-            var items = this.element.querySelectorAll('.dropdown-menu > li');
-            expect(items).to.have.length(2);
-            expect(items[0].textContent).to.match(/Action/);
+            var menuButtonItems = this.element.querySelectorAll(MENU_BUTTON_ITEMS);
+            expect(menuButtonItems).to.have.length(2);
+            expect(menuButtonItems[0].textContent).to.match(/Action/);
         });
     });
-    describe('when clicking a menu item', function() {
+    context('when clicking a menu item', function() {
         beforeEach(function() {
-            var button = this.element.querySelector('.akam-menu-button > button');
-            var items = this.element.querySelectorAll('.dropdown-menu > li');
-
-            utilities.click(button);
-            this.scope.$digest();
-            utilities.click(items[0].firstChild);
+            clickOnMenuButton(this);
+            var menuButtonItems = this.element.querySelectorAll(MENU_BUTTON_ITEMS);
+            var firstItemInDropDown = menuButtonItems[0].firstChild
+            utilities.click(firstItemInDropDown);
             this.scope.$digest();
         });
-
         it('should trigger the menu item action', function() {
             expect(this.scope.process).to.have.been.called;
         });
-
         it('should hide the menu', function() {
-            var div = this.element.querySelector('.akam-menu-button');
-            testUnopenedConditions(div);
+            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON)
+            var dropDownMenu = this.element.querySelector(DROP_DOWN_MENU);
+
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
         });
     });
-    describe('when re-clicking the menu button', function(){
+    context('when re-clicking the menu button', function(){
         beforeEach(function() {
             clickOnMenuButton(this);
         });
         it('clicking menu button should hide dropdown', function() {
-            var div = this.element.querySelector('.akam-menu-button');
-            expect(div.classList.contains('open')).to.be.true();
+            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            expect(menuButtonWrapper.classList.contains('open')).to.be.true();
             clickOnMenuButton(this);
-            testUnopenedConditions(div);
+            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON)
+            var dropDownMenu = this.element.querySelector(DROP_DOWN_MENU);
+
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
         });
     });
-    describe('when clicking away from open dropdown', function(){
-        var clickAwayCreationAndClick = function(ele, self){
-            var clickAwayArea = document.createElement(ele);
-            clickAwayArea.setAttribute("id", "click-away");
-            document.body.appendChild(clickAwayArea);
-            var clickAwayButton = document.querySelector('#click-away');
-            utilities.click(clickAwayButton);
-            document.body.removeChild(clickAwayArea);
-        };
+    context('when clicking away from open dropdown', function(){
         it('click -button- shoud hide dropdown',function(){
-            var ele = document.querySelector('.akam-menu-button');
-            clickAwayCreationAndClick('button', this);
-            testUnopenedConditions(ele);
+            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            utilities.clickAwayCreationAndClick('button', this);
+            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON)
+            var dropDownMenu = this.element.querySelector(DROP_DOWN_MENU);
+
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
         });
         it('click -div- shoud hide dropdown',function(){
-            var ele = document.querySelector('.akam-menu-button');
-            clickAwayCreationAndClick('div', this);
-            testUnopenedConditions(ele);
+            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            utilities.clickAwayCreationAndClick('div', this);
+            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON)
+            var dropDownMenu = this.element.querySelector(DROP_DOWN_MENU);
+
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
         });
     });
     /*context('when pressing escape', function(){

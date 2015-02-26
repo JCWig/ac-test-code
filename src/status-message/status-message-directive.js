@@ -22,7 +22,7 @@ module.exports = function($log, $timeout) {
             element.addClass(scope.status);
             
             scope.timeout = attrs.timeout == null ? defaultTimeout : window.parseInt(attrs.timeout, 10);
-            if (isNaN(scope.timeout)) {
+            if (isNaN(scope.timeout) || scope.timeout < 0) {
                 scope.timeout = defaultTimeout;
             }
             
