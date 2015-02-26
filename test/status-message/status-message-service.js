@@ -42,6 +42,7 @@ describe('akamai.components.status-message-service', function() {
                 var statusMessageBar = document.querySelector(ID_OF_FIRST_STATUS_MESSAGE);
                 var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
 
+                expect(getComputedStyle(statusMessageWrapper)['background-color']).to.contain('rgba(56, 142, 53, 0.949219)');//GREEN
                 expect(statusMessageWrapper.classList.contains('success')).to.be.true;
                 expect(statusMessageBar).to.not.be.null;
                 expect(statusMessageContent.textContent).to.match(/message_text/);
@@ -54,6 +55,7 @@ describe('akamai.components.status-message-service', function() {
                 var statusMessageBar = document.querySelector(ID_OF_FIRST_STATUS_MESSAGE);
                 var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
 
+                expect(getComputedStyle(statusMessageWrapper)['background-color']).to.contain('rgba(47, 121, 201, 0.949219)');//BLUE
                 expect(statusMessageWrapper.classList.contains('information')).to.be.true;
                 expect(statusMessageBar).to.not.be.null;
                 expect(statusMessageContent.textContent).to.match(/message_text2/);
@@ -66,6 +68,7 @@ describe('akamai.components.status-message-service', function() {
                 var statusMessageBar = document.querySelector(ID_OF_FIRST_STATUS_MESSAGE);
                 var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
 
+                expect(getComputedStyle(statusMessageWrapper)['background-color']).to.contain('rgba(163, 45, 45, 0.949219)');//RED
                 expect(statusMessageWrapper.classList.contains('error')).to.be.true;
                 expect(statusMessageBar).to.not.be.null;
                 expect(statusMessageContent.textContent).to.match(/message_text3/);
@@ -78,6 +81,7 @@ describe('akamai.components.status-message-service', function() {
                 var statusMessageBar = document.querySelector(ID_OF_FIRST_STATUS_MESSAGE);
                 var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
 
+                expect(getComputedStyle(statusMessageWrapper)['background-color']).to.contain('rgba(201, 120, 32, 0.949219)');//ORANGE
                 expect(statusMessageWrapper.classList.contains('warning')).to.be.true;
                 expect(statusMessageBar).to.not.be.null;
                 expect(statusMessageContent.textContent).to.match(/message_text4/);
@@ -104,6 +108,52 @@ describe('akamai.components.status-message-service', function() {
                 statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
 
                 expect(statusMessageContent).to.be.null;
+            });
+            it('should default to normal timeout if incorrect given', function(){
+                this.statusMessage.showSuccess({text : "message_text", timeout: -200});
+                this.scope.$digest();
+
+                var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+
+                expect(statusMessageContent).to.not.be.null
+                
+                this.timeout.flush();
+                this.timeout.flush();
+
+                statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+
+                expect(statusMessageContent).to.be.null;
+            });
+            it('should never disappear success info when timeout = 0', function(){
+                this.statusMessage.showSuccess({text : "message_text", timeout: 0});
+                this.statusMessage.showInformation({text : "message_text", timeout: 0});
+                this.scope.$digest();
+
+                var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+
+                expect(statusMessageContent).to.not.be.null
+                expect(this.timeout.verifyNoPendingTasks()).to.be.undefined;
+            });
+
+            it('should never disappear (warning and error)', function(){
+                this.statusMessage.showWarning({text : "message_text", timeout: 2000});
+                this.statusMessage.showError({text : "message_text", timeout: 2000});
+                this.scope.$digest();
+
+                var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+
+                expect(statusMessageContent).to.not.be.null
+                expect(this.timeout.verifyNoPendingTasks()).to.be.undefined;
+            });
+            it('should default to never disappear (warning and error)', function(){
+                this.statusMessage.showWarning({text : "message_text", timeout: -200});
+                this.statusMessage.showError({text : "message_text", timeout: -200});
+                this.scope.$digest();
+
+                var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+
+                expect(statusMessageContent).to.not.be.null
+                expect(this.timeout.verifyNoPendingTasks()).to.be.undefined;
             });
             it('should disappear when close is clicked', function(){
                 this.statusMessage.showSuccess({text : "message_text", timeout: 100000});
