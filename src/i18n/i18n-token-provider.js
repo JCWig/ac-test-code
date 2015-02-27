@@ -49,9 +49,25 @@ module.exports = function i18nTokenProvider(i18nConfig) {
             locale =  cookieLocale? atob(cookieLocale.split('+')[0]) : i18nConfig.defaultLocale,
             localeUrls = this.urls;
         return {
+            /**
+             * @ngdoc function
+             * @name i18nToken#getUrls
+             * @methodOf akamai.components.i18n.service:i18nToken
+             *
+             * @description get a list of urls for locale files
+             *
+             */
             getUrls: function() {
                 return localeUrls;
             },
+            /**
+             * @ngdoc function
+             * @name i18nToken#getCurrentLocale
+             * @methodOf akamai.components.i18n.service:i18nToken
+             *
+             * @description get current locale value
+             *
+             */
             getCurrentLocale: function() {
                 return locale;
             }
