@@ -27,5 +27,14 @@ describe('akamai.components.uuid-service', function() {
                 expect(uuid.charAt(23)).to.equal('-');
             });
         });
+        context('uuids should be unique', function(){
+            it('shoud return a uuid', function(){
+                var storingDictionary = {};
+                for(var i = 0; i < 100; i++){
+                    storingDictionary[this.uuid.uuid()] = 0;
+                }
+                expect(Object.keys(storingDictionary).length).to.equal(100);
+            });
+        });
     });
 });
