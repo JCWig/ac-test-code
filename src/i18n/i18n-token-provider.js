@@ -26,8 +26,8 @@ module.exports = function i18nTokenProvider(i18nConfig) {
 
     /**
      * @ngdoc method
-     * @name akamai.components.i18n.I18nTokenProvider#addAppLocalePath
-     * @methodOf akamai.components.i18n.I18nTokenProvider
+     * @name i18nTokenProvider#addAppLocalePath
+     * @methodOf akamai.components.i18n.service:i18nTokenProvider
      *
      * @description provider method to add app locale files path and part
      * @param {array | string} path - an array of url path value or url path string value

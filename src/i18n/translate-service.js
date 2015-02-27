@@ -17,8 +17,8 @@ module.exports = function($translate) {
     return {
         /**
          * @ngdoc method
-         * @name akamai.components.i18n.akamTranslate#async
-         * @methodOf akamai.components.i18n.akamTranslate
+         * @name translate#async
+         * @methodOf akamai.components.i18n.service:translate
          *
          * @description async method provides atlernative usage in trasnlating the keys in non-blocking fashion
          * It depends on the styles of programing, but best practice will be to use with scope veriavles in controllers and directives
@@ -68,8 +68,8 @@ module.exports = function($translate) {
 
         /**
          * @ngdoc method
-         * @name akamai.components.i18n.akamTranslate#sync
-         * @methodOf akamai.components.i18n.akamTranslate
+         * @name translate#sync
+         * @methodOf akamai.components.i18n.service:translate
          *
          * @description sync method provides atlernative usage in translating the keys in blocking fashion
          * It depends on the styles of programing, but best situations to use this is to have translated value right away, and they are not $scope variables.
