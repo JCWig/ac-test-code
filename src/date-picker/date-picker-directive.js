@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log, $filter) {
+module.exports = function($log, $filter, $parse) {
     var PICKER_TYPES = {
         'day' : 'day',
         'month' : 'month'
@@ -10,8 +10,9 @@ module.exports = function($log, $filter) {
     return {
         replace: true,
         restrict: 'E',
+        require: 'ngModel',
         scope: {
-            value: '=',
+            value : '=ngModel',
             placeholder: '@',
             mode : '@',
             onchange: '&',
@@ -47,7 +48,47 @@ module.exports = function($log, $filter) {
                     };
                 }
             },
-            post: function(scope, element) {
+            post: function(scope, element, attrs, ngModel) {
+                if (!ngModel) {
+                    return; // do nothing if no ng-model
+                }
+                
+                var oldValue;
+                ngModel.$formatters.push(function(value) {
+                    //debugger;
+                  var yy = $filter('date')(value, scope.format);
+                  ngModel.$viewValue = yy;
+                  return yy;
+                });
+                
+                ngModel.$viewChangeListeners.push(function() {
+                    debugger;
+                    oldValue = ngModel.$modelValue;
+                });
+                
+                /*
+                
+                ngModel.$setViewValue( $filter('date')(scope.ngModel, scope.format) );
+                
+                
+                ngModel.$render = function() {
+                    //element.find('input').val( $filter('date')(ngModel.$viewValue, scope.format) );
+                    element.find('input').val( ngModel.$viewValue );
+                };
+                
+                */
+
+            
+            /*
+                ngModel.$parsers.push(function(val) {
+                    return 'yair';
+                });
+                
+                ngModel.$formatters.push(function(val) {
+                    return 'yair';
+                });
+            */
+        
                 scope.toggle = function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
@@ -60,9 +101,6 @@ module.exports = function($log, $filter) {
                 });
                 
                 scope.$watch('value', function(newValue, oldValue){
-                    if (angular.isDate(newValue)) {
-                        element.find('input').val( $filter('date')(newValue, scope.format) );
-                    }
                     if (scope.onchange && newValue !== oldValue) {
                         scope.onchange({ value: newValue });
                     }

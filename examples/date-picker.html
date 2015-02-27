@@ -20,12 +20,12 @@
         
         <div class="container">
             Date Picker (Day):
-            <akam-date-picker value="picked1" min="{{min}}" mode="day" placeholder="date picker" onchange="mychange(value)"></akam-date-picker>
+            <akam-date-picker ng-model="picked1" min="{{min}}" mode="day" placeholder="date picker"></akam-date-picker>
         </div>
 
         <div class="container">
             Date Picker (Month):
-            <akam-date-picker value="picked2" mode="month" placeholder="month picker" onchange="mychange(value)"></akam-date-picker>
+            <akam-date-picker ng-model="picked2" mode="month" placeholder="month picker"></akam-date-picker>
         </div>
     </div>
 
@@ -35,16 +35,19 @@
         var app = angular.module("datePickerDemo", ["akamai.components.date-picker"]);
         app.controller("Ctrl", ["$scope", "$timeout", function($scope, $timeout) {
             $scope.picked1 = new Date(2015, 1, 10);
+            $scope.picked2 = new Date(2015, 1, 10);
         
             $scope.min = new Date(2015, 1, 05);
             $scope.max = new Date(2015, 3, 01);
             $scope.mychange = function(value){
                 console.log('yay', value);
             };
-            
+
+            /*            
             $timeout(function(){
                 $scope.picked1 = new Date(2015, 1, 11);
             }, 2000);
+            */
         }]);
     </script>
 </body>
