@@ -73,4 +73,4 @@ module.exports = function i18nTokenProvider(i18nConfig) {
             }
         };
     };
-}; * /
+};
