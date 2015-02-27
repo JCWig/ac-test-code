@@ -83,17 +83,11 @@ describe('i18nCustomLoader service', function() {
 
 describe('i18nToken service', function() {
 
-    var service, cookieStore, rootScope;
+    var service, cookies, rootScope;
 
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
-
-            $provide.decorator('$cookieStore', function($delegate) {
-                $delegate.put('AKALOCALE', 'ZW5fVVN+TVlqYmlndFZJQnpraWIrVTB1NmU4dmc0MU50MFV6WEhlUzJEODVnRFBackNVc0xWUXl3RkowK2JObEh3eFNiZDBXMncyNDQ9');
-                return $delegate;
-            });
-
             i18nTokenProvider.addAppLocalePath("../../", "_app");
             $provide.factory('i18nCustomLoader', function($q, i18nToken) {
                 var locale = i18nToken.getCurrentLocale(),
@@ -107,16 +101,17 @@ describe('i18nToken service', function() {
             $translateProvider.useLoader('i18nCustomLoader');
         });
 
-        inject(function(i18nToken, _$cookieStore_, _$rootScope_) {
+        inject(function(i18nToken, _$cookies_, _$rootScope_) {
             service = i18nToken;
-            cookieStore = _$cookieStore_;
+            cookies = _$cookies_;
             rootScope = _$rootScope_.$new();
+            cookies.AKALOCALE = "ZW5fVVN+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure";
         });
     });
 
     afterEach(function() {
         // clean up
-        cookieStore.remove('AKALOCALE');
+        cookies.AKALOCALE = undefined;
     });
     context('when using token service', function(){
         it('should be defined', function() {
@@ -143,13 +138,13 @@ describe('i18nToken service', function() {
     });
     context('when locale cookie set to "en_US', function() {
 
-        it("should cookie locale value not same as 'en_US' because it is encoded", function() {
-            var locale = cookieStore.get("AKALOCALE");
-            expect(locale).to.not.equal(service.getCurrentLocale());
+        it("should cookie 'AKALOCALE' value exists", function() {
+            var locale = cookies.AKALOCALE;
+            expect(locale).to.not.undefined;
         });
 
         it("should cookie locale value be 'en_US' after decoded", function() {
-            var locale = cookieStore.get("AKALOCALE");
+            var locale = cookies["AKALOCALE"];
             expect(atob(locale.split("+")[0])).to.equal(service.getCurrentLocale());
         });
     });
@@ -157,17 +152,11 @@ describe('i18nToken service', function() {
 
 describe('locale cookie set to "de_DE', function() {
 
-    var service, cookieStore, rootScope;
+    var service, cookies, rootScope;
 
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
-
-            $provide.decorator('$cookieStore', function($delegate) {
-                $delegate.put('AKALOCALE', 'ZGVfREU=+TVlqYmlndFZJQnpraWIrVTB1NmU4dmc0MU50MFV6WEhlUzJEODVnRFBackNVc0xWUXl3RkowK2JObEh3eFNiZDBXMncyNDQ9');
-                return $delegate;
-            });
-
             i18nTokenProvider.addAppLocalePath("../../", "_app");
             $provide.factory('i18nCustomLoader', function($q, i18nToken) {
                 var locale = i18nToken.getCurrentLocale(),
@@ -181,25 +170,25 @@ describe('locale cookie set to "de_DE', function() {
             $translateProvider.useLoader('i18nCustomLoader');
         });
 
-        inject(function(i18nToken, _$cookieStore_, _$rootScope_) {
+        inject(function(i18nToken, _$cookies_, _$rootScope_) {
             service = i18nToken;
-            cookieStore = _$cookieStore_;
+            cookies = _$cookies_;
             rootScope = _$rootScope_.$new();
+            cookies.AKALOCALE = "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure";
         });
     });
 
     afterEach(function() {
         // clean up
-        cookieStore.remove('AKALOCALE');
+        cookies.AKALOCALE = undefined;
+    });
+    it("should cookie 'AKALOCALE' value exists", function() {
+        var locale = cookies.AKALOCALE;
+        expect(locale).to.not.undefined;
     });
 
-    it('should locale value be "de_DE" after set cookie to encoded "de_DE"', function() {
-        var locale = cookieStore.get("AKALOCALE");
+    it('should locale value be "de_DE" after decoded', function() {
+        var locale = cookies.AKALOCALE;
         expect(atob(locale.split("+")[0])).to.equal("de_DE");
-    });
-
-    it('should getCurrentLocale() method return value be "de_DE" ', function() {
-        var locale = cookieStore.get("AKALOCALE");
-        expect(atob(locale.split("+")[0])).to.equal(service.getCurrentLocale());
     });
 });

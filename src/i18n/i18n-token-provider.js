@@ -44,9 +44,9 @@ module.exports = function i18nTokenProvider(i18nConfig) {
      * @return {object} it returns object hash contains 2 getter methods mainly for customLoader to use
      */
     /* @ngInject */
-    this.$get = function i18nTokenFactory($cookieStore, i18nConfig) {
-        var cookieLocale = $cookieStore.get(i18nConfig.localeCookie),
-            locale = cookieLocale ? atob(cookieLocale.split('+')[0]) : i18nConfig.defaultLocale,
+    this.$get = function i18nTokenFactory($cookies, i18nConfig) {
+        var cookieLocale = $cookies[i18nConfig.localeCookie],
+            locale =  cookieLocale? atob(cookieLocale.split('+')[0]) : i18nConfig.defaultLocale,
             localeUrls = this.urls;
         return {
             /**
