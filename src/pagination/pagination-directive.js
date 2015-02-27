@@ -47,6 +47,10 @@ module.exports = function(translate) {
                 // setup total page count
                 scope.totalPages = Math.ceil(
                     parseInt(scope.totalItems, 10) / scope.pageSize);
+
+                if(isNaN(scope.totalPages) || scope.totalPages <= 0){
+                    scope.totalPages = 1;
+                }
                 // setup current page
                 scope.currentPage = parseInt(scope.currentPage, 10);
                 if ((scope.currentPage == null) || (!inBounds(scope.currentPage))) {
@@ -71,10 +75,6 @@ module.exports = function(translate) {
                 }
             }
 
-            scope.hasPages = function() {
-                return scope.totalItems > scope.pageSize;
-            };
-
             scope.isSizeActive = function(size) {
                 return size === scope.pageSize;
             };
@@ -84,7 +84,7 @@ module.exports = function(translate) {
             };
 
             scope.isLastPageActive = function() {
-                return scope.currentPage === scope.totalPages;
+                return scope.currentPage === scope.totalPages || scope.totalPages === 0; 
             };
 
             scope.showFirstPageEllipsis = function() {
@@ -110,7 +110,7 @@ module.exports = function(translate) {
                 }
             };
             scope.hasOnlyOnePage = function(){
-                return scope.totalPages !== 1; 
+                return scope.totalPages > 1; 
             };
 
             scope.$watch('[totalItems, currentPage, pageSize]', function(val, old) {
