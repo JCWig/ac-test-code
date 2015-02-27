@@ -7,7 +7,8 @@ var angular = require('angular');
     *
     * @name akamai.components.menu-button
     *
-    * @description Provides a set of directives to use in order to create Pulsar compatible menu buttons.
+    * @description Provides a set of directives to use in order to
+    * create Pulsar-compatible menu buttons.
     *
     */
     module.exports = angular.module('akamai.components.menu-button', [
@@ -19,11 +20,11 @@ var angular = require('angular');
      *
      * @name akamai.components.menu-button.directive:akamMenuButton
      *
-     * @description Creates a menu button control
+     * @description Creates a menu button control.
      *
      * @restrict E
      *
-     * @param {String} [label=""] The label to use for the menu button
+     * @param {String} [label=""] The label to use for the menu button.
      *
      * @example
      * <example module="menuButtonDemo">
@@ -58,12 +59,15 @@ var angular = require('angular');
  *
  * @name akamai.components.menu-button.directive:akamMenuButtonItem
  *
- * @description Creates a menu button item within the menu button control
+ * @description Creates a menu button item within the menu button
+ * control.
  *
  * @restrict E
  *
- * @param {String} [label=""] The label to use for the menu
+ * @param {String} [label=""] The label to use for the menu.
+ *
  * @example see {@link akamai.components.menu-button.directive:akamMenuButton}
+ *
  **/
 .directive('akamMenuButtonItem', require('./menu-button-item-directive')({
     require: 'akamMenuButton'
