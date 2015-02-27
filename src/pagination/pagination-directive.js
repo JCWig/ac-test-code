@@ -47,7 +47,6 @@ module.exports = function(translate) {
                 // setup total page count
                 scope.totalPages = Math.ceil(
                     parseInt(scope.totalItems, 10) / scope.pageSize);
-
                 if(isNaN(scope.totalPages) || scope.totalPages <= 0){
                     scope.totalPages = 1;
                 }
@@ -84,7 +83,7 @@ module.exports = function(translate) {
             };
 
             scope.isLastPageActive = function() {
-                return scope.currentPage === scope.totalPages || scope.totalPages === 0; 
+                return scope.currentPage === scope.totalPages;
             };
 
             scope.showFirstPageEllipsis = function() {
