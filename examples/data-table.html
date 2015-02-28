@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Data Table</title>
+    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+</head>
+<body class="common-css" ng-app="example" ng-controller="ExampleController">
+    <div class="container">
+        <h1>Data Table Example</h1>
+        
+        <akam-data-table data="data" schema="schema" filter-placeholder="yair"></akam-data-table>
+    </div>
+
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <script>
+        angular.module('example', ['akamai.components.data-table'])
+
+        .controller('ExampleController', ["$scope", "$http", function($scope, $http) {
+            $scope.data = $http.get('json/data-table-data.json');
+        
+            $scope.schema = [
+                {
+                    //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                    content : function(){
+                        return this.first_name + ' ' + this.last_name;
+                    },
+                    header : 'Full Name',
+                    className : 'column-full-name'
+                },
+                {
+                    content : 'id',
+                    header : 'Emp. ID',
+                    className : 'column-employeeid'
+                }
+            ];
+        }]);
+    </script>
+</body>
+</html>
