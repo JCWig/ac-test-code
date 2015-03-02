@@ -59,6 +59,7 @@ module.exports = function($log, $filter, $parse) {
 
                 scope.change = function() {
                     ngModel.$setViewValue(scope.value);
+                    ngModel.$setTouched();
                 };
         
                 scope.toggle = function($event) {
