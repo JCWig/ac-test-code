@@ -23,6 +23,7 @@ var rsync = require('rsyncwrapper').rsync;
 var globby = require('globby');
 var moment = require('moment');
 var runSequence = require('run-sequence');
+var mkdirp = require('mkdirp');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -44,7 +45,7 @@ gulp.task('browserify', function() {
         debug: true
     }));
     var startTime;
-    
+
     function bundle() {
         startTime = process.hrtime();
         return bundler.bundle()
@@ -72,7 +73,7 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('build', function(){
-    runSequence('test', 'browserify');
+    runSequence('test', 'browserify', 'copy-resources-to-dist');
 });
 
 gulp.task('docs', ['browserify'], function() {
@@ -132,9 +133,9 @@ gulp.task('linkCss', function(){
         plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
         return;
     }
-    
+
     plugins.util.log('creating global npm link for common css project');
-    
+
     plugins.shell.task(['cd ../pulsar-common-css/', 'npm link', 'cd ../akamai-components/', 'npm link pulsar-common-css'])();
 });
 
@@ -145,9 +146,9 @@ gulp.task('unlinkCss', function(){
         plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
         return;
     }
-    
+
     plugins.util.log('npm unlinking this project to the common css project');
-    
+
     plugins.shell.task(['npm unlink pulsar-common-css', 'cd ../pulsar-common-css/', 'npm unlink', 'cd ../akamai-components/'])();
 });
 
@@ -175,6 +176,11 @@ gulp.task('deploy', function(){
             plugins.util.log(error, stdout);
         });
     });
+});
+
+gulp.task('copy-resources-to-dist', function() {
+  return gulp.src('locales/**', { base: '.' } )
+      .pipe(gulp.dest('dist'));
 });
 
 gulp.task('update-package-version', function(callback){
@@ -214,4 +220,8 @@ gulp.task('prepare-release', function(){
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['dist', 'reports'], {dot: true}));
+gulp.task('clean', function(){
+    mkdirp('./reports/coverage');
+    mkdirp('./reports/unit');
+    del(['dist', 'reports/unit/*', 'reports/coverage/*'], {dot: true});
+});

@@ -7,10 +7,10 @@ the Akamai user experience guidelines. It depends upon the Akamai styles
 project which defines the markup patterns and associated CSS rules.
 
 Currently, this project leverages the
-[Bootrap Angular UI](http://angular-ui.github.io/bootstrap/) open source
+[Bootstrap Angular UI](http://angular-ui.github.io/bootstrap/) open source
 project for implementations of basic user interface components. These
-components are wrapped in an Akamai-specifc API that follow the UX
-gudielines and may be swapped out for a different implementation in the
+components are wrapped in an Akamai-specific API that follow the UX
+guidelines and may be swapped out for a different implementation in the
 future.
 
 ## App Usage
@@ -46,7 +46,7 @@ directory. To view the examples locally, run:
 `npm start`
 
 This will launch the examples within your browser and will subsequently reload
-the web page everytime a source file is updated.
+the web page every time a source file is updated.
 
 ### Tests
 

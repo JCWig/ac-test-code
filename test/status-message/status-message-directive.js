@@ -1,5 +1,8 @@
 'use strict';
 
+var STATUS_MESSAGE_WRAPPER = '.akam-status-message-item-wrapper';
+var STATUS_MESSAGE_CONTENT = '.status-message-content';
+
 describe('akamai.components.status-message', function() {
     describe('status messages', function(){
         beforeEach(function() {
@@ -22,19 +25,27 @@ describe('akamai.components.status-message', function() {
         });
         context('when rendering', function(){
             it('should display the message text', function(){
-                expect(document.querySelector('.akam-status-message-item-wrapper').id).to.not.be.null;
-                expect(document.querySelector('.status-message-content').textContent).to.match(/add a little bit more text/);
+                var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
+                var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+
+                expect(statusMessageBar.id).to.not.be.null;
+                expect(statusMessageContent.textContent).to.match(/add a little bit more text/);
             });
-            it('shoudl default to success status', function(){
-                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('information')).to.be.true;
+            it('shoudld default to success status', function(){
+                var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
+                expect(statusMessageBar.classList.contains('information')).to.be.true;
             });
         });
         context('after rendered', function(){
             it('should disspear after timeout', function(){
                 this.timeout.flush();
                 this.timeout.flush();
-                expect(document.querySelector('akam-status-message-item-wrapper')).to.be.null;
-                expect(document.querySelector('.status-message-content')).to.be.null;
+                
+                var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
+                var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+                
+                expect(statusMessageBar).to.be.null;
+                expect(statusMessageContent).to.be.null;
             });
         });
     });

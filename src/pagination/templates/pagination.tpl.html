@@ -1,5 +1,5 @@
 <div class="akam-pagination">
-    <span class="total-items">{{ totalItems }} results</span>
+    <span class="total-items">{{resultText}} {{ totalItems }} </span>
     <ul class="pagination" ng-if="hasPages()">
         <li ng-class="{ disabled: isFirstPageActive() }">
             <a href="javascript:void(0)" ng-click="selectPage(currentPage - 1)">
@@ -26,11 +26,11 @@
         </li>
     </ul>
     <div class="page-size" ng-if="hasPages()">
-        <span>Show Entries:</span>
+        <span akam-translate="components.pagination.label.show-entries"></span>
         <ul>
             <li
                 ng-repeat="size in sizes track by $index"
-                ng-class="{ active: isSizeActive(size) }">
+                ng-class="{ active: isSizeActive(size), disabled: isSizeDisabled(size) }">
                 <a href="javascript:void(0)" ng-click="selectSize(size)">
                     {{ size }}
                 </a>
