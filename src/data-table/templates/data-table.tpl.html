@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in dataTable | filter:state.search | offset: ((pager.page - 1) * pager.size) | limitTo: pager.size" ng-class="{ 'row-selected' : item.selected, 'util-clickable' : showCheckboxes }" ng-click="item.selected = showCheckboxes && !item.selected; updateChanged()">
+            <tr ng-repeat="item in filtered | offset: ((pager.page - 1) * pager.size) | limitTo: pager.size" ng-class="{ 'row-selected' : item.selected, 'util-clickable' : showCheckboxes }" ng-click="item.selected = showCheckboxes && !item.selected; updateChanged()">
                 <td ng-if="showCheckboxes" class="column-checkbox">
                     <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
                 </td>
@@ -26,7 +26,7 @@
         </tbody>
     </table>
     <akam-pagination
-        total-items="pager.totalItems"
+        total-items="filtered.length"
         current-page="pager.page"
         page-size="pager.size"
         onchangepage="pageChanged(page)">

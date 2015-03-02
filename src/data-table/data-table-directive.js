@@ -13,11 +13,23 @@ module.exports = function($log, $q, uuid, $filter) {
         template: require('./templates/data-table.tpl.html'),
         link: function(scope, element, attrs) {
             var orderBy = $filter('orderBy');
+            var filter = $filter('filter');
+            
             scope.loading = true;
             scope.tableId = uuid.guid();
             scope.filterPlaceholder = scope.filterPlaceholder || "Filter";
             scope.selectedItems = scope.selectedItems || [];
             scope.showCheckboxes = attrs.showCheckboxes === 'true';
+            
+            function update(){
+                var output = scope.dataTable;
+                output = filter(output, scope.state.search);
+                output = orderBy(output, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
+                
+                scope.pager.page = 1;
+                
+                scope.filtered = output;
+            }
             
             scope.state = {
                 sortInfo : {
@@ -44,6 +56,8 @@ module.exports = function($log, $q, uuid, $filter) {
                         'cells' : scope.state.filter
                     };
                 }
+                
+                update();
             };
             
             scope.getColumnContent = function(column, item, defaultValue){
@@ -93,15 +107,16 @@ module.exports = function($log, $q, uuid, $filter) {
                 
                 scope.dataTable = dataTableOutput;
                 
-                if (autoSortableColumns.length > 0) {
-                    scope.sortColumn(autoSortableColumns[0]);
-                }
-                
                 scope.pager = {
-                    totalItems : scope.dataTable.length,
                     page : 1,
                     size : 10
                 };
+                
+                if (autoSortableColumns.length > 0) {
+                    scope.sortColumn(autoSortableColumns[0]);
+                }else{
+                    update();
+                }
                 
                 scope.loading = false;
             };
@@ -190,7 +205,7 @@ module.exports = function($log, $q, uuid, $filter) {
                     reverseSort : isReversed
                 };
                 
-                scope.dataTable = orderBy(scope.dataTable, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
+                update();
             };
             
             scope.getColumnPredicate = function(column){
