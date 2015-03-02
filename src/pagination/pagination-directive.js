@@ -47,7 +47,9 @@ module.exports = function(translate) {
                 // setup total page count
                 scope.totalPages = Math.ceil(
                     parseInt(scope.totalItems, 10) / scope.pageSize);
-
+                if(isNaN(scope.totalPages) || scope.totalPages <= 0){
+                    scope.totalPages = 1;
+                }
                 // setup current page
                 scope.currentPage = parseInt(scope.currentPage, 10);
                 if ((scope.currentPage == null) || (!inBounds(scope.currentPage))) {
@@ -58,12 +60,10 @@ module.exports = function(translate) {
                 start = scope.currentPage - Math.floor((maxPages - 2) / 2);
                 count = scope.totalPages > maxPages ?
                     maxPages - 2 : scope.totalPages - 2;
-
                 // check bounds for pages
                 start = start + count > scope.totalPages ?
                     scope.totalPages - (maxPages - 2) : start;
                 start = start >= 2 ? start : 2;
-
                 // setup the page objects for rendering
                 scope.pages = [];
                 for (var i = 0; i < count; i++) {
@@ -74,16 +74,8 @@ module.exports = function(translate) {
                 }
             }
 
-            scope.hasPages = function() {
-                return scope.totalItems > scope.pageSize;
-            };
-
             scope.isSizeActive = function(size) {
                 return size === scope.pageSize;
-            };
-
-            scope.isSizeDisabled = function(size) {
-                return scope.totalItems < size;
             };
 
             scope.isFirstPageActive = function() {
@@ -111,11 +103,13 @@ module.exports = function(translate) {
             };
 
             scope.selectSize = function(size) {
-                if ((size !== scope.pageSize) &&
-                    (!scope.isSizeDisabled(size))) {
+                if ((size !== scope.pageSize)) {
                     scope.pageSize = size;
                     scope.onchangesize({ size: size });
                 }
+            };
+            scope.hasOnlyOnePage = function(){
+                return scope.totalPages === 1; 
             };
 
             scope.$watch('[totalItems, currentPage, pageSize]', function(val, old) {
