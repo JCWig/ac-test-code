@@ -109,7 +109,7 @@ module.exports = function(translate) {
                 }
             };
             scope.hasOnlyOnePage = function(){
-                return scope.totalPages > 1; 
+                return scope.totalPages === 1; 
             };
 
             scope.$watch('[totalItems, currentPage, pageSize]', function(val, old) {

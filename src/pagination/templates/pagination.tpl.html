@@ -16,7 +16,7 @@
             <a href="javascript:void(0)" ng-click="selectPage(page.number)">{{ page.number }}</a>
         </li>
         <li ng-if="showLastPageEllipsis()"><span>&#8230;</span></li>
-        <li ng-class="{ active: isLastPageActive() }"  ng-if="hasOnlyOnePage()">
+        <li ng-class="{ active: isLastPageActive() }"  ng-if="!hasOnlyOnePage()">
             <a href="javascript:void(0)" ng-click="selectPage(totalPages)">{{ totalPages }}</a>
         </li>
         <li ng-class="{ disabled: isLastPageActive() }">
