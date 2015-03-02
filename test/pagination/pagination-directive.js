@@ -145,14 +145,21 @@ describe('akam-pagination directive', function() {
                 this.scope.$digest();
             });
 
-            it('should hide pagination', function() {
-                var paginationWrapper = this.element.querySelector('.pagination');
-                expect(paginationWrapper).to.be.null;
+            it('should display only 1 page', function() {
+                var pageOneIndex = this.element.querySelector('.pagination li.active');
+                expect(pageOneIndex.textContent).to.match(/1/);
+            });
+            it('should disable previous and forward arrows', function() {
+                var nextButton = this.element.querySelector(NEXT_BUTTON);
+                var previousButton = this.element.querySelector(PREVIOUS_BUTTON);
+
+                expect(nextButton.classList.contains('disabled')).to.be.true;
+                expect(previousButton.classList.contains('disabled')).to.be.true;
             });
 
-            it('should hide page size options', function() {
+            it('should not hide page size options', function() {
                 var pageSizeOptions = this.element.querySelector('.page-size');
-                expect(pageSizeOptions).to.be.null;
+                expect(pageSizeOptions).to.not.be.null;
             });
 
             it('should display the the total item count', function() {
@@ -162,7 +169,7 @@ describe('akam-pagination directive', function() {
         });
 
         context('when total item count is less than a page size', function() {
-            it('should disable the page size', function() {
+            it('should not disable the page size', function() {
                 var pageSizes;
                 var smallestPageSizeOption;
                 var secondSmallestPageSizeOption;
@@ -175,12 +182,42 @@ describe('akam-pagination directive', function() {
                 secondSmallestPageSizeOption = pageSizes[1];
 
                 expect(smallestPageSizeOption.classList.contains('disabled')).to.be.false;
-                expect(secondSmallestPageSizeOption.classList.contains('disabled')).to.be.true;
+                expect(secondSmallestPageSizeOption.classList.contains('disabled')).to.be.false;
 
                 utils.click(secondSmallestPageSizeOption.querySelector('a'));
                 secondSmallestPageSizeOption = this.element.querySelector(PAGE_SIZE_NTH+'(2)');
                 
-                expect(secondSmallestPageSizeOption.classList.contains('active')).to.be.false;
+                expect(secondSmallestPageSizeOption.classList.contains('active')).to.be.true;
+            });
+        });
+        context('when total item count is 0 ', function() {
+            it('should show one page', function() {
+                this.scope.pager.count = 0;
+                this.scope.pager.size = 10;
+                this.scope.$digest();
+
+                var pageOneIndex = this.element.querySelector('.pagination li.active');
+                expect(pageOneIndex.textContent).to.match(/1/);
+            });
+            it('should still be able to change page size', function() {
+                this.scope.pager.count = 0;
+                this.scope.pager.size = 10;
+                this.scope.$digest();
+
+                var pageSizes = this.element.querySelectorAll(PAGE_SIZES);
+                var smallestPageSizeOption = pageSizes[0];
+                var secondSmallestPageSizeOption = pageSizes[1];
+
+                expect(smallestPageSizeOption.classList.contains('disabled')).to.be.false;
+                expect(secondSmallestPageSizeOption.classList.contains('disabled')).to.be.false;
+
+                utils.click(secondSmallestPageSizeOption.querySelector('a'));
+                secondSmallestPageSizeOption = this.element.querySelector(PAGE_SIZE_NTH+'(2)');
+                
+                expect(secondSmallestPageSizeOption.classList.contains('active')).to.be.true;
+                
+                var pageOneIndex = this.element.querySelector('.pagination li.active');
+                expect(pageOneIndex.textContent).to.match(/1/);
             });
         });
 
