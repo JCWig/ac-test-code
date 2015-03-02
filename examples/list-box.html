@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    
+    <style>
+        .container {
+            min-height: 150px;
+        }
+        
+        form {
+            padding-bottom:20px;
+        }
+        
+        .column-employeeid {
+            width: 150px;
+        }
+        
+        .column-full-name {
+            width: 250px;
+        }
+        
+        td.column-full-text-name {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body ng-app="listBoxDemo" ng-controller="Ctrl" class="common-css">
+    <div class="container">
+        <h1>List Box Example</h1>
+        
+        <br />
+
+        <div class="container">
+            <h3>DATA USING PROMISE</h3>
+            <akam-list-box data="mydata" schema="columns" on-change="mychange(value)" selected-items="selectedItems1"></akam-list-box>
+            <span>Selected Items: {{selectedItems1}}</span>
+        </div>
+        
+        <div class="container">
+            <h3>DATA DIRECT</h3>
+            <akam-list-box data="basedata" schema="columns" on-change="mychange(value)" selected-items="selectedItems2"></akam-list-box>
+            <span>Selected Items: {{selectedItems2}}</span>
+        </div>
+    </div>
+    
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <script>
+        var BASE_DATA = [
+            {
+                first : "Yair",
+                last : "Leviel",
+                id : 234,
+                bu : "Luna",
+                color: "RED"
+            },
+            {
+                first : "Shawn",
+                last: "Dahlen",
+                id : 1357,
+                bu : "Luna",
+                color: "GREEN"
+            },
+            {
+                first : "Nick",
+                last: "Leon",
+                id : 2468,
+                bu : "Luna",
+                color: "YELLOW"
+            },
+            {
+                first : "Sean",
+                last: "Wang",
+                id : 2002,
+                bu : "Luna",
+                color: "RED"
+            },
+            {
+                first : "Mike",
+                last: "D",
+                id : 1001,
+                bu : "Luna",
+                color: "GREEN"
+            },
+            {
+                first : "Ryan",
+                last: "Silva",
+                id : 4781,
+                bu : "Kona",
+                color: "YELLOW"
+            },
+            {
+                first : "Miguel",
+                last: "Bollar",
+                id : 9988,
+                bu : "GTM",
+                color: "RED"
+            },
+            {
+                first : "Tom",
+                last: "O'Hare",
+                id : 4567,
+                bu : "Luna",
+                color: "GREEN"
+            },
+            {
+                first : "Nick",
+                last: "Pettazzoni",
+                id : 777,
+                bu : "Luna",
+                color: "YELLOW"
+            },
+        ];
+        var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
+        app.controller("Ctrl", ["$scope", "$timeout", "$q", function(scope, $timeout, $q) {
+            var deferred = $q.defer();
+            scope.mydata = deferred.promise;
+            scope.basedata = BASE_DATA;
+        
+            $timeout(function(){
+                deferred.resolve(BASE_DATA);
+            }, 2000);
+            
+            scope.columns = [
+                {
+                    //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                    content : function(){
+                        return this.first + ' ' + this.last;
+                    },
+                    header : 'Full Name',
+                    className : 'column-full-name'
+                },
+                {
+                    content : 'id',
+                    header : 'Emp. ID',
+                    className : 'column-employeeid'
+                },
+                {
+                    content : 'color',
+                    header : 'Color',
+                    className : 'column-color',
+                    sort: function(){
+                        var colorsValues = {
+                            'RED' : 1,
+                            'YELLOW' : 2,
+                            'GREEN' : 3
+                        };
+                        return colorsValues[this.color];
+                    }
+                },
+            ];
+            
+            scope.mychange = function(value){
+                console.log('yay', value);
+            };
+        }]);
+    </script>
+</body>
+</html>

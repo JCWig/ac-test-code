@@ -1,5 +1,7 @@
 'use strict';
 
+var STATUS_MESSAGE_CONTENT = '.status-message-content';
+
 describe('akamai.components.status-message-group', function() {
     describe('group status messages', function(){
         beforeEach(function() {
@@ -31,10 +33,15 @@ describe('akamai.components.status-message-group', function() {
         });
         context('when rendering', function(){
             it('should display correct information', function(){
-                expect(document.querySelector('#first-item-id')).to.not.be.null;
-                expect(document.querySelector('#second-item-id')).to.not.be.null;
-                expect(document.querySelectorAll('.status-message-content')[0].textContent).to.match(/First Text Field/);
-                expect(document.querySelectorAll('.status-message-content')[1].textContent).to.match(/Second Text Field/);
+                var firstStatusMessage = document.querySelector('#first-item-id');
+                var secondStatusMessage = document.querySelector('#second-item-id');
+                var firstStatusMessageContent = document.querySelectorAll(STATUS_MESSAGE_CONTENT)[0];
+                var secondStatusMessageContent = document.querySelectorAll(STATUS_MESSAGE_CONTENT)[1];
+
+                expect(firstStatusMessage).to.not.be.null;
+                expect(secondStatusMessage).to.not.be.null;
+                expect(firstStatusMessageContent.textContent).to.match(/First Text Field/);
+                expect(secondStatusMessageContent.textContent).to.match(/Second Text Field/);
             });
         }); 
         context('when rendered', function(){
@@ -42,8 +49,12 @@ describe('akamai.components.status-message-group', function() {
                 this.timeout.flush();
                 this.timeout.flush();
                 this.timeout.verifyNoPendingTasks();
-                expect(document.querySelector('#first-item-id')).to.be.null;
-                expect(document.querySelector('#second-item-id')).to.be.null;
+                
+                var firstStatusMessage = document.querySelector('#first-item-id');
+                var secondStatusMessage = document.querySelector('#second-item-id');
+                
+                expect(firstStatusMessage).to.be.null;
+                expect(secondStatusMessage).to.be.null;
             });
         });
     });
@@ -69,7 +80,9 @@ describe('akamai.components.status-message-group', function() {
         });
         context('when rendering', function(){
             it('should not render any messages', function(){
-                expect(document.querySelector('.status-message-content')).to.be.null;
+                var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+
+                expect(statusMessageContent).to.be.null;
             });
         });
     });
