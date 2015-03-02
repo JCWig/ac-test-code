@@ -784,6 +784,7 @@ describe('akam-list-box', function() {
             } catch (e){
                 expect(e).to.equal("Column may not be null/undefined");
             }
+            document.body.removeChild(this.element);
         });
     });
 });
