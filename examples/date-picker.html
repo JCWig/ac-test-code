@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet">
     <style>
         .container {
             min-height: 150px;
@@ -12,7 +12,7 @@
         }
     </style>
 </head>
-<body ng-app="datePickerDemo" ng-controller="Ctrl" class="common-css">
+<body ng-app="example" ng-controller="ExampleController" class="common-css">
     <div class="container">
         <h1>Date Picker Example</h1>
         
@@ -20,35 +20,41 @@
         
         <div class="container">
             Date Picker (Day):
-            <akam-date-picker ng-model="picked1" min="{{min}}" mode="day" placeholder="date picker"></akam-date-picker>
+            <akam-date-picker
+                ng-model="day"
+                ng-change="dayChanged()"
+                min="{{ min }}"
+                mode="day"
+                placeholder="date picker">
+            </akam-date-picker>
         </div>
 
         <div class="container">
             Date Picker (Month):
-            <akam-date-picker ng-model="picked2" mode="month" placeholder="month picker"></akam-date-picker>
+            <akam-date-picker
+                ng-model="month"
+                mode="month"
+                placeholder="month picker">
+            </akam-date-picker>
         </div>
     </div>
 
     <script src="../node_modules/angular/angular.js"></script>
     <script src="../dist/akamai-components.js"></script>
     <script>
-        var app = angular.module("datePickerDemo", ["akamai.components.date-picker"]);
-        app.controller("Ctrl", ["$scope", "$timeout", function($scope, $timeout) {
-            $scope.picked1 = new Date(2015, 1, 10);
-            $scope.picked2 = new Date(2015, 1, 10);
+        angular.module('example', ['akamai.components.date-picker'])
+
+        .controller('ExampleController', function($scope) {
+            $scope.day = new Date(2015, 1, 10);
+            $scope.month = new Date(2015, 1, 10);
         
             $scope.min = new Date(2015, 1, 05);
             $scope.max = new Date(2015, 3, 01);
-            $scope.mychange = function(value){
-                console.log('yay', value);
-            };
 
-            /*            
-            $timeout(function(){
-                $scope.picked1 = new Date(2015, 1, 11);
-            }, 2000);
-            */
-        }]);
+            $scope.dayChanged = function() {
+                console.log('Day changed to: ', $scope.day);
+            };
+        });
     </script>
 </body>
 </html>
