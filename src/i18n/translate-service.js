@@ -20,9 +20,9 @@ module.exports = function($translate) {
          * @name translate#async
          * @methodOf akamai.components.i18n.service:translate
          *
-         * @description async method provides atlernative usage in trasnlating the keys in non-blocking fashion
-         * It depends on the styles of programing, but best practice will be to use with scope veriavles in controllers and directives
-         * , so it can display dom content in non-blocking fashion
+         * @description async method provides alternative usage in translating the keys in non-blocking fashion
+         * It depends on the styles of programming, but best practice will be to use with scope variables in controllers and directives
+         * , so it can display DOM content in non-blocking fashion
          *
          * Examples of usages:
          *
@@ -49,7 +49,9 @@ module.exports = function($translate) {
          * })
          * </pre>
          *
-         * if it requires 2 way binding, then wrap around the events like "translateChangeEnd" or "translationLoadingSucces" are suggested
+         * If it requires two-way binding, then wrap around the events
+         * like `translateChangeEnd` or `translationLoadingSuccess`.
+         *
          * <pre>
          * $rootScope.$on('$translateChangeEnd', function() {
          * akamTranslate.async('key').then(function(value){
@@ -71,8 +73,8 @@ module.exports = function($translate) {
          * @name translate#sync
          * @methodOf akamai.components.i18n.service:translate
          *
-         * @description sync method provides atlernative usage in translating the keys in blocking fashion
-         * It depends on the styles of programing, but best situations to use this is to have translated value right away, and they are not $scope variables.
+         * @description sync method provides alternative usage in translating the keys in blocking fashion
+         * It depends on the styles of programming, but best situations to use this is to have translated value right away, and they are not $scope variables.
          *
          * Examples of usages:
          *

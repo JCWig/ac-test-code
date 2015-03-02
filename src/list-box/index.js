@@ -27,7 +27,7 @@ var angular = require('angular');
      *
      * @param {Array | Promise} data The array of data to show in the listbox.  If data is a promise, the
      *  indeterminate progress control will show in place of the contents until the promise is resolved/rejected.
-     * @param {Array} columns The aray of columns that describes the schema to the list box layout and formatting
+     * @param {Array} columns The array of columns that describes the schema to the list box layout and formatting
      *
      */
 .directive("akamListBox", require('./list-box-directive'));

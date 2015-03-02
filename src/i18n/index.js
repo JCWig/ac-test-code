@@ -43,7 +43,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @requires pascalprecht.translate.$translate
  *
- * @description translate is a service - a wrapper for angular $tranlate service.
+ * @description translate is a service - a wrapper for angular $translate service.
  * This service contains 2 API methods, translate.sync(key, args) is for blocking method  same as $translate.instant(key, args),
  * and translate.async(keys).then(function(results) {}) for non-blocking fashion, same as $translate(key, args)...
  * *NOTE* usage examples are detailed in translate-service.js
@@ -55,7 +55,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.directive:akamTranslate
  * @requires translate
- * @description A directive used in the dom element where you want to translate the key
+ * @description A directive used in the DOM element where you want to translate the key
  *
  * An example of usage:
  *
@@ -73,7 +73,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.filter:akamTranslate
  * @requires translate
- * @description A filter used in the dom element and javascript where you want to translate the key
+ * @description A filter used in the DOM element and JavaScript where you want to translate the key
  *
  * An example of usage:
  *
@@ -100,8 +100,10 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @requires  $cookies
  * @requires i18nConfig
  *
- * @description This 'i18nToken' is a tiny service containing object that exposes 2 getter methods(getCurrentLocale(), and getUrls(),
- * those getter methods return values set by i18nTokenProvider in config phase
+ * @description This service contains an object that exposes two
+ * getter methods, getCurrentLocale() and getUrls(), those getter
+ * methods return values set by i18nTokenProvider in config phase.
+ *
  */
 /* @ngInject */
 .service('i18nToken')
@@ -146,7 +148,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * *NOTE* localeStorage is not used, the browser will not cache the language key
  * *NOTE* To prevent from page flicks due to async nature, we suggest any usages of translate in markup,
- * add "tranalate-cloak" on body tag, and add .translate-cloak {display: none !important; } in CSS.
+ * add "translate-cloak" on body tag, and add .translate-cloak {display: none !important; } in CSS.
  *
  */
 /* @ngInject */

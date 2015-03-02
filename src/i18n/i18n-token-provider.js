@@ -7,7 +7,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
     var self = this;
 
     /**
-     * This function adds path and part value to urls array and it will be used in the i18nCustomLoader service.
+     * This function adds path and part value to URLs array and it will be used in the i18nCustomLoader service.
      * if path is array type, path value should contain part value if any already, and implemented by caller.
      * If path is string type, then it will atrempt to append the part value if any
      */
@@ -30,7 +30,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
      * @methodOf akamai.components.i18n.service:i18nTokenProvider
      *
      * @description provider method to add app locale files path and part
-     * @param {array | string} path - an array of url path value or url path string value
+     * @param {array | string} path - an array of URL path value or URL path string value
      * @param {string=}  part - a value to append to the path, e.g. "message" prefix: "message_en_US"
      *
      */
@@ -54,7 +54,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
              * @name i18nToken#getUrls
              * @methodOf akamai.components.i18n.service:i18nToken
              *
-             * @description get a list of urls for locale files
+             * @description get a list of URLs for locale files
              *
              */
             getUrls: function() {
