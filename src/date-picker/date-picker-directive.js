@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log, $filter) {
+module.exports = function($log, $filter, $parse) {
     var PICKER_TYPES = {
         'day' : 'day',
         'month' : 'month'
@@ -10,11 +10,10 @@ module.exports = function($log, $filter) {
     return {
         replace: true,
         restrict: 'E',
+        require: 'ngModel',
         scope: {
-            value: '=',
             placeholder: '@',
             mode : '@',
-            onchange: '&',
             min : '@',
             max : '@',
             format: '@'
@@ -22,32 +21,46 @@ module.exports = function($log, $filter) {
         template: require('./templates/date-picker.tpl.html'),
         link: {
             pre: function(scope) {
-                scope.opened = false; // always default to not opened
-                scope.mode = (scope.mode in PICKER_TYPES) ? scope.mode : PICKER_TYPES.day;
+                scope.opened = false;
+                scope.mode = (scope.mode in PICKER_TYPES) ?
+                    scope.mode : PICKER_TYPES.day;
 
-                if ( scope.mode === PICKER_TYPES.day) {
+                if (scope.mode === PICKER_TYPES.day) {
                     scope.format = scope.format || 'EEE, MMM dd, yyyy';
                     scope.dateOptions = {
-                      startingDay: 0,
-                      showWeeks: false,
-                      autoclose: true,
-                      minMode: 'day',
-                      maxMode: 'day'
+                        startingDay: 0,
+                        showWeeks: false,
+                        autoclose: true,
+                        minMode: 'day',
+                        maxMode: 'day'
                     };
-                }else{
-                    scope.format= scope.format || 'MMM yyyy';
+                } else {
+                    scope.format = scope.format || 'MMM yyyy';
                     scope.dateOptions = {
-                      startingDay: 0,
-                      minMode: 'month',
-                      maxMode: 'month',
-                      showWeeks: false,
-                      datepickerMode: 'month',
-                      autoclose: true,
-                      formatMonth: 'MMM'
+                        startingDay: 0,
+                        minMode: 'month',
+                        maxMode: 'month',
+                        showWeeks: false,
+                        datepickerMode: 'month',
+                        autoclose: true,
+                        formatMonth: 'MMM'
                     };
                 }
             },
-            post: function(scope, element) {
+            post: function(scope, element, attrs, ngModel) {
+                if (!ngModel) {
+                    return;
+                }
+                
+                ngModel.$render = function() {
+                    scope.value =
+                        $filter('date')(ngModel.$modelValue, scope.format);
+                };
+
+                scope.change = function() {
+                    ngModel.$setViewValue(scope.value);
+                };
+        
                 scope.toggle = function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
@@ -57,15 +70,6 @@ module.exports = function($log, $filter) {
                 
                 scope.$watch('opened', function(newValue){
                     element.toggleClass('opened', newValue);
-                });
-                
-                scope.$watch('value', function(newValue, oldValue){
-                    if (angular.isDate(newValue)) {
-                        element.find('input').val( $filter('date')(newValue, scope.format) );
-                    }
-                    if (scope.onchange && newValue !== oldValue) {
-                        scope.onchange({ value: newValue });
-                    }
                 });
             }
         }

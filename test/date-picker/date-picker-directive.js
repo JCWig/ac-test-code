@@ -20,6 +20,7 @@ describe('akam-date-picker', function() {
     var compile = null;
     var scope = null;
     var self = this;
+
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/date-picker').name);
@@ -41,7 +42,7 @@ describe('akam-date-picker', function() {
     };
     context('when rendering date picker', function() {
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker placeholder="placeholder"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker ng-model="value" placeholder="placeholder"></akam-date-picker></div>';
             addElement(markup);
         });
         it('should render all parts', function() {
@@ -61,7 +62,7 @@ describe('akam-date-picker', function() {
     });
     context('when pressing the open button', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker ng-model="value"></akam-date-picker></div>';
             addElement(markup);
         });
         it('should display the date-picker', function() {
@@ -82,7 +83,7 @@ describe('akam-date-picker', function() {
     });
     context('when date picker is loaded', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker mode="day" value="picked1" onchange="mychange(value)"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" ng-change="mychange()"></akam-date-picker></div>';
             addElement(markup);
             utilities.click(TOGGLE_DATE_PICKER_BUTTON);
         });
@@ -111,7 +112,7 @@ describe('akam-date-picker', function() {
     });
     context('when interacting with the date picker', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker mode="day" value="picked1" onchange="mychange(value)"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" ng-change="mychange()"></akam-date-picker></div>';
             scope.mychange = sinon.spy();
             addElement(markup);
             utilities.click(TOGGLE_DATE_PICKER_BUTTON);
@@ -172,7 +173,7 @@ describe('akam-date-picker', function() {
     });
     context('when rendering month picker', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker mode="month" value="picked1"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="picked1"></akam-date-picker></div>';
             addElement(markup);
         });
         it('should render all parts', function(){
@@ -221,7 +222,7 @@ describe('akam-date-picker', function() {
     });
     context('when interacting with month picker', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker mode="month" onchange="mychange(value)" value="picked1"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-change="mychange()" ng-model="picked1"></akam-date-picker></div>';
             scope.mychange = sinon.spy();
             addElement(markup);
             utilities.click(TOGGLE_DATE_PICKER_BUTTON); 
@@ -277,7 +278,7 @@ describe('akam-date-picker', function() {
     });
     context('when interacting with min and max date date-picker', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" onchange="mychange(value)" value="picked1"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" ng-change="mychange(value)" ng-model="picked1"></akam-date-picker></div>';
             scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 5);
             scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
             scope.mychange = sinon.spy();
@@ -299,7 +300,7 @@ describe('akam-date-picker', function() {
     });
     context('when interacting with min and max date month picker', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="month" onchange="mychange(value)" value="picked1"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="month" ng-change="mychange()" ng-model="picked1"></akam-date-picker></div>';
             scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 5);
             scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
             scope.mychange = sinon.spy();
