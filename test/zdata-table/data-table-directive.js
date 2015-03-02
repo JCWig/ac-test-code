@@ -1,19 +1,101 @@
 'use strict';
 var utilities = require('../utilities');
-describe('akam-data-table', function() {
+var FILTER_BOX = 'div.filter input[type="search"]';
+var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
+var TABLE_COLUMN_HEADER = '.akam-data-table thead tr th';
+var TABLE_ROW = 'div.akam-data-table tbody tr';
+
+var PREVIOUS_BUTTON = 'div.akam-pagination .pagination li:first-child';
+var NEXT_BUTTON = 'div.akam-pagination .pagination li:last-child'
+var TOTAL_ITEMS_SPAN = 'div.akam-pagination .total-items';
+var PAGINATION_INDEX_NTH =  'div.akam-pagination .pagination li:nth-child';
+var PAGINATION_INDEX_REVERSE =  'div.akam-pagination .pagination li:nth-last-child';
+var PAGE_SIZE_SMALLEST = 'div.akam-pagination .page-size li:first-child';
+var PAGE_SIZE_LARGEST = 'div.akam-pagination .page-size li:last-child';
+var PAGE_SIZE_NTH = 'div.akam-pagination .page-size li:nth-child';
+var PAGE_SIZES= 'div.akam-pagination .page-size li'
+
+
+describe('zakam-data-table', function() {
     var compile = null;
     var scope = null;
     var self = this;
+    var q = null;
+    var timeout = null;
+    var http = null;
+
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/data-table').name);
-        inject(function($compile, $rootScope) {
+        inject(function($compile, $rootScope, $q, $timeout, $http) {
             compile = $compile;
             scope = $rootScope.$new();
+            q = $q;
+            timeout = $timeout;
+            http = $http;
         });
-    });
-    afterEach(function() {
-        document.body.removeChild(this.element);
+        scope.mydata = [
+            {
+                first : 'Yair',
+                last : 'Leviel',
+                id : 1234,
+                bu : "Luna",
+                color: "Green",
+                birthday : new Date(2001,10,20),
+                generic : ["hello"]
+            },
+            {
+                first : "Nick",
+                last: "Leon",
+                id : 2468,
+                bu : "Luna",
+                color:"Red",
+                birthday : new Date(2002,10,20),
+                generic : ["goodbye"]
+            },
+            {
+                first: "K-Slice",
+                last:"McYoungPerson",
+                id:3141592653,
+                bu:"Luna",
+                color:"Yellow",
+                birthday : new Date(2000,10,20),
+                generic : ["shake it off"]
+            }
+        ];
+        scope.columns = [
+            {
+                content : function(){
+                    return this.first + ' ' + this.last;
+                },
+                header : 'Full Name',
+                className : 'column-full-text-name'
+            },
+            {
+                content : 'id',
+                header : 'Employee ID'
+            },
+            {
+                content:"color",
+                header:"Favorite Color",
+                sort: function(){
+                    var colorsValues = {
+                        'Red' : 1,
+                        'Yellow' : 2,
+                        'Green' : 3
+                    };
+                    return colorsValues[this.color];
+                }
+            },
+            {
+                content:"birthday",
+                header:"Birthday"
+            },
+            {
+                content:"generic",
+                header:"Generic Sorting"
+            }
+        ];
     });
     function addElement(markup) {
         self.el = compile(markup)(scope);
@@ -22,14 +104,58 @@ describe('akam-data-table', function() {
         document.body.appendChild(self.element);
     };
     context('when rendering data table', function() {
-        it('should have a title', function(){});
-        it('should show progress bar until fully rendered', function(){});
-        it('should render all parts', function() {});
-        it('should not have anything selected', function() {});
-        it('should have filter be clear', function() {});
-        it('should have option for how many rows are displayed', function(){});
+        afterEach(function() {
+            document.body.removeChild(this.element);
+        });
+        it('should show progress bar until fully rendered', function(){
+            var deferred = q.defer();
+            scope.delayeddata = deferred.promise;
+            timeout(function(){
+                deferred.resolve(scope.mydata);
+            }, 2000);
+            var markup = '<akam-data-table data="delayeddata" schema="columns"></akam-data-table>';
+            addElement(markup);
+
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/false/);
+            timeout.flush();
+            var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
+
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
+        });
+        it('should render all parts data table and pagination', function() {
+            var markup = '<akam-data-table data="mydata" schema="schema" filter-placeholder="yair"></akam-data-table>'
+            addElement(markup);
+
+            var dataTableContainer = document.querySelector('div.akam-data-table');
+            var paginationContainer = document.querySelector('div.akam-pagination');
+
+            expect(dataTableContainer).to.not.be.null;
+            expect(paginationContainer).to.not.be.null;
+        });
+        //it('should not have anything selected if checkboxes are active', function() {});
+        it('should have filter be clear', function() {
+            var markup = '<akam-data-table data="mydata" schema="schema" filter-placeholder="yair"></akam-data-table>'
+            addElement(markup);
+
+            var filterBox = document.querySelector(FILTER_BOX);
+
+            expect(filterBox.value).to.equal('');
+        });
+        it('should have 3 options for how many rows are displayed', function(){
+            var markup = '<akam-data-table data="mydata" schema="schema" filter-placeholder="yair"></akam-data-table>'
+            addElement(markup);
+
+            var smallestPageSize = document.querySelector(PAGE_SIZE_SMALLEST);
+            var mediumPageSize = document.querySelector(PAGE_SIZE_NTH+'(2)');
+            var largestPageSize = document.querySelector(PAGE_SIZE_LARGEST);
+
+            expect(smallestPageSize.textContent).to.match(/10/);
+            expect(mediumPageSize.textContent).to.match(/25/);
+            expect(largestPageSize.textContent).to.match(/50/);
+        });
     });
-    context('when data table is rendered', function(){
+    /*context('when data table is rendered', function(){
         it('should display the total number of results', function(){});
         it('should display action options on mouse hover of a row', function(){});
         it('should show indeterminate progress bar when refreshed', function(){});
@@ -114,5 +240,5 @@ describe('akam-data-table', function() {
     context('when mouseover events occur', function(){
         it('should change color of the row mouse is over', function(){});        
         it('should change color of the action the mouse is over', function(){});
-    });
+    });*/
 });

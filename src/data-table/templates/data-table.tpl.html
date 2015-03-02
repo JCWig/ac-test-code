@@ -1,15 +1,4 @@
-<<<<<<< HEAD
-<div class="akam-data-table-container">
-    <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
-    <table class="akam-data-table">
-        <thead>
-            <tr>
-                <th ng-if="showCheckboxes">
-                    <input type="checkbox" ng-model="state.allSelected" id="allSelected"><label for="allSelected"></label>
-                </th>
-                <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)">
-                    {{column.header}}
-=======
+<div>
 <div class="akam-data-table">
     <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
     <div class="filter">
@@ -23,31 +12,10 @@
                 </th>
                 <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)" title="{{column.header}}">
                     {{column.header}} <i></i>
->>>>>>> feature/FEE-423_data_table_new
                 </th>
             </tr>
         </thead>
         <tbody>
-<<<<<<< HEAD
-            <tr ng-repeat="item in data" ng-class="{'row-selected' : item.selected, 'util-clickable' : showCheckboxes}" ng-click="item.selected = !item.selected">
-                <td ng-if="showCheckboxes">
-                    <input type="checkbox" ng-model="item.selected" id="item_{{$index}}"><label for="item_{{$index}}"></label>
-                </td>
-                <td ng-repeat="column in columns" ng-class="getColumnClasses(column, false)">
-                    {{column.text(item)}}
-                </td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="{{numberOfColumns()}}">
-                    Pagination and Results Info<br>
-                    <div>Selected Items: {{getSelectedItems()}}</div>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-=======
             <tr ng-repeat="item in dataTable | filter:state.search | offset: pager.page * pager.size | limitTo: pager.size" ng-class="{ 'row-selected' : item.selected, 'util-clickable' : showCheckboxes }" ng-click="item.selected = showCheckboxes && !item.selected; updateChanged()">
                 <td ng-if="showCheckboxes" class="column-checkbox">
                     <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
@@ -64,5 +32,5 @@
         page-size="pager.size"
         onchangepage="pageChanged(page)">
     </akam-pagination>
->>>>>>> feature/FEE-423_data_table_new
+</div>
 </div>
