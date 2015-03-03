@@ -15,7 +15,16 @@ var PAGE_SIZE_SMALLEST = 'div.akam-pagination .page-size li:first-child';
 var PAGE_SIZE_LARGEST = 'div.akam-pagination .page-size li:last-child';
 var PAGE_SIZE_NTH = 'div.akam-pagination .page-size li:nth-child';
 var PAGE_SIZES= 'div.akam-pagination .page-size li'
-
+var translationMock = {
+    "components": {
+        "pagination": {
+            "label": {
+                "results": "Results: ",
+                "show-entries": "Show Entries: "
+            }
+        }
+    }
+};
 
 describe('zakam-data-table', function() {
     var compile = null;
@@ -124,6 +133,7 @@ describe('zakam-data-table', function() {
                 className : 'column-employeeid'
             }
         ];
+        scope.dataObj = {data:scope.mydata};
     });
     function addElement(markup) {
         self.el = compile(markup)(scope);
@@ -135,7 +145,7 @@ describe('zakam-data-table', function() {
         afterEach(function() {
             document.body.removeChild(this.element);
         });
-        /*it('should show progress bar until fully rendered', function(){
+        it('should show progress bar until fully rendered', function(){
             var deferred = q.defer();
             scope.delayeddata = deferred.promise;
             timeout(function(){
@@ -150,7 +160,7 @@ describe('zakam-data-table', function() {
 
             expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
             expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
-        });*/
+        });
         it('should render all parts data table and pagination', function() {
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>'
             addElement(markup);
@@ -197,7 +207,26 @@ describe('zakam-data-table', function() {
             expect(totalItemsSpan.textContent).to.contain('3');
         });
         //it('should display action options on mouse hover of a row', function(){});
-        //it('should show indeterminate progress bar when refreshed', function(){});
+        it('should show indeterminate progress bar when refreshed', function(){
+            var deferred = q.defer();
+            scope.delayeddata = deferred.promise;
+            timeout(function(){
+                deferred.resolve(scope.mydata);
+            }, 2000);
+            var markup = '<akam-data-table data="delayeddata" schema="columns"></akam-data-table>';
+            addElement(markup);
+
+            document.location = location;
+
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/false/);
+            timeout.flush();
+            var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
+
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
+
+
+        });
     });
     /*context('when data table is loaded', function(){
         it('should be able to render without a toolbar', function(){});
@@ -270,6 +299,28 @@ describe('zakam-data-table', function() {
             
             expect(document.querySelectorAll(TABLE_ROW).length).to.equal(2);
         });
+        it('should be able to select all items', function(){
+            //CURRENTY NOT ACTUALLY IMPLEMENTED ACCESSING FIELD DIRECTLY TO TEST 
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+            var rowThreeColumnOne = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[0];
+            var largestPageSize = document.querySelector(PAGE_SIZE_LARGEST).querySelector('a');
+            utilities.click(rowOneColumnTwo);
+            utilities.click(rowThreeColumnOne);
+
+            scope.$$childTail.state.allSelected = true;
+            scope.$$childTail.updateSearchFilter();
+            scope.$digest();
+            var checkedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+
+            expect(checkedCheckboxes.length).to.equal(11);
+
+            utilities.click(largestPageSize);
+            scope.$digest();
+            checkedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+
+            expect(checkedCheckboxes.length).to.equal(51);
+
+        });
     });
     context('when interacting with sort options', function(){
         beforeEach(function(){
@@ -286,6 +337,7 @@ describe('zakam-data-table', function() {
 
             var rowOneColumnOne = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
             var rowThreeColumnOne = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[0];
+
 
             expect(rowOneColumnOne.textContent).to.match(/Dinah Lance/);
             expect(rowThreeColumnOne.textContent).to.match(/Roy Harper/);
@@ -442,8 +494,8 @@ describe('zakam-data-table', function() {
         });
         it('should not default if all columns are unsortable', function(){
             scope.mydata = [
-                {'name' : "Kevin", 'id':25},
-                {'name' : "Alejandro", 'id':17}
+                {'name' : "Oliver", 'id':25},
+                {'name' : "Barry", 'id':17}
             ];
             scope.columns = [
                 {content : 'name', header : 'Name',sort:false},
@@ -453,7 +505,7 @@ describe('zakam-data-table', function() {
             addElement(markup);
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
+            expect(rowOneColumnTwo.textContent).to.match(/Oliver/);
         });
         it('should default sort based upon custom function if provided', function(){
             scope.mydata = [
@@ -614,6 +666,25 @@ describe('zakam-data-table', function() {
             expect(rowOneColumnTwo.textContent).to.match(/ /);
             expect(allVisibleRows.length).to.equal(2);
         });
+        it('should recognize content not matching', function(){
+            scope.baddata = [
+                {first : "Nick"},
+                {first: "Kevin"}];
+            scope.columns = [
+                {content : "no-matches", 
+                header : 'Full Name'}
+            ];
+            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true"></akam-data-table>';
+            addElement(markup);
+
+            utilities.click(document.querySelectorAll(TABLE_COLUMN_HEADER)[1]);
+
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+            var allVisibleRows = document.querySelectorAll(TABLE_ROW);
+
+            expect(rowOneColumnTwo.textContent).to.match(/ /);
+            expect(allVisibleRows.length).to.equal(2);
+        });
         it('should recognize null content when sorting name', function(){
             scope.baddata = [
                 {name : null},
@@ -638,6 +709,19 @@ describe('zakam-data-table', function() {
             expect(rowTwoColumnTwo.textContent).to.contain('');
             expect(rowFourColumnTwo.textContent).to.contain('James');
             expect(rowFiveColumnTwo.textContent).to.contain('Kevin');
+        });
+
+        it('should be able to handle data object for data', function(){
+            var markup = '<akam-data-table data="dataObj" schema="columns" filter-placeholder="placeholder"></akam-data-table>'
+            addElement(markup);
+
+            var rowOneColumnOne = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
+            var rowTwoColumnOne = document.querySelectorAll(TABLE_ROW)[1].querySelectorAll('td')[0];
+            var rowThreeColumnOne = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[0];
+
+            expect(rowOneColumnOne.textContent).to.match(/Dinah Lance/);
+            expect(rowTwoColumnOne.textContent).to.match(/Oliver Queen/);
+            expect(rowThreeColumnOne.textContent).to.match(/Roy Harper/);
         });
     });
     context('when errors are thrown', function(){
