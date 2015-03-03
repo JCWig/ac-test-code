@@ -88,7 +88,12 @@ describe('i18nToken service', function() {
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
-            i18nTokenProvider.addAppLocalePath("../../", "_app");
+            var config = {
+                path  : "../../",
+                prefix:  "_app",
+                appName: "billing-center"
+            }
+            i18nTokenProvider.addAppLocalePath(config);
             $provide.factory('i18nCustomLoader', function($q, i18nToken) {
                 var locale = i18nToken.getCurrentLocale(),
                     urls = i18nToken.getUrls();
@@ -157,7 +162,7 @@ describe('locale cookie set to "de_DE', function() {
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
-            i18nTokenProvider.addAppLocalePath("../../", "_app");
+            i18nTokenProvider.addAppLocalePath({path: "../../", prefix: "_app"});
             $provide.factory('i18nCustomLoader', function($q, i18nToken) {
                 var locale = i18nToken.getCurrentLocale(),
                     urls = i18nToken.getUrls();

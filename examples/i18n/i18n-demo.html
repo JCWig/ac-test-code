@@ -20,7 +20,13 @@
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
 
     app.config(function(i18nTokenProvider) {
-        i18nTokenProvider.addAppLocalePath(appLocalePath, "messages_");
+        var config = {
+            path: appLocalePath,
+            prefix: "messages_",
+            appName: "billing-center"
+        };
+        //i18nTokenProvider.addAppLocalePath(appLocalePath, "messages_");
+        i18nTokenProvider.addAppLocalePath(config);
     });
 
     app.controller("TranslationPageController", ["$scope", "translate", "$rootScope", "$filter", function($scope, translate, $rootScope, $filter) {
