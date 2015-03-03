@@ -1,9 +1,10 @@
 'use strict';
 
+var INTERNATIONALIZATION_PATH = '/assets/akamai-components/0.0.1/locales/en_US.json';
 describe('akam-translate directive', function() {
-    var httpBackend, element, scope, compile, markup, translation, timeout;
+    var element, scope, compile, markup, timeout, httpBackend;
     var translationMock = {
-        'TRANSLATION_ID': 'Lorem Ipsum {{value}}',
+        'TRANSLATION_ID':   'Lorem Ipsum {{value}}',
         'TRANSLATION_ID_2': 'Lorem Ipsum {{value}} + {{value}}',
         'TRANSLATION_ID_3': 'Lorem Ipsum {{value + value}}'
     };
@@ -12,29 +13,22 @@ describe('akam-translate directive', function() {
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider) {
-            $provide.factory('i18nCustomLoader', function($q, $timeout) {
-                return function(options) {
-                    var deferred = $q.defer();
-                    $timeout(function() {
-                        deferred.resolve(translationMock);
-                    });
-                    return deferred.promise;
-                };
-            });
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function(_$compile_, _$rootScope_, _$httpBackend_, $timeout, translate) {
+        inject(function(_$compile_, _$rootScope_, $timeout, $httpBackend) {
             compile = _$compile_;
             var rootScope = _$rootScope_;
             scope = rootScope.$new();
-            translation = translate;
             timeout = $timeout;
+            httpBackend = $httpBackend;
         });
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(translationMock);
     });
     function addElement(markup) {
         self.el = compile(markup)(scope);
         self.element = self.el[0];
         scope.$digest();
+        httpBackend.flush();
         timeout.flush();
         document.body.appendChild(self.element);
     };
@@ -44,7 +38,7 @@ describe('akam-translate directive', function() {
     context('when rendering', function() {
         it("should translate correctly with correct key", function() {
             var markup = '<span akam-translate="TRANSLATION_ID" class="akam-translate"></span>';
-            addElement(markup);
+            addElement(markup); 
             var translatedSpan = document.querySelector('.akam-translate');
             expect(translatedSpan.textContent).to.equal("Lorem Ipsum ");
         });
