@@ -24,6 +24,7 @@ var globby = require('globby');
 var moment = require('moment');
 var runSequence = require('run-sequence');
 var mkdirp = require('mkdirp');
+var fixtureServer = require('portal-fixture-server/server');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -108,12 +109,9 @@ gulp.task('test', ['clean', 'lint'], function () {
     });
 });
 
-gulp.task('serve', ['setWatch', 'browserify'], function() {
+gulp.task('serve', ['setWatch', 'browserify', 'fixtureServer'], function() {
     browserSync({
-        server: {
-            baseDir: './',
-            directory: true
-        },
+        proxy: 'localhost:3000',
         startPath: '/examples/index.html',
         injectChanges: true,
         files: [
@@ -121,6 +119,20 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
         ]
     });
 });
+
+gulp.task('fixtureServer', function(done) {
+    var config = {
+      staticPaths : {
+        '/assets/akamai-components/:version/locales/' : 'locales',
+        '/' : '.'    // serve this directory as
+      },
+      port : 3000
+    };
+
+  fixtureServer.start(config);
+  done();
+});
+
 
 gulp.task('setWatch', function() {
     global.isWatching = true;
