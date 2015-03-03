@@ -6,11 +6,12 @@ module.exports = function($log) {
         restrict: 'E',
         transclude: true,
         scope: {
-            label: '@'
+            label: '@',
+            icon : '@'
         },
         template: require('./templates/menu-button.tpl.html'),
         link: function() {
-            $log.info('Hello World!');
+
         }
     };
 };

@@ -1,6 +1,6 @@
-<div class="akam-menu-button btn-group" dropdown>
-    <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-        {{ label }} <span class="caret"></span>
+<div class="akam-menu-button dropdown btn-group" dropdown>
+    <button type="button" class="btn dropdown-toggle" dropdown-toggle>
+        <i class="{{icon}}" ng-if="icon"></i> <span ng-if="label">{{ label }}</span> <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu" ng-transclude>
     </ul>
