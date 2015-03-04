@@ -26,14 +26,18 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * | key | value | type | description
  * |-----------|-----------------|-----------------------------------------------------------------------------|
  * | localeCookie | AKALOCALE | {@type string} | This cookie name is widely used from Luna portal apps |
- * | localePath | 'assets/akamai-components/{version}/locales/' | {@type string} | This path value is to component locale file. (subject to change) |
+ * | localeComponentPath | 'libs/akamai-components/{version}/locales/' | {@type string} | This path value is to component locale file. |
+ * | localeAppPath | 'apps/{appName}/locales/' | {@type string} | This path value is to app locale file. |
  * | defaultLocale | en_US | {@type string} | Default locale string value. |
+ * | baseVersion | '0.0.1' | {@type string} | This path value is to component locale file. (subject to change) |
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
-    localePath: '/assets/akamai-components/{version}/locales/',
+    localeComponentPath: '/libs/akamai-components/{version}/locales/',
+    localeAppPath: '/apps/{appName}/locales/',
     defaultLocale: 'en_US',
-    baseVersion: "0.0.1"
+    baseVersion: "0.0.1",
+    localePrefix: ""
 })
 
 /**
@@ -97,7 +101,8 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:i18nToken
  *
- * @requires  $cookies
+ * @requires $cookies
+ * @requires $location
  * @requires i18nConfig
  *
  * @description This 'i18nToken' is a tiny service containing object that exposes 2 getter methods(getCurrentLocale(), and getUrls(),
@@ -111,6 +116,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:i18nTokenProvider
  * @requires i18nConfig
+ * @requires $locationProvider
  *
  * @description This 'i18nToken' provider provides methods allow to pass in the application locale path value(s) during config phase.
  * And it also invokes I18nToken service object that consumes those locale and path values during run phase

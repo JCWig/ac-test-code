@@ -1,53 +1,100 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function i18nTokenProvider(i18nConfig) {
-    var compLocalePath = i18nConfig.localePath.replace(/\{version\}/g, i18nConfig.baseVersion);
-    this.urls = [compLocalePath];
+module.exports = function i18nTokenProvider(i18nConfig, $locationProvider) {
+    this.rawUrls = [];
     var self = this;
 
     /**
-     * This function adds path and part value to urls array and it will be used in the i18nCustomLoader service.
-     * if path is array type, path value should contain part value if any already, and implemented by caller.
-     * If path is string type, then it will atrempt to append the part value if any
+     * @description  Path object that constructs a path value from app or component.
+     * @param {object=} config
+     * @param {boolean=} useApp is the value to determine whether it is for app locale path or for component
+     *
+     * var config = {
+     *       path: "src/json/messages/",
+     *       prefix: "message_",
+     *       appName: "billing-center"
+     * }
      */
-    var usePathAndPart = function(path, part) {
-        if (angular.isUndefined(path) || path === null) {
-            return;
-        }
-        if (angular.isArray(path) && path.length) {
-            self.urls.push.apply(self.urls, path);
-        } else if (angular.isString(path) && path.trim().length) {
-            self.urls.push(path + (part || ""));
-        } else {
-            return;
-        }
+    var Path = function() {
+        /**
+         * Path function that determine whether call frm app or component and resolves (adds) the correct path of locale file to urls array
+         */
+        this.resolve = function(config, fromApp) {
+            var isNotValidConfig = angular.isUndefined(config) || config === null,
+                hasPath = isNotValidConfig ? false : (config.path || config.path.trim().length),
+                rawPath = "";
+            if (fromApp) {
+                rawPath = hasPath ? config.path + (config.prefix || i18nConfig.prefix) : i18nConfig.localeAppPath;
+            } else {
+                rawPath = hasPath ? config.path : i18nConfig.localeComponentPath;
+            }
+            self.rawUrls.push({
+                path: rawPath.toLowerCase(),
+                app: fromApp || false
+            });
+            return rawPath;
+        };
     };
+
+    //take default one here for component locale
+    var cPath = new Path();
+    cPath.resolve();
+
+    $locationProvider.html5Mode(false);
+
 
     /**
      * @ngdoc method
      * @name i18nTokenProvider#addAppLocalePath
      * @methodOf akamai.components.i18n.service:i18nTokenProvider
      *
-     * @description provider method to add app locale files path and part
-     * @param {array | string} path - an array of url path value or url path string value
-     * @param {string=}  part - a value to append to the path, e.g. "message" prefix: "message_en_US"
-     *
+     * @description provider method takes path config values, pass to Path object to add values to path urls.
+     * If config is undefined or config.path is undefined or empty, it will use default app path instead
+     * @param {object=} config - a hash object that contains  locale files path and prefix values
      */
-    this.addAppLocalePath = function(path, part) {
-        return usePathAndPart(path, part);
+    this.addAppLocalePath = function(config) {
+        var path = new Path();
+        return path.resolve(config, true);
     };
 
     /**
-     * i18nToken is a simple service used by the i18nTokenProvider to pass values set during app config phase
-     * The locale value here is determined by AKALOCALE cookie set by Luna portal, all app will be based on and using that, fallback value will be "en_US"
+     * i18nToken is a service used by the i18nTokenProvider to pass values set during app config phase.
+     * Use AKALOCALE cookie set by Luna portal to determine locale value, and fall back locale will be "en_US",
+     * Normalized component locale path is constructed by baseVersion value set from default config to re[lace {version} placeholder
+     * Normalized app locale path is constructed by looking up the $location url to determine {appName} placeholder in certain patterns
      * @return {object} it returns object hash contains 2 getter methods mainly for customLoader to use
      */
     /* @ngInject */
-    this.$get = function i18nTokenFactory($cookies, i18nConfig) {
+    this.$get = function i18nTokenFactory($cookies, i18nConfig, $location) {
         var cookieLocale = $cookies[i18nConfig.localeCookie],
-            locale =  cookieLocale? atob(cookieLocale.split('+')[0]) : i18nConfig.defaultLocale,
-            localeUrls = this.urls;
+            locale = cookieLocale ? atob(cookieLocale.split('+')[0]) : i18nConfig.defaultLocale,
+            localeUrls = [],
+            appName, matchResults,
+            normalizedPath,
+            // valid chars: lower case alpha, digits, and hyphen for possible appName from url
+            appUrlRx = /[^/]\/apps\/([a-z0-9-]+)?[/?]?/;
+
+            //check if app has called to pass locle file url path yet, if not, add default one here
+            if (this.rawUrls.length === 1) {
+                this.rawUrls.push({path: i18nConfig.localeAppPath, app: true});
+            }
+
+        angular.forEach(this.rawUrls, function(raw) {
+            //only doing browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
+            if (raw.app) {
+                appName = "appName"; matchResults = [];
+                // Capture section in path after apps/
+                matchResults = appUrlRx.exec($location.absUrl());
+                if (matchResults) {
+                    appName = matchResults[1];
+                }
+                normalizedPath = raw.path.replace(/\{appName\}/g, appName);
+            } else {
+                normalizedPath = raw.path.replace(/\{version\}/g, i18nConfig.baseVersion);
+            }
+            localeUrls.push(normalizedPath);
+        });
         return {
             /**
              * @ngdoc function
