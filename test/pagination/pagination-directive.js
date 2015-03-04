@@ -220,6 +220,23 @@ describe('akam-pagination directive', function() {
                 expect(pageOneIndex.textContent).to.match(/1/);
             });
         });
+        context('when total item count is changed to less than 0 ', function() {
+            it('should change to zero', function() {
+                this.scope.pager.count = 1;
+                this.scope.pager.size = 10;
+                this.scope.$digest();
+                this.scope.pager.count = -11;
+                this.scope.$digest();
+                expect(this.scope.pager.count).to.equal(0);
+            });
+            it('should change starting value to zero', function() {
+                this.scope.pager.count = -11;
+                this.scope.pager.size = 10;
+                this.scope.$digest();
+                expect(this.scope.pager.count).to.equal(0);
+            });
+
+        });
 
         context('when the last page is the current page', function() {
             it('should disable the next button', function() {
