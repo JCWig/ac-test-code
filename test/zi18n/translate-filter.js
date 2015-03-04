@@ -1,5 +1,8 @@
 'use strict';
-var INTERNATIONALIZATION_PATH = '/assets/akamai-components/0.0.1/locales/en_US.json';
+var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
+var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json'
+var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+var enUsResponse = require ("./i18n_responses/en_US.json");
 describe('akamTranslate filter', function() {
     var element, scope, compile, markup, translation, filter, timeout, httpBackend;
 
@@ -23,6 +26,7 @@ describe('akamTranslate filter', function() {
             httpBackend = $httpBackend;
         });
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(translationMock);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
     function addElement(markup) {
         self.el = compile(markup)(scope);

@@ -1,6 +1,10 @@
 'use strict';
 
-var INTERNATIONALIZATION_PATH = '/assets/akamai-components/0.0.1/locales/en_US.json';
+var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
+var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json'
+var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+var enUsResponse = require ("./i18n_responses/en_US.json");
+
 describe('akam-translate directive', function() {
     var element, scope, compile, markup, timeout, httpBackend;
     var translationMock = {
@@ -34,6 +38,7 @@ describe('akam-translate directive', function() {
                 httpBackend = $httpBackend;
             });
             httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(translationMock);
+            httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
         });
         it("should translate correctly with correct key", function() {
             var markup = '<span akam-translate="TRANSLATION_ID" class="akam-translate"></span>';

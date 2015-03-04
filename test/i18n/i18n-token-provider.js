@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 describe('i18nTokenProvider', function() {
 
@@ -87,6 +87,6 @@ describe('i18nTokenProvider', function() {
             expect(provider.urls.length).to.equal(1);
         });
 
-*/
     });
 });
+*/

@@ -1,5 +1,7 @@
 'use strict';
-var INTERNATIONALIZATION_PATH = '/assets/akamai-components/0.0.1/locales/en_US.json';
+var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
+var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json'
+var CONFIG_PATH = '../../_appen_US.json';
 var SECOND_INTERNATIONALIZATION_PATH = '/random/path/that/doesnt/exist/';
 var SECOND_INTERNATIONALIZATION_JSON_PATH = SECOND_INTERNATIONALIZATION_PATH+'en_US.json';
 describe('i18nCustomLoader service', function() {
@@ -10,8 +12,13 @@ describe('i18nCustomLoader service', function() {
     beforeEach(function(){
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function(i18nTokenProvider) {
+            var config = {
+                path  : "../../",
+                prefix:  "_app",
+                appName: "billing-center"
+            }
             provider = i18nTokenProvider;
-            provider.addAppLocalePath(SECOND_INTERNATIONALIZATION_PATH);
+            provider.addAppLocalePath(config);
         });
         angular.mock.module(function($provide, $translateProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
@@ -24,13 +31,14 @@ describe('i18nCustomLoader service', function() {
             timeout = $timeout;
             httpBackend = $httpBackend;
             scope = $rootScope;
-            log = $log; 
+            log = $log;      
+            
         });
     });
     context('when using custom Loader server', function(){
         beforeEach(function() {
-            httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsMessagesResponse);     
-            httpBackend.when('GET', SECOND_INTERNATIONALIZATION_JSON_PATH).respond(enUsResponse);   
+            httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+            httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);     
             scope.$digest();
             httpBackend.flush();
         });
@@ -64,8 +72,8 @@ describe('i18nCustomLoader service', function() {
     });
     context('when using custom loader service with error response', function(){
         beforeEach(function() {
-            httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});     
-            httpBackend.when('GET', SECOND_INTERNATIONALIZATION_JSON_PATH).respond(404, 'BAD PATH');   
+            httpBackend.when('GET', LIBRARY_PATH).respond({});     
+            httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');   
         });
         it('should error and break ', function(){
             log.error = sinon.spy();
@@ -76,8 +84,8 @@ describe('i18nCustomLoader service', function() {
     });
     context('when using custom loader service with url returning no data', function(){
         beforeEach(function() {
-            httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(null);     
-            httpBackend.when('GET', SECOND_INTERNATIONALIZATION_JSON_PATH).respond(enUsMessagesResponse);   
+            httpBackend.when('GET', LIBRARY_PATH).respond(null);     
+            httpBackend.when('GET', CONFIG_PATH).respond(enUsMessagesResponse);   
         });
         it('should ignore gracefully and continue to next url', function(){
             log.error = sinon.spy();

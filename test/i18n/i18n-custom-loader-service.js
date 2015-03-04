@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 describe('i18nCustomLoader service', function() {
 
@@ -197,3 +197,4 @@ describe('locale cookie set to "de_DE', function() {
         expect(atob(locale.split("+")[0])).to.equal("de_DE");
     });
 });
+*/
