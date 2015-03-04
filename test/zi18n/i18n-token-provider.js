@@ -109,34 +109,26 @@ describe('i18nTokenProvider', function() {
 describe('i18nToken service', function() {
 
     var service, cookies, rootScope;
-
+    var akdjsfh = '../../_appen_US.json';
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
             i18nTokenProvider.addAppLocalePath("../../", "_app");
-            $provide.factory('i18nCustomLoader', function($q, i18nToken) {
-                var locale = i18nToken.getCurrentLocale(),
-                    urls = i18nToken.getUrls();
-                return function(options) {
-                    var deferred = $q.defer();
-                    deferred.resolve({});
-                    return deferred.promise;
-                };
-            });
             $translateProvider.useLoader('i18nCustomLoader');
+            $provide.decorator ('$cookies', function ($delegate) {
+                $delegate = {AKALOCALE:"ZW5fVVN+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
+                return $delegate;
+            });
         });
 
-        inject(function(i18nToken, _$cookies_, _$rootScope_) {
+        inject(function(i18nToken, _$cookies_, _$rootScope_, $httpBackend) {
             service = i18nToken;
-            cookies = _$cookies_;
             rootScope = _$rootScope_.$new();
-            cookies.AKALOCALE = "ZW5fVVN+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure";
+            $httpBackend.when('GET', akdjsfh).respond(require("./i18n_responses/messages_en_US.json"));
+            $httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(require("./i18n_responses/messages_en_US.json"));     
+            cookies = _$cookies_;
         });
-    });
-
-    afterEach(function() {
-        // clean up
-        cookies.AKALOCALE = undefined;
+        rootScope.$digest();
     });
     context('when using token service', function(){
         it('should be defined', function() {
@@ -182,14 +174,9 @@ describe('locale cookie set to "de_DE', function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
             i18nTokenProvider.addAppLocalePath("../../", "_app");
-            $provide.factory('i18nCustomLoader', function($q, i18nToken) {
-                var locale = i18nToken.getCurrentLocale(),
-                    urls = i18nToken.getUrls();
-                return function(options) {
-                    var deferred = $q.defer();
-                    deferred.resolve({});
-                    return deferred.promise;
-                };
+            $provide.decorator ('$cookies', function ($delegate) {
+                $delegate = {AKALOCALE:"ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
+                return $delegate;
             });
             $translateProvider.useLoader('i18nCustomLoader');
         });
@@ -198,7 +185,6 @@ describe('locale cookie set to "de_DE', function() {
             service = i18nToken;
             cookies = _$cookies_;
             rootScope = _$rootScope_.$new();
-            cookies.AKALOCALE = "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure";
         });
     });
 
