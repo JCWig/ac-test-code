@@ -28,23 +28,21 @@ describe('i18nTokenProvider', function() {
         it('should urls  contain correct component locale path ', function() {
             var compPath = config.localeComponentPath;
 
-            expect(provider.rawUrls.length).to.equal(1);
+            expect(provider.rawUrls.length).to.equal(2);
             expect(provider.rawUrls[0].path).to.equal(compPath);
         });
 
         it('should urls  contain correct value as string given no part value ', function() {
-            provider.addAppLocalePath({path:"../../"});
-
             expect(provider.rawUrls.length).to.equal(2);
-            expect(provider.rawUrls[1].path).to.contain("../../");
+            expect(provider.rawUrls[1].path).to.contain("{appName}");
         });
 
         it('should urls  contain correct value given with part value ', function() {
-            provider.addAppLocalePath({path:"../../", prefix:"_app"});
+            provider.addAppLocalePath({path:"../../", prefix:"_app", app: true});
             var compPath = config.localeComponentPath.replace(/\{version\}/g, config.baseVersion);
 
-            expect(provider.rawUrls.length).to.equal(2);
-            expect(provider.rawUrls[1].path).to.equal("../../_app");
+            expect(provider.rawUrls.length).to.equal(3);
+            expect(provider.rawUrls[2].path).to.equal("../../_app");
         });
 
     /*    it('should urls contain correct value given as array ', function() {

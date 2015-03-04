@@ -31,7 +31,7 @@ module.exports = function i18nTokenProvider(i18nConfig, $locationProvider) {
             }
             self.rawUrls.push({
                 path: rawPath.toLowerCase(),
-                app: fromApp
+                app: fromApp || false
             });
             return rawPath;
         };
@@ -72,11 +72,19 @@ module.exports = function i18nTokenProvider(i18nConfig, $locationProvider) {
             localeUrls = [],
             appName, matchResults,
             normalizedPath,
+            // valid chars: lower case alpha, digits, and hyphen for possible appName from url
             appUrlRx = /[^/]\/apps\/([a-z0-9-]+)?[/?]?/;
 
+            //check if app has called to pass locle file url path yet, if not, add default one here
+            if (this.rawUrls.length === 1) {
+                this.rawUrls.push({path: i18nConfig.localeAppPath, app: true});
+            }
+
         angular.forEach(this.rawUrls, function(raw) {
+            //only doing browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
             if (raw.app) {
-                appName = "";
+                appName = "appName"; matchResults = [];
+                // Capture section in path after apps/
                 matchResults = appUrlRx.exec($location.absUrl());
                 if (matchResults) {
                     appName = matchResults[1];
