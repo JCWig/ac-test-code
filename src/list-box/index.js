@@ -28,7 +28,7 @@ var angular = require('angular');
      * @param {Array|Promise} data The array of data to show within
      * the listbox.  If `data` is a promise, the indeterminate
      * progress control displays in place of the contents until the
-     * promise is accepted or rejected.
+     * promise is resolved or rejected.
      *
      * @param {Array} columns The array of columns that describes the
      * schema to the list box layout and formatting.
