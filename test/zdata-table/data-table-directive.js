@@ -135,16 +135,19 @@ describe('zakam-data-table', function() {
         ];
         scope.dataObj = {data:scope.mydata};
     });
+    afterEach(function() {
+        if(self.element){
+            document.body.removeChild(self.element);
+            self.element = null;
+        }
+    });
     function addElement(markup) {
         self.el = compile(markup)(scope);
-        self.element = self.el[0];
         scope.$digest();
-        document.body.appendChild(self.element);
-    };
+        self.element = document.body.appendChild(self.el[0]);
+    }
     context('when rendering data table', function() {
-        afterEach(function() {
-            document.body.removeChild(this.element);
-        });
+
         it('should show progress bar until fully rendered', function(){
             var deferred = q.defer();
             scope.delayeddata = deferred.promise;
@@ -195,9 +198,6 @@ describe('zakam-data-table', function() {
 
     });
     context('when data table is rendered', function(){
-        afterEach(function(){
-            document.body.removeChild(this.element);
-        });
         it('should display the total number of results', function(){
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>'
             addElement(markup);
@@ -258,9 +258,6 @@ describe('zakam-data-table', function() {
         beforeEach(function(){
             var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true"></akam-data-table>';
             addElement(markup);
-        });
-        afterEach(function() {
-            document.body.removeChild(this.element);
         });
         it('should show checkboxes for each row', function(){
             expect(document.querySelectorAll(TABLE_ROW).length).to.equal(10);
@@ -326,9 +323,6 @@ describe('zakam-data-table', function() {
         beforeEach(function(){
             var markup = '<akam-data-table data="mydata" schema="columns"></akam-data-table>';
             addElement(markup);
-        });
-        afterEach(function() {
-            document.body.removeChild(this.element);
         });
         it('should be able to sort alphabetically', function() {
             var sortByColumnOneAlphabectically = document.querySelectorAll(TABLE_COLUMN_HEADER)[0];
@@ -427,9 +421,6 @@ describe('zakam-data-table', function() {
         });
     });
     context('when using unique sort cases', function(){
-        afterEach(function(){
-            document.body.removeChild(this.element);
-        });
         /*it('should not bother sorting one row', function(){
             scope.basicdata = [
                 {'name' : "Kevin"}
@@ -568,9 +559,6 @@ describe('zakam-data-table', function() {
             var markup = '<akam-data-table data="mybigdata" schema="bigcolumns"></akam-data-table>';
             addElement(markup);
         });
-        afterEach(function(){
-            document.body.removeChild(this.element);
-        });
         it('should highlight the clicked page', function() {
             var fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(4)');
 
@@ -599,9 +587,6 @@ describe('zakam-data-table', function() {
         beforeEach(function(){
             var markup = '<akam-data-table data="mybigdata" schema="bigcolumns"></akam-data-table>';
             addElement(markup);
-        });
-        afterEach(function(){
-            document.body.removeChild(this.element);
         });
         it('should filter based on input beginning-middle-end matches', function(){
             scope.$$childHead.state.filter = "Kevin";
@@ -642,9 +627,6 @@ describe('zakam-data-table', function() {
         it('should change color of the action the mouse is over', function(){});
     });*/
     context('when data gets messed up', function(){
-        afterEach(function(){
-            document.body.removeChild(this.element);
-        });
         it('should recognize null content when redenring', function(){
             scope.baddata = [
                 {first : "Nick"},
@@ -771,7 +753,6 @@ describe('zakam-data-table', function() {
             } catch (e){
                 expect(e).to.equal("Column may not be null/undefined");
             }
-            document.body.removeChild(this.element);
         });
     });
 });
