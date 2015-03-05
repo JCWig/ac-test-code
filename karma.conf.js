@@ -14,9 +14,10 @@ module.exports = function(config) {
             'node_modules/bootstrap/dist/css/bootstrap.css',
             'node_modules/moment/moment.js',
             'test/*.js',
-            'test/**/*.js'
+            'test/**/*.js',
+            'node_modules/jasmine-utils/src/jasmine-utils.js'
         ],
-        frameworks: ['browserify', 'mocha', 'chai', 'sinon-chai'],
+        frameworks: ['browserify', 'jasmine'],
         preprocessors: {
             'test/**/*.js': ['browserify']
         },
