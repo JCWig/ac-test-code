@@ -104,6 +104,11 @@ module.exports = function($log, $q, uuid, $filter) {
             scope.$watch('data', function(newValue) {
                 scope.loading = true;
                 $q.when(scope.data).then(function(data){
+                    //handle $http get promise responses.
+                    if (angular.isObject(data) && angular.isDefined(data.data)) {
+                        data = data.data;
+                    }
+                
                     if (!angular.isArray(data)) {
                         throw "Data must be an array";
                     }

@@ -17,7 +17,7 @@ describe('i18nCustomLoader service', function() {
                         value = translation;
                     });
                     deferreds.push(require("../../locales/en_US.json"));
-                    deferreds.push(require("../../examples/i18n/locales/json/messages/messages_en_US.json"));
+                    deferreds.push(require("../../examples/locales/json/messages/messages_en_US.json"));
                     $q.all(deferreds).then(
                         function(responses) { //success
                             angular.forEach(responses, function(resp) {

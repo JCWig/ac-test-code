@@ -13,16 +13,25 @@ describe('akam-list-box', function() {
     var compile = null;
     var scope = null;
     var self = this;
-    var timeout = null
-    var q = null
+    var timeout = null;
+    var q = null;
+    var $http = null;
+    var httpBackend = null;
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/list-box').name);
-        inject(function($compile, $rootScope, $timeout, $q) {
+        angular.mock.module(function($provide) {
+            $provide.decorator ('$http', function ($delegate) {
+                $http = $delegate;
+                return $delegate;
+            });
+        });
+        inject(function($compile, $rootScope, $timeout, $q, $httpBackend) {
             compile = $compile;
             scope = $rootScope.$new();
             timeout = $timeout;
             q = $q;
+            httpBackend = $httpBackend;
         });
 
         scope.mydata = [
@@ -164,6 +173,28 @@ describe('akam-list-box', function() {
 
             expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
             expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
+        });
+        it('should display indeterminate progress and load data on http get', function() {
+            var dataPath = '/get/json/data';
+            var jsonData = require('./http-data/list-box-data.json');
+            scope.jsonColumns = [
+                {content : function(){return this.first + ' ' + this.last;},header : 'Full Name',className : 'column-full-name'},
+                {content : 'id', header : 'Emp. ID', className : 'column-employeeid'}
+            ];
+            var dataLength= Object.keys(jsonData).length;
+
+            httpBackend.when('GET', dataPath).respond(jsonData);
+            
+            scope.jsonFromHttpGet = $http.get(dataPath);
+            var markup = '<akam-list-box data="jsonFromHttpGet" schema="jsonColumns"></akam-list-box>';
+            addElement(markup)
+            
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/false/);
+            httpBackend.flush();
+            
+            var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(allRowsLoadedInTable).to.have.length(dataLength);
         });
         it('should be able to use default sorting method on first column', function(){
             scope.mydata = [
