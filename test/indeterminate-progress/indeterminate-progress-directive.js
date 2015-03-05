@@ -20,13 +20,15 @@ describe('akam-indeterminate-progress', function() {
     });
 
     afterEach(function() {
-        document.body.removeChild(this.element);
+        if(this.element){
+            document.body.removeChild(this.element);
+            this.element = null;    
+        }
     });
     function addElement(markup) {
         self.el = compile(markup)(scope);
-        self.element = self.el[0];
         scope.$digest();
-        document.body.appendChild(self.element);
+        self.element = document.body.appendChild(self.el[0]);
     };
     describe('when rendering', function() {
         it('should have the correct class names', function() {

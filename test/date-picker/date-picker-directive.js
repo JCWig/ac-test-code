@@ -31,14 +31,16 @@ describe('akam-date-picker', function() {
     });
 
     afterEach(function() {
-        document.body.removeChild(this.element);
+        if(this.element){
+            document.body.removeChild(this.element);
+            this.element = null;
+        }
     });
 
     function addElement(markup) {
         self.el = compile(markup)(scope);
-        self.element = self.el[0];
         scope.$digest();
-        document.body.appendChild(self.element);
+        self.element = document.body.appendChild(self.el[0]);
     };
     context('when rendering date picker', function() {
         beforeEach(function(){

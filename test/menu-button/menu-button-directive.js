@@ -5,14 +5,7 @@ var MENU_BUTTON_BUTTON = '.akam-menu-button button';
 var MENU_BUTTON_ITEMS = '.akam-menu-button li';
 var DROP_DOWN_MENU = '.dropdown-menu';
 
-
-function clickOnMenuButton(self){
-    utilities.click(MENU_BUTTON_BUTTON);
-    self.scope.$digest();
-};
-
 describe('akam-menu-button', function() {
-    var self = null;
     var scope = null;
     var compile = null;
     beforeEach(function() {
@@ -20,42 +13,45 @@ describe('akam-menu-button', function() {
         angular.mock.module(require('../../src/menu-button').name);
         inject(function($compile, $rootScope) {
             scope = $rootScope.$new();
-            compile =$compile();
-            self.scope.process = sinon.spy();
-            self.element = $compile(markup)(self.scope)[0];
-            self.scope.$digest();
-            document.body.appendChild(self.element);
+            compile = $compile;
         });
         var markup = '<div><akam-menu-button label="Test">' +
                 '<akam-menu-button-item text="Action" ng-click="process()">' +
                 '</akam-menu-button-item>' +
                 '<akam-menu-button-item text="Action"></akam-menu-button-item>' +
                 '</akam-menu-button></div>';
+        scope.process = sinon.spy();
+        addElement(markup);
     });
     afterEach(function() {
-        if(this.element){
-            document.body.removeChild(this.element);
-            this.element = null;
+        if(self.element){
+            document.body.removeChild(self.element);
+            self.element = null;
         }
-
     });
+    function addElement(markup) {
+        self.el = compile(markup)(scope);
+        scope.$digest();
+        self.element = document.body.appendChild(self.el[0]);
+    };
     context('when rendering', function() {
         it('should display a button with a label', function() {
-            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON);
+            var menuButton = self.element.querySelector(MENU_BUTTON_BUTTON);
             expect(menuButton.textContent).to.match(/Test/);
         });
 
         it('should hide the menu', function() {
-            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            var menuButtonWrapper = self.element.querySelector(MENU_BUTTON_WRAPPER);
             expect(menuButtonWrapper.classList.contains('open')).to.be.false();
         });
     });
     context('when clicking the menu button', function() {
         beforeEach(function() {
-            clickOnMenuButton(this);
+            utilities.click(MENU_BUTTON_BUTTON);
+            scope.$digest();
         });
         it('should display the menu', function() {
-            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            var menuButtonWrapper = self.element.querySelector(MENU_BUTTON_WRAPPER);
             expect(menuButtonWrapper.classList.contains('open')).to.be.true();
             expect(menuButtonWrapper.querySelector('button.dropdown-toggle').getAttribute('aria-expanded')).to.equal('true');
 
@@ -64,26 +60,27 @@ describe('akam-menu-button', function() {
             expect(getComputedStyle(dropDownMenu).display).to.equal('block');
         });
         it('should display the menu items', function() {
-            var menuButtonItems = this.element.querySelectorAll(MENU_BUTTON_ITEMS);
+            var menuButtonItems = self.element.querySelectorAll(MENU_BUTTON_ITEMS);
             expect(menuButtonItems).to.have.length(2);
             expect(menuButtonItems[0].textContent).to.match(/Action/);
         });
     });
     context('when clicking a menu item', function() {
         beforeEach(function() {
-            clickOnMenuButton(this);
-            var menuButtonItems = this.element.querySelectorAll(MENU_BUTTON_ITEMS);
+            utilities.click(MENU_BUTTON_BUTTON);
+            scope.$digest();
+            var menuButtonItems = self.element.querySelectorAll(MENU_BUTTON_ITEMS);
             var firstItemInDropDown = menuButtonItems[0].firstChild
             utilities.click(firstItemInDropDown);
-            this.scope.$digest();
+            scope.$digest();
         });
         it('should trigger the menu item action', function() {
-            expect(this.scope.process).to.have.been.called;
+            expect(scope.process).to.have.been.called;
         });
         it('should hide the menu', function() {
-            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
-            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON)
-            var dropDownMenu = this.element.querySelector(DROP_DOWN_MENU);
+            var menuButtonWrapper = self.element.querySelector(MENU_BUTTON_WRAPPER);
+            var menuButton = self.element.querySelector(MENU_BUTTON_BUTTON)
+            var dropDownMenu = self.element.querySelector(DROP_DOWN_MENU);
 
             expect(menuButtonWrapper.classList.contains('open')).to.be.false();
             expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
@@ -92,14 +89,16 @@ describe('akam-menu-button', function() {
     });
     context('when re-clicking the menu button', function(){
         beforeEach(function() {
-            clickOnMenuButton(this);
+            utilities.click(MENU_BUTTON_BUTTON);
+            scope.$digest();
         });
         it('clicking menu button should hide dropdown', function() {
-            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
+            var menuButtonWrapper = self.element.querySelector(MENU_BUTTON_WRAPPER);
             expect(menuButtonWrapper.classList.contains('open')).to.be.true();
-            clickOnMenuButton(this);
-            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON)
-            var dropDownMenu = this.element.querySelector(DROP_DOWN_MENU);
+            utilities.click(MENU_BUTTON_BUTTON);
+            scope.$digest();
+            var menuButton = self.element.querySelector(MENU_BUTTON_BUTTON)
+            var dropDownMenu = self.element.querySelector(DROP_DOWN_MENU);
 
             expect(menuButtonWrapper.classList.contains('open')).to.be.false();
             expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
@@ -108,20 +107,20 @@ describe('akam-menu-button', function() {
     });
     context('when clicking away from open dropdown', function(){
         it('click -button- shoud hide dropdown',function(){
-            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
-            utilities.clickAwayCreationAndClick('button', this);
-            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON)
-            var dropDownMenu = this.element.querySelector(DROP_DOWN_MENU);
+            var menuButtonWrapper = self.element.querySelector(MENU_BUTTON_WRAPPER);
+            utilities.clickAwayCreationAndClick('button', self);
+            var menuButton = self.element.querySelector(MENU_BUTTON_BUTTON)
+            var dropDownMenu = self.element.querySelector(DROP_DOWN_MENU);
 
             expect(menuButtonWrapper.classList.contains('open')).to.be.false();
             expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
             expect(getComputedStyle(dropDownMenu).display).to.equal('none');
         });
         it('click -div- shoud hide dropdown',function(){
-            var menuButtonWrapper = this.element.querySelector(MENU_BUTTON_WRAPPER);
-            utilities.clickAwayCreationAndClick('div', this);
-            var menuButton = this.element.querySelector(MENU_BUTTON_BUTTON)
-            var dropDownMenu = this.element.querySelector(DROP_DOWN_MENU);
+            var menuButtonWrapper = self.element.querySelector(MENU_BUTTON_WRAPPER);
+            utilities.clickAwayCreationAndClick('div', self);
+            var menuButton = self.element.querySelector(MENU_BUTTON_BUTTON)
+            var dropDownMenu = self.element.querySelector(DROP_DOWN_MENU);
 
             expect(menuButtonWrapper.classList.contains('open')).to.be.false();
             expect(menuButton.getAttribute('aria-expanded')).to.equal('false');

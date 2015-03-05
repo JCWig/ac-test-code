@@ -90,14 +90,16 @@ describe('akam-list-box', function() {
     });
     function addElement(markup) {
         self.el = compile(markup)(scope);
-        self.element = self.el[0];
         scope.$digest();
-        document.body.appendChild(self.element);
+        self.element = document.body.appendChild(self.el[0]);
     };
-    context('when rendering multiselect-list-box', function() {
-        afterEach(function() {
+    afterEach(function() {
+        if(this.element){
             document.body.removeChild(this.element);
-        });
+            this.element = null;
+        }
+    });
+    context('when rendering multiselect-list-box', function() {
         it('should render all parts', function() {
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
             addElement(markup);
@@ -186,9 +188,6 @@ describe('akam-list-box', function() {
         });
     });
     context('when nothing is selected', function(){
-        afterEach(function() {
-            document.body.removeChild(this.element);
-        });
         //it('should hide view selected only checkbox', function() {
 
         //});
@@ -212,9 +211,6 @@ describe('akam-list-box', function() {
         beforeEach(function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
             addElement(markup);
-        });
-        afterEach(function() {
-            document.body.removeChild(this.element);
         });
         it('should be able to select all items at once', function() {
             var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
@@ -330,9 +326,6 @@ describe('akam-list-box', function() {
     });
 
     context('when using unique sort cases', function(){
-        afterEach(function(){
-            document.body.removeChild(this.element);
-        });
         it('should not bother sorting one row', function(){
             scope.mydata = [
                 {'name' : "Kevin"}
@@ -446,9 +439,6 @@ describe('akam-list-box', function() {
         });
     });
     context('when selecting an item', function(){
-        afterEach(function() {
-            document.body.removeChild(this.element);
-        });
         it('should be able to select an item with on-change', function(){
             scope.mychange = sinon.spy();
             var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>'
@@ -508,9 +498,7 @@ describe('akam-list-box', function() {
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
             addElement(markup);
         });
-        afterEach(function() {
-            document.body.removeChild(this.element);
-        });
+
         it('should be able to deselect an item', function(){
             var firstRowcheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
             utilities.click(firstRowcheckbox); 
@@ -547,9 +535,6 @@ describe('akam-list-box', function() {
         //it('should keep view selected only visible when options remain', function(){});
     });
     context('when activating view selected only option', function(){
-        afterEach(function() {
-            document.body.removeChild(this.element);
-        });
         beforeEach(function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
             addElement(markup);
@@ -600,9 +585,6 @@ describe('akam-list-box', function() {
         /*it('should activate selectall checkbox', function(){});*/
     });
     context('when interacting with filter bar', function(){
-        afterEach(function() {
-            document.body.removeChild(this.element);
-        });
         beforeEach(function(){
             scope.mydata = [{name:"iiiKeviii"},{name:"Keviiiiii"},{name:"iiiiiiKev"},{name:"iiiiiijohn"},{name:"iiijohniii"}];
             scope.columns = [{content : "name",header : 'Name', sort:false}];
@@ -681,9 +663,6 @@ describe('akam-list-box', function() {
     context('when  no options to choose from', function(){
     });*/
     context('when data messes up', function(){
-        afterEach(function() {
-            document.body.removeChild(this.element);
-        });
         it('should recognize null content when redenring', function(){
             scope.baddata = [
                 {first : "Nick"},
