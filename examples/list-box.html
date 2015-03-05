@@ -42,11 +42,17 @@
             <akam-list-box data="basedata" schema="columns" on-change="mychange(value)" selected-items="selectedItems2"></akam-list-box>
             <span>Selected Items: {{selectedItems2}}</span>
         </div>
+        
+        <div class="container">
+            <h3>DATA Via HTTP GET</h3>
+            <akam-list-box data="jsonFromHttpGet" schema="jsonColumns" on-change="mychange(value)" selected-items="selectedItems3"></akam-list-box>
+            <span>Selected Items: {{selectedItems3}}</span>
+        </div>
     </div>
     
     <script src="../node_modules/angular/angular.js"></script>
     <script src="../dist/akamai-components.js"></script>
-    <script>
+    <script>    
         var BASE_DATA = [
             {
                 first : "Yair",
@@ -113,7 +119,7 @@
             },
         ];
         var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
-        app.controller("Ctrl", ["$scope", "$timeout", "$q", function(scope, $timeout, $q) {
+        app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", function(scope, $timeout, $q, $http) {
             var deferred = $q.defer();
             scope.mydata = deferred.promise;
             scope.basedata = BASE_DATA;
@@ -150,6 +156,24 @@
                     }
                 },
             ];
+            
+            scope.jsonColumns = [
+                {
+                    //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                    content : function(){
+                        return this.first + ' ' + this.last;
+                    },
+                    header : 'Full Name',
+                    className : 'column-full-name'
+                },
+                {
+                    content : 'id',
+                    header : 'Emp. ID',
+                    className : 'column-employeeid'
+                }
+            ];
+            
+            scope.jsonFromHttpGet = $http.get('json/list-box-data.json');
             
             scope.mychange = function(value){
                 console.log('yay', value);
