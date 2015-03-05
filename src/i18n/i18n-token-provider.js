@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function i18nTokenProvider(i18nConfig, $locationProvider) {
+module.exports = function i18nTokenProvider(i18nConfig) {
     this.rawUrls = [];
     var self = this;
 
@@ -22,7 +22,7 @@ module.exports = function i18nTokenProvider(i18nConfig, $locationProvider) {
          */
         this.resolve = function(config, fromApp) {
             var isNotValidConfig = angular.isUndefined(config) || config === null,
-                hasPath = isNotValidConfig ? false : (config.path || config.path.trim().length),
+                hasPath = isNotValidConfig ? false : !!(config.path && config.path.trim().length),
                 rawPath = "";
             if (fromApp) {
                 rawPath = hasPath ? config.path + (config.prefix || i18nConfig.prefix) : i18nConfig.localeAppPath;
@@ -40,9 +40,6 @@ module.exports = function i18nTokenProvider(i18nConfig, $locationProvider) {
     //take default one here for component locale
     var cPath = new Path();
     cPath.resolve();
-
-    $locationProvider.html5Mode(false);
-
 
     /**
      * @ngdoc method
