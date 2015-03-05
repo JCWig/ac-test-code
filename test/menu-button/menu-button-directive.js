@@ -12,25 +12,32 @@ function clickOnMenuButton(self){
 };
 
 describe('akam-menu-button', function() {
+    var self = null;
+    var scope = null;
+    var compile = null;
     beforeEach(function() {
         var self = this;
         angular.mock.module(require('../../src/menu-button').name);
         inject(function($compile, $rootScope) {
-            var markup = '<div><akam-menu-button label="Test">' +
-                '<akam-menu-button-item text="Action" ng-click="process()">' +
-                '</akam-menu-button-item>' +
-                '<akam-menu-button-item text="Action"></akam-menu-button-item>' +
-                '</akam-menu-button></div>';
-
-            self.scope = $rootScope.$new();
+            scope = $rootScope.$new();
+            compile =$compile();
             self.scope.process = sinon.spy();
             self.element = $compile(markup)(self.scope)[0];
             self.scope.$digest();
             document.body.appendChild(self.element);
         });
+        var markup = '<div><akam-menu-button label="Test">' +
+                '<akam-menu-button-item text="Action" ng-click="process()">' +
+                '</akam-menu-button-item>' +
+                '<akam-menu-button-item text="Action"></akam-menu-button-item>' +
+                '</akam-menu-button></div>';
     });
     afterEach(function() {
-        document.body.removeChild(this.element);
+        if(this.element){
+            document.body.removeChild(this.element);
+            this.element = null;
+        }
+
     });
     context('when rendering', function() {
         it('should display a button with a label', function() {

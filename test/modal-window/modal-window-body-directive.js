@@ -27,7 +27,10 @@ describe('akam-modal-window-body directive', function() {
         });
     });
     afterEach(function(){
-        document.body.removeChild(self.element);
+        if(self.element){
+            document.body.removeChild(self.element);
+            self.element = null;    
+        }
     });
     function addElement(markup) {
         self.el = compile(markup)(self.scope);
