@@ -1,12 +1,12 @@
 'use strict';
 var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
-var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json'
+var LIBRARY_PATH = '/locales/en_US.json'
 var CONFIG_PATH = '../../_appen_US.json';
 var SECOND_INTERNATIONALIZATION_PATH = '/random/path/that/doesnt/exist/';
 var SECOND_INTERNATIONALIZATION_JSON_PATH = SECOND_INTERNATIONALIZATION_PATH+'en_US.json';
 describe('i18nCustomLoader service', function() {
 
-    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log, location;
     var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
     var enUsResponse = require ("./i18n_responses/en_US.json");
     beforeEach(function(){
@@ -23,7 +23,7 @@ describe('i18nCustomLoader service', function() {
         angular.mock.module(function($provide, $translateProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
+        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log, $location) {
             $translate = _$translate_;
             loader = i18nCustomLoader;
             config = i18nConfig;
@@ -32,7 +32,7 @@ describe('i18nCustomLoader service', function() {
             httpBackend = $httpBackend;
             scope = $rootScope;
             log = $log;      
-            
+            location = $location
         });
     });
     context('when using custom Loader server', function(){
@@ -70,6 +70,22 @@ describe('i18nCustomLoader service', function() {
             expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
         });
     });
+
+    context('when using custom loader service with url returning no data', function(){
+        //CURRENTLY FAILING NEED ERROR CASE CLARIFICATION TO FIND APPROPRIATE RESPONSE
+        beforeEach(function() {
+            httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');   
+            httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+        });
+        it('should ignore gracefully and continue to next url', function(){
+            log.error = sinon.spy();
+            httpBackend.flush();
+            timeout.flush();
+            expect(log.error).to.have.been.called;
+            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).to.equal("components.name");
+        });
+    });
     context('when using custom loader service with error response', function(){
         beforeEach(function() {
             httpBackend.when('GET', LIBRARY_PATH).respond({});     
@@ -96,19 +112,4 @@ describe('i18nCustomLoader service', function() {
             expect(translation.sync("components.name")).to.equal("components.name");
         });
     });
-    /*context('when using custom loader service with url returning no data', function(){
-        //CURRENTLY FAILING NEED ERROR CASE CLARIFICATION TO FIND APPROPRIATE RESPONSE
-        beforeEach(function() {
-            httpBackend.when('GET', LIBRARY_PATH).respond(404, 'BAD PATH');     
-            httpBackend.when('GET', CONFIG_PATH).respond(enUsMessagesResponse);   
-        });
-        it('should ignore gracefully and continue to next url', function(){
-            log.error = sinon.spy();
-            scope.$digest();
-            httpBackend.flush();
-            expect(log.error).to.have.been.called;
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-            expect(translation.sync("components.name")).to.equal("components.name");
-        });
-    });*/
-});
+}); 
