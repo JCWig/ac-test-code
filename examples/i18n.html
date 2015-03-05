@@ -14,26 +14,29 @@
     </style>
 
     <script>
-    var locale = "en_US"; //"de_DE"|"zh_CN"
-    var appLocalePath = "/examples/locales/json/messages/";
+    var appLocalePath = "../../../examples/i18n/locales/json/messages/";
 
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
 
     app.config(function(i18nTokenProvider) {
 
+        //follwing code commented out following is to show user has option for setting locale path via passing in the config data,
+        //and if not passing in, then we will assume to use common standard path which like: "https://akamai.control.com/apps/{appName}/..."
+        //more details go to component documentation pages
         /*var config = {
             path: appLocalePath,
             prefix: "messages_",
             appName: "billing-center"
         };
         i18nTokenProvider.addAppLocalePath(config);
-        */
+*/
     });
 
     app.controller("TranslationPageController", ["$scope", "translate", "$rootScope", "$filter", function($scope, translate, $rootScope, $filter) {
+
         $rootScope.$on('$translateChangeEnd', function() {
             console.log(translate.sync('reseller-tools.note'));
-            console.log(translate.sync('components.notifications.success'));
+            console.log(translate.sync('components.menu-button.label'));
 
             console.log($filter("akamTranslate")('components.notifications.success'));
             console.log($filter("akamTranslate")('recurring-report.activate.modal.message'));

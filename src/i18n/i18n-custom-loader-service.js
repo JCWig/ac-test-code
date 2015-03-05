@@ -1,32 +1,55 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
+module.exports = function($http, $q, $timeout, $log, i18nToken, i18nConfig) {
     var locale = i18nToken.getCurrentLocale(),
-        urls = i18nToken.getUrls();
-    return function(options) {
-        var deferred = $q.defer(), deferreds = [], n = urls.length, localeTable = {}, url;
+        urls = i18nToken.getUrls(),
+        dirty = false,
+        errorList = [],
+        localeTable = [];
+
+    function invalid(r) {
+        $log.error({
+            "message": r.data,
+            "status": r.status
+        });
+        errorList.push(r.data);
+    }
+
+    function valid(r) {
+        var src = r.data,
+            clone = src ? angular.copy(src) : {};
+        angular.extend(localeTable, clone);
+    }
+
+    var loadTranslations = function(locale, urls) {
+        var deferreds = [],
+            n = urls.length,
+            url,
+            deferred = $q.defer();
         while (n > 0) {
-            //locale value is decoded locale from cookie AKALOCALE, it also can be special one: en_US_att
-             url = urls[n - 1] + locale + ".json";
-            deferreds.push($http.get(url, {}));
+            url = urls[n - 1] + locale + ".json";
+            deferreds.push($http.get(url).then(valid).catch(invalid));
             n--;
         }
-        $q.all(deferreds).then(
-            function(responses) {
-                angular.forEach(responses, function(resp) {
-                    var src = resp.data,
-                        clone = src? angular.copy(src) : {};
-                    angular.extend(localeTable, clone);
-                });
+        $q.all(deferreds).then(function(results) {
+            if (errorList.length) {
+                if (locale !== i18nConfig.defaultLocale) {
+                    errorList = [];
+                    localeTable = [];
+                    deferred.resolve(loadTranslations(i18nConfig.defaultLocale, urls));
+                } else {
+                    $timeout(function() {
+                        deferred.resolve([localeTable]);
+                    }, 10);
+                }
+            } else {
                 deferred.resolve([localeTable]);
-            },
-            function(err) {
-                //log for ourself in console: Object {message: "Cannot GET /locales/en_US.json↵", status: 404}
-                $log.error({"message": err.data, "status": err.status});
-                //just resolve gracefully
-                deferred.resolve({});
-            });
+            }
+        });
         return deferred.promise;
+    };
+    return function(options) {
+        return loadTranslations(locale, urls);
     };
 };
