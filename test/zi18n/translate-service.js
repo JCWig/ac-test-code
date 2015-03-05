@@ -144,13 +144,13 @@ describe('translate service', function() {
             });
             it('should return key since translation table is not loaded', function() {
                 var key = "something.something";
-                var fst = $q.defer();
+                var deferedResponse = $q.defer();
 
-                fst.resolve(key);
+                deferedResponse.resolve(key);
 
-                fst = akTranslate.async(key);
-                fst.then(function(value) {
-                    value.should.eql(key);
+                deferedResponse = akTranslate.async(key);
+                deferedResponse.then(function(value) {
+                    expect(value).to.equal(key);
                     done();
                 });
                 $scope.$apply();

@@ -96,4 +96,19 @@ describe('i18nCustomLoader service', function() {
             expect(translation.sync("components.name")).to.equal("components.name");
         });
     });
+    /*context('when using custom loader service with url returning no data', function(){
+        //CURRENTLY FAILING NEED ERROR CASE CLARIFICATION TO FIND APPROPRIATE RESPONSE
+        beforeEach(function() {
+            httpBackend.when('GET', LIBRARY_PATH).respond(404, 'BAD PATH');     
+            httpBackend.when('GET', CONFIG_PATH).respond(enUsMessagesResponse);   
+        });
+        it('should ignore gracefully and continue to next url', function(){
+            log.error = sinon.spy();
+            scope.$digest();
+            httpBackend.flush();
+            expect(log.error).to.have.been.called;
+            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).to.equal("components.name");
+        });
+    });*/
 });

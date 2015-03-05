@@ -47,7 +47,7 @@ describe('akam-translate directive', function() {
             expect(translatedSpan.textContent).to.equal("Lorem Ipsum ");
         });
 
-        it("should render empty string if no kay value", function() {
+        it("should render empty string if no key value", function() {
             var markup = '<span akam-translate="" class="akam-translate2"></span>';
             addElement(markup);
             var translatedSpan = document.querySelector('.akam-translate2');
@@ -61,7 +61,7 @@ describe('akam-translate directive', function() {
             expect(translatedSpan.textContent).to.equal("any.key");
         });
     });
-    context('when path doesnt exist', function() {
+    context('when locale file doesnt exist', function() {
         var cook;
         beforeEach(function() {
             require('angular-cookies');
