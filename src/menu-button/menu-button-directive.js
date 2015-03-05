@@ -7,7 +7,8 @@ module.exports = function($log) {
         transclude: true,
         scope: {
             label: '@',
-            icon : '@'
+            icon : '@',
+            position : '@'
         },
         template: require('./templates/menu-button.tpl.html'),
         link: function() {
