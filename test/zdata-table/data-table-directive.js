@@ -14,7 +14,7 @@ var PAGINATION_INDEX_REVERSE =  'div.akam-pagination .pagination li:nth-last-chi
 var PAGE_SIZE_SMALLEST = 'div.akam-pagination .page-size li:first-child';
 var PAGE_SIZE_LARGEST = 'div.akam-pagination .page-size li:last-child';
 var PAGE_SIZE_NTH = 'div.akam-pagination .page-size li:nth-child';
-var PAGE_SIZES= 'div.akam-pagination .page-size li'
+var PAGE_SIZES= 'div.akam-pagination .page-size li';
 var translationMock = {
     "components": {
         "pagination": {
@@ -165,7 +165,7 @@ describe('zakam-data-table', function() {
             expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
         });
         it('should render all parts data table and pagination', function() {
-            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>'
+            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
 
             var dataTableContainer = document.querySelector('div.akam-data-table');
@@ -176,7 +176,7 @@ describe('zakam-data-table', function() {
         });
         //it('should not have anything selected if checkboxes are active', function() {});
         it('should have filter be clear', function() {
-            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>'
+            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
 
             var filterBox = document.querySelector(FILTER_BOX);
@@ -184,7 +184,7 @@ describe('zakam-data-table', function() {
             expect(filterBox.value).to.equal('');
         });
         it('should have 3 options for how many rows are displayed', function(){
-            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>'
+            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
 
             var smallestPageSize = document.querySelector(PAGE_SIZE_SMALLEST);
@@ -199,7 +199,7 @@ describe('zakam-data-table', function() {
     });
     context('when data table is rendered', function(){
         it('should display the total number of results', function(){
-            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>'
+            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
 
             var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
@@ -728,7 +728,7 @@ describe('zakam-data-table', function() {
         it('should throw error when column content is not a string or function', function(){
             scope.badcontent = [
             {content: {}}
-            ]
+            ];
             var markup = '<akam-data-table data="mydata" schema="badcontent"></akam-data-table>';
             try{
                 addElement(markup);
