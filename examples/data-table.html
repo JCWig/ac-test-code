@@ -11,8 +11,8 @@
         
         <akam-data-table data="data" schema="schema" filter-placeholder="Filter Employees">
             <akam-menu-button icon="luna-gear" position="right">
-                <akam-menu-button-item text="PDF"></akam-menu-button-item>
-                <akam-menu-button-item text="HTML"></akam-menu-button-item>
+                <akam-menu-button-item text="PDF" ng-click="process('PDF')"></akam-menu-button-item>
+                <akam-menu-button-item text="HTML" ng-click="process('HTML')"></akam-menu-button-item>
             </akam-menu-button>
         </akam-data-table>
     </div>
@@ -40,6 +40,10 @@
                     className : 'column-employeeid'
                 }
             ];
+            
+            $scope.process = function(type){
+                console.log('menu item clicked:' + type);
+            };
         }]);
     </script>
 </body>

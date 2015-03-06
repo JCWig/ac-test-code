@@ -11,10 +11,10 @@ module.exports = function($log, $q, uuid, $filter, $compile) {
             filterPlaceholder : "@"
         },
         template: require('./templates/data-table.tpl.html'),
-        transclude : true,
+        transclude : 'element',
         link: function(scope, element, attrs, controller, transclude) {
-            scope.hasActionColumn = true;
-            transclude(function(clone, scope) {
+            scope.hasActionColumn = false;
+            transclude(function(clone, $scope) {
                 if (clone.children().length > 0) {
                     scope.hasActionColumn = true;
                 }
@@ -120,7 +120,7 @@ module.exports = function($log, $q, uuid, $filter, $compile) {
                     size : 10
                 };
                 
-                if (autoSortableColumns.length > 0) {
+                if (scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
                     scope.sortColumn(autoSortableColumns[0]);
                 }else{
                     update();
