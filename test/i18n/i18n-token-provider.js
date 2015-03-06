@@ -10,12 +10,15 @@ describe('i18nTokenProvider', function() {
     var provider, config;
 
     beforeEach(function() {
+        console.log("TEST");
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
-        inject(function(i18nConfig) {
+        inject(function(i18nConfig, $location) {
             config = i18nConfig;
+            //$location.url($location.absUrl()+'https://control.akamai.com/apps/billing-center/somethingelse');
+            console.log($location.absUrl());
         });
     });
 
@@ -23,6 +26,7 @@ describe('i18nTokenProvider', function() {
 
         it('should be defined', function() {
             expect(provider.addAppLocalePath).to.not.be.undefined;
+            console.log('END')
         });
 
         it('should be a function', function() {
