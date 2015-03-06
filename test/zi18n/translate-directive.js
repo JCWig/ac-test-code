@@ -1,7 +1,7 @@
 'use strict';
 
 var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
-var LIBRARY_PATH = '/locales/en_US.json'
+var LIBRARY_PATH = 'libs/akamai-components/0.0.1/locales/en_US.json'
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
 var enUsResponse = require ("./i18n_responses/en_US.json");
 

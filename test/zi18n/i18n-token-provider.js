@@ -1,6 +1,6 @@
 'use strict';
 var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
-var LIBRARY_PATH = '/locales/en_US.json'
+var LIBRARY_PATH = 'libs/akamai-components/0.0.1/locales/en_US.json';
 var CONFIG_PATH = '../../_appen_US.json';
 var CONFIG_PREFIX = 'prefix'
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
@@ -211,13 +211,12 @@ describe('locale cookie set to invalid cookie', function() {
             log = $log;      
         });
         httpBackend.when('GET', '../../_appde_DE.json').respond(404, "BAD PATH"); 
-        httpBackend.when('GET', '/locales/de_DE.json').respond(404, "BAD PATH");   
+        httpBackend.when('GET', 'libs/akamai-components/0.0.1/locales/de_DE.json').respond(404, "BAD PATH");   
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});   
         httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);   
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);   
     });
     context('when using custom loader service bad cookie', function(){
-        //CURRENTLY FAILING NEED ERROR CASE CLARIFICATION TO FIND APPROPRIATE RESPONSE
         it('should ignore gracefully and continue to next url', function(){
             httpBackend.flush();
             expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
