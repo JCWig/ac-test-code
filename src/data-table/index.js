@@ -14,18 +14,42 @@ var angular = require('angular');
     module.exports = angular.module('akamai.components.data-table', [
         require('../uuid').name,
         require('../indeterminate-progress').name,
-        require('../pagination').name
+        require('../pagination').name,
+        require('../menu-button').name
     ])
 
     
     .filter('offset', function() {
       return function(input, start) {
+
         if (input == null) {
             return [];
         }
+
         start = parseInt(start, 10);
         return input.slice(start);
       };
+    })
+
+    /* @ngInject */    
+    .filter('highlight', function($sce) {
+        return function(text, phrase) {
+            if (angular.isNumber(text)) {
+                text = String(text);
+            }
+            
+            if (!angular.isString(text)) {
+                return text;
+            }
+            
+            phrase = String(phrase).trim();
+            
+            if (phrase){
+              text = text.replace(new RegExp('('+phrase+')', 'gi'), '<span class="highlighted">$1</span>');
+            }
+
+            return $sce.trustAsHtml(text);
+        };
     })
     
     /**

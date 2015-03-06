@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log, $q, uuid, $filter) {
+module.exports = function($log, $q, uuid, $filter, $compile) {
     return {
         replace: true,
         restrict: 'E',
@@ -11,7 +11,15 @@ module.exports = function($log, $q, uuid, $filter) {
             filterPlaceholder : "@"
         },
         template: require('./templates/data-table.tpl.html'),
-        link: function(scope, element, attrs) {
+        transclude : 'element',
+        link: function(scope, element, attrs, controller, transclude) {
+            scope.hasActionColumn = false;
+            transclude(function(clone, $scope) {
+                if (clone.children().length > 0) {
+                    scope.hasActionColumn = true;
+                }
+            });
+
             var orderBy = $filter('orderBy');
             var filter = $filter('filter');
             
@@ -112,7 +120,7 @@ module.exports = function($log, $q, uuid, $filter) {
                     size : 10
                 };
                 
-                if (autoSortableColumns.length > 0) {
+                if (scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
                     scope.sortColumn(autoSortableColumns[0]);
                 }else{
                     update();

@@ -5,12 +5,15 @@ module.exports = function($log) {
     return {
         restrict: 'E',
         transclude: true,
+        replace: true,
         scope: {
-            label: '@'
+            label: '@',
+            icon : '@',
+            position : '@'
         },
         template: require('./templates/menu-button.tpl.html'),
         link: function() {
-            $log.info('Hello World!');
+
         }
     };
 };

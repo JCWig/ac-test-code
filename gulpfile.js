@@ -24,7 +24,6 @@ var globby = require('globby');
 var moment = require('moment');
 var runSequence = require('run-sequence');
 var mkdirp = require('mkdirp');
-var fixtureServer = require('portal-fixture-server/server');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -109,30 +108,45 @@ gulp.task('test', ['clean', 'lint'], function () {
     });
 });
 
-gulp.task('serve', ['setWatch', 'browserify', 'fixtureServer'], function() {
+gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
-        proxy: 'localhost:3000',
         startPath: '/examples/index.html',
         injectChanges: true,
+        server: {
+            middleware: function (req, res, next) {
+                var appsPattern = /apps\/.+\/locales\/(.+)/;
+                var libsPattern = /libs\/.+\/locales\/(.+)/;
+                
+                var appsMatches = appsPattern.exec(req.originalUrl);
+                var libsMatches = libsPattern.exec(req.originalUrl);
+                
+                if (!appsMatches && !libsMatches) {
+                    next();
+                    return;
+                }
+                
+                var newLocationOfFile = null;
+                
+                if (appsMatches) {
+                    newLocationOfFile = './examples/locales/json/messages/messages_' + appsMatches[1];
+                }else if (libsMatches) {
+                    newLocationOfFile = './locales/' + libsMatches[1];
+                }
+                
+                console.log("Overwriting the location", req.originalUrl, newLocationOfFile);
+                var readStream = fs.createReadStream(newLocationOfFile);
+                
+                // We replaced all the event handlers with a simple call to readStream.pipe()
+                readStream.pipe(res);
+            },
+            baseDir : './',
+            directory : true
+        },
         files: [
             bundlePath, 'node_modules/pulsar-common-css/dist/*.css', 'examples/*.html'
         ]
     });
 });
-
-gulp.task('fixtureServer', function(done) {
-    var config = {
-      staticPaths : {
-        '/assets/akamai-components/:version/locales/' : 'locales',
-        '/' : '.'    // serve this directory as
-      },
-      port : 3000
-    };
-
-  fixtureServer.start(config);
-  done();
-});
-
 
 gulp.task('setWatch', function() {
     global.isWatching = true;
