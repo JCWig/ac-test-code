@@ -24,7 +24,6 @@ var globby = require('globby');
 var moment = require('moment');
 var runSequence = require('run-sequence');
 var mkdirp = require('mkdirp');
-var fixtureServer = require('portal-fixture-server/server');
 
 var filename = pkg.name + '.js';
 var target = 'dist';
@@ -109,30 +108,45 @@ gulp.task('test', ['clean', 'lint'], function () {
     });
 });
 
-gulp.task('serve', ['setWatch', 'browserify', 'fixtureServer'], function() {
+gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
-        proxy: 'localhost:3000',
         startPath: '/examples/index.html',
         injectChanges: true,
+        server: {
+            middleware: function (req, res, next) {
+                var appsPattern = /apps\/.+\/locales\/(.+)/;
+                var libsPattern = /libs\/.+\/locales\/(.+)/;
+
+                var appsMatches = appsPattern.exec(req.originalUrl);
+                var libsMatches = libsPattern.exec(req.originalUrl);
+
+                if (!appsMatches && !libsMatches) {
+                    next();
+                    return;
+                }
+
+                var newLocationOfFile = null;
+
+                if (appsMatches) {
+                    newLocationOfFile = './examples/locales/json/messages/messages_' + appsMatches[1];
+                }else if (libsMatches) {
+                    newLocationOfFile = './locales/' + libsMatches[1];
+                }
+
+                console.log("Overwriting the location", req.originalUrl, newLocationOfFile);
+                var readStream = fs.createReadStream(newLocationOfFile);
+
+                // We replaced all the event handlers with a simple call to readStream.pipe()
+                readStream.pipe(res);
+            },
+            baseDir : './',
+            directory : true
+        },
         files: [
             bundlePath, 'node_modules/pulsar-common-css/dist/*.css', 'examples/*.html'
         ]
     });
 });
-
-gulp.task('fixtureServer', function(done) {
-    var config = {
-      staticPaths : {
-        '/assets/akamai-components/:version/locales/' : 'locales',
-        '/' : '.'    // serve this directory as
-      },
-      port : 3000
-    };
-
-  fixtureServer.start(config);
-  done();
-});
-
 
 gulp.task('setWatch', function() {
     global.isWatching = true;
@@ -170,11 +184,11 @@ gulp.task('deploy', function(){
         //clean up branch name:
         var cleanBranchName = branchName.replace('feature/', '').replace(' ', '_');
         plugins.util.log('clean branch name: '+ cleanBranchName);
-        
+
         var longFolderName = '315289/dev/jenkins/' + cleanBranchName;
-        
+
         plugins.util.log('rsync destination: '+ longFolderName);
-        
+
         //TODO: Handle scenarios where the folder needs to be generated on the server side
         rsync({
           ssh: true,
@@ -197,29 +211,29 @@ gulp.task('copy-resources-to-dist', function() {
 
 gulp.task('update-package-version', function(callback){
     var firstDashInVersion = pkg.version.indexOf('-');
-    
+
     if (firstDashInVersion > -1) {
         plugins.util.log('update it to new dev version');
-        
+
         var coreVersion = pkg.version.substr(0, firstDashInVersion);
 
         plugins.git.revParse({args:'HEAD'}, function (err, commitId) {
             var shortCommitId = commitId.substr(0, 6);
             var prereleaseVersion = coreVersion + "-" + moment().format("YYYYMMDDTHHmmss") + "-" + shortCommitId;
-            
+
             plugins.util.log('new version: '+ prereleaseVersion);
-            
+
             pkg.version = prereleaseVersion;
-            
+
             fs.writeFile('package.json', JSON.stringify(pkg, null, 4), function(err) {
                 if(err) {
                     plugins.util.log('error occurred', err);
                 } else {
                     plugins.util.log('package.json version updated');
                 }
-                
+
                 callback();
-            }); 
+            });
         });
     }else{
         plugins.util.log('leave version as is');

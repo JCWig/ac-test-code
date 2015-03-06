@@ -7,23 +7,14 @@
     <script src="../../../node_modules/angular-translate/dist//angular-translate.js"></script>
     <script type="text/javascript" src="../../../dist/akamai-components.js"></script>
 
-    <style>
-    .translate-cloak {
-        display: none !important;
-    }
-    </style>
-
     <script>
-    var appLocalePath = "/examples/locales/json/messages/";
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
-
     app.config(function(i18nTokenProvider) {
-
         //follwing code commented out following is to show user has option for setting locale path via passing in the config data,
         //and if not passing in, then we will assume to use common standard path which like: "https://akamai.control.com/apps/{appName}/..."
         //more details go to component documentation pages
         /*var config = {
-            path: appLocalePath,
+            path: "/examples/locales/json/messages/",
             prefix: "messages_",
             appName: "billing-center"
         };
@@ -43,7 +34,7 @@
     }]);
     </script>
 
-    <body ng-app="i18nDemo3" ng-controller="TranslationPageController" class="common-css" style="margin:30px;" translate-cloak>
+    <body ng-app="i18nDemo3" ng-controller="TranslationPageController" class="common-css" style="margin:30px;">
         <div>
             <h2>1. Check with console for javascript translations using translate service</h2>
             <hr>

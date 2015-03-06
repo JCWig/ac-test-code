@@ -30,6 +30,10 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * | localeAppPath | 'apps/{appName}/locales/' | {@type string} | This path value is to app locale file. |
  * | defaultLocale | en_US | {@type string} | Default locale string value. |
  * | baseVersion | '0.0.1' | {@type string} | This path value is to component locale file. (subject to change) |
+ * | localePrefix | '' | {@type string} | locale file prefix "message_" to "message_en_US" (subject to change) |
+ * | availableLangKeys | [key names] | {@type array} | list of available language key names, purpose is to validate if name is not in the list, it won't load locale file (subject to change) |
+ * | langKeysMapper | {mapping} | {@type object} | This object contains constant mapping of language names with tranlsation table names (subject to change) |
+ *
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
@@ -205,7 +209,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * *NOTE* Since run block is last flow, only this block completed, the $translation table is sure loaded.
  */
 /* @ngInject */
-.run(function($translate, i18nToken) {
+.run(function($translate, i18nToken, i18nConfig) {
     //it loads twice using "use" function if current locale is different from default locale
-    //$translate.use(i18nToken.getCurrentLocale());
+    if (i18nToken.getCurrentLocale() === i18nConfig.defaultLocale) {
+        $translate.use(i18nToken.getCurrentLocale());
+    }
 });
