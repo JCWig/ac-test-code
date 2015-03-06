@@ -9,7 +9,12 @@
     <div class="container">
         <h1>Data Table Example</h1>
         
-        <akam-data-table data="data" schema="schema" filter-placeholder="Filter Employees"></akam-data-table>
+        <akam-data-table data="data" schema="schema" filter-placeholder="Filter Employees">
+            <akam-menu-button icon="luna-gear" position="right">
+                <akam-menu-button-item text="PDF"></akam-menu-button-item>
+                <akam-menu-button-item text="HTML"></akam-menu-button-item>
+            </akam-menu-button>
+        </akam-data-table>
     </div>
 
     <script src="../node_modules/angular/angular.js"></script>

@@ -5,6 +5,7 @@ module.exports = function($log) {
     return {
         restrict: 'E',
         transclude: true,
+        replace: true,
         scope: {
             label: '@',
             icon : '@',

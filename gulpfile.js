@@ -120,9 +120,6 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
                 var appsMatches = appsPattern.exec(req.originalUrl);
                 var libsMatches = libsPattern.exec(req.originalUrl);
                 
-                
-                console.log(req.originalUrl, appsMatches, libsMatches);
-                
                 if (!appsMatches && !libsMatches) {
                     next();
                     return;
@@ -139,7 +136,6 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
                 console.log("Overwriting the location", req.originalUrl, newLocationOfFile);
                 var readStream = fs.createReadStream(newLocationOfFile);
                 
-                console.log(readStream);
                 // We replaced all the event handlers with a simple call to readStream.pipe()
                 readStream.pipe(res);
             },

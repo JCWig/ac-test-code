@@ -14,7 +14,8 @@ var angular = require('angular');
     module.exports = angular.module('akamai.components.data-table', [
         require('../uuid').name,
         require('../indeterminate-progress').name,
-        require('../pagination').name
+        require('../pagination').name,
+        require('../menu-button').name
     ])
 
     

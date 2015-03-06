@@ -12,6 +12,9 @@
                 <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)" title="{{column.header}}">
                     {{column.header}} <i></i>
                 </th>
+                <th ng-if="hasActionColumn" class="column-action">
+                    Action
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +24,8 @@
                 </td>
                 <td ng-repeat="column in columns" ng-class="getColumnClasses(column, false)" title="{{item.cells[$index]}}">
                     {{item.cells[$index]}}
+                </td>
+                <td class="column-action" ng-if="hasActionColumn" ng-transclude>
                 </td>
             </tr>
         </tbody>
