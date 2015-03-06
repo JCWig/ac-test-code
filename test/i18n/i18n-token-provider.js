@@ -229,7 +229,7 @@ describe('locale cookie set to cookie without translation file', function() {
         });
     });
 });
-/*
+
 describe('locale cookie set to invalid cookie', function() {
     var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
     var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
@@ -277,4 +277,3 @@ describe('locale cookie set to invalid cookie', function() {
         });
     });
 });
-*/
