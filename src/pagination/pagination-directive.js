@@ -113,6 +113,10 @@ module.exports = function(translate) {
             };
 
             scope.$watch('[totalItems, currentPage, pageSize]', function(val, old) {
+                if(val[0] < 0 ){
+                    scope.totalItems = 0;
+                    val = [0, val[1], val[2]];
+                }
                 if (val !== old) {
                     update();
                 }
