@@ -72,7 +72,6 @@ describe('i18nCustomLoader service', function() {
     });
 
     context('when using custom loader service with url returning no data', function(){
-        //CURRENTLY FAILING NEED ERROR CASE CLARIFICATION TO FIND APPROPRIATE RESPONSE
         beforeEach(function() {
             httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');   
             httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
