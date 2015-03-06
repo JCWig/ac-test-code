@@ -49,7 +49,7 @@ describe('zakam-data-table', function() {
             });
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function($compile, $rootScope, $q, $timeout, $http) {
+        inject(function($compile, $rootScope, $q, $timeout, $http, $sce) {
             compile = $compile;
             scope = $rootScope.$new();
             q = $q;
@@ -154,7 +154,10 @@ describe('zakam-data-table', function() {
             timeout(function(){
                 deferred.resolve(scope.mydata);
             }, 2000);
-            var markup = '<akam-data-table data="delayeddata" schema="columns"></akam-data-table>';
+            var markup = '<akam-data-table data="delayeddata" schema="columns">'+
+                '<akam-menu-button icon="luna-gear" position="right">'+
+                '<akam-menu-button-item text="PDF" ng-click="process('+"'PDF'"+')"></akam-menu-button-item>'+
+                '</akam-menu-button></akam-data-table>';
             addElement(markup);
 
             expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/false/);
@@ -165,7 +168,10 @@ describe('zakam-data-table', function() {
             expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
         });
         it('should render all parts data table and pagination', function() {
-            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
+            var markup = '<akam-data-table data="mydata" schema="columns">'+
+                '<akam-menu-button icon="luna-gear" position="right">'+
+                '<akam-menu-button-item text="PDF" ng-click="process('+"'PDF'"+')"></akam-menu-button-item>'+
+                '</akam-menu-button></akam-data-table>';
             addElement(markup);
 
             var dataTableContainer = document.querySelector('div.akam-data-table');
