@@ -4,7 +4,7 @@ var angular = require('angular');
 
 /* @ngInject */
 module.exports = function(modalWindow, translate, $rootScope, $filter) {
-    function show(options) {
+    function show(options, type) {
         if (options.headline == null) {
             throw new Error('headline option is required');
         }
@@ -13,7 +13,15 @@ module.exports = function(modalWindow, translate, $rootScope, $filter) {
             throw new Error('text option is required');
         }
 
-        options.title = options.title ? options.title.substr(0, 20) : '';
+        var title = translate.sync('components.message-box.title.information');
+        if(type === "question") {
+            title = translate.sync('components.message-box.title.question');
+        }
+        else if(type === "error") {
+            title = translate.sync('components.message-box.title.error');
+        }
+
+        options.title = options.title ? options.title.substr(0, 20) : title;
         options.backdrop = 'static';
         options.scope = $rootScope.$new();
         options.scope.messageBox = {
@@ -80,10 +88,9 @@ module.exports = function(modalWindow, translate, $rootScope, $filter) {
          */
         showInfo: function(options) {
             options = options || {};
-            options.title = options.title || 'Information';
             options.icon = 'svg-information';
             options.windowClass = 'information akam-message-box';
-            return this._show(options);
+            return this._show(options, "information");
         },
 
         /**
@@ -105,10 +112,9 @@ module.exports = function(modalWindow, translate, $rootScope, $filter) {
          */
         showQuestion: function(options) {
             options = options || {};
-            options.title = options.title || 'Question';
             options.icon = 'svg-question';
             options.windowClass = 'question akam-message-box';
-            return this._show(options);
+            return this._show(options, "question");
         },
 
         /**
@@ -130,10 +136,9 @@ module.exports = function(modalWindow, translate, $rootScope, $filter) {
          */
         showError: function(options) {
             options = options || {};
-            options.title = options.title || 'Error';
             options.icon = 'svg-error';
             options.windowClass = 'error akam-message-box';
-            return this._show(options);
+            return this._show(options, "error");
         }
     };
 };
