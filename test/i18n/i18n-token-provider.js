@@ -1,6 +1,6 @@
 'use strict';
 var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
-var LIBRARY_PATH = 'libs/akamai-components/0.0.1/locales/en_US.json';
+var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json';
 var CONFIG_PATH = '../../_appen_US.json';
 var CONFIG_PREFIX = 'prefix'
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
@@ -105,9 +105,9 @@ describe('i18nToken service', function() {
             service = i18nToken;
             rootScope = _$rootScope_.$new();
             cookies = _$cookies_;
-            $httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});   
+            $httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});
             $httpBackend.when('GET', CONFIG_PATH).respond(enUsMessagesResponse);
-            $httpBackend.when('GET', LIBRARY_PATH).respond(enUsResponse);   
+            $httpBackend.when('GET', LIBRARY_PATH).respond(enUsResponse);
         });
         rootScope.$digest();
     });
@@ -212,13 +212,13 @@ describe('locale cookie set to cookie without translation file', function() {
             timeout = $timeout;
             httpBackend = $httpBackend;
             scope = $rootScope;
-            log = $log;      
+            log = $log;
         });
-        httpBackend.when('GET', '../../_appde_DE.json').respond(404, "BAD PATH"); 
-        httpBackend.when('GET', 'libs/akamai-components/0.0.1/locales/de_DE.json').respond(404, "BAD PATH");   
-        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});   
-        httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);   
-        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);   
+        httpBackend.when('GET', '../../_appde_DE.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', '/libs/akamai-components/0.0.1/locales/de_DE.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});
+        httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
     context('when using custom loader service with cookie that has no files', function(){
         it('should ignore gracefully and continue to next url', function(){
@@ -260,13 +260,13 @@ describe('locale cookie set to invalid cookie', function() {
             timeout = $timeout;
             httpBackend = $httpBackend;
             scope = $rootScope;
-            log = $log;      
+            log = $log;
         });
-        httpBackend.when('GET', '../../_appde_DE.json').respond(404, "BAD PATH"); 
-        httpBackend.when('GET', 'libs/akamai-components/0.0.1/locales/de_DE.json').respond(404, "BAD PATH");   
-        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});   
-        httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);   
-        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);   
+        httpBackend.when('GET', '../../_appde_DE.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', 'libs/akamai-components/0.0.1/locales/de_DE.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});
+        httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
     context('when using custom loader service bad cookie', function(){
         it('should ignore gracefully and continue to next url', function(){
