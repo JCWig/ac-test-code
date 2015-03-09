@@ -26,18 +26,18 @@ var translationMock = {
     }
 };
 
-describe('zakam-data-table', function() {
+describe('akam-data-table', function() {
     var compile = null;
     var scope = null;
     var self = this;
     var q = null;
     var timeout = null;
     var http = null;
-
+    var sce = null;
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/data-table').name);
-        angular.mock.module(function($provide, $translateProvider) {
+        angular.mock.module(function($provide, $translateProvider, $sceProvider) {
             $provide.factory('i18nCustomLoader', function($q, $timeout) {
                 return function(options) {
                     var deferred = $q.defer();
@@ -47,6 +47,7 @@ describe('zakam-data-table', function() {
                     return deferred.promise;
                 };
             });
+            //$sceProvider.enabled(false);
             $translateProvider.useLoader('i18nCustomLoader');
         });
         inject(function($compile, $rootScope, $q, $timeout, $http, $sce) {
@@ -110,11 +111,15 @@ describe('zakam-data-table', function() {
                 }
             },
             {
-                content:"birthday",
+                content: function(){
+                    return this.birthday.getDate()+ " "+this.birthday.getMonth() +" "+this.birthday.getFullYear();
+                },
                 header:"Birthday"
             },
             {
-                content:"generic",
+                content:function(){
+                    return this.generic.join(",");
+                },
                 header:"Generic Sorting"
             }
         ];
@@ -180,7 +185,6 @@ describe('zakam-data-table', function() {
             expect(dataTableContainer).to.not.be.null;
             expect(paginationContainer).to.not.be.null;
         });
-        //it('should not have anything selected if checkboxes are active', function() {});
         it('should have filter be clear', function() {
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
@@ -212,54 +216,7 @@ describe('zakam-data-table', function() {
 
             expect(totalItemsSpan.textContent).to.contain('3');
         });
-        //it('should display action options on mouse hover of a row', function(){});
-        it('should show indeterminate progress bar when refreshed', function(){
-            var deferred = q.defer();
-            scope.delayeddata = deferred.promise;
-            timeout(function(){
-                deferred.resolve(scope.mydata);
-            }, 2000);
-            var markup = '<akam-data-table data="delayeddata" schema="columns"></akam-data-table>';
-            addElement(markup);
-
-            document.location = location;
-
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/false/);
-            timeout.flush();
-            var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
-
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
-            expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
-
-
-        });
     });
-    /*context('when data table is loaded', function(){
-        it('should be able to render without a toolbar', function(){});
-        it('should be able to render without bulk delete', function(){});
-        it('should be able to render without filter', function(){});
-        it('should be able to render without export', function(){});
-        it('should be able to render with only bulk delete', function(){});
-        it('should be able to render with only export', function(){});
-        it('should be able to render with only filter', function(){});
-    });
-    context('when rendered with bulk actions', function(){
-        it('should be rendered with checkboxes column', function(){});
-        it('should be able to select an item', function(){});
-        it('should be able to deselect an item', function(){});
-    });
-    context('when data table is given below minimum columns (6)', function(){
-    });
-    context('when data table is given above maximum columns (12)', function(){
-    });
-    context('when selecting an item', function(){
-        it('should update selected checkbox', function(){});
-        it('should change background color of selected items', function(){});
-    });
-    context('when deselecting an item', function(){
-        it('should update deselected checkbox', function(){});
-        it('should change background color of deselected items', function(){});
-    });*/
     context('when rendered with checkboxes', function(){
         beforeEach(function(){
             var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true"></akam-data-table>';
@@ -401,8 +358,8 @@ describe('zakam-data-table', function() {
             var rowOneColumnFive = document.querySelector(TABLE_ROW).querySelectorAll('td')[4];
             var rowThreeColumnFive = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[4];
 
-            expect(rowOneColumnFive.textContent).to.contain('["AAAAAAAAAAAAAAAAAAA"]');
-            expect(rowThreeColumnFive.textContent).to.contain('["shoot em up"]');
+            expect(rowOneColumnFive.textContent).to.contain('AAAAAAAAAAAAAAAAAAA');
+            expect(rowThreeColumnFive.textContent).to.contain('shoot em up');
         });
         it('should be able to sort reverse generically', function(){
             var sortByColumnFiveGeneric = document.querySelectorAll(TABLE_COLUMN_HEADER)[4];
@@ -412,8 +369,8 @@ describe('zakam-data-table', function() {
             var rowOneColumnFive = document.querySelector(TABLE_ROW).querySelectorAll('td')[4];
             var rowThreeColumnFive = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[4];
 
-            expect(rowOneColumnFive.textContent).to.contain('["shoot em up"]');
-            expect(rowThreeColumnFive.textContent).to.contain('["AAAAAAAAAAAAAAAAAAA"]');
+            expect(rowOneColumnFive.textContent).to.contain('shoot em up');
+            expect(rowThreeColumnFive.textContent).to.contain('AAAAAAAAAAAAAAAAAAA');
         });
         it('should sort entire rows', function(){
 
@@ -427,7 +384,7 @@ describe('zakam-data-table', function() {
         });
     });
     context('when using unique sort cases', function(){
-        /*it('should not bother sorting one row', function(){
+        it('should not bother sorting one row', function(){
             scope.basicdata = [
                 {'name' : "Kevin"}
             ];
@@ -440,11 +397,10 @@ describe('zakam-data-table', function() {
 
             var sortByColumnTwo =document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
             utilities.click(sortByColumnTwo);
-            console.log(document.querySelector('tbody'));
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             
             expect(rowOneColumnTwo.textContent).to.contain('Kevin');
-        });*/
+        });
         it('should be able to turn off sorting', function(){
             scope.mydata = [
                 {'name' : "Kevin"},
@@ -538,28 +494,7 @@ describe('zakam-data-table', function() {
 
             expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
         });
-    });/*
-    context('when bulk deleting', function(){
-        it('should have message box appear with confirmation of delete', function(){});
-        it('should delete the chosen rows when confirmed', function(){});
-        it('should not delete the chosen rows when canceled.', function(){});
-        it('should not delete by close icon click', function(){});
     });
-    context('when exporting', function(){
-        it('should open mesage box', function(){});
-        it('should be able to fill in save as field', function(){});
-        it('should be able to change format field', function(){});
-        it('should cancel exporting when cancel clicked', function(){});
-        it('should cancel exporting when close icon clicked', function(){});
-        it('should export selected items when export button clicked', function(){});
-    });
-    context('when editing a field', function(){
-        it('should be able to edit a field', function(){});
-        it('should activate inline validation of that field', function(){});
-        it('should activate bubble help field if message over 40 characters', function(){});
-        it('should highlight field where error is occuring', function(){});
-        it('should accept edits when validation is complete', function(){});
-    });*/
     context('when navigating the data table', function(){
         beforeEach(function(){
             var markup = '<akam-data-table data="mybigdata" schema="bigcolumns"></akam-data-table>';
@@ -614,24 +549,57 @@ describe('zakam-data-table', function() {
             expect(previousArrow.classList.contains('disabled')).to.be.true;
             expect(nextArrow.classList.contains('disabled')).to.be.true;
         });
-    });/*
-    context('when grouping items', function(){
-        it('should display icon representing grouping of items',function(){});
-        it('should use grouping/hierarchal tree to render',function(){});
-        it('should expand grouping when arrow is clicked', function(){});
-        it('should not use more than 3 levels of grouping', function(){});
-        it('should perform action on each subitem when top level action happens', function(){});
     });
-    context('when using action button', function(){
-        it('should display all actions that can be taken', function(){});        
-        it('should be able to be closed and no action taken', function(){});
-        it('should perform an action on that row if pressed', function(){});
-        it('should be able to take user to a different location', function(){});
+    context('when rendered with action buttons', function(){
+        beforeEach(function(){
+            var markup = '<akam-data-table data="mydata" schema="columns">'+
+                '<akam-menu-button icon="luna-gear" position="right">'+
+                '<akam-menu-button-item text="PDF" ng-click="process('+"'PDF'"+')"></akam-menu-button-item>'+
+                '<akam-menu-button-item text="XML" ng-click="process('+"'XML'"+')"></akam-menu-button-item>'+
+                '</akam-menu-button></akam-data-table>';
+            addElement(markup);
+        });
+        it('should display all actions that can be taken', function(){
+            var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
+            var menuButton = menuDiv.querySelector('button');
+            utilities.click(menuButton);
+            scope.$digest();
+            var options = menuDiv.querySelectorAll('.dropdown-menu li');
+
+            expect(menuDiv.classList.contains('open')).to.be.true;
+            expect(options).to.have.length(2);
+            expect(options[0].textContent).to.match(/PDF/);
+            expect(options[1].textContent).to.match(/XML/);
+        });        
+        it('should be able to be closed and no action taken', function(){
+            scope.process = sinon.spy();
+            var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
+            var menuButton = menuDiv.querySelector('button');
+           
+            utilities.click(menuButton);
+            scope.$digest();
+            utilities.click(menuButton);
+            scope.$digest();
+           
+            expect(menuDiv.classList.contains('open')).to.be.false;
+            expect(scope.process).to.not.have.been.called;
+        });
+        it('should perform an action on that row if pressed', function(){
+            scope.process = sinon.spy();
+            var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
+            var menuButton = menuDiv.querySelector('button');
+           
+            utilities.click(menuButton);
+            scope.$digest();
+
+            var options = menuDiv.querySelectorAll('.dropdown-menu li a');
+            utilities.click(options[0]);
+            scope.$digest();
+
+            expect(scope.process).calledWith("PDF");
+            expect(menuDiv.classList.contains('open')).to.be.false;
+        });
     });
-    context('when mouseover events occur', function(){
-        it('should change color of the row mouse is over', function(){});        
-        it('should change color of the action the mouse is over', function(){});
-    });*/
     context('when data gets messed up', function(){
         it('should recognize null content when redenring', function(){
             scope.baddata = [
@@ -651,7 +619,7 @@ describe('zakam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).to.match(/ /);
+            expect(rowOneColumnTwo.textContent).to.equal('');
             expect(allVisibleRows.length).to.equal(2);
         });
         it('should recognize content not matching', function(){
@@ -670,7 +638,7 @@ describe('zakam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).to.match(/ /);
+            expect(rowOneColumnTwo.textContent).to.equal('');
             expect(allVisibleRows.length).to.equal(2);
         });
         it('should recognize null content when sorting name', function(){
@@ -692,9 +660,8 @@ describe('zakam-data-table', function() {
             var rowFourColumnTwo = document.querySelectorAll(TABLE_ROW)[3].querySelectorAll('td')[1];
             var rowFiveColumnTwo = document.querySelectorAll(TABLE_ROW)[4].querySelectorAll('td')[1];
 
-            //console.log(document.querySelector('tbody'));
-            expect(rowOneColumnTwo.textContent).to.contain('');
-            expect(rowTwoColumnTwo.textContent).to.contain('');
+            expect(rowOneColumnTwo.textContent).to.equal('');
+            expect(rowTwoColumnTwo.textContent).to.equal('');
             expect(rowFourColumnTwo.textContent).to.contain('James');
             expect(rowFiveColumnTwo.textContent).to.contain('Kevin');
         });
@@ -710,7 +677,21 @@ describe('zakam-data-table', function() {
             expect(rowOneColumnOne.textContent).to.match(/Dinah Lance/);
             expect(rowTwoColumnOne.textContent).to.match(/Oliver Queen/);
             expect(rowThreeColumnOne.textContent).to.match(/Roy Harper/);
-        });
+        });/*
+        it('should present message when no data is available', function(){
+            scope.baddata = [];
+            scope.columns = [
+                {content : "name", 
+                header : 'Name'}
+            ];
+            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true"></akam-data-table>';
+            addElement(markup);
+            
+            var dataTable = document.querySelector('tbody');
+
+            expect(dataTable.textContent).to.match(/Not results found at all hahahah/);
+            
+        });*/
     });
     context('when errors are thrown', function(){
         it('should throw error when schema is not an array', function(){
