@@ -1,21 +1,17 @@
 'use strict';
 var utilities = require('../utilities');
 
-//CSS Selector variables
+//CSS Selector variables 
 var FILTER_BOX = 'div.list-box-filter input[type="search"]';
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-list-box thead tr th';
 var TABLE_ROW = 'div.list-box-data tbody tr';
 var SELECTED_SPAN = 'div.list-box-footer span.ng-binding';
 var VIEW_SELECTED_ONLY_CHECKBOX = 'div.list-box-footer span.util-pull-right input[type=checkbox]';
-
-var translationMock = {
-    "components": {
-        "list-box": {
-            "filter": "Filter"
-        }
-    }
-};
+var LIBRARY_PATH = 'libs/akamai-components/0.0.1/locales/en_US.json';
+var CONFIG_PATH = '/apps/appName/locales/en_US.json';
+var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
+var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
 
 describe('akam-list-box', function() {
     var compile = null;
@@ -28,22 +24,11 @@ describe('akam-list-box', function() {
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/list-box').name);
-        angular.mock.module(function($provide, $translateProvider) {
+        angular.mock.module(function($provide) {
             $provide.decorator ('$http', function ($delegate) {
                 $http = $delegate;
                 return $delegate;
             });
-
-            $provide.factory('i18nCustomLoader', function($q, $timeout) {
-                return function(options) {
-                    var deferred = $q.defer();
-                    $timeout(function() {
-                        deferred.resolve(translationMock);
-                    });
-                    return deferred.promise;
-                };
-            });
-            $translateProvider.useLoader('i18nCustomLoader');
         });
         inject(function($compile, $rootScope, $timeout, $q, $httpBackend) {
             compile = $compile;
@@ -51,6 +36,8 @@ describe('akam-list-box', function() {
             timeout = $timeout;
             q = $q;
             httpBackend = $httpBackend;
+            httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+            httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);  
         });
 
         scope.mydata = [
@@ -177,6 +164,15 @@ describe('akam-list-box', function() {
 
             expect(filterBox.value).to.equal('');
         });
+        it('should can have filter loaded with placeholder', function() {
+            var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
+            addElement(markup);
+
+            var filterBox = document.querySelector(FILTER_BOX);
+
+            expect(filterBox.value).to.equal('');
+            expect(filterBox.placeholder).to.equal('placeholder');
+        });
         it('should display indeterminate progress when loading', function() {
             var deferred = q.defer();
             scope.delayeddata = deferred.promise;
@@ -203,14 +199,14 @@ describe('akam-list-box', function() {
             var dataLength= Object.keys(jsonData).length;
 
             httpBackend.when('GET', dataPath).respond(jsonData);
-
+            
             scope.jsonFromHttpGet = $http.get(dataPath);
             var markup = '<akam-list-box data="jsonFromHttpGet" schema="jsonColumns"></akam-list-box>';
             addElement(markup)
-
+            
             expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/false/);
             httpBackend.flush();
-
+            
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
             expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
             expect(allRowsLoadedInTable).to.have.length(dataLength);
@@ -221,7 +217,7 @@ describe('akam-list-box', function() {
                 {'name' : "Alejandro"}
             ]
             scope.columns = [
-                {content : 'name',
+                {content : 'name', 
                 header : 'Name',
                 sort:null}
             ];
@@ -271,7 +267,7 @@ describe('akam-list-box', function() {
             utilities.click(selectAllCheckbox);
             var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
 
-            expect(allCheckedCheckboxes).to.have.length(scope.mydata.length+1); //Additional One for the overall checkbox
+            expect(allCheckedCheckboxes).to.have.length(scope.mydata.length+1); //Additional One for the overall checkbox 
         });
         it('should be able to deselect all items at once', function() {
             var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
@@ -388,7 +384,7 @@ describe('akam-list-box', function() {
                 {'name' : "Kevin"}
             ]
             scope.columns = [
-                {content : 'name',
+                {content : 'name', 
                 header : 'Name'}
             ];
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
@@ -397,7 +393,7 @@ describe('akam-list-box', function() {
             var sortByColumnTwo =document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
             utilities.click(sortByColumnTwo);
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
-
+            
             expect(rowOneColumnTwo.textContent).to.contain('Kevin');
         });
 
@@ -407,7 +403,7 @@ describe('akam-list-box', function() {
                 {'name' : "Alejandro"}
             ]
             scope.columns = [
-                {content : 'name',
+                {content : 'name', 
                 header : 'Name',
                 sort:false}
             ];
@@ -519,7 +515,7 @@ describe('akam-list-box', function() {
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
             utilities.click(firstRowCheckbox);
             var checkedCheckbox = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
-
+            
             expect(checkedCheckbox).to.have.length(1);
             expect(scope.mychange).to.not.have.been.called;
         });
@@ -530,7 +526,7 @@ describe('akam-list-box', function() {
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
             utilities.click(firstRowCheckbox);
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
-
+            
             expect(numberSelectedSpan.textContent).to.match(/Selected: 1/);
         });
         //it('should make view selected only box visible', function(){});
@@ -550,7 +546,7 @@ describe('akam-list-box', function() {
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[4];
             utilities.click(firstRowCheckbox);
 
-            expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).to.be.true();
+            expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).to.be.true(); 
         });
     });
     context('when deselecting an item', function(){
@@ -563,7 +559,7 @@ describe('akam-list-box', function() {
         });
         it('should be able to deselect an item', function(){
             var firstRowcheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
-            utilities.click(firstRowcheckbox);
+            utilities.click(firstRowcheckbox); 
             utilities.click(firstRowcheckbox);
 
             var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
@@ -572,17 +568,17 @@ describe('akam-list-box', function() {
         });
         it('should updated total selected field', function(){
             var firstRowcheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
-            utilities.click(firstRowcheckbox);
+            utilities.click(firstRowcheckbox); 
             utilities.click(firstRowcheckbox);
 
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
-
+            
             expect(numberSelectedSpan.textContent).to.match(/Selected: 0/);
         });
         //it('should maintain invisibility of view selected only when 0 selected', function(){});
         it('should change background color of deselected items', function(){
             var firstRowcheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
-            utilities.click(firstRowcheckbox);
+            utilities.click(firstRowcheckbox); 
             utilities.click(firstRowcheckbox);
 
             expect(firstRowcheckbox.parentNode.parentNode.classList.contains('row-selected')).to.be.false();
@@ -592,7 +588,7 @@ describe('akam-list-box', function() {
             utilities.click(firstRowCheckbox);
             utilities.click(firstRowCheckbox);
 
-            expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).to.be.false();
+            expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).to.be.false(); 
         });
         //it('should keep view selected only visible when options remain', function(){});
     });
@@ -609,7 +605,7 @@ describe('akam-list-box', function() {
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
             utilities.click(firstRowCheckbox);
             utilities.click(viewSelectOnlyCheckbox);
-
+            
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
             expect(allVisibleRows).to.have.length(1);
@@ -666,9 +662,9 @@ describe('akam-list-box', function() {
         it('should filter based on input beginning-middle-end matches', function(){
             scope.$$childHead.state.filter = "Kev";
             scope.$$childHead.updateSearchFilter();
-            scope.$digest();
+            scope.$digest(); 
             expect(document.querySelectorAll(TABLE_ROW).length).to.equal(3);
-
+            
             //CURRENTLY IN A FAILING CASE FILTER DOES NOT REORDER BASED UPON ACCURACY
             //expect(document.querySelectorAll(TABLE_ROW)[0].querySelectorAll('td')[1].textContent).to.contain('Keviiiiii');
             //expect(document.querySelectorAll(TABLE_ROW)[1].querySelectorAll('td')[1].textContent).to.contain('iiiKeviii');
@@ -680,7 +676,7 @@ describe('akam-list-box', function() {
             utilities.click(document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX));
             scope.$$childHead.state.filter = "Kev";
             scope.$$childHead.updateSearchFilter();
-            scope.$digest();
+            scope.$digest(); 
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
             expect(allVisibleRows).to.have.length(1);
         });
@@ -741,7 +737,7 @@ describe('akam-list-box', function() {
             scope.columns = [
                 {content : function(){
                     return null;
-                },
+                }, 
                 header : 'Full Name'}
             ];
             var markup = '<akam-list-box data="baddata" schema="columns"></akam-list-box>'
@@ -763,12 +759,12 @@ describe('akam-list-box', function() {
                 {name : null},
                 {name: "James"}];
             scope.columns = [
-                {content : "name",
+                {content : "name", 
                 header : 'Name'}
             ];
             var markup = '<akam-list-box data="baddata" schema="columns"></akam-list-box>'
             addElement(markup);
-
+            
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var rowTwoColumnTwo = document.querySelectorAll(TABLE_ROW)[1].querySelectorAll('td')[1];
             var rowFourColumnTwo = document.querySelectorAll(TABLE_ROW)[3].querySelectorAll('td')[1];
@@ -789,7 +785,7 @@ describe('akam-list-box', function() {
                 {name : "James"}
             ]
             scope.columns = [
-                {content : null,
+                {content : null, 
                 header : 'Name'},
             ];
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
@@ -802,7 +798,7 @@ describe('akam-list-box', function() {
         it('should throw error when data is not an array', function(){
             scope.mydata = null
             scope.columns = [
-                {content : null,
+                {content : null, 
                 header : 'Name'},
             ];
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
@@ -828,7 +824,7 @@ describe('akam-list-box', function() {
                 {'name' : "Alejandro"}
             ]
             scope.columns = [
-                {content : 'name',
+                {content : 'name', 
                 header : 'Name',
                 sort:null}
             ];
