@@ -32,8 +32,6 @@ describe('akam-data-table', function() {
     var self = this;
     var q = null;
     var timeout = null;
-    var http = null;
-    var sce = null;
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/data-table').name);
@@ -47,15 +45,13 @@ describe('akam-data-table', function() {
                     return deferred.promise;
                 };
             });
-            //$sceProvider.enabled(false);
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function($compile, $rootScope, $q, $timeout, $http, $sce) {
+        inject(function($compile, $rootScope, $q, $timeout) {
             compile = $compile;
             scope = $rootScope.$new();
             q = $q;
             timeout = $timeout;
-            http = $http;
         });
         scope.mydata = [
             {
@@ -558,15 +554,32 @@ describe('akam-data-table', function() {
                 '<akam-menu-button-item text="XML" ng-click="process('+"'XML'"+')"></akam-menu-button-item>'+
                 '</akam-menu-button></akam-data-table>';
             addElement(markup);
+            timeout.flush();
         });
-        it('should display all actions that can be taken', function(){
-            var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
+        it('should display all actions closed to start', function(){
+            var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
             var menuButton = menuDiv.querySelector('button');
-            utilities.click(menuButton);
-            scope.$digest();
+
+            menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
+            menuButton = menuDiv.querySelector('button');
             var options = menuDiv.querySelectorAll('.dropdown-menu li');
 
+            expect(menuDiv.classList.contains('open')).to.be.false;
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+        });  
+        it('should display all actions that can be taken', function(){
+            var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
+            var menuButton = menuDiv.querySelector('button');
+            
+            utilities.click(menuButton);
+            scope.$digest();
+
+            menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
+            menuButton = menuDiv.querySelector('button');
+            var options = menuDiv.querySelectorAll('.dropdown-menu li');
+            
             expect(menuDiv.classList.contains('open')).to.be.true;
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('true');
             expect(options).to.have.length(2);
             expect(options[0].textContent).to.match(/PDF/);
             expect(options[1].textContent).to.match(/XML/);
@@ -575,13 +588,14 @@ describe('akam-data-table', function() {
             scope.process = sinon.spy();
             var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
             var menuButton = menuDiv.querySelector('button');
-           
+            
             utilities.click(menuButton);
             scope.$digest();
             utilities.click(menuButton);
             scope.$digest();
-           
+            
             expect(menuDiv.classList.contains('open')).to.be.false;
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
             expect(scope.process).to.not.have.been.called;
         });
         it('should perform an action on that row if pressed', function(){
