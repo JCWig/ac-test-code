@@ -1,5 +1,9 @@
 'use strict';
 var utilities = require('../utilities')
+var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json';
+var CONFIG_PATH = '../../_appen_US.json';
+var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
+var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
 
 describe('messageBox service', function() {
     var translationMock = {
@@ -26,10 +30,12 @@ describe('messageBox service', function() {
             });
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function(messageBox, $rootScope, $timeout) {
+        inject(function(messageBox, $rootScope, $timeout, $httpBackend) {
             self.messageBox = messageBox;
             self.$rootScope = $rootScope;
             self.$timeout = $timeout;
+            $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+            $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);  
         });
     });
 
@@ -180,6 +186,32 @@ describe('messageBox service', function() {
             var messageBoxDetails = document.querySelector('.modal .message-box-details > div');
             expect(messageBoxDetails.textContent).to.match(new RegExp(details));
         });
+
+        it('should support translating a question message', function() {
+            var headline = 'Headline';
+
+            this.messageBox._show({
+                headline: headline,
+                text: 'Message'
+            }, "question");
+            this.$rootScope.$digest();
+
+            var modalTitle = document.querySelector('.modal .modal-title');
+            expect(modalTitle.textContent).to.equal('components.message-box.title.question');
+        });
+        it('should support translating a error message', function() {
+            var headline = 'Headline';
+
+            this.messageBox._show({
+                headline: headline,
+                text: 'Message'
+            }, "error");
+            this.$rootScope.$digest();
+
+            var modalTitle = document.querySelector('.modal .modal-title');
+            expect(modalTitle.textContent).to.equal('components.message-box.title.error');
+        });
+
         it('should have a close icon button which can close', function(){
             var details = 'Message details';
 

@@ -6,6 +6,12 @@ var DATE_PICKER = 'ul.dropdown-menu'
 var HEADER_DISPLAYED_ON_DATEPICKER = 'button.btn strong.ng-binding'
 var NAVIGATE_DATEPICKER_BACKWARDS = 'button.pull-left'
 var NAVIGATE_DATEPICKER_FORWARDS = 'button.pull-right'
+var LIBRARY_PATH = 'libs/akamai-components/0.0.1/locales/en_US.json';
+var CONFIG_PATH = '/apps/appName/locales/en_US.json';
+var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
+var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
+
+
 
 var findCertainButton = function(buttonKey){
     var calendar = document.querySelectorAll('td.ng-scope');
@@ -24,9 +30,12 @@ describe('akam-date-picker', function() {
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/date-picker').name);
-        inject(function($compile, $rootScope) {
+        inject(function($compile, $rootScope, $httpBackend) {
             compile = $compile;
             scope = $rootScope.$new();
+            $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+            $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);  
+            $httpBackend.flush();
         });
     });
 
