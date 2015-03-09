@@ -26,14 +26,38 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * | key | value | type | description
  * |-----------|-----------------|-----------------------------------------------------------------------------|
  * | localeCookie | AKALOCALE | {@type string} | This cookie name is widely used from Luna portal apps |
- * | localePath | 'assets/akamai-components/{version}/locales/' | {@type string} | This path value is to component locale file. (subject to change) |
+ * | localeComponentPath | 'libs/akamai-components/{version}/locales/' | {@type string} | This path value is to component locale file. |
+ * | localeAppPath | 'apps/{appName}/locales/' | {@type string} | This path value is to app locale file. |
  * | defaultLocale | en_US | {@type string} | Default locale string value. |
+ * | baseVersion | '0.0.1' | {@type string} | This path value is to component locale file. (subject to change) |
+ * | localePrefix | '' | {@type string} | locale file prefix "message_" to "message_en_US" (subject to change) |
+ * | availableLangKeys | [key names] | {@type array} | list of available language key names, purpose is to validate if name is not in the list, it won't load locale file (subject to change) |
+ * | langKeysMapper | {mapping} | {@type object} | This object contains constant mapping of language names with tranlsation table names (subject to change) |
+ *
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
-    localePath: '/libs/akamai-components/{version}/locales/',
+    localeComponentPath: 'libs/akamai-components/{version}/locales/',
+    localeAppPath: '/apps/{appName}/locales/',
     defaultLocale: 'en_US',
-    baseVersion: "0.0.1"
+    baseVersion: "0.0.1",
+    localePrefix: "",
+    availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
+    langKeysMapper: {
+        'de_DE': 'de_DE',
+        'en_US': 'en_US',
+        'en_US_ATT': 'en_US_ATT',
+        'es_ES': 'es_ES',
+        'es_LA': 'es_LA',
+        'fr_FR': 'fr_FR',
+        'it_IT': 'it_IT',
+        'ja_JP': 'ja_JP',
+        'ko_KR': 'ko_KR',
+        'pt_BR': 'pt_BR',
+        'zh_CN': 'zh_CN',
+        'zh_TW': 'zh_TW',
+        '*': 'en_US'
+    }
 })
 
 /**
@@ -97,7 +121,8 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:i18nToken
  *
- * @requires  $cookies
+ * @requires $cookies
+ * @requires $location
  * @requires i18nConfig
  *
  * @description This 'i18nToken' is a tiny service containing object that exposes 2 getter methods(getCurrentLocale(), and getUrls(),
@@ -111,6 +136,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:i18nTokenProvider
  * @requires i18nConfig
+ * @requires $locationProvider
  *
  * @description This 'i18nToken' provider provides methods allow to pass in the application locale path value(s) during config phase.
  * And it also invokes I18nToken service object that consumes those locale and path values during run phase
@@ -142,21 +168,40 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @requires pascalprecht.translate.$translateProvider
  * @requires i18nConfig
  *
- * @description This config block takes $translateProvider and sets up some methods for loading the locale resource file when in run phase.
+ * @description This config block takes $translateProvider and sets up methods for
+ * fallback, call into customLoader, intercept missing key messages, register avalable keys.
  *
  * *NOTE* localeStorage is not used, the browser will not cache the language key
- * *NOTE* To prevent from page flicks due to async nature, we suggest any usages of translate in markup,
- * add "tranalate-cloak" on body tag, and add .translate-cloak {display: none !important; } in CSS.
  *
  */
 /* @ngInject */
 .config(function($translateProvider, i18nConfig) {
     $translateProvider
+        .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
         .useLoader('i18nCustomLoader')
         .useSanitizeValueStrategy('escaped')
         .preferredLanguage(i18nConfig.defaultLocale)
         .fallbackLanguage(i18nConfig.defaultLocale)
-        .determinePreferredLanguage();
+        .determinePreferredLanguage()
+        .useMissingTranslationHandler('missingTranslationFactory');
+})
+
+/**
+ * @ngdoc service
+ *
+ * @name akamai.components.i18n.service:missingTranslationFactory
+ *
+ * @reuires $log
+ * @reuires i18nToken
+ *
+ * @description intercepting missing translation key error, so log for our info purpose
+ *
+ */
+.factory('missingTranslationFactory', function($log, i18nToken) {
+    // has to return a function which gets a tranlation id
+    return function(translationID) {
+        $log.error("Missing " + translationID + " key in " + i18nToken.getCurrentLocale() + " table.");
+    };
 })
 
 /**
@@ -164,6 +209,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * *NOTE* Since run block is last flow, only this block completed, the $translation table is sure loaded.
  */
 /* @ngInject */
-.run(function($translate, i18nToken) {
-    $translate.use(i18nToken.getCurrentLocale());
+.run(function($translate, i18nToken, i18nConfig) {
+    //it loads twice using "use" function if current locale is different from default locale
+    if (i18nToken.getCurrentLocale() === i18nConfig.defaultLocale) {
+        $translate.use(i18nToken.getCurrentLocale());
+    }
 });
