@@ -16,76 +16,76 @@ describe('i18nTokenProvider', function() {
         });
         inject(function(i18nConfig, $location, $cookies) {
             config = i18nConfig;
-            cook = $cookies;
-            $location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/akamai-components/somethingelse');
+            cook = $cookies;    
+            spyOn($location, 'absUrl').and.returnValue('https://control.akamai.com/apps/akamai-components/somethingelse');
             provider.$get($cookies, i18nConfig, $location);
         });
 
     });
 
-    context('when inspecting $i18nTokenProvider#addAppLocalePath', function() {
+    describe('when inspecting $i18nTokenProvider#addAppLocalePath', function() {
 
         it('should be defined', function() {
-            expect(provider.addAppLocalePath).to.not.be.undefined;
+            expect(provider.addAppLocalePath).not.toBe(undefined);
         });
 
         it('should be a function', function() {
-            expect(typeof(provider.addAppLocalePath)).to.equal('function');
+            expect(typeof(provider.addAppLocalePath)).toEqual('function');
         });
     });
-    context('when inspecting url field', function(){
+    describe('when inspecting url field', function(){
         it('should contain correct component locale path ', function() {
             var compPath = config.localeComponentPath;
 
-            expect(provider.rawUrls.length).to.equal(2);
-            expect(provider.rawUrls[0].path).to.equal(compPath);
+            expect(provider.rawUrls.length).toEqual(2);
+            expect(provider.rawUrls[0].path).toEqual(compPath);
         });
 
         it('should be able to add/retrieve another path', function() {
-            expect(provider.rawUrls.length).to.equal(2);
-            expect(provider.rawUrls[1].path).to.contain('{appName}');
+            expect(provider.rawUrls.length).toEqual(2);
+            expect(provider.rawUrls[1].path).toContain('{appName}');
         });
 
         it('should be able to add with part value and retrieve with correct response', function() {
             provider.addAppLocalePath({path:"../../", prefix:"_app", app: true});
             var compPath = config.localeComponentPath.replace(/\{version\}/g, config.baseVersion);
 
-            expect(provider.rawUrls.length).to.equal(3);
-            expect(provider.rawUrls[2].path).to.equal("../../_app");
+            expect(provider.rawUrls.length).toEqual(3);
+            expect(provider.rawUrls[2].path).toEqual("../../_app");
         });
         it('should not to add app locale value if given array as undefined', function() {
             var arrOfPath = undefined;
 
             provider.addAppLocalePath(arrOfPath);
 
-            expect(provider.rawUrls).to.have.length(3);
+            expect(provider.rawUrls.length).toEqual(3);
         });
         it('should handle config without prefix', function() {
             config.prefix = CONFIG_PREFIX;
             provider.addAppLocalePath({path:"../../", app:true});
-            expect(provider.rawUrls[2].path).to.equal('../../'+CONFIG_PREFIX);
+            expect(provider.rawUrls[2].path).toEqual('../../'+CONFIG_PREFIX);
         });
         it('should handle not from app with no path', function() {
             config.prefix = CONFIG_PREFIX;
             provider.addAppLocalePath({path:"", app:false});
-            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
+            expect(provider.rawUrls[2].path).toEqual('/apps/{appname}/locales/');
         });
         it('should handle not from app', function() {
             config.prefix = CONFIG_PREFIX;
             provider.addAppLocalePath({path:"../../.."});
-            expect(provider.rawUrls[2].path).to.equal('../../..'+CONFIG_PREFIX);
+            expect(provider.rawUrls[2].path).toEqual('../../..'+CONFIG_PREFIX);
         });
         it('should not to add app locale value if given array as null', function() {
             var arrOfPath = null;
 
             provider.addAppLocalePath(arrOfPath);
 
-            expect(provider.rawUrls).to.have.length(3);
+            expect(provider.rawUrls.length).toEqual(3);
         });
         it('should not to add app locale value if given array as null', function() {
             var arrOfPath = null;
 
-            expect(provider.rawUrls).to.have.length(2);
+            expect(provider.rawUrls.length).toEqual(2);
         });
     });
 });
@@ -111,39 +111,39 @@ describe('i18nToken service', function() {
         });
         rootScope.$digest();
     });
-    context('when using token service', function(){
+    describe('when using token service', function(){
         it('should be defined', function() {
-            expect(service).to.not.be.undefined;
+            expect(service).not.toBe(undefined);
         });
 
         it('should have "getLocale" method defined', function() {
-            expect(service.getCurrentLocale).to.not.be.undefined;
+            expect(service.getCurrentLocale).not.toBe(undefined);
         });
 
         it('should have "getUrls" method defined', function() {
-            expect(service.getUrls).to.not.be.undefined;
+            expect(service.getUrls).not.toBe(undefined);
         });
 
         it('should "getLocale" method return default locale value', function() {
-            expect(service.getCurrentLocale()).to.equal("en_US");
+            expect(service.getCurrentLocale()).toEqual("en_US");
         });
 
         it('should "getUrls" method return correct app url value', function() {
             var urlValues = service.getUrls();
-            expect(urlValues.length).to.equal(2);
-            expect(urlValues[1]).to.equal("/apps/appName/locales/");
+            expect(urlValues.length).toEqual(2);
+            expect(urlValues[1]).toEqual("/apps/appName/locales/");
         });
     });
-    context('when locale cookie set to "en_US', function() {
+    describe('when locale cookie set to "en_US', function() {
 
         it("should cookie 'AKALOCALE' value exists", function() {
             var locale = cookies.AKALOCALE;
-            expect(locale).to.not.undefined;
+            expect(locale).not.toBe(undefined);
         });
 
         it("should cookie locale value be 'en_US' after decoded", function() {
             var locale = cookies["AKALOCALE"];
-            expect(atob(locale.split("+")[0])).to.equal(service.getCurrentLocale());
+            expect(atob(locale.split("+")[0])).toEqual(service.getCurrentLocale());
         });
     });
 });
@@ -173,12 +173,12 @@ describe('locale cookie set to "de_DE', function() {
     });
     it("should cookie 'AKALOCALE' value exists", function() {
         var locale = cookies.AKALOCALE;
-        expect(locale).to.not.undefined;
+        expect(locale).not.toBe(undefined);
     });
 
     it('should locale value be "de_DE" after decoded', function() {
         var locale = cookies.AKALOCALE;
-        expect(atob(locale.split("+")[0])).to.equal("de_DE");
+        expect(atob(locale.split("+")[0])).toEqual("de_DE");
     });
 });
 
@@ -220,12 +220,12 @@ describe('locale cookie set to cookie without translation file', function() {
         httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);   
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);   
     });
-    context('when using custom loader service with cookie that has no files', function(){
+    describe('when using custom loader service with cookie that has no files', function(){
         it('should ignore gracefully and continue to next url', function(){
             httpBackend.flush();
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
-            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+            expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
         });
     });
 });
@@ -268,12 +268,12 @@ describe('locale cookie set to invalid cookie', function() {
         httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);   
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);   
     });
-    context('when using custom loader service bad cookie', function(){
+    describe('when using custom loader service bad cookie', function(){
         it('should ignore gracefully and continue to next url', function(){
             httpBackend.flush();
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
-            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+            expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
         });
     });
 });

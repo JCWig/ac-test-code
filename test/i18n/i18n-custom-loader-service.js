@@ -35,7 +35,7 @@ describe('i18nCustomLoader service', function() {
             location = $location
         });
     });
-    context('when using custom Loader server', function(){
+    describe('when using custom Loader server', function(){
         beforeEach(function() {
             httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
             httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
@@ -43,72 +43,72 @@ describe('i18nCustomLoader service', function() {
             httpBackend.flush();
         });
         it('should custom loader be defined', function() {
-            expect(loader).to.be.not.undefined;
+            expect(loader).not.toBe(undefined);
         });
 
         it('should return a promise', function() {
             var promise = loader();
-            expect(promise).to.be.not.undefined;
-            expect(promise.then).to.be.not.undefined;
-            expect(typeof promise.then).to.equal("function");
+            expect(promise).not.toBe(undefined);
+            expect(promise.then).not.toBe(undefined);
+            expect(typeof promise.then).toEqual("function");
         });
 
         it('should return csame key value if key not found from tranlsation table', function() {
-            expect(translation.sync("somekey.someotherkey")).to.equal("somekey.someotherkey");
+            expect(translation.sync("somekey.someotherkey")).toEqual("somekey.someotherkey");
         });
 
         it('should return correct translated value given app locale key from combined translation table', function() {
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+            expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
         });
 
         it('should return correct translated value given component locale key from combined translation table', function() {
-            expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
+            expect(translation.sync("components.pagination.label.results")).toEqual("Results: ");
         });
 
         it('should return correct translated value given locale key from combined translation table', function() {
-            expect(translation.sync("reseller-tools.incorrect-date")).to.equal("Incorrect date format. Please fix the date and try again.");
-            expect(translation.sync("components.pagination.label.results")).to.equal("Results: ");
+            expect(translation.sync("reseller-tools.incorrect-date")).toEqual("Incorrect date format. Please fix the date and try again.");
+            expect(translation.sync("components.pagination.label.results")).toEqual("Results: ");
         });
     });
 
-    context('when using custom loader service with url returning no data', function(){
+    describe('when using custom loader service with url returning no data', function(){
         beforeEach(function() {
             httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');
             httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
         });
         it('should ignore gracefully and continue to next url', function(){
-            log.error = sinon.spy();
+            spyOn(log, "error");
             httpBackend.flush();
             timeout.flush();
-            expect(log.error).to.have.been.called;
-            expect(translation.sync("billing-center.no-access")).to.equal("billing-center.no-access");
-            expect(translation.sync("components.name")).to.equal("components.name");
+            expect(log.error).toHaveBeenCalled();
+            expect(translation.sync("billing-center.no-access")).toEqual("billing-center.no-access");
+            expect(translation.sync("components.name")).toEqual("components.name");
         });
     });
-    context('when using custom loader service with error response', function(){
+    describe('when using custom loader service with error response', function(){
         beforeEach(function() {
             httpBackend.when('GET', LIBRARY_PATH).respond({});
             httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');
         });
         it('should error and break ', function(){
-            log.error = sinon.spy();
+            spyOn(log, "error");
             scope.$digest();
             httpBackend.flush();
-            expect(log.error).to.have.been.called;
+            expect(log.error).toHaveBeenCalled();
         });
     });
-    context('when using custom loader service with url returning no data', function(){
+    describe('when using custom loader service with url returning no data', function(){
         beforeEach(function() {
             httpBackend.when('GET', LIBRARY_PATH).respond(null);
             httpBackend.when('GET', CONFIG_PATH).respond(enUsMessagesResponse);
         });
         it('should ignore gracefully and continue to next url', function(){
-            log.error = sinon.spy();
+            spyOn(log, "error");
             scope.$digest();
             httpBackend.flush();
-            expect(log.error).to.not.have.been.called;
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-            expect(translation.sync("components.name")).to.equal("components.name");
+            expect(log.error).not.toHaveBeenCalled();
+            expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).toEqual("components.name");
         });
     });
 });
