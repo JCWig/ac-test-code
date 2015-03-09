@@ -234,14 +234,46 @@ describe('akam-data-table', function() {
 
             expect(scope.$$childTail.selectedItems.length).to.equal(1);
         });
+        it('selecting items should only run process once', function(){
+            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+            utilities.click(rowOneColumnTwo);
+            scope.$digest();
+            
+            expect(spyOnChange).calledOnce;
+            expect(scope.$$childTail.selectedItems.length).to.equal(1);
+        });
         it('should be able to deselect items', function(){
+            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             utilities.click(rowOneColumnTwo);
             scope.$digest();
             utilities.click(rowOneColumnTwo);
 
+            expect(spyOnChange).calledTwice;
             expect(scope.$$childTail.selectedItems.length).to.equal(0); 
         });
+        /*it('should be able to select items by clicking checkbox and trigger updateChanged once', function(){
+            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
+            var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+            utilities.click(rowOneCheckbox);
+            scope.$digest();
+
+            expect(spyOnChange).calledOnce;
+            expect(scope.$$childTail.selectedItems.length).to.equal(0); 
+        });
+        it('should be able to deselect items by clicking checkbox and trigger updateChanged once', function(){
+            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
+            var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+            
+            utilities.click(rowOneCheckbox);
+            scope.$digest();
+            utilities.click(rowOneCheckbox);
+            scope.$digest();
+
+            expect(spyOnChange).calledTwice;
+            expect(scope.$$childTail.selectedItems.length).to.equal(0); 
+        });*/
         it('should be able to view selected only items', function(){
             //CURRENTY NOT ACTUALLY IMPLEMENTED ACCESSING FIELD DIRECTLY TO TEST 
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
