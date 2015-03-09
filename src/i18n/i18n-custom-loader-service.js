@@ -40,7 +40,7 @@ module.exports = function($http, $q, $timeout, $log, i18nToken, i18nConfig) {
    * @description this custom loader implementaion function perform the following:
    * Loop through the list of url, store promise get to the array of deferreds, when it completes, it will resolve the translation table
    * If error occues, and the current locale is not the "en_US" default one, then it will attempt to load with "en_US" locale - fallback translation loading
-   * If that fails, we screw.
+   * If that fails, it will reject (basically we screw).
    * @param {string} locale current locale
    * @param {array} urls tht contains list of locale file url paths to be used in $http.get func
    */
@@ -61,9 +61,7 @@ module.exports = function($http, $q, $timeout, $log, i18nToken, i18nConfig) {
                     translationTable = [];
                     deferred.resolve(loadTranslations(i18nConfig.defaultLocale, urls));
                 } else {
-                    $timeout(function() {
-                        deferred.resolve([translationTable]);
-                    }, 10);
+                    deferred.reject(errorList[0]);
                 }
             } else {
                 deferred.resolve([translationTable]);
