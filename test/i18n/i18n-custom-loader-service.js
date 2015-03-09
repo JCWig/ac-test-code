@@ -31,14 +31,14 @@ describe('i18nCustomLoader service', function() {
             timeout = $timeout;
             httpBackend = $httpBackend;
             scope = $rootScope;
-            log = $log;      
+            log = $log;
             location = $location
         });
     });
     context('when using custom Loader server', function(){
         beforeEach(function() {
             httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
-            httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);     
+            httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
             scope.$digest();
             httpBackend.flush();
         });
@@ -73,7 +73,7 @@ describe('i18nCustomLoader service', function() {
 
     context('when using custom loader service with url returning no data', function(){
         beforeEach(function() {
-            httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');   
+            httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');
             httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
         });
         it('should ignore gracefully and continue to next url', function(){
@@ -81,14 +81,14 @@ describe('i18nCustomLoader service', function() {
             httpBackend.flush();
             timeout.flush();
             expect(log.error).to.have.been.called;
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+            expect(translation.sync("billing-center.no-access")).to.equal("billing-center.no-access");
             expect(translation.sync("components.name")).to.equal("components.name");
         });
     });
     context('when using custom loader service with error response', function(){
         beforeEach(function() {
-            httpBackend.when('GET', LIBRARY_PATH).respond({});     
-            httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');   
+            httpBackend.when('GET', LIBRARY_PATH).respond({});
+            httpBackend.when('GET', CONFIG_PATH).respond(404, 'BAD PATH');
         });
         it('should error and break ', function(){
             log.error = sinon.spy();
@@ -99,8 +99,8 @@ describe('i18nCustomLoader service', function() {
     });
     context('when using custom loader service with url returning no data', function(){
         beforeEach(function() {
-            httpBackend.when('GET', LIBRARY_PATH).respond(null);     
-            httpBackend.when('GET', CONFIG_PATH).respond(enUsMessagesResponse);   
+            httpBackend.when('GET', LIBRARY_PATH).respond(null);
+            httpBackend.when('GET', CONFIG_PATH).respond(enUsMessagesResponse);
         });
         it('should ignore gracefully and continue to next url', function(){
             log.error = sinon.spy();
@@ -111,4 +111,4 @@ describe('i18nCustomLoader service', function() {
             expect(translation.sync("components.name")).to.equal("components.name");
         });
     });
-}); 
+});
