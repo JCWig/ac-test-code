@@ -38,9 +38,9 @@ describe('akam-indeterminate-progress', function() {
             var thisIndeterminateProgress = this.element;
             var allIndeterminateProgresses = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_WRAPPER);
 
-            expect(allIndeterminateProgresses).to.have.length(1);
-            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.true();
-            expect(allIndeterminateProgresses[0].classList.contains('normal')).to.be.true();
+            expect(allIndeterminateProgresses.length).toEqual(1);
+            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
+            expect(allIndeterminateProgresses[0].classList.contains('normal')).toBe(true);
         });
         
         it('should have the correct class names for small size', function() {
@@ -51,8 +51,8 @@ describe('akam-indeterminate-progress', function() {
             var thisIndeterminateProgress = this.element;
             var allIndeterminateProgresses = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_WRAPPER);
 
-            expect(allIndeterminateProgresses).to.have.length(1);
-            expect(allIndeterminateProgresses[0].classList.contains('small')).to.be.true();
+            expect(allIndeterminateProgresses.length).toEqual(1);
+            expect(allIndeterminateProgresses[0].classList.contains('small')).toBe(true);
         });
         
         it('should have the correct class names for large size', function() {
@@ -63,10 +63,10 @@ describe('akam-indeterminate-progress', function() {
             var thisIndeterminateProgress = this.element;
             var allIndeterminateProgresses = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_WRAPPER);
 
-            expect(allIndeterminateProgresses).to.have.length(1);
-            expect(allIndeterminateProgresses[0].classList.contains('large')).to.be.true();
+            expect(allIndeterminateProgresses.length).toEqual(1);
+            expect(allIndeterminateProgresses[0].classList.contains('large')).toBe(true);
             
-            expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).to.be.eql('started');
+            expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).toEqual('started');
         });
         
         it('should render indeterminate progress with new scope values - yet marked failed because failed="true"', function() {
@@ -78,14 +78,14 @@ describe('akam-indeterminate-progress', function() {
             var allIndeterminateProgresses = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_WRAPPER); 
             var firstIndeterminateProgessLabel = thisIndeterminateProgress.querySelector(INDETERMINATE_PROGRESS_LABEL);
             
-            expect(allIndeterminateProgresses).to.have.length(1);
-            expect(firstIndeterminateProgessLabel.textContent).to.match(/Static Label/);
+            expect(allIndeterminateProgresses.length).toEqual(1);
+            expect(firstIndeterminateProgessLabel.textContent).toMatch(/Static Label/);
 
             //make sure the "failed" marker is assigned to the element
-            expect(allIndeterminateProgresses[0].classList.contains('failed')).to.be.true();
-            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.true();
+            expect(allIndeterminateProgresses[0].classList.contains('failed')).toBe(true);
+            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
             
-            expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).to.be.eql('failed');
+            expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).toEqual('failed');
         });
         
         it('should render indeterminate progress with completed state', function() {
@@ -93,9 +93,9 @@ describe('akam-indeterminate-progress', function() {
             addElement(markup);
             var thisIndeterminateProgress = this.element;
 
-            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.false();
+            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
 
-            expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).to.be.eql('completed');
+            expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).toEqual('completed');
         });
         
         it('should render without any label present when label is empty', function() {
@@ -103,11 +103,11 @@ describe('akam-indeterminate-progress', function() {
             addElement(markup);
             var thisIndeterminateProgress = this.element;
 
-            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.true();
+            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
             
             //make sure label is not shown when label===""
             var allIndeterminateProgressLabels = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_LABEL); 
-            expect(allIndeterminateProgressLabels).to.have.length(0);
+            expect(allIndeterminateProgressLabels.length).toEqual(0);
         });
         
         it('should render with exact label present when label is not empty', function() {
@@ -115,15 +115,15 @@ describe('akam-indeterminate-progress', function() {
             addElement(markup);
             var thisIndeterminateProgress = this.element;
 
-            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.true();
+            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
             
             //make sure label is shown when label!==""
 
             var allIndeterminateProgressLabels = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_LABEL);
-            expect(allIndeterminateProgressLabels).to.have.length(1);
+            expect(allIndeterminateProgressLabels.length).toEqual(1);
             
             var thisIndeterminateProgressLabel = thisIndeterminateProgress.querySelector(INDETERMINATE_PROGRESS_LABEL);
-            expect(thisIndeterminateProgressLabel.textContent).to.be.eql("Hello");
+            expect(thisIndeterminateProgressLabel.textContent).toEqual("Hello");
         });
     });
     
@@ -134,13 +134,13 @@ describe('akam-indeterminate-progress', function() {
             addElement(markup);
             var thisIndeterminateProgress = this.element;
 
-            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.true();
+            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
             
             // now forcefully remove the element
             self.el.find('akam-indeterminate-progress').remove();
         
             thisIndeterminateProgress = this.element;
-            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.false();
+            expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
         });    
     });
 
@@ -165,12 +165,12 @@ describe('akam-indeterminate-progress', function() {
             var buttonToTriggerCompletion = document.querySelector('#change-completed');
             var parentElementOfThisIndeterminateProgress =this.element.querySelector('#parent-element');
 
-            expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.false();
+            expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
             
             utilities.click(buttonToTriggerCompletion);
             scope.$digest();
             
-            expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.true();
+            expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
         });
         it('should disappear when changed to true', function(){
             scope.completed = false;
@@ -179,12 +179,12 @@ describe('akam-indeterminate-progress', function() {
             var buttonToTriggerCompletion = document.querySelector('#change-completed');
             var parentElementOfThisIndeterminateProgress =this.element.querySelector('#parent-element');
             
-            expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.true();
+            expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
             
             utilities.click(buttonToTriggerCompletion);
             scope.$digest();
             
-            expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).to.be.false(); 
+            expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
         })
     });
 });
