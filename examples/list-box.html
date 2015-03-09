@@ -7,6 +7,9 @@
         .container {
             min-height: 150px;
         }
+        .container + .container {
+            margin-top: 2em;
+        }
         
         form {
             padding-bottom:20px;
@@ -25,11 +28,11 @@
         }
     </style>
 </head>
-<body ng-app="listBoxDemo" ng-controller="Ctrl" class="common-css">
+<body ng-app="listBoxDemo" ng-controller="Ctrl" class="common-css luna">
     <div class="container">
-        <h1>List Box Example</h1>
-        
-        <br />
+        <div class="page-header">
+            <h1>List Box Example</h1>
+        </div>
 
         <div class="container">
             <h3>DATA USING PROMISE</h3>

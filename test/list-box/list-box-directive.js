@@ -8,6 +8,10 @@ var TABLE_COLUMN_HEADER = '.akam-list-box thead tr th';
 var TABLE_ROW = 'div.list-box-data tbody tr';
 var SELECTED_SPAN = 'div.list-box-footer span.ng-binding';
 var VIEW_SELECTED_ONLY_CHECKBOX = 'div.list-box-footer span.util-pull-right input[type=checkbox]';
+var LIBRARY_PATH = 'libs/akamai-components/0.0.1/locales/en_US.json';
+var CONFIG_PATH = '/apps/appName/locales/en_US.json';
+var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
+var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
 
 describe('akam-list-box', function() {
     var compile = null;
@@ -32,6 +36,8 @@ describe('akam-list-box', function() {
             timeout = $timeout;
             q = $q;
             httpBackend = $httpBackend;
+            httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+            httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);  
         });
 
         scope.mydata = [
@@ -157,6 +163,15 @@ describe('akam-list-box', function() {
             var filterBox = document.querySelector(FILTER_BOX);
 
             expect(filterBox.value).to.equal('');
+        });
+        it('should can have filter loaded with placeholder', function() {
+            var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
+            addElement(markup);
+
+            var filterBox = document.querySelector(FILTER_BOX);
+
+            expect(filterBox.value).to.equal('');
+            expect(filterBox.placeholder).to.equal('placeholder');
         });
         it('should display indeterminate progress when loading', function() {
             var deferred = q.defer();

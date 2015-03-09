@@ -13,11 +13,17 @@
         .animate-hide.hide-fade {
           opacity: 0;
         }
+        
+        .form-group select {
+            margin-left: 10px;
+        }
     </style>
 </head>
-<body ng-app="statusMessageDemo" ng-controller="Ctrl" class="common-css">
+<body ng-app="statusMessageDemo" ng-controller="Ctrl" class="common-css luna">
     <div class="container">
-        <h1>Status Message Example</h1>
+        <div class="page-header">
+            <h1>Status Message Example</h1>
+        </div>
         
         <form>
             <div class="form-group">
@@ -25,7 +31,7 @@
               <input type="text" id="messageText" class="form-control" ng-model="messageText" />
             </div>
             <div class="form-group">
-              <label for="status">Status</label><select class="form-control" id="status" ng-model="status">
+              <label for="status">Status</label><select id="status" ng-model="status">
                 <option>Success</option>
                 <option>Error</option>
                 <option>Warning</option>
@@ -33,7 +39,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="messageTimeout">Timeout</label><input type="text" class="form-control" id="messageTimeout" ng-model="messageTimeout" />
+              <label for="messageTimeout">Timeout</label><input type="text" id="messageTimeout" ng-model="messageTimeout" />
               <p class="help-block">Use timeout: 0 for manual close.</p>
             </div>
             <button class="btn" ng-click="showStatus()">Show Notification</button>

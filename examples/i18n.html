@@ -7,26 +7,26 @@
     <script src="../../../node_modules/angular-translate/dist//angular-translate.js"></script>
     <script type="text/javascript" src="../../../dist/akamai-components.js"></script>
 
-    <style>
-    .translate-cloak {
-        display: none !important;
-    }
-    </style>
-
     <script>
-    var locale = "en_US"; //"de_DE"|"zh_CN"
-    var appLocalePath = "/examples/locales/json/messages/";
-
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
-
     app.config(function(i18nTokenProvider) {
-        i18nTokenProvider.addAppLocalePath(appLocalePath, "messages_");
+        //follwing code commented out following is to show user has option for setting locale path via passing in the config data,
+        //and if not passing in, then we will assume to use common standard path which like: "https://akamai.control.com/apps/{appName}/..."
+        //more details go to component documentation pages
+        /*var config = {
+            path: "/examples/locales/json/messages/",
+            prefix: "messages_",
+            appName: "billing-center"
+        };
+        i18nTokenProvider.addAppLocalePath(config);
+*/
     });
 
     app.controller("TranslationPageController", ["$scope", "translate", "$rootScope", "$filter", function($scope, translate, $rootScope, $filter) {
+
         $rootScope.$on('$translateChangeEnd', function() {
             console.log(translate.sync('reseller-tools.note'));
-            console.log(translate.sync('components.notifications.success'));
+            console.log(translate.sync('components.menu-button.label'));
 
             console.log($filter("akamTranslate")('components.notifications.success'));
             console.log($filter("akamTranslate")('recurring-report.activate.modal.message'));
@@ -34,39 +34,45 @@
     }]);
     </script>
 
-    <body ng-app="i18nDemo3" ng-controller="TranslationPageController" class="common-css" style="margin:30px;" translate-cloak>
-        <div>
-            <h2>1. Check with console for javascript translations using translate service</h2>
-            <hr>
-        </div>
-        <div>
-            <h2>2. Display app and component translated text using directive</h2>
-            <div>
-                <span akam-translate="reseller-tools.note"></span>
-                <span><b>(key/value obtained from app locale json file)</b></span>
+    <body ng-app="i18nDemo3" ng-controller="TranslationPageController" class="common-css luna" translate-cloak>
+        <div class="container">
+            <div class="page-header">
+                <h1>i18n Example</h1>
             </div>
+            
             <div>
-                <span akam-translate="components.notifications.success"></span>
-                <span><b>(key/value obtained from component locale json file)</b></span>
+                <h2>1. Check with console for javascript translations using translate service</h2>
             </div>
-            <br/>
-        </div>
-        <hr>
-        <div>
-            <h2>3. Display app and component translated text using filter</h2>
+            <br><br>
+            
             <div>
-                <span>{{"reseller-tools.note" | akamTranslate}}</span>
-                <span><b>(key/value obtained from app locale json file)</b></span>
+                <h2>2. Display app and component translated text using directive</h2>
+                <div>
+                    <span akam-translate="reseller-tools.note"></span>
+                    <span><b>(key/value obtained from app locale json file)</b></span>
+                </div>
+                <div>
+                    <span akam-translate="components.notifications.success"></span>
+                    <span><b>(key/value obtained from component locale json file)</b></span>
+                </div>
             </div>
+            <br><br>
+            
             <div>
-                <span>{{"components.notifications.success" | akamTranslate}}</span>
-                <span><b>(key/value obtained from component locale json file)</b></span>
+                <h2>3. Display app and component translated text using filter</h2>
+                <div>
+                    <span>{{"reseller-tools.note" | akamTranslate}}</span>
+                    <span><b>(key/value obtained from app locale json file)</b></span>
+                </div>
+                <div>
+                    <span>{{"components.notifications.success" | akamTranslate}}</span>
+                    <span><b>(key/value obtained from component locale json file)</b></span>
+                </div>
+                <div>
+                    <h4>Filter used in placeholder</h4>
+                    <input type="text", placeholder='{{"contractselector.filter.products" | akamTranslate}}'/>
+                </div>
             </div>
-            <div>
-                <h4>Filter used in placeholder</h4>
-                <input type="text", placeholder='{{"contractselector.filter.products" | akamTranslate}}'/>
-            </div>
-            <br/>
         </div>
     </body>
 
