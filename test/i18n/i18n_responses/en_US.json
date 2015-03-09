@@ -21,22 +21,12 @@
         "dialog": {
 
         },
-        "list-box": {
-            "placeholder": {
-                "filter": "Filter"
-            }
-        },
         "multiselect-listbox": {
 
         },
         "message-box": {
             "no": "No",
-            "yes": "Yes",
-            "title": {
-                "information": "Information",
-                "question": "Question",
-                "error": "Error"
-            }
+            "yes": "Yes"
         },
         "notifications": {
             "success": "SUCCESS",
@@ -67,9 +57,9 @@
         },
         "date-picker": {
             "placeholder": {
-                "date": "Date Picker",
-                "month": "Month Picker",
-                "year": "Year Picker"
+                "dp": "date picker",
+                "mp": "month picker",
+                "yp": "year picker"
             }
         },
         "tooltip": {

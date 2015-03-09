@@ -1,7 +1,10 @@
 'use strict';
-
+var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
+var LIBRARY_PATH = 'libs/akamai-components/0.0.1/locales/en_US.json';
+var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+var enUsResponse = require ("./i18n_responses/en_US.json");
 describe('akamTranslate filter', function() {
-    var element, scope, compile, markup, translation, filter, timeout;
+    var element, scope, compile, markup, translation, filter, timeout, httpBackend;
 
     var translationMock = {
         'TRANSLATION_ID': 'Lorem Ipsum {{value}}',
@@ -12,52 +15,50 @@ describe('akamTranslate filter', function() {
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider) {
-            $provide.factory('i18nCustomLoader', function($q, $timeout) {
-                return function(options) {
-                    var deferred = $q.defer();
-                    $timeout(function() {
-                        deferred.resolve(translationMock);
-                    });
-                    return deferred.promise;
-                };
-            });
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function(_$compile_, _$rootScope_, _$timeout_, _$filter_, translate) {
-            markup = '<span class="akam-translate">{{"TRANSLATION_ID"| akamTranslate}}</span>';
-            compile = _$compile_;
-            filter = _$filter_;
-            timeout = _$timeout_;
-            var rootScope = _$rootScope_;
-            scope = rootScope.$new();
-            element = compile(markup)(rootScope)[0];
+        inject(function($compile, $rootScope, $timeout, $filter, translate, $httpBackend) {
+            compile = $compile;
+            filter = $filter;
+            timeout = $timeout;
+            scope = $rootScope.$new();
             translation = translate;
-            timeout.flush();
-            scope.$digest();
-            document.body.appendChild(element);
+            httpBackend = $httpBackend;
         });
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(translationMock);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
-
+    function addElement(markup) {
+        self.el = compile(markup)(scope);
+        self.element = self.el[0];
+        scope.$digest();
+        httpBackend.flush();
+        timeout.flush();
+        document.body.appendChild(self.element);
+    };
     context('when rendering', function() {
-
+        afterEach(function(){
+            document.body.removeChild(self.element);
+        });
         it("should translate filter used in html display value correctly", function() {
+            var markup = '<span class="akam-translate">{{"TRANSLATION_ID"| akamTranslate}}</span>';
+            addElement(markup);
             expect(document.querySelector('.akam-translate').textContent).to.equal("Lorem Ipsum ");
         });
-
         it("should translate filter used in javascript display value correctly", function() {
+            var markup = '<span class="akam-translate">{{"TRANSLATION_ID"| akamTranslate}}</span>';
+            addElement(markup);
             expect(filter("akamTranslate")("TRANSLATION_ID")).to.equal("Lorem Ipsum ");
         });
-
         it("should translate filter display key if key not found", function() {
             var markup = '<span class="akam-translate1">{{"UNKNOWN_KEY"| akamTranslate}}</span>';
-            var scp = scope.$new();
-            var el = compile(markup)(scp)[0];
-            scp.$digest();
-            document.body.appendChild(el);
+            addElement(markup);
             expect(document.querySelector('.akam-translate1').textContent).to.equal("UNKNOWN_KEY");
         });
 
         it("should translate filter used in javascript with value replacement display value correctly", function() {
+            var markup = '<span class="akam-translate1">{{"UNKNOWN_KEY"| akamTranslate}}</span>';
+            addElement(markup);
             expect(filter("akamTranslate")("TRANSLATION_ID", {
                 value: "Sean"
             })).to.equal("Lorem Ipsum Sean");

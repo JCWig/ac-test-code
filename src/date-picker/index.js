@@ -11,7 +11,8 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.date-picker', [
-        require('angular-bootstrap-npm')
+        require('angular-bootstrap-npm'),
+        require('../i18n').name
 ])
 
 /**
