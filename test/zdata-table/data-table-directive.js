@@ -6,6 +6,11 @@ var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-data-table thead tr th';
 var TABLE_ROW = 'div.akam-data-table tbody tr';
 
+var MENU_BUTTON_WRAPPER = '.akam-menu-button';
+var MENU_BUTTON_BUTTON ='.akam-menu-button i.luna-settings_options';
+var MENU_BUTTON_ITEMS = '.akam-menu-button li';
+var DROP_DOWN_MENU = '.akam-menu-button .dropdown-menu';
+
 var PREVIOUS_BUTTON = 'div.akam-pagination .pagination li:first-child';
 var NEXT_BUTTON = 'div.akam-pagination .pagination li:last-child'
 var TOTAL_ITEMS_SPAN = 'div.akam-pagination .total-items';
@@ -704,6 +709,117 @@ describe('akam-data-table', function() {
             expect(getComputedStyle(rowOneIcon).getPropertyValue('visibility')).to.equal('visible');
             expect(getComputedStyle(rowTwoIcon).getPropertyValue('visibility')).to.equal('hidden');
         });*/
+    });
+    context('when interacting with menu button', function(){
+        beforeEach(function(){
+            var markup = '<akam-data-table data="mydata" schema="columns">'+
+                '<akam-menu-button icon="luna-gear" position="right">'+
+                '<akam-menu-button-item text="PDF" ng-click="process('+"'PDF'"+')"></akam-menu-button-item>'+
+                '<akam-menu-button-item text="XML" ng-click="process('+"'XML'"+')"></akam-menu-button-item>'+
+                '</akam-menu-button></akam-data-table>';
+            addElement(markup);
+            timeout.flush();
+        });
+        it('should display an icon', function() {
+            var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
+            expect(menuButton.classList.contains('icon-states')).to.be.true;;
+        });
+
+        it('should hide the menu', function() {
+            var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+        });
+        it('should display the menu', function() {
+            var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
+            utilities.click(menuButton);
+            scope.$digest();
+
+            var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
+            expect(menuButtonWrapper.classList.contains('open')).to.be.true();
+            expect(menuButtonWrapper.querySelector(MENU_BUTTON_BUTTON).getAttribute('aria-expanded')).to.equal('true');
+
+            var dropDownMenu = document.querySelector(TABLE_ROW).querySelector(DROP_DOWN_MENU);
+
+            expect(getComputedStyle(dropDownMenu).display).to.equal('block');
+        });
+        it('should display the menu items', function() {
+            var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
+            utilities.click(menuButton);
+            scope.$digest();
+            var menuButtonItems = document.querySelector(TABLE_ROW).querySelectorAll(MENU_BUTTON_ITEMS);
+            expect(menuButtonItems).to.have.length(2);
+            expect(menuButtonItems[0].textContent).to.match(/PDF/);
+        });
+        it('should trigger the menu item action', function() {
+            scope.process = sinon.spy();
+            var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
+            utilities.click(menuButton);
+            scope.$digest();
+
+            var options = document.querySelector(TABLE_ROW).querySelectorAll('.dropdown-menu li a')[0];
+            utilities.click(options);
+            scope.$digest();
+
+            expect(scope.process).calledWith("PDF");
+        });
+        it('should hide the menu when clicking item', function() {
+            var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
+            utilities.click(menuButton);
+            scope.$digest();
+
+            var options = document.querySelector(TABLE_ROW).querySelectorAll('.dropdown-menu li a')[0];
+            utilities.click(options);
+            scope.$digest();
+
+            var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
+            var dropDownMenu = document.querySelector(TABLE_ROW).querySelector(DROP_DOWN_MENU);
+
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
+        });
+        it('clicking menu button should hide dropdown', function() {
+            var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
+            utilities.click(menuButton);
+            scope.$digest();
+            utilities.click(menuButton);
+            scope.$digest();
+
+            var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
+            var dropDownMenu = document.querySelector(TABLE_ROW).querySelector(DROP_DOWN_MENU);
+
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
+        });
+        it('click -button- shoud hide dropdown',function(){
+            var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
+            var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
+            var dropDownMenu = document.querySelector(TABLE_ROW).querySelector(DROP_DOWN_MENU);
+
+            utilities.click(menuButton);
+            scope.$digest();
+
+            utilities.clickAwayCreationAndClick('button');
+
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
+        });
+        it('click -div- shoud hide dropdown',function(){
+            var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
+            var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
+            var dropDownMenu = document.querySelector(TABLE_ROW).querySelector(DROP_DOWN_MENU);
+
+            utilities.click(menuButton);
+            scope.$digest();
+
+            utilities.clickAwayCreationAndClick('div');
+
+            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
+        });
     });
     context('when data gets messed up', function(){
         it('should recognize null content when redenring', function(){
