@@ -1,6 +1,6 @@
 <div class="akam-data-table common-table">
     <div class="filter">
-        <input type="search" ng-model="state.filter" ng-disabled="loading" ng-change="updateSearchFilter()" placeholder="{{filterPlaceholder}}"><i class="luna-close clear-filter icon-states" ng-if="state.filter" ng-click="state.filter = ''; updateSearchFilter()"></i>
+        <input type="search" ng-model="state.filter" ng-disabled="loading" ng-change="updateSearchFilter()" placeholder="{{filterPlaceholder}}"><i class="luna-close clear-filter icon-states util-clickable" ng-if="state.filter" ng-click="state.filter = ''; updateSearchFilter()"></i>
     </div>
     <div class="data">
         <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in filtered | offset: ((pager.page - 1) * pager.size) | limitTo: pager.size" ng-class="{ 'row-selected' : item.selected, 'util-clickable' : showCheckboxes }" ng-click="item.selected = showCheckboxes && !item.selected; updateChanged()">
+                <tr ng-repeat="item in filtered | offset: ((pager.page - 1) * pager.size) | limitTo: pager.size" ng-class="{ 'row-selected' : item.selected }">
                     <td ng-if="showCheckboxes" class="column-checkbox">
                         <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
                     </td>

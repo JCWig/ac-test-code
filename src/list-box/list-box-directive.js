@@ -142,13 +142,6 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
                 scope.updateChanged();
             });
-
-
-            scope.rowClick = function($event, item){
-                $event.stopPropagation();
-                item.selected = !item.selected;
-                scope.updateChanged();
-            };
             
             scope.updateChanged = function(){
                 var selectedItemsList = [];
