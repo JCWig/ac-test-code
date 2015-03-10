@@ -1,6 +1,7 @@
 <span class="akam-menu-button dropdown" ng-class="position" data-dropdown>
-    <button type="button" class="btn dropdown-toggle" data-dropdown-toggle ng-click="$event.stopPropagation();">
-        <i class="{{icon}}" ng-if="icon"></i> <span ng-if="label">{{ label }}</span> <span class="separator"></span> <i class="luna-arrow_smDown"></i>
+    <i class="luna-settings_options icon-states" ng-if="iconOnly" data-dropdown-toggle ng-click="$event.stopPropagation()"></i>
+    <button type="button" class="btn dropdown-toggle" ng-if="!iconOnly" data-dropdown-toggle ng-click="$event.stopPropagation()">
+        <span ng-if="label" class="label">{{ label }}</span> <i class="caret-dropdown luna-arrow_smDown"></i>
     </button>
     <ul class="dropdown-menu" role="menu" ng-transclude>
     </ul>
