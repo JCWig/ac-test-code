@@ -192,9 +192,7 @@ module.exports = function($log, $q, uuid, $filter, $compile) {
                 });
                 
                 scope.selectedItems = selectedItemsList;
-                if (scope.onChange) {
-                    scope.onChange({value : selectedItemsList});
-                }
+                scope.onChange({value : selectedItemsList});
             };
             
             scope.sortColumn = function(column){

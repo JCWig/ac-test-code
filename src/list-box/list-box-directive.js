@@ -10,7 +10,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             schema: '=',
             filterPlaceholder : "@",
             selectedItems: '=?',
-            onChange : "&"
+            onChange : "&?"
         },
         template: require('./templates/list-box.tpl.html'),
         link: function(scope, element, attrs) {
@@ -153,9 +153,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-                if (scope.onChange) {
-                    scope.onChange({value : selectedItemsList});
-                }
+                scope.onChange({value : selectedItemsList});
             };
 
             scope.sortColumn = function(column){
