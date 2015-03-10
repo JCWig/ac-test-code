@@ -502,7 +502,7 @@ describe('akam-list-box', function() {
         });*/
         it('should be able to select an item without on-change', function(){
             scope.mychange = sinon.spy();
-            var markup = '<akam-list-box data="mydata" schema="columns" on-change="null"></akam-list-box>';
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
             scope.$$childHead.onChange = false;
 

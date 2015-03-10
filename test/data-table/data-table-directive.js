@@ -97,7 +97,9 @@ describe('akam-data-table', function() {
                 className : 'column-full-text-name'
             },
             {
-                content : 'id',
+                content : function(){
+                    return this.id;
+                },
                 header : 'ID'
             },
             {
