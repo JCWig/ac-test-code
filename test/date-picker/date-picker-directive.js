@@ -182,7 +182,7 @@ describe('akam-date-picker', function() {
     });
     context('when rendering month picker', function(){
         beforeEach(function(){
-            var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="picked1"></akam-date-picker></div>';
+            var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="picked1" placeholder="placeholder"></akam-date-picker></div>';
             addElement(markup);
         });
         it('should render all parts', function(){
@@ -202,6 +202,10 @@ describe('akam-date-picker', function() {
             var thisMonth = utilities.getMonthInEnglish(utilities.getTodaysMonth()).slice(0,3);
             var todaysMonthButton = findCertainButton(thisMonth).querySelector('span');
             expect(todaysMonthButton.classList.contains('text-info')).to.be.true;
+        });
+        it('should have placeholer text if provided', function(){
+            var inputDateField = document.querySelector('input.ng-valid-date');
+            expect(inputDateField.placeholder).to.equal("placeholder");
         });
         it('should have every month', function(){
             var januaryMonthButton = findCertainButton("Jan").querySelector('button');
@@ -227,6 +231,14 @@ describe('akam-date-picker', function() {
             expect(octoberMonthButton).to.not.be.null
             expect(novemberMonthButton).to.not.be.null
             expect(decemberMonthButton).to.not.be.null
+        });
+        it('should translate placeholder text if non-provided', function(){
+            document.body.removeChild(self.element);
+            self.element = null;
+            var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="picked1"></akam-date-picker></div>';
+            addElement(markup);
+            var inputDateField = document.querySelector('input.ng-valid-date');
+            expect(inputDateField.placeholder).to.equal("components.date-picker.placeholder.month");
         });
     });
     context('when interacting with month picker', function(){
