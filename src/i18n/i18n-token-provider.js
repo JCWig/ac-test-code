@@ -7,9 +7,6 @@ module.exports = function i18nTokenProvider(i18nConfig) {
 
     /**
      * @description  Path object that constructs a path value from app or component.
-     * @param {object=} config
-     * @param {boolean=} useApp is the value to determine whether it is for app locale path or for component
-     *
      */
     var Path = function() {
         /**
@@ -39,7 +36,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
         };
     };
 
-    //take default one here for component locale
+    //instantiate a default one for component locale
     var cPath = new Path();
     cPath.resolve();
 
@@ -48,9 +45,9 @@ module.exports = function i18nTokenProvider(i18nConfig) {
      * @name i18nTokenProvider#addAppLocalePath
      * @methodOf akamai.components.i18n.service:i18nTokenProvider
      *
-     * @description provider method takes path config values, pass to Path object to add values to path urls.
+     * @description provider method takes path config values, pass to Path object to add values to path url endpoints.
      * If config is undefined or config.path is undefined or empty, it will use default app path instead
-     * @param {object=} config - a hash object that contains  locale files path and prefix values
+     * @param {object=} config - a hash object that contains  locale files path,  prefix values and appName
      */
     this.addAppLocalePath = function(config) {
         var path = new Path();
@@ -90,10 +87,10 @@ module.exports = function i18nTokenProvider(i18nConfig) {
         }
 
         angular.forEach(this.rawUrls, function(raw) {
-            //only doing browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
             if (raw.app) {
                 appName = "appName";
                 matchResults = [];
+                //only doing browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
                 // Capture section in path after apps/
                 matchResults = appUrlRx.exec($location.absUrl());
                 if (matchResults) {
@@ -107,18 +104,18 @@ module.exports = function i18nTokenProvider(i18nConfig) {
         });
         return {
             /**
-             * @ngdoc function
+             * @ngdoc method
              * @name i18nToken#getUrls
              * @methodOf akamai.components.i18n.service:i18nToken
              *
-             * @description get a list of urls for locale files
+             * @description get a list of urls endpoints for locale files
              *
              */
             getUrls: function() {
                 return localeUrls;
             },
             /**
-             * @ngdoc function
+             * @ngdoc method
              * @name i18nToken#getCurrentLocale
              * @methodOf akamai.components.i18n.service:i18nToken
              *

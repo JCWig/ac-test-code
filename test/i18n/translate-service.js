@@ -93,7 +93,7 @@ describe('translate service', function() {
                 expect(syncedResponse).to.be.equal("Lorem Ipsum 22");
             });
         });
-        
+
         context('when using async funtion', function(){
             it('should return translated value from valid key', function() {
                 var key = "TRANSLATION_ID";
