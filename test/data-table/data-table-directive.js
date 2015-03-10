@@ -232,59 +232,38 @@ describe('akam-data-table', function() {
             expect(document.querySelectorAll(TABLE_ROW).length).to.equal(50);
         });
         it('should be able to select items', function(){
-            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
-            utilities.click(rowOneColumnTwo);
+            var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
+            utilities.click(rowOneCheckbox);
             scope.$digest();
 
             expect(scope.$$childTail.selectedItems.length).to.equal(1);
         });
         it('selecting items should only run process once', function(){
             var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
-            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
-            utilities.click(rowOneColumnTwo);
+            var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
+            utilities.click(rowOneCheckbox);
             scope.$digest();
             
             expect(spyOnChange).calledOnce;
             expect(scope.$$childTail.selectedItems.length).to.equal(1);
         });
-        it('should be able to deselect items', function(){
+        it('should be able to deselect items and trigger run process twice', function(){
             var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
-            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
-            utilities.click(rowOneColumnTwo);
+            var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
+            utilities.click(rowOneCheckbox);
             scope.$digest();
-            utilities.click(rowOneColumnTwo);
+            utilities.click(rowOneCheckbox);
 
             expect(spyOnChange).calledTwice;
             expect(scope.$$childTail.selectedItems.length).to.equal(0); 
         });
-        /*it('should be able to select items by clicking checkbox and trigger updateChanged once', function(){
-            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
-            var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
-            utilities.click(rowOneCheckbox);
-            scope.$digest();
-
-            expect(spyOnChange).calledOnce;
-            expect(scope.$$childTail.selectedItems.length).to.equal(0); 
-        });
-        it('should be able to deselect items by clicking checkbox and trigger updateChanged once', function(){
-            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
-            var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
-            
-            utilities.click(rowOneCheckbox);
-            scope.$digest();
-            utilities.click(rowOneCheckbox);
-            scope.$digest();
-
-            expect(spyOnChange).calledTwice;
-            expect(scope.$$childTail.selectedItems.length).to.equal(0); 
-        });*/
         it('should be able to view selected only items', function(){
             //CURRENTY NOT ACTUALLY IMPLEMENTED ACCESSING FIELD DIRECTLY TO TEST 
-            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
-            var rowThreeColumnOne = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[0];
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
+            var rowThreeColumnOne = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[0].querySelector('input');
             utilities.click(rowOneColumnTwo);
             utilities.click(rowThreeColumnOne);
-
+            scope.$digest();
             scope.$$childTail.state.viewSelectedOnly = true;
             scope.$$childTail.updateSearchFilter();
             scope.$digest();
