@@ -20,7 +20,6 @@
         }
         
         .column-full-name {
-            width: 250px;
         }
         
         td.column-full-text-name {
@@ -30,8 +29,14 @@
 </head>
 <body ng-app="listBoxDemo" ng-controller="Ctrl" class="common-css luna">
     <div class="container">
+
         <div class="page-header">
             <h1>List Box Example</h1>
+        </div>
+        
+        <div class="container">
+            <h3>Empty Data</h3>
+            <akam-list-box data="[]" schema="columns" on-change="mychange(value)" selected-items="selectedItems1"></akam-list-box>
         </div>
 
         <div class="container">

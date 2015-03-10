@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Components Examples - Menu Button</title>
+    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+</head>
+<body class="common-css" ng-app="example" ng-controller="ExampleController">
+    <div class="container">
+        <akam-menu-button label="Choose an application">
+            <akam-menu-button-item
+                ng-repeat="item in items track by item.id"
+                text="{{item.appName}}"
+                ng-click="process(item)">
+            </akam-menu-button-item>
+        </akam-menu-button>
+        
+        <br />
+        
+        <akam-menu-button icon="luna-gear" position="right">
+            <akam-menu-button-item
+                ng-repeat="item in items track by item.id"
+                text="{{item.appName}}"
+                ng-click="process(item)">
+            </akam-menu-button-item>
+        </akam-menu-button>
+    </div> 
+
+    <script src="../node_modules/angular/angular.min.js"></script>
+    <script src="../dist/akamai-components.min.js"></script>
+    <script>
+        angular.module('example', ['akamai.components.menu-button'])
+
+        .controller('ExampleController', function($scope) {
+            $scope.items = [
+                { appName : 'Tranquility', id : 'tranq' },
+                { appName : 'Billing Center', id : 'bc' },
+                { appName : 'Property Manager', id : 'pm' }
+            ];
+          
+            $scope.process = function(item) {
+                console.log('You clicked on the the app: ', item.appName);
+            };
+        });
+    </script>
+</body>
+</html>

@@ -12,7 +12,8 @@ angular.module('akamai.components', [
     require('./status-message').name,
     require('./date-picker').name,
     require('./pagination').name,
-    require('./list-box').name
+    require('./list-box').name,
+    require('./data-table').name
 ])
 
 .constant('VERSION', require('../package.json').version);

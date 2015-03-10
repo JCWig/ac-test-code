@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Data Table</title>
+    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+</head>
+<body class="common-css" ng-app="example" ng-controller="ExampleController">
+    <div class="container">
+        <h1>Data Table Example</h1>
+        
+        <akam-data-table data="mydata" schema="schema" filter-placeholder="Filter Employees">
+            <akam-menu-button position="right">
+                <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
+                <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
+            </akam-menu-button>
+        </akam-data-table>
+        
+    </div>
+
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <script>
+        angular.module('example', ['akamai.components.data-table'])
+
+        .controller('ExampleController', ["$scope", "$http", "$filter", function($scope, $http, $filter) {
+            //$scope.data = $http.get('json/data-table-data.json');
+        $scope.processSelected = function(){
+            console.log('haha');
+        };
+        
+        $scope.mydata = $http.get('json/list-box-data.json');
+        
+        $scope.schema = [
+            {
+                //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                content : function(){
+                    return this.first + ' ' + this.last;
+                },
+                header : 'Full Name',
+                className : 'column-full-name'
+            },
+            {
+                content : 'id',
+                header : 'Emp. ID',
+                className : 'column-employeeid'
+            }
+        ];
+        
+        $scope.process = function($event, type, item){
+            //$event.stopPropagation();
+            console.log('menu item clicked:' + type, item);
+        };
+        }]);
+    </script>
+</body>
+</html>
