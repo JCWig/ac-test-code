@@ -81,7 +81,7 @@ describe('akam-data-table', function() {
             {
                 first: "Dinah",
                 last:"Lance",
-                id: 12,
+                id: 35,
                 bu:"Birds of Prey",
                 color:"Black",
                 birthday : new Date(2000,10,20),
@@ -350,7 +350,7 @@ describe('akam-data-table', function() {
             var rowThreeColumnTwo = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[1];
 
             expect(rowOneColumnTwo.textContent).to.match(/11/);
-            expect(rowThreeColumnTwo.textContent).to.match(/20/);
+            expect(rowThreeColumnTwo.textContent).to.match(/35/);
         });
         it('should be able to sort reverse-numerically', function(){
             var sortByColumnTwoNumerically = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
@@ -360,7 +360,7 @@ describe('akam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var rowThreeColumnTwo = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/20/);
+            expect(rowOneColumnTwo.textContent).to.match(/35/);
             expect(rowThreeColumnTwo.textContent).to.match(/11/);
         });
         it('should be able to sort by custom function', function(){
@@ -412,7 +412,7 @@ describe('akam-data-table', function() {
             var firstRowColumnThree = document.querySelector(TABLE_ROW).querySelectorAll('td')[2];
 
             expect(firstRowColumnOne.textContent).to.match(/Dinah Lance/);
-            expect(firstRowColumnTwo.textContent).to.match(/12/);
+            expect(firstRowColumnTwo.textContent).to.match(/35/);
             expect(firstRowColumnThree.textContent).to.match(/Black/);
         });
     });
@@ -629,6 +629,24 @@ describe('akam-data-table', function() {
             expect(document.querySelectorAll(TABLE_ROW).length).to.equal(10);
             expect(totalItemsSpan.textContent).to.contain('1000');
             expect(pageOneIndex.classList.contains('active')).to.be.true;
+        });
+    });
+    context('when filtering numbers', function(){
+        it('will highlight numbers correctly and filter on them', function(){
+            var markup = '<akam-data-table data="mydata" schema="columns"></akam-data-table>';
+            addElement(markup);
+            scope.$$childHead.state.filter = "5";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest(); 
+            var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
+
+            var rowOneColumnOneHighlighted = document.querySelector(TABLE_ROW).querySelector('td span');
+            var rowOneColumnOne = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
+
+            expect(rowOneColumnOne.textContent).to.match(/Dinah Lance/);
+            expect(rowOneColumnOneHighlighted.textContent).to.match(/5/);
+            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(1);
+            expect(totalItemsSpan.textContent).to.contain('1');
         });
     });
     context('when rendered with action buttons', function(){
