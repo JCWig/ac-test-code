@@ -34,6 +34,9 @@ var angular = require('angular');
     /* @ngInject */    
     .filter('highlight', function($sce) {
         return function(text, phrase) {
+            /* Ignore this because after date or numbers are added to the datatable they are default converted to strings. 
+               leaving check in case of future changes or failed runtime convertions */
+            /* istanbul ignore if */
             if (angular.isNumber(text) || angular.isDate(text)) {
                 text = String(text);
             }

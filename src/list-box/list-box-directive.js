@@ -160,6 +160,8 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
+                /* Ignoring else statement, in order to reach this function onChange will be always be true */
+                /* istanbul ignore else */
                 if (scope.onChange) {
                     scope.onChange({value : selectedItemsList});
                 }
