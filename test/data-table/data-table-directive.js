@@ -7,7 +7,7 @@ var TABLE_COLUMN_HEADER = '.akam-data-table thead tr th';
 var TABLE_ROW = 'div.akam-data-table tbody tr';
 
 var MENU_BUTTON_WRAPPER = '.akam-menu-button';
-var MENU_BUTTON_BUTTON ='.akam-menu-button i.luna-settings_options';
+var MENU_BUTTON_BUTTON ='.akam-menu-button i.luna-gear';
 var MENU_BUTTON_ITEMS = '.akam-menu-button li';
 var DROP_DOWN_MENU = '.akam-menu-button .dropdown-menu';
 
