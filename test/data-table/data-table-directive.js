@@ -615,7 +615,7 @@ describe('akam-data-table', function() {
             expect(previousArrow.classList.contains('disabled')).to.be.true;
             expect(nextArrow.classList.contains('disabled')).to.be.true;
         });
-        it('should be able to clear filter with icon click (cant load icon simulating by clearing filter state)', function(){
+        it('should be able to clear filter with icon click', function(){
             scope.$$childHead.state.filter = "Kevin";
             scope.$$childHead.updateSearchFilter();
             scope.$digest(); 
@@ -716,17 +716,6 @@ describe('akam-data-table', function() {
             expect(scope.process).calledWith("PDF");
             expect(menuDiv.classList.contains('open')).to.be.false;
         });
-        /*it('should change show action icon when mouseovered', function(){            
-            var rowOneIcon = document.querySelectorAll(TABLE_ROW)[0].querySelector('.akam-menu-button i');
-            var rowTwoIcon = document.querySelectorAll(TABLE_ROW)[1].querySelector('.akam-menu-button i');
-            
-            var ev = document.createEvent('MouseEvent');
-            ev.initMouseEvent('mouseover', true);
-            rowOneIcon.dispatchEvent(ev);
-            
-            expect(getComputedStyle(rowOneIcon).getPropertyValue('visibility')).to.equal('visible');
-            expect(getComputedStyle(rowTwoIcon).getPropertyValue('visibility')).to.equal('hidden');
-        });*/
     });
     context('when interacting with menu button', function(){
         beforeEach(function(){
@@ -740,7 +729,7 @@ describe('akam-data-table', function() {
         });
         it('should display an icon', function() {
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
-            expect(menuButton.classList.contains('icon-states')).to.be.true;;
+            expect(menuButton.classList.contains('icon-states')).to.be.true;
         });
 
         it('should hide the menu', function() {
