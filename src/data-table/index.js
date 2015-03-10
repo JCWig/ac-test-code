@@ -34,10 +34,6 @@ var angular = require('angular');
     /* @ngInject */    
     .filter('highlight', function($sce) {
         return function(text, phrase) {
-            if (angular.isNumber(text) || angular.isDate(text)) {
-                text = String(text);
-            }
-            
             if (!angular.isString(text)) {
                 text = String(text);
             }

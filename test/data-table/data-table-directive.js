@@ -1,7 +1,7 @@
 'use strict';
 var utilities = require('../utilities');
 var FILTER_BOX = 'div.filter input[type="search"]';
-var FILTER_ICON = 'div.filter i.luna-close'
+var FILTER_ICON = 'div.filter i.clear-filter'
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-data-table thead tr th';
 var TABLE_ROW = 'div.akam-data-table tbody tr';

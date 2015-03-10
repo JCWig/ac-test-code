@@ -504,7 +504,6 @@ describe('akam-list-box', function() {
             scope.mychange = sinon.spy();
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
-            scope.$$childHead.onChange = false;
 
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
@@ -669,7 +668,7 @@ describe('akam-list-box', function() {
             addElement(markup);
         });
         it('should be not be redenered with clear icon', function(){
-            var clearFilterTextIcon = document.querySelector('div.list-box-filter i');
+            var clearFilterTextIcon = document.querySelector('div.list-box-filter i.clear-filter');
             expect(clearFilterTextIcon).to.be.null;
         });
         it('should filter based on input beginning-middle-end matches', function(){
