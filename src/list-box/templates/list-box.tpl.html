@@ -1,6 +1,6 @@
 <div class="akam-list-box common-table">
     <div class="filter">
-        <input type="search" ng-model="state.filter" ng-disabled="loading" ng-change="updateSearchFilter()" placeholder="{{filterPlaceholder}}"><i class="luna-close clear-filter" ng-if="state.filter" ng-click="state.filter = ''; updateSearchFilter()"></i>
+        <input type="search" ng-model="state.filter" ng-disabled="loading" ng-change="updateSearchFilter()" placeholder="{{filterPlaceholder}}"><i class="luna-close clear-filter icon-states" ng-if="state.filter" ng-click="state.filter = ''; updateSearchFilter()"></i>
     </div>
     <div class="list-box-data">
         <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
