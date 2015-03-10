@@ -8,12 +8,12 @@ module.exports = function($log) {
         replace: true,
         scope: {
             label: '@',
-            icon : '@',
+            iconOnly : '@',
             position : '@'
         },
         template: require('./templates/menu-button.tpl.html'),
-        link: function() {
-
+        link: function(scope) {
+            scope.iconOnly = (scope.iconOnly !== 'false') && !(scope.label);
         }
     };
 };
