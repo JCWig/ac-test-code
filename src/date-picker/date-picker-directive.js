@@ -58,6 +58,7 @@ module.exports = function($log, $filter, $parse, translate) {
                 }
             },
             post: function(scope, element, attrs, ngModel) {
+                /* istanbul ignore if */
                 if (!ngModel) {
                     return;
                 }
