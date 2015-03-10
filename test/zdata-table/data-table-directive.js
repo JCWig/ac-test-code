@@ -212,21 +212,6 @@ describe.only('akam-data-table', function() {
 
             expect(totalItemsSpan.textContent).to.contain('3');
         });
-        it('should change row color when mouseovered and show action icon', function(){
-            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
-            addElement(markup);
-
-            
-            var rowOne = document.querySelector(TABLE_ROW);
-            var rowOneIcon = document.querySelector(TABLE_ROW).querySelector('i');
-
-            var ev = document.createEvent('MouseEvent');
-            ev.initMouseEvent('mouseover', true);
-            rowOne.dispatchEvent(ev);
-            console.log(getComputedStyle(rowOne)['background-color']);
-            //expect(rowOne.classList['background-color']).to.equal('#ebf6ff');
-            expect(rowOneIcon.getAttribute('visibility')).to.equal('visible');
-        });
     });
     context('when rendered with checkboxes', function(){
         beforeEach(function(){
@@ -605,10 +590,10 @@ describe.only('akam-data-table', function() {
         });
         it('should display all actions closed to start', function(){
             var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
-            var menuButton = menuDiv.querySelector('button');
+            var menuButton = menuDiv.querySelector('i');
 
             menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
-            menuButton = menuDiv.querySelector('button');
+            menuButton = menuDiv.querySelector('i');
             var options = menuDiv.querySelectorAll('.dropdown-menu li');
 
             expect(menuDiv.classList.contains('open')).to.be.false;
@@ -616,13 +601,13 @@ describe.only('akam-data-table', function() {
         });  
         it('should display all actions that can be taken', function(){
             var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
-            var menuButton = menuDiv.querySelector('button');
+            var menuButton = menuDiv.querySelector('i');
             
             utilities.click(menuButton);
             scope.$digest();
 
             menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
-            menuButton = menuDiv.querySelector('button');
+            menuButton = menuDiv.querySelector('i');
             var options = menuDiv.querySelectorAll('.dropdown-menu li');
             
             expect(menuDiv.classList.contains('open')).to.be.true;
@@ -634,7 +619,7 @@ describe.only('akam-data-table', function() {
         it('should be able to be closed and no action taken', function(){
             scope.process = sinon.spy();
             var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
-            var menuButton = menuDiv.querySelector('button');
+            var menuButton = menuDiv.querySelector('i');
             
             utilities.click(menuButton);
             scope.$digest();
@@ -648,7 +633,7 @@ describe.only('akam-data-table', function() {
         it('should perform an action on that row if pressed', function(){
             scope.process = sinon.spy();
             var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
-            var menuButton = menuDiv.querySelector('button');
+            var menuButton = menuDiv.querySelector('i');
            
             utilities.click(menuButton);
             scope.$digest();
@@ -659,6 +644,18 @@ describe.only('akam-data-table', function() {
 
             expect(scope.process).calledWith("PDF");
             expect(menuDiv.classList.contains('open')).to.be.false;
+        });
+        it('should change show action icon when mouseovered', function(){            
+            var rowOneIcon = document.querySelectorAll(TABLE_ROW)[1].querySelector('.akam-menu-button i');
+            
+            expect(getComputedStyle(rowOneIcon).getPropertyValue('visibility')).to.equal('hidden');
+            
+            /*var ev = document.createEvent('MouseEvent');
+            ev.initMouseEvent('mouseover', true);
+            rowOneIcon.dispatchEvent(ev);
+            
+            //expect(getComputedStyle(rowOne)['background-color']).to.equal('#ebf6ff');
+            expect(getComputedStyle(rowOneIcon, "visibility")).to.equal('visible');*/
         });
     });
     context('when data gets messed up', function(){
