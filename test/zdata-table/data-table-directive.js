@@ -26,7 +26,7 @@ var translationMock = {
     }
 };
 
-describe('akam-data-table', function() {
+describe.only('akam-data-table', function() {
     var compile = null;
     var scope = null;
     var self = this;
@@ -211,6 +211,21 @@ describe('akam-data-table', function() {
             var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
 
             expect(totalItemsSpan.textContent).to.contain('3');
+        });
+        it('should change row color when mouseovered and show action icon', function(){
+            var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
+            addElement(markup);
+
+            
+            var rowOne = document.querySelector(TABLE_ROW);
+            var rowOneIcon = document.querySelector(TABLE_ROW).querySelector('i');
+
+            var ev = document.createEvent('MouseEvent');
+            ev.initMouseEvent('mouseover', true);
+            rowOne.dispatchEvent(ev);
+            console.log(getComputedStyle(rowOne)['background-color']);
+            //expect(rowOne.classList['background-color']).to.equal('#ebf6ff');
+            expect(rowOneIcon.getAttribute('visibility')).to.equal('visible');
         });
     });
     context('when rendered with checkboxes', function(){
@@ -684,7 +699,7 @@ describe('akam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).to.equal('');
+            expect(rowOneColumnTwo.textContent).to.equal('undefined');
             expect(allVisibleRows.length).to.equal(2);
         });
         it('should recognize null content when sorting name', function(){
