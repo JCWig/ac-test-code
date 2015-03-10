@@ -1,6 +1,7 @@
 'use strict';
 var utilities = require('../utilities');
 var FILTER_BOX = 'div.filter input[type="search"]';
+var FILTER_ICON = 'div.filter i.luna-close'
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-data-table thead tr th';
 var TABLE_ROW = 'div.akam-data-table tbody tr';
@@ -8,7 +9,7 @@ var TABLE_ROW = 'div.akam-data-table tbody tr';
 var PREVIOUS_BUTTON = 'div.akam-pagination .pagination li:first-child';
 var NEXT_BUTTON = 'div.akam-pagination .pagination li:last-child'
 var TOTAL_ITEMS_SPAN = 'div.akam-pagination .total-items';
-var PAGINATION_PAGE_ONE = 'div.akam-pagination .pagination li:first-child';
+var PAGINATION_PAGE_ONE = 'div.akam-pagination .pagination li:nth-child(2)';
 var PAGINATION_INDEX_NTH =  'div.akam-pagination .pagination li:nth-child';
 var PAGINATION_INDEX_REVERSE =  'div.akam-pagination .pagination li:nth-last-child';
 var PAGE_SIZE_SMALLEST = 'div.akam-pagination .page-size li:first-child';
@@ -26,7 +27,7 @@ var translationMock = {
     }
 };
 
-describe.only('akam-data-table', function() {
+describe('akam-data-table', function() {
     var compile = null;
     var scope = null;
     var self = this;
@@ -113,9 +114,7 @@ describe.only('akam-data-table', function() {
                 header:"Birthday"
             },
             {
-                content:function(){
-                    return this.generic.join(",");
-                },
+                content:"generic",
                 header:"Generic Sorting"
             }
         ];
@@ -284,6 +283,7 @@ describe.only('akam-data-table', function() {
             scope.$$childTail.state.viewSelectedOnly = true;
             scope.$$childTail.updateSearchFilter();
             scope.$digest();
+            
             
             expect(document.querySelectorAll(TABLE_ROW).length).to.equal(2);
         });
@@ -561,10 +561,43 @@ describe.only('akam-data-table', function() {
             scope.$$childHead.state.filter = "Kevin";
             scope.$$childHead.updateSearchFilter();
             scope.$digest(); 
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(8);
+            var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
 
+            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(8);
+            expect(totalItemsSpan.textContent).to.contain('8');
         });
-        //it('should change text color of matching input', function(){});
+        it('should change text color of matching input (case insensitive)', function(){
+            scope.$$childHead.state.filter = "kevin";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();    
+
+            var rowOneColumnOneHighlighted = document.querySelector(TABLE_ROW).querySelector('td span');
+
+            expect(rowOneColumnOneHighlighted.textContent).to.match(/Kevin/);
+            
+        });
+        it('should be able to filter on any column', function(){
+            scope.$$childHead.state.filter = "95453e7";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();    
+
+            var rowOneColumnOne = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
+            var rowOneColumnTwoHighlighted = document.querySelector(TABLE_ROW).querySelectorAll('td')[1].querySelector('span');
+
+            expect(rowOneColumnOne.textContent).to.match(/Karen Holmes/);
+            expect(rowOneColumnTwoHighlighted.textContent).to.match(/95453e7/);
+            
+        });
+        it('should show nothing when filter returns no results', function(){
+            scope.$$childHead.state.filter = "GOTTA CATCH EM ALL POKEMON!!!!";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();    
+
+            var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
+
+            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(0);
+            expect(totalItemsSpan.textContent).to.contain('0');
+        });
         it('should revert to pagination index 1', function(){
             scope.$$childHead.state.filter = "Kev";
             scope.$$childHead.updateSearchFilter();
@@ -576,6 +609,21 @@ describe.only('akam-data-table', function() {
             expect(pageOneIndex.classList.contains('active')).to.be.true;
             expect(previousArrow.classList.contains('disabled')).to.be.true;
             expect(nextArrow.classList.contains('disabled')).to.be.true;
+        });
+        it('should be able to clear filter with icon click (cant load icon simulating by clearing filter state)', function(){
+            scope.$$childHead.state.filter = "Kevin";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest(); 
+            
+            var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
+            var filterIcon = document.querySelector(FILTER_ICON);
+            var pageOneIndex = document.querySelector(PAGINATION_PAGE_ONE);
+            utilities.click(filterIcon);
+            scope.$digest();
+
+            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(10);
+            expect(totalItemsSpan.textContent).to.contain('1000');
+            expect(pageOneIndex.classList.contains('active')).to.be.true;
         });
     });
     context('when rendered with action buttons', function(){
@@ -645,18 +693,17 @@ describe.only('akam-data-table', function() {
             expect(scope.process).calledWith("PDF");
             expect(menuDiv.classList.contains('open')).to.be.false;
         });
-        it('should change show action icon when mouseovered', function(){            
-            var rowOneIcon = document.querySelectorAll(TABLE_ROW)[1].querySelector('.akam-menu-button i');
+        /*it('should change show action icon when mouseovered', function(){            
+            var rowOneIcon = document.querySelectorAll(TABLE_ROW)[0].querySelector('.akam-menu-button i');
+            var rowTwoIcon = document.querySelectorAll(TABLE_ROW)[1].querySelector('.akam-menu-button i');
             
-            expect(getComputedStyle(rowOneIcon).getPropertyValue('visibility')).to.equal('hidden');
-            
-            /*var ev = document.createEvent('MouseEvent');
+            var ev = document.createEvent('MouseEvent');
             ev.initMouseEvent('mouseover', true);
             rowOneIcon.dispatchEvent(ev);
             
-            //expect(getComputedStyle(rowOne)['background-color']).to.equal('#ebf6ff');
-            expect(getComputedStyle(rowOneIcon, "visibility")).to.equal('visible');*/
-        });
+            expect(getComputedStyle(rowOneIcon).getPropertyValue('visibility')).to.equal('visible');
+            expect(getComputedStyle(rowTwoIcon).getPropertyValue('visibility')).to.equal('hidden');
+        });*/
     });
     context('when data gets messed up', function(){
         it('should recognize null content when redenring', function(){
