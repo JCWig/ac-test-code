@@ -9,12 +9,14 @@
     <div class="container">
         <h1>Data Table Example</h1>
         
-        <akam-data-table data="data" schema="schema" filter-placeholder="Filter Employees">
+        <akam-data-table data="mydata" schema="columns" filter-placeholder="Filter Employees" show-checkboxes="true" on-change="processSelected(value)">
             <akam-menu-button icon="luna-gear" position="right">
-                <akam-menu-button-item text="PDF" ng-click="process('PDF')"></akam-menu-button-item>
-                <akam-menu-button-item text="HTML" ng-click="process('HTML')"></akam-menu-button-item>
+                <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
+                <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
             </akam-menu-button>
         </akam-data-table>
+        
+        
     </div>
 
     <script src="../node_modules/angular/angular.js"></script>
@@ -22,8 +24,78 @@
     <script>
         angular.module('example', ['akamai.components.data-table'])
 
-        .controller('ExampleController', ["$scope", "$http", function($scope, $http) {
-            $scope.data = $http.get('json/data-table-data.json');
+        .controller('ExampleController', ["$scope", "$http", "$filter", function($scope, $http, $filter) {
+            //$scope.data = $http.get('json/data-table-data.json');
+        $scope.processSelected = function(){
+            console.log('haha');
+        };
+        $scope.mydata = [
+                    {
+                        first : 'Oliver',
+                        last : 'Queen',
+                        id : 11,
+                        bu : "Justice League",
+                        color: "Green",
+                        birthday : new Date(2001,10,20),
+                        generic : ["a", "b", "c"]
+                    },
+                    {
+                        first : "Roy",
+                        last: "Harper",
+                        id : 20,
+                        bu : "Teen Titans",
+                        color:"Red",
+                        birthday : new Date(2002,10,20),
+                        generic : ["shoot em up"]
+                    },
+                    {
+                        first: "Dinah",
+                        last:"Lance",
+                        id: 12,
+                        bu:"Birds of Prey",
+                        color:"Black",
+                        birthday : new Date(2000,10,20),
+                        generic : ["AAAAAAAAAAAAAAAAAAA"]
+                    }
+                ];
+                $scope.columns = [
+                    {
+                        content : function(){
+                            return this.first + ' ' + this.last;
+                        },
+                        header : 'Full Name',
+                        className : 'column-full-text-name'
+                    },
+                    {
+                        content : 'id',
+                        header : 'ID'
+                    },
+                    {
+                        content:"color",
+                        header:"Favorite Color",
+                        sort: function(){
+                            var colorsValues = {
+                                'Red' : 1,
+                                'Black' : 2,
+                                'Green' : 3
+                            };
+                            return colorsValues[this.color];
+                        }
+                    },
+                    {
+                        content: function(){
+                            return $filter('date')(this.birthday, 'MMM dd yyyy');
+                        },
+                        header:"Birthday"
+                    },
+                    {
+                        content: function(){
+                            return this.generic.join(',');
+                        },
+                        header:"Generic Sorting"
+                    }
+                ];
+
         
             $scope.schema = [
                 {
@@ -38,11 +110,17 @@
                     content : 'id',
                     header : 'Emp. ID',
                     className : 'column-employeeid'
+                },
+                {
+                    content: 'email',
+                    header: 'Emails',
+                    className: 'column-emails'
                 }
             ];
             
-            $scope.process = function(type){
-                console.log('menu item clicked:' + type);
+            $scope.process = function($event, type, item){
+                //$event.stopPropagation();
+                console.log('menu item clicked:' + type, item);
             };
         }]);
     </script>

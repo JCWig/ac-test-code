@@ -8,10 +8,11 @@ module.exports = function($log, $q, uuid, $filter, $compile) {
         scope: {
             data: '=',
             schema: '=',
-            filterPlaceholder : "@"
+            filterPlaceholder : "@",
+            onChange : '&?'
         },
         template: require('./templates/data-table.tpl.html'),
-        transclude : 'element',
+        transclude : true,
         link: function(scope, element, attrs, controller, transclude) {
             scope.hasActionColumn = false;
             transclude(function(clone, $scope) {
@@ -68,24 +69,40 @@ module.exports = function($log, $q, uuid, $filter, $compile) {
                 update();
             };
             
-            scope.getColumnContent = function(column, item, defaultValue){
+            function getColumnContent(column, item, defaultValue){
                 var columnContent = column.content;
                 
                 if (angular.isString(columnContent)) {
                     if (columnContent in item) {
                         // retrieve the property for the item with the same name
-                        return item[columnContent] || defaultValue;
+                        return convertToString(item[columnContent] || defaultValue);
                     }else{
                         // this means that the property is undefined in the object
                         return defaultValue;
                     }
                 }else if (angular.isFunction(columnContent)) {
                     // return the content based on the result of the function call
-                    return angular.bind(item, column.content)() || defaultValue;
+                    return convertToString(angular.bind(item, column.content)() || defaultValue);
                 }
                 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
-            };
+            }
+            
+            function convertToString(value) {
+                if (value == null) {
+                    return "";
+                }
+                
+                if (angular.isArray(value)) {
+                    return value.join('<br />');
+                }
+                
+                if (angular.isNumber(value) || angular.isDate(value) || value === true || value === false) {
+                    return String(value);
+                }
+                
+                return value;
+            }
             
             scope.processDataTable = function(){
                 // we can only really process the data if both fields are set
@@ -100,7 +117,7 @@ module.exports = function($log, $q, uuid, $filter, $compile) {
                         selected : false,
                         cells : scope.columns.map(
                             function (column) {
-                                return scope.getColumnContent(column, dataItem, column.defaultValue);
+                                return getColumnContent(column, dataItem, column.defaultValue);
                             }
                         ),
                         item : dataItem
