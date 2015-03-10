@@ -26,7 +26,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * | key | value | type | description
  * |-----------|-----------------|-----------------------------------------------------------------------------|
  * | localeCookie | AKALOCALE | {@type string} | This cookie name is widely used from Luna portal apps |
- * | localeComponentPath | 'libs/akamai-components/{version}/locales/' | {@type string} | This path value is to component locale file. |
+ * | localeComponentPath | '/libs/akamai-components/{version}/locales/' | {@type string} | This path value is to component locale file. |
  * | localeAppPath | 'apps/{appName}/locales/' | {@type string} | This path value is to app locale file. |
  * | defaultLocale | en_US | {@type string} | Default locale string value. |
  * | baseVersion | '0.0.1' | {@type string} | This path value is to component locale file. (subject to change) |
@@ -37,7 +37,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
-    localeComponentPath: 'libs/akamai-components/{version}/locales/',
+    localeComponentPath: '/libs/akamai-components/{version}/locales/',
     localeAppPath: '/apps/{appName}/locales/',
     defaultLocale: 'en_US',
     baseVersion: "0.0.1",

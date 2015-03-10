@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    <link href="../../../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
-    <script src="../../../node_modules/angular/angular.js"></script>
-    <script src="../../../node_modules/angular-translate/dist//angular-translate.js"></script>
-    <script type="text/javascript" src="../../../dist/akamai-components.js"></script>
+    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../node_modules/angular-translate/dist/angular-translate.js"></script>
+    <script type="text/javascript" src="../dist/akamai-components.js"></script>
 
     <script>
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
@@ -30,7 +30,7 @@
 
             console.log($filter("akamTranslate")('components.notifications.success'));
             console.log($filter("akamTranslate")('recurring-report.activate.modal.message'));
-        })
+        });
     }]);
     </script>
 
