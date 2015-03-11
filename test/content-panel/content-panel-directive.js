@@ -4,7 +4,7 @@ var utilities = require('../utilities');
 var PANEL_HEADER = 'h3.panel-title';
 var PANEL_HEADER_ICON = 'h3.panel-title i.toggle-icon';
 var PANEL_CONTENT_WRAPPER = 'div.panel-body';
-var ALL_PANEL_CONTENT = 'div.panel-body div.ng-scope';
+var ALL_PANEL_CONTENT = 'div.panel-body div.content-wrapper div.ng-scope';
 
 describe.only('akam-content-panel', function() {
     var compile = null;
@@ -53,7 +53,6 @@ describe.only('akam-content-panel', function() {
             expect(content.length).to.equal(2);
             expect(content[0].textContent).to.match(/Gandalf the Grey/);
             expect(content[1].textContent).to.match(/Gandalf the White/);
-            expect(contentWrapper.getAttribute('collapse')).to.be.false;
         });
         it('should be able to render collpased', function(){
             scope.isCollapsed1 = true;
@@ -74,12 +73,10 @@ describe.only('akam-content-panel', function() {
             expect(content.length).to.equal(2);
             expect(content[0].textContent).to.match(/Gandalf the Grey/);
             expect(content[1].textContent).to.match(/Gandalf the White/);
-            expect(contentWrapper.getAttribute('collapse')).to.be.true
         });
         it('should present a message when no content is shown?', function(){
             scope.isCollapsed1 = true;
             var markup = '<akam-content-panel is-collapsed="isCollapsed1" on-toggle="process()" header="Header 1">'+
-                        '<div>Gandalf the Grey</div><div>Gandalf the White</div>'+
                         '</akam-content-panel>'
             addElement(markup);
 
@@ -110,15 +107,21 @@ describe.only('akam-content-panel', function() {
 
             utilities.click(headerIcon);
             scope.$digest();
+            timeout.flush();
 
-            expect(headerIcon.classList.contains('luna-expand')).to.be.false;
-            expect(headerIcon.classList.contains('luna-collapse')).to.be.true;
-            expect(PANEL_CONTENT_WRAPPER.getAttribute('style')).to.contain('height: auto');
-            utilities.click(headerIcon);
-            scope.$digest();
-            expect(PANEL_CONTENT_WRAPPER.getAttribute('style')).to.contain('height: 0px');
+            expect(contentWrapper.classList.contains('in')).to.be.false;
             expect(headerIcon.classList.contains('luna-expand')).to.be.true;
             expect(headerIcon.classList.contains('luna-collapse')).to.be.false;
+            expect(contentWrapper.getAttribute('style')).to.contain('height: 0px');
+            
+            utilities.click(headerDiv);
+            scope.$digest();
+            timeout.flush();
+
+            expect(contentWrapper.classList.contains('collapsing')).to.be.true;
+            expect(contentWrapper.getAttribute('style')).to.not.contain('height: 0px');
+            expect(headerIcon.classList.contains('luna-expand')).to.be.false;
+            expect(headerIcon.classList.contains('luna-collapse')).to.be.true;
         });
     });
 });
