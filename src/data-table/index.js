@@ -13,6 +13,7 @@ var angular = require('angular');
     */
     module.exports = angular.module('akamai.components.data-table', [
         require('../uuid').name,
+        require('../highlight').name,
         require('../indeterminate-progress').name,
         require('../pagination').name,
         require('../menu-button').name,
@@ -30,23 +31,6 @@ var angular = require('angular');
         start = parseInt(start, 10);
         return input.slice(start);
       };
-    })
-
-    /* @ngInject */
-    .filter('highlight', function($sce) {
-        return function(text, phrase) {
-            if (!angular.isString(text)) {
-                text = String(text);
-            }
-
-            phrase = String(phrase).trim();
-
-            if (phrase){
-                text = text.replace(new RegExp('('+phrase+')', 'gi'), '<span class="highlighted">$1</span>');
-            }
-
-            return $sce.trustAsHtml(text);
-        };
     })
 
     /**
