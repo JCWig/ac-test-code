@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Components Examples - Content Panel</title>
+    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+</head>
+<body class="common-css" ng-app="example" ng-controller="ExampleController">
+    <div class="container">
+        <akam-content-panel is-collapsed="isCollapsed1" on-toggle="process()">
+            <div>
+                Some Content 1
+            </div>
+            <div>
+                Some More Content 1
+             </div>
+        </akam-content-panel>
+        
+        <br />
+        
+        <akam-content-panel is-collapsed="isCollapsed2" on-toggle="process()">
+            <div>
+                Some Content 2
+            </div>
+            <div>
+                Some More Content 2
+             </div>
+        </akam-content-panel>
+    </div> 
+
+    <script src="../node_modules/angular/angular.min.js"></script>
+    <script src="../dist/akamai-components.min.js"></script>
+    <script>
+        angular.module('example', ['akamai.components.content-panel'])
+
+        .controller('ExampleController', function($scope) {
+            $scope.isCollapsed1 = false;
+            $scope.isCollapsed2 = true;
+            
+            $scope.process = function(){
+                console.log('toggle', this);
+            };
+        });
+    </script>
+</body>
+</html>
