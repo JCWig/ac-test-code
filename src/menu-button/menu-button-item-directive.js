@@ -9,7 +9,7 @@ module.exports = function(options) {
             scope: {
                 text: '@'
             },
-            template: '<li><a href="#">{{ text }}</a></li>'
+            template: '<li><a href="javascript:void(0);">{{ text }}</a></li>'
         };
     };
 };

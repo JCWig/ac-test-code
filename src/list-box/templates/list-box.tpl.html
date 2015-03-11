@@ -1,9 +1,9 @@
-<div class="akam-list-box">
-    <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
-    <div class="list-box-filter">
-        <input type="search" ng-model="state.filter" ng-disabled="loading" ng-change="updateSearchFilter()" placeholder="{{filterPlaceholder}}"><i class="luna-close clear-filter" ng-if="state.filter" ng-click="state.filter = ''; updateSearchFilter()"></i>
+<div class="akam-list-box common-table">
+    <div class="filter">
+        <input type="search" ng-model="state.filter" ng-disabled="loading" ng-change="updateSearchFilter()" placeholder="{{filterPlaceholder}}"><i class="luna-close clear-filter icon-states util-clickable" ng-if="state.filter" ng-click="state.filter = ''; updateSearchFilter()"></i>
     </div>
     <div class="list-box-data">
+        <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
         <table>
             <thead>
                 <tr>
@@ -16,7 +16,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in dataTable | filter:state.search" ng-class="{ 'row-selected' : item.selected, 'util-clickable' : showCheckboxes }" ng-click="item.selected = !item.selected; updateChanged()">
+                <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length + 1}}" class="column-no-items-found">
+                    No Items Found
+                </td></tr>
+                <tr ng-repeat="item in dataTable | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
                     <td ng-if="showCheckboxes" class="column-checkbox">
                         <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
                     </td>
