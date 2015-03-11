@@ -16,8 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length + 1}}" class="column-no-items-found">
-                    No Items Found
+                <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length + 1}}" class="column-no-items-found" akam-translate="components.list-box.text.noItem">
                 </td></tr>
                 <tr ng-repeat="item in dataTable | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
                     <td ng-if="showCheckboxes" class="column-checkbox">
@@ -32,10 +31,10 @@
     </div>
     <div class="list-box-footer">
         <span class="util-pull-left">
-            Selected: {{selectedItems.length}}
+            {{selectedText}}{{selectedItems.length}}
         </span>
         <span class="util-pull-right">
-            <input type="checkbox" ng-model="state.viewSelectedOnly" ng-change="updateSearchFilter();" id="{{tableId + 'viewSelectedOnly'}}"><label for="{{tableId + 'viewSelectedOnly'}}">View selected only</label>
+            <input type="checkbox" ng-model="state.viewSelectedOnly" ng-change="updateSearchFilter();" id="{{tableId + 'viewSelectedOnly'}}"><label for="{{tableId + 'viewSelectedOnly'}}" akam-translate="components.list-box.text.viewSelected"></label>
         </span>
     </div>
 </div>
