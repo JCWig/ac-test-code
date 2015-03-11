@@ -31,13 +31,6 @@
                 Some More Content 2
              </div>
         </akam-content-panel>
-        
-        Panel Group:
-        <div class="panel-group">
-            <akam-content-panel ng-repeat="panel in panels" header="{{panel.header}}" is-collapsed="panel.collapsed">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </akam-content-panel>
-        </div>
     </div> 
 
     <script src="../node_modules/angular/angular.min.js"></script>
@@ -52,21 +45,6 @@
             $scope.process = function(value){
                 console.log('toggle', value);
             };
-            
-            $scope.panels = [
-                {
-                    header : 'Header 1',
-                    collapsed: false
-                },
-                {
-                    header : 'Header 2',
-                    collapsed: false
-                },
-                {
-                    header : 'Header 3',
-                    collapsed: false
-                }
-            ];
         });
     </script>
 </body>
