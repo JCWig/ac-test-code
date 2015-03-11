@@ -135,16 +135,15 @@ describe('modalWindow service', function() {
             this.scope.$digest();
 
             var modalBody = document.querySelector(MODAL_BODY);
-            expect(modalBody.textContent).toEqual(scope.name);
+            expect(modalBody.textContent).toEqual(this.scope.name);
         });
 
         it('should support a template url option', function() {
             var url = 'modal-window/template.html';
             var template = '<span>{{ name }}</span>';
-            var scope = this.$rootScope.$new();
 
             this.scope.name = 'Akamai';
-            httpBackend.whenGET(url).respond(template);
+            this.httpBackend.whenGET(url).respond(template);
             this.modalWindowService.open({
                 scope: this.scope,
                 templateUrl: url
@@ -152,8 +151,8 @@ describe('modalWindow service', function() {
             this.httpBackend.flush();
 
             var modalBody = document.querySelector(MODAL_BODY);
-            expect(modalBody.textContent).toEqual(scope.name);
-            httpBackend.verifyNoOutstandingRequest();
+            expect(modalBody.textContent).toEqual(this.scope.name);
+            this.httpBackend.verifyNoOutstandingRequest();
         });
 
         it('should support a hide submit button option', function() {
@@ -179,16 +178,16 @@ describe('modalWindow service', function() {
                 controller: 'Controller'
             });
             this.scope.$digest();
-            toggleSubmitButton = document.querySelector('.toggle');
+            toggleSubmitButton = document.querySelector('button.toggle');
             submitButton = document.querySelector(SUBMIT_BUTTON);
 
             utilities.click(toggleSubmitButton);
             this.scope.$digest();
-            expect(submitButton.disabled).toBe(true);
+            expect(submitButton.getAttribute('disabled')).toBe(true);
 
             utilities.click(toggleSubmitButton);
             this.scope.$digest();
-            expect(submitButton.disabled).toBe(false);
+            expect(submitButton.getAttribute('disabled')).toBe(false);
         });
 
         describe('when a user clicks the submit button', function() {
@@ -254,7 +253,7 @@ describe('modalWindow service', function() {
 
                 this.timeout.flush();
 
-                this.modalWindowServiceopen({
+                this.modalWindowService.open({
                     scope: this.scope,
                     title: "",
                     template: '<p></p>'
