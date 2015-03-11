@@ -32,20 +32,20 @@ describe('akamai.components.status-message-directive', function() {
         self.element = document.body.appendChild(self.el[0]);
     };
 
-    context('when rendering', function(){
+    describe('when rendering', function(){
         it('should display the message text', function(){
             var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
             var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
 
-            expect(statusMessageBar.id).to.not.be.null;
-            expect(statusMessageContent.textContent).to.match(/add a little bit more text/);
+            expect(statusMessageBar.id).not.toBe(null);
+            expect(statusMessageContent.textContent).toMatch(/add a little bit more text/);
         });
         it('shoudld default to success status', function(){
             var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
-            expect(statusMessageBar.classList.contains('information')).to.be.true;
+            expect(statusMessageBar.classList.contains('information')).toBe(true);
         });
     });
-    context('when rendered', function(){
+    describe('when rendered', function(){
         it('should disspear after timeout', function(){
             timeout.flush();
             timeout.flush();
@@ -53,8 +53,8 @@ describe('akamai.components.status-message-directive', function() {
             var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
             var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
                 
-            expect(statusMessageBar).to.be.null;
-            expect(statusMessageContent).to.be.null;
+            expect(statusMessageBar).toBe(null);
+            expect(statusMessageContent).toBe(null);
         });
     });
 

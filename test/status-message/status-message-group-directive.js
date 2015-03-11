@@ -37,7 +37,7 @@ describe('akamai.components.status-message-group', function() {
         scope.$digest();
         self.element = document.body.appendChild(self.el[0]);
     };
-    context('when rendering group status messages', function(){
+    describe('when rendering group status messages', function(){
         it('should display correct information', function(){
             var markup = ('<akam-status-message-group items="items"></akam-status-message-group>');
             addElement(markup);
@@ -46,13 +46,13 @@ describe('akamai.components.status-message-group', function() {
             var firstStatusMessageContent = document.querySelectorAll(STATUS_MESSAGE_CONTENT)[0];
             var secondStatusMessageContent = document.querySelectorAll(STATUS_MESSAGE_CONTENT)[1];
 
-            expect(firstStatusMessage).to.not.be.null;
-            expect(secondStatusMessage).to.not.be.null;
-            expect(firstStatusMessageContent.textContent).to.match(/First Text Field/);
-            expect(secondStatusMessageContent.textContent).to.match(/Second Text Field/);
+            expect(firstStatusMessage).not.toBe(null);
+            expect(secondStatusMessage).not.toBe(null);
+            expect(firstStatusMessageContent.textContent).toMatch(/First Text Field/);
+            expect(secondStatusMessageContent.textContent).toMatch(/Second Text Field/);
         });
     }); 
-    context('when group status messages rendered', function(){
+    describe('when group status messages rendered', function(){
         it('should disspear after timeout', function(){
             var markup = ('<akam-status-message-group items="items"></akam-status-message-group>');
             addElement(markup);
@@ -63,17 +63,17 @@ describe('akamai.components.status-message-group', function() {
             var firstStatusMessage = document.querySelector('#first-item-id');
             var secondStatusMessage = document.querySelector('#second-item-id');
                 
-            expect(firstStatusMessage).to.be.null;
-            expect(secondStatusMessage).to.be.null;
+            expect(firstStatusMessage).toBe(null);
+            expect(secondStatusMessage).toBe(null);
         });
     });
-    context('when rendering group status messages with no items', function(){
+    describe('when rendering group status messages with no items', function(){
         it('should not render any messages', function(){
             var markup = ('<akam-status-message-group items="items"></akam-status-message-group>');
             scope.items = null;
             addElement(markup);
             var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
-            expect(statusMessageContent).to.be.null;
+            expect(statusMessageContent).toBe(null);
         });
     });
 });
