@@ -3,7 +3,7 @@ var utilities = require('../utilities');
 
 var PANEL_HEADER = 'h3.panel-title';
 var PANEL_HEADER_ICON = 'h3.panel-title i.toggle-icon';
-var PANEL_CONTENT_WRAPPER = 'div.panel-body';
+var PANEL_CONTENT_WRAPPER = 'div.panel-collapse';
 var ALL_PANEL_CONTENT = 'div.panel-body div.content-wrapper div.ng-scope';
 
 describe.only('akam-content-panel', function() {
@@ -43,7 +43,6 @@ describe.only('akam-content-panel', function() {
 
             var headerDiv = document.querySelector(PANEL_HEADER);
             var content = document.querySelectorAll(ALL_PANEL_CONTENT);
-            var contentWrapper = document.querySelector(PANEL_CONTENT_WRAPPER);
             var headerIcon = document.querySelector(PANEL_HEADER_ICON);
 
             expect(headerDiv.textContent).to.match(/Header 1/);
@@ -63,7 +62,6 @@ describe.only('akam-content-panel', function() {
 
             var headerDiv = document.querySelector(PANEL_HEADER);
             var content = document.querySelectorAll(ALL_PANEL_CONTENT);
-            var contentWrapper = document.querySelector(PANEL_CONTENT_WRAPPER);
             var headerIcon = document.querySelector(PANEL_HEADER_ICON);
 
             expect(headerDiv.textContent).to.match(/Header 1/);
@@ -73,23 +71,6 @@ describe.only('akam-content-panel', function() {
             expect(content.length).to.equal(2);
             expect(content[0].textContent).to.match(/Gandalf the Grey/);
             expect(content[1].textContent).to.match(/Gandalf the White/);
-        });
-        it('should present a message when no content is shown?', function(){
-            scope.isCollapsed1 = true;
-            var markup = '<akam-content-panel is-collapsed="isCollapsed1" on-toggle="process()" header="Header 1">'+
-                        '</akam-content-panel>'
-            addElement(markup);
-
-            var headerDiv = document.querySelector(PANEL_HEADER);
-            var content = document.querySelectorAll(ALL_PANEL_CONTENT);
-            var contentWrapper = document.querySelector(PANEL_CONTENT_WRAPPER);
-            var headerIcon = document.querySelector(PANEL_HEADER_ICON);
-
-            expect(headerDiv.textContent).to.match(/Header 1/);
-            expect(headerIcon).to.not.be.null;
-            expect(headerIcon.classList.contains('luna-expand')).to.be.true;
-            expect(headerIcon.classList.contains('luna-collapse')).to.be.false;
-            expect(content.length).to.equal(0);
         });
     });
     context('when rendered', function(){
