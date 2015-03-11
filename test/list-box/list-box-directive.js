@@ -522,7 +522,7 @@ describe('akam-list-box', function() {
 
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
-            expect(numberSelectedSpan.textContent).to.match(/Selected: 1/);
+            expect(numberSelectedSpan.textContent).to.match(/1/);
         });
         it('should change background color of selected items', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
