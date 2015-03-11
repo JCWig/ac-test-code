@@ -6,19 +6,17 @@ var PANEL_HEADER_ICON = 'h3.panel-title i.toggle-icon';
 var PANEL_CONTENT_WRAPPER = 'div.panel-collapse';
 var ALL_PANEL_CONTENT = 'div.panel-body div.content-wrapper div.ng-scope';
 
-describe.only('akam-content-panel', function() {
+describe('akam-content-panel', function() {
     var compile = null;
     var scope = null;
     var self = this;
-    var q = null;
     var timeout = null;
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/content-panel').name);
-        inject(function($compile, $rootScope, $q, $timeout) {
+        inject(function($compile, $rootScope,$timeout) {
             compile = $compile;
             scope = $rootScope.$new();
-            q = $q;
             timeout = $timeout;
         });
     });
@@ -35,8 +33,8 @@ describe.only('akam-content-panel', function() {
     };
     context('when rendering', function(){
         it('should render all parts', function(){
-            scope.isCollapsed1 = false;
-            var markup = '<akam-content-panel is-collapsed="isCollapsed1" on-toggle="process()" header="Header 1">'+
+            scope.isCollapsed = false;
+            var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">'+
                         '<div>Gandalf the Grey</div><div>Gandalf the White</div>'+
                         '</akam-content-panel>'
             addElement(markup);
@@ -54,8 +52,8 @@ describe.only('akam-content-panel', function() {
             expect(content[1].textContent).to.match(/Gandalf the White/);
         });
         it('should be able to render collpased', function(){
-            scope.isCollapsed1 = true;
-            var markup = '<akam-content-panel is-collapsed="isCollapsed1" on-toggle="process()" header="Header 1">'+
+            scope.isCollapsed = true;
+            var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">'+
                         '<div>Gandalf the Grey</div><div>Gandalf the White</div>'+
                         '</akam-content-panel>'
             addElement(markup);
@@ -75,8 +73,8 @@ describe.only('akam-content-panel', function() {
     });
     context('when rendered', function(){
         it('should be able to toggle visibility of content', function(){
-            scope.isCollapsed1 = false;
-            var markup = '<akam-content-panel is-collapsed="isCollapsed1" on-toggle="process()" header="Header 1">'+
+            scope.isCollapsed = false;
+            var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">'+
                         '<div>Gandalf the Grey</div><div>Gandalf the White</div>'+
                         '</akam-content-panel>'
             addElement(markup);
