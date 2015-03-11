@@ -485,7 +485,7 @@ describe('akam-list-box', function() {
         afterEach(function() {
             document.body.removeChild(this.element);
         });
-        /*it('should be able to select an item with on-change', function(){
+        it('should be able to select an item with on-change', function(){
             scope.mychange = sinon.spy();
             
             var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>';
@@ -499,7 +499,7 @@ describe('akam-list-box', function() {
             expect(checkedCheckbox).to.have.length(1);
             expect(scope.mychange).to.have.been.called;
             expect(spyOnChange).calledOnce;
-        });*/
+        });
         it('should be able to select an item without on-change', function(){
             scope.mychange = sinon.spy();
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
@@ -513,7 +513,7 @@ describe('akam-list-box', function() {
             expect(checkedCheckbox).to.have.length(1);
             expect(scope.mychange).to.not.have.been.called;
         });
-        /*it('should update total selected field', function(){
+        it('should update total selected field', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
 
@@ -524,7 +524,6 @@ describe('akam-list-box', function() {
 
             expect(numberSelectedSpan.textContent).to.match(/Selected: 1/);
         });
-        //it('should make view selected only box visible', function(){});
         it('should change background color of selected items', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
@@ -532,17 +531,8 @@ describe('akam-list-box', function() {
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
 
-            expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).to.be.true();
+            expect(firstRowCheckbox.parentNode.parentNode.classList.contains('row-selected')).to.be.true();
         });
-        it('should be able to selet a row by clicking any part of a row', function(){
-            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
-            addElement(markup);
-
-            var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[4];
-            utilities.click(firstRowCheckbox);
-
-            expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).to.be.true();
-        });*/
     });
     context('when deselecting an item', function(){
         beforeEach(function(){
@@ -584,7 +574,7 @@ describe('akam-list-box', function() {
 
             expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).to.be.false();
         });
-        /*it('should only trigger updateChanged twice one on, one off', function(){
+        it('should only trigger updateChanged twice one on, one off', function(){
             var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
 
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
@@ -594,7 +584,7 @@ describe('akam-list-box', function() {
             scope.$digest();
             
             expect(spyOnChange).calledTwice;
-        });*/
+        });
     });
     context('when activating view selected only option', function(){
         afterEach(function() {
@@ -655,7 +645,6 @@ describe('akam-list-box', function() {
 
             expect(viewSelectedOnlyCheckboxIfItsChecked).to.have.length(0);
         });
-        /*it('should activate selectall checkbox', function(){});*/
     });
     context('when interacting with filter bar', function(){
         afterEach(function() {
@@ -709,30 +698,7 @@ describe('akam-list-box', function() {
             allVisibleRows = document.querySelectorAll(TABLE_ROW);
             expect(allVisibleRows).to.have.length(scope.mydata.length);
         });
-        /*it('should alert when no matches found', function(){
-
-        });
-        it('should offer suggestions when no matches found', function(){
-
-        });
-        it('should be able to select off of suggestions', function(){
-
-        });*/
-    });/*
-    context('when items are filtered', function(){
-        it('should only apply select all to the filtered items', function(){});
-        it('should only apply deselect all to the filtered items', function(){});
     });
-    context('when mouse interacting with multiselect-list-box', function(){
-        it('should change color on mouse hover', function(){});
-        it('should change back color on mouse leave', function(){});
-    });
-    context('when navigating away and back', function(){
-        it('shoudl close when clicking away from box', function(){});
-        it('should maintain state so when reopened those selected are still selected.', function(){});
-    });
-    context('when  no options to choose from', function(){
-    });*/
     context('when data messes up', function(){
         afterEach(function() {
             document.body.removeChild(this.element);
