@@ -17,7 +17,7 @@ module.exports = function($log) {
             
             scope.$watch('isCollapsed', function(newValue, oldValue){
                 if (newValue !== oldValue) {
-                    scope.$eval(scope.onToggle);
+                    scope.onToggle({ value : newValue });
                 }
             });
         }
