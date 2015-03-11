@@ -15,10 +15,11 @@ var angular = require('angular');
         require('../uuid').name,
         require('../indeterminate-progress').name,
         require('../pagination').name,
-        require('../menu-button').name
+        require('../menu-button').name,
+        require('../i18n').name
     ])
 
-    
+
     .filter('offset', function() {
       return function(input, start) {
 
@@ -31,15 +32,15 @@ var angular = require('angular');
       };
     })
 
-    /* @ngInject */    
+    /* @ngInject */
     .filter('highlight', function($sce) {
         return function(text, phrase) {
             if (!angular.isString(text)) {
                 text = String(text);
             }
-            
+
             phrase = String(phrase).trim();
-            
+
             if (phrase){
                 text = text.replace(new RegExp('('+phrase+')', 'gi'), '<span class="highlighted">$1</span>');
             }
@@ -47,7 +48,7 @@ var angular = require('angular');
             return $sce.trustAsHtml(text);
         };
     })
-    
+
     /**
      * @ngdoc directive
      *

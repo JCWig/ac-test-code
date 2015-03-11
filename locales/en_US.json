@@ -24,6 +24,11 @@
         "list-box": {
             "placeholder": {
                 "filter": "Filter"
+            },
+            "text": {
+                "noItem": "No Item Found",
+                "selected": "Selected: ",
+                "viewSelected": "View Selected Only"
             }
         },
         "multiselect-listbox": {
@@ -36,6 +41,9 @@
                 "information": "Information",
                 "question": "Question",
                 "error": "Error"
+            },
+            "label": {
+                "detail": "View details"
             }
         },
         "notifications": {
@@ -44,8 +52,13 @@
             "information": "INFORMATION",
             "error": "ERROR"
         },
-        "table": {
-
+        "data-table": {
+            "placeholder": {
+                "filter": "Filter"
+            },
+            "label": {
+                "action": "Action"
+            }
         },
         "menu-button": {
             "label": "Label"
