@@ -142,7 +142,7 @@ describe('akam-list-box', function() {
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
             expect(allCheckedCheckboxes).to.have.length(0);
-            expect(numberSelectedSpan.textContent).to.match(/Selected: 0/);
+            expect(numberSelectedSpan.textContent).to.match(/0/);
         });
         it('should load default values if none are given', function(){
             scope.mydata = [{name : "hello"},{date:"02/07/1993"}];
@@ -234,14 +234,14 @@ describe('akam-list-box', function() {
     context('when nothing is selected', function(){
         afterEach(function() {
             document.body.removeChild(this.element);
-        });        
+        });
         it('should have selected field equal 0', function() {
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
 
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
-            expect(numberSelectedSpan.textContent).to.match(/Selected: 0/);
+            expect(numberSelectedSpan.textContent).to.match(/0/);
         });
     });
     context('when interacting with sort options', function(){
@@ -487,7 +487,7 @@ describe('akam-list-box', function() {
         });
         /*it('should be able to select an item with on-change', function(){
             scope.mychange = sinon.spy();
-            
+
             var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>';
             addElement(markup);
 
@@ -495,7 +495,7 @@ describe('akam-list-box', function() {
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
             var checkedCheckbox = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
-            
+
             expect(checkedCheckbox).to.have.length(1);
             expect(scope.mychange).to.have.been.called;
             expect(spyOnChange).calledOnce;
@@ -568,7 +568,7 @@ describe('akam-list-box', function() {
 
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
-            expect(numberSelectedSpan.textContent).to.match(/Selected: 0/);
+            expect(numberSelectedSpan.textContent).to.match(/0/);
         });
         it('should change background color of deselected items', function(){
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
@@ -592,7 +592,7 @@ describe('akam-list-box', function() {
             scope.$digest();
             utilities.click(firstRowCheckbox);
             scope.$digest();
-            
+
             expect(spyOnChange).calledTwice;
         });*/
     });
@@ -692,7 +692,7 @@ describe('akam-list-box', function() {
             scope.$$childHead.updateSearchFilter();
             scope.$digest();
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
-            expect(numberSelectedSpan.textContent).to.match(/Selected: 0/);
+            expect(numberSelectedSpan.textContent).to.match(/0/);
         });
         it('should be able to clear filter text', function(){
             scope.$$childHead.state.filter = "Kev";
