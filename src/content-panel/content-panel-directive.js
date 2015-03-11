@@ -7,6 +7,7 @@ module.exports = function($log) {
         transclude: true,
         replace: true,
         scope: {
+            header: '@',
             isCollapsed: '=?',
             onToggle: '&?'
         },
