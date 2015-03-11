@@ -90,7 +90,6 @@ describe.only('akam-content-panel', function() {
             scope.$digest();
             timeout.flush();
 
-            expect(contentWrapper.classList.contains('in')).to.be.false;
             expect(headerIcon.classList.contains('luna-expand')).to.be.true;
             expect(headerIcon.classList.contains('luna-collapse')).to.be.false;
             expect(contentWrapper.getAttribute('style')).to.contain('height: 0px');
@@ -99,7 +98,6 @@ describe.only('akam-content-panel', function() {
             scope.$digest();
             timeout.flush();
 
-            expect(contentWrapper.classList.contains('collapsing')).to.be.true;
             expect(contentWrapper.getAttribute('style')).to.not.contain('height: 0px');
             expect(headerIcon.classList.contains('luna-expand')).to.be.false;
             expect(headerIcon.classList.contains('luna-collapse')).to.be.true;
