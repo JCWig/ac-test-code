@@ -153,7 +153,7 @@ describe('akam-data-table', function() {
         scope.$digest();
         self.element = document.body.appendChild(self.el[0]);
     }
-    context('when rendering data table', function() {
+    describe('when rendering data table', function() {
 
         it('should show progress bar until fully rendered', function(){
             var deferred = q.defer();
@@ -167,12 +167,12 @@ describe('akam-data-table', function() {
                 '</akam-menu-button></akam-data-table>';
             addElement(markup);
 
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/false/);
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/false/);
             timeout.flush();
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
 
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
-            expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/true/);
+            expect(allRowsLoadedInTable.length).toEqual(scope.mydata.length);
         });
         it('should render all parts data table and pagination', function() {
             var markup = '<akam-data-table data="mydata" schema="columns">'+
@@ -184,8 +184,8 @@ describe('akam-data-table', function() {
             var dataTableContainer = document.querySelector('div.akam-data-table');
             var paginationContainer = document.querySelector('div.akam-pagination');
 
-            expect(dataTableContainer).to.not.be.null;
-            expect(paginationContainer).to.not.be.null;
+            expect(dataTableContainer).not.toBe(null);
+            expect(paginationContainer).not.toBe(null);
         });
         it('should have filter be clear', function() {
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
@@ -193,7 +193,7 @@ describe('akam-data-table', function() {
 
             var filterBox = document.querySelector(FILTER_BOX);
 
-            expect(filterBox.value).to.equal('');
+            expect(filterBox.value).toEqual('');
         });
         it('should have 3 options for how many rows are displayed', function(){
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
@@ -203,61 +203,61 @@ describe('akam-data-table', function() {
             var mediumPageSize = document.querySelector(PAGE_SIZE_NTH+'(2)');
             var largestPageSize = document.querySelector(PAGE_SIZE_LARGEST);
 
-            expect(smallestPageSize.textContent).to.match(/10/);
-            expect(mediumPageSize.textContent).to.match(/25/);
-            expect(largestPageSize.textContent).to.match(/50/);
+            expect(smallestPageSize.textContent).toMatch(/10/);
+            expect(mediumPageSize.textContent).toMatch(/25/);
+            expect(largestPageSize.textContent).toMatch(/50/);
         });
 
     });
-    context('when data table is rendered', function(){
+    describe('when data table is rendered', function(){
         it('should display the total number of results', function(){
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
 
             var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
 
-            expect(totalItemsSpan.textContent).to.contain('3');
+            expect(totalItemsSpan.textContent).toContain('3');
         });
     });
-    context('when rendered with checkboxes', function(){
+    describe('when rendered with checkboxes', function(){
         beforeEach(function(){
             var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true"></akam-data-table>';
             addElement(markup);
         });
         it('should show checkboxes for each row', function(){
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(10);
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(10);
         });
         it('should add checkboxes for each row when page size changes', function(){
             var largestPageSize = document.querySelector(PAGE_SIZE_LARGEST).querySelector('a');
             utilities.click(largestPageSize);
             scope.$digest();
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(50);
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(50);
         });
         it('should be able to select items', function(){
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
             utilities.click(rowOneCheckbox);
             scope.$digest();
 
-            expect(scope.$$childTail.selectedItems.length).to.equal(1);
+            expect(scope.$$childTail.selectedItems.length).toEqual(1);
         });
         it('selecting items should only run process once', function(){
-            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
+            var spyOnChanged = spyOn(scope.$$childTail, "updateChanged").and.callThrough();
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
             utilities.click(rowOneCheckbox);
             scope.$digest();
             
-            expect(spyOnChange).calledOnce;
-            expect(scope.$$childTail.selectedItems.length).to.equal(1);
+            expect(spyOnChanged.calls.count()).toEqual(1);
+            expect(scope.$$childTail.selectedItems.length).toEqual(1);
         });
         it('should be able to deselect items and trigger run process twice', function(){
-            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
+            var spyOnChanged = spyOn(scope.$$childTail, "updateChanged").and.callThrough();
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
             utilities.click(rowOneCheckbox);
             scope.$digest();
             utilities.click(rowOneCheckbox);
 
-            expect(spyOnChange).calledTwice;
-            expect(scope.$$childTail.selectedItems.length).to.equal(0); 
+            expect(spyOnChanged.calls.count()).toEqual(2);
+            expect(scope.$$childTail.selectedItems.length).toEqual(0); 
         });
         it('should be able to view selected only items', function(){
             //CURRENTY NOT ACTUALLY IMPLEMENTED ACCESSING FIELD DIRECTLY TO TEST 
@@ -271,7 +271,7 @@ describe('akam-data-table', function() {
             scope.$digest();
             
             
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(2);
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(2);
         });
         it('should be able to select all items', function(){
             //CURRENTY NOT ACTUALLY IMPLEMENTED ACCESSING FIELD DIRECTLY TO TEST 
@@ -286,17 +286,17 @@ describe('akam-data-table', function() {
             scope.$digest();
             var checkedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
 
-            expect(checkedCheckboxes.length).to.equal(11);
+            expect(checkedCheckboxes.length).toEqual(11);
 
             utilities.click(largestPageSize);
             scope.$digest();
             checkedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
 
-            expect(checkedCheckboxes.length).to.equal(51);
+            expect(checkedCheckboxes.length).toEqual(51);
 
         });
     });
-    context('when interacting with sort options', function(){
+    describe('when interacting with sort options', function(){
         beforeEach(function(){
             var markup = '<akam-data-table data="mydata" schema="columns"></akam-data-table>';
             addElement(markup);
@@ -310,8 +310,8 @@ describe('akam-data-table', function() {
             var rowThreeColumnOne = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[0];
 
 
-            expect(rowOneColumnOne.textContent).to.match(/Dinah Lance/);
-            expect(rowThreeColumnOne.textContent).to.match(/Roy Harper/);
+            expect(rowOneColumnOne.textContent).toMatch(/Dinah Lance/);
+            expect(rowThreeColumnOne.textContent).toMatch(/Roy Harper/);
         });
         it('should be able to sort reverse-alphabetically', function() {
             var sortByColumnOneAlphabectically = document.querySelectorAll(TABLE_COLUMN_HEADER)[0];
@@ -320,8 +320,8 @@ describe('akam-data-table', function() {
             var rowOneColumnOne = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
             var rowThreeColumnOne = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[0];
 
-            expect(rowOneColumnOne.textContent).to.match(/Roy Harper/);
-            expect(rowThreeColumnOne.textContent).to.match(/Dinah Lance/);
+            expect(rowOneColumnOne.textContent).toMatch(/Roy Harper/);
+            expect(rowThreeColumnOne.textContent).toMatch(/Dinah Lance/);
         });
         it('should be able to sort numerically', function(){
             var sortByColumnTwoNumerically = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
@@ -330,8 +330,8 @@ describe('akam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var rowThreeColumnTwo = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/11/);
-            expect(rowThreeColumnTwo.textContent).to.match(/35/);
+            expect(rowOneColumnTwo.textContent).toMatch(/11/);
+            expect(rowThreeColumnTwo.textContent).toMatch(/35/);
         });
         it('should be able to sort reverse-numerically', function(){
             var sortByColumnTwoNumerically = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
@@ -341,8 +341,8 @@ describe('akam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var rowThreeColumnTwo = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/35/);
-            expect(rowThreeColumnTwo.textContent).to.match(/11/);
+            expect(rowOneColumnTwo.textContent).toMatch(/35/);
+            expect(rowThreeColumnTwo.textContent).toMatch(/11/);
         });
         it('should be able to sort by custom function', function(){
             var sortByColumnThreeCustom = document.querySelectorAll(TABLE_COLUMN_HEADER)[2];
@@ -351,8 +351,8 @@ describe('akam-data-table', function() {
             var rowOneColumnThree = document.querySelector(TABLE_ROW).querySelectorAll('td')[2];
             var rowThreeColumnThree = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[2];
 
-            expect(rowOneColumnThree.textContent).to.match(/Red/);
-            expect(rowThreeColumnThree.textContent).to.match(/Green/);
+            expect(rowOneColumnThree.textContent).toMatch(/Red/);
+            expect(rowThreeColumnThree.textContent).toMatch(/Green/);
         });
         it('should be able to sort by reverse custom function', function(){
             var sortByColumnThreeCustom = document.querySelectorAll(TABLE_COLUMN_HEADER)[2];
@@ -362,8 +362,8 @@ describe('akam-data-table', function() {
             var rowOneColumnThree = document.querySelector(TABLE_ROW).querySelectorAll('td')[2];
             var rowThreeColumnThree = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[2];
 
-            expect(rowOneColumnThree.textContent).to.match(/Green/);
-            expect(rowThreeColumnThree.textContent).to.match(/Red/);
+            expect(rowOneColumnThree.textContent).toMatch(/Green/);
+            expect(rowThreeColumnThree.textContent).toMatch(/Red/);
         });
         it('should be able to sort generically', function(){
             var sortByColumnFiveGeneric = document.querySelectorAll(TABLE_COLUMN_HEADER)[4];
@@ -372,8 +372,8 @@ describe('akam-data-table', function() {
             var rowOneColumnFive = document.querySelector(TABLE_ROW).querySelectorAll('td')[4];
             var rowThreeColumnFive = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[4];
 
-            expect(rowOneColumnFive.textContent).to.contain('AAAAAAAAAAAAAAAAAAA');
-            expect(rowThreeColumnFive.textContent).to.contain('shoot em up');
+            expect(rowOneColumnFive.textContent).toContain('AAAAAAAAAAAAAAAAAAA');
+            expect(rowThreeColumnFive.textContent).toContain('shoot em up');
         });
         it('should be able to sort reverse generically', function(){
             var sortByColumnFiveGeneric = document.querySelectorAll(TABLE_COLUMN_HEADER)[4];
@@ -383,8 +383,8 @@ describe('akam-data-table', function() {
             var rowOneColumnFive = document.querySelector(TABLE_ROW).querySelectorAll('td')[4];
             var rowThreeColumnFive = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[4];
 
-            expect(rowOneColumnFive.textContent).to.contain('shoot em up');
-            expect(rowThreeColumnFive.textContent).to.contain('AAAAAAAAAAAAAAAAAAA');
+            expect(rowOneColumnFive.textContent).toContain('shoot em up');
+            expect(rowThreeColumnFive.textContent).toContain('AAAAAAAAAAAAAAAAAAA');
         });
         it('should sort entire rows', function(){
 
@@ -392,12 +392,12 @@ describe('akam-data-table', function() {
             var firstRowColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var firstRowColumnThree = document.querySelector(TABLE_ROW).querySelectorAll('td')[2];
 
-            expect(firstRowColumnOne.textContent).to.match(/Dinah Lance/);
-            expect(firstRowColumnTwo.textContent).to.match(/35/);
-            expect(firstRowColumnThree.textContent).to.match(/Black/);
+            expect(firstRowColumnOne.textContent).toMatch(/Dinah Lance/);
+            expect(firstRowColumnTwo.textContent).toMatch(/35/);
+            expect(firstRowColumnThree.textContent).toMatch(/Black/);
         });
     });
-    context('when using unique sort cases', function(){
+    describe('when using unique sort cases', function(){
         it('should not bother sorting one row', function(){
             scope.basicdata = [
                 {'name' : "Kevin"}
@@ -413,7 +413,7 @@ describe('akam-data-table', function() {
             utilities.click(sortByColumnTwo);
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             
-            expect(rowOneColumnTwo.textContent).to.contain('Kevin');
+            expect(rowOneColumnTwo.textContent).toContain('Kevin');
         });
         it('should be able to turn off sorting', function(){
             scope.mydata = [
@@ -432,7 +432,7 @@ describe('akam-data-table', function() {
             utilities.click(sortByColumnTwo);
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
+            expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
         });
         it('should be able to sort on different field', function(){
             scope.mydata = [{'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8}];
@@ -442,7 +442,7 @@ describe('akam-data-table', function() {
 
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
+            expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
         });
         it('should default sort by second column if first column is unsortable', function(){
             scope.mydata = [
@@ -457,7 +457,7 @@ describe('akam-data-table', function() {
             addElement(markup);
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/Alejandro/);
+            expect(rowOneColumnTwo.textContent).toMatch(/Alejandro/);
         });
         it('should not default if all columns are unsortable', function(){
             scope.mydata = [
@@ -472,7 +472,7 @@ describe('akam-data-table', function() {
             addElement(markup);
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/Oliver/);
+            expect(rowOneColumnTwo.textContent).toMatch(/Oliver/);
         });
         it('should default sort based upon custom function if provided', function(){
             scope.mydata = [
@@ -496,7 +496,7 @@ describe('akam-data-table', function() {
             addElement(markup);
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/Oliver Queen/);
+            expect(rowOneColumnTwo.textContent).toMatch(/Oliver Queen/);
         });
         it('should be able to sort on different field', function(){
             scope.mydata = [{'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8}];
@@ -506,10 +506,10 @@ describe('akam-data-table', function() {
 
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
+            expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
         });
     });
-    context('when navigating the data table', function(){
+    describe('when navigating the data table', function(){
         beforeEach(function(){
             var markup = '<akam-data-table data="mybigdata" schema="bigcolumns"></akam-data-table>';
             addElement(markup);
@@ -517,28 +517,28 @@ describe('akam-data-table', function() {
         it('should highlight the clicked page', function() {
             var fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(4)');
 
-            expect(fourthClickablePaginationIndex.classList.contains('active')).to.be.false;
+            expect(fourthClickablePaginationIndex.classList.contains('active')).toBe(false);
 
             utilities.click(fourthClickablePaginationIndex.querySelector('a'));
             scope.$digest();
 
             fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(4)');
-            expect(fourthClickablePaginationIndex.classList.contains('active')).to.be.true;
+            expect(fourthClickablePaginationIndex.classList.contains('active')).toBe(true);
         });
         it('should change dislayed data appropriately', function(){
             var fourthClickablePaginationIndex = this.element.querySelector(PAGINATION_INDEX_NTH+'(4)');
 
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
-            expect(rowOneColumnTwo.textContent).to.match(/Aaron Miller/);
+            expect(rowOneColumnTwo.textContent).toMatch(/Aaron Miller/);
 
             utilities.click(fourthClickablePaginationIndex.querySelector('a'));
             scope.$digest();
 
             rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
-            expect(rowOneColumnTwo.textContent).to.match(/Amanda Lewis/);
+            expect(rowOneColumnTwo.textContent).toMatch(/Amanda Lewis/);
         });
     });
-    context('when interacting with the filter bar', function(){
+    describe('when interacting with the filter bar', function(){
         beforeEach(function(){
             var markup = '<akam-data-table data="mybigdata" schema="bigcolumns"></akam-data-table>';
             addElement(markup);
@@ -549,8 +549,8 @@ describe('akam-data-table', function() {
             scope.$digest(); 
             var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
 
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(8);
-            expect(totalItemsSpan.textContent).to.contain('8');
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(8);
+            expect(totalItemsSpan.textContent).toContain('8');
         });
         it('should change text color of matching input (case insensitive)', function(){
             scope.$$childHead.state.filter = "kevin";
@@ -559,7 +559,7 @@ describe('akam-data-table', function() {
 
             var rowOneColumnOneHighlighted = document.querySelector(TABLE_ROW).querySelector('td span');
 
-            expect(rowOneColumnOneHighlighted.textContent).to.match(/Kevin/);
+            expect(rowOneColumnOneHighlighted.textContent).toMatch(/Kevin/);
             
         });
         it('should be able to filter on any column', function(){
@@ -570,8 +570,8 @@ describe('akam-data-table', function() {
             var rowOneColumnOne = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
             var rowOneColumnTwoHighlighted = document.querySelector(TABLE_ROW).querySelectorAll('td')[1].querySelector('span');
 
-            expect(rowOneColumnOne.textContent).to.match(/Karen Holmes/);
-            expect(rowOneColumnTwoHighlighted.textContent).to.match(/95453e7/);
+            expect(rowOneColumnOne.textContent).toMatch(/Karen Holmes/);
+            expect(rowOneColumnTwoHighlighted.textContent).toMatch(/95453e7/);
             
         });
         it('should show nothing when filter returns no results', function(){
@@ -581,8 +581,8 @@ describe('akam-data-table', function() {
 
             var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
 
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(0);
-            expect(totalItemsSpan.textContent).to.contain('0');
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(0);
+            expect(totalItemsSpan.textContent).toContain('0');
         });
         it('should revert to pagination index 1', function(){
             scope.$$childHead.state.filter = "Kev";
@@ -592,9 +592,9 @@ describe('akam-data-table', function() {
             var previousArrow = document.querySelector(PREVIOUS_BUTTON);
             var nextArrow = document.querySelector(NEXT_BUTTON);
 
-            expect(pageOneIndex.classList.contains('active')).to.be.true;
-            expect(previousArrow.classList.contains('disabled')).to.be.true;
-            expect(nextArrow.classList.contains('disabled')).to.be.true;
+            expect(pageOneIndex.classList.contains('active')).toBe(true);
+            expect(previousArrow.classList.contains('disabled')).toBe(true);
+            expect(nextArrow.classList.contains('disabled')).toBe(true);
         });
         it('should be able to clear filter with icon click', function(){
             scope.$$childHead.state.filter = "Kevin";
@@ -607,12 +607,12 @@ describe('akam-data-table', function() {
             utilities.click(filterIcon);
             scope.$digest();
 
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(10);
-            expect(totalItemsSpan.textContent).to.contain('1000');
-            expect(pageOneIndex.classList.contains('active')).to.be.true;
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(10);
+            expect(totalItemsSpan.textContent).toContain('1000');
+            expect(pageOneIndex.classList.contains('active')).toBe(true);
         });
     });
-    context('when filtering numbers', function(){
+    describe('when filtering numbers', function(){
         it('will highlight numbers correctly and filter on them', function(){
             var markup = '<akam-data-table data="mydata" schema="columns"></akam-data-table>';
             addElement(markup);
@@ -624,13 +624,13 @@ describe('akam-data-table', function() {
             var rowOneColumnOneHighlighted = document.querySelector(TABLE_ROW).querySelector('td span');
             var rowOneColumnOne = document.querySelector(TABLE_ROW).querySelectorAll('td')[0];
 
-            expect(rowOneColumnOne.textContent).to.match(/Dinah Lance/);
-            expect(rowOneColumnOneHighlighted.textContent).to.match(/5/);
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(1);
-            expect(totalItemsSpan.textContent).to.contain('1');
+            expect(rowOneColumnOne.textContent).toMatch(/Dinah Lance/);
+            expect(rowOneColumnOneHighlighted.textContent).toMatch(/5/);
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(1);
+            expect(totalItemsSpan.textContent).toContain('1');
         });
     });
-    context('when rendered with action buttons', function(){
+    describe('when rendered with action buttons', function(){
         beforeEach(function(){
             var markup = '<akam-data-table data="mydata" schema="columns">'+
                 '<akam-menu-button icon="luna-gear" position="right">'+
@@ -648,8 +648,8 @@ describe('akam-data-table', function() {
             menuButton = menuDiv.querySelector('i');
             var options = menuDiv.querySelectorAll('.dropdown-menu li');
 
-            expect(menuDiv.classList.contains('open')).to.be.false;
-            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
+            expect(menuDiv.classList.contains('open')).toBe(false);
+            expect(menuButton.getAttribute('aria-expanded')).toEqual('false');
         });  
         it('should display all actions that can be taken', function(){
             var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button');
@@ -662,14 +662,15 @@ describe('akam-data-table', function() {
             menuButton = menuDiv.querySelector('i');
             var options = menuDiv.querySelectorAll('.dropdown-menu li');
             
-            expect(menuDiv.classList.contains('open')).to.be.true;
-            expect(menuButton.getAttribute('aria-expanded')).to.equal('true');
-            expect(options).to.have.length(2);
-            expect(options[0].textContent).to.match(/PDF/);
-            expect(options[1].textContent).to.match(/XML/);
+            expect(menuDiv.classList.contains('open')).toBe(true);
+            expect(menuButton.getAttribute('aria-expanded')).toEqual('true');
+            expect(options.length).toEqual(2);
+            expect(options[0].textContent).toMatch(/PDF/);
+            expect(options[1].textContent).toMatch(/XML/);
         });        
         it('should be able to be closed and no action taken', function(){
-            scope.process = sinon.spy();
+            scope.process = function(value){};
+            spyOn(scope,"process");
             var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
             var menuButton = menuDiv.querySelector('i');
             
@@ -678,12 +679,13 @@ describe('akam-data-table', function() {
             utilities.click(menuButton);
             scope.$digest();
             
-            expect(menuDiv.classList.contains('open')).to.be.false;
-            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
-            expect(scope.process).to.not.have.been.called;
+            expect(menuDiv.classList.contains('open')).toBe(false);
+            expect(menuButton.getAttribute('aria-expanded')).toEqual('false');
+            expect(scope.process).not.toHaveBeenCalled();
         });
         it('should perform an action on that row if pressed', function(){
-            scope.process = sinon.spy();
+            scope.process = function(value){};
+            spyOn(scope,"process");
             var menuDiv = document.querySelector(TABLE_ROW).querySelector('.akam-menu-button')
             var menuButton = menuDiv.querySelector('i');
            
@@ -694,11 +696,11 @@ describe('akam-data-table', function() {
             utilities.click(options[0]);
             scope.$digest();
 
-            expect(scope.process).calledWith("PDF");
-            expect(menuDiv.classList.contains('open')).to.be.false;
+            expect(scope.process).toHaveBeenCalledWith("PDF");
+            expect(menuDiv.classList.contains('open')).toBe(false);
         });
     });
-    context('when interacting with menu button', function(){
+    describe('when interacting with menu button', function(){
         beforeEach(function(){
             var markup = '<akam-data-table data="mydata" schema="columns">'+
                 '<akam-menu-button icon="luna-gear" position="right">'+
@@ -710,12 +712,12 @@ describe('akam-data-table', function() {
         });
         it('should display an icon', function() {
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
-            expect(menuButton.classList.contains('icon-states')).to.be.true;
+            expect(menuButton.classList.contains('icon-states')).toBe(true);
         });
 
         it('should hide the menu', function() {
             var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
-            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
+            expect(menuButtonWrapper.classList.contains('open')).toBe(false);
         });
         it('should display the menu', function() {
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
@@ -723,23 +725,24 @@ describe('akam-data-table', function() {
             scope.$digest();
 
             var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
-            expect(menuButtonWrapper.classList.contains('open')).to.be.true();
-            expect(menuButtonWrapper.querySelector(MENU_BUTTON_BUTTON).getAttribute('aria-expanded')).to.equal('true');
+            expect(menuButtonWrapper.classList.contains('open')).toBe(true);
+            expect(menuButtonWrapper.querySelector(MENU_BUTTON_BUTTON).getAttribute('aria-expanded')).toEqual('true');
 
             var dropDownMenu = document.querySelector(TABLE_ROW).querySelector(DROP_DOWN_MENU);
 
-            expect(getComputedStyle(dropDownMenu).display).to.equal('block');
+            expect(getComputedStyle(dropDownMenu).display).toEqual('block');
         });
         it('should display the menu items', function() {
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
             utilities.click(menuButton);
             scope.$digest();
             var menuButtonItems = document.querySelector(TABLE_ROW).querySelectorAll(MENU_BUTTON_ITEMS);
-            expect(menuButtonItems).to.have.length(2);
-            expect(menuButtonItems[0].textContent).to.match(/PDF/);
+            expect(menuButtonItems.length).toEqual(2);
+            expect(menuButtonItems[0].textContent).toMatch(/PDF/);
         });
         it('should trigger the menu item action', function() {
-            scope.process = sinon.spy();
+            scope.process = function(value){};
+            spyOn(scope,"process");
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
             utilities.click(menuButton);
             scope.$digest();
@@ -748,7 +751,7 @@ describe('akam-data-table', function() {
             utilities.click(options);
             scope.$digest();
 
-            expect(scope.process).calledWith("PDF");
+            expect(scope.process).toHaveBeenCalledWith("PDF");
         });
         it('should hide the menu when clicking item', function() {
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
@@ -762,9 +765,9 @@ describe('akam-data-table', function() {
             var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
             var dropDownMenu = document.querySelector(TABLE_ROW).querySelector(DROP_DOWN_MENU);
 
-            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
-            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
-            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
+            expect(menuButtonWrapper.classList.contains('open')).toBe(false);
+            expect(menuButton.getAttribute('aria-expanded')).toEqual('false');
+            expect(getComputedStyle(dropDownMenu).display).toEqual('none');
         });
         it('clicking menu button should hide dropdown', function() {
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
@@ -776,9 +779,9 @@ describe('akam-data-table', function() {
             var menuButtonWrapper = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_WRAPPER);
             var dropDownMenu = document.querySelector(TABLE_ROW).querySelector(DROP_DOWN_MENU);
 
-            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
-            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
-            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
+            expect(menuButtonWrapper.classList.contains('open')).toBe(false);
+            expect(menuButton.getAttribute('aria-expanded')).toEqual('false');
+            expect(getComputedStyle(dropDownMenu).display).toEqual('none');
         });
         it('click -button- shoud hide dropdown',function(){
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
@@ -790,9 +793,9 @@ describe('akam-data-table', function() {
 
             utilities.clickAwayCreationAndClick('button');
 
-            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
-            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
-            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
+            expect(menuButtonWrapper.classList.contains('open')).toBe(false);
+            expect(menuButton.getAttribute('aria-expanded')).toEqual('false');
+            expect(getComputedStyle(dropDownMenu).display).toEqual('none');
         });
         it('click -div- shoud hide dropdown',function(){
             var menuButton = document.querySelector(TABLE_ROW).querySelector(MENU_BUTTON_BUTTON);
@@ -804,12 +807,12 @@ describe('akam-data-table', function() {
 
             utilities.clickAwayCreationAndClick('div');
 
-            expect(menuButtonWrapper.classList.contains('open')).to.be.false();
-            expect(menuButton.getAttribute('aria-expanded')).to.equal('false');
-            expect(getComputedStyle(dropDownMenu).display).to.equal('none');
+            expect(menuButtonWrapper.classList.contains('open')).toBe(false);
+            expect(menuButton.getAttribute('aria-expanded')).toEqual('false');
+            expect(getComputedStyle(dropDownMenu).display).toEqual('none');
         });
     });
-    context('when data gets messed up', function(){
+    describe('when data gets messed up', function(){
         it('should recognize null content when redenring', function(){
             scope.baddata = [
                 {first : "Nick"},
@@ -828,8 +831,8 @@ describe('akam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).to.equal('');
-            expect(allVisibleRows.length).to.equal(2);
+            expect(rowOneColumnTwo.textContent).toEqual('');
+            expect(allVisibleRows.length).toEqual(2);
         });
         it('should recognize content not matching', function(){
             scope.baddata = [
@@ -847,8 +850,8 @@ describe('akam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).to.equal('undefined');
-            expect(allVisibleRows.length).to.equal(2);
+            expect(rowOneColumnTwo.textContent).toEqual('undefined');
+            expect(allVisibleRows.length).toEqual(2);
         });
         it('should recognize null content when sorting name', function(){
             scope.baddata = [
@@ -869,10 +872,10 @@ describe('akam-data-table', function() {
             var rowFourColumnTwo = document.querySelectorAll(TABLE_ROW)[3].querySelectorAll('td')[1];
             var rowFiveColumnTwo = document.querySelectorAll(TABLE_ROW)[4].querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.equal('');
-            expect(rowTwoColumnTwo.textContent).to.equal('');
-            expect(rowFourColumnTwo.textContent).to.contain('James');
-            expect(rowFiveColumnTwo.textContent).to.contain('Kevin');
+            expect(rowOneColumnTwo.textContent).toEqual('');
+            expect(rowTwoColumnTwo.textContent).toEqual('');
+            expect(rowFourColumnTwo.textContent).toContain('James');
+            expect(rowFiveColumnTwo.textContent).toContain('Kevin');
         });
 
         it('should be able to handle data object for data', function(){
@@ -883,9 +886,9 @@ describe('akam-data-table', function() {
             var rowTwoColumnOne = document.querySelectorAll(TABLE_ROW)[1].querySelectorAll('td')[0];
             var rowThreeColumnOne = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[0];
 
-            expect(rowOneColumnOne.textContent).to.match(/Dinah Lance/);
-            expect(rowTwoColumnOne.textContent).to.match(/Oliver Queen/);
-            expect(rowThreeColumnOne.textContent).to.match(/Roy Harper/);
+            expect(rowOneColumnOne.textContent).toMatch(/Dinah Lance/);
+            expect(rowTwoColumnOne.textContent).toMatch(/Oliver Queen/);
+            expect(rowThreeColumnOne.textContent).toMatch(/Roy Harper/);
         });/*
         it('should present message when no data is available', function(){
             scope.baddata = [];
@@ -898,18 +901,18 @@ describe('akam-data-table', function() {
             
             var dataTable = document.querySelector('tbody');
 
-            expect(dataTable.textContent).to.match(/Not results found at all hahahah/);
+            expect(dataTable.textContent).toMatch(/Not results found at all hahahah/);
             
         });*/
     });
-    context('when errors are thrown', function(){
+    describe('when errors are thrown', function(){
         it('should throw error when schema is not an array', function(){
             scope.messedupcolumns = {};
             var markup = '<akam-data-table data="mydata" schema="messedupcolumns"></akam-data-table>';
             try{
                 addElement(markup);
             } catch (e){
-                expect(e).to.equal("Schema must be an array");
+                expect(e).toEqual("Schema must be an array");
             }
         });
         it('should throw error when data is not an array', function(){
@@ -918,7 +921,7 @@ describe('akam-data-table', function() {
             try{
                 addElement(markup);
             } catch (e){
-                expect(e).to.equal("Data must be an array");
+                expect(e).toEqual("Data must be an array");
             }
         });
         it('should throw error when column content is not a string or function', function(){
@@ -929,7 +932,7 @@ describe('akam-data-table', function() {
             try{
                 addElement(markup);
             } catch (e){
-                expect(e).to.equal("The column content field is using an unknown type.  Content field may only be String or Function type");
+                expect(e).toEqual("The column content field is using an unknown type.  Content field may only be String or Function type");
             }
         });
          it('should throw error when sort column is null', function(){
@@ -947,7 +950,7 @@ describe('akam-data-table', function() {
             try{
                 scope.$$childHead.sortColumn(undefined);
             } catch (e){
-                expect(e).to.equal("Column may not be null/undefined");
+                expect(e).toEqual("Column may not be null/undefined");
             }
         });
     });
