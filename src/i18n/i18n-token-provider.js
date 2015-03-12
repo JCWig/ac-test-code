@@ -98,7 +98,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 // Capture section in path after apps/
                 matchResults = appUrlRx.exec(decodeURIComponent($location.absUrl()));
                 if (matchResults) {
-                    appName = matchResults[1];
+                    appName = matchResults[1] || appName;
                 }
                 normalizedPath = raw.path.replace(/\{appname\}/g, appName);
             } else {
