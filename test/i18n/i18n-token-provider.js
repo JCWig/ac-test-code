@@ -7,18 +7,18 @@ var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
 var enUsResponse = require ("./i18n_responses/en_US.json");
 describe('i18nTokenProvider', function() {
 
-    var provider, config, cook, i18nConfig;
+    var provider, config, cook, i18nConfig, location,  i18nToken;
 
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
-        inject(function(i18nConfig, $location, $cookies) {
+        inject(function(i18nConfig, $location, $cookies, i18nToken) {
             config = i18nConfig;
             cook = $cookies;
-            $location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/akamai-components/somethingelse');
-            provider.$get($cookies, i18nConfig, $location);
+            location = $location;
+            i18nToken = i18nToken;
         });
 
     });
@@ -61,13 +61,22 @@ describe('i18nTokenProvider', function() {
             expect(provider.rawUrls).to.have.length(3);
         });
         it('should handle config without prefix', function() {
-            config.prefix = CONFIG_PREFIX;
-            provider.addAppLocalePath({path:"../../", app:true});
-            expect(provider.rawUrls[2].path).to.equal('../../'+CONFIG_PREFIX);
+            provider.addAppLocalePath({path:"../../", prefix: "_app", app:true});
+            expect(provider.rawUrls[2].path).to.equal('../../_app');
         });
         it('should handle not from app with no path', function() {
             config.prefix = CONFIG_PREFIX;
             provider.addAppLocalePath({path:"", app:false});
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
+        });
+        it('should handle not from app with no path, no prefix', function() {
+            config.prefix = CONFIG_PREFIX;
+            provider.addAppLocalePath({path:null, prefix:null, app:false});
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
+        });
+        it('should handle not from app with no path, with prefix', function() {
+            config.prefix = CONFIG_PREFIX;
+            provider.addAppLocalePath({prefix:"happy/go/lucky", app:false});
             expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
         });
         it('should handle not from app', function() {
@@ -91,20 +100,23 @@ describe('i18nTokenProvider', function() {
 });
 describe('i18nToken service', function() {
 
-    var service, cookies, rootScope;
+    var service, cookies, rootScope, provider, location, config;
     beforeEach(function() {
         angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
+            provider = i18nTokenProvider;
             $translateProvider.useLoader('i18nCustomLoader');
             $provide.decorator ('$cookies', function ($delegate) {
                 $delegate = {AKALOCALE:"ZW5fVVN+TWJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
                 return $delegate;
             });
         });
-        inject(function(i18nToken, _$cookies_, _$rootScope_, $httpBackend) {
+        inject(function(i18nToken, _$cookies_, _$rootScope_, $httpBackend, i18nConfig, $location) {
             service = i18nToken;
             rootScope = _$rootScope_.$new();
             cookies = _$cookies_;
+            config = i18nConfig;
+            location = $location;
             $httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});
             $httpBackend.when('GET', CONFIG_PATH).respond(enUsMessagesResponse);
             $httpBackend.when('GET', LIBRARY_PATH).respond(enUsResponse);
@@ -132,6 +144,20 @@ describe('i18nToken service', function() {
             var urlValues = service.getUrls();
             expect(urlValues.length).to.equal(2);
             expect(urlValues[1]).to.equal("/apps/appname/locales/");
+        });
+        it('should be able to retrieve appname from url', function(){
+            location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/banana-app/somethingelse'); 
+            var urls = provider.$get(cookies, config, location).getUrls();
+            expect(urls.length).to.equal(2);
+            expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[1]).to.equal('/apps/banana-app/locales/');
+        }); 
+        it('should be able to decode a URI component on a path', function(){
+            location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/%7Bappname%7D/somethingelse');
+            var urls = provider.$get(cookies, config, location).getUrls();
+            expect(urls.length).to.equal(2);
+            expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[1]).to.equal('/apps/undefined/locales/');
         });
     });
     context('when locale cookie set to "en_US', function() {
