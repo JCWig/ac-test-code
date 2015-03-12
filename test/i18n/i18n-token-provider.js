@@ -61,9 +61,8 @@ describe('i18nTokenProvider', function() {
             expect(provider.rawUrls).to.have.length(3);
         });
         it('should handle config without prefix', function() {
-            config.prefix = CONFIG_PREFIX;
-            provider.addAppLocalePath({path:"../../", app:true});
-            expect(provider.rawUrls[2].path).to.equal('../../'+CONFIG_PREFIX);
+            provider.addAppLocalePath({path:"../../", prefix: "_app", app:true});
+            expect(provider.rawUrls[2].path).to.equal('../../_app');
         });
         it('should handle not from app with no path', function() {
             config.prefix = CONFIG_PREFIX;
