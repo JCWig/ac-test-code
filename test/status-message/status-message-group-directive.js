@@ -76,4 +76,16 @@ describe('akamai.components.status-message-group', function() {
             expect(statusMessageContent).toBe(null);
         });
     });
+    describe('when changing html inputs', function(){
+        it('should throw angular error if items field not given', function(){
+            var markup = ('<akam-status-message-group ></akam-status-message-group>');
+            scope.items = null;
+            try{
+                addElement(markup);
+            } catch (e){
+                expect(e.message).toContain('errors.angularjs');
+            }
+
+        });
+    });
 });

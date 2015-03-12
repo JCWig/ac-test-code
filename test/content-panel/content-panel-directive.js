@@ -157,7 +157,38 @@ describe('akam-content-panel', function() {
     describe('when rendered', function(){
         it('should be able to toggle visibility of content', function(){
             scope.isCollapsed = false;
+            scope.process = jasmine.createSpy('spy');
             var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">'+
+                        '<div>Gandalf the Grey</div><div>Gandalf the White</div>'+
+                        '</akam-content-panel>'
+            addElement(markup);
+
+            var headerDiv = document.querySelector(PANEL_HEADER);
+            var headerContent = document.querySelectorAll(ALL_PANEL_CONTENT);
+            var contentWrapper = document.querySelector(PANEL_CONTENT_WRAPPER);
+            var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+
+            utilities.click(headerIcon);
+            scope.$digest();
+            timeout.flush();
+            expect(scope.process.calls.count()).toEqual(1);
+            expect(headerIcon.classList.contains('luna-expand')).toBe(true);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
+            expect(contentWrapper.getAttribute('style')).toContain('height: 0px');
+            
+            utilities.click(headerDiv);
+            scope.$digest();
+            timeout.flush();
+            expect(scope.process.calls.count()).toEqual(2);
+            expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
+            expect(headerIcon.classList.contains('luna-expand')).toBe(false);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
+        });
+    });
+    describe('when changing html inputs', function(){
+        it('should be able to toggle visibility of content if no toggle provided', function(){
+            scope.isCollapsed = false;
+            var markup = '<akam-content-panel is-collapsed="isCollapsed" header="Header 1">'+
                         '<div>Gandalf the Grey</div><div>Gandalf the White</div>'+
                         '</akam-content-panel>'
             addElement(markup);
@@ -179,9 +210,56 @@ describe('akam-content-panel', function() {
             scope.$digest();
             timeout.flush();
 
-            expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
             expect(headerIcon.classList.contains('luna-expand')).toBe(false);
             expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
+            expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
+        });
+        it('should be able to toggle visibility of content if no toggle or collapsed provided', function(){
+            scope.isCollapsed = null;
+            var markup = '<akam-content-panel  header="Header 1">'+
+                        '<div>Gandalf the Grey</div><div>Gandalf the White</div>'+
+                        '</akam-content-panel>'
+            addElement(markup);
+
+            var headerDiv = document.querySelector(PANEL_HEADER);
+            var headerContent = document.querySelectorAll(ALL_PANEL_CONTENT);
+            var contentWrapper = document.querySelector(PANEL_CONTENT_WRAPPER);
+            var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+
+            utilities.click(headerIcon);
+            scope.$digest();
+            timeout.flush();
+
+            expect(headerIcon.classList.contains('luna-expand')).toBe(true);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
+            expect(contentWrapper.getAttribute('style')).toContain('height: 0px');
+            
+            utilities.click(headerDiv);
+            scope.$digest();
+            timeout.flush();
+
+            expect(headerIcon.classList.contains('luna-expand')).toBe(false);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
+            expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
+        });
+        it('should default to expanded if is-collapsed not provided', function(){
+            scope.isCollapsed = null;
+            var markup = '<akam-content-panel on-toggle="process()" header="Header 1">'+
+                        '<div>Gandalf the Grey</div><div>Gandalf the White</div>'+
+                        '</akam-content-panel>'
+            addElement(markup);
+
+            var headerDiv = document.querySelector(PANEL_HEADER);
+            var content = document.querySelectorAll(ALL_PANEL_CONTENT);
+            var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+
+            expect(headerDiv.textContent).toMatch(/Header 1/);
+            expect(headerIcon).not.toBe(null);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
+            expect(headerIcon.classList.contains('luna-expand')).toBe(false);
+            expect(content.length).toEqual(2);
+            expect(content[0].textContent).toMatch(/Gandalf the Grey/);
+            expect(content[1].textContent).toMatch(/Gandalf the White/);
         });
     });
 });

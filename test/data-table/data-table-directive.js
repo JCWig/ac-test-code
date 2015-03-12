@@ -954,4 +954,24 @@ describe('akam-data-table', function() {
             }
         });
     });
+    describe('when changing html inputs', function(){
+        it('should throw error when schema is not provided', function(){
+            scope.messedupcolumns = {};
+            var markup = '<akam-data-table data="mydata"></akam-data-table>';
+            try{
+                addElement(markup);
+            } catch (e){
+                expect(e).toEqual("Schema must be an array");
+            }
+        });
+        it('should throw error when data is not provided', function(){
+            scope.messedupcolumns = {};
+            var markup = '<akam-data-table  schema="columns"></akam-data-table>';
+            try{
+                addElement(markup);
+            } catch (e){
+                expect(e).toEqual("Data must be an array");
+            }
+        });
+    });
 });

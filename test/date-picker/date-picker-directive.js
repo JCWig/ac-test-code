@@ -355,4 +355,33 @@ describe('akam-date-picker', function() {
             expect(monthWithinRange.getAttribute('aria-disabled')).toMatch(/false/);
         });
     });
+    describe('when changing html inputs', function(){
+        it('shoud throw an angular error if ng-model not provided', function(){
+            var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" ng-change="mychange(value)"></akam-date-picker></div>';
+            try{
+                addElement(markup);
+            } catch(e){
+                expect(e.message).toContain('errors.angularjs');
+            }
+        });
+        it('should not error if ng-change not provided', function(){
+            var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" ng-model="picked1"></akam-date-picker></div>';
+            try{
+                addElement(markup);
+            } catch(e){
+                expect(e.message).toEqual('NEVER REACH THIS CASE');
+            }
+        });
+        it('shoud default to day picker if mode not provided', function(){
+            var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" ng-change="mychange(value)" ng-model="picked1"></akam-date-picker></div>';
+            addElement(markup);
+            utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+            var todaysDate = utilities.getMonthInEnglish() + " "+ utilities.getTodaysYear();
+            var datePicker = document.querySelector(DATE_PICKER);
+            var displayedHeaderOfDatePicker = document.querySelector(HEADER_DISPLAYED_ON_DATEPICKER);
+
+            expect(datePicker.getAttribute('style')).toContain('display: block'); 
+            expect(displayedHeaderOfDatePicker.textContent).toEqual(todaysDate);
+        });
+    });
 });

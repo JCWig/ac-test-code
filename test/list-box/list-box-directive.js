@@ -837,4 +837,24 @@ describe('akam-list-box', function() {
             }
         });
     });
+    describe('when changing html inputs', function(){
+        it('should throw error when schema is not provided', function(){
+            scope.messedupcolumns = {};
+            var markup = '<akam-list-box data="mydata"></akam-list-box>';
+            try{
+                addElement(markup);
+            } catch (e){
+                expect(e).toEqual("Schema must be an array");
+            }
+        });
+        it('should throw error when data is not provided', function(){
+            scope.messedupcolumns = {};
+            var markup = '<akam-list-box schema="columns"></akam-list-box>';
+            try{
+                addElement(markup);
+            } catch (e){
+                expect(e).toEqual("Data must be an array");
+            }
+        });
+    });
 });
