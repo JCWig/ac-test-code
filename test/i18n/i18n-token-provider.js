@@ -158,6 +158,17 @@ describe('i18nToken service', function() {
             expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
             expect(urls[1]).to.equal('/apps/appname/locales/');
         });
+        it('should be able to retrieve appname from url and be given path', function(){
+            location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/pineapple-app/somethingelse');
+            config.path = 'here/is/a/path/{appname}/ending/path';
+            config.prefix = null;
+            provider.addAppLocalePath(config);
+            var urls = provider.$get(cookies, config, location).getUrls();
+            expect(urls.length).to.equal(3);
+            expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[1]).to.equal('/apps/pineapple-app/locales/');
+            expect(urls[2]).to.equal('here/is/a/path/pineapple-app/ending/path');
+        });
     });
     context('when locale cookie set to "en_US', function() {
 
