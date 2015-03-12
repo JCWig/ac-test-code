@@ -42,7 +42,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
     localeComponentPath: '/libs/akamai-components/{version}/locales/',
-    localeAppPath: '/apps/{appName}/locales/',
+    localeAppPath: '/apps/{appname}/locales/',
     defaultLocale: 'en_US',
     baseVersion: "0.0.1",
     localePrefix: "",

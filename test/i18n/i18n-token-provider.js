@@ -1,5 +1,5 @@
 'use strict';
-var INTERNATIONALIZATION_PATH = '/apps/appName/locales/en_US.json';
+var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json';
 var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json';
 var CONFIG_PATH = '../../_appen_US.json';
 var CONFIG_PREFIX = 'prefix'
@@ -43,7 +43,7 @@ describe('i18nTokenProvider', function() {
 
         it('should be able to add/retrieve another path', function() {
             expect(provider.rawUrls.length).to.equal(2);
-            expect(provider.rawUrls[1].path).to.contain('{appName}');
+            expect(provider.rawUrls[1].path).to.contain('{appname}');
         });
 
         it('should be able to add with part value and retrieve with correct response', function() {
@@ -131,7 +131,7 @@ describe('i18nToken service', function() {
         it('should "getUrls" method return correct app url value', function() {
             var urlValues = service.getUrls();
             expect(urlValues.length).to.equal(2);
-            expect(urlValues[1]).to.equal("/apps/appName/locales/");
+            expect(urlValues[1]).to.equal("/apps/appname/locales/");
         });
     });
     context('when locale cookie set to "en_US', function() {

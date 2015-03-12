@@ -88,7 +88,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
 
         angular.forEach(this.rawUrls, function(raw) {
             if (raw.app) {
-                appName = "appName";
+                appName = "appname";
                 matchResults = [];
                 //only doing browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
                 // Capture section in path after apps/
@@ -96,7 +96,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 if (matchResults) {
                     appName = matchResults[1];
                 }
-                normalizedPath = raw.path.replace(/\{appName\}/g, appName);
+                normalizedPath = decodeURIComponent(raw.path).replace(/\{appname\}/g, appName);
             } else {
                 normalizedPath = raw.path.replace(/\{version\}/g, i18nConfig.baseVersion);
             }
