@@ -9,7 +9,7 @@ var TABLE_ROW = 'div.list-box-data tbody tr';
 var SELECTED_SPAN = 'div.list-box-footer span.ng-binding';
 var VIEW_SELECTED_ONLY_CHECKBOX = 'div.list-box-footer span.util-pull-right input[type=checkbox]';
 var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json';
-var CONFIG_PATH = '/apps/appName/locales/en_US.json';
+var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
 
