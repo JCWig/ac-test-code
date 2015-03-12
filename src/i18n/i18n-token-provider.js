@@ -13,7 +13,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
          * Path function that determine whether call frm app or component and resolves (adds) the correct path of locale file to urls array
          * @param {object} config that contains path values
          * var config = {
-         *  path: "src/json/messages/",
+         *  path: "/src/json/messages/",
          *  prefix: "message_",
          *  appName: "billing-center"
          * }
@@ -26,8 +26,10 @@ module.exports = function i18nTokenProvider(i18nConfig) {
             if (fromApp) {
                 rawPath = i18nConfig.localeAppPath;
                 if (hasPath) {
-                    var appName = config.appName ? ("/apps/" + config.appName) : "";
-                    rawPath = appName + config.path + (config.prefix || i18nConfig.localePrefix);
+                    var isPathStartWithSlash = config.path.charAt(0) === "/",
+                        name = config.appName ? ("/apps/" + config.appName) : "";
+                    config.path = isPathStartWithSlash ? config.path : "/" + config.path;
+                    rawPath = name + config.path + (config.prefix || i18nConfig.localePrefix);
                 }
             } else {
                 rawPath = i18nConfig.localeComponentPath;
