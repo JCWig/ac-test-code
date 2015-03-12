@@ -51,7 +51,7 @@ describe('i18nTokenProvider', function() {
             var compPath = config.localeComponentPath.replace(/\{version\}/g, config.baseVersion);
 
             expect(provider.rawUrls.length).to.equal(3);
-            expect(provider.rawUrls[2].path).to.equal("/../../_app");
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/../../_app');
         });
         it('should not to add app locale value if given array as undefined', function() {
             var arrOfPath = undefined;
@@ -62,15 +62,15 @@ describe('i18nTokenProvider', function() {
         });
         it('should handle config without prefix', function() {
             provider.addAppLocalePath({path:"../../", prefix: "_app", app:true});
-            expect(provider.rawUrls[2].path).to.equal('/../../_app');
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/../../_app');
         });
         it('should handle config with path having / slash to start', function() {
             provider.addAppLocalePath({path:"/../../", prefix: "_app", app:true});
-            expect(provider.rawUrls[2].path).to.equal('/../../_app');
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/../../_app');
         });
         it('should handle config without path having / slash to start', function() {
             provider.addAppLocalePath({path:"../../", prefix: "_app", app:true});
-            expect(provider.rawUrls[2].path).to.equal('/../../_app');
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/../../_app');
         });
         it('should handle not from app with no path', function() {
             config.prefix = CONFIG_PREFIX;
@@ -88,8 +88,16 @@ describe('i18nTokenProvider', function() {
             expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
         });
         it('should handle not from app', function() {
-            provider.addAppLocalePath({path:"/../../.."});
-            expect(provider.rawUrls[2].path).to.equal('/../../..');
+            provider.addAppLocalePath({path:"/../../..", appName:"application-name"});
+            expect(provider.rawUrls[2].path).to.equal('/apps/application-name/../../..');
+        });
+        it('should handle given a appName', function(){
+            provider.addAppLocalePath({path:'here/is/a/path', prefix:'_en', appName:"application-name", app:false});
+            expect(provider.rawUrls[2].path).to.equal('/apps/application-name/here/is/a/path_en');
+        });
+        it('should handle given a appName', function(){
+            provider.addAppLocalePath({path:'here/is/a/path', prefix:'_en',app:false});
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/here/is/a/path_en'); 
         });
         it('should not to add app locale value if given array as null', function() {
             var arrOfPath = null;
@@ -166,7 +174,7 @@ describe('i18nToken service', function() {
             expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
             expect(urls[1]).to.equal('/apps/appname/locales/');
         });
-        it('should be able to retrieve appname from url and be given path', function(){
+        it('should be able to retrieve appname from url and be given path and place appname anywhere', function(){
             location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/pineapple-app/somethingelse');
             config.path = 'here/is/a/path/{appname}/ending/path';
             config.prefix = null;
@@ -175,7 +183,18 @@ describe('i18nToken service', function() {
             expect(urls.length).to.equal(3);
             expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
             expect(urls[1]).to.equal('/apps/pineapple-app/locales/');
-            expect(urls[2]).to.equal('/here/is/a/path/pineapple-app/ending/path');
+            expect(urls[2]).to.equal('/apps/pineapple-app/here/is/a/path/pineapple-app/ending/path');
+        });
+        it('should be able to retrieve appname from url and be given path given no {appname} spot or appname', function(){
+            location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/pineapple-app/somethingelse');
+            config.path = 'here/is/a/path/ending/path';
+            config.prefix = null;
+            provider.addAppLocalePath(config);
+            var urls = provider.$get(cookies, config, location).getUrls();
+            expect(urls.length).to.equal(3);
+            expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[1]).to.equal('/apps/pineapple-app/locales/');
+            expect(urls[2]).to.equal('/apps/pineapple-app/here/is/a/path/ending/path');
         });
     });
     context('when locale cookie set to "en_US', function() {
