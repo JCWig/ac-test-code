@@ -31,7 +31,7 @@ describe('akam-content-panel', function() {
         scope.$digest();
         self.element = document.body.appendChild(self.el[0]);
     };
-    context('when rendering', function(){
+    describe('when rendering', function(){
         it('should render all parts', function(){
             scope.isCollapsed = false;
             var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">'+
@@ -43,13 +43,13 @@ describe('akam-content-panel', function() {
             var content = document.querySelectorAll(ALL_PANEL_CONTENT);
             var headerIcon = document.querySelector(PANEL_HEADER_ICON);
 
-            expect(headerDiv.textContent).to.match(/Header 1/);
-            expect(headerIcon).to.not.be.null;
-            expect(headerIcon.classList.contains('luna-collapse')).to.be.true;
-            expect(headerIcon.classList.contains('luna-expand')).to.be.false;
-            expect(content.length).to.equal(2);
-            expect(content[0].textContent).to.match(/Gandalf the Grey/);
-            expect(content[1].textContent).to.match(/Gandalf the White/);
+            expect(headerDiv.textContent).toMatch(/Header 1/);
+            expect(headerIcon).not.toBe(null);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
+            expect(headerIcon.classList.contains('luna-expand')).toBe(false);
+            expect(content.length).toEqual(2);
+            expect(content[0].textContent).toMatch(/Gandalf the Grey/);
+            expect(content[1].textContent).toMatch(/Gandalf the White/);
         });
         it('should be able to render collpased', function(){
             scope.isCollapsed = true;
@@ -62,13 +62,13 @@ describe('akam-content-panel', function() {
             var content = document.querySelectorAll(ALL_PANEL_CONTENT);
             var headerIcon = document.querySelector(PANEL_HEADER_ICON);
 
-            expect(headerDiv.textContent).to.match(/Header 1/);
-            expect(headerIcon).to.not.be.null;
-            expect(headerIcon.classList.contains('luna-expand')).to.be.true;
-            expect(headerIcon.classList.contains('luna-collapse')).to.be.false;
-            expect(content.length).to.equal(2);
-            expect(content[0].textContent).to.match(/Gandalf the Grey/);
-            expect(content[1].textContent).to.match(/Gandalf the White/);
+            expect(headerDiv.textContent).toMatch(/Header 1/);
+            expect(headerIcon).not.toBe(null);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
+            expect(headerIcon.classList.contains('luna-expand')).toBe(true);
+            expect(content.length).toEqual(2);
+            expect(content[0].textContent).toMatch(/Gandalf the Grey/);
+            expect(content[1].textContent).toMatch(/Gandalf the White/);
         });
         it('should be able to render without a header', function(){
             scope.isCollapsed = true;
@@ -81,11 +81,11 @@ describe('akam-content-panel', function() {
             var content = document.querySelectorAll(ALL_PANEL_CONTENT);
             var headerIcon = document.querySelector(PANEL_HEADER_ICON);
 
-            expect(headerDiv.textContent).to.match(/ /);
-            expect(headerIcon).to.not.be.null;
-            expect(content.length).to.equal(2);
-            expect(content[0].textContent).to.match(/Gandalf the Grey/);
-            expect(content[1].textContent).to.match(/Gandalf the White/);
+            expect(headerDiv.textContent).toMatch(/ /);
+            expect(headerIcon).not.toBe(null);
+            expect(content.length).toEqual(2);
+            expect(content[0].textContent).toMatch(/Gandalf the Grey/);
+            expect(content[1].textContent).toMatch(/Gandalf the White/);
         });
         it('should be able to render without content', function(){
             scope.isCollapsed = true;
@@ -97,9 +97,9 @@ describe('akam-content-panel', function() {
             var content = document.querySelectorAll(ALL_PANEL_CONTENT);
             var headerIcon = document.querySelector(PANEL_HEADER_ICON);
 
-            expect(headerDiv.textContent).to.match(/Header 1/);
-            expect(headerIcon).to.not.be.null;
-            expect(content.length).to.equal(0);
+            expect(headerDiv.textContent).toMatch(/Header 1/);
+            expect(headerIcon).not.toBe(null);
+            expect(content.length).toEqual(0);
         });
         it('should be able to render without content or header', function(){
             scope.isCollapsed = true;
@@ -111,9 +111,9 @@ describe('akam-content-panel', function() {
             var content = document.querySelectorAll(ALL_PANEL_CONTENT);
             var headerIcon = document.querySelector(PANEL_HEADER_ICON);
 
-            expect(headerDiv.textContent).to.match(/ /);
-            expect(headerIcon).to.not.be.null;
-            expect(content.length).to.equal(0);
+            expect(headerDiv.textContent).toMatch(/ /);
+            expect(headerIcon).not.toBe(null);
+            expect(content.length).toEqual(0);
         });
         it('should be able to render multiple content panels', function(){
             scope.panels = [
@@ -140,21 +140,21 @@ describe('akam-content-panel', function() {
             var header3 = headerDivs[2].textContent;
 
 
-            expect(headerDivs.length).to.equal(3);
-            expect(contents.length).to.equal(6);//2 divs in each content-panel
-            expect(contentWrappers.length).to.equal(3);
-            expect(headerIcons.length).to.equal(3);
+            expect(headerDivs.length).toEqual(3);
+            expect(contents.length).toEqual(6);//2 divs in each content-panel
+            expect(contentWrappers.length).toEqual(3);
+            expect(headerIcons.length).toEqual(3);
 
-            expect(headerIcon1.classList.contains('luna-expand')).to.be.false;
-            expect(headerIcon2.classList.contains('luna-expand')).to.be.true;
-            expect(headerIcon3.classList.contains('luna-expand')).to.be.false;
+            expect(headerIcon1.classList.contains('luna-expand')).toBe(false);
+            expect(headerIcon2.classList.contains('luna-expand')).toBe(true);
+            expect(headerIcon3.classList.contains('luna-expand')).toBe(false);
 
-            expect(header1).to.match(/Header 1/);
-            expect(header2).to.match(/Header 2/);
-            expect(header3).to.match(/Header 3/);
+            expect(header1).toMatch(/Header 1/);
+            expect(header2).toMatch(/Header 2/);
+            expect(header3).toMatch(/Header 3/);
         });
     });
-    context('when rendered', function(){
+    describe('when rendered', function(){
         it('should be able to toggle visibility of content', function(){
             scope.isCollapsed = false;
             var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">'+
@@ -171,17 +171,17 @@ describe('akam-content-panel', function() {
             scope.$digest();
             timeout.flush();
 
-            expect(headerIcon.classList.contains('luna-expand')).to.be.true;
-            expect(headerIcon.classList.contains('luna-collapse')).to.be.false;
-            expect(contentWrapper.getAttribute('style')).to.contain('height: 0px');
+            expect(headerIcon.classList.contains('luna-expand')).toBe(true);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
+            expect(contentWrapper.getAttribute('style')).toContain('height: 0px');
             
             utilities.click(headerDiv);
             scope.$digest();
             timeout.flush();
 
-            expect(contentWrapper.getAttribute('style')).to.not.contain('height: 0px');
-            expect(headerIcon.classList.contains('luna-expand')).to.be.false;
-            expect(headerIcon.classList.contains('luna-collapse')).to.be.true;
+            expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
+            expect(headerIcon.classList.contains('luna-expand')).toBe(false);
+            expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
         });
     });
 });
