@@ -478,22 +478,32 @@ describe('akam-list-box', function() {
     });
     describe('when selecting an item', function(){
         it('should be able to select an item with on-change', function(){
-            scope.mychange = jasmine.createSpy('spy');
-            var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)" ></akam-list-box>';
+            scope.changefunction = jasmine.createSpy('spy');
+
+            var markup = '<akam-list-box data="mydata" schema="columns" on-change="changefunction(value)" selected-items="selectedItems1"></akam-list-box>';
             addElement(markup);
 
+            var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+            utilities.click(firstRowCheckbox);
+
+            var checkedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+
+            expect(checkedCheckboxes.length).toEqual(1);
+            expect(scope.changefunction).toHaveBeenCalled();
+        });
+        it('should be able to de/select an item with on-change and trigger once', function(){
+            var markup = '<akam-list-box data="mydata" schema="columns" on-change="changefunction(value)" selected-items="selectedItems1"></akam-list-box>';
+            addElement(markup);
             var spyOnChange = spyOn(scope.$$childTail, "updateChanged");
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
-            
             utilities.click(firstRowCheckbox);
-            scope.$digest();
 
-            var checkedCheckbox = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+            var checkedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
 
-            expect(checkedCheckbox.length).toEqual(1);
-            expect(spyOnChange).toHaveBeenCalled();
-            expect(scope.mychange).toHaveBeenCalled();
-
+            expect(spyOnChange.calls.count()).toEqual(1);
+            expect(checkedCheckboxes.length).toEqual(1);
+            utilities.click(firstRowCheckbox);
+            expect(spyOnChange.calls.count()).toEqual(2);
         });
         it('should be able to select an item without on-change', function(){
             scope.mychange = jasmine.createSpy('spy');
@@ -507,7 +517,7 @@ describe('akam-list-box', function() {
             var checkedCheckbox = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
             
             expect(checkedCheckbox.length).toEqual(1);
-            expect(scope.mychange).not.toHaveBeenCalled()
+            expect(scope.mychange).not.toHaveBeenCalled();
         });
         it('should update total selected field', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
