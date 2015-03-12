@@ -24,7 +24,11 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 hasPath = isNotValidConfig ? false : !!(config.path && config.path.trim().length),
                 rawPath = "";
             if (fromApp) {
-                rawPath = hasPath ? (config.path + (config.prefix || i18nConfig.localePrefix)) : i18nConfig.localeAppPath;
+                rawPath = i18nConfig.localeAppPath;
+                if (hasPath) {
+                    var appName = config.appName ? ("/apps/" + config.appName) : "";
+                    rawPath = appName + config.path + (config.prefix || i18nConfig.localePrefix);
+                }
             } else {
                 rawPath = i18nConfig.localeComponentPath;
             }
@@ -92,11 +96,11 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 matchResults = [];
                 //only doing browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
                 // Capture section in path after apps/
-                matchResults = appUrlRx.exec($location.absUrl());
+                matchResults = appUrlRx.exec(decodeURIComponent($location.absUrl()));
                 if (matchResults) {
                     appName = matchResults[1];
                 }
-                normalizedPath = decodeURIComponent(raw.path).replace(/\{appname\}/g, appName);
+                normalizedPath = raw.path.replace(/\{appname\}/g, appName);
             } else {
                 normalizedPath = raw.path.replace(/\{version\}/g, i18nConfig.baseVersion);
             }
