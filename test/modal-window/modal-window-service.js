@@ -36,6 +36,14 @@ describe('modalWindow service', function() {
         });
         angular.mock.module(function ($controllerProvider) {
             $controllerProvider.register('Controller', function($scope) {
+                $scope.submitted.then(self.notify);
+                $scope.toggle = function() {
+                    if ($scope.isSubmitDisabled()) {
+                        $scope.enableSubmit();
+                    } else {
+                        $scope.disableSubmit();
+                    }
+                };
             });
         });
 
@@ -183,11 +191,11 @@ describe('modalWindow service', function() {
 
             utilities.click(toggleSubmitButton);
             this.scope.$digest();
-            expect(submitButton.getAttribute('disabled')).toBe(true);
+            expect(submitButton.disabled).toBe(true);
 
             utilities.click(toggleSubmitButton);
             this.scope.$digest();
-            expect(submitButton.getAttribute('disabled')).toBe(false);
+            expect(submitButton.disabled).toBe(false);
         });
 
         describe('when a user clicks the submit button', function() {

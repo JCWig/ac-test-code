@@ -479,24 +479,22 @@ describe('akam-list-box', function() {
     });
     describe('when selecting an item', function(){
         it('should be able to select an item with on-change', function(){
-            scope.mychange = function(value){};
-            spyOn(scope, "mychange");
-            var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>'
+            scope.mychange = jasmine.createSpy('spy');
+            var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>';
             addElement(markup);
 
             var spyOnChange = spyOn(scope.$$childTail, "updateChanged");
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             
             utilities.click(firstRowCheckbox);
-            scope.$digest();
 
             var checkedCheckbox = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
             expect(checkedCheckbox.length).toEqual(1);
+            expect(spyOnChange).toHaveBeenCalled();
             expect(scope.mychange).toHaveBeenCalled();
         });
         it('should be able to select an item without on-change', function(){
-            scope.mychange = function(){};
-            spyOn(scope, "mychange");
+            scope.mychange = jasmine.createSpy('spy');
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>'
 
             addElement(markup);
