@@ -27,7 +27,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 rawPath = i18nConfig.localeAppPath;
                 if (hasPath) {
                     var isPathStartWithSlash = config.path.charAt(0) === "/",
-                        name = config.appName ? ("/apps/" + config.appName) : "";
+                        name = "/apps/" + (config.appName || "{appname}");
                     config.path = isPathStartWithSlash ? config.path : "/" + config.path;
                     rawPath = name + config.path + (config.prefix || i18nConfig.localePrefix);
                 }
