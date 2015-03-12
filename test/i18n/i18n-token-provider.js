@@ -1,7 +1,7 @@
 'use strict';
 var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json';
 var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json';
-var CONFIG_PATH = '/apps/billing-center../../_appen_US.json';
+var CONFIG_PATH = '/apps/billing-center/../../_appen_US.json';
 var CONFIG_PREFIX = 'prefix'
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
 var enUsResponse = require ("./i18n_responses/en_US.json");
@@ -51,7 +51,7 @@ describe('i18nTokenProvider', function() {
             var compPath = config.localeComponentPath.replace(/\{version\}/g, config.baseVersion);
 
             expect(provider.rawUrls.length).to.equal(3);
-            expect(provider.rawUrls[2].path).to.equal("../../_app");
+            expect(provider.rawUrls[2].path).to.equal("/../../_app");
         });
         it('should not to add app locale value if given array as undefined', function() {
             var arrOfPath = undefined;

@@ -485,7 +485,7 @@ describe('akam-list-box', function() {
         afterEach(function() {
             document.body.removeChild(this.element);
         });
-        /*it('should be able to select an item with on-change', function(){
+        it('should be able to select an item with on-change', function(){
             scope.mychange = sinon.spy();
 
             var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>';
@@ -499,7 +499,7 @@ describe('akam-list-box', function() {
             expect(checkedCheckbox).to.have.length(1);
             expect(scope.mychange).to.have.been.called;
             expect(spyOnChange).calledOnce;
-        });*/
+        });
         it('should be able to select an item without on-change', function(){
             scope.mychange = sinon.spy();
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
