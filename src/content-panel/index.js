@@ -7,8 +7,8 @@ var angular = require('angular');
     *
     * @name akamai.components.content-panel
     *
-    * @description Provides a set of directives to use in order to
-    * create Pulsar-compatible content panels.
+    * @description Provides a set of directives that create
+    * Pulsar-compatible content panels.
     *
     */
     module.exports = angular.module('akamai.components.content-panel', [
