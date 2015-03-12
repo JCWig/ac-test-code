@@ -70,6 +70,16 @@ describe('i18nTokenProvider', function() {
             provider.addAppLocalePath({path:"", app:false});
             expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
         });
+        it('should handle not from app with no path, no prefix', function() {
+            config.prefix = CONFIG_PREFIX;
+            provider.addAppLocalePath({path:null, prefix:null, app:false});
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
+        });
+        it('should handle not from app with no path, with prefix', function() {
+            config.prefix = CONFIG_PREFIX;
+            provider.addAppLocalePath({prefix:"happy/go/lucky", app:false});
+            expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
+        });
         it('should handle not from app', function() {
             config.prefix = CONFIG_PREFIX;
             provider.addAppLocalePath({path:"../../.."});
@@ -89,7 +99,7 @@ describe('i18nTokenProvider', function() {
         });
     });
 });
-describe.only('i18nToken service', function() {
+describe('i18nToken service', function() {
 
     var service, cookies, rootScope, provider, location, config;
     beforeEach(function() {
