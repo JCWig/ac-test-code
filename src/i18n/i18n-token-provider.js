@@ -24,7 +24,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 hasPath = isNotValidConfig ? false : !!(config.path && config.path.trim().length),
                 rawPath = "";
             if (fromApp) {
-                rawPath = hasPath ? config.path + (config.prefix || i18nConfig.prefix) : i18nConfig.localeAppPath;
+                rawPath = hasPath ? (config.path + (config.prefix || i18nConfig.localePrefix)) : i18nConfig.localeAppPath;
             } else {
                 rawPath = i18nConfig.localeComponentPath;
             }
