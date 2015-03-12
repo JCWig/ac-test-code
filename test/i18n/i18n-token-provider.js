@@ -62,7 +62,15 @@ describe('i18nTokenProvider', function() {
         });
         it('should handle config without prefix', function() {
             provider.addAppLocalePath({path:"../../", prefix: "_app", app:true});
-            expect(provider.rawUrls[2].path).to.equal('../../_app');
+            expect(provider.rawUrls[2].path).to.equal('/../../_app');
+        });
+        it('should handle config with path having / slash to start', function() {
+            provider.addAppLocalePath({path:"/../../", prefix: "_app", app:true});
+            expect(provider.rawUrls[2].path).to.equal('/../../_app');
+        });
+        it('should handle config without path having / slash to start', function() {
+            provider.addAppLocalePath({path:"../../", prefix: "_app", app:true});
+            expect(provider.rawUrls[2].path).to.equal('/../../_app');
         });
         it('should handle not from app with no path', function() {
             config.prefix = CONFIG_PREFIX;
@@ -80,8 +88,8 @@ describe('i18nTokenProvider', function() {
             expect(provider.rawUrls[2].path).to.equal('/apps/{appname}/locales/');
         });
         it('should handle not from app', function() {
-            provider.addAppLocalePath({path:"../../.."});
-            expect(provider.rawUrls[2].path).to.equal('../../..');
+            provider.addAppLocalePath({path:"/../../.."});
+            expect(provider.rawUrls[2].path).to.equal('/../../..');
         });
         it('should not to add app locale value if given array as null', function() {
             var arrOfPath = null;
@@ -167,7 +175,7 @@ describe('i18nToken service', function() {
             expect(urls.length).to.equal(3);
             expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
             expect(urls[1]).to.equal('/apps/pineapple-app/locales/');
-            expect(urls[2]).to.equal('here/is/a/path/pineapple-app/ending/path');
+            expect(urls[2]).to.equal('/here/is/a/path/pineapple-app/ending/path');
         });
     });
     context('when locale cookie set to "en_US', function() {
@@ -250,7 +258,7 @@ describe('locale cookie set to cookie without translation file', function() {
             scope = $rootScope;
             log = $log;
         });
-        httpBackend.when('GET', '/apps/billing-center../../_appde_DE.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', '/apps/billing-center/../../_appde_DE.json').respond(404, "BAD PATH");
         httpBackend.when('GET', '/libs/akamai-components/0.0.1/locales/de_DE.json').respond(404, "BAD PATH");
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond({});
         httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
