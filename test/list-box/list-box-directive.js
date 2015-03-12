@@ -139,6 +139,7 @@ describe('akam-list-box', function() {
         it('should not have anything selected', function() {
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
+            httpBackend.flush();
 
             var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
@@ -234,12 +235,10 @@ describe('akam-list-box', function() {
         });
     });
     describe('when nothing is selected', function(){
-        //it('should hide view selected only checkbox', function() {
-
-        //});
         it('should have selected field equal 0', function() {
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
+            httpBackend.flush();
 
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
@@ -480,18 +479,21 @@ describe('akam-list-box', function() {
     describe('when selecting an item', function(){
         it('should be able to select an item with on-change', function(){
             scope.mychange = jasmine.createSpy('spy');
-            var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)"></akam-list-box>';
+            var markup = '<akam-list-box data="mydata" schema="columns" on-change="mychange(value)" ></akam-list-box>';
             addElement(markup);
 
             var spyOnChange = spyOn(scope.$$childTail, "updateChanged");
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             
             utilities.click(firstRowCheckbox);
+            scope.$digest();
 
             var checkedCheckbox = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+
             expect(checkedCheckbox.length).toEqual(1);
             expect(spyOnChange).toHaveBeenCalled();
             expect(scope.mychange).toHaveBeenCalled();
+
         });
         it('should be able to select an item without on-change', function(){
             scope.mychange = jasmine.createSpy('spy');
@@ -510,6 +512,7 @@ describe('akam-list-box', function() {
         it('should update total selected field', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
+            httpBackend.flush();
 
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
@@ -526,12 +529,14 @@ describe('akam-list-box', function() {
             utilities.click(firstRowCheckbox);
 
             expect(firstRowCheckbox.parentNode.parentNode.classList.contains('row-selected')).toBe(true);
+
         });
     });
     describe('when deselecting an item', function(){
         beforeEach(function(){
             var markup = '<akam-list-box data="mydata" schema="columns" ></akam-list-box>';
             addElement(markup);
+            httpBackend.flush();
         });
 
         it('should be able to deselect an item', function(){
@@ -549,7 +554,7 @@ describe('akam-list-box', function() {
             utilities.click(firstRowCheckbox);
 
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
-            
+
             expect(numberSelectedSpan.textContent).toMatch(/Selected: 0/);
         });
         it('should change background color of deselected items', function(){
@@ -566,17 +571,17 @@ describe('akam-list-box', function() {
 
             expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).toBe(false); 
         });
-        /*it('should only trigger updateChanged twice one on, one off', function(){
-            var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
+        it('should only trigger updateChanged twice one on, one off', function(){
+            var spyOnChange = spyOn(scope.$$childTail, "updateChanged");
 
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
             scope.$digest();
             utilities.click(firstRowCheckbox);
             scope.$digest();
-            
-            expect(spyOnChange).calledTwice;
-        });*/
+
+            expect(spyOnChange.calls.count()).toEqual(2);
+        });
     });
     describe('when activating view selected only option', function(){
         beforeEach(function(){
@@ -634,7 +639,6 @@ describe('akam-list-box', function() {
 
             expect(viewSelectedOnlyCheckboxIfItsChecked.length).toEqual(0);
         });
-        /*it('should activate selectall checkbox', function(){});*/
     });
     describe('when interacting with filter bar', function(){
         beforeEach(function(){
@@ -642,6 +646,7 @@ describe('akam-list-box', function() {
             scope.columns = [{content : "name",header : 'Name', sort:false}];
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
+            httpBackend.flush();
         });
         it('should be not be redenered with clear icon', function(){
             var clearFilterTextIcon = document.querySelector('div.list-box-filter i');

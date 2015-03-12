@@ -8,9 +8,9 @@ module.exports = function($log, $q, uuid, $filter, translate) {
         scope: {
             data: '=',
             schema: '=',
-            filterPlaceholder : "@",
+            filterPlaceholder: "@",
             selectedItems: '=?',
-            onChange : "&?"
+            onChange: "&?"
         },
         template: require('./templates/list-box.tpl.html'),
         link: function(scope, element, attrs) {
@@ -19,49 +19,54 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             scope.tableId = uuid.guid();
             if (!scope.filterPlaceholder) {
                 translate.async("components.list-box.placeholder.filter").then(function(value) {
-                    scope.filterPlaceholder =  value;
+                    scope.filterPlaceholder = value;
                 });
             }
+
+            translate.async("components.list-box.text.selected").then(function(value) {
+                scope.selectedText = value;
+            });
+
             scope.selectedItems = scope.selectedItems || [];
             scope.state = {
-                sortInfo : {
-                    sortedColumn : null,
-                    predicate : null,
-                    reverseSort : false
+                sortInfo: {
+                    sortedColumn: null,
+                    predicate: null,
+                    reverseSort: false
                 },
-                viewSelectedOnly : false,
-                allSelected : false,
-                filter : "",
-                search : {
-                    'cells' : ''
+                viewSelectedOnly: false,
+                allSelected: false,
+                filter: "",
+                search: {
+                    'cells': ''
                 }
             };
 
-            scope.updateSearchFilter = function(){
+            scope.updateSearchFilter = function() {
                 if (scope.state.viewSelectedOnly === true) {
                     scope.state.search = {
-                        'selected' : true,
-                        'cells' : scope.state.filter
+                        'selected': true,
+                        'cells': scope.state.filter
                     };
-                }else{
+                } else {
                     scope.state.search = {
-                        'cells' : scope.state.filter
+                        'cells': scope.state.filter
                     };
                 }
             };
 
-            scope.getColumnContent = function(column, item, defaultValue){
+            scope.getColumnContent = function(column, item, defaultValue) {
                 var columnContent = column.content;
 
                 if (angular.isString(columnContent)) {
                     if (columnContent in item) {
                         // retrieve the property for the item with the same name
                         return item[columnContent] || defaultValue;
-                    }else{
+                    } else {
                         // this means that the property is undefined in the object
                         return defaultValue;
                     }
-                }else if (angular.isFunction(columnContent)) {
+                } else if (angular.isFunction(columnContent)) {
                     // return the content based on the result of the function call
                     return angular.bind(item, column.content)() || defaultValue;
                 }
@@ -69,7 +74,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
             };
 
-            scope.processDataTable = function(){
+            scope.processDataTable = function() {
                 // we can only really process the data if both fields are set
                 if (scope.columns == null || scope.internalData == null) {
                     return;
@@ -79,18 +84,18 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 var dataTableOutput = new Array(scope.internalData.length);
                 angular.forEach(scope.internalData, function(dataItem, key) {
                     dataTableOutput[key] = {
-                        selected : false,
-                        cells : scope.columns.map(
-                            function (column) {
+                        selected: false,
+                        cells: scope.columns.map(
+                            function(column) {
                                 return scope.getColumnContent(column, dataItem, column.defaultValue);
                             }
                         ),
-                        item : dataItem
+                        item: dataItem
                     };
                 });
 
                 var autoSortableColumns = scope.columns.filter(
-                    function (col) {
+                    function(col) {
                         return col.sort !== false && col.autoSort !== false;
                     }
                 );
@@ -106,7 +111,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
             scope.$watch('data', function(newValue) {
                 scope.loading = true;
-                $q.when(scope.data).then(function(data){
+                $q.when(scope.data).then(function(data) {
                     //handle $http get promise responses.
                     if (angular.isObject(data) && angular.isDefined(data.data)) {
                         data = data.data;
@@ -121,42 +126,47 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 });
             });
 
-            scope.$watch('schema', function(newValue){
+            scope.$watch('schema', function(newValue) {
                 if (!angular.isArray(newValue)) {
                     throw "Schema must be an array";
                 }
-                scope.columns = angular.copy(newValue).map(function(value, index){ value.index = index; return value;});
+                scope.columns = angular.copy(newValue).map(function(value, index) {
+                    value.index = index;
+                    return value;
+                });
                 scope.processDataTable();
             });
 
             scope.showCheckboxes = attrs.showCheckboxes !== 'false';
 
-            scope.$watch('state.allSelected', function(newValue){
-                if(!scope.dataTable){
+            scope.$watch('state.allSelected', function(newValue) {
+                if (!scope.dataTable) {
                     return;
                 }
 
-                scope.dataTable.forEach(function(currentValue, index){
+                scope.dataTable.forEach(function(currentValue, index) {
                     currentValue.selected = newValue;
                 });
 
                 scope.updateChanged();
             });
-            
-            scope.updateChanged = function(){
+
+            scope.updateChanged = function() {
                 var selectedItemsList = [];
 
-                angular.forEach(scope.dataTable, function(tableItem){
+                angular.forEach(scope.dataTable, function(tableItem) {
                     if (tableItem.selected) {
                         selectedItemsList.push(tableItem.item);
                     }
                 });
 
                 scope.selectedItems = selectedItemsList;
-                scope.onChange({value : selectedItemsList});
+                scope.onChange({
+                    value: selectedItemsList
+                });
             };
 
-            scope.sortColumn = function(column){
+            scope.sortColumn = function(column) {
                 if (column == null) {
                     throw "Column may not be null/undefined";
                 }
@@ -173,10 +183,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
                 var isReversed = false;
 
-                if(isSameColumnFromLastSort){
+                if (isSameColumnFromLastSort) {
                     // if we're sorting the same column, just flip the order and go
                     isReversed = !sortInfo.reverseSort;
-                } else{
+                } else {
                     // otherwise, start the sort from the user defined override or default value
                     isReversed = !!column.reversed;
                 }
@@ -184,15 +194,15 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 var predicate = scope.getColumnPredicate(column);
 
                 scope.state.sortInfo = {
-                    sortedColumn : column,
-                    predicate : predicate,
-                    reverseSort : isReversed
+                    sortedColumn: column,
+                    predicate: predicate,
+                    reverseSort: isReversed
                 };
 
                 scope.dataTable = orderBy(scope.dataTable, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
             };
 
-            scope.getColumnPredicate = function(column){
+            scope.getColumnPredicate = function(column) {
                 var predicate;
 
                 if (column.sort === false) {
@@ -200,22 +210,26 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 }
 
                 if (column.sort != null && column.sort !== true) {
-                    predicate = angular.isString(column.sort) ? ('+item.' + column.sort) : function(obj){ return angular.bind(obj.item, column.sort)(); };
-                }else{
-                    predicate = angular.isString(column.content) ? ('+item.' + column.content) : function(obj){ return angular.bind(obj.item, column.content)(); };
+                    predicate = angular.isString(column.sort) ? ('+item.' + column.sort) : function(obj) {
+                        return angular.bind(obj.item, column.sort)();
+                    };
+                } else {
+                    predicate = angular.isString(column.content) ? ('+item.' + column.content) : function(obj) {
+                        return angular.bind(obj.item, column.content)();
+                    };
                 }
 
                 return predicate;
             };
 
-            scope.isSortable = function(column){
+            scope.isSortable = function(column) {
                 return (column.sort !== false);
             };
 
-            scope.getColumnClasses = function(column, isHeader){
+            scope.getColumnClasses = function(column, isHeader) {
                 var output = '';
 
-                if(isHeader && scope.isSortable(column)){
+                if (isHeader && scope.isSortable(column)) {
                     output = scope.getColumnSortClass(column) + ' ';
                 }
 
@@ -223,7 +237,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 return output;
             };
 
-            scope.getColumnSortClass = function(column){
+            scope.getColumnSortClass = function(column) {
                 var sortInfo = scope.state.sortInfo;
                 if (column !== sortInfo.sortedColumn) {
                     return 'column-sortable';

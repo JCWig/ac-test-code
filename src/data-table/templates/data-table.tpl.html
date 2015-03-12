@@ -13,8 +13,7 @@
                     <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)" title="{{column.header}}">
                         {{column.header}} <i></i>
                     </th>
-                    <th ng-if="hasActionColumn" class="column-action">
-                        Action
+                    <th ng-if="hasActionColumn" class="column-action" akam-translate="components.data-table.label.action">
                     </th>
                 </tr>
             </thead>
