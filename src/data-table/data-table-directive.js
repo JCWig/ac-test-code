@@ -9,6 +9,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder : "@",
+            selectedItems:"=?",
             onChange : '&?'
         },
         template: require('./templates/data-table.tpl.html'),
@@ -51,7 +52,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 };
                 scope.selectedItems = [];
             }
-            
+
             setDefaults();
 
             function update(){

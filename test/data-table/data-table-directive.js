@@ -221,7 +221,7 @@ describe('akam-data-table', function() {
     });
     context('when rendered with checkboxes', function(){
         beforeEach(function(){
-            var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true"></akam-data-table>';
+            var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true" selectedItems="selectdItems1"></akam-data-table>';
             addElement(markup);
         });
         it('should show checkboxes for each row', function(){
@@ -238,6 +238,9 @@ describe('akam-data-table', function() {
             utilities.click(rowOneCheckbox);
             scope.$digest();
 
+            expect(scope.$$childTail.selectedItems[0].first_name).to.equal("Aaron");
+            expect(scope.$$childTail.selectedItems[0].last_name).to.equal("Miller");
+            expect(scope.$$childTail.selectedItems[0].id).to.equal("c1286872-2774-4c5a-8aa6-91be36b23a6a");
             expect(scope.$$childTail.selectedItems.length).to.equal(1);
         });
         it('selecting items should only run process once', function(){
