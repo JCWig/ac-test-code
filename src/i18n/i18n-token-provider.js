@@ -10,55 +10,26 @@ module.exports = function i18nTokenProvider(i18nConfig) {
      */
     var Path = function() {
         /**
-         * Path function that determine whether call frm app or component and resolves (adds) the correct path of locale file to urls array
-         * @param {object} config that contains path values
-         * var config = {
-         *  path: "/src/json/messages/",
-         *  prefix: "message_",
-         *  appName: "billing-center"
-         * }
-         * @param {boolean} fromApp is a indicator to determine the call is from app or component
+         * resolve function adds 2 default paths to the raw endpoints urls the locale files
+         * one for the component and one for the app
+         * @private
          */
-        this.resolve = function(config, fromApp) {
-            var isNotValidConfig = angular.isUndefined(config) || config === null,
-                hasPath = isNotValidConfig ? false : !!(config.path && config.path.trim().length),
-                rawPath = "";
-            if (fromApp) {
-                rawPath = i18nConfig.localeAppPath;
-                if (hasPath) {
-                    var isPathStartWithSlash = config.path.charAt(0) === "/",
-                        name = "/apps/" + (config.appName || "{appname}");
-                    config.path = isPathStartWithSlash ? config.path : "/" + config.path;
-                    rawPath = name + config.path + (config.prefix || i18nConfig.localePrefix);
-                }
-            } else {
-                rawPath = i18nConfig.localeComponentPath;
-            }
+        this.resolve = function() {
             self.rawUrls.push({
-                path: rawPath.toLowerCase(),
-                app: fromApp || false
+                path: i18nConfig.localeComponentPath,
+                app: false
             });
-            return rawPath;
+
+            self.rawUrls.push({
+                path: i18nConfig.localeAppPath,
+                app: true
+            });
         };
     };
 
     //instantiate a default one for component locale
     var cPath = new Path();
     cPath.resolve();
-
-    /**
-     * @ngdoc method
-     * @name i18nTokenProvider#addAppLocalePath
-     * @methodOf akamai.components.i18n.service:i18nTokenProvider
-     *
-     * @description provider method takes path config values, pass to Path object to add values to path url endpoints.
-     * If config is undefined or config.path is undefined or empty, it will use default app path instead
-     * @param {object=} config - a hash object that contains  locale files path,  prefix values and appName
-     */
-    this.addAppLocalePath = function(config) {
-        var path = new Path();
-        return path.resolve(config, true);
-    };
 
     /**
      * i18nToken is a service used by the i18nTokenProvider to pass values set during app config phase.
@@ -82,14 +53,6 @@ module.exports = function i18nTokenProvider(i18nConfig) {
             try {
                 locale = atob(cookieLocale.split('+')[0]);
             } catch (e) {} //let it go
-        }
-
-        //check if app has called to pass locle file url path yet, if not, add default one here
-        if (this.rawUrls.length === 1) {
-            this.rawUrls.push({
-                path: i18nConfig.localeAppPath,
-                app: true
-            });
         }
 
         angular.forEach(this.rawUrls, function(raw) {
