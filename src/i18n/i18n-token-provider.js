@@ -6,11 +6,11 @@ module.exports = function i18nTokenProvider(i18nConfig) {
     var self = this;
 
     /**
-     * @description  Path object that constructs a path value from app or component.
+     * @description  Path object that constructs a path value from app and component.
      */
     var Path = function() {
         /**
-         * resolve function adds 2 default paths to the raw endpoints urls the locale files
+         * resolve function adds 2 default endpoints path of locale files to rawUrls array
          * one for the component and one for the app
          * @private
          */
@@ -51,7 +51,8 @@ module.exports = function i18nTokenProvider(i18nConfig) {
         //just to prevent from improperly encoded cookies
         if (cookieLocale) {
             try {
-                locale = atob(cookieLocale.split('+')[0]);
+                //try decode cookieLocale, then get first array value from split of non alpha, non digits and non underscore
+                locale = atob(cookieLocale).split(/(?![A-Za-z0-9-_])/)[0];
             } catch (e) {} //let it go
         }
 
@@ -59,8 +60,8 @@ module.exports = function i18nTokenProvider(i18nConfig) {
             if (raw.app) {
                 appName = "appname";
                 matchResults = [];
-                //only doing browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
-                // Capture section in path after apps/
+                // browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
+                // Capture string in pattern from path  apps/{}/
                 matchResults = appUrlRx.exec(decodeURIComponent($location.absUrl()));
                 if (matchResults) {
                     appName = matchResults[1] || appName;
