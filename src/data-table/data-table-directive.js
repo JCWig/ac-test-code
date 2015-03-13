@@ -160,8 +160,23 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
                     if (!angular.isArray(data)) {
                         throw "Data must be an array";
-                    }
+                    }  
 
+                    scope.state = {
+                        sortInfo : {
+                            sortedColumn : null,
+                            predicate : null,
+                            reverseSort : false
+                        },
+                        viewSelectedOnly : false,
+                        allSelected : false,
+                        filter : "",
+                        search : {
+                            'cells' : ''
+                        }
+                    };
+                    scope.selectedItems = [];
+                    scope.updateSearchFilter();
                     scope.internalData = data;
                     scope.processDataTable();
                 });
