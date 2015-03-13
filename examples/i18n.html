@@ -8,9 +8,8 @@
     <script type="text/javascript" src="../dist/akamai-components.js"></script>
 
     <script>
-    var app = angular.module("i18nDemo3", ["akamai.components.i18n", "ngCookies"]);
-    app.controller("TranslationPageController", ["$scope", "translate", "$rootScope", "$filter", "$cookies", function($scope, translate, $rootScope, $filter, $cookies) {
-$cookies.AKALOCALE = "ZW5fVVM+TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89";
+    var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
+    app.controller("TranslationPageController", ["$scope", "translate", "$rootScope", "$filter", function($scope, translate, $rootScope, $filter) {
         $rootScope.$on('$translateChangeEnd', function() {
             console.log(translate.sync('reseller-tools.note'));
             console.log(translate.sync('components.menu-button.label'));
