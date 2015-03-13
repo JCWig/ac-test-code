@@ -24,9 +24,10 @@ describe('i18nTokenProvider', function() {
     context('when inspecting url field', function(){
         it('should contain correct component locale path ', function() {
             var compPath = config.localeComponentPath;
-
+            var appPath = config.localeAppPath;
             expect(provider.rawUrls.length).to.equal(2);
             expect(provider.rawUrls[0].path).to.equal(compPath);
+            expect(provider.rawUrls[1].path).to.equal(appPath);
         });
 
         it('should be able to add/retrieve another path', function() {
