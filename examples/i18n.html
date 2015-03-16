@@ -10,7 +10,6 @@
     <script>
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
     app.controller("TranslationPageController", ["$scope", "translate", "$rootScope", "$filter", function($scope, translate, $rootScope, $filter) {
-
         $rootScope.$on('$translateChangeEnd', function() {
             console.log(translate.sync('reseller-tools.note'));
             console.log(translate.sync('components.menu-button.label'));
