@@ -286,11 +286,11 @@ describe('akam-list-box', function() {
             utilities.click(firstRowCheckbox);
             scope.$digest();
 
-            expect(scope.$$childHead.selectedItems.length).to.equal(2);
-            expect(scope.$$childHead.selectedItems[0].first).to.equal("Yair");
-            expect(scope.$$childHead.selectedItems[0].last).to.equal("Leviel");
-            expect(scope.$$childHead.selectedItems[1].first).to.equal("K-Slice");
-            expect(scope.$$childHead.selectedItems[1].last).to.equal("McYoungPerson");
+            expect(scope.$$childHead.internalSelectedItems.length).to.equal(2);
+            expect(scope.$$childHead.internalSelectedItems[0].first).to.equal("Yair");
+            expect(scope.$$childHead.internalSelectedItems[0].last).to.equal("Leviel");
+            expect(scope.$$childHead.internalSelectedItems[1].first).to.equal("K-Slice");
+            expect(scope.$$childHead.internalSelectedItems[1].last).to.equal("McYoungPerson");
         });
     });
     context('when nothing is selected', function(){

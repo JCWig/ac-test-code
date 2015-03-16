@@ -27,12 +27,12 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
             scope.loading = true;
             scope.tableId = uuid.guid();
-            scope.filterPlaceholder = scope.filterPlaceholder;    //TODO: is this a bug?
             if (!scope.filterPlaceholder) {
                 translate.async("components.data-table.placeholder.filter").then(function(value) {
                     scope.filterPlaceholder = value;
                 });
             }
+            scope.selectedItems = scope.selectedItems || [];
             scope.internalSelectedItems = scope.selectedItems || [];
             scope.showCheckboxes = attrs.showCheckboxes === 'true';
             

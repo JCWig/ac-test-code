@@ -27,6 +27,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 scope.selectedText = value;
             });
 
+            scope.selectedItems = scope.selectedItems || [];
             scope.internalSelectedItems = scope.selectedItems || [];
             function setDefaults(){
                 scope.state = {
