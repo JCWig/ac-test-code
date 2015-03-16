@@ -33,7 +33,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 });
             }
             scope.selectedItems = scope.selectedItems || [];
-            scope.internalSelectedItems = scope.selectedItems || [];
+            scope.internalSelectedItems = angular.copy(scope.selectedItems);
             scope.showCheckboxes = attrs.showCheckboxes === 'true';
             
             function setDefaults(){

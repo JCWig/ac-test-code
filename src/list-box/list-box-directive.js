@@ -28,7 +28,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             });
 
             scope.selectedItems = scope.selectedItems || [];
-            scope.internalSelectedItems = scope.selectedItems || [];
+            scope.internalSelectedItems = angular.copy(scope.selectedItems);
             function setDefaults(){
                 scope.state = {
                     sortInfo: {
@@ -95,15 +95,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                         item: dataItem
                     };
                 });
-
                 var autoSortableColumns = scope.columns.filter(
                     function(col) {
                         return col.sort !== false && col.autoSort !== false;
                     }
                 );
-
                 scope.dataTable = dataTableOutput;
-
                 if (!skipSort && autoSortableColumns.length > 0) {
                     scope.sortColumn(autoSortableColumns[0]);
                 }
@@ -218,6 +215,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 };
 
                 scope.dataTable = orderBy(scope.dataTable, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
+                scope.internalData = [];
+                angular.forEach(scope.dataTable, function(dataObj){
+                    scope.internalData.push(dataObj.item);
+                });
             };
 
             scope.getColumnPredicate = function(column) {
