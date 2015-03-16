@@ -9,10 +9,10 @@ module.exports = function i18nTokenProvider(i18nConfig) {
     /**
      *
      * This function adds path and part value to URLs array and it
-     * will be used in the i18nCustomLoader service.  if path is array
-     * type, path value should contain part value if any already, and
-     * implemented by caller.  If path is string type, then it will
-     * atrempt to append the part value if any
+     * will be used in the i18nCustomLoader service.  If `path` is an
+     * array, path value should contain part value if any already, and
+     * implemented by caller.  If `path` is a string, it attempts to
+     * append the part value if any.
      *
      */
     var usePathAndPart = function(path, part) {
