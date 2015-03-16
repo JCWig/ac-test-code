@@ -9,7 +9,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder: "@",
-            selectedItems: '=?',
+            selectedItems: '=?',  // the ? marks the property as optional.
             onChange: "&?"
         },
         template: require('./templates/list-box.tpl.html'),
@@ -28,6 +28,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             });
 
             scope.selectedItems = scope.selectedItems || [];
+            scope.internalSelectedItems = angular.copy(scope.selectedItems);
             function setDefaults(){
                 scope.state = {
                     sortInfo: {
@@ -76,17 +77,16 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
             };
 
-            scope.processDataTable = function() {
+            scope.processDataTable = function(skipSort) {
                 // we can only really process the data if both fields are set
                 if (scope.columns == null || scope.internalData == null) {
                     return;
                 }
-
                 // do the same process as ng-repeat, except we do this only once to cache the output
                 var dataTableOutput = new Array(scope.internalData.length);
                 angular.forEach(scope.internalData, function(dataItem, key) {
                     dataTableOutput[key] = {
-                        selected: false,
+                        selected: scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
                         cells: scope.columns.map(
                             function(column) {
                                 return scope.getColumnContent(column, dataItem, column.defaultValue);
@@ -95,21 +95,25 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                         item: dataItem
                     };
                 });
-
                 var autoSortableColumns = scope.columns.filter(
                     function(col) {
                         return col.sort !== false && col.autoSort !== false;
                     }
                 );
-
                 scope.dataTable = dataTableOutput;
-
-                if (autoSortableColumns.length > 0) {
+                if (!skipSort && autoSortableColumns.length > 0) {
                     scope.sortColumn(autoSortableColumns[0]);
                 }
 
                 scope.loading = false;
             };
+
+            scope.$watch('selectedItems', function(items) {
+                if(angular.isArray(items)) {
+                    scope.internalSelectedItems = items;
+                    scope.processDataTable(true);
+                }
+            });
 
             scope.$watch('data', function(newValue) {
                 scope.loading = true;
@@ -169,9 +173,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-                scope.onChange({
-                    value: selectedItemsList
-                });
+
+                if(angular.isFunction(scope.onChange)) {
+                  scope.onChange({
+                      value: selectedItemsList
+                  });
+                }
             };
 
             scope.sortColumn = function(column) {
@@ -208,6 +215,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 };
 
                 scope.dataTable = orderBy(scope.dataTable, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
+                scope.internalData = [];
+                angular.forEach(scope.dataTable, function(dataObj){
+                    scope.internalData.push(dataObj.item);
+                });
             };
 
             scope.getColumnPredicate = function(column) {

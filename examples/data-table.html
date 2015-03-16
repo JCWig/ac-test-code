@@ -40,7 +40,12 @@
             console.log('haha');
         };
         
-        $scope.mydata = $http.get('json/list-box-data.json');
+        $scope.mydata = $http.get('json/list-box-data.json').then(function(results) {
+
+          // set a few selected items
+          $scope.selectedItems1 = [results.data[1], results.data[3], results.data[7]];
+          return results.data;
+        });
         
         $scope.schema = [
             {
