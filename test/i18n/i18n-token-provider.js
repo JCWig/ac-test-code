@@ -192,7 +192,7 @@ describe('locale cookie set to cookie without translation file', function() {
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
     context('when using custom loader service with cookie that has no files', function(){
-        it('should ignore gracefully and continue to next url', function(){
+        it('should ignore gracefully and continue to english cookie', function(){
             httpBackend.flush();
             expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
             expect(translation.sync("components.name")).to.equal("Akamai Common Components");
@@ -233,7 +233,7 @@ describe('locale cookie set to invalid cookie', function() {
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
     context('when using custom loader service bad cookie', function(){
-        it('should ignore gracefully and continue to next url', function(){
+        it('should ignore gracefully and continue to english cookie', function(){
             httpBackend.flush();
             expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
             expect(translation.sync("components.name")).to.equal("Akamai Common Components");
@@ -273,7 +273,7 @@ describe('locale cookie set to zn_CN wnot properly encoded', function() {
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
     context('when using custom loader service bad cookie', function(){
-        it('should ignore gracefully and continue to next url', function(){
+        it('should ignore gracefully and continue to english cookie', function(){
             httpBackend.flush();
             expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
             expect(translation.sync("components.name")).to.equal("Akamai Common Components");
@@ -311,7 +311,7 @@ describe('locale cookie already decoded', function() {
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
     context('when using custom loader service bad cookie', function(){
-        it('should ignore gracefully and continue to next url', function(){
+        it('should ignore gracefully and continue to english cookie', function(){
             httpBackend.flush();
             expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
             expect(translation.sync("components.name")).to.equal("Akamai Common Components");
