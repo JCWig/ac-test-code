@@ -5,7 +5,7 @@
     <div class="list-box-data">
         <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress>
         <table>
-            <thead>
+            <thead ng-if="dataTable.length > 0">
                 <tr>
                     <th ng-if="showCheckboxes" class="column-checkbox">
                         <input type="checkbox" ng-model="state.allSelected" id="{{tableId + 'allSelected'}}"><label for="{{tableId + 'allSelected'}}"></label>
@@ -16,7 +16,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length + 1}}" class="column-no-items-found" akam-translate="components.list-box.text.noItem">
+                <tr ng-if="dataTable.length === 0 && state.filter"><td class="empty-table-message">
+                        <i class="luna-alert"></i>{{noFilterResultsMessage}}
+                </td></tr>
+                <tr ng-if="dataTable.length === 0 && !state.filter && !state.viewSelectedOnly"><td class="empty-table-message">
+                    <i class="luna-alert"></i>{{noDataMessage}}
+                </td></tr>
+                <tr ng-if="dataTable.length === 0 && !state.filter && state.viewSelectedOnly"><td class="empty-table-message">
+                    <i class="luna-alert"></i>{{noneSelectedMessage}}
                 </td></tr>
                 <tr ng-repeat="item in dataTable | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
                     <td ng-if="showCheckboxes" class="column-checkbox">

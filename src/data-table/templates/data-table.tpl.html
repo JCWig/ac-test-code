@@ -31,6 +31,18 @@
                     <td class="column-action" ng-if="hasActionColumn" ng-transclude>
                     </td>
                 </tr>
+                <tr ng-if="filtered.length === 0 && state.filter">
+                    <td class="empty-table-message">
+                        <i class="luna-alert"></i>
+                        {{noFilterResultsMessage}}
+                    </td>
+                </tr>
+                <tr ng-if="filtered.length === 0 && !state.filter">
+                    <td class="empty-table-message">
+                        <i class="luna-alert"></i>
+                        {{noDataMessage}}
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

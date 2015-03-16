@@ -9,6 +9,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder : "@",
+            noFilterResultsMessage :"@",
+            noDataMessage : "@",
             onChange : '&?'
         },
         template: require('./templates/data-table.tpl.html'),
@@ -30,6 +32,16 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             if (!scope.filterPlaceholder) {
                 translate.async("components.data-table.placeholder.filter").then(function(value) {
                     scope.filterPlaceholder = value;
+                });
+            }
+            if (!scope.noFilterResultsMessage) {
+                translate.async("components.data-table.text.noFilterResults").then(function(value) {
+                    scope.noFilterResultsMessage = value;
+                });
+            }
+            if (!scope.noDataMessage) {
+                translate.async("components.data-table.text.noDataResults").then(function(value) {
+                    scope.noDataMessage = value;
                 });
             }
             scope.selectedItems = scope.selectedItems || [];

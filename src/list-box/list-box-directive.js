@@ -10,6 +10,9 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             schema: '=',
             filterPlaceholder: "@",
             selectedItems: '=?',
+            noFilterResultsMessage :"@",
+            noDataMessage : "@",
+            noneSelectedMessage :"@",
             onChange: "&?"
         },
         template: require('./templates/list-box.tpl.html'),
@@ -26,6 +29,21 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             translate.async("components.list-box.text.selected").then(function(value) {
                 scope.selectedText = value;
             });
+            if (!scope.noFilterResultsMessage) {
+                translate.async("components.list-box.text.noFilterResults").then(function(value) {
+                    scope.noFilterResultsMessage = value;
+                });
+            }
+            if (!scope.noDataMessage) {
+                translate.async("components.list-box.text.noDataMessage").then(function(value) {
+                    scope.noDataMessage = value;
+                });
+            }
+            if (!scope.noneSelectedMessage) {
+                translate.async("components.list-box.text.viewSelectedOnly").then(function(value) {
+                    scope.noneSelectedMessage = value;
+                });
+            }
 
             scope.selectedItems = scope.selectedItems || [];
             function setDefaults(){
