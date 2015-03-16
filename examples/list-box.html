@@ -124,7 +124,7 @@
                 id : 777,
                 bu : "Luna",
                 color: "YELLOW"
-            },
+            }
         ];
         var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
         app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", function(scope, $timeout, $q, $http) {
@@ -162,8 +162,10 @@
                         };
                         return colorsValues[this.color];
                     }
-                },
+                }
             ];
+
+            scope.selectedItems2 = [BASE_DATA[0], BASE_DATA[3], BASE_DATA[5]];
             
             scope.jsonColumns = [
                 {

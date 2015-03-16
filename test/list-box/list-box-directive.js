@@ -251,7 +251,7 @@ describe('akam-list-box', function() {
             expect(scope.$$childHead.selectedItems.length).to.equal(1);
             expect(scope.$$childHead.selectedItems[0].first).to.equal("Yair");
             expect(scope.$$childHead.selectedItems[0].last).to.equal("Leviel");
-        }); /*
+        });
         it('should auto check the preselected items', function(){
             scope.selectedItems = [{
                 first : 'Yair',
@@ -291,7 +291,7 @@ describe('akam-list-box', function() {
             expect(scope.$$childHead.selectedItems[0].last).to.equal("Leviel");
             expect(scope.$$childHead.selectedItems[1].first).to.equal("K-Slice");
             expect(scope.$$childHead.selectedItems[1].last).to.equal("McYoungPerson");
-        });*/
+        });
     });
     context('when nothing is selected', function(){
         afterEach(function() {

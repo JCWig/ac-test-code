@@ -239,7 +239,7 @@ describe('akam-data-table', function() {
             expect(scope.$$childTail.selectedItems[0].last_name).to.equal("Allen");
             expect(scope.$$childTail.selectedItems[0].id).to.equal("db71b303-db31-441f-bba4-e8095b728b63");
             expect(scope.$$childTail.selectedItems.length).to.equal(1);
-        });/*
+        });
         it('should be able to select items and add onto given selected items', function(){
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
             utilities.click(rowOneCheckbox);
@@ -255,7 +255,7 @@ describe('akam-data-table', function() {
             scope.$digest(); 
             var allCheckedCheckboxes = document.querySelector(ALL_CHECKED_CHECKBOXES);
             expect(allCheckedCheckboxes.length).to.equal(1);
-        });*/
+        });
         it('selecting items should only run process once', function(){
             var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
