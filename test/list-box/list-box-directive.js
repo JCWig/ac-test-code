@@ -114,7 +114,7 @@ describe('akam-list-box', function() {
             document.body.removeChild(this.element);
         });
         it('should render all parts', function() {
-            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+            var markup = '<akam-list-box data="mydata" schema="columns" ></akam-list-box>';
             addElement(markup);
 
             var columnNumber = document.querySelectorAll(TABLE_COLUMN_HEADER);
@@ -230,6 +230,68 @@ describe('akam-list-box', function() {
 
             expect(rowOneColumnTwo.textContent).to.match(/Kevin/);
         });
+    });
+    context('when given selectedItems', function(){
+        afterEach(function() {
+            document.body.removeChild(this.element);
+        });
+        it('should not delete selectedItems on load', function(){
+            scope.selectedItems = [{
+                first : 'Yair',
+                last : 'Leviel',
+                id : 1234,
+                bu : "Luna",
+                color: "Green",
+                birthday : new Date(2001,10,20),
+                generic : ["hello"]
+            }];
+            var markup = '<akam-list-box data="mydata" schema="columns" selected-items="selectedItems"></akam-list-box>';
+            addElement(markup);
+
+            expect(scope.$$childHead.selectedItems.length).to.equal(1);
+            expect(scope.$$childHead.selectedItems[0].first).to.equal("Yair");
+            expect(scope.$$childHead.selectedItems[0].last).to.equal("Leviel");
+        }); /*
+        it('should auto check the preselected items', function(){
+            scope.selectedItems = [{
+                first : 'Yair',
+                last : 'Leviel',
+                id : 1234,
+                bu : "Luna",
+                color: "Green",
+                birthday : new Date(2001,10,20),
+                generic : ["hello"]
+            }];
+            var markup = '<akam-list-box data="mydata" schema="columns" selected-items="selectedItems"></akam-list-box>';
+            addElement(markup);
+
+            var allCheckedCheckboxes = document.querySelector(ALL_CHECKED_CHECKBOXES);
+
+            expect(allCheckedCheckboxes.length).to.equal(1);
+        });
+        it('should add onto selectedItems when new item clicked', function(){
+            scope.selectedItems = [{
+                first : 'Yair',
+                last : 'Leviel',
+                id : 1234,
+                bu : "Luna",
+                color: "Green",
+                birthday : new Date(2001,10,20),
+                generic : ["hello"]
+            }];
+            var markup = '<akam-list-box data="mydata" schema="columns" selected-items="selectedItems"></akam-list-box>';
+            addElement(markup);
+
+            var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+            utilities.click(firstRowCheckbox);
+            scope.$digest();
+
+            expect(scope.$$childHead.selectedItems.length).to.equal(2);
+            expect(scope.$$childHead.selectedItems[0].first).to.equal("Yair");
+            expect(scope.$$childHead.selectedItems[0].last).to.equal("Leviel");
+            expect(scope.$$childHead.selectedItems[1].first).to.equal("K-Slice");
+            expect(scope.$$childHead.selectedItems[1].last).to.equal("McYoungPerson");
+        });*/
     });
     context('when nothing is selected', function(){
         afterEach(function() {

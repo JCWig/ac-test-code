@@ -42,7 +42,6 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                         'cells': ''
                     }
                 };
-                scope.selectedItems = [];
             }
             setDefaults();
             scope.updateSearchFilter = function() {
@@ -124,6 +123,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                         throw "Data must be an array";
                     }
                     
+                    if(!!scope.internalData){
+                        scope.selectedItems = [];
+                    }
+
                     setDefaults();
                     scope.updateSearchFilter();
                     scope.internalData = data;

@@ -221,7 +221,8 @@ describe('akam-data-table', function() {
     });
     context('when rendered with checkboxes', function(){
         beforeEach(function(){
-            var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true"></akam-data-table>';
+            scope.selectedItems1 = [{"first_name":"Amanda","last_name":"Allen","email":"aallenr@imgur.com","id":"db71b303-db31-441f-bba4-e8095b728b63"}];
+            var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true" selected-items="selectedItems1"></akam-data-table>';
             addElement(markup);
         });
         it('should show checkboxes for each row', function(){
@@ -233,13 +234,28 @@ describe('akam-data-table', function() {
             scope.$digest();
             expect(document.querySelectorAll(TABLE_ROW).length).to.equal(50);
         });
-        it('should be able to select items', function(){
+        it('should not delete selectedItems on load', function(){
+            expect(scope.$$childTail.selectedItems[0].first_name).to.equal("Amanda");
+            expect(scope.$$childTail.selectedItems[0].last_name).to.equal("Allen");
+            expect(scope.$$childTail.selectedItems[0].id).to.equal("db71b303-db31-441f-bba4-e8095b728b63");
+            expect(scope.$$childTail.selectedItems.length).to.equal(1);
+        });/*
+        it('should be able to select items and add onto given selected items', function(){
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
             utilities.click(rowOneCheckbox);
             scope.$digest();
-
-            expect(scope.$$childTail.selectedItems.length).to.equal(1);
+            expect(scope.$$childTail.selectedItems[1].first_name).to.equal("Aaron");
+            expect(scope.$$childTail.selectedItems[1].last_name).to.equal("Miller");
+            expect(scope.$$childTail.selectedItems[1].id).to.equal("c1286872-2774-4c5a-8aa6-91be36b23a6a");
+            expect(scope.$$childTail.selectedItems.length).to.equal(2);
         });
+        it('should auto check the preselected items even on next page', function(){
+            var nextArrow = document.querySelector(NEXT_BUTTON).querySelector('a');
+            utilities.click(nextArrow);
+            scope.$digest(); 
+            var allCheckedCheckboxes = document.querySelector(ALL_CHECKED_CHECKBOXES);
+            expect(allCheckedCheckboxes.length).to.equal(1);
+        });*/
         it('selecting items should only run process once', function(){
             var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');

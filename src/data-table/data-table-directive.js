@@ -9,6 +9,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder : "@",
+            selectedItems:"=?",
             onChange : '&?'
         },
         template: require('./templates/data-table.tpl.html'),
@@ -49,9 +50,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                         'cells' : ''
                     }
                 };
-                scope.selectedItems = [];
             }
-            
+
             setDefaults();
 
             function update(){
@@ -169,6 +169,9 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     }  
 
                     setDefaults();
+                    if(!!scope.internalData){
+                        scope.selectedItems = [];
+                    }
                     scope.updateSearchFilter();
                     scope.internalData = data;
                     scope.processDataTable();
