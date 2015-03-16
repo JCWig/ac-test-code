@@ -212,7 +212,127 @@ describe('locale cookie set to invalid cookie', function() {
         angular.mock.module(function($provide, $translateProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
             $provide.decorator ('$cookies', function ($delegate) {
-                $delegate = {AKALOCALE:"FIzdXMzL0pJb=ms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
+                $delegate = {AKALOCALE:"TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
+                return $delegate;
+            });
+        });
+        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
+            $translate = _$translate_;
+            loader = i18nCustomLoader;
+            config = i18nConfig;
+            translation = translate;
+            timeout = $timeout;
+            httpBackend = $httpBackend;
+            scope = $rootScope;
+            log = $log;
+        });
+        httpBackend.when('GET', '/apps/appname/locales/MQjIBMmtQk/U82yZ8IxKBvE1bfQWUtDA8rzMpRH38PT4aqp+scxLwT12qV+gGxd5fYGbnfo=.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', '/libs/akamai-components/0.0.1/locales/MQjIBMmtQk/U82yZ8IxKBvE1bfQWUtDA8rzMpRH38PT4aqp+scxLwT12qV+gGxd5fYGbnfo=.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+    });
+    context('when using custom loader service bad cookie', function(){
+        it('should ignore gracefully and continue to next url', function(){
+            httpBackend.flush();
+            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+        });
+    });
+});
+describe('locale cookie set to zn_CN without +', function() {
+    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+    var enUsResponse = require ("./i18n_responses/en_US.json");
+    beforeEach(function(){
+        angular.mock.module(require('../../src/i18n').name);
+        angular.mock.module(function(i18nTokenProvider) {
+            provider = i18nTokenProvider;
+        });
+        angular.mock.module(function($provide, $translateProvider) {
+            $translateProvider.useLoader('i18nCustomLoader');
+            $provide.decorator ('$cookies', function ($delegate) {
+                $delegate = {AKALOCALE:"emhfQ04=+TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
+                return $delegate;
+            });
+        });
+        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
+            $translate = _$translate_;
+            loader = i18nCustomLoader;
+            config = i18nConfig;
+            translation = translate;
+            timeout = $timeout;
+            httpBackend = $httpBackend;
+            scope = $rootScope;
+            log = $log;
+        });
+        httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', '/libs/akamai-components/0.0.1/locales/zh_CN.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+    });
+    context('when using custom loader service bad cookie', function(){
+        it('should ignore gracefully and continue to next url', function(){
+            httpBackend.flush();
+            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+        });
+    });
+});
+describe('locale cookie already decoded', function() {
+    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+    var enUsResponse = require ("./i18n_responses/en_US.json");
+    beforeEach(function(){
+        angular.mock.module(require('../../src/i18n').name);
+        angular.mock.module(function(i18nTokenProvider) {
+            provider = i18nTokenProvider;
+        });
+        angular.mock.module(function($provide, $translateProvider) {
+            $translateProvider.useLoader('i18nCustomLoader');
+            $provide.decorator ('$cookies', function ($delegate) {
+                $delegate = {AKALOCALE:"zh_CN>MQjIBMmtQk/U82yZ8IxKBvE1bfQWUtDA8rzMpRH38PT4aqp+scxLwT12qV+gGxd5fYGbnfo="};
+                return $delegate;
+            });
+        });
+        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
+            $translate = _$translate_;
+            loader = i18nCustomLoader;
+            config = i18nConfig;
+            translation = translate;
+            timeout = $timeout;
+            httpBackend = $httpBackend;
+            scope = $rootScope;
+            log = $log;
+        });
+        httpBackend.when('GET', '../../_appde_DE.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', 'libs/akamai-components/0.0.1/locales/de_DE.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+    });
+    context('when using custom loader service bad cookie', function(){
+        it('should ignore gracefully and continue to next url', function(){
+            httpBackend.flush();
+            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+        });
+    });
+});
+describe('locale cookie already decoded', function() {
+    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+    var enUsResponse = require ("./i18n_responses/en_US.json");
+    beforeEach(function(){
+        angular.mock.module(require('../../src/i18n').name);
+        angular.mock.module(function(i18nTokenProvider) {
+            provider = i18nTokenProvider;
+        });
+        angular.mock.module(function($provide, $translateProvider) {
+            $translateProvider.useLoader('i18nCustomLoader');
+            $provide.decorator ('$cookies', function ($delegate) {
+                $delegate = {AKALOCALE:"zh_CN>MQjIBMmtQk/U82yZ8IxKBvE1bfQWUtDA8rzMpRH38PT4aqp+scxLwT12qV+gGxd5fYGbnfo="};
                 return $delegate;
             });
         });
