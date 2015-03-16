@@ -21,16 +21,13 @@ var PAGE_SIZE_SMALLEST = 'div.akam-pagination .page-size li:first-child';
 var PAGE_SIZE_LARGEST = 'div.akam-pagination .page-size li:last-child';
 var PAGE_SIZE_NTH = 'div.akam-pagination .page-size li:nth-child';
 var PAGE_SIZES= 'div.akam-pagination .page-size li';
-var translationMock = {
-    "components": {
-        "pagination": {
-            "label": {
-                "results": "Results: ",
-                "show-entries": "Show Entries: "
-            }
-        }
-    }
-};
+
+//i18n Requirements
+var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json';
+var CONFIG_PATH = '/apps/appName/locales/en_US.json';
+var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
+var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
+
 
 describe('akam-data-table', function() {
     var compile = null;
@@ -42,22 +39,16 @@ describe('akam-data-table', function() {
         self = this;
         angular.mock.module(require('../../src/data-table').name);
         angular.mock.module(function($provide, $translateProvider, $sceProvider) {
-            $provide.factory('i18nCustomLoader', function($q, $timeout) {
-                return function(options) {
-                    var deferred = $q.defer();
-                    $timeout(function() {
-                        deferred.resolve(translationMock);
-                    });
-                    return deferred.promise;
-                };
-            });
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function($compile, $rootScope, $q, $timeout) {
+        inject(function($compile, $rootScope, $q, $timeout, $httpBackend) {
             compile = $compile;
             scope = $rootScope.$new();
             q = $q;
             timeout = $timeout;
+            $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+            $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
+            $httpBackend.flush();
         });
         scope.mydata = [
             {
@@ -574,16 +565,6 @@ describe('akam-data-table', function() {
             expect(rowOneColumnTwoHighlighted.textContent).to.match(/95453e7/);
             
         });
-        it('should show nothing when filter returns no results', function(){
-            scope.$$childHead.state.filter = "GOTTA CATCH EM ALL POKEMON!!!!";
-            scope.$$childHead.updateSearchFilter();
-            scope.$digest();    
-
-            var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
-
-            expect(document.querySelectorAll(TABLE_ROW).length).to.equal(0);
-            expect(totalItemsSpan.textContent).to.contain('0');
-        });
         it('should revert to pagination index 1', function(){
             scope.$$childHead.state.filter = "Kev";
             scope.$$childHead.updateSearchFilter();
@@ -886,8 +867,8 @@ describe('akam-data-table', function() {
             expect(rowOneColumnOne.textContent).to.match(/Dinah Lance/);
             expect(rowTwoColumnOne.textContent).to.match(/Oliver Queen/);
             expect(rowThreeColumnOne.textContent).to.match(/Roy Harper/);
-        });/*
-        it('should present message when no data is available', function(){
+        });
+        it('should present message when no data is available and no filters', function(){
             scope.baddata = [];
             scope.columns = [
                 {content : "name", 
@@ -895,12 +876,26 @@ describe('akam-data-table', function() {
             ];
             var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true"></akam-data-table>';
             addElement(markup);
-            
-            var dataTable = document.querySelector('tbody');
+            var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTable.textContent).to.match(/Not results found at all hahahah/);
-            
-        });*/
+            expect(dataTableRow.textContent).to.match(/There is no data based upon your criteria/);
+        });
+        it('should present a different message when no data is available and filtered', function(){
+            scope.baddata = [];
+            scope.columns = [
+                {content : "name", 
+                header : 'Name'}
+            ];
+            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true"></akam-data-table>';
+            addElement(markup);
+            scope.$$childHead.state.filter = "Oliver";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();
+
+            var dataTableRow = document.querySelector('.empty-table-message');
+
+            expect(dataTableRow.textContent).to.match(/There are no results based upon your filter/);
+        });
     });
     context('when changing data input', function(){
         beforeEach(function(){
