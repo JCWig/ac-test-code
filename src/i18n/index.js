@@ -47,13 +47,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @requires pascalprecht.translate.$translate
  *
- * @description translate is a service - a wrapper for angular
- * `$translate` service.  This service contains two API methods.
- * translate.sync(key, args) is for blocking method same as
- * $translate.instant(key, args), and
- * translate.async(keys).then(function(results) {}) for non-blocking
- * fashion, same as $translate(key, args)...  __NOTE__: usage examples
- * are detailed in `translate-service.js`
+ * @description A wrapper for the angular `$translate` service,
+ * providing both blocking and asynchronous methods to translate
+ * string keys.
  *
  */
 .factory('translate', require('./translate-service'))
@@ -116,8 +112,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @requires i18nConfig
  *
  * @description This service contains an object that exposes two
- * getter methods, getCurrentLocale() and getUrls(), those getter
- * methods return values set by i18nTokenProvider in config phase.
+ * getter methods that return values set by
+ * {@link akamai.components.i18n.service:i18nTokenProvider `i18nTokenProvider`}
+ * in an application's configuration phase.
  *
  */
 /* @ngInject */
@@ -151,13 +148,12 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @requires i18nConfig
  *
- * @description This 'i18nCustomLoader' factory service provides
- * loader functionalities set for $translationProvider during config
- * phase, then during run phase, it will call back to make rest calls
- * to obtain locale files and set to translation table. The loader can
- * performs loading multiple locale resource files and combining into
- * one translation table for $translate service, directive and filter
- * to use.
+ * @description A factory service provides loader functionalities set
+ * for `$translationProvider` during an application's configuration
+ * phase. During its run phase, it makes REST calls back to obtain
+ * locale files and set to translation table. It loads locale resource
+ * files and builds a translation table for use by the `$translate`
+ * service, directive, and filter.
  *
  */
 .factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
@@ -180,7 +176,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * __NOTE__: To prevent from page flicks due to async nature, we suggest
  * any usages of translate in markup, add "translate-cloak" on body
- * tag, and add .translate-cloak {display: none !important; } in CSS.
+ * tag, and add `.translate-cloak {display: none !important; }` in CSS.
  *
  */
 /* @ngInject */
@@ -195,7 +191,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 
 /**
  * This run block tells angular $translate service to use per language key, so the current translation table will be based upon that.
- * *NOTE* Since run block is last flow, only this block completed, the $translation table is sure loaded.
+ * __NOTE__: Since run block is last flow, only this block completed, the $translation table is sure loaded.
  */
 /* @ngInject */
 .run(function($translate, i18nToken) {

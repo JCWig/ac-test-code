@@ -60,7 +60,8 @@ module.exports = function($translate) {
          * });
          *
          * </pre>
-         * *NOTE* The event is on the $rootScope only
+         *
+         * __NOTE__: The event is on the $rootScope only.
          *
          * @param {array | string} keys if it is array type - it contains keys, return access values will be values[key[0]]
          * @param {object=} args is hash that contains variable replacements
@@ -91,12 +92,18 @@ module.exports = function($translate) {
          * });
          *
          * </pre>
-         * *NOTE* The event is on the $rootScope only
-         * *NOTE* In most cases, the translation table has been loaded, this blocking call should return correct translated value,
-         * but if uncertain, we suggest you need to look into non-blocking call which is to use async method
          *
-         * @param {string} key string of key name
-         * @param {object=} args is hash that contains variable replacements
+         * __NOTE__: The event is on the $rootScope only.
+         *
+         * __NOTE__: In most cases, the translation table has been
+         * loaded, this blocking call should return correct translated
+         * value, but if uncertain, we suggest you need to look into
+         * non-blocking call which is to use async method.
+         *
+         * @param {string} key string of key name.
+         *
+         * @param {object=} args is hash that contains variable
+         * replacements.
          *
          */
         sync: syncMethod
