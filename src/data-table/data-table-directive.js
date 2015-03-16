@@ -50,7 +50,6 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                         'cells' : ''
                     }
                 };
-                scope.selectedItems = [];
             }
 
             setDefaults();
@@ -170,6 +169,9 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     }  
 
                     setDefaults();
+                    if(!!scope.internalData){
+                        scope.selectedItems = [];
+                    }
                     scope.updateSearchFilter();
                     scope.internalData = data;
                     scope.processDataTable();
