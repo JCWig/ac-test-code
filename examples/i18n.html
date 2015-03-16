@@ -9,21 +9,7 @@
 
     <script>
     var app = angular.module("i18nDemo3", ["akamai.components.i18n"]);
-    app.config(function(i18nTokenProvider) {
-        //follwing code commented out following is to show user has option for setting locale path via passing in the config data,
-        //and if not passing in, then we will assume to use common standard path which like: "https://akamai.control.com/apps/{appName}/..."
-        //more details go to component documentation pages
-        /*var config = {
-            path: "/examples/locales/json/messages/",
-            prefix: "messages_",
-            appName: "billing-center"
-        };
-        i18nTokenProvider.addAppLocalePath(config);
-*/
-    });
-
     app.controller("TranslationPageController", ["$scope", "translate", "$rootScope", "$filter", function($scope, translate, $rootScope, $filter) {
-
         $rootScope.$on('$translateChangeEnd', function() {
             console.log(translate.sync('reseller-tools.note'));
             console.log(translate.sync('components.menu-button.label'));
@@ -39,12 +25,12 @@
             <div class="page-header">
                 <h1>i18n Example</h1>
             </div>
-            
+
             <div>
                 <h2>1. Check with console for javascript translations using translate service</h2>
             </div>
             <br><br>
-            
+
             <div>
                 <h2>2. Display app and component translated text using directive</h2>
                 <div>
@@ -57,7 +43,7 @@
                 </div>
             </div>
             <br><br>
-            
+
             <div>
                 <h2>3. Display app and component translated text using filter</h2>
                 <div>
