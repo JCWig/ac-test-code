@@ -28,20 +28,22 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             });
 
             scope.selectedItems = scope.selectedItems || [];
-            scope.state = {
-                sortInfo: {
-                    sortedColumn: null,
-                    predicate: null,
-                    reverseSort: false
-                },
-                viewSelectedOnly: false,
-                allSelected: false,
-                filter: "",
-                search: {
-                    'cells': ''
-                }
-            };
-
+            function setDefaults(){
+                scope.state = {
+                    sortInfo: {
+                        sortedColumn: null,
+                        predicate: null,
+                        reverseSort: false
+                    },
+                    viewSelectedOnly: false,
+                    allSelected: false,
+                    filter: "",
+                    search: {
+                        'cells': ''
+                    }
+                };
+            }
+            setDefaults();
             scope.updateSearchFilter = function() {
                 if (scope.state.viewSelectedOnly === true) {
                     scope.state.search = {
@@ -120,7 +122,13 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     if (!angular.isArray(data)) {
                         throw "Data must be an array";
                     }
+                    
+                    if(!!scope.internalData){
+                        scope.selectedItems = [];
+                    }
 
+                    setDefaults();
+                    scope.updateSearchFilter();
                     scope.internalData = data;
                     scope.processDataTable();
                 });

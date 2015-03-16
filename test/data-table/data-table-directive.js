@@ -221,7 +221,8 @@ describe('akam-data-table', function() {
     });
     context('when rendered with checkboxes', function(){
         beforeEach(function(){
-            var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true"></akam-data-table>';
+            scope.selectedItems1 = [{"first_name":"Amanda","last_name":"Allen","email":"aallenr@imgur.com","id":"db71b303-db31-441f-bba4-e8095b728b63"}];
+            var markup = '<akam-data-table data="mybigdata" schema="bigcolumns" show-checkboxes="true" selected-items="selectedItems1"></akam-data-table>';
             addElement(markup);
         });
         it('should show checkboxes for each row', function(){
@@ -233,13 +234,28 @@ describe('akam-data-table', function() {
             scope.$digest();
             expect(document.querySelectorAll(TABLE_ROW).length).to.equal(50);
         });
-        it('should be able to select items', function(){
+        it('should not delete selectedItems on load', function(){
+            expect(scope.$$childTail.selectedItems[0].first_name).to.equal("Amanda");
+            expect(scope.$$childTail.selectedItems[0].last_name).to.equal("Allen");
+            expect(scope.$$childTail.selectedItems[0].id).to.equal("db71b303-db31-441f-bba4-e8095b728b63");
+            expect(scope.$$childTail.selectedItems.length).to.equal(1);
+        });/*
+        it('should be able to select items and add onto given selected items', function(){
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
             utilities.click(rowOneCheckbox);
             scope.$digest();
-
-            expect(scope.$$childTail.selectedItems.length).to.equal(1);
+            expect(scope.$$childTail.selectedItems[1].first_name).to.equal("Aaron");
+            expect(scope.$$childTail.selectedItems[1].last_name).to.equal("Miller");
+            expect(scope.$$childTail.selectedItems[1].id).to.equal("c1286872-2774-4c5a-8aa6-91be36b23a6a");
+            expect(scope.$$childTail.selectedItems.length).to.equal(2);
         });
+        it('should auto check the preselected items even on next page', function(){
+            var nextArrow = document.querySelector(NEXT_BUTTON).querySelector('a');
+            utilities.click(nextArrow);
+            scope.$digest(); 
+            var allCheckedCheckboxes = document.querySelector(ALL_CHECKED_CHECKBOXES);
+            expect(allCheckedCheckboxes.length).to.equal(1);
+        });*/
         it('selecting items should only run process once', function(){
             var spyOnChange = sinon.spy(scope.$$childTail, "updateChanged");
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
@@ -901,6 +917,98 @@ describe('akam-data-table', function() {
             expect(dataTable.textContent).to.match(/Not results found at all hahahah/);
             
         });*/
+    });
+    context('when changing data input', function(){
+        beforeEach(function(){
+            scope.mydata = [{'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8}];
+            scope.columns = [{content : 'name', header : 'Name',sort:'name'}];
+        });
+        it('should clear filter when data is changed', function() {
+            scope.changingdata = scope.mybigdata.slice(0);
+            scope.changingcolumns = scope.bigcolumns.slice(0);
+            var markup = '<akam-data-table data="changingdata" schema="changingcolumns"></akam-data-table>';
+            addElement(markup);
+            
+            scope.$$childHead.state.filter = "Oliver";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();
+            
+            var allVisibleRows = document.querySelectorAll(TABLE_ROW);
+            expect(allVisibleRows.length).to.equal(3);
+
+
+            scope.changingdata =scope.mydata.slice(0);
+            scope.changingcolumns = scope.columns.slice(0);
+            scope.$digest();
+            expect(scope.$$childHead.state.filter).to.equal('');
+
+            allVisibleRows = document.querySelectorAll(TABLE_ROW);
+            expect(allVisibleRows.length).to.equal(10);
+        });
+        it('should reset to page 1 on data change from no longer existant pagination index', function() {
+            scope.changingdata = scope.mybigdata.slice(0);
+            scope.changingcolumns = scope.bigcolumns.slice(0);
+            var markup = '<akam-data-table data="changingdata" schema="changingcolumns"></akam-data-table>';
+            addElement(markup);
+
+            var largestPaginationIndex = document.querySelector(PAGINATION_INDEX_NTH+'(2)');
+            utilities.click(largestPaginationIndex);
+            scope.$digest();
+
+            scope.changingdata =scope.mydata.slice(0);
+            scope.changingcolumns = scope.columns.slice(0);
+
+            var paginationPageOne= document.querySelector(PAGINATION_PAGE_ONE);
+
+            expect(paginationPageOne.classList.contains('active')).to.be.true;
+        });
+        it('should reset to page 1 on data change from still existant pagination index', function() {
+            scope.changingdata = scope.mybigdata.slice(0);
+            scope.changingcolumns = scope.bigcolumns.slice(0);
+            var markup = '<akam-data-table data="changingdata" schema="changingcolumns"></akam-data-table>';
+            addElement(markup);
+
+            var nextArrow = document.querySelector(NEXT_BUTTON);
+            utilities.click(nextArrow);
+            scope.$digest();
+
+            scope.changingdata =scope.mydata.slice(0);
+            scope.changingcolumns = scope.columns.slice(0);
+            scope.$digest();
+
+            var paginationPageOne= document.querySelector(PAGINATION_PAGE_ONE);
+
+            expect(paginationPageOne.classList.contains('active')).to.be.true;
+        });
+        it('should re-sort based on first column', function() {
+            scope.changingdata = scope.mybigdata.slice(0);
+            scope.changingcolumns = scope.bigcolumns.slice(0);
+            var markup = '<akam-data-table data="changingdata" schema="changingcolumns"></akam-data-table>';
+            addElement(markup);
+            var rowOneColumnTwo = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
+            var rowTwoColumnOne = document.querySelectorAll(TABLE_ROW)[1].querySelectorAll('td')[0];
+
+            utilities.click(rowOneColumnTwo);
+            scope.$digest();
+            expect(rowOneColumnTwo.classList.contains('asc')).to.equal(true);
+            expect(rowTwoColumnOne.textContent).to.equal('Adam Grant');
+
+            scope.changingdata =scope.mydata.slice(0);
+            scope.changingcolumns = scope.columns.slice(0);
+            scope.$digest();
+
+            var rowOneColumnOne = document.querySelectorAll(TABLE_COLUMN_HEADER)[0];
+            rowTwoColumnOne = document.querySelectorAll(TABLE_ROW)[0].querySelectorAll('td')[0];
+
+            expect(rowOneColumnOne.classList.contains('asc')).to.equal(true);
+            expect(rowTwoColumnOne.textContent).to.equal('Alejandro');
+        });    
     });
     context('when errors are thrown', function(){
         it('should throw error when schema is not an array', function(){
