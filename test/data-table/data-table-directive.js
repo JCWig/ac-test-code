@@ -902,6 +902,98 @@ describe('akam-data-table', function() {
             
         });*/
     });
+    context('when changing data input', function(){
+        beforeEach(function(){
+            scope.mydata = [{'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8},
+                            {'name' : "Kevin",'id':5},{'name' : "Alejandro",'id':8}];
+            scope.columns = [{content : 'name', header : 'Name',sort:'name'}];
+        });
+        it('should clear filter when data is changed', function() {
+            scope.changingdata = scope.mybigdata.slice(0);
+            scope.changingcolumns = scope.bigcolumns.slice(0);
+            var markup = '<akam-data-table data="changingdata" schema="changingcolumns"></akam-data-table>';
+            addElement(markup);
+            
+            scope.$$childHead.state.filter = "Oliver";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();
+            
+            var allVisibleRows = document.querySelectorAll(TABLE_ROW);
+            expect(allVisibleRows.length).to.equal(3);
+
+
+            scope.changingdata =scope.mydata.slice(0);
+            scope.changingcolumns = scope.columns.slice(0);
+            scope.$digest();
+            expect(scope.$$childHead.state.filter).to.equal('');
+
+            allVisibleRows = document.querySelectorAll(TABLE_ROW);
+            expect(allVisibleRows.length).to.equal(10);
+        });
+        it('should reset to page 1 on data change from no longer existant pagination index', function() {
+            scope.changingdata = scope.mybigdata.slice(0);
+            scope.changingcolumns = scope.bigcolumns.slice(0);
+            var markup = '<akam-data-table data="changingdata" schema="changingcolumns"></akam-data-table>';
+            addElement(markup);
+
+            var largestPaginationIndex = document.querySelector(PAGINATION_INDEX_NTH+'(2)');
+            utilities.click(largestPaginationIndex);
+            scope.$digest();
+
+            scope.changingdata =scope.mydata.slice(0);
+            scope.changingcolumns = scope.columns.slice(0);
+
+            var paginationPageOne= document.querySelector(PAGINATION_PAGE_ONE);
+
+            expect(paginationPageOne.classList.contains('active')).to.be.true;
+        });
+        it('should reset to page 1 on data change from still existant pagination index', function() {
+            scope.changingdata = scope.mybigdata.slice(0);
+            scope.changingcolumns = scope.bigcolumns.slice(0);
+            var markup = '<akam-data-table data="changingdata" schema="changingcolumns"></akam-data-table>';
+            addElement(markup);
+
+            var nextArrow = document.querySelector(NEXT_BUTTON);
+            utilities.click(nextArrow);
+            scope.$digest();
+
+            scope.changingdata =scope.mydata.slice(0);
+            scope.changingcolumns = scope.columns.slice(0);
+            scope.$digest();
+
+            var paginationPageOne= document.querySelector(PAGINATION_PAGE_ONE);
+
+            expect(paginationPageOne.classList.contains('active')).to.be.true;
+        });
+        it('should re-sort based on first column', function() {
+            scope.changingdata = scope.mybigdata.slice(0);
+            scope.changingcolumns = scope.bigcolumns.slice(0);
+            var markup = '<akam-data-table data="changingdata" schema="changingcolumns"></akam-data-table>';
+            addElement(markup);
+            var rowOneColumnTwo = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
+            var rowTwoColumnOne = document.querySelectorAll(TABLE_ROW)[1].querySelectorAll('td')[0];
+
+            utilities.click(rowOneColumnTwo);
+            scope.$digest();
+            expect(rowOneColumnTwo.classList.contains('asc')).to.equal(true);
+            expect(rowTwoColumnOne.textContent).to.equal('Adam Grant');
+
+            scope.changingdata =scope.mydata.slice(0);
+            scope.changingcolumns = scope.columns.slice(0);
+            scope.$digest();
+
+            var rowOneColumnOne = document.querySelectorAll(TABLE_COLUMN_HEADER)[0];
+            rowTwoColumnOne = document.querySelectorAll(TABLE_ROW)[0].querySelectorAll('td')[0];
+
+            expect(rowOneColumnOne.classList.contains('asc')).to.equal(true);
+            expect(rowTwoColumnOne.textContent).to.equal('Alejandro');
+        });    
+    });
     context('when errors are thrown', function(){
         it('should throw error when schema is not an array', function(){
             scope.messedupcolumns = {};
