@@ -143,7 +143,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @name  akamai.components.i18n.service:i18nTokenProvider
  * @requires i18nConfig
  *
- * @description This i18nTokenProvider provides method that allows application to pass in the app locale path config value(s) during config phase.
+ * @description This i18nTokenProvider adds two locale file path endpoints and locale value for later use
  * And it also invokes i18nToken service object that consumes those locale and path values during run phase
  */
 .provider('i18nToken', require('./i18n-token-provider'))
