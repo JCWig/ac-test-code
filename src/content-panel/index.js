@@ -24,7 +24,7 @@ var angular = require('angular');
      *
      * @restrict E
      *
-     * @param {Boolean} [collapsed=false] The collapsed state of the panel.
+     * @param {Boolean} [collapsed=false] The panel's collapsed state.
      *
      */
 .directive('akamContentPanel', require('./content-panel-directive'));
