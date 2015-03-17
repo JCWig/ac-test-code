@@ -233,7 +233,7 @@
     "notification.edit.view.title": "EDIT NOTIFICATION",
     "components.data-table.text.noFilterResults":"There are no results based upon your filter",
     "components.data-table.text.noDataResults":"There is no data based upon your criteria",
-    "components.list-box.text.no.data.viewSelectedOnly":"You have no data selected",
+    "components.list-box.text.viewSelectedOnly":"You have no data selected",
     "components.list-box.text.nofilterResults":"There are no results based upon your filter",
     "components.list-box.text.noDataMessage":"There is no data based upon your criteria"
 }

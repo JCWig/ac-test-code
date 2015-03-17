@@ -268,6 +268,17 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
+            scope.getEmptyStatusMessage = function(){
+                if(scope.dataTable.length === 0 && scope.state.filter){
+                    return scope.noFilterResultsMessage;
+                }
+                else if(scope.dataTable.length === 0 && !scope.state.filter && !scope.state.viewSelectedOnly){
+                    return scope.noDataMessage;
+                }
+                else if(scope.dataTable.length === 0 && !scope.state.filter && scope.state.viewSelectedOnly){
+                    return scope.noneSelectedMessage;
+                }
+            };
         }
     };
 };

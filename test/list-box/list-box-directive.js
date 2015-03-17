@@ -854,13 +854,13 @@ describe('akam-list-box', function() {
                 header : 'Name'}
             ];
             httpBackend.flush();
-            var markup = '<akam-list-box data="baddata" schema="badcolumns"></akam-list-box>';
+            var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="message"></akam-list-box>';
             addElement(markup);
         });
         afterEach(function(){
             document.body.removeChild(this.element);
         });
-        it('should present message when no data is available and no filters', function(){
+        it('should present message when no data is available and no filters that can be provided', function(){
             scope.baddata = [];
             scope.columns = [
                 {content : "name", 
@@ -868,7 +868,7 @@ describe('akam-list-box', function() {
             ];
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).to.match(/There is no data based upon your criteria/);
+            expect(dataTableRow.textContent).to.match(/message/);
         });
         it('should present a different message when no data is available and filtered', function(){
             scope.$$childHead.state.filter = "Oliver";

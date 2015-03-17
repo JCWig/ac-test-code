@@ -295,6 +295,17 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
+            scope.getEmptyStatusMessage = function(){
+                if(scope.filtered.length === 0 && scope.state.filter){
+                    return scope.noFilterResultsMessage;
+                }
+                else if(scope.filtered.length === 0 && !scope.state.filter){
+                    return scope.noDataMessage;
+                }
+            };
+            scope.getColumnsLength = function(){
+                return scope.hasActionColumn ? (scope.columns.length + 1) : scope.columns.length;
+            };
         }
     };
 };
