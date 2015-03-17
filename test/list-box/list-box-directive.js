@@ -186,7 +186,7 @@ describe('akam-list-box', function() {
             timeout.flush();
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
 
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(document.querySelector('akam-indeterminate-progress')).to.be.null;
             expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
         });
         it('should display indeterminate progress and load data on http get', function() {
@@ -208,7 +208,7 @@ describe('akam-list-box', function() {
             httpBackend.flush();
 
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(document.querySelector('akam-indeterminate-progress')).to.be.null;
             expect(allRowsLoadedInTable).to.have.length(dataLength);
         });
         it('should be able to use default sorting method on first column', function(){

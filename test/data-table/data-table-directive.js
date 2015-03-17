@@ -162,7 +162,7 @@ describe('akam-data-table', function() {
             timeout.flush();
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
 
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(document.querySelector('akam-indeterminate-progress')).to.be.null;
             expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
         });
         it('should render all parts data table and pagination', function() {
