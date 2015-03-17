@@ -9,6 +9,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder : "@",
+            noFilterResultsMessage :"@",
+            noDataMessage : "@",
             selectedItems:"=?", // selected items from the outside
             onChange : '&?'
         },
@@ -30,6 +32,16 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             if (!scope.filterPlaceholder) {
                 translate.async("components.data-table.placeholder.filter").then(function(value) {
                     scope.filterPlaceholder = value;
+                });
+            }
+            if (!scope.noFilterResultsMessage) {
+                translate.async("components.data-table.text.noFilterResults").then(function(value) {
+                    scope.noFilterResultsMessage = value;
+                });
+            }
+            if (!scope.noDataMessage) {
+                translate.async("components.data-table.text.noDataResults").then(function(value) {
+                    scope.noDataMessage = value;
                 });
             }
             scope.selectedItems = scope.selectedItems || [];
@@ -305,6 +317,14 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     return scope.hasActionColumn ? (scope.columns.length + 1) : scope.columns.length;
                 } else {
                     return -1;
+                }
+            };
+            scope.getEmptyStatusMessage = function(){
+                if(scope.filtered.length === 0 && scope.state.filter){
+                    return scope.noFilterResultsMessage;
+                }
+                else if(scope.filtered.length === 0 && !scope.state.filter){
+                    return scope.noDataMessage;
                 }
             };
         }

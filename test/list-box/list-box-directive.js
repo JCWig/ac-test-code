@@ -186,7 +186,7 @@ describe('akam-list-box', function() {
             timeout.flush();
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
 
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(document.querySelector('akam-indeterminate-progress')).to.be.null;
             expect(allRowsLoadedInTable).to.have.length(scope.mydata.length);
         });
         it('should display indeterminate progress and load data on http get', function() {
@@ -208,7 +208,7 @@ describe('akam-list-box', function() {
             httpBackend.flush();
 
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).to.match(/true/);
+            expect(document.querySelector('akam-indeterminate-progress')).to.be.null;
             expect(allRowsLoadedInTable).to.have.length(dataLength);
         });
         it('should be able to use default sorting method on first column', function(){
@@ -906,6 +906,49 @@ describe('akam-list-box', function() {
 
             allVisibleRows = document.querySelectorAll(TABLE_ROW);
             expect(allVisibleRows).to.have.length(scope.mydata.length);
+        });
+    });
+    context('when there is no data', function(){
+        beforeEach(function(){
+            scope.baddata = [];
+            scope.badcolumns = [
+                {content : "name", 
+                header : 'Name'}
+            ];
+            httpBackend.flush();
+            var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="message"></akam-list-box>';
+            addElement(markup);
+        });
+        afterEach(function(){
+            document.body.removeChild(this.element);
+        });
+        it('should present message when no data is available and no filters that can be provided', function(){
+            scope.baddata = [];
+            scope.columns = [
+                {content : "name", 
+                header : 'Name'}
+            ];
+            var dataTableRow = document.querySelector('.empty-table-message');
+
+            expect(dataTableRow.textContent).to.match(/message/);
+        });
+        it('should present a different message when no data is available and filtered', function(){
+            scope.$$childHead.state.filter = "Oliver";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();
+
+            var dataTableRow = document.querySelector('.empty-table-message');
+
+            expect(dataTableRow.textContent).to.match(/There are no results based upon your filter/);
+        });
+        it('should present a different message when no data is available not filtered and view selected only on', function(){
+            var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
+            utilities.click(viewSelectOnlyCheckbox);
+            scope.$digest();
+
+            var dataTableRow = document.querySelector('.empty-table-message');
+
+            expect(dataTableRow.textContent).to.match(/You have no items selected/);
         });
     });
     context('when data messes up', function(){

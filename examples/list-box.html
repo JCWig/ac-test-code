@@ -36,7 +36,8 @@
         
         <div class="container">
             <h3>Empty Data</h3>
-            <akam-list-box data="[]" schema="columns" on-change="mychange(value)" selected-items="selectedItems1"></akam-list-box>
+            <akam-list-box data="[]" schema="columns" on-change="mychange(value)" selected-items="selectedItems1" 
+            no-data-message='{{"components.list-box.text.noDataMessage" | akamTranslate}}' no-filter-results-message="no filter results message"></akam-list-box>
         </div>
 
         <div class="container">
@@ -126,8 +127,9 @@
                 color: "YELLOW"
             }
         ];
-        var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
-        app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", function(scope, $timeout, $q, $http) {
+        var app = angular.module("listBoxDemo", ["akamai.components.list-box","akamai.components.i18n"]);
+        app.config(function(i18nTokenProvider) {});
+        app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", "translate", function(scope, $timeout, $q, $http, translate) {
             var deferred = $q.defer();
             scope.mydata = deferred.promise;
             scope.basedata = BASE_DATA;
