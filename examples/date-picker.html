@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet">
-    <style>
-        .container {
-            min-height: 150px;
-        }
-        
-        form {
-            padding-bottom:20px;
-        }
-    </style>
-</head>
-<body ng-app="example" ng-controller="ExampleController" class="common-css luna">
-    <div class="container">
-        <div class="page-header">
-            <h1>Date Picker Example</h1>
-        </div>
-        
-        <br />
-        
+    <head>
+        <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet">
+    </head>
+    <body ng-app="example" ng-controller="ExampleController" class="common-css luna">
         <div class="container">
-            Date Picker (Day):
-            <akam-date-picker
-                ng-model="day"
-                ng-change="dayChanged()"
-                min="{{ min }}"
-                mode="day"
-                placeholder="date picker">
-            </akam-date-picker>
+            <div class="page-header">
+                <h1>Date Picker Component Example</h1>
+                <h5>A minimum date (current year, current month, 1st day) and maximum date (current year + 1, current month, 1st day) are assigned to the Date Picker component.</h6>
+            </div>       
+            <br />
+            <div class="container">
+                <label class="label">Specify Day Format:</label>
+                <table>
+                    <tr>
+                        <td>
+                            <input id="format1" name="formatDay" type="radio" ng-model="formatDay" value="EEE, MMM dd, yyyy" />
+                            <label class="label" for="format1">EEE, MMM dd, yyyy</label>
+                            <input id="format2" name="formatDay" type="radio" ng-model="formatDay" value="EEE, yyyy, MMM dd" />
+                            <label class="label" for="format2">EEE, yyyy, MMM dd</label>
+                            <input id="format3" name="formatDay" type="radio" ng-model="formatDay" value="yyyy-MM-dd" />
+                            <label class="label" for="format3">yyyy-MM-dd</label>
+                        </td>              
+                    </tr>
+                </table>
+            <br/>
+            <div class="container">        
+                <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}"
+                                  mode="day" placeholder="date picker" ng-change="dateChange()" format="{{formatDay}}"></akam-date-picker>
+            </div>
+            <br/>
+            <br/>
+            <div class="container">
+                <label class="label">Specify Month Format:</label>
+                <table>
+                    <tr>
+                        <td>
+                            <input id="format4" name="formatMonth" type="radio" ng-model="formatMonth" value="MMM yyyy" />
+                            <label class="label" for="format4">MMM yyyy</label>
+                            <input id="format5" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy MMM" />
+                            <label class="label" for="format5">yyyy MMM</label>
+                            <input id="format6" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy-MM" />
+                            <label class="label" for="format6">yyyy-MM</label>
+                        </td>
+                    </tr>
+                </table>
+            <br/>
+            </div>
+            <div class="container">
+                <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}"
+                                  mode="month" placeholder="month picker" ng-change="monthChange()" format="{{formatMonth}}"></akam-date-picker>
+            </div>
         </div>
-
-        <div class="container">
-            Date Picker (Month):
-            <akam-date-picker
-                ng-model="month"
-                mode="month"
-                placeholder="month picker">
-            </akam-date-picker>
-        </div>
-    </div>
-
-    <script src="../node_modules/angular/angular.js"></script>
-    <script src="../dist/akamai-components.js"></script>
-    <script>
-        angular.module('example', ['akamai.components.date-picker'])
-
-        .controller('ExampleController', function($scope) {
-            $scope.day = new Date(2015, 1, 10);
-            $scope.month = new Date(2015, 1, 10);
-        
-            $scope.min = new Date(2015, 1, 05);
-            $scope.max = new Date(2015, 3, 01);
-
-            $scope.dayChanged = function() {
-                console.log('Day changed to: ', $scope.day);
-            };
-        });
-    </script>
-</body>
+        <script src="../node_modules/angular/angular.js"></script>
+        <script src="../dist/akamai-components.js"></script>
+        <script>
+            angular.module('example', ['akamai.components.date-picker'])
+            
+            .controller('ExampleController', function($scope) {
+                var d = new Date();
+                $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
+                console.log('Date Picker min: ', $scope.min);
+                
+                $scope.max = new Date(d.getFullYear() + 1, d.getMonth(), 1);
+                console.log('Date Picker max: ', $scope.max);
+                
+                $scope.dateChange = function(){
+                    console.log('Date Picker value selected: ', $scope.day);
+                };
+                
+                $scope.monthChange = function(){
+                    console.log('Month Picker value selected: ', $scope.month);
+                };
+            });
+        </script>
+    </body>
 </html>
