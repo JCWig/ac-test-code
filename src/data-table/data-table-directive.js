@@ -300,6 +300,13 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
+            scope.getColumnsLength = function(){
+                if(scope.columns){
+                    return scope.hasActionColumn ? (scope.columns.length + 1) : scope.columns.length;
+                } else {
+                    return -1;
+                }
+            };
         }
     };
 };
