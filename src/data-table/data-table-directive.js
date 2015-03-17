@@ -316,7 +316,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 if(scope.columns){
                     return scope.hasActionColumn ? (scope.columns.length + 1) : scope.columns.length;
                 } else {
-                    return -1;
+                    return 0;
                 }
             };
             scope.getEmptyStatusMessage = function(){
