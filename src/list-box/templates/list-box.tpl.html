@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="loading-data-table" ng-if="loading"> <td colspan="{{columns.length + 1}}"> <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress> </td> </td> 
+                <tr class="loading-data-table" ng-if="loading"> <td colspan="{{columns.length + 1}}"> <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress> </td> </tr> 
                 <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length + 1}}" class="empty-table-message">
                     <i class="luna-alert"></i>{{getEmptyStatusMessage()}}
                 </td></tr>
