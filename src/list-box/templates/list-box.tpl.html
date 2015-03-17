@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length}}" class="empty-table-message">
+                <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length + 1}}" class="empty-table-message">
                     <i class="luna-alert"></i>{{getEmptyStatusMessage()}}
                 </td></tr>
                 <tr ng-repeat="item in dataTable | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
