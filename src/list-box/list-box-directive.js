@@ -9,14 +9,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder: "@",
-<<<<<<< HEAD
-            selectedItems: '=?',
             noFilterResultsMessage :"@",
             noDataMessage : "@",
             noneSelectedMessage :"@",
-=======
             selectedItems: '=?',  // the ? marks the property as optional.
->>>>>>> develop
             onChange: "&?"
         },
         template: require('./templates/list-box.tpl.html'),
