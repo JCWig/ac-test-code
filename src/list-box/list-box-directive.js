@@ -9,6 +9,9 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder: "@",
+            noFilterResultsMessage :"@",
+            noDataMessage : "@",
+            noneSelectedMessage :"@",
             selectedItems: '=?',  // the ? marks the property as optional.
             onChange: "&?"
         },
@@ -26,6 +29,21 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             translate.async("components.list-box.text.selected").then(function(value) {
                 scope.selectedText = value;
             });
+            if (!scope.noFilterResultsMessage) {
+                translate.async("components.list-box.text.noFilterResults").then(function(value) {
+                    scope.noFilterResultsMessage = value;
+                });
+            }
+            if (!scope.noDataMessage) {
+                translate.async("components.list-box.text.noDataMessage").then(function(value) {
+                    scope.noDataMessage = value;
+                });
+            }
+            if (!scope.noneSelectedMessage) {
+                translate.async("components.list-box.text.viewSelectedOnly").then(function(value) {
+                    scope.noneSelectedMessage = value;
+                });
+            }
 
             scope.selectedItems = scope.selectedItems || [];
             scope.internalSelectedItems = angular.copy(scope.selectedItems);
@@ -263,6 +281,17 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 }
 
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
+            };
+            scope.getEmptyStatusMessage = function(){
+                if(scope.dataTable.length === 0 && scope.state.filter){
+                    return scope.noFilterResultsMessage;
+                }
+                else if(scope.dataTable.length === 0 && !scope.state.filter && !scope.state.viewSelectedOnly){
+                    return scope.noDataMessage;
+                }
+                else if(scope.dataTable.length === 0 && !scope.state.filter && scope.state.viewSelectedOnly){
+                    return scope.noneSelectedMessage;
+                }
             };
         }
     };
