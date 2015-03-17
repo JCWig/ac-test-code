@@ -15,7 +15,18 @@
                 <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
             </akam-menu-button>
         </akam-data-table>
+    </div>
+
+    <div class="container">
+        <h1>Data Table Example</h1>
         
+        <akam-data-table data="mydata" schema="schema" filter-placeholder="Filter Employees" show-checkboxes="true" selected-items="selectedItems1">
+            <akam-menu-button position="right">
+                <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
+                <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
+            </akam-menu-button>
+        </akam-data-table>
+        <span>Selected Items: {{selectedItems1}}</span>
     </div>
 
     <script src="../node_modules/angular/angular.js"></script>
@@ -29,7 +40,12 @@
             console.log('haha');
         };
         
-        $scope.mydata = []//$http.get('json/list-box-data.json');
+        $scope.mydata = $http.get('json/list-box-data.json').then(function(results) {
+
+          // set a few selected items
+          $scope.selectedItems1 = [results.data[1], results.data[3], results.data[7]];
+          return results.data;
+        });
         
         $scope.schema = [
             {

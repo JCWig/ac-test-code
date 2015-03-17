@@ -11,6 +11,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             filterPlaceholder : "@",
             noFilterResultsMessage :"@",
             noDataMessage : "@",
+            selectedItems:"=?", // selected items from the outside
             onChange : '&?'
         },
         template: require('./templates/data-table.tpl.html'),
@@ -28,7 +29,6 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
             scope.loading = true;
             scope.tableId = uuid.guid();
-            scope.filterPlaceholder = scope.filterPlaceholder;
             if (!scope.filterPlaceholder) {
                 translate.async("components.data-table.placeholder.filter").then(function(value) {
                     scope.filterPlaceholder = value;
@@ -45,6 +45,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 });
             }
             scope.selectedItems = scope.selectedItems || [];
+            scope.internalSelectedItems = angular.copy(scope.selectedItems);
             scope.showCheckboxes = attrs.showCheckboxes === 'true';
             
             function setDefaults(){
@@ -61,9 +62,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                         'cells' : ''
                     }
                 };
-                scope.selectedItems = [];
             }
-            
+
             setDefaults();
 
             function update(){
@@ -127,7 +127,11 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 return value;
             }
 
-            scope.processDataTable = function(){
+            /**
+             * @param {Boolean} skipSort true if we want to skip sorting the columns.
+             * Used because we may call this from updating the selected items
+             */
+            scope.processDataTable = function(skipSort){
                 // we can only really process the data if both fields are set
                 if (scope.columns == null || scope.internalData == null) {
                     return;
@@ -137,7 +141,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 var dataTableOutput = new Array(scope.internalData.length);
                 angular.forEach(scope.internalData, function(dataItem, key) {
                     dataTableOutput[key] = {
-                        selected : false,
+                        selected : scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
                         cells : scope.columns.map(
                             function (column) {
                                 return getColumnContent(column, dataItem, column.defaultValue);
@@ -160,7 +164,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     size : 10
                 };
 
-                if (scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
+                if (!skipSort && scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
                     scope.sortColumn(autoSortableColumns[0]);
                 }else{
                     update();
@@ -168,6 +172,13 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
                 scope.loading = false;
             };
+
+            scope.$watch('selectedItems', function(items) {
+                if(angular.isArray(items)) {
+                    scope.internalSelectedItems = items;
+                    scope.processDataTable(true);
+                }
+            });
 
             scope.$watch('data', function(newValue) {
                 scope.loading = true;
@@ -181,6 +192,9 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     }  
 
                     setDefaults();
+                    if(!!scope.internalData){
+                        scope.selectedItems = [];
+                    }
                     scope.updateSearchFilter();
                     scope.internalData = data;
                     scope.processDataTable();
@@ -217,7 +231,10 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-                scope.onChange({value : selectedItemsList});
+
+                if(angular.isFunction(scope.onChange)) {
+                  scope.onChange({value : selectedItemsList});
+                }
             };
 
             scope.sortColumn = function(column){
