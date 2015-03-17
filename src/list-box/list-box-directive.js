@@ -291,8 +291,6 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 }
                 else if(scope.dataTable.length === 0 && !scope.state.filter && scope.state.viewSelectedOnly){
                     return scope.noneSelectedMessage;
-                } else {
-                    return "";
                 }
             };
         }

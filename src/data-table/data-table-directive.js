@@ -318,8 +318,6 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 }
                 else if(scope.filtered.length === 0 && !scope.state.filter){
                     return scope.noDataMessage;
-                } else {
-                    return "";
                 }
             };
             scope.getColumnsLength = function(){
