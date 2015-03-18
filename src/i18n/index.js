@@ -150,7 +150,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @requires i18nConfig
  *
  * @description Provides two getter methods that return values set by
- * {@link akamai.components.i18n.service:i18nTokenProvider `i18nTokenProvider`}
+ * {@link akamai.components.i18n.service:i18nTokenProvider i18nTokenProvider}
  * in an application's configuration phase.
  *
  */

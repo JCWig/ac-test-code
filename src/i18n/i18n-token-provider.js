@@ -25,26 +25,11 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 path: i18nConfig.localeComponentPath,
                 app: false
             });
+            self.rawUrls.push({
+                path: i18nConfig.localeAppPath,
+                app: true
+            });
         };
-    /**
-     * @ngdoc method
-     *
-     * @name i18nTokenProvider#addAppLocalePath
-     *
-     * @methodOf akamai.components.i18n.service:i18nTokenProvider
-     *
-     * @description provider method to add app locale files path and
-     * part
-     *
-     * @param {array | string} path - an array of URL path value or
-     * URL path string value
-     *
-     * @param {string=} part - a value to append to the path,
-     * e.g. "message" prefix: "message_en_US"
-     *
-     */
-    this.addAppLocalePath = function(path, part) {
-        return usePathAndPart(path, part);
     };
 
     //instantiate a default one for component locale
@@ -53,14 +38,14 @@ module.exports = function i18nTokenProvider(i18nConfig) {
 
     /**
      *
-     * A service used by the `i18nTokenProvider` to pass values set
-     * during the application's configuration phase. The `locale`
-     * value is determined by the `AKALOCALE` cookie set by Luna
-     * portal, otherwise the fallback value is `en_US`.
+     * @description A service used by the `i18nTokenProvider` to pass
+     * values set during the application's configuration phase. The
+     * `locale` value is determined by the `AKALOCALE` cookie set by
+     * Luna portal, otherwise the fallback value is `en_US`.
      *
      * @return {object} A hash containing two getter
      * methods, mainly for use by
-     * {@link akamai.components.i18n.service:i18nCustomLoader `i18nCustomLoader`}.
+     * {@link akamai.components.i18n.service:i18nCustomLoader i18nCustomLoader}.
      */
     /* @ngInject */
     this.$get = function i18nTokenFactory($cookies, i18nConfig, $location) {
