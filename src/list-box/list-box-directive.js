@@ -75,25 +75,25 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     };
                 }
             };
-
-            scope.getColumnContent = function(column, item, defaultValue) {
+            
+            function getColumnContent(column, item, defaultValue){
                 var columnContent = column.content;
 
                 if (angular.isString(columnContent)) {
                     if (columnContent in item) {
                         // retrieve the property for the item with the same name
-                        return item[columnContent] || defaultValue;
-                    } else {
+                        return convertToString(item[columnContent] || defaultValue);
+                    }else{
                         // this means that the property is undefined in the object
                         return defaultValue;
                     }
-                } else if (angular.isFunction(columnContent)) {
+                }else if (angular.isFunction(columnContent)) {
                     // return the content based on the result of the function call
-                    return angular.bind(item, column.content)() || defaultValue;
+                    return convertToString(angular.bind(item, column.content)() || defaultValue);
                 }
 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
-            };
+            }
             function getColumnTitles(column, item, defaultValue){
                 var columnTitle = column.title;
                 if (angular.isString(columnTitle)) {
@@ -110,7 +110,22 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 } else {
                     return defaultValue;
                 }
-            };
+            }
+            function convertToString(value) {
+                if (value == null) {
+                    return "";
+                }
+
+                if (angular.isArray(value)) {
+                    return value.join('<br />');
+                }
+
+                if (angular.isNumber(value) || angular.isDate(value) || value === true || value === false) {
+                    return String(value);
+                }
+
+                return value;
+            }
 
             scope.processDataTable = function(skipSort) {
                 // we can only really process the data if both fields are set
@@ -124,7 +139,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                         selected: scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
                         cells: scope.columns.map(
                             function(column) {
-                                return scope.getColumnContent(column, dataItem, column.defaultValue);
+                                return getColumnContent(column, dataItem, column.defaultValue);
                             }
                         ),
                         titles : scope.columns.map(

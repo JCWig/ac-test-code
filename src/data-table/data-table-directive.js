@@ -333,11 +333,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
             scope.getColumnsLength = function(){
-                if(scope.columns){
-                    return scope.hasActionColumn ? (scope.columns.length + 1) : scope.columns.length;
-                } else {
-                    return 0;
-                }
+                var colLength = scope.columns ? scope.columns.length : 0;
+                return colLength + (scope.hasActionColumn ? 1 : 0) + (scope.showCheckboxes ? 1 : 0);
             };
             scope.getEmptyStatusMessage = function(){
                 if(scope.filtered.length === 0 && scope.state.filter){

@@ -546,8 +546,8 @@ describe('akam-list-box', function() {
             var rowOneColumnSix = document.querySelector(TABLE_ROW).querySelectorAll('td')[5];
             var rowThreeColumnSix = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[5];
 
-            expect(rowOneColumnSix.textContent).to.contain('["goodbye"]');
-            expect(rowThreeColumnSix.textContent).to.contain('["shake it off"]');
+            expect(rowOneColumnSix.textContent).to.contain('goodbye');
+            expect(rowThreeColumnSix.textContent).to.contain('shake it off');
         });
         it('should be able to sort reverse generically', function(){
             var sortByColumnSixGeneric = document.querySelectorAll(TABLE_COLUMN_HEADER)[5];
@@ -557,8 +557,8 @@ describe('akam-list-box', function() {
             var rowOneColumnSix = document.querySelector(TABLE_ROW).querySelectorAll('td')[5];
             var rowThreeColumnSix = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[5];
 
-            expect(rowOneColumnSix.textContent).to.contain('["shake it off"]');
-            expect(rowThreeColumnSix.textContent).to.contain('["goodbye"]');
+            expect(rowOneColumnSix.textContent).to.contain('shake it off');
+            expect(rowThreeColumnSix.textContent).to.contain('goodbye');
         });
         it('should sort entire rows', function(){
             var sortByColumnTwoAlphabectically = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
