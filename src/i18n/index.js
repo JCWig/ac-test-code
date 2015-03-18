@@ -72,7 +72,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * For example:
  *
  * <pre>
- * <any akam-translate="any.key"></any>
+ * <any akam-translate="any.optionally.nested.key"></any>
  * </pre>
  *
  * @restrict A
