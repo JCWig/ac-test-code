@@ -25,7 +25,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 path: i18nConfig.localeComponentPath,
                 app: false
             });
-
+        };
     /**
      * @ngdoc method
      *
