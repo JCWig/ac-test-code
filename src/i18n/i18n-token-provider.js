@@ -57,7 +57,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
      * will be based on and using that, fallback value will be `en_US`
      *
      * @return {object} A hash containing two getter
-     * methods, mainly for use by 
+     * methods, mainly for use by
      * {@link akamai.components.i18n.service:i18nCustomLoader `i18nCustomLoader`}.
      */
     /* @ngInject */

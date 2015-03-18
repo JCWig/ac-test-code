@@ -17,88 +17,100 @@ module.exports = function($translate) {
     return {
         /**
          * @ngdoc method
+         *
          * @name translate#async
+         *
          * @methodOf akamai.components.i18n.service:translate
          *
-         * @description async method provides alternative usage in translating the keys in non-blocking fashion
-         * It depends on the styles of programming, but best practice will be to use with scope variables in controllers and directives
-         * , so it can display DOM content in non-blocking fashion
+         * @description Asynchronously translates a key or sets of
+         * keys.
          *
-         * Examples of usages:
+         * Best practice is to use scope variables in controllers and
+         * directives to display DOM content in a non-blocking fashion.
+         * For example, this passes in a key:
          *
-         * passing key only:
          * <pre>
          * akamTranslate.async('key').then(function(value){
-         * $scope.var = value;
+         *     $scope.var = value;
          * })
          * </pre>
          *
-         * passing key and variable replacement:
+         * This passes in a key and a variable that replaces any
+         * instance of ``{{name}}`` within the key:
+         *
          * <pre>
          * akamTranslate.async('key', {name:"xxx"}).then(function(value){
-         * $scope.var = value;
+         *     $scope.var = value;
          * })
          * </pre>
          *
-         * passing keys as array(no variable replacement):
+         * This passes in keys as an array, in which case variable
+         * replacement is not possible:
+         *
          * <pre>
          * akamTranslate.async([key1, key2, key3]).then(function(values){
-         * $scope.var1 = values[key1];
-         * $scope.var2 = values[key2];
-         * $scope.var3 = values[key3];
+         *     $scope.var1 = values[key1];
+         *     $scope.var2 = values[key2];
+         *     $scope.var3 = values[key3];
          * })
          * </pre>
          *
-         * If it requires two-way binding, then wrap around the events
-         * like `translateChangeEnd` or `translationLoadingSuccess`.
+         * If two-way binding is necessary, wrap the method within
+         * event handlers for `translateChangeEnd` or
+         * `translationLoadingSuccess`, which only fire on the
+         * `$rootScope`:
          *
          * <pre>
          * $rootScope.$on('$translateChangeEnd', function() {
-         * akamTranslate.async('key').then(function(value){
-         * $scope.var = value;
-         * })
+         *     akamTranslate.async('key').then(function(value){
+         *         $scope.var = value;
+         *     })
          * });
-         *
          * </pre>
          *
-         * __NOTE__: The event is on the $rootScope only.
+         * @param {array | string} keys String key or array of keys.
+         * If it is an array, return values are available in
+         * `values[key[index]]`.
          *
-         * @param {array | string} keys if it is array type - it contains keys, return access values will be values[key[0]]
-         * @param {object=} args is hash that contains variable replacements
+         * @param {object=} args A hash containing variable
+         * replacements. This option is only available when the `key`
+         * is a string.
          *
          */
         async: asyncMethod,
 
         /**
          * @ngdoc method
+         *
          * @name translate#sync
+         *
          * @methodOf akamai.components.i18n.service:translate
          *
-         * @description sync method provides alternative usage in translating the keys in blocking fashion
-         * It depends on the styles of programming, but best situations to use this is to have translated value right away, and they are not $scope variables.
+         * @description Translates a key string immediately.
          *
-         * Examples of usages:
+         * Use this only once the translation table has loaded,
+         * otherwise the
+         * {@link akamai.components.i18n.service:translate#methods_async async}
+         * method is more appropriate.
+         * When blocking the application is not a problem, best
+         * practice is to assign return values to non-`$scope`
+         * variables. For example:
          *
          * <pre>
          * var value = akamTranslate.sync(key, args);
-         * ...
-         * })
          * </pre>
+         *
+         * If two-way binding is necessary, wrap the method within
+         * event handlers for `translateChangeEnd` or
+         * `translationLoadingSuccess`, which only fire on the
+         * `$rootScope`:
          *
          * <pre>
          * $rootScope.$on('$translateChangeEnd', function() {
-         * var value = akamTranslate.sync(key, args);
-         * ...
+         *     var value = akamTranslate.sync(key, args);
+         *     // ...
          * });
-         *
          * </pre>
-         *
-         * __NOTE__: The event is on the $rootScope only.
-         *
-         * __NOTE__: In most cases, the translation table has been
-         * loaded, this blocking call should return correct translated
-         * value, but if uncertain, we suggest you need to look into
-         * non-blocking call which is to use async method.
          *
          * @param {string} key string of key name.
          *

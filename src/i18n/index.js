@@ -27,11 +27,15 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @description A service that provides default configuration constant
  * values.
  *
- * | key | value | type | description
- * |-----------|-----------------|-----------------------------------------------------------------------------|
- * | localeCookie | `AKALOCALE` | {@type string} | A cookie name widely used in Luna portal applications |
- * | localePath | `assets/akamai-components/{version}/locales/` | {@type string} | A path that references component locale files. |
- * | defaultLocale | `en_US` | {@type string} | The default locale string value. |
+ * @param {String} [localeCookie=AKALOCALE] A cookie name widely used
+ * in Luna portal applications.
+ *
+ * @param {String} [localePath=assets/akamai-components/{version}/locales/]
+ * A path that references component locale files.
+ *
+ * @param {String} [defaultLocale=en_US] The default locale string
+ * value.
+ *
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
@@ -48,8 +52,11 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @requires pascalprecht.translate.$translate
  *
  * @description A wrapper for the angular `$translate` service,
- * providing both blocking and asynchronous methods to translate
- * string keys.
+ * providing both
+ * {@link akamai.components.i18n.service:translate#methods_async asynchronous}
+ * and
+ * {@link akamai.components.i18n.service:translate#methods_sync blocking}
+ * methods to translate string keys.
  *
  */
 .factory('translate', require('./translate-service'))
@@ -61,13 +68,11 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @requires translate
  *
- * @description A directive used in the DOM element where you want to
- * translate the key.
- *
- * An example of usage:
+ * @description Inserts a translated key into the current DOM element.
+ * For example:
  *
  * <pre>
- * <any akam-translate="anykey.anykey"></any>
+ * <any akam-translate="any.key"></any>
  * </pre>
  *
  * @restrict A
@@ -83,9 +88,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @requires translate
  *
  * @description A filter used in the DOM element and JavaScript where
- * you want to translate the key.
- *
- * An example of usage:
+ * you want to translate the key.  For example:
  *
  * <pre>
  * <any>{{"translationId" | akamTranslate}}</any>
@@ -111,8 +114,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @requires i18nConfig
  *
- * @description This service contains an object that exposes two
- * getter methods that return values set by
+ * @description Provides two getter methods that return values set by
  * {@link akamai.components.i18n.service:i18nTokenProvider `i18nTokenProvider`}
  * in an application's configuration phase.
  *
@@ -148,10 +150,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @requires i18nConfig
  *
- * @description A factory service provides loader functionalities set
- * for `$translationProvider` during an application's configuration
- * phase. During its run phase, it makes REST calls back to obtain
- * locale files and set to translation table. It loads locale resource
+ * @description A factory service that adds loader methods to
+ * `$translationProvider` during an application's configuration
+ * phase. During run phase, it makes REST calls back to obtain locale
  * files and builds a translation table for use by the `$translate`
  * service, directive, and filter.
  *
@@ -167,16 +168,16 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @requires i18nConfig
  *
- * @description This config block takes $translateProvider and sets up
- * some methods for loading the locale resource file when in run
- * phase.
+ * @description Adds methods to `$translateProvider` that load any
+ * locale resource files for an application's run phase.
  *
- * __NOTE__: localeStorage is not used, the browser will not cache the
+ * __NOTE__: localStorage is not used, the browser will not cache the
  * language key.
  *
- * __NOTE__: To prevent from page flicks due to async nature, we suggest
- * any usages of translate in markup, add "translate-cloak" on body
- * tag, and add `.translate-cloak {display: none !important; }` in CSS.
+ * __NOTE__: To prevent asynchronous translation calls from causing
+ * rendering problems, add a `translate-cloak` class on the `<body>`
+ * tag, and pair it in CSS with `.translate-cloak {display:none
+ * !important;}.`
  *
  */
 /* @ngInject */
