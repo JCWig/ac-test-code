@@ -546,8 +546,8 @@ describe('akam-list-box', function() {
             var rowOneColumnSix = document.querySelector(TABLE_ROW).querySelectorAll('td')[5];
             var rowThreeColumnSix = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[5];
 
-            expect(rowOneColumnSix.textContent).to.contain('["goodbye"]');
-            expect(rowThreeColumnSix.textContent).to.contain('["shake it off"]');
+            expect(rowOneColumnSix.textContent).to.contain('goodbye');
+            expect(rowThreeColumnSix.textContent).to.contain('shake it off');
         });
         it('should be able to sort reverse generically', function(){
             var sortByColumnSixGeneric = document.querySelectorAll(TABLE_COLUMN_HEADER)[5];
@@ -557,8 +557,8 @@ describe('akam-list-box', function() {
             var rowOneColumnSix = document.querySelector(TABLE_ROW).querySelectorAll('td')[5];
             var rowThreeColumnSix = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[5];
 
-            expect(rowOneColumnSix.textContent).to.contain('["shake it off"]');
-            expect(rowThreeColumnSix.textContent).to.contain('["goodbye"]');
+            expect(rowOneColumnSix.textContent).to.contain('shake it off');
+            expect(rowThreeColumnSix.textContent).to.contain('goodbye');
         });
         it('should sort entire rows', function(){
             var sortByColumnTwoAlphabectically = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
@@ -973,7 +973,7 @@ describe('akam-list-box', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).to.match(/ /);
+            expect(rowOneColumnTwo.textContent).to.equal("");
             expect(allVisibleRows.length).to.equal(2);
         });
         it('should recognize null content when sorting name', function(){
@@ -995,8 +995,8 @@ describe('akam-list-box', function() {
             var rowFourColumnTwo = document.querySelectorAll(TABLE_ROW)[3].querySelectorAll('td')[1];
             var rowFiveColumnTwo = document.querySelectorAll(TABLE_ROW)[4].querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).to.match(/ /);
-            expect(rowTwoColumnTwo.textContent).to.match(/ /);
+            expect(rowOneColumnTwo.textContent).to.equal("");
+            expect(rowTwoColumnTwo.textContent).to.equal("");
             expect(rowFourColumnTwo.textContent).to.contain('James');
             expect(rowFiveColumnTwo.textContent).to.contain('Kevin');
         });

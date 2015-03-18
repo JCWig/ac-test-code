@@ -1,7 +1,7 @@
 'use strict';
 var utilities = require('../utilities');
 var FILTER_BOX = 'div.filter input[type="search"]';
-var FILTER_ICON = 'div.filter i.clear-filter'
+var FILTER_ICON = 'div.filter i.clear-filter';
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-data-table thead tr th';
 var TABLE_ROW = 'div.akam-data-table tbody tr';
@@ -12,7 +12,7 @@ var MENU_BUTTON_ITEMS = '.akam-menu-button li';
 var DROP_DOWN_MENU = '.akam-menu-button .dropdown-menu';
 
 var PREVIOUS_BUTTON = 'div.akam-pagination .pagination li:first-child';
-var NEXT_BUTTON = 'div.akam-pagination .pagination li:last-child'
+var NEXT_BUTTON = 'div.akam-pagination .pagination li:last-child';
 var TOTAL_ITEMS_SPAN = 'div.akam-pagination .total-items';
 var PAGINATION_PAGE_ONE = 'div.akam-pagination .pagination li:nth-child(2)';
 var PAGINATION_INDEX_NTH =  'div.akam-pagination .pagination li:nth-child';
