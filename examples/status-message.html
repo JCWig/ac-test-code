@@ -17,30 +17,30 @@
                         <tr>                            
                             <td>
                                 <input id="errorRadio" type="radio" ng-model="status" value="Error" />
-                                <label for="errorRadio">Error</label>
+                                <label class="label" for="errorRadio">Error</label>
                             </td>
                             <td>
                                 <input id="infoRadio" type="radio" ng-model="status" value="Information" />
-                                <label for="infoRadio">Information</label>
+                                <label class="label" for="infoRadio">Information</label>
                             </td>
                             <td>
                                 <input id="successRadio" type="radio" ng-model="status" value="Success" />
-                                <label for="successRadio">Success</label>
+                                <label class="label" for="successRadio">Success</label>
                             </td>
                             <td>
                                 <input id="warnRadio" type="radio" ng-model="status" value="Warning" />
-                                <label for="warnRadio">Warning</label>
+                                <label class="label" for="warnRadio">Warning</label>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="form-group">
-                    <label for="messageTimeout">Timeout:</label>
+                    <label class="label" for="messageTimeout">Timeout:</label>
                     <input type="text" id="messageTimeout" ng-model="messageTimeout" />
                     <p class="help-block">Use timeout: 0 for manual close.</p>
                 </div>
                 <div class="form-group">
-                    <label for="messageText">Message Text:</label>
+                    <label class="label" for="messageText">Message Text:</label>
                     <textarea id="messageText" type="text" class="form-control" ng-model="messageText" rows="3" cols="25"></textarea>
                 </div>
                 <button class="btn" ng-click="showStatus()">Show Status Message</button>
