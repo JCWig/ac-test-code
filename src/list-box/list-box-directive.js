@@ -96,16 +96,9 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             }
             function getColumnTitles(column, item, defaultValue){
                 var columnTitle = column.title;
-                if (angular.isString(columnTitle)) {
-                    if (columnTitle in item) {
-                        // retrieve the property for the item with the same name
-                        return item[columnTitle] || defaultValue;
-                    }else{
-                        // this means that the property is undefined in the object
-                        return defaultValue;
-                    }
+                if(columnTitle === true){
+                    return getColumnContent(column, item, defaultValue);
                 }else if (angular.isFunction(columnTitle)) {
-                    // return the content based on the result of the function call
                     return angular.bind(item, column.title)() || defaultValue;
                 } else {
                     return defaultValue;

@@ -124,15 +124,13 @@
                     },
                     header : 'Full Name',
                     className : 'column-full-name',
-                    title: function(){
-                        return this.first + ' ' + this.last;   
-                    }
+                    title: true
                 },
                 {
                     content : 'id',
                     header : 'Emp. ID',
                     className : 'column-employeeid',
-                    title: 'id'
+                    title: false
                 },
                 {
                     content : 'color',
@@ -146,7 +144,9 @@
                         };
                         return colorsValues[this.color];
                     },
-                    title: 'color'
+                    title: function(){
+                        return this.color + " is my favorite color";
+                    }
                 }
             ];
             $scope.schema = [
