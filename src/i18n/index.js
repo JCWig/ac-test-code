@@ -27,31 +27,31 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @description A service that provides default configuration constant
  * values.
  *
- * @param {String} [localeCookie=AKALOCALE] A cookie name widely used
- * in Luna portal applications.
- *
- * @param {String} [localeComponentPath=assets/akamai-components/{version}/locales/]
- * A path that references component locale files.
- *
- * @param {String} [localeAppPath=apps/{appName}/locales/]
- * A path that references application locale files.
- *
- * @param {String} localePrefix A custom prefix to add before a
- * language key name. For example, `message_` produces
- * `message_en_US`.
- *
- * @param {String} [defaultLocale=en_US] The default locale string
- * value.
- *
- * @param {String} [baseVersion=0.0.1] The version of the locale
- * component data.
- *
  * @param {Array} availableLangKeys A list of available language key
  * names, useful in validating before loading the corresponding locale
  * file.
  *
+ * @param {String} [baseVersion=0.0.1] The version of the locale
+ * component data.
+ *
+ * @param {String} [defaultLocale=en_US] The default locale string
+ * value.
+ *
  * @param {Object} langKeysMapper Maps language names to the names of
  * translation tables.
+ *
+ * @param {String} [localeAppPath=apps/{appName}/locales/]
+ * A path that references application locale files.
+ *
+ * @param {String} [localeComponentPath=assets/akamai-components/{version}/locales/]
+ * A path that references component locale files.
+ *
+ * @param {String} [localeCookie=AKALOCALE] A cookie name widely used
+ * in Luna portal applications.
+ *
+ * @param {String} localePrefix A custom prefix to add before a
+ * language key name. For example, `message_` produces
+ * `message_en_US`.
  *
  */
 .constant("i18nConfig", {
@@ -145,7 +145,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:i18nToken
  *
- * @requires  $cookies
+ * @requires $location
+ *
+ * @requires $cookies
  *
  * @requires i18nConfig
  *
@@ -166,8 +168,8 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @description Provides methods allow you to pass in application
  * locale path values during a configuration phase. It invokes the
- * I18nToken service object that consumes those locale and path values
- * during run phase.
+ * `I18nToken` service object that consumes those locale and path
+ * values during run phase.
  *
  */
 .provider('i18nToken', require('./i18n-token-provider'))
@@ -188,14 +190,14 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @description A factory service that adds loader methods to
  * `$translationProvider` during an application's configuration
  * phase. During run phase, it makes REST calls back to obtain locale
- * files and builds a translation table for use by the `$translate`
+ * files and builds a translation table for use by the `translate`
  * service, directive, and filter.
  *
  */
 .factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
 
 /**
- * @ngdoc function
+ * @ngdoc service
  *
  * @name akamai.components.i18n.config
  *

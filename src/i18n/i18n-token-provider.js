@@ -6,18 +6,23 @@ module.exports = function i18nTokenProvider(i18nConfig) {
     var self = this;
 
     /**
+     * @ngdoc service
      *
-     * @description This function adds path and part value to URLs
-     * array and it will be used in the i18nCustomLoader service.  If
+     * @name Path
+     *
+     * @description This function adds path and part values to URLs
+     * array and it will be used in the `i18nCustomLoader` service.  If
      * `path` is an array, path value should contain part value if any
      * already, and implemented by caller.  If `path` is a string, it
      * attempts to append the part value if any.
      *
      */
+
     var Path = function() {
         /**
-         * resolve function adds 2 default endpoints path of locale files to rawUrls array
-         * one for the component and one for the app
+         * resolve function adds 2 default endpoints path of locale
+         * files to rawUrls array one for the component and one for
+         * the app
          * @private
          */
         this.resolve = function() {
@@ -32,21 +37,28 @@ module.exports = function i18nTokenProvider(i18nConfig) {
         };
     };
 
-    //instantiate a default one for component locale
-    var cPath = new Path();
-    cPath.resolve();
-
     /**
+     *
+     * @ngdoc method
+     *
+     * @name i18nTokenProvider#$get
+     *
+     * @methodOf akamai.components.i18n.service:i18nTokenProvider
      *
      * @description A service used by the `i18nTokenProvider` to pass
      * values set during the application's configuration phase. The
      * `locale` value is determined by the `AKALOCALE` cookie set by
      * Luna portal, otherwise the fallback value is `en_US`.
      *
-     * @return {object} A hash containing two getter
-     * methods, mainly for use by
-     * {@link akamai.components.i18n.service:i18nCustomLoader i18nCustomLoader}.
+     * @return {object} A hash containing two getter methods, mainly
+     * for use by i18nCustomLoader.
+     *
      */
+
+    //instantiate a default one for component locale
+    var cPath = new Path();
+    cPath.resolve();
+
     /* @ngInject */
     this.$get = function i18nTokenFactory($cookies, i18nConfig, $location) {
         var cookieLocale = $cookies[i18nConfig.localeCookie],
@@ -85,9 +97,9 @@ module.exports = function i18nTokenProvider(i18nConfig) {
             /**
              * @ngdoc method
              *
-             * @name i18nToken#getUrls
+             * @name i18nTokenProvider#getUrls
              *
-             * @methodOf akamai.components.i18n.service:i18nToken
+             * @methodOf akamai.components.i18n.service:i18nTokenProvider
              *
              * @description get a list of URLs that reference locale
              * files.
@@ -99,9 +111,9 @@ module.exports = function i18nTokenProvider(i18nConfig) {
             /**
              * @ngdoc method
              *
-             * @name i18nToken#getCurrentLocale
+             * @name i18nTokenProvider#getCurrentLocale
              *
-             * @methodOf akamai.components.i18n.service:i18nToken
+             * @methodOf akamai.components.i18n.service:i18nTokenProvider
              *
              * @description Get the current locale value.
              *
