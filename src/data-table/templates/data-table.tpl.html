@@ -28,7 +28,7 @@
                         ng-repeat="column in columns"
                         ng-class="getColumnClasses(column, false)"
                         ng-bind-html="item.cells[$index] | highlight : state.filter"
-                        title="{{item.cells[$index]}}">
+                        title="{{item.header[$index]}}">
                     </td>
                     <td class="column-action" ng-if="hasActionColumn" ng-transclude>
                     </td>

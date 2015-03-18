@@ -94,7 +94,6 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
             function getColumnContent(column, item, defaultValue){
                 var columnContent = column.content;
-
                 if (angular.isString(columnContent)) {
                     if (columnContent in item) {
                         // retrieve the property for the item with the same name
@@ -110,7 +109,27 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
             }
-
+            function getColumnTitle(cell){
+                try{
+                    var htmlObj = angular.element(cell);
+                    //See if its an html element
+                    if(htmlObj[0].innerHTML){
+                        var htmlText = "";
+                        //Iterate over every element and get the text of them
+                        angular.forEach(htmlObj, function(ele){
+                            var jqueryEle = angular.element(ele);
+                            htmlText += jqueryEle.text() + " ";
+                        });
+                        return htmlText;
+                    } else {
+                        //Otherwise return the normal cell contents
+                        return cell;
+                    }
+                } catch (e){
+                    //cell = cell.replace(new RegExp('\<br \/\>', 'g'), ' ');
+                    return cell;
+                }
+            }
             function convertToString(value) {
                 if (value == null) {
                     return "";
@@ -149,6 +168,9 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                         ),
                         item : dataItem
                     };
+                    dataTableOutput[key].header = dataTableOutput[key].cells.map(function(cell){
+                        return getColumnTitle(cell);
+                    });
                 });
 
                 var autoSortableColumns = scope.columns.filter(
