@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log, $filter, $parse) {
+module.exports = function($log, $filter, $parse, translate) {
     var PICKER_TYPES = {
         'day' : 'day',
         'month' : 'month'
@@ -27,6 +27,11 @@ module.exports = function($log, $filter, $parse) {
 
                 if (scope.mode === PICKER_TYPES.day) {
                     scope.format = scope.format || 'EEE, MMM dd, yyyy';
+                    if (!scope.placeholder) {
+                        translate.async("components.date-picker.placeholder.date").then(function(value){
+                            scope.placeholder = value;
+                        });
+                    }
                     scope.dateOptions = {
                         startingDay: 0,
                         showWeeks: false,
@@ -36,6 +41,11 @@ module.exports = function($log, $filter, $parse) {
                     };
                 } else {
                     scope.format = scope.format || 'MMM yyyy';
+                    if (!scope.placeholder) {
+                        translate.async("components.date-picker.placeholder.month").then(function(value){
+                            scope.placeholder = value;
+                        });
+                    }
                     scope.dateOptions = {
                         startingDay: 0,
                         minMode: 'month',
@@ -48,10 +58,11 @@ module.exports = function($log, $filter, $parse) {
                 }
             },
             post: function(scope, element, attrs, ngModel) {
+                /* istanbul ignore if */
                 if (!ngModel) {
                     return;
                 }
-                
+
                 ngModel.$render = function() {
                     scope.value =
                         $filter('date')(ngModel.$modelValue, scope.format);
@@ -59,15 +70,16 @@ module.exports = function($log, $filter, $parse) {
 
                 scope.change = function() {
                     ngModel.$setViewValue(scope.value);
+                    ngModel.$setTouched();
                 };
-        
+
                 scope.toggle = function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
-                
+
                     scope.opened = !scope.opened;
                 };
-                
+
                 scope.$watch('opened', function(newValue){
                     element.toggleClass('opened', newValue);
                 });

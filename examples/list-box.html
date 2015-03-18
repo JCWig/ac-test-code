@@ -7,6 +7,9 @@
         .container {
             min-height: 150px;
         }
+        .container + .container {
+            margin-top: 2em;
+        }
         
         form {
             padding-bottom:20px;
@@ -17,7 +20,6 @@
         }
         
         .column-full-name {
-            width: 250px;
         }
         
         td.column-full-text-name {
@@ -25,11 +27,18 @@
         }
     </style>
 </head>
-<body ng-app="listBoxDemo" ng-controller="Ctrl" class="common-css">
+<body ng-app="listBoxDemo" ng-controller="Ctrl" class="common-css luna">
     <div class="container">
-        <h1>List Box Example</h1>
+
+        <div class="page-header">
+            <h1>List Box Example</h1>
+        </div>
         
-        <br />
+        <div class="container">
+            <h3>Empty Data</h3>
+            <akam-list-box data="[]" schema="columns" on-change="mychange(value)" selected-items="selectedItems1" 
+            no-data-message='{{"components.list-box.text.noDataMessage" | akamTranslate}}' no-filter-results-message="no filter results message"></akam-list-box>
+        </div>
 
         <div class="container">
             <h3>DATA USING PROMISE</h3>
@@ -42,11 +51,17 @@
             <akam-list-box data="basedata" schema="columns" on-change="mychange(value)" selected-items="selectedItems2"></akam-list-box>
             <span>Selected Items: {{selectedItems2}}</span>
         </div>
+        
+        <div class="container">
+            <h3>DATA Via HTTP GET</h3>
+            <akam-list-box data="jsonFromHttpGet" schema="jsonColumns" on-change="mychange(value)" selected-items="selectedItems3"></akam-list-box>
+            <span>Selected Items: {{selectedItems3}}</span>
+        </div>
     </div>
     
     <script src="../node_modules/angular/angular.js"></script>
     <script src="../dist/akamai-components.js"></script>
-    <script>
+    <script>    
         var BASE_DATA = [
             {
                 first : "Yair",
@@ -110,10 +125,11 @@
                 id : 777,
                 bu : "Luna",
                 color: "YELLOW"
-            },
+            }
         ];
-        var app = angular.module("listBoxDemo", ["akamai.components.list-box"]);
-        app.controller("Ctrl", ["$scope", "$timeout", "$q", function(scope, $timeout, $q) {
+        var app = angular.module("listBoxDemo", ["akamai.components.list-box","akamai.components.i18n"]);
+        app.config(function(i18nTokenProvider) {});
+        app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", "translate", function(scope, $timeout, $q, $http, translate) {
             var deferred = $q.defer();
             scope.mydata = deferred.promise;
             scope.basedata = BASE_DATA;
@@ -148,8 +164,28 @@
                         };
                         return colorsValues[this.color];
                     }
-                },
+                }
             ];
+
+            scope.selectedItems2 = [BASE_DATA[0], BASE_DATA[3], BASE_DATA[5]];
+            
+            scope.jsonColumns = [
+                {
+                    //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                    content : function(){
+                        return this.first + ' ' + this.last;
+                    },
+                    header : 'Full Name',
+                    className : 'column-full-name'
+                },
+                {
+                    content : 'id',
+                    header : 'Emp. ID',
+                    className : 'column-employeeid'
+                }
+            ];
+            
+            scope.jsonFromHttpGet = $http.get('json/list-box-data.json');
             
             scope.mychange = function(value){
                 console.log('yay', value);

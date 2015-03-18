@@ -30,18 +30,53 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @param {String} [localeCookie=AKALOCALE] A cookie name widely used
  * in Luna portal applications.
  *
- * @param {String} [localePath=assets/akamai-components/{version}/locales/]
+ * @param {String} [localeComponentPath=assets/akamai-components/{version}/locales/]
  * A path that references component locale files.
+ *
+ * @param {String} [localeAppPath=apps/{appName}/locales/]
+ * A path that references application locale files.
+ *
+ * @param {String} localePrefix A custom prefix to add before a
+ * language key name. For example, `message_` produces
+ * `message_en_US`.
  *
  * @param {String} [defaultLocale=en_US] The default locale string
  * value.
  *
+ * @param {String} [baseVersion=0.0.1] The version of the locale
+ * component data.
+ *
+ * @param {Array} availableLangKeys A list of available language key
+ * names, useful in validating before loading the corresponding locale
+ * file.
+ *
+ * @param {Object} langKeysMapper Maps language names to the names of
+ * translation tables.
+ *
  */
 .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
-    localePath: '/assets/akamai-components/{version}/locales/',
+    localeComponentPath: '/libs/akamai-components/{version}/locales/',
+    localeAppPath: '/apps/{appname}/locales/',
     defaultLocale: 'en_US',
-    baseVersion: "0.0.1"
+    baseVersion: "0.0.1",
+    localePrefix: "",
+    availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
+    langKeysMapper: {
+        'de_DE': 'de_DE',
+        'en_US': 'en_US',
+        'en_US_ATT': 'en_US_ATT',
+        'es_ES': 'es_ES',
+        'es_LA': 'es_LA',
+        'fr_FR': 'fr_FR',
+        'it_IT': 'it_IT',
+        'ja_JP': 'ja_JP',
+        'ko_KR': 'ko_KR',
+        'pt_BR': 'pt_BR',
+        'zh_CN': 'zh_CN',
+        'zh_TW': 'zh_TW',
+        '*': 'en_US'
+    }
 })
 
 /**
@@ -160,7 +195,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 .factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
 
 /**
- * @ngdoc object
+ * @ngdoc function
  *
  * @name akamai.components.i18n.config
  *
@@ -183,11 +218,30 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 /* @ngInject */
 .config(function($translateProvider, i18nConfig) {
     $translateProvider
+        .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
         .useLoader('i18nCustomLoader')
         .useSanitizeValueStrategy('escaped')
         .preferredLanguage(i18nConfig.defaultLocale)
         .fallbackLanguage(i18nConfig.defaultLocale)
-        .determinePreferredLanguage();
+        .determinePreferredLanguage()
+        .useMissingTranslationHandler('missingTranslationFactory');
+})
+
+/**
+ * @ngdoc service
+ *
+ * @name akamai.components.i18n.service:missingTranslationFactory
+ *
+ * @reuires $log
+ * @reuires i18nToken
+ *
+ * @description This service factory sole purpose is to Intercept missing translation key error, log error in the console (not blocking)
+ *
+ */
+.factory('missingTranslationFactory', function($log, i18nToken) {
+    return function(translationID) {
+        $log.error("Missing " + translationID + " key in " + i18nToken.getCurrentLocale() + " table.");
+    };
 })
 
 /**
@@ -195,6 +249,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * __NOTE__: Since run block is last flow, only this block completed, the $translation table is sure loaded.
  */
 /* @ngInject */
-.run(function($translate, i18nToken) {
-    $translate.use(i18nToken.getCurrentLocale());
+.run(function($translate, i18nToken, i18nConfig) {
+    //it loads twice using "use" function if current locale is different from default locale
+    if (i18nToken.getCurrentLocale() === i18nConfig.defaultLocale) {
+        $translate.use(i18nToken.getCurrentLocale());
+    }
 });

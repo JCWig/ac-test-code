@@ -21,12 +21,33 @@
         "dialog": {
 
         },
+        "list-box": {
+            "placeholder": {
+                "filter": "Filter"
+            },
+            "text": {
+                "noItem": "No Item Found",
+                "selected": "Selected: ",
+                "viewSelected": "View Selected Only",
+                "noDataResults":"There is no data based upon your criteria",
+                "noFilterResults":"There are no results based upon your filter",
+                "viewSelectedOnly":"You have no items selected"  
+            }
+        },
         "multiselect-listbox": {
 
         },
         "message-box": {
             "no": "No",
-            "yes": "Yes"
+            "yes": "Yes",
+            "title": {
+                "information": "Information",
+                "question": "Question",
+                "error": "Error"
+            },
+            "label": {
+                "detail": "View details"
+            }
         },
         "notifications": {
             "success": "SUCCESS",
@@ -34,8 +55,17 @@
             "information": "INFORMATION",
             "error": "ERROR"
         },
-        "table": {
-
+        "data-table": {
+            "placeholder": {
+                "filter": "Filter"
+            },
+            "label": {
+                "action": "Action"
+            },
+            "text":{
+                "noFilterResults":"There are no results based upon your filter",
+                "noDataResults" : "There is no data based upon your criteria"
+            }
         },
         "menu-button": {
             "label": "Label"
@@ -57,9 +87,9 @@
         },
         "date-picker": {
             "placeholder": {
-                "dp": "date picker",
-                "mp": "month picker",
-                "yp": "year picker"
+                "date": "Date Picker",
+                "month": "Month Picker",
+                "year": "Year Picker"
             }
         },
         "tooltip": {

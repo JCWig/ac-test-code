@@ -1,0 +1,10 @@
+{
+    "components": {
+    	"notifications": {
+            "success": "ERFOLG",
+            "warning": "WARNUNG",
+            "information": "INFORMATIONEN",
+            "error": "ERROR"
+        }
+    }
+}

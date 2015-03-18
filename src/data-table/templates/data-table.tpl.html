@@ -1,0 +1,51 @@
+<div class="akam-data-table common-table">
+    <div class="filter">
+        <input type="search" ng-model="state.filter" ng-disabled="loading" ng-change="updateSearchFilter()" placeholder="{{filterPlaceholder}}"><i class="luna-small-close clear-filter icon-states util-clickable" ng-if="state.filter" ng-click="state.filter = ''; updateSearchFilter()"></i>
+    </div>
+    <div class="data">
+        <table>
+            <thead>
+                <tr>
+                    <th ng-if="showCheckboxes" class="column-checkbox">
+                        <input type="checkbox" ng-model="state.allSelected" id="{{tableId + 'allSelected'}}"><label for="{{tableId + 'allSelected'}}"></label>
+                    </th>
+                    <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)" title="{{column.header}}">
+                        {{column.header}} <i></i>
+                    </th>
+                    <th ng-if="hasActionColumn" class="column-action" akam-translate="components.data-table.label.action">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class= "loading-data-table" ng-if="loading"> <td colspan="{{getColumnsLength()}}"> 
+                    <akam-indeterminate-progress completed="{{!loading}}"> </akam-indeterminate-progress> 
+                </td> </tr> 
+                <tr ng-repeat="item in filtered | offset: ((pager.page - 1) * pager.size) | limitTo: pager.size" ng-class="{ 'row-selected' : item.selected }">
+                    <td ng-if="showCheckboxes" class="column-checkbox">
+                        <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
+                    </td>
+                    <td
+                        ng-repeat="column in columns"
+                        ng-class="getColumnClasses(column, false)"
+                        ng-bind-html="item.cells[$index] | highlight : state.filter"
+                        title="{{item.cells[$index]}}">
+                    </td>
+                    <td class="column-action" ng-if="hasActionColumn" ng-transclude>
+                    </td>
+                </tr>
+                <tr ng-if="filtered.length === 0">
+                    <td class="empty-table-message" colspan="{{getColumnsLength()}}">
+                        <i class="luna-alert"></i>{{getEmptyStatusMessage()}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <akam-pagination
+        total-items="filtered.length"
+        current-page="pager.page"
+        page-size="pager.size"
+        onchangepage="pageChanged(page)">
+    </akam-pagination>
+</div>

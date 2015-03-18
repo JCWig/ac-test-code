@@ -7,13 +7,14 @@ var angular = require('angular');
     *
     * @name akamai.components.list-box
     *
-    * @description Provides a directive that creates Luna- and
+    * @description Provides a directive that creates a Luna- and
     * Pulsar-compatible list box.
     *
     */
     module.exports = angular.module('akamai.components.list-box', [
         require('../uuid').name,
-        require('../indeterminate-progress').name
+        require('../indeterminate-progress').name,
+        require('../i18n').name
     ])
 
     /**
@@ -25,9 +26,13 @@ var angular = require('angular');
      *
      * @restrict E
      *
-     * @param {Array | Promise} data The array of data to show in the listbox.  If data is a promise, the
-     *  indeterminate progress control will show in place of the contents until the promise is resolved/rejected.
-     * @param {Array} columns The array of columns that describes the schema to the list box layout and formatting
+     * @param {Array|Promise} data The array of data to show within
+     * the listbox.  If `data` is a promise, an indeterminate progress
+     * control displays in place of the contents until the promise is
+     * resolved or rejected.
+     *
+     * @param {Array} columns The array of columns that describes the
+     * schema to the list box layout and formatting.
      *
      */
 .directive("akamListBox", require('./list-box-directive'));
