@@ -145,12 +145,16 @@
                         return this.first + ' ' + this.last;
                     },
                     header : 'Full Name',
-                    className : 'column-full-name'
+                    className : 'column-full-name',
+                    title: function(){
+                        return this.first + ' ' + this.last;
+                    }
                 },
                 {
                     content : 'id',
                     header : 'Emp. ID',
-                    className : 'column-employeeid'
+                    className : 'column-employeeid',
+                    title: 'id'
                 },
                 {
                     content : 'color',

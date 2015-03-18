@@ -109,25 +109,21 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
             }
-            function getColumnTitle(cell){
-                try{
-                    var htmlObj = angular.element(cell);
-                    //See if its an html element
-                    if(htmlObj[0].innerHTML){
-                        var htmlText = "";
-                        //Iterate over every element and get the text of them
-                        angular.forEach(htmlObj, function(ele){
-                            var jqueryEle = angular.element(ele);
-                            htmlText += jqueryEle.text() + " ";
-                        });
-                        return htmlText;
-                    } else {
-                        //Otherwise return the normal cell contents
-                        return cell;
+            function getColumnTitles(column, item, defaultValue){
+                var columnTitle = column.title;
+                if (angular.isString(columnTitle)) {
+                    if (columnTitle in item) {
+                        // retrieve the property for the item with the same name
+                        return item[columnTitle] || defaultValue;
+                    }else{
+                        // this means that the property is undefined in the object
+                        return defaultValue;
                     }
-                } catch (e){
-                    //cell = cell.replace(new RegExp('\<br \/\>', 'g'), ' ');
-                    return cell;
+                }else if (angular.isFunction(columnTitle)) {
+                    // return the content based on the result of the function call
+                    return angular.bind(item, column.title)() || defaultValue;
+                } else {
+                    return defaultValue;
                 }
             }
             function convertToString(value) {
@@ -166,11 +162,13 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                                 return getColumnContent(column, dataItem, column.defaultValue);
                             }
                         ),
+                        titles : scope.columns.map(
+                            function (column){
+                                return getColumnTitles(column, dataItem, "");
+                            }
+                        ),
                         item : dataItem
                     };
-                    dataTableOutput[key].header = dataTableOutput[key].cells.map(function(cell){
-                        return getColumnTitle(cell);
-                    });
                 });
 
                 var autoSortableColumns = scope.columns.filter(
