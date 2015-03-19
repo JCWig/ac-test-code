@@ -734,15 +734,15 @@ describe('akam-list-box', function() {
             
             expect(numberSelectedSpan.textContent).toMatch(/Selected: 1/);
         });
-        /*it('should change background color of selected items', function(){
+        it('should change background color of selected items', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
 
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
-
-            expect(firstRowCheckbox.parentNode.parentNode.classList.contains('row-selected')).toBe(true);
-        });*/
+            var firstRow = document.querySelector(TABLE_ROW);
+            expect(firstRow.classList.contains('row-selected')).toBe(true);
+        });
     });
     describe('when deselecting an item', function(){
         beforeEach(function(){
@@ -750,9 +750,10 @@ describe('akam-list-box', function() {
             addElement(markup);
             httpBackend.flush();
         });
-        /*it('should be able to deselect an item', function(){
+        it('should be able to deselect an item', function(){
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
+            firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
 
             var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
@@ -762,12 +763,13 @@ describe('akam-list-box', function() {
         it('should updated total selected field', function(){
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
+            firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
 
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
             expect(numberSelectedSpan.textContent).toMatch(/Selected: 0/);
-        });*/
+        });
         it('should change background color of deselected items', function(){
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
@@ -781,17 +783,18 @@ describe('akam-list-box', function() {
             utilities.click(firstRowCheckbox);
 
             expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).toBe(false);
-        });/*
+        });
         it('should only trigger updateChanged twice one on, one off', function(){
             var spyOnChange = spyOn(scope.$$childTail, "updateChanged");
 
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
             scope.$digest();
+            firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
             scope.$digest();
             expect(spyOnChange.calls.count()).toEqual(2);
-        });*/
+        });
     });
     describe('when activating view selected only option', function(){
         beforeEach(function(){
@@ -809,21 +812,23 @@ describe('akam-list-box', function() {
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
             expect(allVisibleRows.length).toEqual(1);
-        });/*
+        });
         it('should remove item from view if deselected', function(){
-            var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
+            
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
             scope.$digest();
+            var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
             utilities.click(viewSelectOnlyCheckbox);
             scope.$digest();
+            firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
             scope.$digest();
 
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
             expect(allVisibleRows.length).toEqual(0);
-        });*/
+        });
         it('should show unselected items when "view selected only" re-pressed', function(){
             var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');

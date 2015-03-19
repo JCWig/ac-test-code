@@ -255,17 +255,18 @@ describe('akam-data-table', function() {
             scope.$digest();
             expect(spyOnChange).calledOnce;
             expect(scope.$$childTail.selectedItems.length).toEqual(2);
-        });/*
+        });
         it('should be able to deselect items and trigger run process twice', function(){
             var spyOnChanged = spyOn(scope.$$childTail, "updateChanged").and.callThrough();
             var rowOneCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
+            utilities.click(rowOneCheckbox);
             scope.$digest();
             var newCheckbox = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
-            utilities.click(rowOneCheckbox);
+            utilities.click(newCheckbox);
 
             expect(spyOnChanged.calls.count()).toEqual(2);
             expect(scope.$$childTail.selectedItems.length).toEqual(1); 
-        });*/
+        });
         it('should be able to view selected only items', function(){
             //CURRENTY NOT ACTUALLY IMPLEMENTED ACCESSING FIELD DIRECTLY TO TEST 
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[0].querySelector('input');
