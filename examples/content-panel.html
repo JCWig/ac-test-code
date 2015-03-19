@@ -1,73 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Akamai Components Examples - Content Panel</title>
-    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
-</head>
-<body class="common-css luna" ng-app="example" ng-controller="ExampleController">
-    <div class="container">
-        <div class="page-header">
-            <h1>Content Panel Example</h1>
+    <head>
+        <meta charset="UTF-8">
+            <title>Akamai Components Examples - Content Panel</title>
+            <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+    </head>
+    <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+        <div class="container">
+            <div class="page-header">
+                <h1>Content Panel Component Example</h1>
+            </div>
+            <h3>Panel Initially Expanded:</h3>
+            <akam-content-panel is-collapsed="isCollapsed1" on-toggle="process(value)" header="Header Text Goes Here 1">
+                <div>Panel Content</div>
+                <div>More Panel Content</div>
+            </akam-content-panel>
+            <br />
+            <h3>Panel Initially Collapsed:</h3>
+            <akam-content-panel is-collapsed="isCollapsed2" on-toggle="process(value)" header="Content Panel Header Text - Example of a Longer Header Title">
+                <div>Second Panel Content</div>
+                <div>More Panel Content</div>
+            </akam-content-panel>
+            <br />
+            <h3>Panel Group:</h3>
+            <akam-content-panel ng-repeat="panel in panels" on-toggle="process(value)" header="{{panel.header}}" is-collapsed="panel.collapsed">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+                Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </akam-content-panel>
         </div>
-    
-        <h3>Initially Expanded:</h3>
-        <akam-content-panel is-collapsed="isCollapsed1" on-toggle="process(value)" header="Header 1">
-            <div>
-                Some Content 1
-            </div>
-            <div>
-                Some More Content 1
-             </div>
-        </akam-content-panel>
-        
-        <br />
-        <h3>Initially Collapsed:</h3>
-        <akam-content-panel is-collapsed="isCollapsed2" on-toggle="process(value)" header="Header 2">
-            <div>
-                Some Content 2
-            </div>
-            <div>
-                Some More Content 2
-             </div>
-        </akam-content-panel>
-        
-        <br />
-        
-        <h3>Panel Group:</h3>
-        <akam-content-panel ng-repeat="panel in panels" header="{{panel.header}}" is-collapsed="panel.collapsed">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-        </akam-content-panel>
-    </div> 
-
-    <script src="../node_modules/angular/angular.min.js"></script>
-    <script src="../dist/akamai-components.min.js"></script>
-    <script>
-        angular.module('example', ['akamai.components.content-panel'])
-
-        .controller('ExampleController', function($scope) {
-            $scope.isCollapsed1 = false;
-            $scope.isCollapsed2 = true;
+        <script src="../node_modules/angular/angular.min.js"></script>
+        <script src="../dist/akamai-components.min.js"></script>
+        <script>
+            angular.module('example', ['akamai.components.content-panel'])
             
-            $scope.process = function(value){
-                console.log('toggle', value);
-            };
+            .controller('ExampleController', function($scope) {
+                $scope.isCollapsed1 = false;
+                $scope.isCollapsed2 = true;
             
-            $scope.panels = [
-                {
-                    header : 'Header 1',
-                    collapsed: false
-                },
-                {
-                    header : 'Header 2',
-                    collapsed: false
-                },
-                {
-                    header : 'Header 3',
-                    collapsed: false
-                }
-            ];
-        });
-    </script>
-</body>
+                $scope.process = function(value){
+                    console.log('Toggle of panel:', value);
+                };
+            
+                $scope.panels = [
+                    {
+                        header : 'Header 1',
+                        collapsed: false
+                    },
+                    {
+                        header : 'Header 2',
+                        collapsed: false
+                    },
+                    {
+                        header : 'Header 3',
+                        collapsed: false
+                    },
+                ];
+            });
+        </script>
+    </body>
 </html>
