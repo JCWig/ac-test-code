@@ -9,7 +9,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder: "@",
-            selectedItems: '=?',
+            noFilterResultsMessage :"@",
+            noDataMessage : "@",
+            noneSelectedMessage :"@",
+            selectedItems: '=?',  // the ? marks the property as optional.
             onChange: "&?"
         },
         template: require('./templates/list-box.tpl.html'),
@@ -26,22 +29,40 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             translate.async("components.list-box.text.selected").then(function(value) {
                 scope.selectedText = value;
             });
+            if (!scope.noFilterResultsMessage) {
+                translate.async("components.list-box.text.noFilterResults").then(function(value) {
+                    scope.noFilterResultsMessage = value;
+                });
+            }
+            if (!scope.noDataMessage) {
+                translate.async("components.list-box.text.noDataMessage").then(function(value) {
+                    scope.noDataMessage = value;
+                });
+            }
+            if (!scope.noneSelectedMessage) {
+                translate.async("components.list-box.text.viewSelectedOnly").then(function(value) {
+                    scope.noneSelectedMessage = value;
+                });
+            }
 
             scope.selectedItems = scope.selectedItems || [];
-            scope.state = {
-                sortInfo: {
-                    sortedColumn: null,
-                    predicate: null,
-                    reverseSort: false
-                },
-                viewSelectedOnly: false,
-                allSelected: false,
-                filter: "",
-                search: {
-                    'cells': ''
-                }
-            };
-
+            scope.internalSelectedItems = angular.copy(scope.selectedItems);
+            function setDefaults(){
+                scope.state = {
+                    sortInfo: {
+                        sortedColumn: null,
+                        predicate: null,
+                        reverseSort: false
+                    },
+                    viewSelectedOnly: false,
+                    allSelected: false,
+                    filter: "",
+                    search: {
+                        'cells': ''
+                    }
+                };
+            }
+            setDefaults();
             scope.updateSearchFilter = function() {
                 if (scope.state.viewSelectedOnly === true) {
                     scope.state.search = {
@@ -54,60 +75,79 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     };
                 }
             };
-
-            scope.getColumnContent = function(column, item, defaultValue) {
+            
+            function getColumnContent(column, item, defaultValue){
                 var columnContent = column.content;
 
                 if (angular.isString(columnContent)) {
                     if (columnContent in item) {
                         // retrieve the property for the item with the same name
-                        return item[columnContent] || defaultValue;
-                    } else {
+                        return convertToString(item[columnContent] || defaultValue);
+                    }else{
                         // this means that the property is undefined in the object
                         return defaultValue;
                     }
-                } else if (angular.isFunction(columnContent)) {
+                }else if (angular.isFunction(columnContent)) {
                     // return the content based on the result of the function call
-                    return angular.bind(item, column.content)() || defaultValue;
+                    return convertToString(angular.bind(item, column.content)() || defaultValue);
                 }
 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
-            };
+            }
 
-            scope.processDataTable = function() {
+            function convertToString(value) {
+                if (value == null) {
+                    return "";
+                }
+
+                if (angular.isArray(value)) {
+                    return value.join('<br />');
+                }
+
+                if (angular.isNumber(value) || angular.isDate(value) || value === true || value === false) {
+                    return String(value);
+                }
+
+                return value;
+            }
+
+            scope.processDataTable = function(skipSort) {
                 // we can only really process the data if both fields are set
                 if (scope.columns == null || scope.internalData == null) {
                     return;
                 }
-
                 // do the same process as ng-repeat, except we do this only once to cache the output
                 var dataTableOutput = new Array(scope.internalData.length);
                 angular.forEach(scope.internalData, function(dataItem, key) {
                     dataTableOutput[key] = {
-                        selected: false,
+                        selected: scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
                         cells: scope.columns.map(
                             function(column) {
-                                return scope.getColumnContent(column, dataItem, column.defaultValue);
+                                return getColumnContent(column, dataItem, column.defaultValue);
                             }
                         ),
                         item: dataItem
                     };
                 });
-
                 var autoSortableColumns = scope.columns.filter(
                     function(col) {
                         return col.sort !== false && col.autoSort !== false;
                     }
                 );
-
                 scope.dataTable = dataTableOutput;
-
-                if (autoSortableColumns.length > 0) {
+                if (!skipSort && autoSortableColumns.length > 0) {
                     scope.sortColumn(autoSortableColumns[0]);
                 }
 
                 scope.loading = false;
             };
+
+            scope.$watch('selectedItems', function(items) {
+                if(angular.isArray(items)) {
+                    scope.internalSelectedItems = items;
+                    scope.processDataTable(true);
+                }
+            });
 
             scope.$watch('data', function(newValue) {
                 scope.loading = true;
@@ -120,7 +160,13 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     if (!angular.isArray(data)) {
                         throw "Data must be an array";
                     }
+                    
+                    if(!!scope.internalData){
+                        scope.selectedItems = [];
+                    }
 
+                    setDefaults();
+                    scope.updateSearchFilter();
                     scope.internalData = data;
                     scope.processDataTable();
                 });
@@ -161,9 +207,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-                scope.onChange({
-                    value: selectedItemsList
-                });
+
+                if(angular.isFunction(scope.onChange)) {
+                  scope.onChange({
+                      value: selectedItemsList
+                  });
+                }
             };
 
             scope.sortColumn = function(column) {
@@ -200,6 +249,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 };
 
                 scope.dataTable = orderBy(scope.dataTable, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
+                scope.internalData = [];
+                angular.forEach(scope.dataTable, function(dataObj){
+                    scope.internalData.push(dataObj.item);
+                });
             };
 
             scope.getColumnPredicate = function(column) {
@@ -244,6 +297,17 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 }
 
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
+            };
+            scope.getEmptyStatusMessage = function(){
+                if(scope.dataTable.length === 0 && scope.state.filter){
+                    return scope.noFilterResultsMessage;
+                }
+                else if(scope.dataTable.length === 0 && !scope.state.filter && !scope.state.viewSelectedOnly){
+                    return scope.noDataMessage;
+                }
+                else if(scope.dataTable.length === 0 && !scope.state.filter && scope.state.viewSelectedOnly){
+                    return scope.noneSelectedMessage;
+                }
             };
         }
     };

@@ -21,11 +21,6 @@
         "dialog": {
 
         },
-        "list-box": {
-            "text":{
-                "selected":"Selected: "
-            }
-        },
         "message-box": {
             "no": "No",
             "yes": "Yes"
@@ -67,6 +62,30 @@
         "tooltip": {
 
         },
-
+        "data-table": {
+            "placeholder": {
+                "filter": "Filter"
+            },
+            "label": {
+                "action": "Action"
+            },
+            "text":{
+                "noFilterResults":"There are no results based upon your filter",
+                "noDataResults" : "There is no data based upon your criteria"
+            }
+        },
+        "list-box": {
+            "placeholder": {
+                "filter": "Filter"
+            },
+            "text": {
+                "noItem": "No Item Found",
+                "selected": "Selected: ",
+                "viewSelected": "View Selected Only",
+                "noDataResults":"There is no data based upon your criteria",
+                "noFilterResults":"There are no results based upon your filter",
+                "viewSelectedOnly":"You have no items selected"  
+            }
+        }
     }
 }

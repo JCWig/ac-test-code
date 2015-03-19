@@ -9,7 +9,7 @@ var TABLE_ROW = 'div.list-box-data tbody tr';
 var SELECTED_SPAN = 'div.list-box-footer span.ng-binding';
 var VIEW_SELECTED_ONLY_CHECKBOX = 'div.list-box-footer span.util-pull-right input[type=checkbox]';
 var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json';
-var CONFIG_PATH = '/apps/appName/locales/en_US.json';
+var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
 
@@ -116,7 +116,7 @@ describe('akam-list-box', function() {
     });
     describe('when rendering multiselect-list-box', function() {
         it('should render all parts', function() {
-            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+            var markup = '<akam-list-box data="mydata" schema="columns" ></akam-list-box>';
             addElement(markup);
 
             var columnNumber = document.querySelectorAll(TABLE_COLUMN_HEADER);
@@ -189,7 +189,7 @@ describe('akam-list-box', function() {
             timeout.flush();
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
 
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/true/);
+            expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
             expect(allRowsLoadedInTable.length).toEqual(scope.mydata.length);
         });
         it('should display indeterminate progress and load data on http get', function() {
@@ -211,7 +211,7 @@ describe('akam-list-box', function() {
             httpBackend.flush();
 
             var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
-            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/true/);
+            expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
             expect(allRowsLoadedInTable.length).toEqual(dataLength);
         });
         it('should be able to use default sorting method on first column', function(){
@@ -234,6 +234,65 @@ describe('akam-list-box', function() {
             expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
         });
     });
+    describe('when given selectedItems', function(){
+        it('should not delete selectedItems on load', function(){
+            scope.selectedItems = [{
+                first : 'Yair',
+                last : 'Leviel',
+                id : 1234,
+                bu : "Luna",
+                color: "Green",
+                birthday : new Date(2001,10,20),
+                generic : ["hello"]
+            }];
+            var markup = '<akam-list-box data="mydata" schema="columns" selected-items="selectedItems"></akam-list-box>';
+            addElement(markup);
+
+            expect(scope.$$childHead.selectedItems.length).toEqual(1);
+            expect(scope.$$childHead.selectedItems[0].first).toEqual("Yair");
+            expect(scope.$$childHead.selectedItems[0].last).toEqual("Leviel");
+        });/*
+        it('should auto check the preselected items', function(){
+            scope.selectedItems = [{
+                first : 'Yair',
+                last : 'Leviel',
+                id : 1234,
+                bu : "Luna",
+                color: "Green",
+                birthday : new Date(2001,10,20),
+                generic : ["hello"]
+            }];
+            var markup = '<akam-list-box data="mydata" schema="columns" selected-items="selectedItems"></akam-list-box>';
+            addElement(markup);
+
+            var allCheckedCheckboxes = document.querySelector(ALL_CHECKED_CHECKBOXES);
+
+            expect(allCheckedCheckboxes.length).toEqual(1);
+        });
+        it('should add onto selectedItems when new item clicked', function(){
+            scope.selectedItems = [{
+                first : 'Yair',
+                last : 'Leviel',
+                id : 1234,
+                bu : "Luna",
+                color: "Green",
+                birthday : new Date(2001,10,20),
+                generic : ["hello"]
+            }];
+            var markup = '<akam-list-box data="mydata" schema="columns" selected-items="selectedItems"></akam-list-box>';
+            addElement(markup);
+
+            var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+            utilities.click(firstRowCheckbox);
+            scope.$digest();
+
+            expect(scope.$$childHead.internalSelectedItems.length).toEqual(2);
+            expect(scope.$$childHead.internalSelectedItems[0].first).toEqual("Yair");
+            expect(scope.$$childHead.internalSelectedItems[0].last).toEqual("Leviel");
+            expect(scope.$$childHead.internalSelectedItems[1].first).toEqual("K-Slice");
+            expect(scope.$$childHead.internalSelectedItems[1].last).toEqual("McYoungPerson");
+        });*/
+    });
     describe('when nothing is selected', function(){
         it('should have selected field equal 0', function() {
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
@@ -243,6 +302,150 @@ describe('akam-list-box', function() {
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
             expect(numberSelectedSpan.textContent).toMatch(/Selected: 0/);
+        });
+    });
+    describe('when changing data input', function(){
+        it('should have selected field equal 0 after updating data and selecting an item', function() {
+            scope.changingdata = scope.mydata.slice(0);
+            var markup = '<akam-list-box data="changingdata" schema="columns"></akam-list-box>';
+            addElement(markup);
+            var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
+            expect(numberSelectedSpan.textContent).toMatch(/0/);
+            
+            var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+            utilities.click(firstRowCheckbox);
+            scope.$digest();
+            
+            expect(numberSelectedSpan.textContent).toMatch(/1/);
+            scope.changingdata =[];
+            
+            scope.$digest();
+            expect(numberSelectedSpan.textContent).toMatch(/0/);
+        });
+        it('should reset view selected only when data is changed', function() {
+            scope.changingdata = scope.mydata.slice(0);
+            var markup = '<akam-list-box data="changingdata" schema="columns"></akam-list-box>';
+            addElement(markup);
+            var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
+            expect(numberSelectedSpan.textContent).toMatch(/0/);
+            
+            var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+            var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
+
+            utilities.click(firstRowCheckbox);
+            scope.$digest();
+            utilities.click(viewSelectOnlyCheckbox);
+            scope.$digest();
+
+            scope.changingdata =[];
+            scope.$digest();
+            scope.changingdata = scope.mydata.slice(0);
+            scope.$digest();
+
+            var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);//Should be 1, which is the viewSelectOnlyCheckbox
+            var allVisibleRows = document.querySelectorAll(TABLE_ROW);
+            expect(allCheckedCheckboxes.length).toEqual(0);
+            expect(allVisibleRows.length).toEqual(3);
+        });
+        it('should clear filter when data is changed', function() {
+            scope.changingdata = scope.mydata.slice(0);
+            var markup = '<akam-list-box data="changingdata" schema="columns"></akam-list-box>';
+            addElement(markup);
+            var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
+            expect(numberSelectedSpan.textContent).toMatch(/0/);
+            
+            scope.$$childHead.state.filter = "K-Slice";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(1);
+
+            scope.changingdata =[];
+            scope.$digest();
+            scope.changingdata = scope.mydata.slice(0);
+            scope.$digest();
+
+            var allVisibleRows = document.querySelectorAll(TABLE_ROW);
+            var filterBox = document.querySelector(FILTER_BOX);
+
+            expect(scope.$$childHead.state.filter).toEqual('');
+            expect(allVisibleRows.length).toEqual(3);
+            expect(filterBox.value).toEqual('');
+        });
+        it('should unselect de/select all  when data is changed', function() {
+            scope.changingdata = scope.mydata.slice(0);
+            var markup = '<akam-list-box data="changingdata" schema="columns"></akam-list-box>';
+            addElement(markup);
+
+            var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
+            var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
+            expect(numberSelectedSpan.textContent).toMatch(/0/);
+
+            utilities.click(selectAllCheckbox);
+            expect(numberSelectedSpan.textContent).toMatch(/3/);
+
+            scope.changingdata =[];
+            scope.$digest();
+            scope.changingdata = scope.mydata.slice(0);
+            scope.$digest();
+
+            var selectAllCheckboxIfChecked = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input:checked');
+
+            expect(selectAllCheckboxIfChecked).toBe(null);
+            expect(numberSelectedSpan.textContent).toMatch(/0/);
+        });
+        it('should re-sort based on first row on data update', function() {
+            scope.changingdata = scope.mydata.slice(0);
+            var markup = '<akam-list-box data="changingdata" schema="columns"></akam-list-box>';
+            addElement(markup);
+            var rowOneColumnThree = document.querySelectorAll(TABLE_COLUMN_HEADER)[2];
+
+            utilities.click(rowOneColumnThree);
+            scope.$digest();
+            expect(rowOneColumnThree.classList.contains('asc')).toEqual(true);
+            
+            var rowTwoColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
+            expect(rowTwoColumnTwo.textContent).toMatch(/Yair Leviel/);
+
+            scope.changingdata =[];
+            scope.$digest();
+            scope.changingdata =scope.mydata.slice(0);
+            scope.$digest();
+
+            var rowOneColumnTwo = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
+            rowTwoColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+            
+            expect(rowOneColumnTwo.classList.contains('asc')).toBe(true);
+            expect(rowOneColumnTwo.classList.contains('desc')).not.toEqual(true);
+            expect(rowTwoColumnTwo.textContent).toMatch(/K-Slice McYoungPerson/);
+        });
+        it('should be able to proceed normally after data update', function() {
+            scope.changingdata = scope.mydata.slice(0);
+            var markup = '<akam-list-box data="changingdata" schema="columns"></akam-list-box>';
+            addElement(markup);
+            var rowOneColumnThree = document.querySelectorAll(TABLE_COLUMN_HEADER)[2];
+
+            utilities.click(rowOneColumnThree);
+            scope.$digest();
+            expect(rowOneColumnThree.classList.contains('asc')).toEqual(true);
+            
+            var rowTwoColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
+            expect(rowTwoColumnTwo.textContent).toMatch(/Yair Leviel/);
+
+            scope.changingdata =[];
+            scope.$digest();
+            scope.changingdata =scope.mydata.slice(0);
+            scope.$digest();
+
+            
+            var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+            utilities.click(firstRowCheckbox);
+            scope.$digest();
+
+            var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
+            
+            expect(numberSelectedSpan.textContent).toMatch(/1/);
         });
     });
     describe('when interacting with sort options', function(){
@@ -335,8 +538,8 @@ describe('akam-list-box', function() {
             var rowOneColumnSix = document.querySelector(TABLE_ROW).querySelectorAll('td')[5];
             var rowThreeColumnSix = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[5];
 
-            expect(rowOneColumnSix.textContent).toContain('["goodbye"]');
-            expect(rowThreeColumnSix.textContent).toContain('["shake it off"]');
+            expect(rowOneColumnSix.textContent).toContain('goodbye');
+            expect(rowThreeColumnSix.textContent).toContain('shake it off');
         });
         it('should be able to sort reverse generically', function(){
             var sortByColumnSixGeneric = document.querySelectorAll(TABLE_COLUMN_HEADER)[5];
@@ -346,8 +549,8 @@ describe('akam-list-box', function() {
             var rowOneColumnSix = document.querySelector(TABLE_ROW).querySelectorAll('td')[5];
             var rowThreeColumnSix = document.querySelectorAll(TABLE_ROW)[2].querySelectorAll('td')[5];
 
-            expect(rowOneColumnSix.textContent).toContain('["shake it off"]');
-            expect(rowThreeColumnSix.textContent).toContain('["goodbye"]');
+            expect(rowOneColumnSix.textContent).toContain('shake it off');
+            expect(rowThreeColumnSix.textContent).toContain('goodbye');
         });
         it('should sort entire rows', function(){
             var sortByColumnTwoAlphabectically = document.querySelectorAll(TABLE_COLUMN_HEADER)[1];
@@ -531,7 +734,7 @@ describe('akam-list-box', function() {
             
             expect(numberSelectedSpan.textContent).toMatch(/Selected: 1/);
         });
-        it('should change background color of selected items', function(){
+        /*it('should change background color of selected items', function(){
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
 
@@ -539,8 +742,7 @@ describe('akam-list-box', function() {
             utilities.click(firstRowCheckbox);
 
             expect(firstRowCheckbox.parentNode.parentNode.classList.contains('row-selected')).toBe(true);
-
-        });
+        });*/
     });
     describe('when deselecting an item', function(){
         beforeEach(function(){
@@ -548,8 +750,7 @@ describe('akam-list-box', function() {
             addElement(markup);
             httpBackend.flush();
         });
-
-        it('should be able to deselect an item', function(){
+        /*it('should be able to deselect an item', function(){
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
             utilities.click(firstRowCheckbox);
@@ -566,7 +767,7 @@ describe('akam-list-box', function() {
             var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
             expect(numberSelectedSpan.textContent).toMatch(/Selected: 0/);
-        });
+        });*/
         it('should change background color of deselected items', function(){
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
             utilities.click(firstRowCheckbox);
@@ -579,8 +780,8 @@ describe('akam-list-box', function() {
             utilities.click(firstRowCheckbox);
             utilities.click(firstRowCheckbox);
 
-            expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).toBe(false); 
-        });
+            expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).toBe(false);
+        });/*
         it('should only trigger updateChanged twice one on, one off', function(){
             var spyOnChange = spyOn(scope.$$childTail, "updateChanged");
 
@@ -589,9 +790,8 @@ describe('akam-list-box', function() {
             scope.$digest();
             utilities.click(firstRowCheckbox);
             scope.$digest();
-
             expect(spyOnChange.calls.count()).toEqual(2);
-        });
+        });*/
     });
     describe('when activating view selected only option', function(){
         beforeEach(function(){
@@ -609,7 +809,7 @@ describe('akam-list-box', function() {
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
             expect(allVisibleRows.length).toEqual(1);
-        });
+        });/*
         it('should remove item from view if deselected', function(){
             var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
@@ -623,7 +823,7 @@ describe('akam-list-box', function() {
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
             expect(allVisibleRows.length).toEqual(0);
-        });
+        });*/
         it('should show unselected items when "view selected only" re-pressed', function(){
             var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
             var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
@@ -652,7 +852,7 @@ describe('akam-list-box', function() {
     });
     describe('when interacting with filter bar', function(){
         beforeEach(function(){
-            scope.mydata = [{name:"iiiKeviii"},{name:"Keviiiiii"},{name:"iiiiiiKev"},{name:"iiiiiijohn"},{name:"iiijohniii"}];
+            scope.mydata = [{name:"iiiKevfƒiii"},{name:"Keviiiiii"},{name:"iiiiiiKev"},{name:"iiiiiijohn"},{name:"iiijohniii"}];
             scope.columns = [{content : "name",header : 'Name', sort:false}];
             var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
             addElement(markup);
@@ -705,30 +905,47 @@ describe('akam-list-box', function() {
             allVisibleRows = document.querySelectorAll(TABLE_ROW);
             expect(allVisibleRows.length).toEqual(scope.mydata.length);
         });
-        /*it('should alert when no matches found', function(){
-
+    });
+    describe('when there is no data', function(){
+        beforeEach(function(){
+            scope.baddata = [];
+            scope.badcolumns = [
+                {content : "name", 
+                header : 'Name'}
+            ];
+            httpBackend.flush();
+            var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="message"></akam-list-box>';
+            addElement(markup);
         });
-        it('should offer suggestions when no matches found', function(){
+        it('should present message when no data is available and no filters that can be provided', function(){
+            scope.baddata = [];
+            scope.columns = [
+                {content : "name", 
+                header : 'Name'}
+            ];
+            var dataTableRow = document.querySelector('.empty-table-message');
 
+            expect(dataTableRow.textContent).toMatch(/message/);
         });
-        it('should be able to select off of suggestions', function(){
+        it('should present a different message when no data is available and filtered', function(){
+            scope.$$childHead.state.filter = "Oliver";
+            scope.$$childHead.updateSearchFilter();
+            scope.$digest();
 
-        });*/
-    });/*
-    describe('when items are filtered', function(){
-        it('should only apply select all to the filtered items', function(){});
-        it('should only apply deselect all to the filtered items', function(){});
+            var dataTableRow = document.querySelector('.empty-table-message');
+
+            expect(dataTableRow.textContent).toMatch(/There are no results based upon your filter/);
+        });
+        it('should present a different message when no data is available not filtered and view selected only on', function(){
+            var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
+            utilities.click(viewSelectOnlyCheckbox);
+            scope.$digest();
+
+            var dataTableRow = document.querySelector('.empty-table-message');
+
+            expect(dataTableRow.textContent).toMatch(/You have no items selected/);
+        });
     });
-    describe('when mouse interacting with multiselect-list-box', function(){
-        it('should change color on mouse hover', function(){});
-        it('should change back color on mouse leave', function(){});
-    });
-    describe('when navigating away and back', function(){
-        it('shoudl close when clicking away from box', function(){});
-        it('should maintain state so when reopened those selected are still selected.', function(){});
-    });
-    describe('when  no options to choose from', function(){
-    });*/
     describe('when data messes up', function(){
         it('should recognize null content when redenring', function(){
             scope.baddata = [
@@ -748,7 +965,7 @@ describe('akam-list-box', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).toMatch(/ /);
+            expect(rowOneColumnTwo.textContent).toEqual("");
             expect(allVisibleRows.length).toEqual(2);
         });
         it('should recognize null content when sorting name', function(){
@@ -770,8 +987,8 @@ describe('akam-list-box', function() {
             var rowFourColumnTwo = document.querySelectorAll(TABLE_ROW)[3].querySelectorAll('td')[1];
             var rowFiveColumnTwo = document.querySelectorAll(TABLE_ROW)[4].querySelectorAll('td')[1];
 
-            expect(rowOneColumnTwo.textContent).toContain('');
-            expect(rowTwoColumnTwo.textContent).toContain('');
+            expect(rowOneColumnTwo.textContent).toEqual('');
+            expect(rowTwoColumnTwo.textContent).toEqual('');
             expect(rowFourColumnTwo.textContent).toContain('James');
             expect(rowFiveColumnTwo.textContent).toContain('Kevin');
         });

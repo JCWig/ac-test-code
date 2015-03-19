@@ -7,12 +7,13 @@ var angular = require('angular');
     *
     * @name akamai.components.data-table
     *
-    * @description Provides a directive that creates Luna- and
+    * @description Provides a directive that creates a Luna- and
     * Pulsar-compatible data table.
     *
     */
     module.exports = angular.module('akamai.components.data-table', [
         require('../uuid').name,
+        require('../highlight').name,
         require('../indeterminate-progress').name,
         require('../pagination').name,
         require('../menu-button').name,
@@ -32,23 +33,6 @@ var angular = require('angular');
       };
     })
 
-    /* @ngInject */
-    .filter('highlight', function($sce) {
-        return function(text, phrase) {
-            if (!angular.isString(text)) {
-                text = String(text);
-            }
-
-            phrase = String(phrase).trim();
-
-            if (phrase){
-                text = text.replace(new RegExp('('+phrase+')', 'gi'), '<span class="highlighted">$1</span>');
-            }
-
-            return $sce.trustAsHtml(text);
-        };
-    })
-
     /**
      * @ngdoc directive
      *
@@ -58,9 +42,16 @@ var angular = require('angular');
      *
      * @restrict E
      *
-     * @param {Array | Promise} data The array of data to show in the listbox.  If data is a promise, the
-     *  indeterminate progress control will show in place of the contents until the promise is resolved/rejected.
-     * @param {Array} columns The aray of columns that describes the schema to the data table layout and formatting
+     * @param {Array|Promise} data The array of data to display within
+     * the
+     * {@link akamai.components.list-box `listBox`}.
+     * If `data` is a promise, the
+     * {@link akamai.components.indeterminate-progress indeterminate progress}
+     * control displays in place of the contents until the promise is
+     * resolved or rejected.
+     *
+     * @param {Array} columns An array of columns that describes the
+     * schema to the data table layout and formatting.
      *
      */
 .directive("akamDataTable", require('./data-table-directive'));
