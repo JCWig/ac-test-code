@@ -40,7 +40,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 });
             }
             if (!scope.noDataMessage) {
-                translate.async("components.data-table.text.noDataResults").then(function(value) {
+                translate.async("components.data-table.text.noDataMessage").then(function(value) {
                     scope.noDataMessage = value;
                 });
             }
