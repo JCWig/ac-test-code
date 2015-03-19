@@ -29,9 +29,9 @@
                 "noItem": "No Item Found",
                 "selected": "Selected: ",
                 "viewSelected": "View Selected Only",
-                "noDataMessage":"There is no data based upon your criteria",
-                "noFilterResults":"There are no results based upon your filter",
-                "viewSelectedOnly":"You have no items selected"  
+                "noDataMessage":"There is no data based upon your criteria.",
+                "noFilterResults":"There are no results based upon your filter.",
+                "viewSelectedOnly":"You have no items selected."
             }
         },
         "multiselect-listbox": {
@@ -63,8 +63,8 @@
                 "action": "Action"
             },
             "text":{
-                "noFilterResults":"There are no results based upon your filter",
-                "noDataMessage" : "There is no data based upon your criteria"
+                "noFilterResults":"There are no results based upon your filter.",
+                "noDataMessage" : "There is no data based upon your criteria."
             }
         },
         "menu-button": {

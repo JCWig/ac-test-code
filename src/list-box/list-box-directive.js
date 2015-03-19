@@ -10,7 +10,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             schema: '=',
             filterPlaceholder: "@",
             noFilterResultsMessage :"@",
-            noDataMessage : "@",
+            noDataMessage : "=?",
             noneSelectedMessage :"@",
             selectedItems: '=?',  // the ? marks the property as optional.
             onChange: "&?"
