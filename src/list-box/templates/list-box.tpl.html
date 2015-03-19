@@ -16,9 +16,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length + 1}}" class="empty-table-message">
-                    <i class="luna-alert"></i>{{getEmptyStatusMessage()}}
-                </td></tr>
                 <tr ng-repeat="item in dataTable | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
                     <td ng-if="showCheckboxes" class="column-checkbox">
                         <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
@@ -32,6 +29,7 @@
                 </tr>
             </tbody>
         </table>
+      <div ng-if="dataTable.length === 0" class="empty-table-message"><i class="luna-alert"></i><span>{{getEmptyStatusMessage()}}</span></div>
     </div>
     <div class="list-box-footer">
         <span class="util-pull-left">

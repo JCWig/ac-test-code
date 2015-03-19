@@ -75,6 +75,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     };
                 }
             };
+
+            function isSelected(itemToCheck) {
+              return scope.internalSelectedItems.filter(function(item) {
+                    return item === itemToCheck;
+              }).length > 0;
+            }
             
             function getColumnContent(column, item, defaultValue){
                 var columnContent = column.content;
@@ -120,7 +126,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 var dataTableOutput = new Array(scope.internalData.length);
                 angular.forEach(scope.internalData, function(dataItem, key) {
                     dataTableOutput[key] = {
-                        selected: scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
+                        selected: isSelected(dataItem),
                         cells: scope.columns.map(
                             function(column) {
                                 return getColumnContent(column, dataItem, column.defaultValue);
@@ -145,6 +151,8 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             scope.$watch('selectedItems', function(items) {
                 if(angular.isArray(items)) {
                     scope.internalSelectedItems = items;
+
+                    // XXX: This is SUPER expensive causing the digest loop to take upwards of a second on the examples
                     scope.processDataTable(true);
                 }
             });
