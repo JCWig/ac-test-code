@@ -44,7 +44,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     scope.noDataMessage = value;
                 });
             }
-            scope.selectedItems = scope.selectedItems || [];
+            scope.selectedItems = angular.isArray(scope.selectedItems) ? scope.selectedItems : [];
             scope.internalSelectedItems = angular.copy(scope.selectedItems);
             scope.showCheckboxes = attrs.showCheckboxes === 'true';
             
@@ -174,6 +174,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             };
 
             scope.$watch('selectedItems', function(items) {
+                // Ignoring as we have a check earlier on which ensures that selectItems is an array
+                /* istanbul ignore else */
                 if(angular.isArray(items)) {
                     scope.internalSelectedItems = items;
                     scope.processDataTable(true);
@@ -231,7 +233,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-
+                //scope.onChange is created as a function if it is not a function
+                /* istanbul ignore else */
                 if(angular.isFunction(scope.onChange)) {
                   scope.onChange({value : selectedItemsList});
                 }
@@ -320,6 +323,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 if(scope.filtered.length === 0 && scope.state.filter){
                     return scope.noFilterResultsMessage;
                 }
+                // Funtion is never called when this can reach the else case
+                /* istanbul ignore else */
                 else if(scope.filtered.length === 0 && !scope.state.filter){
                     return scope.noDataMessage;
                 }
