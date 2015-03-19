@@ -20,11 +20,11 @@
                     <td ng-if="showCheckboxes" class="column-checkbox">
                         <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
                     </td>
-                    <td
-                        ng-repeat="column in columns"
-                        ng-class="getColumnClasses(column, false)"
-                        ng-bind-html="item.cells[$index] | highlight : state.filter"
-                        title="{{item.cells[$index]}}">
+                    <td ng-repeat="column in columns" 
+                        ng-class="getColumnClasses(column, false)"  
+                        ng-bind-html="item.cells[$index] | highlight : state.filter" 
+                        title="{{item.titles[$index]}}">
+                        {{item.cells[$index]}}
                     </td>
                 </tr>
             </tbody>

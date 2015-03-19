@@ -100,7 +100,16 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
             }
-
+            function getColumnTitles(column, item, defaultValue){
+                var columnTitle = column.title;
+                if(columnTitle === true){
+                    return getColumnContent(column, item, defaultValue);
+                }else if (angular.isFunction(columnTitle)) {
+                    return angular.bind(item, column.title)() || defaultValue;
+                } else {
+                    return defaultValue;
+                }
+            }
             function convertToString(value) {
                 if (value == null) {
                     return "";
@@ -130,6 +139,11 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                         cells: scope.columns.map(
                             function(column) {
                                 return getColumnContent(column, dataItem, column.defaultValue);
+                            }
+                        ),
+                        titles : scope.columns.map(
+                            function (column){
+                                return getColumnTitles(column, dataItem, "");
                             }
                         ),
                         item: dataItem

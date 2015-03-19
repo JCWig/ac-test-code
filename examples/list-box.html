@@ -149,7 +149,8 @@
                         return this.first + ' ' + this.last;
                     },
                     header : 'Full Name',
-                    className : 'column-full-name'
+                    className : 'column-full-name',
+                    title: true
                 },
                 {
                     content : 'id',
@@ -167,6 +168,9 @@
                             'GREEN' : 3
                         };
                         return colorsValues[this.color];
+                    },
+                    title: function(){
+                        return this.color + " is my favorite color";
                     }
                 }
             ];
