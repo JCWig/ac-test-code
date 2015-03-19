@@ -174,10 +174,12 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             };
 
             scope.$watch('selectedItems', function(items) {
-                // Ignoring as we have a check earlier on which ensures that selectItems is an array
-                /* istanbul ignore else */
                 if(angular.isArray(items)) {
                     scope.internalSelectedItems = items;
+                    scope.processDataTable(true);
+                } else {
+                    scope.internalSelectedItems = [];
+                    scope.selectedItems = [];
                     scope.processDataTable(true);
                 }
             });
@@ -233,11 +235,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-                //scope.onChange is created as a function if it is not a function
-                /* istanbul ignore else */
-                if(angular.isFunction(scope.onChange)) {
-                  scope.onChange({value : selectedItemsList});
-                }
+                
+                scope.onChange({value : selectedItemsList});
             };
 
             scope.sortColumn = function(column){
@@ -320,12 +319,9 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 return colLength + (scope.hasActionColumn ? 1 : 0) + (scope.showCheckboxes ? 1 : 0);
             };
             scope.getEmptyStatusMessage = function(){
-                if(scope.filtered.length === 0 && scope.state.filter){
+                if(scope.state.filter){
                     return scope.noFilterResultsMessage;
-                }
-                // Funtion is never called when this can reach the else case
-                /* istanbul ignore else */
-                else if(scope.filtered.length === 0 && !scope.state.filter){
+                } else {
                     return scope.noDataMessage;
                 }
             };

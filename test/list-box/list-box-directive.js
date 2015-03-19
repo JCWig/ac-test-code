@@ -251,6 +251,23 @@ describe('akam-list-box', function() {
             expect(scope.$$childHead.selectedItems.length).toEqual(1);
             expect(scope.$$childHead.selectedItems[0].first).toEqual("Yair");
             expect(scope.$$childHead.selectedItems[0].last).toEqual("Leviel");
+        });
+        it('should reset selectedItems to [] when changed to non array value', function(){
+            scope.selectedItems = [{
+                first : 'Yair',
+                last : 'Leviel',
+                id : 1234,
+                bu : "Luna",
+                color: "Green",
+                birthday : new Date(2001,10,20),
+                generic : ["hello"]
+            }];
+            var markup = '<akam-list-box data="mydata" schema="columns" selected-items="selectedItems"></akam-list-box>';
+            addElement(markup);
+            scope.selectedItems = {};
+            scope.$digest();
+
+            expect(Array.isArray(scope.selectedItems)).toBe(true);
         });/*
         it('should auto check the preselected items', function(){
             scope.selectedItems = [{

@@ -303,6 +303,12 @@ describe('akam-data-table', function() {
             expect(checkedCheckboxes.length).toEqual(51);
 
         });
+        it('should reset selectedItems to [] when changed to non array value', function(){
+            scope.selectedItems1 = {};
+            scope.$digest();
+
+            expect(Array.isArray(scope.selectedItems1)).toBe(true);
+        });
     });
     describe('when interacting with sort options', function(){
         beforeEach(function(){

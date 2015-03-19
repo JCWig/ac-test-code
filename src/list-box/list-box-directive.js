@@ -143,10 +143,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             };
 
             scope.$watch('selectedItems', function(items) {
-                // Ignoring as we have a check earlier on which ensures that selectItems is an array
-                /* istanbul ignore else */
                 if(angular.isArray(items)) {
                     scope.internalSelectedItems = items;
+                    scope.processDataTable(true);
+                } else {
+                    scope.selectedItems = [];
+                    scope.internalSelectedItems = [];
                     scope.processDataTable(true);
                 }
             });
@@ -209,13 +211,8 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-                //scope.onChange is created as a function if it is not a function
-                /* istanbul ignore else */
-                if(angular.isFunction(scope.onChange)) {
-                  scope.onChange({
-                      value: selectedItemsList
-                  });
-                }
+                
+                scope.onChange({ value: selectedItemsList });
             };
 
             scope.sortColumn = function(column) {
@@ -302,16 +299,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
             scope.getEmptyStatusMessage = function(){
-                if(scope.dataTable.length === 0 && scope.state.filter){
+                if(scope.state.filter){
                     return scope.noFilterResultsMessage;
-                }
-                else if(scope.dataTable.length === 0 && !scope.state.filter && !scope.state.viewSelectedOnly){
-                    return scope.noDataMessage;
-                }
-                // Funtion is never called when this can reach the else case
-                /* istanbul ignore else */
-                else if(scope.dataTable.length === 0 && !scope.state.filter && scope.state.viewSelectedOnly){
+                } else if(scope.state.viewSelectedOnly){
                     return scope.noneSelectedMessage;
+                } else {
+                    return scope.noDataMessage;
                 }
             };
         }
