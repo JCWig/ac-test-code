@@ -83,7 +83,6 @@
     "watchify": "^2.2.1"
   },
   "files": [
-    "src",
     "dist"
   ],
   "ignore": [
@@ -97,8 +96,6 @@
     "start": "./node_modules/.bin/gulp serve --no-color",
     "build": "./node_modules/.bin/gulp build --no-color",
     "docs": "./node_modules/.bin/gulp docs --no-color",
-    "netstorage": "./node_modules/.bin/gulp deploy --no-color",
-    "prepare-release": "npm run build && ./node_modules/.bin/gulp update-package-version --no-color",
-    "art" : "curl 'http://api.portalops.akamai.com/art-deploy.php?username=testing&key=aac388510772c5f7d4d1318a966d3de3' --data 'request=%7B%0D%0A++++%22exclude%22%3A+%22%22%2C%0D%0A++++%22cpcode%22%3A+%22%22%2C%0D%0A++++%22env%22%3A+%22TEST%22%2C%0D%0A++++%22pkg_version%22%3A+%221.0.6%22%2C%0D%0A++++%22pkg_name%22%3A+%22kona-ui%22+%0D%0A%7D%0D%0A'"
+    "netstorage": "./node_modules/.bin/gulp deploy --no-color"
   }
 }
