@@ -9,7 +9,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder : "@",
-            noFilterResultsMessage :"@",
+            noFilterResultsMessage :"=?",
             noDataMessage : "=?",
             selectedItems:"=?", // selected items from the outside
             onChange : '&?'

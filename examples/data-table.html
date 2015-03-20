@@ -9,7 +9,7 @@
     <div class="container">
         <h1>Data Table Example</h1>
         
-        <akam-data-table data="mydata" schema="schema" filter-placeholder="Filter Employees" no-data-message="no results given">
+        <akam-data-table data="mydata" schema="schema" filter-placeholder="Filter Employees" no-data-message="noDataMessage">
             <akam-menu-button position="right">
                 <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
                 <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
@@ -115,7 +115,7 @@
           $scope.selectedItems1 = [results.data[1], results.data[3], results.data[7]];
           return results.data;
         });
-        
+        $scope.noDataMessage = "no data given";
         $scope.delayedschema = [
                 {
                     //NOTE that the "this" context for the function call will the object being worked on and not the column itself

@@ -9,9 +9,9 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder: "@",
-            noFilterResultsMessage :"@",
+            noFilterResultsMessage :"=?",
             noDataMessage : "=?",
-            noneSelectedMessage :"@",
+            noneSelectedMessage :"=?",
             selectedItems: '=?',  // the ? marks the property as optional.
             onChange: "&?"
         },
