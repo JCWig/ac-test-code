@@ -10,7 +10,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             schema: '=',
             filterPlaceholder : "@",
             noFilterResultsMessage :"@",
-            noDataMessage : "@",
+            noDataMessage : "=?",
             selectedItems:"=?", // selected items from the outside
             onChange : '&?'
         },
@@ -40,7 +40,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 });
             }
             if (!scope.noDataMessage) {
-                translate.async("components.data-table.text.noDataResults").then(function(value) {
+                translate.async("components.data-table.text.noDataMessage").then(function(value) {
                     scope.noDataMessage = value;
                 });
             }
@@ -109,15 +109,12 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
             }
-            function getColumnTitles(column, item, defaultValue){
-                var columnTitle = column.title;
-                if(columnTitle === true){
-                    return getColumnContent(column, item, defaultValue);
-                }else if (angular.isFunction(columnTitle)) {
-                    return angular.bind(item, column.title)() || defaultValue;
-                } else {
-                    return defaultValue;
+            function getColumnTitles(column, item, defaultValue) {
+                var title;
+                if (angular.isFunction(column.title)) {
+                    title = column.title.call(item);
                 }
+                return title || defaultValue;
             }
             function convertToString(value) {
                 if (value == null) {

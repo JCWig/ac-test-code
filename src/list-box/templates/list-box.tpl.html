@@ -3,6 +3,7 @@
         <input type="search" ng-model="state.filter" ng-disabled="loading" ng-change="updateSearchFilter()" placeholder="{{filterPlaceholder}}">
         <i class="luna-close clear-filter icon-states util-clickable" ng-if="state.filter" ng-click="state.filter = ''; updateSearchFilter()"></i>
     </div>
+    <akam-indeterminate-progress class="loading-data-table" ng-if="loading" completed="{{!loading}}"></akam-indeterminate-progress>
     <div class="list-box-data">
         <table>
             <thead>
@@ -16,23 +17,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="loading-data-table" ng-if="loading"> <td colspan="{{columns.length + 1}}"> <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress> </td> </tr> 
-                <tr ng-if="dataTable.length === 0"><td colspan="{{columns.length + 1}}" class="empty-table-message">
-                    <i class="luna-alert"></i>{{getEmptyStatusMessage()}}
-                </td></tr>
                 <tr ng-repeat="item in dataTable | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
                     <td ng-if="showCheckboxes" class="column-checkbox">
                         <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
                     </td>
                     <td ng-repeat="column in columns" 
                         ng-class="getColumnClasses(column, false)"  
-                        ng-bind-html="item.cells[$index] | highlight : state.filter" 
+                        ng-bind-html="item.cells[$index] | highlight : state.filter"
                         title="{{item.titles[$index]}}">
-                        {{item.cells[$index]}}
                     </td>
                 </tr>
             </tbody>
         </table>
+      <div ng-if="dataTable.length === 0" class="empty-table-message"><i class="luna-alert"></i><span>{{getEmptyStatusMessage()}}</span></div>
     </div>
     <div class="list-box-footer">
         <span class="util-pull-left">

@@ -10,7 +10,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             schema: '=',
             filterPlaceholder: "@",
             noFilterResultsMessage :"@",
-            noDataMessage : "@",
+            noDataMessage : "=?",
             noneSelectedMessage :"@",
             selectedItems: '=?',  // the ? marks the property as optional.
             onChange: "&?"
@@ -75,6 +75,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     };
                 }
             };
+
+            function isSelected(itemToCheck) {
+              return scope.internalSelectedItems.filter(function(item) {
+                    return item === itemToCheck;
+              }).length > 0;
+            }
             
             function getColumnContent(column, item, defaultValue){
                 var columnContent = column.content;
@@ -94,15 +100,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
                 throw "The column content field is using an unknown type.  Content field may only be String or Function type";
             }
-            function getColumnTitles(column, item, defaultValue){
-                var columnTitle = column.title;
-                if(columnTitle === true){
-                    return getColumnContent(column, item, defaultValue);
-                }else if (angular.isFunction(columnTitle)) {
-                    return angular.bind(item, column.title)() || defaultValue;
-                } else {
-                    return defaultValue;
+            function getColumnTitles(column, item, defaultValue) {
+                var title;
+                if (angular.isFunction(column.title)) {
+                    title = column.title.call(item);
                 }
+                return title || defaultValue;
             }
             function convertToString(value) {
                 if (value == null) {
@@ -129,7 +132,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 var dataTableOutput = new Array(scope.internalData.length);
                 angular.forEach(scope.internalData, function(dataItem, key) {
                     dataTableOutput[key] = {
-                        selected: scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
+                        selected: isSelected(dataItem),
                         cells: scope.columns.map(
                             function(column) {
                                 return getColumnContent(column, dataItem, column.defaultValue);
@@ -159,6 +162,8 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             scope.$watch('selectedItems', function(items) {
                 if(angular.isArray(items)) {
                     scope.internalSelectedItems = items;
+
+                    // XXX: This is SUPER expensive causing the digest loop to take upwards of a second on the examples
                     scope.processDataTable(true);
                 }
             });

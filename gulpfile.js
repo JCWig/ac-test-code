@@ -10,6 +10,8 @@ var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
+var sourcemaps = require('gulp-sourcemaps');
+var es = require('event-stream');
 var watchify = require('watchify');
 var karma = require('karma');
 var source = require('vinyl-source-stream');
@@ -48,13 +50,21 @@ gulp.task('browserify', function() {
 
     function bundle() {
         startTime = process.hrtime();
-        return bundler.bundle()
+        var unminified = bundler.bundle()
             .pipe(source(filename))
             .pipe(buffer())
+            .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(plugins.ngAnnotate())
-            .pipe(gulp.dest(target))
-            .pipe(plugins.rename({ extname: '.min.js' }))
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest(target));
+
+        var minified = bundler.bundle()
+            .pipe(source(pkg.name + '.min.js'))
+            .pipe(buffer())
+            .pipe(sourcemaps.init({loadMaps: true}))
+            .pipe(plugins.ngAnnotate())
             .pipe(plugins.uglify())
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(target))
             .on('end', function() {
                 var endTime = process.hrtime(startTime);
@@ -62,6 +72,8 @@ gulp.task('browserify', function() {
                                  plugins.util.colors.green(bundlePath), 'in',
                                  plugins.util.colors.magenta(pretty(endTime)));
             });
+
+        return es.concat(unminified, minified);
     }
 
     if (global.isWatching) {
@@ -88,7 +100,7 @@ gulp.task('docs', ['browserify'], function() {
             styles: [
                 'node_modules/pulsar-common-css/dist/styles.css',
                 'node_modules/pulsar-common-css/dist/styles.css.map'
-            ],
+            ]
         }))
         .pipe(gulp.dest('./docs'));
 });
@@ -146,6 +158,11 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
             bundlePath, 'node_modules/pulsar-common-css/dist/*.css', 'examples/*.html'
         ]
     });
+
+    // not the best place to put this but we can refactor into separate tasks later
+    if(global.isWatching) {
+        gulp.watch('locales/**', ['copy-resources-to-dist']);
+    }
 });
 
 gulp.task('setWatch', function() {
@@ -196,7 +213,7 @@ gulp.task('deploy', function(){
           dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
           exclude: globby.sync(["node_modules/.*", "node_modules/angular-*", "node_modules/!(angular|pulsar-common-css)/", "node_modules/pulsar-common-css/!(dist)", "node_modules/pulsar-common-css/.*"]),
           recursive: true,
-          args: ["--copy-dirlinks", "--verbose", "--compress"],
+          args: ["--copy-dirlinks", "--verbose", "--compress"]
           //dryRun: true
         }, function(error, stdout, stderr, cmd) {
             plugins.util.log(error, stdout);
