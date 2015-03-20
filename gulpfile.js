@@ -226,42 +226,6 @@ gulp.task('copy-resources-to-dist', function() {
       .pipe(gulp.dest('dist'));
 });
 
-gulp.task('update-package-version', function(callback){
-    var firstDashInVersion = pkg.version.indexOf('-');
-
-    if (firstDashInVersion > -1) {
-        plugins.util.log('update it to new dev version');
-
-        var coreVersion = pkg.version.substr(0, firstDashInVersion);
-
-        plugins.git.revParse({args:'HEAD'}, function (err, commitId) {
-            var shortCommitId = commitId.substr(0, 6);
-            var prereleaseVersion = coreVersion + "-" + moment().format("YYYYMMDDTHHmmss") + "-" + shortCommitId;
-
-            plugins.util.log('new version: '+ prereleaseVersion);
-
-            pkg.version = prereleaseVersion;
-
-            fs.writeFile('package.json', JSON.stringify(pkg, null, 4), function(err) {
-                if(err) {
-                    plugins.util.log('error occurred', err);
-                } else {
-                    plugins.util.log('package.json version updated');
-                }
-
-                callback();
-            });
-        });
-    }else{
-        plugins.util.log('leave version as is');
-        callback();
-    }
-});
-
-gulp.task('prepare-release', function(){
-    runSequence('build', 'update-package-version');
-});
-
 // Clean Output Directory
 gulp.task('clean', function(){
     mkdirp('./reports/coverage');
