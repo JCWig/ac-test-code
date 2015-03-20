@@ -21,6 +21,7 @@ describe('akam-list-box', function() {
     var q = null;
     var $http = null;
     var httpBackend = null;
+    var NO_DATA_MESSAGE = 'oh noes!11!!!';
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/list-box').name);
@@ -912,11 +913,12 @@ describe('akam-list-box', function() {
         beforeEach(function(){
             scope.baddata = [];
             scope.badcolumns = [
-                {content : "name", 
+                {content : "name",
                 header : 'Name'}
             ];
+            scope.myNoDataMessage = NO_DATA_MESSAGE;
             httpBackend.flush();
-            var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="message"></akam-list-box>';
+            var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="myNoDataMessage"></akam-list-box>';
             addElement(markup);
         });
         afterEach(function(){
@@ -930,7 +932,7 @@ describe('akam-list-box', function() {
             ];
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).to.match(/message/);
+            expect(dataTableRow.textContent).to.contain(NO_DATA_MESSAGE);
         });
         it('should present a different message when no data is available and filtered', function(){
             scope.$$childHead.state.filter = "Oliver";

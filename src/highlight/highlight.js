@@ -5,8 +5,6 @@ var angular = require('angular');
 /* @ngInject */
 module.exports = function($sce) {
 
-  return highlight;
-
   function highlight(text, phrase) {
     phrase = phrase.trim();
 
@@ -21,5 +19,7 @@ module.exports = function($sce) {
   function isDom(text) {
     return /<[A-Za-z]+.*>/.test(text);
   }
+
+  return highlight;
 
 };

@@ -898,16 +898,18 @@ describe('akam-data-table', function() {
             expect(dataTableRow.textContent).to.match(/There is no data based upon your criteria/);
         });
         it('should be able to provivde a message when no data is available and no filters', function(){
+            var NO_DATA_MESSAGE = 'Oh noes!';
             scope.baddata = [];
             scope.columns = [
-                {content : "name", 
+                {content : "name",
                 header : 'Name'}
             ];
-            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true" no-data-message="message"></akam-data-table>';
+            scope.myNoDataMessage = NO_DATA_MESSAGE;
+            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true" no-data-message="myNoDataMessage"></akam-data-table>';
             addElement(markup);
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).to.match(/message/);
+            expect(dataTableRow.textContent).to.contain(NO_DATA_MESSAGE);
         });
         it('should present a different message when no data is available and filtered', function(){
             scope.baddata = [];
