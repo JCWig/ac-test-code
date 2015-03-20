@@ -146,10 +146,22 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
                 }
 
                 console.log("Overwriting the location", req.originalUrl, newLocationOfFile);
-                var readStream = fs.createReadStream(newLocationOfFile);
 
-                // We replaced all the event handlers with a simple call to readStream.pipe()
-                readStream.pipe(res);
+                fs.exists(newLocationOfFile, function(exists) {
+                  if(!exists) {
+                    console.log('Locale does not exist: ' + filename);
+                    res.writeHead(404, {'Content-Type': 'text/plain'});
+                    res.write('404 Not Found\n');
+                    res.end();
+                    return;
+                  }
+
+                  var readStream = fs.createReadStream(newLocationOfFile);
+
+                  // We replaced all the event handlers with a simple call to readStream.pipe()
+                  readStream.pipe(res);
+                });
+
             },
             baseDir : './',
             directory : true
