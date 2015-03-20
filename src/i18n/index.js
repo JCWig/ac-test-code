@@ -198,6 +198,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
         .useSanitizeValueStrategy('escaped')
         .preferredLanguage(i18nConfig.defaultLocale)
         .fallbackLanguage(i18nConfig.defaultLocale)
+        .cloakClassName('util-hide')
         .determinePreferredLanguage()
         .useMissingTranslationHandler('missingTranslationFactory');
 })
