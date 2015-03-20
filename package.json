@@ -37,6 +37,7 @@
     "browserify-shim": "^3.8.2",
     "chai": "^1.10.0",
     "del": "^1.1.1",
+    "event-stream": "^3.3.0",
     "globby": "^1.1.0",
     "gulp": "^3.8.10",
     "gulp-git": "^0.5.6",
@@ -49,7 +50,7 @@
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",
     "gulp-shell": "^0.2.11",
-    "gulp-sourcemaps": "^1.3.0",
+    "gulp-sourcemaps": "^1.5.1",
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.2",
     "jasmine-core": "^2.2.0",
@@ -86,7 +87,6 @@
     "watchify": "^2.2.1"
   },
   "files": [
-    "src",
     "dist"
   ],
   "ignore": [
@@ -100,8 +100,6 @@
     "start": "./node_modules/.bin/gulp serve --no-color",
     "build": "./node_modules/.bin/gulp build --no-color",
     "docs": "./node_modules/.bin/gulp docs --no-color",
-    "netstorage": "./node_modules/.bin/gulp deploy --no-color",
-    "prepare-release": "npm run build && ./node_modules/.bin/gulp update-package-version --no-color",
-    "art" : "curl 'http://api.portalops.akamai.com/art-deploy.php?username=testing&key=aac388510772c5f7d4d1318a966d3de3' --data 'request=%7B%0D%0A++++%22exclude%22%3A+%22%22%2C%0D%0A++++%22cpcode%22%3A+%22%22%2C%0D%0A++++%22env%22%3A+%22TEST%22%2C%0D%0A++++%22pkg_version%22%3A+%221.0.6%22%2C%0D%0A++++%22pkg_name%22%3A+%22kona-ui%22+%0D%0A%7D%0D%0A'"
+    "netstorage": "./node_modules/.bin/gulp deploy --no-color"
   }
 }

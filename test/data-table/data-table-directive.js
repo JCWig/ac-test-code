@@ -85,7 +85,10 @@ describe('akam-data-table', function() {
                     return this.first + ' ' + this.last;
                 },
                 header : 'Full Name',
-                className : 'column-full-text-name'
+                className : 'column-full-text-name',
+                title : function(){
+                    return this.last + ", " + this.first;
+                }
             },
             {
                 content : function(){
@@ -219,6 +222,9 @@ describe('akam-data-table', function() {
         });
         it('should show checkboxes for each row', function(){
             expect(document.querySelectorAll(TABLE_ROW).length).toEqual(10);
+        });
+        it('should have an additional column for checkboxes', function(){
+            expect(scope.$$childTail.getColumnsLength()).toEqual(3);
         });
         it('should add checkboxes for each row when page size changes', function(){
             var largestPageSize = document.querySelector(PAGE_SIZE_LARGEST).querySelector('a');
@@ -854,7 +860,7 @@ describe('akam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).toEqual('undefined');
+            expect(rowOneColumnTwo.textContent).toEqual('');
             expect(allVisibleRows.length).toEqual(2);
         });
         it('should recognize null content when sorting name', function(){
@@ -907,16 +913,18 @@ describe('akam-data-table', function() {
             expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
         });
         it('should be able to provivde a message when no data is available and no filters', function(){
+            var NO_DATA_MESSAGE = 'Oh noes!';
             scope.baddata = [];
             scope.columns = [
-                {content : "name", 
+                {content : "name",
                 header : 'Name'}
             ];
-            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true" no-data-message="message"></akam-data-table>';
+            scope.myNoDataMessage = NO_DATA_MESSAGE;
+            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true" no-data-message="myNoDataMessage"></akam-data-table>';
             addElement(markup);
             var dataTableRow = document.querySelector('.empty-table-message');
-
-            expect(dataTableRow.textContent).toMatch(/message/);
+            
+            expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
         });
         it('should present a different message when no data is available and filtered', function(){
             scope.baddata = [];
@@ -940,7 +948,9 @@ describe('akam-data-table', function() {
                 {content : "name", 
                 header : 'Name'}
             ];
-            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true" no-filter-results-message="message"></akam-data-table>';
+            var NO_FILTER_RESULTS_MESSAGE = "no filter message message";
+            scope.noFilterMessage = NO_FILTER_RESULTS_MESSAGE;
+            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true" no-filter-results-message="noFilterMessage"></akam-data-table>';
             addElement(markup);
             scope.$$childHead.state.filter = "Oliver";
             scope.$$childHead.updateSearchFilter();
@@ -948,7 +958,7 @@ describe('akam-data-table', function() {
 
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).toMatch(/message/);
+            expect(dataTableRow.textContent).toContain(NO_FILTER_RESULTS_MESSAGE);
         });
     });
     describe('when changing data input', function(){

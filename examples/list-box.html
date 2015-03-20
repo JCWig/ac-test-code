@@ -37,7 +37,7 @@
         <div class="container">
             <h3>Empty Data</h3>
             <akam-list-box data="[]" schema="columns" on-change="mychange(value)" selected-items="selectedItems1" 
-            no-data-message='{{"components.list-box.text.noDataMessage" | akamTranslate}}' no-filter-results-message="no filter results message"></akam-list-box>
+            no-data-message="emptyMessage" no-filter-results-message="no filter results message"></akam-list-box>
         </div>
 
         <div class="container">
@@ -61,7 +61,7 @@
     
     <script src="../node_modules/angular/angular.js"></script>
     <script src="../dist/akamai-components.js"></script>
-    <script>    
+    <script>
         var BASE_DATA = [
             {
                 first : "Yair",
@@ -133,6 +133,10 @@
             var deferred = $q.defer();
             scope.mydata = deferred.promise;
             scope.basedata = BASE_DATA;
+
+            translate.async('components.list-box.text.noDataMessage').then(function(message) {
+              scope.emptyMessage = message;
+            });
         
             $timeout(function(){
                 deferred.resolve(BASE_DATA);
@@ -145,7 +149,8 @@
                         return this.first + ' ' + this.last;
                     },
                     header : 'Full Name',
-                    className : 'column-full-name'
+                    className : 'column-full-name',
+                    title: true
                 },
                 {
                     content : 'id',
@@ -163,6 +168,9 @@
                             'GREEN' : 3
                         };
                         return colorsValues[this.color];
+                    },
+                    title: function(){
+                        return this.color + " is my favorite color";
                     }
                 }
             ];
