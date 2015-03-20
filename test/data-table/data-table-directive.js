@@ -845,7 +845,7 @@ describe('akam-data-table', function() {
             var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-            expect(rowOneColumnTwo.textContent).to.equal('undefined');
+            expect(rowOneColumnTwo.textContent).to.equal('');
             expect(allVisibleRows.length).to.equal(2);
         });
         it('should recognize null content when sorting name', function(){
