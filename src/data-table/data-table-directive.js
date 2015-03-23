@@ -132,20 +132,16 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 return value;
             }
 
-            /**
-             * @param {Boolean} skipSort true if we want to skip sorting the columns.
-             * Used because we may call this from updating the selected items
-             */
-            scope.processDataTable = function(skipSort){
+            scope.processDataTable = function(){
                 // we can only really process the data if both fields are set
                 if (scope.columns == null || scope.internalData == null) {
                     return;
                 }
 
                 // do the same process as ng-repeat, except we do this only once to cache the output
-                var dataTableOutput = new Array(scope.internalData.length);
-                angular.forEach(scope.internalData, function(dataItem, key) {
-                    dataTableOutput[key] = {
+                var dataTableOutput = [];
+                angular.forEach(scope.internalData, function(dataItem) {
+                    dataTableOutput.push({
                         selected : scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
                         cells : scope.columns.map(
                             function (column) {
@@ -158,7 +154,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                             }
                         ),
                         item : dataItem
-                    };
+                    });
                 });
 
                 var autoSortableColumns = scope.columns.filter(
@@ -174,7 +170,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     size : 10
                 };
 
-                if (!skipSort && scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
+                if (scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
                     scope.sortColumn(autoSortableColumns[0]);
                 }else{
                     update();
@@ -184,10 +180,11 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             };
 
             scope.$watch('selectedItems', function(items) {
-                if(angular.isArray(items)) {
-                    scope.internalSelectedItems = items;
-                    scope.processDataTable(true);
-                }
+                scope.internalSelectedItems = items;
+                angular.forEach(scope.dataTable, function(data) {
+                    data.selected = scope.internalSelectedItems.filter(function(a) { return a === data.item; }).length > 0;
+                });
+                update();
             });
 
             scope.$watch('data', function(newValue) {
