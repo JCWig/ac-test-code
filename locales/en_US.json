@@ -4,7 +4,8 @@
         "error": {
             "validation": {
 
-            }
+            },
+            "data" : "There was a problem loading the data."
         },
         "warning": {
             "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
