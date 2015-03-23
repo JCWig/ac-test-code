@@ -1,10 +1,10 @@
 {
     "components": {
         "menu-button": {
-            "label": "Beschriftung"
+            "label": "Etichetta"
         },
         "bubblehelp": {
-            "title": "Informationen"
+            "title": "Informazioni"
         },
         "determinate-progress": {},
         "name": "Akamai Common Components",
@@ -19,8 +19,8 @@
         "modal-window": {
             "title": "Modal Window",
             "label": {
-                "cancel": "Abbrechen",
-                "save": "Speichern"
+                "cancel": "Annulla",
+                "save": "Salva"
             }
         },
         "pagination": {
@@ -34,16 +34,16 @@
         "tooltip": {},
         "multiselect-listbox": {},
         "message-box": {
-            "yes": "Ja",
+            "yes": "Sì",
             "title": {
-                "information": "Informationen",
-                "question": "Frage",
-                "error": "Fehler"
+                "information": "Informazioni",
+                "question": "Domanda",
+                "error": "Errore"
             },
             "label": {
-                "detail": "Details anzeigen"
+                "detail": "Visualizza dettagli"
             },
-            "no": "Nein"
+            "no": "No"
         },
         "warning": {
             "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
@@ -62,7 +62,7 @@
                 "noDataMessage": "There is no data based upon your criteria."
             },
             "placeholder": {
-                "filter": "Filter"
+                "filter": "Filtra"
             }
         },
         "data-table": {
@@ -71,17 +71,17 @@
                 "noDataMessage": "There is no data based upon your criteria."
             },
             "placeholder": {
-                "filter": "Filter"
+                "filter": "Filtra"
             },
             "label": {
-                "action": "Aktion"
+                "action": "Azione"
             }
         },
         "notifications": {
             "information": "INFORMATION",
-            "warning": "WARNUNG",
-            "success": "ERFOLG",
-            "error": "FEHLER"
+            "warning": "AVVISO",
+            "success": "OPERAZIONE RIUSCITA",
+            "error": "ERRORE"
         }
     }
 }
