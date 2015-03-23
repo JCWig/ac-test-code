@@ -123,15 +123,15 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 return value;
             }
 
-            scope.processDataTable = function(skipSort) {
+            scope.processDataTable = function() {
                 // we can only really process the data if both fields are set
                 if (scope.columns == null || scope.internalData == null) {
                     return;
                 }
                 // do the same process as ng-repeat, except we do this only once to cache the output
-                var dataTableOutput = new Array(scope.internalData.length);
-                angular.forEach(scope.internalData, function(dataItem, key) {
-                    dataTableOutput[key] = {
+                var dataTableOutput = [];
+                angular.forEach(scope.internalData, function(dataItem) {
+                    dataTableOutput.push({
                         selected: isSelected(dataItem),
                         cells: scope.columns.map(
                             function(column) {
@@ -144,7 +144,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                             }
                         ),
                         item: dataItem
-                    };
+                    });
                 });
                 var autoSortableColumns = scope.columns.filter(
                     function(col) {
@@ -152,7 +152,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     }
                 );
                 scope.dataTable = dataTableOutput;
-                if (!skipSort && autoSortableColumns.length > 0) {
+                if (autoSortableColumns.length > 0) {
                     scope.sortColumn(autoSortableColumns[0]);
                 }
 
@@ -160,12 +160,11 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             };
 
             scope.$watch('selectedItems', function(items) {
-                if(angular.isArray(items)) {
-                    scope.internalSelectedItems = items;
+                scope.internalSelectedItems = items;
 
-                    // XXX: This is SUPER expensive causing the digest loop to take upwards of a second on the examples
-                    scope.processDataTable(true);
-                }
+                angular.forEach(scope.dataTable, function(data) {
+                    data.selected = isSelected(data.item);
+                });
             });
 
             scope.$watch('data', function(newValue) {
