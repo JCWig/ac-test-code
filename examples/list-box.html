@@ -57,6 +57,11 @@
             <akam-list-box data="jsonFromHttpGet" schema="jsonColumns" on-change="mychange(value)" selected-items="selectedItems3"></akam-list-box>
             <span>Selected Items: {{selectedItems3}}</span>
         </div>
+
+        <div class="container">
+            <h3>REJECTION TESTING</h3>
+            <akam-list-box data="deferredRejection" schema="jsonColumns"></akam-list-box>
+        </div>
     </div>
     
     <script src="../node_modules/angular/angular.js"></script>
@@ -201,6 +206,14 @@
             scope.mychange = function(value){
                 console.log('yay', value);
             };
+
+            var deferredRejection = $q.defer();
+            scope.deferredRejection = deferredRejection.promise;
+
+            $timeout(function() {
+              deferredRejection.reject();
+            }, 5000);
+
         }]);
     </script>
 </body>
