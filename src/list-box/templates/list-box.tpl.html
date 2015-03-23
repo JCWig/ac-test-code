@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="loading-data-table" ng-if="loading"> <td colspan="{{columns.length + 1}}"> <akam-indeterminate-progress completed="{{!loading}}"></akam-indeterminate-progress> </td> </tr> 
+                <tr class="loading-data-table" ng-if="loading"> <td colspan="{{columns.length + 1}}"> <akam-indeterminate-progress completed="{{!loading}}" failed="{{failed}}"></akam-indeterminate-progress> </td> </tr> 
                 <tr ng-repeat="item in dataTable | filter:state.search" ng-class="{ 'row-selected' : item.selected }">
                     <td ng-if="showCheckboxes" class="column-checkbox">
                         <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>

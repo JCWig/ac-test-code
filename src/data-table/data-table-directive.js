@@ -214,6 +214,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     scope.updateSearchFilter();
                     scope.internalData = data;
                     scope.processDataTable();
+                }).catch(function() {
+                  scope.failed = true;
                 });
             });
 
