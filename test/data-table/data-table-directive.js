@@ -284,8 +284,8 @@ describe('akam-data-table', function() {
             scope.$$childTail.updateSearchFilter();
             scope.$digest();
             
-            
-            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(2);
+            // there is already one pre-selected item and we click on two more
+            expect(document.querySelectorAll(TABLE_ROW).length).toEqual(3);
         });
         it('should be able to select all items', function(){
             //CURRENTY NOT ACTUALLY IMPLEMENTED ACCESSING FIELD DIRECTLY TO TEST 

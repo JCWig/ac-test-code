@@ -195,6 +195,9 @@
             ];
             
             scope.jsonFromHttpGet = $http.get('json/list-box-data.json');
+            scope.jsonFromHttpGet.then(function() {
+              scope.selectedItems1 = [BASE_DATA[1], BASE_DATA[3], BASE_DATA[5]];
+            });
             
             scope.mychange = function(value){
                 console.log('yay', value);
