@@ -17,4 +17,5 @@ angular.module('akamai.components', [
     require('./data-table').name
 ])
 
-.constant('VERSION', require('../package.json').version);
+//TODO: Remember to update this if the version in package.json ever changes
+.constant('VERSION', '0.0.1');
