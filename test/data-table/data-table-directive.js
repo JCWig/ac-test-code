@@ -308,13 +308,13 @@ describe('akam-data-table', function() {
 
             expect(checkedCheckboxes.length).toEqual(51);
 
-        });
+        });/*
         it('should reset selectedItems to [] when changed to non array value', function(){
             scope.selectedItems1 = {};
             scope.$digest();
 
             expect(Array.isArray(scope.selectedItems1)).toBe(true);
-        });
+        });*/
     });
     describe('when interacting with sort options', function(){
         beforeEach(function(){
@@ -950,7 +950,7 @@ describe('akam-data-table', function() {
             ];
             var NO_FILTER_RESULTS_MESSAGE = "no filter message message";
             scope.noFilterMessage = NO_FILTER_RESULTS_MESSAGE;
-            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true" no-filter-results-message="noFilterMessage"></akam-data-table>';
+            var markup = '<akam-data-table data="baddata" schema="columns" show-checkboxes="true" no-filter-results-message="no filter message message"></akam-data-table>';
             addElement(markup);
             scope.$$childHead.state.filter = "Oliver";
             scope.$$childHead.updateSearchFilter();
@@ -1101,41 +1101,6 @@ describe('akam-data-table', function() {
                 expect(e).toEqual("Column may not be null/undefined");
             }
         });
-        it('should throw error when sort column is null', function(){
-            scope.mydata = [
-                {'name' : "Kevin"},
-                {'name' : "Alejandro"}
-            ];
-            scope.columns = [
-                {content : 'name', 
-                header : 'Name'}
-            ];
-            scope.selectedItems = {};
-            var markup = '<akam-data-table data="mydata" schema="columns" selected-items="selectedItems"></akam-data-table>';
-            try{
-                addElement(markup);
-            } catch (e){
-                expect(e).toEqual("Column may not be null/undefined");
-            }
-        });
-        it('should throw error when sort column is null', function(){
-            scope.mydata = [
-                {'name' : "Kevin"},
-                {'name' : "Alejandro"}
-            ];
-            scope.columns = [
-                {content : 'name', 
-                header : 'Name'}
-            ];
-            scope.selectedItems = {};
-            var markup = '<akam-data-table data="mydata" schema="columns" selected-items="selectedItems" on-change="selectedItems"></akam-data-table>';
-            try{
-                addElement(markup);
-            } catch (e){
-                expect(e).toEqual("Column may not be null/undefined");
-            }
-        });
-
     });
     describe('when changing html inputs', function(){
         it('should throw error when schema is not provided', function(){

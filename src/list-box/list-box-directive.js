@@ -9,9 +9,9 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             data: '=',
             schema: '=',
             filterPlaceholder: "@",
-            noFilterResultsMessage :"=?",
+            noFilterResultsMessage :"@",
             noDataMessage : "=?",
-            noneSelectedMessage :"=?",
+            noneSelectedMessage :"@",
             selectedItems: '=?',  // the ? marks the property as optional.
             onChange: "&?"
         },
@@ -45,7 +45,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 });
             }
 
-            scope.selectedItems = angular.isArray(scope.selectedItems) ? scope.selectedItems : [];
+            scope.selectedItems = scope.selectedItems || [];
             scope.internalSelectedItems = angular.copy(scope.selectedItems);
             function setDefaults(){
                 scope.state = {
@@ -160,18 +160,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             };
 
             scope.$watch('selectedItems', function(items) {
-                if(angular.isArray(items)){
-                    scope.internalSelectedItems = items;
-                    angular.forEach(scope.dataTable, function(data) {
-                        data.selected = isSelected(data.item);
-                    });
-                } else {
-                    scope.selectedItems = [];
-                    scope.internalSelectedItems = [];
-                    angular.forEach(scope.dataTable, function(data) {
-                        data.selected = false;
-                    });
-                }
+                scope.internalSelectedItems = items;
+                angular.forEach(scope.dataTable, function(data) {
+                    data.selected = isSelected(data.item);
+                });
             });
 
             scope.$watch('data', function(newValue) {
@@ -235,7 +227,11 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
                 scope.selectedItems = selectedItemsList;
                 
-                scope.onChange({ value: selectedItemsList });
+                if(angular.isFunction(scope.onChange)) {
+                  scope.onChange({
+                      value: selectedItemsList
+                  });
+                }
             };
 
             scope.sortColumn = function(column) {

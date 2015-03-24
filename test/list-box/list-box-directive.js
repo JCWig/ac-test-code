@@ -254,7 +254,7 @@ describe('akam-list-box', function() {
             expect(scope.$$childHead.selectedItems.length).toEqual(1);
             expect(scope.$$childHead.selectedItems[0].first).toEqual("Yair");
             expect(scope.$$childHead.selectedItems[0].last).toEqual("Leviel");
-        });
+        });/*
         it('should reset selectedItems to [] when changed to non array value', function(){
             scope.selectedItems = [{
                 first : 'Yair',
@@ -271,7 +271,7 @@ describe('akam-list-box', function() {
             scope.$digest();
 
             expect(Array.isArray(scope.selectedItems)).toBe(true);
-        });/*
+        });*//*
         it('should auto check the preselected items', function(){
             scope.selectedItems = [{
                 first : 'Yair',
@@ -984,8 +984,8 @@ describe('akam-list-box', function() {
             scope.myNoDataMessage = NO_DATA_MESSAGE;
             scope.myNoneSelectedMessage = NONE_SELECTED_MESSAGE;
             scope.myNoFilterResultsMessage = NO_FILTER_RESULTS_MESSAGE;
-            var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="myNoDataMessage" no-filter-results-message="myNoFilterResultsMessage"'+
-                          'none-selected-message="myNoneSelectedMessage"></akam-list-box>';
+            var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="myNoDataMessage" no-filter-results-message="zero filter results"'+
+                          'none-selected-message="none selected!!!!!!"></akam-list-box>';
             addElement(markup);
         });
         it('should present message when no data is available and no filters that can be provided', function(){
