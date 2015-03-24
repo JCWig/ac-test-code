@@ -10,11 +10,12 @@ module.exports = function i18nTokenProvider(i18nConfig) {
      *
      * @name Path
      *
-     * @description This function adds path and part values to URLs
-     * array and it will be used in the `i18nCustomLoader` service.  If
-     * `path` is an array, path value should contain part value if any
-     * already, and implemented by caller.  If `path` is a string, it
-     * attempts to append the part value if any.
+     * @description Constructs a URLs array in the Path class for use
+     * in the `i18nCustomLoader` service. Paths include
+     * `/libs/akamai-components/{version}/locales/` for components and
+     * `/apps/{appname}/locales/` for apps, where `{version}` and
+     * `{appname}` are replaced by their proper values in the `$get`
+     * constructor.
      *
      */
 
