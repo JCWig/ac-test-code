@@ -21,23 +21,23 @@ describe('i18nTokenProvider', function() {
         });
 
     });
-    context('when inspecting url field', function(){
+    describe('when inspecting url field', function(){
         it('should contain correct component locale path ', function() {
             var compPath = config.localeComponentPath;
             var appPath = config.localeAppPath;
-            expect(provider.rawUrls.length).to.equal(2);
-            expect(provider.rawUrls[0].path).to.equal(compPath);
-            expect(provider.rawUrls[1].path).to.equal(appPath);
+            expect(provider.rawUrls.length).toEqual(2);
+            expect(provider.rawUrls[0].path).toEqual(compPath);
+            expect(provider.rawUrls[1].path).toEqual(appPath);
         });
 
         it('should be able to add/retrieve another path', function() {
-            expect(provider.rawUrls.length).to.equal(2);
-            expect(provider.rawUrls[1].path).to.contain('{appname}');
+            expect(provider.rawUrls.length).toEqual(2);
+            expect(provider.rawUrls[1].path).toContain('{appname}');
         });
         it('should not to add app locale value if given array as null', function() {
             var arrOfPath = null;
 
-            expect(provider.rawUrls).to.have.length(2);
+            expect(provider.rawUrls.length).toEqual(2);
         });
     });
 });
@@ -65,62 +65,62 @@ describe('i18nToken service', function() {
         });
         rootScope.$digest();
     });
-    context('when using token service', function(){
+    describe('when using token service', function(){
         it('should be defined', function() {
-            expect(service).to.not.be.undefined;
+            expect(service).not.toBe(undefined);
         });
 
         it('should have "getLocale" method defined', function() {
-            expect(service.getCurrentLocale).to.not.be.undefined;
+            expect(service.getCurrentLocale).not.toBe(undefined);
         });
 
         it('should have "getUrls" method defined', function() {
-            expect(service.getUrls).to.not.be.undefined;
+            expect(service.getUrls).not.toBe(undefined);
         });
 
         it('should "getLocale" method return default locale value', function() {
-            expect(service.getCurrentLocale()).to.equal("en_US");
+            expect(service.getCurrentLocale()).toEqual("en_US");
         });
 
         it('should "getUrls" method return correct app url value', function() {
             var urlValues = service.getUrls();
-            expect(urlValues.length).to.equal(2);
-            expect(urlValues[1]).to.equal("/apps/appname/locales/");
+            expect(urlValues.length).toEqual(2);
+            expect(urlValues[1]).toEqual("/apps/appname/locales/");
         });
         it('should be able to retrieve appname from url', function(){
-            location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/banana-app/somethingelse'); 
+            spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/banana-app/somethingelse');
             var urls = provider.$get(cookies, config, location).getUrls();
-            expect(urls.length).to.equal(2);
-            expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
-            expect(urls[1]).to.equal('/apps/banana-app/locales/');
+            expect(urls.length).toEqual(2);
+            expect(urls[0]).toEqual('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[1]).toEqual('/apps/banana-app/locales/');
         }); 
         it('should be able to decode a URI component on a path', function(){
-            location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/%7Bappname%7D/somethingelse');
+            spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/%7Bappname%7D/somethingelse');
             var urls = provider.$get(cookies, config, location).getUrls();
-            expect(urls.length).to.equal(2);
-            expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
-            expect(urls[1]).to.equal('/apps/appname/locales/');
+            expect(urls.length).toEqual(2);
+            expect(urls[0]).toEqual('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[1]).toEqual('/apps/appname/locales/');
         });
         it('should be able to retrieve appname from url and be given path and place appname anywhere', function(){
-            location.absUrl = sinon.stub().returns('https://control.akamai.com/apps/pineapple-app/somethingelse');
+            spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/pineapple-app/somethingelse');
             config.path = 'here/is/a/path/{appname}/ending/path';
             config.prefix = null;
             var urls = provider.$get(cookies, config, location).getUrls();
-            expect(urls.length).to.equal(2);
-            expect(urls[0]).to.equal('/libs/akamai-components/0.0.1/locales/');
-            expect(urls[1]).to.equal('/apps/pineapple-app/locales/');
+            expect(urls.length).toEqual(2);
+            expect(urls[0]).toEqual('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[1]).toEqual('/apps/pineapple-app/locales/');
         });
     });
-    context('when locale cookie set to "en_US', function() {
+    describe('when locale cookie set to "en_US', function() {
 
         it("should cookie 'AKALOCALE' value exists", function() {
             var locale = cookies.AKALOCALE;
-            expect(locale).to.not.undefined;
+            expect(locale).not.toBe(undefined);;
         });
 
         it("should cookie locale value be 'en_US' after decoded", function() {
             var locale = cookies["AKALOCALE"];
-            expect(atob(locale.split("+")[0])).to.equal(service.getCurrentLocale());
+            expect(atob(locale.split("+")[0])).toEqual(service.getCurrentLocale());
         });
     });
 });
@@ -150,12 +150,12 @@ describe('locale cookie set to "de_DE', function() {
     });
     it("should cookie 'AKALOCALE' value exists", function() {
         var locale = cookies.AKALOCALE;
-        expect(locale).to.not.undefined;
+        expect(locale).not.toBe(undefined);
     });
 
     it('should locale value be "de_DE" after decoded', function() {
         var locale = cookies.AKALOCALE;
-        expect(atob(locale.split("+")[0])).to.equal("de_DE");
+        expect(atob(locale.split("+")[0])).toEqual("de_DE");
     });
 });
 
@@ -190,12 +190,12 @@ describe('locale cookie set to cookie without translation file', function() {
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
-    context('when using custom loader service with cookie that has no files', function(){
+    describe('when using custom loader service with cookie that has no files', function(){
         it('should ignore gracefully and continue to english cookie', function(){
             httpBackend.flush();
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
-            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+            expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
         });
     });
 });
@@ -231,12 +231,12 @@ describe('locale cookie set to invalid cookie', function() {
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
-    context('when using custom loader service bad cookie', function(){
+    describe('when using custom loader service bad cookie', function(){
         it('should ignore gracefully and continue to english cookie', function(){
             httpBackend.flush();
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
-            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+            expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
         });
     });
 });
@@ -271,12 +271,12 @@ describe('locale cookie set to zn_CN wnot properly encoded', function() {
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
-    context('when using custom loader service bad cookie', function(){
+    describe('when using custom loader service bad cookie', function(){
         it('should ignore gracefully and continue to english cookie', function(){
             httpBackend.flush();
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
-            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+            expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
         });
     });
 });
@@ -309,12 +309,12 @@ describe('locale cookie already decoded', function() {
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
-    context('when using custom loader service bad cookie', function(){
+    describe('when using custom loader service bad cookie', function(){
         it('should ignore gracefully and continue to english cookie', function(){
             httpBackend.flush();
-            expect(translation.sync("billing-center.no-access")).to.equal("You have no access to Billing Center application.");
-            expect(translation.sync("components.name")).to.equal("Akamai Common Components");
-            expect(translation.sync("askjdfh.name")).to.equal("askjdfh.name");
+            expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+            expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+            expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
         });
     });
 });

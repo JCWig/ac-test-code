@@ -240,7 +240,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-
+                
                 if(angular.isFunction(scope.onChange)) {
                   scope.onChange({value : selectedItemsList});
                 }
@@ -326,10 +326,9 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 return colLength + (scope.hasActionColumn ? 1 : 0) + (scope.showCheckboxes ? 1 : 0);
             };
             scope.getEmptyStatusMessage = function(){
-                if(scope.filtered.length === 0 && scope.state.filter){
+                if(scope.state.filter){
                     return scope.noFilterResultsMessage;
-                }
-                else if(scope.filtered.length === 0 && !scope.state.filter){
+                } else {
                     return scope.noDataMessage;
                 }
             };

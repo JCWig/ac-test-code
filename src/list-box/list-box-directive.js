@@ -161,7 +161,6 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
             scope.$watch('selectedItems', function(items) {
                 scope.internalSelectedItems = items;
-
                 angular.forEach(scope.dataTable, function(data) {
                     data.selected = isSelected(data.item);
                 });
@@ -227,7 +226,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 });
 
                 scope.selectedItems = selectedItemsList;
-
+                
                 if(angular.isFunction(scope.onChange)) {
                   scope.onChange({
                       value: selectedItemsList
@@ -319,14 +318,12 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
             scope.getEmptyStatusMessage = function(){
-                if(scope.dataTable.length === 0 && scope.state.filter){
+                if(scope.state.filter){
                     return scope.noFilterResultsMessage;
-                }
-                else if(scope.dataTable.length === 0 && !scope.state.filter && !scope.state.viewSelectedOnly){
-                    return scope.noDataMessage;
-                }
-                else if(scope.dataTable.length === 0 && !scope.state.filter && scope.state.viewSelectedOnly){
+                } else if(scope.state.viewSelectedOnly){
                     return scope.noneSelectedMessage;
+                } else {
+                    return scope.noDataMessage;
                 }
             };
         }

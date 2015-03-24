@@ -22,7 +22,7 @@ describe('akam-translate directive', function() {
     afterEach(function() {
         document.body.removeChild(self.element);
     });
-    context('when rendering', function() {
+    describe('when rendering', function() {
         beforeEach(function() {
             angular.mock.module(require('../../src/i18n').name);
             angular.mock.module(function($provide, $translateProvider) {
@@ -44,7 +44,7 @@ describe('akam-translate directive', function() {
             httpBackend.flush();
             timeout.flush();
             var translatedSpan = document.querySelector('.akam-translate');
-            expect(translatedSpan.textContent).to.equal("Lorem Ipsum ");
+            expect(translatedSpan.textContent).toEqual("Lorem Ipsum ");
         });
 
         it("should render empty string if no key value", function() {
@@ -53,7 +53,7 @@ describe('akam-translate directive', function() {
             httpBackend.flush();
             timeout.flush();
             var translatedSpan = document.querySelector('.akam-translate2');
-            expect(translatedSpan.textContent).to.be.empty;
+            expect(translatedSpan.textContent).toEqual('');
         });
 
         it("should render key value if set wrong key string", function() {
@@ -62,7 +62,7 @@ describe('akam-translate directive', function() {
             httpBackend.flush();
             timeout.flush();
             var translatedSpan = document.querySelector('.akam-translate3');
-            expect(translatedSpan.textContent).to.equal("any.key");
+            expect(translatedSpan.textContent).toEqual("any.key");
         });
     });
 });

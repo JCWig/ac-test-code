@@ -17,23 +17,23 @@ describe('akamai.components.uuid-service', function() {
                 self.$compile = $compile;
             });
         });
-        context('when using uuid', function(){
+        describe('when using uuid', function(){
             it('shoud return a uuid', function(){
                 var uuid = this.uuid.uuid();
-                expect(uuid).to.have.length(36);
-                expect(uuid.charAt(8)).to.equal('-');
-                expect(uuid.charAt(13)).to.equal('-');
-                expect(uuid.charAt(18)).to.equal('-');
-                expect(uuid.charAt(23)).to.equal('-');
+                expect(uuid.length).toEqual(36);
+                expect(uuid.charAt(8)).toEqual('-');
+                expect(uuid.charAt(13)).toEqual('-');
+                expect(uuid.charAt(18)).toEqual('-');
+                expect(uuid.charAt(23)).toEqual('-');
             });
         });
-        context('uuids should be unique', function(){
+        describe('uuids should be unique', function(){
             it('shoud return a uuid', function(){
                 var storingDictionary = {};
                 for(var i = 0; i < 100; i++){
                     storingDictionary[this.uuid.uuid()] = 0;
                 }
-                expect(Object.keys(storingDictionary).length).to.equal(100);
+                expect(Object.keys(storingDictionary).length).toEqual(100);
             });
         });
     });

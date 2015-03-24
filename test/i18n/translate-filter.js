@@ -36,24 +36,24 @@ describe('akamTranslate filter', function() {
         timeout.flush();
         document.body.appendChild(self.element);
     };
-    context('when rendering', function() {
+    describe('when rendering', function() {
         afterEach(function(){
             document.body.removeChild(self.element);
         });
         it("should translate filter used in html display value correctly", function() {
             var markup = '<span class="akam-translate">{{"TRANSLATION_ID"| akamTranslate}}</span>';
             addElement(markup);
-            expect(document.querySelector('.akam-translate').textContent).to.equal("Lorem Ipsum ");
+            expect(document.querySelector('.akam-translate').textContent).toEqual("Lorem Ipsum ");
         });
         it("should translate filter used in javascript display value correctly", function() {
             var markup = '<span class="akam-translate">{{"TRANSLATION_ID"| akamTranslate}}</span>';
             addElement(markup);
-            expect(filter("akamTranslate")("TRANSLATION_ID")).to.equal("Lorem Ipsum ");
+            expect(filter("akamTranslate")("TRANSLATION_ID")).toEqual("Lorem Ipsum ");
         });
         it("should translate filter display key if key not found", function() {
             var markup = '<span class="akam-translate1">{{"UNKNOWN_KEY"| akamTranslate}}</span>';
             addElement(markup);
-            expect(document.querySelector('.akam-translate1').textContent).to.equal("UNKNOWN_KEY");
+            expect(document.querySelector('.akam-translate1').textContent).toEqual("UNKNOWN_KEY");
         });
 
         it("should translate filter used in javascript with value replacement display value correctly", function() {
@@ -61,7 +61,7 @@ describe('akamTranslate filter', function() {
             addElement(markup);
             expect(filter("akamTranslate")("TRANSLATION_ID", {
                 value: "Sean"
-            })).to.equal("Lorem Ipsum Sean");
+            })).toEqual("Lorem Ipsum Sean");
         });
     });
 });

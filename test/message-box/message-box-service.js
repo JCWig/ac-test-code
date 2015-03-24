@@ -52,23 +52,23 @@ describe('messageBox service', function() {
     });
 
     describe('_show()', function() {
-        context('when no headline option is provided', function() {
+        describe('when no headline option is provided', function() {
             it('should throw an error', function() {
                 var opts = {
                     text: 'Some text'
                 };
                 var openingFunction = angular.bind(this.messageBox, this.messageBox._show, opts);
-                expect(openingFunction).to.throw(Error);
+                expect(openingFunction).toThrowError();
             });
         });
 
-        context('when no text option is provided', function() {
+        describe('when no text option is provided', function() {
             it('should throw an error', function() {
                 var opts = {
                     headline: 'Some text'
                 };
                 var openingFunction = angular.bind(this.messageBox, this.messageBox._show, opts);
-                expect(openingFunction).to.throw(Error);
+                expect(openingFunction).toThrowError();
             });
         });
 
@@ -84,7 +84,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var modalTitle = document.querySelector('.modal .modal-title');
-            expect(modalTitle.textContent).to.have.length(20);
+            expect(modalTitle.textContent.length).toEqual(20);
         });
 
         it('should support a headline option', function() {
@@ -97,7 +97,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var modalHeadline = document.querySelector('.modal .message-box-headline');
-            expect(modalHeadline.textContent).to.equal(headline);
+            expect(modalHeadline.textContent).toEqual(headline);
         });
 
         it('should cancelLabel display translation key if not provide one', function() {
@@ -113,7 +113,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var cancelModalButton = document.querySelector('.modal .button:not(.primary)');
-            expect(cancelModalButton.textContent).to.contain(cancelLabelKey);
+            expect(cancelModalButton.textContent).toContain(cancelLabelKey);
         });
 
         it('should submitLabel display translation key if not provide one', function() {
@@ -129,7 +129,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var okayModalButton = document.querySelector('.modal button.primary');
-            expect(okayModalButton.textContent).to.contain(submitLabelKey);
+            expect(okayModalButton.textContent).toContain(submitLabelKey);
         });
 
 
@@ -142,7 +142,7 @@ describe('messageBox service', function() {
             });
             this.$rootScope.$digest();
             var modalHeadline= document.querySelector('.modal .message-box-headline');
-            expect(modalHeadline.textContent).to.have.length(48);
+            expect(modalHeadline.textContent.length).toEqual(48);
 
         });
 
@@ -156,7 +156,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var modalMessageBoxText = document.querySelector('.modal .message-box-text');
-            expect(modalMessageBoxText.textContent).to.equal(text);
+            expect(modalMessageBoxText.textContent).toEqual(text);
         });
 
         it('should limit the text to 220 characters', function() {
@@ -170,7 +170,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var modalMessageBoxText = document.querySelector('.modal .message-box-text');
-            expect(modalMessageBoxText.textContent).to.have.length(220);
+            expect(modalMessageBoxText.textContent.length).toEqual(220);
         });
 
         it('should support a details option', function() {
@@ -184,7 +184,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var messageBoxDetails = document.querySelector('.modal .message-box-details > div');
-            expect(messageBoxDetails.textContent).to.match(new RegExp(details));
+            expect(messageBoxDetails.textContent).toMatch(new RegExp(details));
         });
 
         it('should support translating a question message', function() {
@@ -197,7 +197,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var modalTitle = document.querySelector('.modal .modal-title');
-            expect(modalTitle.textContent).to.equal('components.message-box.title.question');
+            expect(modalTitle.textContent).toEqual('components.message-box.title.question');
         });
         it('should support translating a error message', function() {
             var headline = 'Headline';
@@ -209,7 +209,7 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var modalTitle = document.querySelector('.modal .modal-title');
-            expect(modalTitle.textContent).to.equal('components.message-box.title.error');
+            expect(modalTitle.textContent).toEqual('components.message-box.title.error');
         });
 
         it('should have a close icon button which can close', function(){
@@ -223,15 +223,15 @@ describe('messageBox service', function() {
             this.$rootScope.$digest();
 
             var closeIcon = document.querySelector('.modal-footer button');
-            expect(closeIcon).to.not.be.null;
+            expect(closeIcon).not.toBe(null)
             utilities.click(closeIcon);
             this.$rootScope.$digest();
             this.$timeout.flush();
             this.$timeout.flush();
-            expect(document.querySelector('.modal-content')).to.be.null
+            expect(document.querySelector('.modal-content')).toBe(null);
         }); 
 
-        context('when view details is clicked', function() {
+        describe('when view details is clicked', function() {
             it('should toggle the visibility of the content', function() {
                 this.messageBox._show({
                     headline: 'Headline',
@@ -243,16 +243,17 @@ describe('messageBox service', function() {
                 var messageBoxDetails = document.querySelector('.message-box-details > div');
                 var messageBoxDetailsTrigger = document.querySelector('.message-box-details > span');
 
-                expect(angular.element(messageBoxDetails).css('height')).to.equal('0px');
+                expect(angular.element(messageBoxDetails).css('height')).toEqual('0px');
                 utilities.click(messageBoxDetailsTrigger);
                 this.$timeout.flush();
-                expect(angular.element(messageBoxDetails).css('height')).to.not.equal('0px');
+                expect(angular.element(messageBoxDetails).css('height')).not.toEqual('0px');
             });
         });
 
-        context('when submit button is clicked', function() {
+        describe('when submit button is clicked', function() {
             it('should close the message box', function() {
-                var spyOnResultFunction = sinon.spy();
+                this.$rootScope.spyOnResultFunction = function(){};
+                var spy = spyOn(this.$rootScope,"spyOnResultFunction");
                 var box = this.messageBox._show({
                     headline: 'Headline',
                     text: 'Message',
@@ -260,19 +261,20 @@ describe('messageBox service', function() {
                 });
                 var button;
 
-                box.result.then(spyOnResultFunction);
+                box.result.then(this.$rootScope.spyOnResultFunction);
                 this.$rootScope.$digest();
 
                 var okayModalButton = document.querySelector('.modal-footer button:last-child');
                 utilities.click(okayModalButton);
                 this.$rootScope.$digest();
 
-                expect(spyOnResultFunction).to.have.been.called;
+                expect(spy).toHaveBeenCalled();
             });
         });
-        context('when cancel button is clicked', function() {
+        describe('when cancel button is clicked', function() {
             it('should close the message box', function() {
-                var spyOnResultFunction = sinon.spy();
+                this.$rootScope.spyOnResultFunction = function(){};
+                var spy = spyOn(this.$rootScope,"spyOnResultFunction");
                 var messageBox = this.messageBox._show({
                     headline: 'Headline',
                     text: 'Message',
@@ -286,11 +288,11 @@ describe('messageBox service', function() {
                 this.$rootScope.$digest();
                 this.$timeout.flush();
                 this.$timeout.flush();
-                expect(document.querySelector('.modal-content')).to.be.null
-                expect(spyOnResultFunction).to.not.have.been.called;
+                expect(document.querySelector('.modal-content')).toBe(null);
+                expect(spy).not.toHaveBeenCalled();
             });
         });
-        context('when message box has been closed somehow', function(){
+        describe('when message box has been closed somehow', function(){
             it('should be able to be opened with new data', function(){
                 var title = 'I am very long title that should be truncated';
                 var title2 = 'I am a very different title from the one before hand';
@@ -316,74 +318,80 @@ describe('messageBox service', function() {
                 var modalMessageBoxText = document.querySelector('.modal .message-box-text');
                 
                 
-                expect(modalTitle.textContent).to.equal('I am a very differen');   
-                expect(modalHeadline.textContent).to.equal('a new headline');   
-                expect(modalMessageBoxText.textContent).to.equal('All the messages');   
+                expect(modalTitle.textContent).toEqual('I am a very differen');   
+                expect(modalHeadline.textContent).toEqual('a new headline');   
+                expect(modalMessageBoxText.textContent).toEqual('All the messages');   
             });
         });
     });
 
     describe('showInfo()', function() {
-        context('when rendering a info message box', function(){
+        describe('when rendering a info message box', function(){
             it('should use the information icon', function() {
-                var spyOnShowInfo = sinon.spy();
+                this.$rootScope.spyOnShowInfo = function(){};
+                var spy = spyOn(this.$rootScope,"spyOnShowInfo");
 
-                this.messageBox._show = spyOnShowInfo;
+                this.messageBox._show = this.$rootScope.spyOnShowInfo;
                 this.messageBox.showInfo();
-                expect(spyOnShowInfo).to.have.been.called;
-                expect(spyOnShowInfo.args[0][0].icon).to.equal('svg-information');
+                expect(spy).toHaveBeenCalled();
+                expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-information');
             });
 
             it('should use the information modifier class on the modal', function() {
-                var spyOnShowInfo = sinon.spy();
+                this.$rootScope.spyOnShowInfo = function(){};
+                var spy = spyOn(this.$rootScope,"spyOnShowInfo");
 
-                this.messageBox._show = spyOnShowInfo;
+                this.messageBox._show = this.$rootScope.spyOnShowInfo;
                 this.messageBox.showInfo();
-                expect(spyOnShowInfo).to.have.been.called;
-                expect(spyOnShowInfo.args[0][0].windowClass).to.equal('information akam-message-box');
+                expect(spy).toHaveBeenCalled();
+                expect(spy.calls.allArgs()[0][0].windowClass).toEqual('information akam-message-box');
             });
         });
     });
     describe('showQuestion()', function() {
-        context('when rendering a question message box', function(){
+        describe('when rendering a question message box', function(){
             it('should use the question icon', function() {
-                var spyOnShowQuestion = sinon.spy();
+                this.$rootScope.spyOnShowQuestion = function(){};
+                var spy = spyOn(this.$rootScope,"spyOnShowQuestion");
 
-                this.messageBox._show = spyOnShowQuestion;
+                this.messageBox._show = this.$rootScope.spyOnShowQuestion;
                 this.messageBox.showQuestion();
-                expect(spyOnShowQuestion).to.have.been.called;
-                expect(spyOnShowQuestion.args[0][0].icon).to.equal('svg-question');
+                expect(spy).toHaveBeenCalled();
+                expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-question');
             });
 
             it('should use the information modifier class on the modal', function() {
-                var spyOnShowQuestion = sinon.spy();
+                this.$rootScope.spyOnShowQuestion = function(){};
+                var spy = spyOn(this.$rootScope,"spyOnShowQuestion");
 
-                this.messageBox._show = spyOnShowQuestion;
+                this.messageBox._show = this.$rootScope.spyOnShowQuestion;
                 this.messageBox.showQuestion();
-                expect(spyOnShowQuestion).to.have.been.called;
-                expect(spyOnShowQuestion.args[0][0].windowClass).to.equal('question akam-message-box');
+                expect(spy).toHaveBeenCalled();
+                expect(spy.calls.allArgs()[0][0].windowClass).toEqual('question akam-message-box');
             });
         });
     });
 
     describe('showError()', function() {
-        context('when rendering a error message box', function(){
+        describe('when rendering a error message box', function(){
             it('should use the error icon', function() {
-                var spyOnShowError = sinon.spy();
+                this.$rootScope.spyOnShowError = function(){};
+                var spy = spyOn(this.$rootScope,"spyOnShowError");
 
-                this.messageBox._show = spyOnShowError;
+                this.messageBox._show = this.$rootScope.spyOnShowError;
                 this.messageBox.showError();
-                expect(spyOnShowError).to.have.been.called;
-                expect(spyOnShowError.args[0][0].icon).to.equal('svg-error');
+                expect(spy).toHaveBeenCalled();
+                expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-error');
             });
 
             it('should use the error modifier class on the modal', function() {
-                var spyOnShowError = sinon.spy();
+                this.$rootScope.spyOnShowError = function(){};
+                var spy = spyOn(this.$rootScope,"spyOnShowError");
 
-                this.messageBox._show = spyOnShowError;
+                this.messageBox._show = this.$rootScope.spyOnShowError;
                 this.messageBox.showError();
-                expect(spyOnShowError).to.have.been.called;
-                expect(spyOnShowError.args[0][0].windowClass).to.equal('error akam-message-box');
+                expect(spy).toHaveBeenCalled();
+                expect(spy.calls.allArgs()[0][0].windowClass).toEqual('error akam-message-box');
             });
         }); 
     });

@@ -41,67 +41,66 @@ describe('translate service', function() {
             config = i18nConfig;
         });
     });
-    context("when using akamTranslate service", function() {
-        context('when inspecting service', function(){
+    describe("when using akamTranslate service", function() {
+        describe('when inspecting service', function(){
             it('should service be defined', function() {
-                expect(akTranslate).to.not.be.undefined;
+                expect(akTranslate).not.toBe(undefined);
             });
 
             it('should have akamTranslate#sync method defined', function() {
-                expect(akTranslate.sync).to.not.be.undefined;
+                expect(akTranslate.sync).not.toBe(undefined);
             });
 
             it('should akamTranslate#sync be a function', function() {
-                expect(typeof akTranslate.sync).to.equal("function");
+                expect(typeof akTranslate.sync).toEqual("function");
             });
 
             it('should have akamTranslate#async method defined', function() {
-                expect(akTranslate.async).to.not.be.undefined;
+                expect(akTranslate.async).not.toBe(undefined);
             });
 
             it('should akamTranslate#async be a function', function() {
-                expect(typeof akTranslate.async).to.equal("function");
+                expect(typeof akTranslate.async).toEqual("function");
             });
 
             it('should sync function return key since translation table is not loaded', function() {
-                expect(akTranslate.sync("somekey.somemorekey")).to.be.equal("somekey.somemorekey");
+                expect(akTranslate.sync("somekey.somemorekey")).toEqual("somekey.somemorekey");
             });
             it("should '$translateChangeEnd' be called", function() {
-                var spy = sinon.spy();
-                $rootScope.$emit = spy;
+                var spy = spyOn($rootScope, "$emit");
                 $translate.refresh();
                 $timeout.flush();
-                expect(spy).calledWith('$translateChangeEnd', {
+                expect(spy).toHaveBeenCalledWith('$translateChangeEnd', {
                     language: config.defaultLocale
                 });
             });
         });
 
-        context('when using sync function', function(){
+        describe('when using sync function', function(){
             it("should translate without given variable replacement", function() {
                 var syncedResponse = akTranslate.sync("TRANSLATION_ID");
-                expect(syncedResponse).to.be.equal("Lorem Ipsum ");
+                expect(syncedResponse).toEqual("Lorem Ipsum ");
             });
 
             it("should translate given variable replacement", function() {
                 var syncedResponse = akTranslate.sync("TRANSLATION_ID", {"value": "Sean"})
-                expect(syncedResponse).to.be.equal("Lorem Ipsum Sean");
+                expect(syncedResponse).toEqual("Lorem Ipsum Sean");
             });
 
             it("should translate to be appended given variable replacement of integer", function() {
                 var syncedResponse = akTranslate.sync("TRANSLATION_ID_3", {"value": "2"});
-                expect(syncedResponse).to.be.equal("Lorem Ipsum 22");
+                expect(syncedResponse).toEqual("Lorem Ipsum 22");
             });
         });
-
-        context('when using async funtion', function(){
+        
+        describe('when using async funtion', function(){
             it('should return translated value from valid key', function() {
                 var key = "TRANSLATION_ID";
                 var deferedResponse = $q.defer();
 
                 deferedResponse = akTranslate.async(key);
                 deferedResponse.then(function(value) {
-                    expect(value).to.equal("Lorem Ipsum ");
+                    expect(value).toEqual("Lorem Ipsum ");
                     done();
                 });
             });
@@ -113,7 +112,7 @@ describe('translate service', function() {
                     value: "sean"
                 });
                 deferedResponse.then(function(value) {
-                    expect(value).to.equal("Lorem Ipsum sean");
+                    expect(value).toEqual("Lorem Ipsum sean");
                     done();
                 });
             });
@@ -126,7 +125,7 @@ describe('translate service', function() {
                     value: "2"
                 });
                 deferedResponse.then(function(value) {
-                    expect(value).to.equal("Lorem Ipsum 22");
+                    expect(value).toEqual("Lorem Ipsum 22");
                     done();
                 });
             });
@@ -137,8 +136,8 @@ describe('translate service', function() {
 
                 deferedResponse = akTranslate.async(keys);
                 deferedResponse.then(function(values) {
-                    expect(values[keys[0]]).to.equal("Lorem Ipsum ");
-                    expect(values[keys[1]]).to.equal("Lorem Ipsum 2 ");
+                    expect(values[keys[0]]).toEqual("Lorem Ipsum ");
+                    expect(values[keys[1]]).toEqual("Lorem Ipsum 2 ");
                     done();
                 });
             });
@@ -150,7 +149,7 @@ describe('translate service', function() {
 
                 deferedResponse = akTranslate.async(key);
                 deferedResponse.then(function(value) {
-                    expect(value).to.equal(key);
+                    expect(value).toEqual(key);
                     done();
                 });
                 $scope.$apply();

@@ -17,7 +17,7 @@ module.exports = function(config) {
             'test/*.js',
             'test/**/*.js'
         ],
-        frameworks: ['browserify', 'mocha', 'chai', 'sinon-chai'],
+        frameworks: ['browserify', 'jasmine'],
         preprocessors: {
             'test/**/*.js': ['browserify']
         },
