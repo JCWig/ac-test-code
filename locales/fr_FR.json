@@ -1,10 +1,10 @@
 {
     "components": {
         "menu-button": {
-            "label": "Beschriftung"
+            "label": "Étiquette"
         },
         "bubblehelp": {
-            "title": "Informationen"
+            "title": "Informations"
         },
         "determinate-progress": {},
         "name": "Akamai Common Components",
@@ -19,8 +19,8 @@
         "modal-window": {
             "title": "Modal Window",
             "label": {
-                "cancel": "Abbrechen",
-                "save": "Speichern"
+                "cancel": "Annuler",
+                "save": "Enregistrer"
             }
         },
         "pagination": {
@@ -34,16 +34,16 @@
         "tooltip": {},
         "multiselect-listbox": {},
         "message-box": {
-            "yes": "Ja",
+            "yes": "Oui",
             "title": {
-                "information": "Informationen",
-                "question": "Frage",
-                "error": "Fehler"
+                "information": "Informations",
+                "question": "Question",
+                "error": "Erreur"
             },
             "label": {
-                "detail": "Details anzeigen"
+                "detail": "Afficher les détails"
             },
-            "no": "Nein"
+            "no": "Non"
         },
         "warning": {
             "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
@@ -62,7 +62,7 @@
                 "noDataMessage": "There is no data based upon your criteria."
             },
             "placeholder": {
-                "filter": "Filter"
+                "filter": "Filtrer"
             }
         },
         "data-table": {
@@ -71,17 +71,17 @@
                 "noDataMessage": "There is no data based upon your criteria."
             },
             "placeholder": {
-                "filter": "Filter"
+                "filter": "Filtrer"
             },
             "label": {
-                "action": "Aktion"
+                "action": "Action"
             }
         },
         "notifications": {
             "information": "INFORMATION",
-            "warning": "WARNUNG",
-            "success": "ERFOLG",
-            "error": "FEHLER"
+            "warning": "AVERTISSEMENT",
+            "success": "TERMINÉ",
+            "error": "ERREUR"
         }
     }
 }

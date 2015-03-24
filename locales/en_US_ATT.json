@@ -1,10 +1,10 @@
 {
     "components": {
         "menu-button": {
-            "label": "Beschriftung"
+            "label": "Label"
         },
         "bubblehelp": {
-            "title": "Informationen"
+            "title": "Information"
         },
         "determinate-progress": {},
         "name": "Akamai Common Components",
@@ -19,8 +19,8 @@
         "modal-window": {
             "title": "Modal Window",
             "label": {
-                "cancel": "Abbrechen",
-                "save": "Speichern"
+                "cancel": "Cancel",
+                "save": "Save"
             }
         },
         "pagination": {
@@ -34,16 +34,16 @@
         "tooltip": {},
         "multiselect-listbox": {},
         "message-box": {
-            "yes": "Ja",
+            "yes": "Yes",
             "title": {
-                "information": "Informationen",
-                "question": "Frage",
-                "error": "Fehler"
+                "information": "Information",
+                "question": "Question",
+                "error": "Error"
             },
             "label": {
-                "detail": "Details anzeigen"
+                "detail": "View details"
             },
-            "no": "Nein"
+            "no": "No"
         },
         "warning": {
             "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
@@ -74,14 +74,14 @@
                 "filter": "Filter"
             },
             "label": {
-                "action": "Aktion"
+                "action": "Action"
             }
         },
         "notifications": {
             "information": "INFORMATION",
-            "warning": "WARNUNG",
-            "success": "ERFOLG",
-            "error": "FEHLER"
+            "warning": "WARNING",
+            "success": "SUCCESS",
+            "error": "ERROR"
         }
     }
 }
