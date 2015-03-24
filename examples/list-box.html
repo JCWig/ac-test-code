@@ -37,7 +37,7 @@
         <div class="container">
             <h3>Empty Data</h3>
             <akam-list-box data="[]" schema="columns" on-change="mychange(value)" selected-items="selectedItems1" 
-            no-data-message="noDataMessage" no-filter-results-message="noFilterMessage"></akam-list-box>
+            no-data-message="noDataMessage" no-filter-results-message="no filter results message"></akam-list-box>
         </div>
 
         <div class="container">
@@ -180,7 +180,6 @@
                 }
             ];
             scope.noDataMessage = "No data for your given criteria";
-            scope.noFilterMessage = "No data based upon your filter";
             scope.selectedItems2 = [BASE_DATA[0], BASE_DATA[3], BASE_DATA[5]];
             
             scope.jsonColumns = [
