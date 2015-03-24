@@ -1,10 +1,10 @@
 {
     "components": {
         "menu-button": {
-            "label": "Beschriftung"
+            "label": "ラベル"
         },
         "bubblehelp": {
-            "title": "Informationen"
+            "title": "情報"
         },
         "determinate-progress": {},
         "name": "Akamai Common Components",
@@ -19,8 +19,8 @@
         "modal-window": {
             "title": "Modal Window",
             "label": {
-                "cancel": "Abbrechen",
-                "save": "Speichern"
+                "cancel": "キャンセル",
+                "save": "保存"
             }
         },
         "pagination": {
@@ -34,16 +34,16 @@
         "tooltip": {},
         "multiselect-listbox": {},
         "message-box": {
-            "yes": "Ja",
+            "yes": "はい",
             "title": {
-                "information": "Informationen",
-                "question": "Frage",
-                "error": "Fehler"
+                "information": "情報",
+                "question": "質問",
+                "error": "エラー"
             },
             "label": {
-                "detail": "Details anzeigen"
+                "detail": "詳細の表示"
             },
-            "no": "Nein"
+            "no": "いいえ"
         },
         "warning": {
             "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
@@ -62,7 +62,7 @@
                 "noDataMessage": "There is no data based upon your criteria."
             },
             "placeholder": {
-                "filter": "Filter"
+                "filter": "フィルタ"
             }
         },
         "data-table": {
@@ -71,17 +71,17 @@
                 "noDataMessage": "There is no data based upon your criteria."
             },
             "placeholder": {
-                "filter": "Filter"
+                "filter": "フィルタ"
             },
             "label": {
-                "action": "Aktion"
+                "action": "アクション"
             }
         },
         "notifications": {
             "information": "INFORMATION",
-            "warning": "WARNUNG",
-            "success": "ERFOLG",
-            "error": "FEHLER"
+            "warning": "警告",
+            "success": "成功",
+            "error": "エラー"
         }
     }
 }
