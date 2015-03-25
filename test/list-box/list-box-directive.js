@@ -951,14 +951,14 @@ describe('akam-list-box', function() {
             var dataTableRow = document.querySelector('.empty-table-message');
             expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
         });
-        it('should present a different message when no data is available and filtered', function(){
+        it('should present the "no data" message when no data is available and filtered', function(){
             scope.$$childHead.state.filter = "Oliver";
             scope.$$childHead.updateSearchFilter();
             scope.$digest();
 
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).toMatch(/There are no results based upon your filter/);
+            expect(dataTableRow.textContent).toEqual('There is no data based upon your criteria');
         });
         it('should present a different message when no data is available not filtered and view selected only on', function(){
             var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
@@ -988,7 +988,7 @@ describe('akam-list-box', function() {
                           'none-selected-message="none selected!!!!!!"></akam-list-box>';
             addElement(markup);
         });
-        it('should present message when no data is available and no filters that can be provided', function(){
+        it('should present the "no data" message when no data is available and no filters that can be provided', function(){
             scope.baddata = [];
             scope.columns = [
                 {content : "name", 
@@ -998,14 +998,14 @@ describe('akam-list-box', function() {
 
             expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
         });
-        it('should present a different message when no data is available and filtered', function(){
+        it('should present the "no data" message when no data is available and filtered', function(){
             scope.$$childHead.state.filter = "Oliver";
             scope.$$childHead.updateSearchFilter();
             scope.$digest();
 
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).toContain(NO_FILTER_RESULTS_MESSAGE);
+            expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
         });
         it('should present a different message when no data is available not filtered and view selected only on', function(){
             var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
