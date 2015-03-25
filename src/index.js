@@ -14,7 +14,8 @@ angular.module('akamai.components', [
     require('./date-picker').name,
     require('./pagination').name,
     require('./list-box').name,
-    require('./data-table').name
+    require('./data-table').name,
+    require('./utils').name
 ])
 
 //TODO: Remember to update this if the version in package.json ever changes

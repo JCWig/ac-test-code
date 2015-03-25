@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /* @ngInject */
 module.exports = function($log, $q, uuid, $filter, $compile, translate) {
     return {
@@ -59,7 +61,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     allSelected : false,
                     filter : "",
                     search : {
-                        'cells' : ''
+                        searchTitle : ''
                     }
                 };
             }
@@ -80,12 +82,12 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             scope.updateSearchFilter = function(){
                 if (scope.state.viewSelectedOnly === true) {
                     scope.state.search = {
-                        'selected' : true,
-                        'cells' : scope.state.filter
+                        selected : true,
+                        searchTitle : scope.state.filter
                     };
                 }else{
                     scope.state.search = {
-                        'cells' : scope.state.filter
+                        searchTitle : scope.state.filter
                     };
                 }
 
@@ -141,7 +143,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 // do the same process as ng-repeat, except we do this only once to cache the output
                 var dataTableOutput = [];
                 angular.forEach(scope.internalData, function(dataItem) {
-                    dataTableOutput.push({
+                    var newItem = {
                         selected : scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
                         cells : scope.columns.map(
                             function (column) {
@@ -154,7 +156,11 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                             }
                         ),
                         item : dataItem
-                    });
+                    };
+
+                    newItem.searchTitle = angular.element('<span>' + newItem.cells.join(' ') + '</span>').text();
+
+                    dataTableOutput.push(newItem);
                 });
 
                 var autoSortableColumns = scope.columns.filter(

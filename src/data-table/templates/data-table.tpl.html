@@ -26,7 +26,7 @@
                     <td
                         ng-repeat="column in columns"
                         ng-class="getColumnClasses(column, false)"
-                        ng-bind-html="item.cells[$index] | highlight : state.filter"
+                        ng-bind-html="item.cells[$index] | unsafe"
                         title="{{item.titles[$index]}}">
                     </td>
                     <td class="column-action" ng-if="hasActionColumn" ng-transclude>

@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /* @ngInject */
 module.exports = function($log, $q, uuid, $filter, translate) {
     return {
@@ -58,20 +60,26 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     allSelected: false,
                     filter: "",
                     search: {
-                        'cells': ''
+                      searchTitle: ''
                     }
                 };
             }
             setDefaults();
+
+            /**
+             * Method to update scope.state.search. This sets the "expression" field that is used in the filter filter
+             * in the template. In particular, this one searches on each row's "searchTitle" field and can optionally
+             * filter based on whether or not the field is selected (to support the "Show Selected Only" checkbox
+             */
             scope.updateSearchFilter = function() {
                 if (scope.state.viewSelectedOnly === true) {
                     scope.state.search = {
-                        'selected': true,
-                        'cells': scope.state.filter
+                        selected: true,
+                        searchTitle: scope.state.filter
                     };
                 } else {
                     scope.state.search = {
-                        'cells': scope.state.filter
+                        searchTitle: scope.state.filter
                     };
                 }
             };
@@ -131,7 +139,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 // do the same process as ng-repeat, except we do this only once to cache the output
                 var dataTableOutput = [];
                 angular.forEach(scope.internalData, function(dataItem) {
-                    dataTableOutput.push({
+                    var newItem = {
                         selected: isSelected(dataItem),
                         cells: scope.columns.map(
                             function(column) {
@@ -144,7 +152,15 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                             }
                         ),
                         item: dataItem
-                    });
+                    };
+
+                    // adds a key to search on just the text elements in the row. We accomplish this by wrapping
+                    // the content in a span element and using `angular.element` to get the inner text. This does
+                    // make the digest cycle a little longer (as we're creating and destroying one DOM element per
+                    // row. If this directive is updated to only take in text, then this can be simplified
+                    newItem.searchTitle = angular.element('<span>' + newItem.cells.join(' ') + '</span>').text();
+
+                    dataTableOutput.push(newItem);
                 });
                 var autoSortableColumns = scope.columns.filter(
                     function(col) {
