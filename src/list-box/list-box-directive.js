@@ -334,9 +334,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
             scope.getEmptyStatusMessage = function(){
-                if(scope.state.filter){
-                    return scope.noFilterResultsMessage;
-                } else if(scope.state.viewSelectedOnly){
+                if(scope.state.viewSelectedOnly){
                     return scope.noneSelectedMessage;
                 } else {
                     return scope.noDataMessage;
