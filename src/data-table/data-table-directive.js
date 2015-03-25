@@ -205,9 +205,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                     }  
 
                     setDefaults();
-                    if(!!scope.internalData){
-                        scope.selectedItems = [];
-                    }
+
                     scope.updateSearchFilter();
                     scope.internalData = data;
                     scope.processDataTable();
