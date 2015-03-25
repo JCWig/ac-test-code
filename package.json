@@ -1,6 +1,6 @@
 {
   "name": "akamai-components",
-  "version": "0.0.1-pre",
+  "version": "0.5.0-pre",
   "author": "Akamai Technologies Inc.",
   "description": "Akamai components provide a set of Angular.js directives and services that implement UXD guidelines.",
   "license": "Apache-2.0",
