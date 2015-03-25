@@ -19,4 +19,4 @@ angular.module('akamai.components', [
 ])
 
 //TODO: Remember to update this if the version in package.json ever changes
-.constant('VERSION', '0.0.1');
+.constant('VERSION', '0.5.0');
