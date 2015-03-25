@@ -193,10 +193,6 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     if (!angular.isArray(data)) {
                         throw "Data must be an array";
                     }
-                    
-                    if(!!scope.internalData){
-                        scope.selectedItems = [];
-                    }
 
                     setDefaults();
                     scope.updateSearchFilter();

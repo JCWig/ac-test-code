@@ -325,7 +325,7 @@ describe('akam-list-box', function() {
         });
     });
     describe('when changing data input', function(){
-        it('should have selected field equal 0 after updating data and selecting an item', function() {
+        it('should have selected field equal 1 after updating data and selecting an item', function() {
             scope.changingdata = scope.mydata.slice(0);
             var markup = '<akam-list-box data="changingdata" schema="columns"></akam-list-box>';
             addElement(markup);
@@ -340,9 +340,9 @@ describe('akam-list-box', function() {
             scope.changingdata =[];
             
             scope.$digest();
-            expect(numberSelectedSpan.textContent).toMatch(/0/);
+            expect(numberSelectedSpan.textContent).toMatch(/1/);
         });
-        it('should reset view selected only when data is changed', function() {
+        it('should not reset view selected only when data is changed', function() {
             scope.changingdata = scope.mydata.slice(0);
             var markup = '<akam-list-box data="changingdata" schema="columns"></akam-list-box>';
             addElement(markup);
@@ -364,7 +364,7 @@ describe('akam-list-box', function() {
 
             var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);//Should be 1, which is the viewSelectOnlyCheckbox
             var allVisibleRows = document.querySelectorAll(TABLE_ROW);
-            expect(allCheckedCheckboxes.length).toEqual(0);
+            expect(allCheckedCheckboxes.length).toEqual(1);
             expect(allVisibleRows.length).toEqual(3);
         });
         it('should clear filter when data is changed', function() {
