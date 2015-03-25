@@ -15,7 +15,8 @@ var angular = require('angular');
         require('../uuid').name,
         require('../indeterminate-progress').name,
         require('../i18n').name,
-        require('../highlight').name
+        require('../highlight').name,
+        require('../utils').name
     ])
 
     /**

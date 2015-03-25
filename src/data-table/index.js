@@ -17,7 +17,8 @@ var angular = require('angular');
         require('../indeterminate-progress').name,
         require('../pagination').name,
         require('../menu-button').name,
-        require('../i18n').name
+        require('../i18n').name,
+        require('../utils').name
     ])
 
 
