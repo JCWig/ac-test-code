@@ -9,7 +9,7 @@
             <thead>
                 <tr>
                     <th ng-if="showCheckboxes" class="column-checkbox">
-                        <input type="checkbox" ng-model="state.allSelected" id="{{tableId + 'allSelected'}}"><label for="{{tableId + 'allSelected'}}"></label>
+                        <input type="checkbox" ng-model="state.allSelected" ng-change="selectAll()" id="{{tableId + 'allSelected'}}"><label for="{{tableId + 'allSelected'}}"></label>
                     </th>
                     <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)" title="{{column.header}}">
                         {{column.header}} <i></i>
@@ -19,7 +19,7 @@
             <tbody>
                 <tr ng-repeat="item in dataTable | filter:state.search as filtered" ng-class="{ 'row-selected' : item.selected }">
                     <td ng-if="showCheckboxes" class="column-checkbox">
-                        <input type="checkbox" ng-model="item.selected" ng-change="updateChanged()" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
+                        <input type="checkbox" ng-model="item.selected" ng-change="updateChanged(item)" id="{{ tableId + '_item_' + $index }}"><label for="{{ tableId + '_item_' + $index }}"></label>
                     </td>
                     <td ng-repeat="column in columns" 
                         ng-class="getColumnClasses(column, false)"  

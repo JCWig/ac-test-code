@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function($log, $q, uuid, $filter, translate) {
+module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
     return {
         replace: true,
         restrict: 'E',
@@ -48,7 +48,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             }
 
             scope.selectedItems = scope.selectedItems || [];
-            scope.internalSelectedItems = angular.copy(scope.selectedItems);
+
             function setDefaults(){
                 scope.state = {
                     sortInfo: {
@@ -85,7 +85,7 @@ module.exports = function($log, $q, uuid, $filter, translate) {
             };
 
             function isSelected(itemToCheck) {
-              return scope.internalSelectedItems.filter(function(item) {
+              return scope.selectedItems.filter(function(item) {
                     return item === itemToCheck;
               }).length > 0;
             }
@@ -138,6 +138,10 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 }
                 // do the same process as ng-repeat, except we do this only once to cache the output
                 var dataTableOutput = [];
+
+                // TODO: to our future selves: this assumes that the
+                // selected items actually exist in the data array so we should
+                // consider that when redoing this module
                 angular.forEach(scope.internalData, function(dataItem) {
                     var newItem = {
                         selected: isSelected(dataItem),
@@ -175,13 +179,6 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                 scope.loading = false;
             };
 
-            scope.$watch('selectedItems', function(items) {
-                scope.internalSelectedItems = items;
-                angular.forEach(scope.dataTable, function(data) {
-                    data.selected = isSelected(data.item);
-                });
-            });
-
             scope.$watch('data', function(newValue) {
                 scope.loading = true;
                 $q.when(scope.data).then(function(data) {
@@ -197,7 +194,11 @@ module.exports = function($log, $q, uuid, $filter, translate) {
                     setDefaults();
                     scope.updateSearchFilter();
                     scope.internalData = data;
-                    scope.processDataTable();
+
+                    $timeout(function() {
+                      scope.processDataTable();
+                    }, 0);
+
                 }).catch(function() {
                   scope.failed = true;
                 });
@@ -216,32 +217,34 @@ module.exports = function($log, $q, uuid, $filter, translate) {
 
             scope.showCheckboxes = attrs.showCheckboxes !== 'false';
 
-            scope.$watch('state.allSelected', function(newValue) {
+            scope.selectAll = function() {
                 if (!scope.dataTable) {
                     return;
                 }
 
-                scope.dataTable.forEach(function(currentValue, index) {
+                var newValue = scope.state.allSelected;
+
+                scope.dataTable.forEach(function(currentValue) {
                     currentValue.selected = newValue;
+                    scope.updateChanged(currentValue);
                 });
 
-                scope.updateChanged();
-            });
+            };
 
-            scope.updateChanged = function() {
-                var selectedItemsList = [];
+            scope.updateChanged = function(item) {
+                var i = scope.selectedItems.indexOf(item.item);
 
-                angular.forEach(scope.dataTable, function(tableItem) {
-                    if (tableItem.selected) {
-                        selectedItemsList.push(tableItem.item);
-                    }
-                });
+                if(item.selected) {
+                  if(i === -1) {
+                    scope.selectedItems.push(item.item);
+                  }
+                } else {
+                  scope.selectedItems.splice(i, 1);
+                }
 
-                scope.selectedItems = selectedItemsList;
-                
                 if(angular.isFunction(scope.onChange)) {
                   scope.onChange({
-                      value: selectedItemsList
+                      value: scope.selectedItems
                   });
                 }
             };
