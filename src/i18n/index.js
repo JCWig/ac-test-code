@@ -18,7 +18,7 @@ require('angular-cookies');
  * {@link: http://{server}/#/api/akamai.components.i18n.service:i18nTokenProvider}
  *
  */
-module.exports = angular.module('akamai.components.i18n', ['pascalprecht.translate', 'ngCookies'])
+module.exports = angular.module('akamai.components.i18n', ['pascalprecht.translate', 'ngCookies', require('../utils').name])
 
 /**
  * @ngdoc service
@@ -44,7 +44,6 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
     localeComponentPath: '/libs/akamai-components/{version}/locales/',
     localeAppPath: '/apps/{appname}/locales/',
     defaultLocale: 'en_US',
-    baseVersion: "0.0.1",
     localePrefix: "",
     availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
     langKeysMapper: {

@@ -1,6 +1,7 @@
 'use strict';
 var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json';
-var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json';
+var LOCALE_BASE_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales/;
+var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PREFIX = 'prefix'
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
 var enUsResponse = require ("./i18n_responses/en_US.json");
@@ -91,14 +92,14 @@ describe('i18nToken service', function() {
             spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/banana-app/somethingelse');
             var urls = provider.$get(cookies, config, location).getUrls();
             expect(urls.length).toEqual(2);
-            expect(urls[0]).toEqual('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[0]).toMatch(LOCALE_BASE_PATH);
             expect(urls[1]).toEqual('/apps/banana-app/locales/');
         }); 
         it('should be able to decode a URI component on a path', function(){
             spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/%7Bappname%7D/somethingelse');
             var urls = provider.$get(cookies, config, location).getUrls();
             expect(urls.length).toEqual(2);
-            expect(urls[0]).toEqual('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[0]).toMatch(LOCALE_BASE_PATH);
             expect(urls[1]).toEqual('/apps/appname/locales/');
         });
         it('should be able to retrieve appname from url and be given path and place appname anywhere', function(){
@@ -107,7 +108,7 @@ describe('i18nToken service', function() {
             config.prefix = null;
             var urls = provider.$get(cookies, config, location).getUrls();
             expect(urls.length).toEqual(2);
-            expect(urls[0]).toEqual('/libs/akamai-components/0.0.1/locales/');
+            expect(urls[0]).toMatch(LOCALE_BASE_PATH);
             expect(urls[1]).toEqual('/apps/pineapple-app/locales/');
         });
     });
@@ -186,7 +187,7 @@ describe('locale cookie set to cookie without translation file', function() {
             log = $log;
         });
         httpBackend.when('GET', '/apps/appname/locales/de_DE.json').respond(404, "BAD PATH");
-        httpBackend.when('GET', '/libs/akamai-components/0.0.1/locales/de_DE.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond(404, "BAD PATH");
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
@@ -227,7 +228,7 @@ describe('locale cookie set to invalid cookie', function() {
             log = $log;
         });
         httpBackend.when('GET', '/apps/appname/locales/MQjIBMmtQk.json').respond(404, "BAD PATH");
-        httpBackend.when('GET', '/libs/akamai-components/0.0.1/locales/MQjIBMmtQk.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/MQjIBMmtQk.json/).respond(404, "BAD PATH");
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
@@ -267,7 +268,7 @@ describe('locale cookie set to zn_CN wnot properly encoded', function() {
             log = $log;
         });
         httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
-        httpBackend.when('GET', '/libs/akamai-components/0.0.1/locales/zh_CN.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });

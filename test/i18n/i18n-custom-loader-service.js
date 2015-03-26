@@ -1,6 +1,6 @@
 'use strict';
 var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json';
-var LIBRARY_PATH = '/libs/akamai-components/0.0.1/locales/en_US.json'
+var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var SECOND_INTERNATIONALIZATION_PATH = '/random/path/that/doesnt/exist/';
 var SECOND_INTERNATIONALIZATION_JSON_PATH = SECOND_INTERNATIONALIZATION_PATH+'en_US.json';
 describe('i18nCustomLoader service', function() {

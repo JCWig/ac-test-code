@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function i18nTokenProvider(i18nConfig) {
+module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     this.rawUrls = [];
     var self = this;
 
@@ -68,7 +68,7 @@ module.exports = function i18nTokenProvider(i18nConfig) {
                 }
                 normalizedPath = raw.path.replace(/\{appname\}/g, appName);
             } else {
-                normalizedPath = raw.path.replace(/\{version\}/g, i18nConfig.baseVersion);
+                normalizedPath = raw.path.replace(/\{version\}/g, VERSION);
             }
             localeUrls.push(normalizedPath);
         });
