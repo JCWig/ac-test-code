@@ -329,8 +329,8 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
                 var colLength = scope.columns ? scope.columns.length : 0;
                 return colLength + (scope.hasActionColumn ? 1 : 0) + (scope.showCheckboxes ? 1 : 0);
             };
-            scope.getEmptyStatusMessage = function(){
-                if(scope.state.filter){
+            scope.getEmptyStatusMessage = function() {
+                if(scope.dataTable.length > 0) {
                     return scope.noFilterResultsMessage;
                 } else {
                     return scope.noDataMessage;
