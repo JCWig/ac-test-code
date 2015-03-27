@@ -29,8 +29,8 @@
                 </tr>
             </tbody>
         </table>
-      <div ng-if="filtered.length === 0 && dataTable.length > 0" class="empty-table-message"><i class="luna-alert"></i><span>{{noFilterResultsMessage}}</span></div>
-      <div ng-if="dataTable.length === 0" class="empty-table-message"><i class="luna-alert"></i><span>{{getEmptyStatusMessage()}}</span></div>
+      <div ng-if="filtered.length === 0 && dataTable.length > 0 && !loading" class="empty-table-message"><i class="luna-alert"></i><span>{{noFilterResultsMessage}}</span></div>
+      <div ng-if="dataTable.length === 0 && !loading" class="empty-table-message"><i class="luna-alert"></i><span>{{getEmptyStatusMessage()}}</span></div>
     </div>
     <div class="list-box-footer">
         <span class="util-pull-left">

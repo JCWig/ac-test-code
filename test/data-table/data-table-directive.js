@@ -930,7 +930,7 @@ describe('akam-data-table', function() {
             
             expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
         });
-        it('should present a different message when no data is available and filtered', function(){
+        it('should present a the empty table message when no data is available and filtered', function(){
             scope.baddata = [];
             scope.columns = [
                 {content : "name", 
@@ -944,9 +944,9 @@ describe('akam-data-table', function() {
 
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).toMatch(/There are no results based upon your filter/);
+            expect(dataTableRow.textContent).toContain('There is no data based upon your criteria');
         });
-        it('should present a different message when no data is available and filtered thats provided', function(){
+        it('should present a the empty table message when no data is available and filtered thats provided', function(){
             scope.baddata = [];
             scope.columns = [
                 {content : "name", 
@@ -962,7 +962,7 @@ describe('akam-data-table', function() {
 
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).toContain(NO_FILTER_RESULTS_MESSAGE);
+            expect(dataTableRow.textContent).toContain('There is no data based upon your criteria');
         });
     });
     describe('when changing data input', function(){
