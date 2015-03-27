@@ -1003,14 +1003,14 @@ describe('akam-list-box', function() {
 
             expect(dataTableRow.textContent).toEqual('There is no data based upon your criteria');
         });
-        it('should present a different message when no data is available not filtered and view selected only on', function(){
+        it('should present a the no data message when no data is available not filtered and view selected only on', function(){
             var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
             utilities.click(viewSelectOnlyCheckbox);
             scope.$digest();
 
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).toMatch(/You have no items selected/);
+            expect(dataTableRow.textContent).toContain('There is no data based upon your criteria');
         });
     });
     describe('when there is no data can provide messages', function(){
@@ -1051,14 +1051,14 @@ describe('akam-list-box', function() {
 
             expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
         });
-        it('should present a different message when no data is available not filtered and view selected only on', function(){
+        it('should present a the no data message when no data is available not filtered and view selected only on', function(){
             var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
             utilities.click(viewSelectOnlyCheckbox);
             scope.$digest();
 
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).toContain(NONE_SELECTED_MESSAGE);
+            expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
         });
     });
     describe('when data messes up', function(){
