@@ -7,7 +7,7 @@
             "title": "Information"
         },
         "determinate-progress": {},
-        "name": "Akamai Common Components",
+        "name": "AT&T Common Components",
         "indeterminate-progress": {},
         "date-picker": {
             "placeholder": {
@@ -50,7 +50,8 @@
         },
         "dialog": {},
         "error": {
-            "validation": {}
+            "validation": {},
+            "data": "There was a problem loading the data."
         },
         "list-box": {
             "text": {
