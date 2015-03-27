@@ -7,7 +7,8 @@ var angular = require('angular');
  *
  * @name akamai.components.date-picker
  *
- * @description Provides a directive to use in order to create Luna and Pulsar compatible date picker elements.
+ * @description Provides a directive that creates Luna-
+ * and Pulsar-compatible date picker elements.
  *
  */
 module.exports = angular.module('akamai.components.date-picker', [
@@ -20,16 +21,31 @@ module.exports = angular.module('akamai.components.date-picker', [
  *
  * @name akamai.components.date-picker.directive:akamDatePicker
  *
- * @description Creates an date picker control
+ * @description Creates a date picker control.
  *
  * @restrict E
  *
- * @param {Date} value The date value.  Must be a JavaScript valid Date object.
- * @param {String} placeholder the text to show in the input placeholder
- * @param {String} [mode="day"] Determines the mode to use (day or month are the only valid values).
- * @param {Function} onchange The function to call when the value has been changed
- * @param {Date} min The minimum date (inclusive) that a user can select.  If set, any date before this is disabled.
- * @param {Date} max The maximum date (inclusive) that a user can select.  If set, any date after this is disabled.
- * @param {String} [format="EEE, MMM dd, yyyy" for mode="day" | format="MMM yyyy" for mode="month"] An angular compatible date format
+ * @param {Date} value The date value. Must be a valid JavaScript
+ * `Date` object.
+ *
+ * @param {String} placeholder Text that displays as the `input`
+ * element's placeholder hint.
+ *
+ * @param {String} [mode="day"] Determines the display mode, either
+ * `day` or `month`.
+ *
+ * @param {Function} onchange The function to call when the value
+ * changes.
+ *
+ * @param {Date} min The earliest date users can select. Any date
+ * before this point is disabled.
+ *
+ * @param {Date} max The latest date users can select. Any date after
+ * this point is disabled.
+ *
+ * @param {String} [format="EEE, MMM dd, yyyy" for mode="day" |
+ * format="MMM yyyy" for mode="month"] An angular-compatible date
+ * format.
+ *
  */
 .directive("akamDatePicker", require('./date-picker-directive'));
