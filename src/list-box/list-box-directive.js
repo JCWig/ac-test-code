@@ -332,13 +332,6 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
 
                 return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
             };
-            scope.getEmptyStatusMessage = function(){
-                if(scope.state.viewSelectedOnly){
-                    return scope.noneSelectedMessage;
-                } else {
-                    return scope.noDataMessage;
-                }
-            };
         }
     };
 };
