@@ -8,14 +8,13 @@ require('angular-cookies');
  * @ngdoc overview
  *
  * @name akamai.components.i18n
+ *
  * @requires angular-translate
+ *
  * @requires ngCookies
  *
- * @description This module provides configuration for setting up i18n capabilities for any applications and conponents.
- * It also provides injectable service, directive, filter to be used in html and javascript.
- *
- * *NOTE:* if selecting link for i18nTokenProvider do not display anything, go to
- * {@link: http://{server}/#/api/akamai.components.i18n.service:i18nTokenProvider}
+ * @description Provides services to configure internationalization
+ * capabilities for any application.
  *
  */
 module.exports = angular.module('akamai.components.i18n', ['pascalprecht.translate', 'ngCookies', require('../utils').name])
@@ -25,18 +24,34 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:i18nConfig
  *
- * @description This i18nConfig constant service provides default config constant values
+ * @description A service that provides default configuration constant
+ * values.
  *
- * | key | value | type | description
- * |-----------|-----------------|-----------------------------------------------------------------------------|
- * | localeCookie | AKALOCALE | {@type string} | This cookie name is widely used from Luna portal apps |
- * | localeComponentPath | '/libs/akamai-components/{version}/locales/' | {@type string} | This path value is to component locale file. |
- * | localeAppPath | 'apps/{appName}/locales/' | {@type string} | This path value is to app locale file. |
- * | defaultLocale | en_US | {@type string} | Default locale string value. |
- * | baseVersion | '0.0.1' | {@type string} | This path value is to component locale file. (subject to change) |
- * | localePrefix | '' | {@type string} | locale file prefix "message_" to "message_en_US" (subject to change) |
- * | availableLangKeys | [key names] | {@type array} | list of available language key names, purpose is to validate if name is not in the list, it won't load locale file (subject to change) |
- * | langKeysMapper | {mapping} | {@type object} | This object contains constant mapping of language names with tranlsation table names (subject to change) |
+ * @param {Array} availableLangKeys A list of available language key
+ * names, useful in validating before loading the corresponding locale
+ * file.
+ *
+ * @param {String} [baseVersion=0.0.1] The version of the locale
+ * component data.
+ *
+ * @param {String} [defaultLocale=en_US] The default locale string
+ * value.
+ *
+ * @param {Object} langKeysMapper Maps language names to the names of
+ * translation tables.
+ *
+ * @param {String} [localeAppPath=apps/{appName}/locales/]
+ * A path that references application locale files.
+ *
+ * @param {String} [localeComponentPath=assets/akamai-components/{version}/locales/]
+ * A path that references component locale files.
+ *
+ * @param {String} [localeCookie=AKALOCALE] A cookie name widely used
+ * in Luna portal applications.
+ *
+ * @param {String} localePrefix A custom prefix to add before a
+ * language key name. For example, `message_` produces
+ * `message_en_US`.
  *
  */
 .constant("i18nConfig", {
@@ -70,10 +85,13 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @requires pascalprecht.translate.$translate
  *
- * @description translate is a service - a wrapper for angular $tranlate service.
- * This service contains 2 API methods, translate.sync(key, args) is a blocking method - a warpper of $translate.instant(key, args),
- * and translate.async(keys).then(function(results) {}) is a non-blocking method - awrapper of $translate(key, args)...
- * *NOTE* Method usage examples are detailed in translate-service.js
+ * @description A wrapper for the angular `$translate` service,
+ * providing both
+ * {@link akamai.components.i18n.service:translate#methods_async asynchronous}
+ * and
+ * {@link akamai.components.i18n.service:translate#methods_sync blocking}
+ * methods to translate string keys.
+ *
  */
 .factory('translate', require('./translate-service'))
 
@@ -81,14 +99,14 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @ngdoc directive
  *
  * @name akamai.components.i18n.directive:akamTranslate
- * @requires translate
- * @description A directive used in the dom element where you want to translate the key, and it only can be used via attribute.
- * it is a wrapper of async translate service method
  *
- * An example of usage:
+ * @requires translate
+ *
+ * @description Inserts a translated key into the current DOM element.
+ * For example:
  *
  * <pre>
- * <any akam-translate="anykey.anykey"></any>
+ * <any akam-translate="any.optionally.nested.key"></any>
  * </pre>
  *
  * @restrict A
@@ -100,11 +118,11 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @ngdoc filter
  *
  * @name akamai.components.i18n.filter:akamTranslate
- * @requires translate
- * @description A filter used in the dom element and javascript where you want to translate the key
- * It is a sync tranlsate service method
  *
- * An example of usage:
+ * @requires translate
+ *
+ * @description A filter used in the DOM element and JavaScript where
+ * you want to translate the key.  For example:
  *
  * <pre>
  * <any>{{"translationId" | akamTranslate}}</any>
@@ -126,12 +144,16 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:i18nToken
  *
- * @requires $cookies
  * @requires $location
+ *
+ * @requires $cookies
+ *
  * @requires i18nConfig
  *
- * @description The i18nToken is a service constructed by i18nTokenProvider that exposes 2 getter methods(getCurrentLocale(), and getUrls(),
- * those getter methods return values set by i18nTokenProvider in config phase
+ * @description Provides two getter methods that return values set by
+ * {@link akamai.components.i18n.service:i18nTokenProvider i18nTokenProvider}
+ * in an application's configuration phase.
+ *
  */
 /* @ngInject */
 .service('i18nToken')
@@ -139,11 +161,15 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 /**
  * @ngdoc service
  *
- * @name  akamai.components.i18n.service:i18nTokenProvider
+ * @name akamai.components.i18n.service:i18nTokenProvider
+ *
  * @requires i18nConfig
  *
- * @description This i18nTokenProvider adds two locale file path endpoints and locale value for later use
- * And it also invokes i18nToken service object that consumes those locale and path values during run phase
+ * @description Provides methods allow you to pass in application
+ * locale path values during a configuration phase. It invokes the
+ * `I18nToken` service object that consumes those locale and path
+ * values during run phase.
+ *
  */
 .provider('i18nToken', require('./i18n-token-provider'))
 
@@ -152,41 +178,42 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:i18nCustomLoader
  *
- * @reuires $http
- * @reuires $q
- * @reuires i18nToken
- * @reuires i18nConfig
+ * @requires $http
  *
- * @description The i18nCustomLoader factory service provides loader functionalities set for $translationProvider during config phase,
- * then during run phase, it will call back to use path endpoints make restful calls to obtain locale files and set to translation table.
- * The loader can performs loading multiple locale resource files and combining into one translation table for translate service, directive and filter to use.
+ * @requires $q
+ *
+ * @requires i18nToken
+ *
+ * @requires i18nConfig
+ *
+ * @description A factory service that adds loader methods to
+ * `$translationProvider` during an application's configuration
+ * phase. During run phase, it makes REST calls back to obtain locale
+ * files and builds a translation table for use by the `translate`
+ * service, directive, and filter.
  *
  */
 .factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
 
 /**
- * @ngdoc function
+ * @ngdoc service
  *
  * @name akamai.components.i18n.config
  *
  * @requires pascalprecht.translate.$translateProvider
+ *
  * @requires i18nConfig
  *
- * @description This config block takes $translateProvider and i18nConfig to set up methods for
- * fallback, call into customLoader, intercept missing key messages, register avalable keys.
+ * @description Adds methods to `$translateProvider` that load any
+ * locale resource files for an application's run phase.
  *
- * *NOTE* localeStorage is not used, the browser will not cache the language key
+ * __NOTE__: localStorage is not used, the browser will not cache the
+ * language key.
  *
- * <pre>
- *     $translateProvider
-        .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
-        .useLoader('i18nCustomLoader')
-        .useSanitizeValueStrategy('escaped')
-        .preferredLanguage(i18nConfig.defaultLocale)
-        .fallbackLanguage(i18nConfig.defaultLocale)
-        .determinePreferredLanguage()
-        .useMissingTranslationHandler('missingTranslationFactory');
- * </pre>
+ * __NOTE__: To prevent asynchronous translation calls from causing
+ * rendering problems, add a `translate-cloak` class on the `<body>`
+ * tag, and pair it in CSS with `.translate-cloak {display:none
+ * !important;}.`
  *
  */
 /* @ngInject */
@@ -221,7 +248,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 
 /**
  * This run block tells angular $translate service to use per language key, so the current translation table will be based upon that.
- * *NOTE* Since run block is last flow, only this block completed, the $translation table is sure loaded.
+ * __NOTE__: Since run block is last flow, only this block completed, the $translation table is sure loaded.
  */
 /* @ngInject */
 .run(function($translate, i18nToken, i18nConfig) {

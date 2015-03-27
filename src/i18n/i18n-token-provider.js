@@ -6,12 +6,24 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     var self = this;
 
     /**
-     * @description  Path object that constructs a path value from app and component.
+     * @ngdoc service
+     *
+     * @name Path
+     *
+     * @description Constructs a URLs array in the Path class for use
+     * in the `i18nCustomLoader` service. Paths include
+     * `/libs/akamai-components/{version}/locales/` for components and
+     * `/apps/{appname}/locales/` for apps, where `{version}` and
+     * `{appname}` are replaced by their proper values in the `$get`
+     * constructor.
+     *
      */
+
     var Path = function() {
         /**
-         * resolve function adds 2 default endpoints path of locale files to rawUrls array
-         * one for the component and one for the app
+         * resolve function adds 2 default endpoints path of locale
+         * files to rawUrls array one for the component and one for
+         * the app
          * @private
          */
         this.resolve = function() {
@@ -19,7 +31,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
                 path: i18nConfig.localeComponentPath,
                 app: false
             });
-
             self.rawUrls.push({
                 path: i18nConfig.localeAppPath,
                 app: true
@@ -27,17 +38,28 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
         };
     };
 
+    /**
+     *
+     * @ngdoc method
+     *
+     * @name i18nTokenProvider#$get
+     *
+     * @methodOf akamai.components.i18n.service:i18nTokenProvider
+     *
+     * @description A service used by the `i18nTokenProvider` to pass
+     * values set during the application's configuration phase. The
+     * `locale` value is determined by the `AKALOCALE` cookie set by
+     * Luna portal, otherwise the fallback value is `en_US`.
+     *
+     * @return {object} A hash containing two getter methods, mainly
+     * for use by i18nCustomLoader.
+     *
+     */
+
     //instantiate a default one for component locale
     var cPath = new Path();
     cPath.resolve();
 
-    /**
-     * i18nToken is a service used by the i18nTokenProvider to pass values set during app config phase.
-     * Use AKALOCALE cookie set by Luna portal to determine locale value, and fall back locale will be "en_US".
-     * Normalized component locale path is constructed by baseVersion value set from default config to replace {version} placeholder
-     * Normalized app locale path is constructed by looking up the browser url using $location service to determine {appName} placeholder in certain patterns
-     * @return {object} it returns object hash contains 2 getter methods mainly for customLoader to consume
-     */
     /* @ngInject */
     this.$get = function i18nTokenFactory($cookies, i18nConfig, $location) {
         var cookieLocale = $cookies[i18nConfig.localeCookie],
@@ -75,10 +97,13 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
         return {
             /**
              * @ngdoc method
-             * @name i18nToken#getUrls
-             * @methodOf akamai.components.i18n.service:i18nToken
              *
-             * @description get a list of urls endpoints for locale files
+             * @name i18nTokenProvider#getUrls
+             *
+             * @methodOf akamai.components.i18n.service:i18nTokenProvider
+             *
+             * @description get a list of URLs that reference locale
+             * files.
              *
              */
             getUrls: function() {
@@ -86,10 +111,12 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
             },
             /**
              * @ngdoc method
-             * @name i18nToken#getCurrentLocale
-             * @methodOf akamai.components.i18n.service:i18nToken
              *
-             * @description get current locale value
+             * @name i18nTokenProvider#getCurrentLocale
+             *
+             * @methodOf akamai.components.i18n.service:i18nTokenProvider
+             *
+             * @description Get the current locale value.
              *
              */
             getCurrentLocale: function() {

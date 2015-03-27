@@ -24,7 +24,7 @@ module.exports = angular.module('akamai.components.date-picker', [
  *
  * @restrict E
  *
- * @param {Date} value The date value.  Must be a javascript valid Date object.
+ * @param {Date} value The date value.  Must be a JavaScript valid Date object.
  * @param {String} placeholder the text to show in the input placeholder
  * @param {String} [mode="day"] Determines the mode to use (day or month are the only valid values).
  * @param {Function} onchange The function to call when the value has been changed
