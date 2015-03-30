@@ -11,8 +11,8 @@
                     <th ng-if="showCheckboxes" class="column-checkbox">
                         <input type="checkbox" ng-model="state.allSelected" ng-change="selectAll()" id="{{tableId + 'allSelected'}}"><label for="{{tableId + 'allSelected'}}"></label>
                     </th>
-                    <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)" title="{{column.header}}">
-                        {{column.header}} <i></i>
+                    <th ng-repeat="column in columns" ng-class="getColumnClasses(column, true)" ng-click="sortColumn(column)" title="{{column.header | akamTranslate}}">
+                        {{column.header | akamTranslate}} <i></i>
                     </th>
                 </tr>
             </thead>

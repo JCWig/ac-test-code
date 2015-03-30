@@ -234,15 +234,15 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @name akamai.components.i18n.service:missingTranslationFactory
  *
- * @reuires $log
- * @reuires i18nToken
+ * @requires $log
+ * @requires i18nToken
  *
  * @description This service factory sole purpose is to Intercept missing translation key error, log error in the console (not blocking)
  *
  */
 .factory('missingTranslationFactory', function($log, i18nToken) {
     return function(translationID) {
-        $log.error("Missing " + translationID + " key in " + i18nToken.getCurrentLocale() + " table.");
+        $log.warn("Missing " + translationID + " key in " + i18nToken.getCurrentLocale() + " table.");
     };
 })
 

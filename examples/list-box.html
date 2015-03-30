@@ -133,7 +133,16 @@
             }
         ];
         var app = angular.module("listBoxDemo", ["akamai.components.list-box","akamai.components.i18n"]);
-        app.config(function(i18nTokenProvider) {});
+
+        // suppress missing translation keys.not a good idea for a prod setting
+        app.config(function($translateProvider) {
+          $translateProvider.useMissingTranslationHandler('noop');
+        });
+
+        app.factory('noop', function() {
+          return function() { }
+        });
+
         app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", "translate", function(scope, $timeout, $q, $http, translate) {
             var deferred = $q.defer();
             scope.mydata = deferred.promise;
@@ -188,7 +197,7 @@
                     content : function(){
                         return this.first + ' ' + this.last;
                     },
-                    header : 'Full Name',
+                    header : 'examples.full-name',
                     className : 'column-full-name'
                 },
                 {
