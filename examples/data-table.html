@@ -98,7 +98,15 @@
                 color: "YELLOW"
             }
         ];
-        angular.module('example', ['akamai.components.data-table'])        
+        angular.module('example', ['akamai.components.data-table', 'akamai.components.i18n'])
+
+        .config(function($translateProvider) {
+          $translateProvider.useMissingTranslationHandler('noop');
+        })
+
+        .factory('noop', function() {
+          return function() { }
+        })
 
         .controller('ExampleController', ["$scope", "$http", "$filter","$q","$timeout", function($scope, $http, $filter, $q, $timeout) {
             //$scope.data = $http.get('json/data-table-data.json');
