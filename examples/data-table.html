@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Data Table</title>
+    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+</head>
+<body class="common-css" ng-app="example" ng-controller="ExampleController">
+
+    <div class="container">
+      <h1>Empty Data</h1>
+      <akam-data-table data="[]" schema="schema"></akam-data-table>
+    </div>
+
+    <div class="container">
+        <h1>Data Table Example</h1>
+        
+        <akam-data-table data="mydata" schema="schema" filter-placeholder="Filter Employees" no-data-message="noDataMessage">
+            <akam-menu-button position="right">
+                <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
+                <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
+            </akam-menu-button>
+        </akam-data-table>
+    </div>
+
+    <div class="container">
+        <h1>Data Table Example</h1>
+        
+        <akam-data-table data="mydata" schema="schema" filter-placeholder="Filter Employees" show-checkboxes="true" selected-items="selectedItems1">
+            <akam-menu-button position="right">
+                <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
+                <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
+            </akam-menu-button>
+        </akam-data-table>
+        <span>Selected Items: {{selectedItems1}}</span>
+    </div> 
+
+    <div class="container">
+        <akam-data-table data="delayeddata" schema="delayedschema" filter-placeholder="Filter Employees" show-checkboxes="true">
+            <akam-menu-button position="right">
+                <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
+                <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
+            </akam-menu-button>
+        </akam-data-table>
+    </div>
+
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <script>
+        var BASE_DATA = [
+            {
+                first : "Yair",
+                last : "<span>Leviel</span>",
+                id : 234,
+                bu : "Luna",
+                color: "RED"
+            },
+            {
+                first : "Ryan",
+                last: "<span>Silva</span>",
+                id : 4781,
+                bu : "Kona",
+                color: "YELLOW"
+            },
+            {
+                first : "Miguel",
+                last: "<span>Bollar</span>",
+                id : 9988,
+                bu : "GTM",
+                color: "RED"
+            },
+            {
+                first : "Ryan",
+                last: "<span>Silva</span>",
+                id : 4781,
+                bu : "Kona",
+                color: "YELLOW"
+            },
+            {
+                first : "Miguel",
+                last: "<span>Bollar</span>",
+                id : 9988,
+                bu : "GTM",
+                color: "RED"
+            },
+            {
+                first : "Tom",
+                last: "<span>O'Hare</span>",
+                id : 4567,
+                bu : "Luna",
+                color: "GREEN"
+            },
+            {
+                first : "Nick",
+                last: "<span>Pettazzoni</span>",
+                id : 777,
+                bu : "Luna",
+                color: "YELLOW"
+            }
+        ];
+        angular.module('example', ['akamai.components.data-table', 'akamai.components.i18n'])
+
+        .config(function($translateProvider) {
+          $translateProvider.useMissingTranslationHandler('noop');
+        })
+
+        .factory('noop', function() {
+          return function() { }
+        })
+
+        .controller('ExampleController', ["$scope", "$http", "$filter","$q","$timeout", function($scope, $http, $filter, $q, $timeout) {
+            //$scope.data = $http.get('json/data-table-data.json');
+        $scope.processSelected = function(){
+            console.log('haha');
+        };
+        var deferred = $q.defer();
+        $scope.delayeddata = deferred.promise;
+        $scope.basedata = BASE_DATA;
+        
+        $timeout(function(){
+            deferred.resolve(BASE_DATA);
+        }, 2000);
+        
+
+        
+       $scope.mydata = $http.get('json/list-box-data.json').then(function(results) {
+
+          // set a few selected items
+          $scope.selectedItems1 = [results.data[1], results.data[3], results.data[7]];
+          return results.data;
+        });
+        $scope.noDataMessage = "no data given";
+        $scope.delayedschema = [
+                {
+                    //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                    content : function(){
+                        return this.first + ' ' + this.last;
+                    },
+                    header : 'Full Name',
+                    className : 'column-full-name',
+                    title: true
+                },
+                {
+                    content : 'id',
+                    header : 'Emp. ID',
+                    className : 'column-employeeid',
+                    title: false
+                },
+                {
+                    content : 'color',
+                    header : 'Color',
+                    className : 'column-color',
+                    sort: function(){
+                        var colorsValues = {
+                            'RED' : 1,
+                            'YELLOW' : 2,
+                            'GREEN' : 3
+                        };
+                        return colorsValues[this.color];
+                    },
+                    title: function(){
+                        return this.color + " is my favorite color";
+                    }
+                }
+            ];
+            $scope.schema = [
+            {
+                //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                content : function(){
+                    return this.first + ' ' + this.last;
+                },
+                header : 'Full Name',
+                className : 'column-full-name'
+            },
+            {
+                content : 'id',
+                header : 'Emp. ID',
+                className : 'column-employeeid',
+                title : 'id'
+            }
+        ];
+
+        $scope.process = function($event, type, item){
+            //$event.stopPropagation();
+            console.log('menu item clicked:' + type, item);
+        };
+        }]);
+    </script>
+</body>
+</html>

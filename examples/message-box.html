@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Message Box</title>
+    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+</head>
+<body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+    <div class="container">
+        <div class="page-header">
+            <h1>Message Box Example</h1> 
+        </div>
+        <form>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input
+                    id="title"
+                    type="text"
+                    ng-model="options.title">
+            </div>
+            <div class="form-group">
+                <label for="headline">Headline</label>
+                <input
+                    id="headline"
+                    type="text"
+                    ng-model="options.headline">
+            </div>
+            <div class="form-group">
+                <label for="message">Text</label>
+                <input
+                    id="text"
+                    type="text"
+                    ng-model="options.text">
+            </div>
+            <div class="form-group">
+                <label for="details">Details</label>
+                <input
+                    id="details"
+                    type="text"
+                    ng-model="options.details">
+            </div>
+            <div class="btn-group">
+                <button
+                    type="button"
+                    class="btn"
+                    ng-click="showInfoBox()">
+                    Show Info Box
+                </button>
+                <button
+                    type="button"
+                    class="btn"
+                    ng-click="showQuestionBox()">
+                    Show Question Box
+                </button>
+                <button
+                    type="button"
+                    class="btn"
+                    ng-click="showErrorBox()">
+                    Show Error Box
+                </button>
+            </div>
+        </form>
+    </div> 
+
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <script>
+        angular.module('example', ['akamai.components.message-box'])
+
+        .controller('ExampleController', function($scope, messageBox) {
+            $scope.options = {
+                headline: 'Headline',
+                text: 'Unsaved changes will be discarded.',
+                details: ''
+            };
+
+            $scope.showInfoBox = function() {
+                var box = messageBox.showInfo(
+                    angular.extend({}, $scope.options));
+
+                // detect which button was clicked with the modal instance
+                // result promise
+                box.result
+                    .then(function() {
+                        console.log('Yes was clicked.');
+                    })
+                    .catch(function() {
+                        console.log('No was clicked.');
+                    });
+            };
+
+            $scope.showQuestionBox = function() {
+                messageBox.showQuestion(angular.extend({}, $scope.options));
+            };
+
+            $scope.showErrorBox = function() {
+                messageBox.showError(angular.extend({}, $scope.options));
+            };
+        });
+    </script>
+</body>
+</html>

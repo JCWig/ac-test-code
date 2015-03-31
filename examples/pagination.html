@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Component Examples</title>
+        <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+    </head>
+    <body ng-app="example" ng-controller="ExampleController" class="common-css luna">
+        <div class="container">
+            <div class="page-header">
+                <h1>Pagination Component Example</h1>
+                <h5>This example showcases the setting of the Show Entries (rows per page) and setting the current page.  Notice that when
+                changing the Show Entries setting how the total page count alters dynamically.  The Previous and Next icons are disabled
+                according to the Result Set Size and Show Entries settings.</h5>
+            </div>
+            <h2>Pagination Options:</h2>
+            </br>
+            <form>
+                <div class="form-group">
+                    <label class="label" for="totalItems">Result Set Size:</label>
+                    <input type="number" id="totalItems" ng-model="pager.totalItems">
+                </div>
+                </br>
+                <div class="form-group">
+                    <label class="label" for="currentPage">Current Page:</label>
+                    <input type="number" id="currentPage" ng-model="pager.page">
+                </div>
+            </form>
+                <akam-pagination total-items="pager.totalItems" current-page="pager.page"
+                    page-size="pager.size" onchangepage="pageChanged(page)"></akam-pagination>
+        </div>
+        <script src="../node_modules/angular/angular.js"></script>
+        <script src="../dist/akamai-components.js"></script>
+        <script>
+            angular.module('example', ['akamai.components.pagination'])
+            
+            .controller('ExampleController', function($scope) {
+                $scope.pager = {
+                    totalItems: 125,
+                    page: 7,
+                    size: 22
+                };
+                
+                $scope.pageChanged = function(page) {
+                    console.log('Pagination Component:  Page navigation changed to: ', page);
+                };
+            });
+        </script>
+    </body>
+</html>

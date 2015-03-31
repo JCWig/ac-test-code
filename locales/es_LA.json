@@ -1,0 +1,88 @@
+{
+    "components": {
+        "menu-button": {
+            "label": "Etiqueta"
+        },
+        "bubblehelp": {
+            "title": "Información"
+        },
+        "determinate-progress": {},
+        "name": "Akamai Common Components",
+        "indeterminate-progress": {},
+        "date-picker": {
+            "placeholder": {
+                "date": "Date Picker",
+                "year": "Year Picker",
+                "month": "Month Picker"
+            }
+        },
+        "modal-window": {
+            "title": "Modal Window",
+            "label": {
+                "cancel": "Cancelar",
+                "save": "Guardar"
+            }
+        },
+        "pagination": {
+            "label": {
+                "show-entries": "Show Entries:",
+                "results": "Results:",
+                "total-items": "Total Items",
+                "current-page": "Current Page"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
+        "message-box": {
+            "yes": "Sí",
+            "title": {
+                "information": "Información",
+                "question": "Pregunta",
+                "error": "Error"
+            },
+            "label": {
+                "detail": "Ver información detallada"
+            },
+            "no": "No"
+        },
+        "warning": {
+            "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "There was a problem loading the data."
+        },
+        "list-box": {
+            "text": {
+                "noFilterResults": "There are no results based upon your filter.",
+                "viewSelectedOnly": "You have no items selected.",
+                "selected": "Selected:",
+                "viewSelected": "View Selected Only",
+                "noItem": "No Item Found",
+                "noDataMessage": "There is no data based upon your criteria."
+            },
+            "placeholder": {
+                "filter": "Filtro"
+            }
+        },
+        "data-table": {
+            "text": {
+                "noFilterResults": "There are no results based upon your filter.",
+                "noDataMessage": "There is no data based upon your criteria."
+            },
+            "placeholder": {
+                "filter": "Filtro"
+            },
+            "label": {
+                "action": "Acción"
+            }
+        },
+        "notifications": {
+            "information": "INFORMATION",
+            "warning": "ADVERTENCIA",
+            "success": "ÉXITO",
+            "error": "ERROR"
+        }
+    }
+}
