@@ -531,7 +531,6 @@ describe('akam-list-box', function() {
             expect(allCheckedCheckboxes.length).toEqual(0);
         });
         it('should not break when no items exist and select all is pressed', function() {
-            console.log("Here we go");
             scope.nodata = [];
             var markup = '<akam-list-box data="nodata" schema="columns"></akam-list-box>';
             addElement(markup);
