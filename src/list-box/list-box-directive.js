@@ -218,8 +218,8 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
             scope.showCheckboxes = attrs.showCheckboxes !== 'false';
 
             scope.selectAll = function() {
-                if (!scope.dataTable) {
-                    return;
+                if (!scope.dataTable || scope.dataTable.length === 0) {
+                    return; 
                 }
 
                 var newValue = scope.state.allSelected;
@@ -242,7 +242,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
                   scope.selectedItems.splice(i, 1);
                 }
 
-                if(angular.isFunction(scope.onChange)) {
+                if(angular.isFunction(scope.onChange)) { //NOTE
                   scope.onChange({
                       value: scope.selectedItems
                   });
