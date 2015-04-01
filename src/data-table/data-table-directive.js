@@ -245,9 +245,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
                 scope.selectedItems = selectedItemsList;
                 
-                if(angular.isFunction(scope.onChange)) {
-                  scope.onChange({value : selectedItemsList});
-                }
+                scope.onChange({value : selectedItemsList});
             };
 
             scope.sortColumn = function(column){

@@ -55,6 +55,6 @@ module.exports = {
 	},
 	getTodaysDay: function(){
 		var date = new Date();
-		return date.getDate();
+		return date.getDate() < 10 ? "0"+date.getDate() : date.getDate();
 	}
 }
