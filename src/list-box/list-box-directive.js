@@ -242,11 +242,9 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
                   scope.selectedItems.splice(i, 1);
                 }
 
-                if(angular.isFunction(scope.onChange)) { //NOTE
-                  scope.onChange({
-                      value: scope.selectedItems
-                  });
-                }
+                scope.onChange({
+                    value: scope.selectedItems
+                });
             };
 
             scope.sortColumn = function(column) {
