@@ -119,7 +119,7 @@ describe('akam-date-picker', function() {
             expect(datePicker.getAttribute('style')).toContain('display: block'); 
             expect(displayedHeaderOfDatePicker.textContent).toEqual(todaysDate);
         });
-        xit('should have todays date highlighted', function(){
+        it('should have todays date highlighted', function(){
             var todaysButton = findCertainButton(utilities.getTodaysDay()).querySelector('span');
             expect(todaysButton.classList.contains('text-info')).toBe(true);
         });
