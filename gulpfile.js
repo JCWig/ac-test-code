@@ -44,6 +44,7 @@ gulp.task('lint', function() {
 gulp.task('browserify', function() {
     var bundler = browserify(_.extend(watchify.args, {
         entries: ['./src'],
+        fullPaths: false,
         debug: true
     }));
     var startTime;

@@ -35,17 +35,21 @@ describe('akam-data-table', function() {
     var self = this;
     var q = null;
     var timeout = null;
+    var httpBackend = null;
+    var http = null;
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/data-table').name);
         angular.mock.module(function($provide, $translateProvider, $sceProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function($compile, $rootScope, $q, $timeout, $httpBackend) {
+        inject(function($compile, $rootScope, $q, $timeout, $httpBackend, $http) {
             compile = $compile;
             scope = $rootScope.$new();
             q = $q;
             timeout = $timeout;
+            httpBackend = $httpBackend;
+            http = $http;
             $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
             $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
             $httpBackend.flush();
@@ -146,6 +150,7 @@ describe('akam-data-table', function() {
         self.el = compile(markup)(scope);
         scope.$digest();
         self.element = document.body.appendChild(self.el[0]);
+
     }
     describe('when rendering data table', function() {
 
@@ -168,23 +173,47 @@ describe('akam-data-table', function() {
             expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
             expect(allRowsLoadedInTable.length).toEqual(scope.mydata.length);
         });
-        it('should render all parts data table and pagination', function() {
+        it('should render data table and pagination', function() {
             var markup = '<akam-data-table data="mydata" schema="columns">'+
+                '</akam-data-table>';
+            addElement(markup);
+            timeout.flush();
+            var dataTableContainer = document.querySelector('div.akam-data-table');
+            var paginationContainer = document.querySelector('div.akam-pagination');
+
+            expect(scope.$$childTail.getColumnsLength()).toEqual(5); 
+            expect(dataTableContainer).not.toBe(null);
+            expect(paginationContainer).not.toBe(null);
+        });
+        it('should render menu buttons and checkboxes', function() {
+            var markup = '<akam-data-table data="mydata" schema="columns" show-checkboxes="true">'+
                 '<akam-menu-button icon="luna-gear" position="right">'+
                 '<akam-menu-button-item text="PDF" ng-click="process('+"'PDF'"+')"></akam-menu-button-item>'+
                 '</akam-menu-button></akam-data-table>';
             addElement(markup);
+            timeout.flush();
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var menuButtons = document.querySelectorAll('.luna-gear');
 
-            var dataTableContainer = document.querySelector('div.akam-data-table');
-            var paginationContainer = document.querySelector('div.akam-pagination');
+            expect(scope.$$childTail.getColumnsLength()).toEqual(7); //5 columns + 2 add-ons
+            expect(checkboxes.length).toEqual(4); //Select All + 3 Rows
+            expect(menuButtons.length).toEqual(3); //1 Menu buttons each for 3 rows
+        });
+        it('should work if there are no columns at all', function() {
+            var markup = '<akam-data-table data="mydata" schema="columns" show-checkboxes="true">'+
+                '<akam-menu-button icon="luna-gear" position="right">'+
+                '<akam-menu-button-item text="PDF" ng-click="process('+"'PDF'"+')"></akam-menu-button-item>'+
+                '</akam-menu-button></akam-data-table>';
+            addElement(markup);
+            timeout.flush();
+            scope.$$childTail.columns = null;
 
-            expect(dataTableContainer).not.toBe(null);
-            expect(paginationContainer).not.toBe(null);
+            expect(scope.$$childTail.getColumnsLength()).toEqual(2); //5 columns + 2 add-ons
         });
         it('should have filter be clear', function() {
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
-
+            timeout.flush();
             var filterBox = document.querySelector(FILTER_BOX);
 
             expect(filterBox.value).toEqual('');
@@ -192,7 +221,7 @@ describe('akam-data-table', function() {
         it('should have 3 options for how many rows are displayed', function(){
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
-
+            timeout.flush();
             var smallestPageSize = document.querySelector(PAGE_SIZE_SMALLEST);
             var mediumPageSize = document.querySelector(PAGE_SIZE_NTH+'(2)');
             var largestPageSize = document.querySelector(PAGE_SIZE_LARGEST);
@@ -201,13 +230,29 @@ describe('akam-data-table', function() {
             expect(mediumPageSize.textContent).toMatch(/25/);
             expect(largestPageSize.textContent).toMatch(/50/);
         });
+        it('should display failed indetermine progress when http call fails', function() {
+            var dataPath = '/get/json/data';
+            scope.jsonColumns = [
+                {content : function(){return this.first + ' ' + this.last;},header : 'Full Name',className : 'column-full-name'},
+                {content : 'id', header : 'Emp. ID', className : 'column-employeeid'}
+            ];
+            httpBackend.when('GET', dataPath).respond(404, "ERROR: NOT FOUND");
 
+            scope.jsonFromHttpGet = http.get(dataPath);
+            var markup = '<akam-data-table data="jsonFromHttpGet" schema="jsonColumns"></akam-data-table>';
+            addElement(markup);
+
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/false/);
+            httpBackend.flush();
+            timeout.flush();
+            expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/true/);
+        });
     });
     describe('when data table is rendered', function(){
         it('should display the total number of results', function(){
             var markup = '<akam-data-table data="mydata" schema="columns" filter-placeholder="yair"></akam-data-table>';
             addElement(markup);
-
+            timeout.flush();
             var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
 
             expect(totalItemsSpan.textContent).toContain('3');
@@ -1063,6 +1108,7 @@ describe('akam-data-table', function() {
             var markup = '<akam-data-table data="mydata" schema="messedupcolumns"></akam-data-table>';
             try{
                 addElement(markup);
+                timeout.flush();
             } catch (e){
                 expect(e).toEqual("Schema must be an array");
             }
@@ -1072,6 +1118,7 @@ describe('akam-data-table', function() {
             var markup = '<akam-data-table data="messedupdata" schema="columns"></akam-data-table>';
             try{
                 addElement(markup);
+                timeout.flush();
             } catch (e){
                 expect(e).toEqual("Data must be an array");
             }
@@ -1083,6 +1130,7 @@ describe('akam-data-table', function() {
             var markup = '<akam-data-table data="mydata" schema="badcontent"></akam-data-table>';
             try{
                 addElement(markup);
+                timeout.flush();
             } catch (e){
                 expect(e).toEqual("The column content field is using an unknown type.  Content field may only be String or Function type");
             }
@@ -1099,6 +1147,7 @@ describe('akam-data-table', function() {
             ];
             var markup = '<akam-data-table data="mydata" schema="columns"></akam-data-table>';
             addElement(markup);
+            timeout.flush();
             try{
                 scope.$$childHead.sortColumn(undefined);
             } catch (e){
@@ -1112,6 +1161,7 @@ describe('akam-data-table', function() {
             var markup = '<akam-data-table data="mydata"></akam-data-table>';
             try{
                 addElement(markup);
+                timeout.flush();
             } catch (e){
                 expect(e).toEqual("Schema must be an array");
             }
@@ -1121,6 +1171,7 @@ describe('akam-data-table', function() {
             var markup = '<akam-data-table  schema="columns"></akam-data-table>';
             try{
                 addElement(markup);
+                timeout.flush();
             } catch (e){
                 expect(e).toEqual("Data must be an array");
             }
