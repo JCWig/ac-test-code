@@ -1,88 +1,106 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
-    <script src="../node_modules/angular/angular.js"></script>
-    <script src="../node_modules/angular-cookies/angular-cookies.js"></script>
-    <script src="../node_modules/angular-translate/dist/angular-translate.js"></script>
-    <script type="text/javascript" src="../dist/akamai-components.js"></script>
-
-    <script>
-        var app = angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
-
-        app.controller('TranslationPageController', ['$scope', '$cookies', 'translate', '$rootScope', '$filter', function($scope, $cookies, translate, $rootScope, $filter) {
-            $rootScope.$on('$translateChangeEnd', function() {
-
-                // not all of these exist
-                $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA', 'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'];
-
-                $scope.selected = 'en_US';
-                if($cookies.AKALOCALE) {
-                  $scope.selected = atob($cookies.AKALOCALE);
-                }
-
-                $scope.changeLocale = changeLocale;
-
-                console.log(translate.sync('reseller-tools.note'));
-                console.log(translate.sync('components.menu-button.label'));
-
-                console.log($filter('akamTranslate')('components.notifications.success'));
-                console.log($filter('akamTranslate')('recurring-report.activate.modal.message'));
-            });
-
-            function changeLocale() {
-              document.cookie = 'AKALOCALE='+btoa($scope.selected);
-              window.location.reload();
-            }
-        }]);
-    </script>
-
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Component Examples - i18N</title>
+        <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+    </head>
     <body ng-app="i18nDemo3" ng-controller="TranslationPageController" class="common-css luna" translate-cloak>
         <div class="container">
-            <div class="page-header">
-                <h1>i18n Example</h1>
-            </div>
-
+            <h1>i18N Component Example</h1>
+            <br/>
+        </div>
+        <div class="container">
             <p>
-                <label>Change Locale</label>
+                <label class="label">Select Locale:</label>
                 <select ng-options="locale for locale in locales" ng-model="selected" ng-change="changeLocale()"></select>
             </p>
-
+            </br>           
             <div>
-                <h2>1. Check with console for javascript translations using translate service</h2>
+                <label class="label">Directive Examples:</label>
+                <h2>Translated Text from Application Locale JSON file</h2>
+                <div>
+                    <ul>
+                        <li akam-translate="reseller-tools.note"></li>
+                    </ul>
+                </div>
+            </div>
+            </br>
+            <div>
+                <h2>Translated Text from Component Locale JSON file</h2>
+                <div>
+                    <ul>
+                        <li akam-translate="components.notifications.success"></li>
+                    </ul>
+                </div>
+            </div>            
+            <br><br>
+             <div>
+                <label class="label">Filter Examples:</label>
+                <h2>Translated Text from Application Locale JSON file</h2>
+                <div>
+                    <ul>
+                        <li><span>{{"reseller-tools.note" | akamTranslate}}</span></li>
+                    </ul>
+                </div>
+            </div>
+            </br>
+            <div>
+                <h2>Translated Text from Component Locale JSON file</h2>
+                <div>
+                    <ul>
+                        <li><span>{{"components.notifications.success" | akamTranslate}}</span></li>
+                    </ul>
+                </div>
+            </div>            
+            <div>
+                <h2>Translated Placeholder Text from Application Locale JSON file</h2>
+                <div>
+                    <ul>
+                        <li><input type="text" placeholder='{{"contractselector.filter.products" | akamTranslate}}'/></li>
+                    </ul>
+                </div>
+            </div>
+            </br>
+            <div>
+                <h2>Check in browser console for Javascript translations using the translate service.</h2>
             </div>
             <br><br>
-
-            <div>
-                <h2>2. Display app and component translated text using directive</h2>
-                <div>
-                    <span akam-translate="reseller-tools.note"></span>
-                    <span><b>(key/value obtained from app locale json file)</b></span>
-                </div>
-                <div>
-                    <span akam-translate="components.notifications.success"></span>
-                    <span><b>(key/value obtained from component locale json file)</b></span>
-                </div>
-            </div>
-            <br><br>
-
-            <div>
-                <h2>3. Display app and component translated text using filter</h2>
-                <div>
-                    <span>{{"reseller-tools.note" | akamTranslate}}</span>
-                    <span><b>(key/value obtained from app locale json file)</b></span>
-                </div>
-                <div>
-                    <span>{{"components.notifications.success" | akamTranslate}}</span>
-                    <span><b>(key/value obtained from component locale json file)</b></span>
-                </div>
-                <div>
-                    <h4>Filter used in placeholder</h4>
-                    <input type="text" placeholder='{{"contractselector.filter.products" | akamTranslate}}'/>
-                </div>
-            </div>
         </div>
-    </body>
+        <script src="../node_modules/angular/angular.js"></script>
+        <script src="../node_modules/angular-cookies/angular-cookies.js"></script>
+        <script src="../node_modules/angular-translate/dist/angular-translate.js"></script>
+        <script type="text/javascript" src="../dist/akamai-components.js"></script>
+        <script>
+            var app = angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
 
+            app.controller('TranslationPageController', ['$scope', '$cookies', 'translate', '$rootScope', '$filter', function($scope, $cookies, translate, $rootScope, $filter) {
+                $rootScope.$on('$translateChangeEnd', function() { 
+                    // List of locales to populate the locale selection dropdown. Note that not all of these exist
+                    $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
+                                      'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'];
+                    
+                    $scope.selected = 'en_US';
+                    
+                    // Check to see if the AKALOCALE cookie is used
+                    if($cookies.AKALOCALE) {
+                        $scope.selected = atob($cookies.AKALOCALE);
+                    }
+                    
+                    $scope.changeLocale = changeLocale;
+                    
+                    console.log(translate.sync('reseller-tools.note'));
+                    console.log(translate.sync('components.menu-button.label'));
+                    console.log($filter('akamTranslate')('components.notifications.success'));
+                    console.log($filter('akamTranslate')('recurring-report.activate.modal.message'));
+                });
+                
+                // Reload the page when the locale is changed.  This will force the lookup of the keys again.
+                function changeLocale() {
+                    document.cookie = 'AKALOCALE='+btoa($scope.selected);
+                    window.location.reload();
+                }
+            }]);
+    </script>
+    </body>
 </html>
