@@ -83,6 +83,7 @@ module.exports = function($log, $filter, $parse, translate) {
 
                 scope.clearDate = function(){
                     scope.value = null;
+                    ngModel.$setViewValue(null);
                 };
 
                 scope.$watch('opened', function(newValue){
