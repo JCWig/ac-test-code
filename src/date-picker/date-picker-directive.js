@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log, $filter, $parse, translate) {
+module.exports = function($log, $filter, $parse, translate, $templateCache) {
     var PICKER_TYPES = {
         'day' : 'day',
         'month' : 'month'

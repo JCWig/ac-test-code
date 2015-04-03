@@ -16,6 +16,12 @@ module.exports = angular.module('akamai.components.date-picker', [
         require('../i18n').name
 ])
 
+.run(["$templateCache", function($templateCache) {
+  $templateCache.put("template/datepicker/datepicker.html", require('./templates/date-picker-switch.tpl.html'));
+  $templateCache.put("template/datepicker/month.html", require('./templates/date-picker-month-popup.tpl.html'));
+  $templateCache.put("template/datepicker/popup.html", require('./templates/date-picker-popup.tpl.html'));
+}])
+
 /**
  * @ngdoc directive
  *
