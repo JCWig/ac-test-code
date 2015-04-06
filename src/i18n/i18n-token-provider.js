@@ -134,7 +134,9 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
         }
 
         angular.forEach(this.rawUrls, function(raw) {
-            if (!raw.overridden) {
+            if (raw.overridden) {
+                localeUrls.push(raw.path);
+            } else {
                 if (raw.app) {
                     appName = "appname";
                     matchResults = [];
@@ -151,12 +153,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
                 localeUrls.push(normalizedPath);
             }
         });
-
-        //assuming only 2 items in the array
-        if (localeUrls.length === 0) {
-            localeUrls.push(this.rawUrls[0].path);
-            localeUrls.push(this.rawUrls[1].path);
-        }
 
         return {
             /**
