@@ -18,24 +18,83 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
      * constructor.
      *
      */
-
     var Path = function() {
         /**
          * resolve function adds 2 default endpoints path of locale
-         * files to rawUrls array one for the component and one for
-         * the app
+         * files to rawUrls array one for the component and one for the app
          * @private
          */
         this.resolve = function() {
             self.rawUrls.push({
                 path: i18nConfig.localeComponentPath,
-                app: false
+                app: false,
+                overridden: false
             });
             self.rawUrls.push({
                 path: i18nConfig.localeAppPath,
-                app: true
+                app: true,
+                overridden: false
             });
         };
+    };
+
+    var cPath = new Path();
+    cPath.resolve();
+
+    /**
+     * @ngdoc method
+     *
+     * @name i18nTokenProvider#setComponentLocalePath
+     *
+     * @methodOf akamai.components.i18n.service:i18nTokenProvider
+     *
+     * @param {String} url the path to replace default component locale file path
+     *
+     * @example of usage
+     * <pre>
+     *     app.config(function(i18nTokenProvider) {
+     *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-components/0.5.0/locales/");
+     *        i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
+     *     });
+     * </pre>
+     */
+    this.setComponentLocalePath = function(url) {
+        //no validate the param url, assuming it is valid
+        this.rawUrls.map(function(item) {
+            if (item.path === i18nConfig.localeComponentPath) {
+                item.path = url;
+                item.overridden = true;
+            }
+        });
+    };
+
+    /**
+     * @ngdoc method
+     *
+     * @name i18nTokenProvider#setAppLocalePath
+     *
+     * @methodOf akamai.components.i18n.service:i18nTokenProvider
+     *
+     * @param {String} url the path to replace default application locale file path
+     *
+     * __NOTE__: param url only a string value for the app, no multiple files allowed
+     *
+     *@example of usage
+     * <pre>
+     *     app.config(function(i18nTokenProvider) {
+     *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-components/0.5.0/locales/");
+     *        i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
+     *     });
+     * </pre>
+     */
+    this.setAppLocalePath = function(url) {
+        //no validate the param url, assuming it is valid
+        this.rawUrls.map(function(item) {
+            if (item.path === i18nConfig.localeAppPath) {
+                item.path = url;
+                item.overridden = true;
+            }
+        });
     };
 
     /**
@@ -56,10 +115,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
      *
      */
 
-    //instantiate a default one for component locale
-    var cPath = new Path();
-    cPath.resolve();
-
     /* @ngInject */
     this.$get = function i18nTokenFactory($cookies, i18nConfig, $location) {
         var cookieLocale = $cookies[i18nConfig.localeCookie],
@@ -79,21 +134,30 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
         }
 
         angular.forEach(this.rawUrls, function(raw) {
-            if (raw.app) {
-                appName = "appname";
-                matchResults = [];
-                // browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
-                // Capture string in pattern from path  apps/{}/
-                matchResults = appUrlRx.exec(decodeURIComponent($location.absUrl()));
-                if (matchResults) {
-                    appName = matchResults[1] || appName;
+            if (!raw.overridden) {
+                if (raw.app) {
+                    appName = "appname";
+                    matchResults = [];
+                    // browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
+                    // Capture string in pattern from path  apps/{}/
+                    matchResults = appUrlRx.exec(decodeURIComponent($location.absUrl()));
+                    if (matchResults) {
+                        appName = matchResults[1] || appName;
+                    }
+                    normalizedPath = raw.path.replace(/\{appname\}/g, appName);
+                } else {
+                    normalizedPath = raw.path.replace(/\{version\}/g, VERSION);
                 }
-                normalizedPath = raw.path.replace(/\{appname\}/g, appName);
-            } else {
-                normalizedPath = raw.path.replace(/\{version\}/g, VERSION);
+                localeUrls.push(normalizedPath);
             }
-            localeUrls.push(normalizedPath);
         });
+
+        //assuming only 2 items in the array
+        if (localeUrls.length === 0) {
+            localeUrls.push(this.rawUrls[0].path);
+            localeUrls.push(this.rawUrls[1].path);
+        }
+
         return {
             /**
              * @ngdoc method
