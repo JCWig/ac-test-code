@@ -56,7 +56,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
          */
         open: function(options) {
             var scope = (options.scope || $rootScope).$new();
-            var deferred = $q.defer();
+            //var deferred = $q.defer();
             var disabled = false;
             var instance;
 
@@ -99,9 +99,11 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
             }));
 
             // setup promise that will resolve when submit button is clicked
-            scope.submitted = deferred.promise;
+            instance.submitted = options.submittedCallback || function(close){ close(true); };
             scope.submit = function() {
-                deferred.resolve(angular.bind(instance, instance.close));
+                if(angular.isFunction(instance.submitted)){
+                    instance.submitted(angular.bind(instance, instance.close));
+                }
             };
 
             return instance;

@@ -65,8 +65,16 @@
 
         .controller('ExampleController', function($scope, $rootScope, modalWindow) {
             var modalScope = $rootScope.$new();
+            var times = 0;
 
             modalScope.name = 'Akamai';
+            modalScope.blah = function(close){
+                if (times++  === 0) {
+                    return;
+                }else{
+                    close();
+                }
+            };
 
             $scope.options = {
                 title: 'Example',
@@ -81,14 +89,16 @@
                     scope: modalScope,
                     template: '<p>Hello {{ name }}</p>',
                     controller: function($scope) {
-                        // listen for when the user clicks the submit button
-                        $scope.submitted.then(function(close) {
-                            // call the supplied close function with an argument to pass as
-                            // the modal window result
-                            close('Hello Developer');
-                        });
-                    }
-                }))
+                    
+                    },
+                    submittedCallback : function(close){
+                        if (times++  === 0) {
+                            return;
+                        }else{
+                            close('yaya override');
+                        }
+                    } 
+                }));
 
                 // listen for the result returned by the modal window
                 instance.result
@@ -111,12 +121,19 @@
         })
 
         .controller('ModalController', function($scope) {
+            var times = 0;
             // listen for when the user clicks the submit button
-            $scope.submitted.then(function(close) {
+            $scope.blah = function(close) {
+                debugger;
                 // call the supplied close function with an argument to pass as
                 // the modal window result
-                close('Hello Developer');
-            });
+                if (times === 0) {
+                    times++;
+                    return;
+                }else{
+                    close('Hello Developer');
+                }
+            };
 
             // control the disabled state of the submit button
             $scope.toggle = function() {
