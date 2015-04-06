@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    
+    <style>
+        .container {
+            min-height: 150px;
+        }
+        .container + .container {
+            margin-top: 2em;
+        }
+        
+        form {
+            padding-bottom:20px;
+        }
+        
+        .column-employeeid {
+            width: 150px;
+        }
+        
+        .column-full-name {
+        }
+        
+        td.column-full-text-name {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body ng-app="listBoxDemo" ng-controller="Ctrl" class="common-css luna">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>List Box Example</h1>
+        </div>
+        
+        <div class="container">
+            <h3>Empty Data</h3>
+            <akam-list-box data="[]" schema="columns" on-change="mychange(value)"
+            no-data-message="noDataMessage" no-filter-results-message="no filter results message"></akam-list-box>
+        </div>
+
+        <div class="container">
+            <h3>DATA USING PROMISE</h3>
+            <akam-list-box data="mydata" schema="columns" on-change="mychange(value)" selected-items="selectedItems1"></akam-list-box>
+            <span>Selected Items: {{selectedItems1}}</span>
+        </div>
+        
+        <div class="container">
+            <h3>DATA DIRECT</h3>
+            <akam-list-box data="basedata" schema="columns" on-change="mychange(value)" selected-items="selectedItems2"></akam-list-box>
+            <span>Selected Items: {{selectedItems2}}</span>
+        </div>
+        
+        <div class="container">
+            <h3>DATA Via HTTP GET</h3>
+            <akam-list-box data="jsonFromHttpGet" schema="jsonColumns" on-change="mychange(value)" selected-items="selectedItems3"></akam-list-box>
+            <span>Selected Items: {{selectedItems3}}</span>
+        </div>
+
+        <div class="container">
+            <h3>REJECTION TESTING</h3>
+            <akam-list-box data="deferredRejection" schema="jsonColumns"></akam-list-box>
+        </div>
+    </div>
+    
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../dist/akamai-components.js"></script>
+    <script>
+        var BASE_DATA = [
+            {
+                first : "Yair",
+                last : "<span class='hi'>Leviel</span>",
+                id : 234,
+                bu : "Luna",
+                color: "RED"
+            },
+            {
+                first : "Shawn",
+                last: "<span class='hi'>Dahlen</span>",
+                id : 1357,
+                bu : "Luna",
+                color: "GREEN"
+            },
+            {
+                first : "Nick",
+                last: "<span class='hi'>Leon</span>",
+                id : 2468,
+                bu : "Luna",
+                color: "YELLOW"
+            },
+            {
+                first : "Sean",
+                last: "<span class='hi'>Wang</span>",
+                id : 2002,
+                bu : "Luna",
+                color: "RED"
+            },
+            {
+                first : "Mike",
+                last: "<span class='hi'>D</span>",
+                id : 1001,
+                bu : "Luna",
+                color: "GREEN"
+            },
+            {
+                first : "Ryan",
+                last: "<span class='hi'>Silva</span>",
+                id : 4781,
+                bu : "Kona",
+                color: "YELLOW"
+            },
+            {
+                first : "Miguel",
+                last: "<span class='hi'>Bollar</span>",
+                id : 9988,
+                bu : "GTM",
+                color: "RED"
+            },
+            {
+                first : "Tom",
+                last: "<span class='hi'>O'Hare</span>",
+                id : 4567,
+                bu : "Luna",
+                color: "GREEN"
+            },
+            {
+                first : "Nick",
+                last: "<span class='hi'>Pettazzoni</span>",
+                id : 777,
+                bu : "Luna",
+                color: "YELLOW"
+            }
+        ];
+        var app = angular.module("listBoxDemo", ["akamai.components.list-box","akamai.components.i18n"]);
+
+        // suppress missing translation keys.not a good idea for a prod setting
+        app.config(function($translateProvider) {
+          $translateProvider.useMissingTranslationHandler('noop');
+        });
+
+        app.factory('noop', function() {
+          return function() { }
+        });
+
+        app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", "translate", function(scope, $timeout, $q, $http, translate) {
+            var deferred = $q.defer();
+            scope.mydata = deferred.promise;
+            scope.basedata = BASE_DATA;
+
+            translate.async('components.list-box.text.noDataMessage').then(function(message) {
+              scope.emptyMessage = message;
+            });
+        
+            $timeout(function(){
+                deferred.resolve(BASE_DATA);
+            }, 2000);
+            
+            scope.columns = [
+                {
+                    //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                    content : function(){
+                        return this.first + ' ' + this.last;
+                    },
+                    header : 'Full Name',
+                    className : 'column-full-name',
+                    title: true
+                },
+                {
+                    content : 'id',
+                    header : 'Emp. ID',
+                    className : 'column-employeeid'
+                },
+                {
+                    content : 'color',
+                    header : 'Color',
+                    className : 'column-color',
+                    sort: function(){
+                        var colorsValues = {
+                            'RED' : 1,
+                            'YELLOW' : 2,
+                            'GREEN' : 3
+                        };
+                        return colorsValues[this.color];
+                    },
+                    title: function(){
+                        return this.color + " is my favorite color";
+                    }
+                }
+            ];
+            scope.noDataMessage = "No data for your given criteria";
+            scope.selectedItems2 = [BASE_DATA[0], BASE_DATA[3], BASE_DATA[5]];
+            
+            scope.jsonColumns = [
+                {
+                    //NOTE that the "this" context for the function call will the object being worked on and not the column itself
+                    content : function(){
+                        return this.first + ' ' + this.last;
+                    },
+                    header : 'examples.full-name',
+                    className : 'column-full-name'
+                },
+                {
+                    content : 'id',
+                    header : 'Emp. ID',
+                    className : 'column-employeeid'
+                }
+            ];
+            
+            scope.jsonFromHttpGet = $http.get('json/list-box-data.json');
+            scope.jsonFromHttpGet.then(function() {
+              scope.selectedItems1 = [BASE_DATA[1], BASE_DATA[3], BASE_DATA[5]];
+            });
+            
+            scope.mychange = function(value){
+                console.log('yay', value);
+            };
+
+            var deferredRejection = $q.defer();
+            scope.deferredRejection = deferredRejection.promise;
+
+            $timeout(function() {
+              deferredRejection.reject();
+            }, 5000);
+
+        }]);
+    </script>
+</body>
+</html>

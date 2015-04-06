@@ -4,8 +4,10 @@ var istanbul = require('browserify-istanbul');
 
 module.exports = function(config) {
     config.set({
+        browserNoActivityTimeout : 30000,
         files: [
             'node_modules/angular/angular.min.js',
+            'node_modules/angular-translate/dist/angular-translate.min.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'node_modules/pulsar-common-css/dist/styles.css',
             {pattern: 'node_modules/pulsar-common-css/dist/images/*', included: false, served: true},
@@ -15,7 +17,7 @@ module.exports = function(config) {
             'test/*.js',
             'test/**/*.js'
         ],
-        frameworks: ['browserify', 'mocha', 'chai', 'sinon-chai'],
+        frameworks: ['browserify', 'jasmine'],
         preprocessors: {
             'test/**/*.js': ['browserify']
         },

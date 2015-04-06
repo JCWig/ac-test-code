@@ -10,6 +10,8 @@ var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
+var sourcemaps = require('gulp-sourcemaps');
+var es = require('event-stream');
 var watchify = require('watchify');
 var karma = require('karma');
 var source = require('vinyl-source-stream');
@@ -42,19 +44,28 @@ gulp.task('lint', function() {
 gulp.task('browserify', function() {
     var bundler = browserify(_.extend(watchify.args, {
         entries: ['./src'],
+        fullPaths: false,
         debug: true
     }));
     var startTime;
-    
+
     function bundle() {
         startTime = process.hrtime();
-        return bundler.bundle()
+        var unminified = bundler.bundle()
             .pipe(source(filename))
             .pipe(buffer())
+            .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(plugins.ngAnnotate())
-            .pipe(gulp.dest(target))
-            .pipe(plugins.rename({ extname: '.min.js' }))
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest(target));
+
+        var minified = bundler.bundle()
+            .pipe(source(pkg.name + '.min.js'))
+            .pipe(buffer())
+            .pipe(sourcemaps.init({loadMaps: true}))
+            .pipe(plugins.ngAnnotate())
             .pipe(plugins.uglify())
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(target))
             .on('end', function() {
                 var endTime = process.hrtime(startTime);
@@ -62,6 +73,8 @@ gulp.task('browserify', function() {
                                  plugins.util.colors.green(bundlePath), 'in',
                                  plugins.util.colors.magenta(pretty(endTime)));
             });
+
+        return es.concat(unminified, minified);
     }
 
     if (global.isWatching) {
@@ -73,7 +86,7 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('build', function(){
-    runSequence('test', 'browserify');
+    runSequence('test', 'browserify', 'copy-resources-to-dist');
 });
 
 gulp.task('docs', ['browserify'], function() {
@@ -88,7 +101,7 @@ gulp.task('docs', ['browserify'], function() {
             styles: [
                 'node_modules/pulsar-common-css/dist/styles.css',
                 'node_modules/pulsar-common-css/dist/styles.css.map'
-            ],
+            ]
         }))
         .pipe(gulp.dest('./docs'));
 });
@@ -110,16 +123,59 @@ gulp.task('test', ['clean', 'lint'], function () {
 
 gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
-        server: {
-            baseDir: './',
-            directory: true
-        },
         startPath: '/examples/index.html',
         injectChanges: true,
+        server: {
+            middleware: function (req, res, next) {
+                var appsPattern = /apps\/.+\/locales\/(.+)/;
+                var libsPattern = /libs\/.+\/locales\/(.+)/;
+
+                var appsMatches = appsPattern.exec(req.originalUrl);
+                var libsMatches = libsPattern.exec(req.originalUrl);
+
+                if (!appsMatches && !libsMatches) {
+                    next();
+                    return;
+                }
+
+                var newLocationOfFile = null;
+
+                if (appsMatches) {
+                    newLocationOfFile = './examples/locales/json/messages/' + appsMatches[1];
+                }else if (libsMatches) {
+                    newLocationOfFile = './locales/' + libsMatches[1];
+                }
+
+                console.log("Overwriting the location", req.originalUrl, newLocationOfFile);
+
+                fs.exists(newLocationOfFile, function(exists) {
+                  if(!exists) {
+                    console.log('Locale does not exist: ' + filename);
+                    res.writeHead(404, {'Content-Type': 'text/plain'});
+                    res.write('404 Not Found\n');
+                    res.end();
+                    return;
+                  }
+
+                  var readStream = fs.createReadStream(newLocationOfFile);
+
+                  // We replaced all the event handlers with a simple call to readStream.pipe()
+                  readStream.pipe(res);
+                });
+
+            },
+            baseDir : './',
+            directory : true
+        },
         files: [
             bundlePath, 'node_modules/pulsar-common-css/dist/*.css', 'examples/*.html'
         ]
     });
+
+    // not the best place to put this but we can refactor into separate tasks later
+    if(global.isWatching) {
+        gulp.watch('locales/**', ['copy-resources-to-dist']);
+    }
 });
 
 gulp.task('setWatch', function() {
@@ -133,9 +189,9 @@ gulp.task('linkCss', function(){
         plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
         return;
     }
-    
+
     plugins.util.log('creating global npm link for common css project');
-    
+
     plugins.shell.task(['cd ../pulsar-common-css/', 'npm link', 'cd ../akamai-components/', 'npm link pulsar-common-css'])();
 });
 
@@ -146,9 +202,9 @@ gulp.task('unlinkCss', function(){
         plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
         return;
     }
-    
+
     plugins.util.log('npm unlinking this project to the common css project');
-    
+
     plugins.shell.task(['npm unlink pulsar-common-css', 'cd ../pulsar-common-css/', 'npm unlink', 'cd ../akamai-components/'])();
 });
 
@@ -158,11 +214,11 @@ gulp.task('deploy', function(){
         //clean up branch name:
         var cleanBranchName = branchName.replace('feature/', '').replace(' ', '_');
         plugins.util.log('clean branch name: '+ cleanBranchName);
-        
+
         var longFolderName = '315289/dev/jenkins/' + cleanBranchName;
-        
+
         plugins.util.log('rsync destination: '+ longFolderName);
-        
+
         //TODO: Handle scenarios where the folder needs to be generated on the server side
         rsync({
           ssh: true,
@@ -170,7 +226,7 @@ gulp.task('deploy', function(){
           dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
           exclude: globby.sync(["node_modules/.*", "node_modules/angular-*", "node_modules/!(angular|pulsar-common-css)/", "node_modules/pulsar-common-css/!(dist)", "node_modules/pulsar-common-css/.*"]),
           recursive: true,
-          args: ["--copy-dirlinks", "--verbose", "--compress"],
+          args: ["--copy-dirlinks", "--verbose", "--compress"]
           //dryRun: true
         }, function(error, stdout, stderr, cmd) {
             plugins.util.log(error, stdout);
@@ -178,40 +234,9 @@ gulp.task('deploy', function(){
     });
 });
 
-gulp.task('update-package-version', function(callback){
-    var firstDashInVersion = pkg.version.indexOf('-');
-    
-    if (firstDashInVersion > -1) {
-        plugins.util.log('update it to new dev version');
-        
-        var coreVersion = pkg.version.substr(0, firstDashInVersion);
-
-        plugins.git.revParse({args:'HEAD'}, function (err, commitId) {
-            var shortCommitId = commitId.substr(0, 6);
-            var prereleaseVersion = coreVersion + "-" + moment().format("YYYYMMDDTHHmmss") + "-" + shortCommitId;
-            
-            plugins.util.log('new version: '+ prereleaseVersion);
-            
-            pkg.version = prereleaseVersion;
-            
-            fs.writeFile('package.json', JSON.stringify(pkg, null, 4), function(err) {
-                if(err) {
-                    plugins.util.log('error occurred', err);
-                } else {
-                    plugins.util.log('package.json version updated');
-                }
-                
-                callback();
-            }); 
-        });
-    }else{
-        plugins.util.log('leave version as is');
-        callback();
-    }
-});
-
-gulp.task('prepare-release', function(){
-    runSequence('build', 'update-package-version');
+gulp.task('copy-resources-to-dist', function() {
+  return gulp.src('locales/**', { base: '.' } )
+      .pipe(gulp.dest('dist'));
 });
 
 // Clean Output Directory

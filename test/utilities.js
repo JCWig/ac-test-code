@@ -1,8 +1,25 @@
 'use strict'
 module.exports = {
-	click : function(el) {
+	click : function(obj) {
+		var el;
+		if(typeof obj == 'string' || obj instanceof String){
+			el = document.querySelector(obj);
+		} else {
+			el = obj;
+		}
     	var ev = document.createEvent('MouseEvent');
     	ev.initMouseEvent('click', true);
+    	el.dispatchEvent(ev);
+    },
+    mouseHover: function(obj){
+    	var el;
+		if(typeof obj == 'string' || obj instanceof String){
+			el = document.querySelector(obj);
+		} else {
+			el = obj;
+		}
+    	var ev = document.createEvent('MouseEvent');
+    	ev.initMouseEvent('mouseover', true);
     	el.dispatchEvent(ev);
     },
     clickAwayCreationAndClick : function(ele){
@@ -35,5 +52,9 @@ module.exports = {
 	getFormattedDate: function(dateString){
 		var dateObject = moment(dateString);
         return dateObject.format("ddd, MMM DD, YYYY");
-	}
+	},
+	getTodaysDay: function(){
+		var date = new Date();
+    return date.getDate() < 10 ? "0"+date.getDate() : date.getDate();
+  }
 }

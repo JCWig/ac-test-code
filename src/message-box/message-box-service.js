@@ -3,8 +3,8 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(modalWindow, $rootScope, $filter) {
-    function show(options) {
+module.exports = function(modalWindow, translate, $rootScope, $filter) {
+    function show(options, type) {
         if (options.headline == null) {
             throw new Error('headline option is required');
         }
@@ -13,17 +13,25 @@ module.exports = function(modalWindow, $rootScope, $filter) {
             throw new Error('text option is required');
         }
 
-        options.title = options.title ? options.title.substr(0, 20) : '';
+        var title = translate.sync('components.message-box.title.information');
+        if(type === "question") {
+            title = translate.sync('components.message-box.title.question');
+        }
+        else if(type === "error") {
+            title = translate.sync('components.message-box.title.error');
+        }
+
+        options.title = options.title ? options.title.substr(0, 20) : title;
         options.backdrop = 'static';
         options.scope = $rootScope.$new();
         options.scope.messageBox = {
-            headline: options.headline.substr(0, 25),
+            headline: options.headline.substr(0, 48),
             text: options.text.substr(0, 220),
             details: options.details
         };
 
-        options.cancelLabel = options.cancelLabel || 'No';
-        options.submitLabel = options.submitLabel || 'Yes';
+        options.cancelLabel = options.cancelLabel || translate.sync('components.message-box.no');
+        options.submitLabel = options.submitLabel || translate.sync('components.message-box.yes');
 
         return modalWindow.open(angular.extend(options, {
             template: require('./templates/message-box.tpl.html'),
@@ -80,10 +88,9 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          */
         showInfo: function(options) {
             options = options || {};
-            options.title = options.title || 'Information';
             options.icon = 'svg-information';
             options.windowClass = 'information akam-message-box';
-            return this._show(options);
+            return this._show(options, "information");
         },
 
         /**
@@ -98,17 +105,16 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          * @param {object} options A hash of options detailed above in
          * `showInfo()`
          *
-         * @return {object} A 
+         * @return {object} A
          * {@link akamai.components.modal-window `modalWindow`}
          * instance.
          *
          */
         showQuestion: function(options) {
             options = options || {};
-            options.title = options.title || 'Question';
             options.icon = 'svg-question';
             options.windowClass = 'question akam-message-box';
-            return this._show(options);
+            return this._show(options, "question");
         },
 
         /**
@@ -130,10 +136,9 @@ module.exports = function(modalWindow, $rootScope, $filter) {
          */
         showError: function(options) {
             options = options || {};
-            options.title = options.title || 'Error';
             options.icon = 'svg-error';
             options.windowClass = 'error akam-message-box';
-            return this._show(options);
+            return this._show(options, "error");
         }
     };
 };

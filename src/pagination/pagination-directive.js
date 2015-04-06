@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function() {
+module.exports = function(translate) {
     return {
         restrict: 'E',
         scope: {
@@ -17,6 +17,11 @@ module.exports = function() {
             var defaultSize = 10;
 
             scope.sizes = [10, 25, 50];
+
+            translate.async("components.pagination.label.results")
+                .then(function(value) {
+                    scope.resultText = value;
+                });
 
             function inBounds(page) {
                 return page >= 1 && page <= scope.totalPages;
@@ -42,7 +47,9 @@ module.exports = function() {
                 // setup total page count
                 scope.totalPages = Math.ceil(
                     parseInt(scope.totalItems, 10) / scope.pageSize);
-
+                if(isNaN(scope.totalPages) || scope.totalPages <= 0){
+                    scope.totalPages = 1;
+                }
                 // setup current page
                 scope.currentPage = parseInt(scope.currentPage, 10);
                 if ((scope.currentPage == null) || (!inBounds(scope.currentPage))) {
@@ -53,12 +60,10 @@ module.exports = function() {
                 start = scope.currentPage - Math.floor((maxPages - 2) / 2);
                 count = scope.totalPages > maxPages ?
                     maxPages - 2 : scope.totalPages - 2;
-
                 // check bounds for pages
                 start = start + count > scope.totalPages ?
                     scope.totalPages - (maxPages - 2) : start;
-                start = start >= 2 ? start : 2; 
-
+                start = start >= 2 ? start : 2;
                 // setup the page objects for rendering
                 scope.pages = [];
                 for (var i = 0; i < count; i++) {
@@ -68,10 +73,6 @@ module.exports = function() {
                     });
                 }
             }
-
-            scope.hasPages = function() {
-                return scope.totalItems > scope.pageSize; 
-            };
 
             scope.isSizeActive = function(size) {
                 return size === scope.pageSize;
@@ -102,13 +103,20 @@ module.exports = function() {
             };
 
             scope.selectSize = function(size) {
-                if (size !== scope.pageSize) {
+                if ((size !== scope.pageSize)) {
                     scope.pageSize = size;
                     scope.onchangesize({ size: size });
                 }
             };
+            scope.hasOnlyOnePage = function(){
+                return scope.totalPages === 1; 
+            };
 
             scope.$watch('[totalItems, currentPage, pageSize]', function(val, old) {
+                if(val[0] < 0 ){
+                    scope.totalItems = 0;
+                    val = [0, val[1], val[2]];
+                }
                 if (val !== old) {
                     update();
                 }

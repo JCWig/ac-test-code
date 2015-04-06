@@ -1,41 +1,60 @@
 'use strict';
 
-describe('akamai.components.status-message', function() {
-    describe('status messages', function(){
-        beforeEach(function() {
-            var self = this;
+var STATUS_MESSAGE_WRAPPER = '.akam-status-message-item-wrapper';
+var STATUS_MESSAGE_CONTENT = '.status-message-content';
 
-            angular.mock.module(require('../../src/status-message').name);
-            inject(function($compile, $rootScope, $timeout) {
-                var markup = '<div>'+
-                            '<akam-status-message id="identification" text="add a little bit more text" status="information"></akam-status-message>'+
-                            '</div>';
-                self.scope = $rootScope.$new();
-                self.timeout = $timeout;
-                self.element = $compile(markup)(self.scope)[0];
-                self.scope.$digest();
-                document.body.appendChild(self.element);
-            });
+describe('akamai.components.status-message-directive', function() {
+    var scope = null;
+    var timeout = null;
+    var compile = null
+    beforeEach(function() {
+        var self = this;
+
+        angular.mock.module(require('../../src/status-message').name);
+        inject(function($compile, $rootScope, $timeout) {
+            scope = $rootScope.$new();
+            timeout = $timeout;
+            compile = $compile;
         });
-        afterEach(function() {
-            document.body.removeChild(this.element);
+        var markup = '<div><akam-status-message id="identification" text="add a little bit more text" status="information"></akam-status-message></div>';
+        addElement(markup);
+    });
+    afterEach(function() {
+        if(self.element){
+            document.body.removeChild(self.element);
+            self.element = null;
+        }
+    });
+
+    function addElement(markup) {
+        self.el = compile(markup)(scope);
+        scope.$digest();
+        self.element = document.body.appendChild(self.el[0]);
+    };
+
+    describe('when rendering', function(){
+        it('should display the message text', function(){
+            var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
+            var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+
+            expect(statusMessageBar.id).not.toBe(null);
+            expect(statusMessageContent.textContent).toMatch(/add a little bit more text/);
         });
-        context('when rendering', function(){
-            it('should display the message text', function(){
-                expect(document.querySelector('.akam-status-message-item-wrapper').id).to.not.be.null;
-                expect(document.querySelector('.status-message-content').textContent).to.match(/add a little bit more text/);
-            });
-            it('shoudl default to success status', function(){
-                expect(document.querySelector('.akam-status-message-item-wrapper').classList.contains('information')).to.be.true;
-            });
+        it('shoudld default to success status', function(){
+            var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
+            expect(statusMessageBar.classList.contains('information')).toBe(true);
         });
-        context('after rendered', function(){
-            it('should disspear after timeout', function(){
-                this.timeout.flush();
-                this.timeout.flush();
-                expect(document.querySelector('akam-status-message-item-wrapper')).to.be.null;
-                expect(document.querySelector('.status-message-content')).to.be.null;
-            });
+    });
+    describe('when rendered', function(){
+        it('should disspear after timeout', function(){
+            timeout.flush();
+            timeout.flush();
+                
+            var statusMessageBar = document.querySelector(STATUS_MESSAGE_WRAPPER);
+            var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
+                
+            expect(statusMessageBar).toBe(null);
+            expect(statusMessageContent).toBe(null);
         });
     });
 

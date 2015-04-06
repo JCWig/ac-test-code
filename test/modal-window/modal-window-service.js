@@ -1,14 +1,39 @@
 'use strict';
-
 var _ = require('lodash');
+
 var utilities = require('../utilities');
+var translationMock = {
+    "components": {
+        "modal-window": {
+            "label": {
+                "cancel": "Cancel",
+                "save": "Save"
+            },
+            "title": "Modal Window"
+        }
+    }
+};
+//i18n paths
+var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var CONFIG_PATH = '/apps/appname/locales/en_US.json';
+var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
+var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
+
+var CANCEL_BUTTON = '.modal-footer button:first-child'
+var SUBMIT_BUTTON = '.modal-footer button:last-child'
+var MODAL_BODY = '.modal-body';
+var MODAL_TITLE = '.modal .modal-title'
 describe('modalWindow service', function() {
+    var self = null;
     beforeEach(function() {
         var self = this;
-
-        self.notify = sinon.spy();
+        self.notify = function(){};
+        spyOn(self,"notify");
 
         angular.mock.module(require('../../src/modal-window').name);
+        angular.mock.module(function($translateProvider) {            
+            $translateProvider.useLoader('i18nCustomLoader');
+        });
         angular.mock.module(function ($controllerProvider) {
             $controllerProvider.register('Controller', function($scope) {
                 $scope.submitted.then(self.notify);
@@ -23,11 +48,14 @@ describe('modalWindow service', function() {
         });
 
         inject(function(modalWindow, $rootScope, $httpBackend, $timeout) {
-            self.modalWindow = modalWindow;
-            self.$rootScope = $rootScope;
-            self.$httpBackend = $httpBackend;
-            self.$timeout = $timeout;
+            self.scope = $rootScope.$new();
+            self.modalWindowService = modalWindow;
+            self.httpBackend = $httpBackend;
+            self.timeout = $timeout;
         });
+        self.httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+        self.httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
+        self.httpBackend.flush();
     });
 
     afterEach(function() {
@@ -43,164 +71,240 @@ describe('modalWindow service', function() {
     });
 
     describe('open()', function() {
-        context('when no template option is provided', function() {
+        describe('when no template option is provided', function() {
             it('should throw an error', function() {
-                var fn = _.partial(this.modalWindow.open, {});
-                expect(fn).to.throw(Error);
+                var openFunction = _.partial(this.modalWindowService.open, {});
+                expect(openFunction).toThrowError();
             });
         });
 
         it('should support a title option', function() {
             var title = 'Hello Akamai';
-            var el;
 
-            this.modalWindow.open({ title: title, template: '<p></p>' });
-            this.$rootScope.$digest();
+            this.modalWindowService.open({
+                scope: this.scope,
+                title: title,
+                template: '<p></p>'
+            });
+            this.scope.$digest();
 
-            el = document.querySelector('.modal .modal-title');
-            expect(el.textContent).to.equal(title);
+            var modalTitle = document.querySelector(MODAL_TITLE);
+            expect(modalTitle.textContent).toEqual(title);
         });
 
         it('should support a private icon option', function() {
             var icon = 'svg-information';
-            var el;
 
-            this.modalWindow.open({ icon: icon, template: '<p></p>' });
-            this.$rootScope.$digest();
+            this.modalWindowService.open({
+                scope: this.scope,
+                icon: icon,
+                template: '<p></p>'
+            });
+            this.scope.$digest();
 
-            el = document.querySelector('.modal-header i:first-child');
-            expect(el.classList.contains(icon)).to.be.true;
+            var modalPrivateIcon = document.querySelector('.modal-header i:first-child');
+            expect(modalPrivateIcon.classList.contains(icon)).toBe(true);
         });
 
         it('should support a cancel label option', function() {
             var label = 'Close';
-            var el;
 
-            this.modalWindow.open({ cancelLabel: label, template: '<p></p>' });
-            this.$rootScope.$digest();
+            this.modalWindowService.open({
+                scope: this.scope,
+                cancelLabel: label,
+                template: '<p></p>'
+            });
+            this.scope.$digest();
 
-            el = document.querySelector('.modal-footer button:first-child');
-            expect(el.textContent).to.match(new RegExp(label));
+            var cancelButton = document.querySelector(CANCEL_BUTTON);
+            expect(cancelButton.textContent).toMatch(new RegExp(label));
         });
 
         it('should support a submit label option', function() {
             var label = 'Submit';
-            var el;
 
-            this.modalWindow.open({ submitLabel: label, template: '<p></p>' });
-            this.$rootScope.$digest();
+            this.modalWindowService.open({
+                scope: this.scope,
+                submitLabel: label,
+                template: '<p></p>'
+            });
+            this.scope.$digest();
 
-            el = document.querySelector('.modal-footer button:last-child');
-            expect(el.textContent).to.match(new RegExp(label));
+            var submitButton = document.querySelector(SUBMIT_BUTTON);
+            expect(submitButton.textContent).toMatch(new RegExp(label));
         });
 
         it('should support an inline template option', function() {
-            var scope = this.$rootScope.$new();
-            var el;
-
-            scope.name = 'Akamai';
-            this.modalWindow.open({
-                scope: scope,
+            this.scope.name = 'Akamai';
+            this.modalWindowService.open({
+                scope: this.scope,
                 template: '<span>{{ name }}</span>'
             });
-            this.$rootScope.$digest();
+            this.scope.$digest();
 
-            el = document.querySelector('.modal-body');
-            expect(el.textContent).to.equal(scope.name);
+            var modalBody = document.querySelector(MODAL_BODY);
+            expect(modalBody.textContent).toEqual(this.scope.name);
         });
 
         it('should support a template url option', function() {
             var url = 'modal-window/template.html';
             var template = '<span>{{ name }}</span>';
-            var scope = this.$rootScope.$new();
-            var el;
 
-            scope.name = 'Akamai';
-            this.$httpBackend.whenGET(url).respond(template);
-            this.modalWindow.open({
-                scope: scope,
+            this.scope.name = 'Akamai';
+            this.httpBackend.whenGET(url).respond(template);
+            this.modalWindowService.open({
+                scope: this.scope,
                 templateUrl: url
             });
-            this.$httpBackend.flush();
+            this.httpBackend.flush();
 
-            el = document.querySelector('.modal-body');
-            expect(el.textContent).to.equal(scope.name);
-            this.$httpBackend.verifyNoOutstandingRequest();
+            var modalBody = document.querySelector(MODAL_BODY);
+            expect(modalBody.textContent).toEqual(this.scope.name);
+            this.httpBackend.verifyNoOutstandingRequest();
         });
 
         it('should support a hide submit button option', function() {
-            var el;
+            this.modalWindowService.open({
+                scope: this.scope,
+                hideSubmit: true,
+                template: '<p></p>'
+            });
+            this.scope.$digest();
 
-            this.modalWindow.open({ hideSubmit: true, template: '<p></p>' });
-            this.$rootScope.$digest();
-
-            el = document.querySelectorAll('.modal-footer button');
-            expect(el).to.have.length(1);
+            var allModalButtonsInFooter = document.querySelectorAll('.modal-footer button');
+            expect(allModalButtonsInFooter.length).toEqual(1);
         });
-        
+
         it('should support toggling the submit button disabled state', function() {
             var template = '<button class="toggle" ng-click="toggle()"></button>';
-            var toggle;
-            var button;
+            var toggleSubmitButton;
+            var submitButton;
 
-            this.modalWindow.open({ template: template, controller: 'Controller' });
-            this.$rootScope.$digest();
-            toggle = document.querySelector('.toggle');
-            button = document.querySelector('.modal-footer button:last-child');
+            this.modalWindowService.open({
+                scope: this.scope,
+                template: template,
+                controller: 'Controller'
+            });
+            this.scope.$digest();
+            toggleSubmitButton = document.querySelector('button.toggle');
+            submitButton = document.querySelector(SUBMIT_BUTTON);
 
-            utilities.click(toggle);
-            this.$rootScope.$digest();
-            expect(button.disabled).to.be.true;
+            utilities.click(toggleSubmitButton);
+            this.scope.$digest();
+            expect(submitButton.disabled).toBe(true);
 
-            utilities.click(toggle);
-            this.$rootScope.$digest();
-            expect(button.disabled).to.be.false;
+            utilities.click(toggleSubmitButton);
+            this.scope.$digest();
+            expect(submitButton.disabled).toBe(false);
         });
 
-        context('when a user clicks the submit button', function() {
+        describe('when a user clicks the submit button', function() {
             it('should notify the modal window to return a result', function() {
-                var button;
+                var submitButton;
 
-                this.modalWindow.open({
-                    template:  '<p></p>',
+                this.modalWindowService.open({
+                    scope: this.scope,
+                    template: '<p></p>',
                     controller: 'Controller'
                 });
-                this.$rootScope.$digest();
-                button = document.querySelector('.modal-footer button:last-child');
+                this.scope.$digest();
+                submitButton = document.querySelector(SUBMIT_BUTTON);
 
-                utilities.click(button);
-                this.$rootScope.$digest();
-                expect(this.notify).to.have.been.called;
+                utilities.click(submitButton);
+                this.scope.$digest();
+                expect(this.notify).toHaveBeenCalled();
             });
         });
 
-        context('when a user clicks the cancel button', function() {
+        describe('when a user clicks the cancel button', function() {
             it('should dismiss the modal window', function() {
-                var instance = this.modalWindow.open({ template: '<p></p>' });
-                var button;
+                var instance = this.modalWindowService.open({
+                    scope: this.scope,
+                    template: '<p></p>'
+                });
+                var cancelButton;
 
-                this.$rootScope.$digest();
-                button = document.querySelector('.modal-footer button:first-child');
-                utilities.click(button);
-                this.$rootScope.$digest();
-                this.$timeout.flush();
+                this.scope.$digest();
+                cancelButton = document.querySelector(CANCEL_BUTTON);
+                utilities.click(cancelButton);
+                this.scope.$digest();
+                this.timeout.flush();
+                var modalWindow = document.querySelector('.modal');
 
-                expect(document.querySelector('.modal')).to.be.null;
+                expect(modalWindow).toBe(null);
             });
         });
 
-        context('when a user clicks the close icon', function() {
+        describe('when a user clicks the close icon', function() {
             it('should dismiss the modal window', function() {
-                var instance = this.modalWindow.open({ template: '<p></p>' });
-                var icon;
+                var instance = this.modalWindowService.open({
+                    scope: this.scope,
+                    template: '<p></p>'
+                });
+                var closeIcon;
 
-                this.$rootScope.$digest();
-                icon = document.querySelector('.modal-header i');
-                utilities.click(icon);
-                this.$rootScope.$digest();
-                this.$timeout.flush();
+                this.scope.$digest();
+                closeIcon = document.querySelector('.modal-header i');
+                utilities.click(closeIcon);
+                this.scope.$digest();
+                this.timeout.flush();
+                var modalWindow = document.querySelector('.modal');
 
-                expect(document.querySelector('.modal')).to.be.null;
+                expect(modalWindow).toBe(null);
+            });
+        });
+
+        describe('when missing static label values', function() {
+            it('should display translated default title text', function() {
+                var title = 'Modal Window';
+                var modalTitle;
+
+                this.timeout.flush();
+
+                this.modalWindowService.open({
+                    scope: this.scope,
+                    title: "",
+                    template: '<p></p>'
+                });
+                this.scope.$digest();
+
+                modalTitle = document.querySelector(MODAL_TITLE);
+                expect(modalTitle.textContent).toEqual(title);
+            });
+
+            it('should display translated default cancel button text', function() {
+                var cancelLabel = 'Cancel';
+                var cancelButton;
+
+                this.timeout.flush();
+
+                this.modalWindowService.open({
+                    scope: this.scope,
+                    cancelLabel: "",
+                    template: '<p></p>'
+                });
+                this.scope.$digest();
+
+
+                cancelButton = document.querySelector(CANCEL_BUTTON);
+                expect(cancelButton.textContent).toContain(cancelLabel);
+            });
+
+            it('should display translated default submit button text', function() {
+                var submitLabel = 'Save';
+                var submitButton;
+
+                this.timeout.flush();
+
+                this.modalWindowService.open({
+                    scope: this.scope,
+                    submitLabel: "",
+                    template: '<p></p>'
+                });
+                this.scope.$digest();
+
+                submitButton = document.querySelector(SUBMIT_BUTTON);
+                expect(submitButton.textContent).toContain(submitLabel);
             });
         });
     });
