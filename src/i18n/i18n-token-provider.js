@@ -60,13 +60,14 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
      */
     this.setComponentLocalePath = function(url) {
         //no validate the param url, assuming it is valid
-        this.rawUrls.map(function(item) {
+        angular.forEach(this.rawUrls, function(item) {
             if (item.path === i18nConfig.localeComponentPath) {
                 item.path = url;
                 item.overridden = true;
             }
         });
     };
+
 
     /**
      * @ngdoc method
@@ -89,7 +90,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
      */
     this.setAppLocalePath = function(url) {
         //no validate the param url, assuming it is valid
-        this.rawUrls.map(function(item) {
+        angular.forEach(this.rawUrls, function(item) {
             if (item.path === i18nConfig.localeAppPath) {
                 item.path = url;
                 item.overridden = true;

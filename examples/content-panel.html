@@ -37,12 +37,12 @@
         <script>
             angular.module('example', ['akamai.components.content-panel'])
             
-            .controller('ExampleController', function($scope) {
+            .controller('ExampleController', function($scope, $log) {
                 $scope.isCollapsed1 = false;
                 $scope.isCollapsed2 = true;
             
                 $scope.process = function(value){
-                    console.log('Toggle of panel:', value);
+                    $log.log('Toggle of panel:', value);
                 };
             
                 $scope.panels = [
