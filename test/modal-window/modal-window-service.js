@@ -36,7 +36,7 @@ describe('modalWindow service', function() {
         });
         angular.mock.module(function ($controllerProvider) {
             $controllerProvider.register('Controller', function($scope) {
-                $scope.submitted.then(self.notify);
+                //$scope.submitted.then(self.notify);
                 $scope.toggle = function() {
                     if ($scope.isSubmitDisabled()) {
                         $scope.enableSubmit();
@@ -200,12 +200,17 @@ describe('modalWindow service', function() {
 
         describe('when a user clicks the submit button', function() {
             it('should notify the modal window to return a result', function() {
+                var self = this;
                 var submitButton;
 
                 this.modalWindowService.open({
                     scope: this.scope,
                     template: '<p></p>',
-                    controller: 'Controller'
+                    controller: 'Controller',
+                    onSubmit : function(){
+                        self.notify();
+                        return true;
+                    }
                 });
                 this.scope.$digest();
                 submitButton = document.querySelector(SUBMIT_BUTTON);
