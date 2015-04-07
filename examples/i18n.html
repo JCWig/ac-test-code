@@ -15,7 +15,7 @@
                 <label class="label">Select Locale:</label>
                 <select ng-options="locale for locale in locales" ng-model="selected" ng-change="changeLocale()"></select>
             </p>
-            </br>           
+            <br />           
             <div>
                 <label class="label">Directive Examples:</label>
                 <h2>Translated Text from Application Locale JSON file</h2>
@@ -25,7 +25,7 @@
                     </ul>
                 </div>
             </div>
-            </br>
+            <br />
             <div>
                 <h2>Translated Text from Component Locale JSON file</h2>
                 <div>
@@ -44,7 +44,7 @@
                     </ul>
                 </div>
             </div>
-            </br>
+            <br />
             <div>
                 <h2>Translated Text from Component Locale JSON file</h2>
                 <div>
@@ -53,7 +53,7 @@
                     </ul>
                 </div>
             </div>
-            </br>
+            <br />
             <div>
                 <h2>Translated Placeholder Text from Application Locale JSON file</h2>
                 <div>
@@ -62,11 +62,11 @@
                     </ul>
                 </div>
             </div>
-            </br></br>
+            <br /><br />
             <div>
                 <h2>Check browser console for Javascript translations using the translate service.</h2>
             </div>
-            <br><br>
+            <br /><br />
         </div>
         <script src="../node_modules/angular/angular.js"></script>
         <script src="../node_modules/angular-cookies/angular-cookies.js"></script>
@@ -75,7 +75,7 @@
         <script>
             var app = angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
 
-            app.controller('TranslationPageController', ['$scope', '$cookies', 'translate', '$rootScope', '$filter', function($scope, $cookies, translate, $rootScope, $filter) {
+            app.controller('TranslationPageController', ['$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log', function($scope, $cookies, translate, $rootScope, $filter, $log) {
                 $rootScope.$on('$translateChangeEnd', function() { 
                     // List of locales to populate the locale selection dropdown. Note that not all of these exist
                     $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
@@ -90,10 +90,10 @@
                     
                     $scope.changeLocale = changeLocale;
                     
-                    console.log(translate.sync('reseller-tools.note'));
-                    console.log(translate.sync('components.menu-button.label'));
-                    console.log($filter('akamTranslate')('components.notifications.success'));
-                    console.log($filter('akamTranslate')('recurring-report.activate.modal.message'));
+                    $log.log(translate.sync('reseller-tools.note'));
+                    $log.log(translate.sync('components.menu-button.label'));
+                    $log.log($filter('akamTranslate')('components.notifications.success'));
+                    $log.log($filter('akamTranslate')('recurring-report.activate.modal.message'));
                 });
                 
                 // Reload the page when the locale is changed.  This will force the lookup of the keys again.
