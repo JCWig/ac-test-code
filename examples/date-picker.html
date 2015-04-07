@@ -26,13 +26,13 @@
                         </td>              
                     </tr>
                 </table>
-            <br/>
+            <br />
             <div class="container">        
                 <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}"
                                   mode="day" placeholder="date picker" ng-change="dateChange()" format="{{formatDay}}"></akam-date-picker>
             </div>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <div class="container">
                 <label class="label">Specify Month Format:</label>
                 <table>
@@ -59,22 +59,23 @@
         <script>
             angular.module('example', ['akamai.components.date-picker'])
             
-            .controller('ExampleController', function($scope) {
+            .controller('ExampleController', function($scope, $log) {
                 var d = new Date();
                 $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
-                console.log('Date Picker min: ', $scope.min);
+                $log.log('Date Picker min: ', $scope.min);
                 
                 $scope.max = new Date(d.getFullYear() + 1, d.getMonth(), 1);
-                console.log('Date Picker max: ', $scope.max);
+                $log.log('Date Picker max: ', $scope.max);
                 
                 $scope.dateChange = function(){
-                    console.log('Date Picker value selected: ', $scope.day);
+                    $log.log('Date Picker value selected: ', $scope.day);
                 };
                 
                 $scope.monthChange = function(){
-                    console.log('Month Picker value selected: ', $scope.month);
+                    $log.log('Month Picker value selected: ', $scope.month);
                 };
             });
         </script>
+        </div>
     </body>
 </html>
