@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <title>Akamai Component Examples - Date Picker</title>
         <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet">
     </head>
     <body ng-app="example" ng-controller="ExampleController" class="common-css luna">
@@ -27,6 +28,7 @@
                     </tr>
                 </table>
             <br />
+            </div>
             <div class="container">        
                 <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}"
                                   mode="day" placeholder="date picker" ng-change="dateChange()" format="{{formatDay}}"></akam-date-picker>
@@ -76,6 +78,5 @@
                 };
             });
         </script>
-        </div>
     </body>
 </html>
