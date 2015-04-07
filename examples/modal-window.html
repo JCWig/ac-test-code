@@ -63,18 +63,11 @@
     <script>
         angular.module('example', ['akamai.components.modal-window'])
 
-        .controller('ExampleController', function($scope, $rootScope, modalWindow) {
+        .controller('ExampleController', function($scope, $rootScope, modalWindow, $q, $timeout) {
             var modalScope = $rootScope.$new();
             var times = 0;
 
             modalScope.name = 'Akamai';
-            modalScope.blah = function(close){
-                if (times++  === 0) {
-                    return;
-                }else{
-                    close();
-                }
-            };
 
             $scope.options = {
                 title: 'Example',
@@ -91,19 +84,25 @@
                     controller: function($scope) {
                     
                     },
-                    submittedCallback : function(close){
-                        if (times++  === 0) {
-                            return;
-                        }else{
-                            close('yaya override');
-                        }
+                    onSubmit : function(){
+                        var deferral = $q.defer();
+                        $timeout(function() {
+                            if (times === 0) {
+                                deferral.reject({enableSubmit : true });
+                            }else{
+                                deferral.resolve( { status: "promise" } );
+                            }
+                            
+                            times++;
+                        }, 1000);
+                        return deferral.promise;
                     } 
                 }));
 
                 // listen for the result returned by the modal window
                 instance.result
                     .then(function(result) {
-                        console.log('Modal Window returned ' + result);
+                        console.log('Modal Window returned ', result);
                     })
                     .catch(function() {
                         console.log('Modal Window was cancelled.');

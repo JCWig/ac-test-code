@@ -99,11 +99,28 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
             }));
 
             // setup promise that will resolve when submit button is clicked
-            instance.submitted = options.submittedCallback || function(close){ close(true); };
+            instance.submitted = options.onSubmit || function(){ return true; };
             scope.submit = function() {
+                scope.disableSubmit();
+                var result;
+                
                 if(angular.isFunction(instance.submitted)){
-                    instance.submitted(angular.bind(instance, instance.close));
+                    result = instance.submitted();
+                }else{
+                    result = instance.submitted;
                 }
+                
+                $q.when(result).then(
+                    function (value) {
+                        instance.close(value);
+                    }
+                ).catch(function(submitRejectOptions) {
+                    submitRejectOptions = submitRejectOptions || {};
+                    
+                    if (submitRejectOptions.enableSubmit) {
+                        scope.enableSubmit();
+                    }
+                });
             };
 
             return instance;
