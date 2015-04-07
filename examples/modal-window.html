@@ -11,35 +11,35 @@
                 <h1>Modal Window Component Example</h1>
             </div>
             <h2>Component Options:</h2>
-            </br>
+            <br />
             <form>
                 <div class="label-group">
                     <label class="label" for="title">Title:</label><br>
                     <input id="title" type="text" ng-model="options.title" size="50">
                 </div>
-                </br>
+                <br />
                 <div class="label-group">
                     <label class="label" for="template">Template:</label><br>
                     <textarea id="template" type="text" ng-model="options.template" rows="4" cols="50"></textarea>
                 </div>
-                </br>
+                <br />
                 <div>
                     <h3>Button Options:</h3><br>
                     <input type="checkbox" name="hideSubmit" id="hideSubmit" ng-model="options.hideSubmit"/>
                     <label class="label" for="hideSubmit">Hide Submit Button</label>
                 </div>
-                </br>
+                <br />
                 <div class="label-group">
                     <label class="label" for="cancel">Cancel Button Text:</label><br>
                     <input id="cancel" type="text" ng-model="options.cancelLabel" size="50"/>
                 </div>
-                </br>
+                <br />
                 <div class="label-group">
                     <label class="label" for="submit">Submit Button Text:</label><br>
                     <input id="submit" type="text" ng-model="options.submitLabel" size="50"/>
                 </div>
-                </br>
-                </br>
+                <br />
+                <br />
                 <div>
                     <button type="button" class="button large" ng-click="open()">Open</button>
                     <button type="button" class="button large" ng-click="openWithTemplateUrl()">Open With Template Url</button>
@@ -51,14 +51,14 @@
         <script>
             angular.module('example', ['akamai.components.modal-window'])
     
-            .controller('ExampleController', function($scope, $rootScope, modalWindow) {
+            .controller('ExampleController', function($scope, $rootScope, modalWindow, $log) {
                 var modalScope = $rootScope.$new();
     
                 modalScope.name = 'Akamai Engineer';
                 
                 $scope.options = {
                     title: 'Regarding Your Subscription Information',
-                    template:  '<label><b>FYI:</b></label><p>Please be advised that your subscription will be expiring in 21 days</p>',
+                    template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>',
                     cancelLabel: 'Cancel',
                     submitLabel: 'OK',
                     hideSubmit: false
@@ -82,10 +82,10 @@
                     // Listen for the result returned by the modal window
                     instance.result
                         .then(function(result) {
-                            console.log('open: Modal Window returned ' + result);
+                            $log.log('open: Modal Window returned ' + result);
                         })
                         .catch(function() {
-                            console.log('open: Modal Window was cancelled.');
+                            $log.log('open: Modal Window was cancelled');
                         });
                 };
                             
@@ -101,10 +101,11 @@
                     // Listen for the result returned by the modal window that is opened with a template
                     instance.result
                         .then(function(result) {
-                            console.log('openWithTemplateUrl: Modal Window returned ' + result);
+                            $log.log('openWithTemplateUrl: Modal Window returned ' + result);
+
                         })
                         .catch(function() {
-                            console.log('openWithTemplateUrl: Modal Window was cancelled.');
+                            $log.log('openWithTemplateUrl: Modal Window was cancelled.');
                         });
                 };
             })

@@ -12,40 +12,40 @@
             </div>
             <div>
                 <h3>Component Options:</h3>
-                </br>
+                <br />
                 <div class="label-group">
                     <label class="label" for="title">Title:</label><br>
                     <input id="title" type="text" ng-model="options.title" size="100">
                 </div>
-                </br>
+                <br />
                 <div class="label-group">
                     <label class="label" for="headline">Headline:</label><br>
                     <input id="headline" type="text" ng-model="options.headline" size="100">
                 </div>
-                </br>
+                <br />
                 <div class="label-group">
                     <label class="label" for="message">Text:</label><br>
                     <input id="text" type="text" ng-model="options.text" size="100">
                 </div>
-                </br>
+                <br />
                 <div class="label-group">
                     <label class="label" for="details">Details:</label><br>
                     <input id="details" type="text" ng-model="options.details" size="100">
                 </div>
-                </br>
+                <br />
                 <h3>Action Button Options:</h3>
-                </br>
+                <br />
                 <div class="label-group">
                     <label class="label" for="cancel">Cancel Button Text:</label><br>
                     <input id="cancel" type="text" ng-model="options.cancelLabel" size="50">
                 </div>
-                </br>
-                </br>
+                <br />
+                <br />
                 <div class="label-group">
                     <label class="label" for="submit">Submit Button Text:</label><br>
                     <input id="submit" type="text" ng-model="options.submitLabel" size="50">
                 </div>
-                </br>
+                <br />
                 <div>
                     <h3>Show Message Box:</h3>
                     <button type="button" class="button large" ng-click="showInfoBox()">Info</button>
@@ -58,7 +58,7 @@
             <script>
                 angular.module('example', ['akamai.components.message-box'])
         
-                .controller('ExampleController', function($scope, messageBox) {
+                .controller('ExampleController', function($scope, messageBox, $log) {
                     $scope.options = {
                         title: 'Title Text Goes Here',
                         headline: 'Headline Text Goes Here',
@@ -74,10 +74,10 @@
                         // Log which button was clicked on the showInfo box
                         boxResult.result
                             .then(function() {
-                                console.log('Submit button was clicked.');
+                                $log.log('Submit button was clicked.');
                             })
                             .catch(function() {
-                                console.log('Cancel button was clicked.');
+                                $log.log('Cancel button was clicked.');
                             });
                     };
         
