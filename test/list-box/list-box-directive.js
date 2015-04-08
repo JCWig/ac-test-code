@@ -21,6 +21,7 @@ describe('akam-list-box', function() {
     var q = null;
     var $http = null;
     var httpBackend = null;
+    var sce;
     beforeEach(function() {
         self = this;
         angular.mock.module(require('../../src/list-box').name);
@@ -30,11 +31,12 @@ describe('akam-list-box', function() {
                 return $delegate;
             });
         });
-        inject(function($compile, $rootScope, $timeout, $q, $httpBackend) {
+        inject(function($compile, $rootScope, $timeout, $q, $httpBackend, $sce) {
             compile = $compile;
             scope = $rootScope.$new();
             timeout = $timeout;
             q = $q;
+            sce = $sce;
             httpBackend = $httpBackend;
             httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
             httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
@@ -1239,4 +1241,46 @@ describe('akam-list-box', function() {
             }
         });
     });
+
+    describe('when passing in unsafe data', function() {
+
+        it('should strip it out when not explicitly trusted', function(){
+            scope.mydata = [
+              {'name' : "<span>Kevin</span><script>alert('pwn3d');</script>"},
+              {'name' : "Alejandro"}
+            ];
+            scope.columns = [
+              {content : 'name',
+                header : 'Name',
+                sort:false}
+            ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+            addElement(markup);
+            timeout.flush();
+
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
+            expect(rowOneColumnTwo.textContent).not.toContain('pwn3d');
+            expect(rowOneColumnTwo.textContent).toContain('Kevin');
+        });
+
+        it('should do bad things when it is explicitly trusted', function(){
+            scope.mydata = [
+              {'name' : sce.trustAsHtml("Kevin<script>alert('pwn3d');</script>")},
+              {'name' : "Alejandro"}
+            ];
+            scope.columns = [
+              {content : 'name',
+                header : 'Name',
+                sort:false}
+            ];
+            var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+            addElement(markup);
+            timeout.flush();
+
+            var rowOneColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
+            expect(rowOneColumnTwo.textContent).toContain('pwn3d');
+        });
+    })
 });

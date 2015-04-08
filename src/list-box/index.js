@@ -1,5 +1,7 @@
 'use strict';
 
+require('angular-sanitize');
+
 var angular = require('angular');
 
     /**
@@ -12,6 +14,7 @@ var angular = require('angular');
     *
     */
     module.exports = angular.module('akamai.components.list-box', [
+        'ngSanitize',
         require('../uuid').name,
         require('../indeterminate-progress').name,
         require('../i18n').name,
