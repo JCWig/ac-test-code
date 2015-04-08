@@ -19,14 +19,14 @@ var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require ("../i18n/i18n_responses/en_US.json");
 
-var CANCEL_BUTTON = '.modal-footer button:first-child'
-var SUBMIT_BUTTON = '.modal-footer button:last-child'
+var CANCEL_BUTTON = '.modal-footer button:first-child';
+var SUBMIT_BUTTON = '.modal-footer button:last-child';
 var MODAL_BODY = '.modal-body';
-var MODAL_TITLE = '.modal .modal-title'
+var MODAL_TITLE = '.modal .modal-title';
 describe('modalWindow service', function() {
     var self = null;
     beforeEach(function() {
-        var self = this;
+        self = this;
         self.notify = function(){};
         spyOn(self,"notify");
 
@@ -51,11 +51,12 @@ describe('modalWindow service', function() {
             });
         });
 
-        inject(function(modalWindow, $rootScope, $httpBackend, $timeout) {
+        inject(function(modalWindow, $rootScope, $httpBackend, $timeout, $q) {
             self.scope = $rootScope.$new();
             self.modalWindowService = modalWindow;
             self.httpBackend = $httpBackend;
             self.timeout = $timeout;
+            self.q = $q;
         });
         self.httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
         self.httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
@@ -218,6 +219,104 @@ describe('modalWindow service', function() {
                 this.scope.$digest();
                 expect(this.notify).toHaveBeenCalled();
             });
+            
+            it('should handle processing scenario with rejected promise (reset submit)', function() {
+                var submitButton;
+                var deferral = this.q.defer();
+
+                this.modalWindowService.open({
+                    scope: this.scope,
+                    template: '<p></p>',
+                    controller: function($scope, $q){
+                        $scope.setOnSubmit(
+                            function () {
+                                return deferral.promise;
+                            }
+                        );
+                    }
+                });
+                this.scope.$digest();
+                submitButton = document.querySelector(SUBMIT_BUTTON);
+
+                utilities.click(submitButton);
+                this.scope.$digest();
+                //ensure the submit button is disabled while processing
+                expect(submitButton.getAttribute('disabled')).not.toBeNull();
+                deferral.reject();
+                this.timeout.flush();
+                this.scope.$digest();
+                submitButton = document.querySelector(SUBMIT_BUTTON);
+                expect(submitButton.getAttribute('disabled')).toBeNull();
+            });
+            
+            
+            it('should not allow close when processing', function() {
+                var submitButton;
+                var deferral = this.q.defer();
+
+                this.modalWindowService.open({
+                    scope: this.scope,
+                    template: '<p></p>',
+                    controller: function($scope, $q){
+                        $scope.setOnSubmit(
+                            function () {
+                                return deferral.promise;
+                            }
+                        );
+                    }
+                });
+                
+                this.scope.$digest();
+                submitButton = document.querySelector(SUBMIT_BUTTON);
+
+                utilities.click(submitButton);
+                this.scope.$digest();
+                
+                var closeIcon = document.querySelector('.modal-header i');
+                utilities.click(closeIcon);
+                this.scope.$digest();
+                this.timeout.flush();
+                
+                var modalWindow = document.querySelector('.modal');
+
+                expect(modalWindow).not.toBe(null);
+
+                deferral.reject();
+                this.timeout.flush();
+                this.scope.$digest();
+                
+                utilities.click(closeIcon);
+                this.scope.$digest();
+                this.timeout.flush();
+                
+                modalWindow = document.querySelector('.modal');
+                expect(modalWindow).toBe(null);
+            });
+            
+            it('should handle onSubmit being set to a value', function() {
+                var submitButton;
+
+                this.modalWindowService.open({
+                    scope: this.scope,
+                    template: '<p></p>',
+                    controller: function($scope, $q){
+                        $scope.setOnSubmit(
+                            'hello'
+                        );
+                    }
+                });
+                this.scope.$digest();
+                submitButton = document.querySelector(SUBMIT_BUTTON);
+
+                utilities.click(submitButton);
+                this.scope.$digest();
+                this.timeout.flush();
+                var modalWindow = document.querySelector('.modal');
+
+                expect(modalWindow).toBe(null);
+            });
+
+
         });
 
         describe('when a user clicks the cancel button', function() {
