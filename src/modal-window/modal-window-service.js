@@ -56,7 +56,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
          */
         open: function(options) {
             var scope = (options.scope || $rootScope).$new(),
-                onSubmit = function(){ return undefined; };
+                onSubmit = angular.noop;
             var disabled = false,
                 processing = false; //variable used to determine if the submit is clicked, but promise has not resolved
             var instance;
