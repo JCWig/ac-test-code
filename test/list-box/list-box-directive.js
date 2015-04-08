@@ -1266,11 +1266,13 @@ describe('akam-list-box', function() {
 
         it('should do bad things when it is explicitly trusted', function(){
             scope.mydata = [
-              {'name' : sce.trustAsHtml("Kevin<script>alert('pwn3d');</script>")},
+              {'name' : "Kevin<script>alert('pwn3d');</script>"},
               {'name' : "Alejandro"}
             ];
             scope.columns = [
-              {content : 'name',
+              { content : function(){
+                  return sce.trustAsHtml(this.name);
+                },
                 header : 'Name',
                 sort:false}
             ];
