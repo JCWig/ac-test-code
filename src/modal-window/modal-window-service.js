@@ -55,9 +55,10 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
          *
          */
         open: function(options) {
-            var scope = (options.scope || $rootScope).$new();
-            var deferred = $q.defer();
-            var disabled = false;
+            var scope = (options.scope || $rootScope).$new(),
+                onSubmit = angular.noop;
+            var disabled = false,
+                processing = false; //variable used to determine if the submit is clicked, but promise has not resolved
             var instance;
 
             // check that a template was provided
@@ -89,7 +90,10 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
                 disabled = false;
             };
             scope.isSubmitDisabled = function() {
-                return disabled;
+                return disabled || processing;
+            };
+            scope.isProcessing = function() {
+                return processing;
             };
 
             // create a new bootstrap ui modal instance with akamai options
@@ -97,11 +101,36 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
                 scope: scope,
                 template: require('./templates/modal-window.tpl.html')
             }));
+            
+            scope.close = function(){
+                if(!scope.isProcessing()) {
+                    instance.dismiss();
+                }
+            };
 
             // setup promise that will resolve when submit button is clicked
-            scope.submitted = deferred.promise;
+            scope.setOnSubmit  = function(fn){ onSubmit = fn; };
+            
             scope.submit = function() {
-                deferred.resolve(angular.bind(instance, instance.close));
+                processing = true;
+                
+                var result;
+                
+                if(angular.isFunction(onSubmit)){
+                    result = onSubmit();
+                }else{
+                    result = onSubmit;
+                }
+                
+                $q.when(result).then(
+                    function (returnValue) {
+                        instance.close(returnValue);
+                    }
+                ).catch(
+                    function() {
+                        processing = false;
+                    }
+                );
             };
 
             return instance;
