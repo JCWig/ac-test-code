@@ -36,7 +36,6 @@ describe('modalWindow service', function() {
         });
         angular.mock.module(function ($controllerProvider) {
             $controllerProvider.register('Controller', function($scope) {
-                //$scope.submitted.then(self.notify);
                 $scope.toggle = function() {
                     if ($scope.isSubmitDisabled()) {
                         $scope.enableSubmit();
@@ -44,6 +43,11 @@ describe('modalWindow service', function() {
                         $scope.disableSubmit();
                     }
                 };
+                
+                $scope.setOnSubmit(function(){
+                    self.notify();
+                    return true;
+                });
             });
         });
 
@@ -200,17 +204,12 @@ describe('modalWindow service', function() {
 
         describe('when a user clicks the submit button', function() {
             it('should notify the modal window to return a result', function() {
-                var self = this;
                 var submitButton;
 
                 this.modalWindowService.open({
                     scope: this.scope,
                     template: '<p></p>',
-                    controller: 'Controller',
-                    onSubmit : function(){
-                        self.notify();
-                        return true;
-                    }
+                    controller: 'Controller'
                 });
                 this.scope.$digest();
                 submitButton = document.querySelector(SUBMIT_BUTTON);
@@ -223,7 +222,7 @@ describe('modalWindow service', function() {
 
         describe('when a user clicks the cancel button', function() {
             it('should dismiss the modal window', function() {
-                var instance = this.modalWindowService.open({
+                this.modalWindowService.open({
                     scope: this.scope,
                     template: '<p></p>'
                 });
@@ -242,7 +241,7 @@ describe('modalWindow service', function() {
 
         describe('when a user clicks the close icon', function() {
             it('should dismiss the modal window', function() {
-                var instance = this.modalWindowService.open({
+                this.modalWindowService.open({
                     scope: this.scope,
                     template: '<p></p>'
                 });
