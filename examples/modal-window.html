@@ -56,6 +56,7 @@
                 var times = 0;
     
                 modalScope.name = 'Akamai Engineer';
+                modalScope.sean = 'hi';
                 
                 $scope.options = {
                     title: 'Regarding Your Subscription Information',
@@ -69,29 +70,32 @@
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
                         template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>',
-                        onSubmit : function(){
-                            var deferral = $q.defer();
-                            $timeout(function() {
-                                if (times % 2 === 0) {
-                                    deferral.reject({enableSubmit : true });
-                                }else{
-                                    deferral.resolve( { status: "promise" } );
-                                }
-                                
-                                times++;
-                            }, 1000);
-                            return deferral.promise;
-                        },
-                      
                         controller: function($scope) {
-                        
+                            $scope.setOnSubmit(function(){
+                                var deferral = $q.defer();
+                                $timeout(function() {
+                                    if (times % 2 === 0) {
+                                        deferral.reject({enableSubmit : true });
+                                    }else{
+                                        deferral.resolve( { status: $scope.sean } );
+                                    }
+                                    
+                                    times++;
+                                }, 1000);
+                                return deferral.promise;
+                            });
+                            console.log($scope.sean);
+                            console.log(modalScope.sean);
+                            
+                            $scope.sean = "world";
+                            modalScope.customValue = 'some custom value';
                         }
                     }));
                     
                     // Listen for the result returned by the modal window
                     instance.result
                         .then(function(result) {
-                            $log.log('open: Modal Window returned ' + result);
+                            $log.log('open: Modal Window returned ', result);
                         })
                         .catch(function() {
                             $log.log('open: Modal Window was cancelled');
@@ -104,16 +108,13 @@
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
                         templateUrl: 'templates/modal-window.tpl.html',
-                        controller: 'ModalController',
-                        onSubmit : function(scope, controller){
-                            return 'ok';
-                        }
+                        controller: 'ModalController'
                     }));
                     
                     // Listen for the result returned by the modal window that is opened with a template
                     instance.result
                         .then(function(result) {
-                            $log.log('openWithTemplateUrl: Modal Window returned ' + result);
+                            $log.log('openWithTemplateUrl: Modal Window returned ', result);
 
                         })
                         .catch(function() {
@@ -123,10 +124,14 @@
             })
             
             .controller('ModalController', function($scope) {
+                $scope.setOnSubmit(function(){
+                    return $scope.customValue;
+                });
+                
                 // Disable the save button by default
                 $scope.disableSubmit();
                 
-                // listen for when the user clicks the submit button
+                $scope.customValue = 'some custom value';
     
                 // Control the disabled state of the submit button
                 $scope.toggle = function() {

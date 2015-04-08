@@ -55,9 +55,10 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
          *
          */
         open: function(options) {
-            var scope = (options.scope || $rootScope).$new();
-            //var deferred = $q.defer();
-            var disabled = false;
+            var scope = (options.scope || $rootScope).$new(),
+                onSubmit = function(){ return undefined; };
+            var disabled = false,
+                processing = false; //variable used to determine if the submit is clicked, but promise has not resolved
             var instance;
 
             // check that a template was provided
@@ -89,7 +90,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
                 disabled = false;
             };
             scope.isSubmitDisabled = function() {
-                return disabled;
+                return disabled || processing;
             };
 
             // create a new bootstrap ui modal instance with akamai options
@@ -99,28 +100,28 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
             }));
 
             // setup promise that will resolve when submit button is clicked
-            instance.submitted = options.onSubmit || function(){ return true; };
+            scope.setOnSubmit  = function(fn){ onSubmit = fn; };
+            
             scope.submit = function() {
-                scope.disableSubmit();
+                processing = true;
+                
                 var result;
                 
-                if(angular.isFunction(instance.submitted)){
-                    result = instance.submitted();
+                if(angular.isFunction(onSubmit)){
+                    result = onSubmit();
                 }else{
-                    result = instance.submitted;
+                    result = onSubmit;
                 }
                 
                 $q.when(result).then(
-                    function (value) {
-                        instance.close(value);
+                    function (returnValue) {
+                        instance.close(returnValue);
                     }
-                ).catch(function(submitRejectOptions) {
-                    submitRejectOptions = submitRejectOptions || {};
-                    
-                    if (submitRejectOptions.enableSubmit) {
-                        scope.enableSubmit();
+                ).catch(
+                    function() {
+                        processing = false;
                     }
-                });
+                );
             };
 
             return instance;
