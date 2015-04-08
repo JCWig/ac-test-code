@@ -92,12 +92,21 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
             scope.isSubmitDisabled = function() {
                 return disabled || processing;
             };
+            scope.isProcessing = function() {
+                return processing;
+            };
 
             // create a new bootstrap ui modal instance with akamai options
             instance = $modal.open(angular.extend(options, {
                 scope: scope,
                 template: require('./templates/modal-window.tpl.html')
             }));
+            
+            scope.close = function(){
+                if(!scope.isProcessing()) {
+                    instance.dismiss();
+                }
+            };
 
             // setup promise that will resolve when submit button is clicked
             scope.setOnSubmit  = function(fn){ onSubmit = fn; };

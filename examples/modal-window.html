@@ -69,7 +69,8 @@
                     // Create a new modal window instance with supplied options
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
-                        template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>',
+                        template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
+                                    '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!',
                         controller: function($scope) {
                             $scope.setOnSubmit(function(){
                                 var deferral = $q.defer();
@@ -123,9 +124,21 @@
                 };
             })
             
-            .controller('ModalController', function($scope) {
+            .controller('ModalController', function($scope, $q, $timeout) {
+                var times = 0;
+                
                 $scope.setOnSubmit(function(){
-                    return $scope.customValue;
+                    var deferral = $q.defer();
+                        $timeout(function() {
+                            if (times++ % 2 === 0) {
+                                deferral.reject();
+                            }else{
+                                deferral.resolve($scope.customValue);
+                            }
+
+                        }, 3000);
+                    
+                    return deferral.promise; 
                 });
                 
                 // Disable the save button by default
