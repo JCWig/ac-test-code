@@ -37,8 +37,44 @@ describe('i18nTokenProvider', function() {
         });
         it('should not to add app locale value if given array as null', function() {
             var arrOfPath = null;
-
             expect(provider.rawUrls.length).toEqual(2);
+        });
+    });
+    describe('when setting component locale paths to new values', function(){
+        it('should change if rawUrl path is the default', function(){
+            var compPath = config.localeComponentPath;
+            var newUrl = "this/is/a/new/url";
+            provider.setComponentLocalePath(newUrl);
+            expect(provider.rawUrls.length).toEqual(2);
+            expect(provider.rawUrls[0].path).not.toEqual(compPath);
+            expect(provider.rawUrls[0].path).toEqual(newUrl);
+            expect(provider.rawUrls[0].overridden).toEqual(true);
+        });
+        it('should not change if rawUrl path is not default', function(){
+            var appPath = config.localeAppPath;
+            var newUrl = "this/is/a/new/url";
+            provider.setComponentLocalePath(newUrl);
+            expect(provider.rawUrls.length).toEqual(2);
+            expect(provider.rawUrls[1].path).toEqual(appPath);
+            expect(provider.rawUrls[1].overridden).toBe(false);
+        });
+    });
+    describe('when setting app locale paths to new values', function(){
+        it('should change if rawUrl path is the default', function(){
+            var compPath = config.localeComponentPath;
+            var newUrl = "this/is/a/new/url";
+            provider.setAppLocalePath(newUrl);
+            expect(provider.rawUrls.length).toEqual(2);
+            expect(provider.rawUrls[0].path).toEqual(compPath);
+            expect(provider.rawUrls[0].overridden).toBe(false);
+        });
+        it('should not change if rawUrl path is not default', function(){
+            var appPath = config.localeAppPath;
+            var newUrl = "this/is/a/new/url";
+            provider.setAppLocalePath(newUrl);
+            expect(provider.rawUrls.length).toEqual(2);
+            expect(provider.rawUrls[1].path).toEqual(newUrl);
+            expect(provider.rawUrls[1].overridden).toEqual(true);
         });
     });
 });
@@ -110,6 +146,40 @@ describe('i18nToken service', function() {
             expect(urls.length).toEqual(2);
             expect(urls[0]).toMatch(LOCALE_BASE_PATH);
             expect(urls[1]).toEqual('/apps/pineapple-app/locales/');
+        });
+        it('should properly retrieve changed values if only component path value changed', function(){
+            var newUrl = 'this/is/a/new/url';
+            provider.setComponentLocalePath(newUrl);
+            spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/pineapple-app/somethingelse');
+            config.path = 'here/is/a/path/{appname}/ending/path';
+            config.prefix = null;
+            var urls = provider.$get(cookies, config, location).getUrls();
+            expect(urls.length).toEqual(2);
+            expect(urls[0]).toEqual(newUrl);
+            expect(urls[1]).toEqual('/apps/pineapple-app/locales/');
+        });
+        it('should properly retrieve changed values if only app path value changed', function(){
+            var newUrl = 'this/is/a/new/url';
+            provider.setAppLocalePath(newUrl);
+            spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/pineapple-app/somethingelse');
+            config.path = 'here/is/a/path/{appname}/ending/path';
+            config.prefix = null;
+            var urls = provider.$get(cookies, config, location).getUrls();
+            expect(urls.length).toEqual(2);
+            expect(urls[0]).toMatch(LOCALE_BASE_PATH);
+            expect(urls[1]).toEqual(newUrl);
+        });
+        it('should properly retrieve changed values if both app and component paths changed', function(){
+            var newUrl = 'this/is/a/new/url';
+            provider.setComponentLocalePath(newUrl);
+            provider.setAppLocalePath(newUrl);
+            spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/pineapple-app/somethingelse');
+            config.path = 'here/is/a/path/{appname}/ending/path';
+            config.prefix = null;
+            var urls = provider.$get(cookies, config, location).getUrls();
+            expect(urls.length).toEqual(2);
+            expect(urls[0]).toEqual(newUrl);
+            expect(urls[1]).toEqual(newUrl);
         });
     });
     describe('when locale cookie set to "en_US', function() {
