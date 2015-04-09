@@ -52,7 +52,7 @@ module.exports = function(translate) {
                 }
                 // setup current page
                 scope.currentPage = parseInt(scope.currentPage, 10);
-                if ((scope.currentPage == null) || isNaN(scope.currentPage) || scope.currentPage < 1) {
+                if (isNaN(scope.currentPage) || scope.currentPage < 1) {
                     scope.currentPage = 1;
                 } else if (scope.currentPage > scope.totalPages){
                     scope.currentPage = scope.totalPages;
