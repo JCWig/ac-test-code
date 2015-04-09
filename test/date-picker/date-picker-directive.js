@@ -185,6 +185,30 @@ describe('akam-date-picker', function() {
             expect(inputDateField.value).toEqual(dayString);
             expect(datePicker.getAttribute('style')).toContain('display: none'); 
         });
+        it('should hide clear icon when no date has been picked', function(){
+            var clearIcon = document.querySelector('.clear-date');
+            expect(clearIcon).toBe(null);
+
+            var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+            utilities.click(firstDayOfMonthButton);
+            scope.$digest();
+
+            clearIcon = document.querySelector('.clear-date');
+            expect(clearIcon).not.toBe(null);
+
+        });
+        it('should be able to clear date', function(){
+            var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+            utilities.click(firstDayOfMonthButton);
+            scope.$digest();
+
+            var clearIcon = document.querySelector('.clear-date');
+            utilities.click(clearIcon);
+            var inputDateField = document.querySelector('input');
+            
+            expect(inputDateField.value).toEqual('');
+            expect(scope.value).toEqual(undefined);
+        });
     });
     describe('when rendering month picker', function(){
         beforeEach(function(){
