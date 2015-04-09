@@ -93,12 +93,12 @@ describe('akam-pagination directive', function() {
 
         it('should display the first page', function() {
             var firstPageIndex = self.element.querySelector(PAGINATION_INDEX_NTH+'(2)');
-            expect(firstPageIndex.textContent).toMatch(/1/);
+            expect(firstPageIndex.textContent).toContain("1");
         });
 
         it('should display the last page', function() {
             var finalPageIndex = self.element.querySelector(PAGINATION_INDEX_REVERSE+'(2)');
-            expect(finalPageIndex.textContent).toMatch(/9/);
+            expect(finalPageIndex.textContent).toContain("9");
         });
 
         it('should display pages', function() {
@@ -159,7 +159,7 @@ describe('akam-pagination directive', function() {
 
             it('should display only 1 page', function() {
                 var pageOneIndex = self.element.querySelector('.pagination li.active');
-                expect(pageOneIndex.textContent).toMatch(/1/);
+                expect(pageOneIndex.textContent).toContain("1");
             });
             it('should disable previous and forward arrows', function() {
                 var nextButton = self.element.querySelector(NEXT_BUTTON);
@@ -209,7 +209,7 @@ describe('akam-pagination directive', function() {
                 self.scope.$digest();
 
                 var pageOneIndex = self.element.querySelector('.pagination li.active');
-                expect(pageOneIndex.textContent).toMatch(/1/);
+                expect(pageOneIndex.textContent).toContain("1");
             });
             it('should still be able to change page size', function() {
                 self.scope.pager.count = 0;
@@ -229,7 +229,7 @@ describe('akam-pagination directive', function() {
                 expect(secondSmallestPageSizeOption.classList.contains('active')).toBe(true);
                 
                 var pageOneIndex = self.element.querySelector('.pagination li.active');
-                expect(pageOneIndex.textContent).toMatch(/1/);
+                expect(pageOneIndex.textContent).toContain("1");
             });
         });
         describe('when total item count is changed to less than 0 ', function() {
@@ -413,7 +413,7 @@ describe('akam-pagination directive', function() {
 
             var lastPage = self.element.querySelector(PAGINATION_INDEX_REVERSE+'(2)');
 
-            expect(lastPage.textContent).toMatch(/5/);
+            expect(lastPage.textContent).toContain("5");
         });
     });
 
@@ -465,7 +465,7 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
 
             highestPaginationIndex = self.element.querySelector(PAGINATION_INDEX_REVERSE+'(2)');
-            expect(highestPaginationIndex.textContent).toMatch(/20/);
+            expect(highestPaginationIndex.textContent).toContain("20");
         });
     });
 
@@ -477,7 +477,7 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
 
             totalNumberOfItemsSpan = self.element.querySelector(TOTAL_ITEMS_SPAN);
-            expect(totalNumberOfItemsSpan.textContent).toMatch(/Results: /);
+            expect(totalNumberOfItemsSpan.textContent).toContain("Results: ");
         });
 
         it('should translated show entries label display correctly', function() {
@@ -487,7 +487,7 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
 
             showEntriesSpan = self.element.querySelector('.page-size').childNodes[1];
-            expect(showEntriesSpan.textContent).toMatch(/Show Entries: /);
+            expect(showEntriesSpan.textContent).toContain("Show Entries: ");
         });
     });
     describe('when changing html inputs', function(){
@@ -526,7 +526,7 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
             
             var pageOneIndex = self.element.querySelector('.pagination li.active');
-            expect(pageOneIndex.textContent).toMatch(/1/);
+            expect(pageOneIndex.textContent).toContain("1");
         }); 
         it('should not be able to change page size if no onchangesize provided', function(){
             self.scope.pager.size = 10;
