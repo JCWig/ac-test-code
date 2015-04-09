@@ -52,8 +52,10 @@ module.exports = function(translate) {
                 }
                 // setup current page
                 scope.currentPage = parseInt(scope.currentPage, 10);
-                if ((scope.currentPage == null) || (!inBounds(scope.currentPage))) {
+                if (isNaN(scope.currentPage) || scope.currentPage < 1) {
                     scope.currentPage = 1;
+                } else if (scope.currentPage > scope.totalPages){
+                    scope.currentPage = scope.totalPages;
                 }
 
                 // calculate the starting page and number of pages to display
@@ -113,7 +115,7 @@ module.exports = function(translate) {
             };
 
             scope.$watch('[totalItems, currentPage, pageSize]', function(val, old) {
-                if(val[0] < 0 ){
+                if(val[0] < 0){
                     scope.totalItems = 0;
                     val = [0, val[1], val[2]];
                 }

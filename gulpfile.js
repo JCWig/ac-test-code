@@ -39,13 +39,13 @@ gulp.task('lint', function() {
         .pipe(plugins.jshint.reporter('jshint-stylish'))
         .pipe(plugins.jshint.reporter('fail'));
 });
+
 // TODO support production argument to disable debug
 gulp.task('browserify', function() {
     var bundler = browserify(_.extend(watchify.args, {
         entries: ['./src'],
         fullPaths: false,
-        noparse: ['angular', 'angular-bootstrap-npm'],
-        debug: false
+        debug: true
     }));
     var startTime;
 
