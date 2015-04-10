@@ -41,13 +41,13 @@
         </div>
 
         <div class="container">
-            <h3>DATA USING PROMISE</h3>
+            <h3>DATA USING PROMISE (Unsafe strings are trusted)</h3>
             <akam-list-box data="mydata" schema="columns" on-change="mychange(value)" selected-items="selectedItems1"></akam-list-box>
             <span>Selected Items: {{selectedItems1}}</span>
         </div>
         
         <div class="container">
-            <h3>DATA DIRECT</h3>
+            <h3>DATA DIRECT (Unsafe strings are trusted)</h3>
             <akam-list-box data="basedata" schema="columns" on-change="mychange(value)" selected-items="selectedItems2"></akam-list-box>
             <span>Selected Items: {{selectedItems2}}</span>
         </div>
@@ -98,7 +98,7 @@
             },
             {
                 first : "Mike",
-                last: "<span class='hi'>D</span>",
+                last: "<span class='hi' onmouseover=\"alert('hi')\">D (mouseover to see an alert)</span>",
                 id : 1001,
                 bu : "Luna",
                 color: "GREEN"
@@ -143,7 +143,7 @@
           return function() { }
         });
 
-        app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", "translate", function(scope, $timeout, $q, $http, translate) {
+        app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", "translate", "$sce", function(scope, $timeout, $q, $http, translate, $sce) {
             var deferred = $q.defer();
             scope.mydata = deferred.promise;
             scope.basedata = BASE_DATA;
@@ -154,13 +154,13 @@
         
             $timeout(function(){
                 deferred.resolve(BASE_DATA);
-            }, 2000);
+            }, 1000);
             
             scope.columns = [
                 {
                     //NOTE that the "this" context for the function call will the object being worked on and not the column itself
                     content : function(){
-                        return this.first + ' ' + this.last;
+                        return $sce.trustAsHtml(this.first + ' ' + this.last);
                     },
                     header : 'Full Name',
                     className : 'column-full-name',

@@ -12,9 +12,14 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.date-picker', [
-        require('angular-bootstrap-npm'),
-        require('../i18n').name
+    require('angular-bootstrap-npm'),
+    require('../i18n').name
 ])
+
+// decorators for the day and month pickers to add on scope variables for disabling nav
+.config(require('./daypicker-decorator'))
+
+.config(require('./monthpicker-decorator'))
 
 /**
  * @ngdoc directive

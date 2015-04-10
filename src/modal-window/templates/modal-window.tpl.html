@@ -1,11 +1,15 @@
 <div class="modal-header">
     <i ng-if="modalWindow.icon" class="title-icon" ng-class="modalWindow.icon"></i>
     <h3 class="modal-title">{{ modalWindow.title }}</h4>
-    <i class="close-icon" ng-click="$dismiss()"></i>
+    <i class="close-icon" ng-disabled="isProcessing()" ng-click="close()"></i>
 </div>
 <akam-modal-window-body></akam-modal-window-body>
 <div class="modal-footer">
-    <button type="button" class="button large" ng-click="$dismiss()">
+    <button
+        type="button"
+        class="button large"
+        ng-click="close()"
+        ng-disabled="isProcessing()">
         {{ modalWindow.cancelLabel }}
     </button>
     <button

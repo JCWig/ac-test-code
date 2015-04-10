@@ -40,10 +40,6 @@ module.exports = function(modalWindow, translate, $rootScope, $filter) {
             controller: function($scope) {
                 var collapsed = true;
 
-                $scope.submitted.then(function(close) {
-                    close(true);
-                });
-
                 $scope.toggle = function() {
                     collapsed = !collapsed;
                 };

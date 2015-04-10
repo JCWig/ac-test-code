@@ -1,5 +1,7 @@
 'use strict';
 
+require('angular-sanitize');
+
 var angular = require('angular');
 
     /**
@@ -12,6 +14,7 @@ var angular = require('angular');
     *
     */
     module.exports = angular.module('akamai.components.data-table', [
+        'ngSanitize',
         require('../uuid').name,
         require('../highlight').name,
         require('../indeterminate-progress').name,
@@ -49,7 +52,10 @@ var angular = require('angular');
      * If `data` is a promise, the
      * {@link akamai.components.indeterminate-progress indeterminate progress}
      * control displays in place of the contents until the promise is
-     * resolved or rejected.
+     * resolved or rejected. Note that the data is bound to the table
+     * cells with `ng-bind-html` and thus runs through ngSanitize.
+     * Any unsafe content that needs to be trusted must run through
+     * `$sce.trustAs` on the consumer's side.
      *
      * @param {Array} columns An array of columns that describes the
      * schema to the data table layout and formatting.

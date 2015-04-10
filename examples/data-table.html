@@ -12,7 +12,7 @@
         </div>
         <div class="container">
             <h2>Data Table with Loading Options - Loaded using {{status | json}}</h2>
-            </br>
+            <br />
             <label class="label">Data Load Type:</label>
             <table>
                 <tr>
@@ -33,7 +33,7 @@
                 </akam-menu-button>
             </akam-data-table>
         </div>
-        </br>
+        <br />
         <div class="container">
             <h2>Data Table Example with Checkboxes and Pre-Selected Rows</h2>
             <akam-data-table data="basedata" schema="columns" show-checkboxes="true" filter-placeholder="Filter Employees" selected-items="selectedItems2" no-data-message="noDataMessage">
@@ -42,9 +42,9 @@
                     <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
                 </akam-menu-button>
             </akam-data-table>
-            <span>Selected Items:</br> {{selectedItems2}}</span>
+            <span>Selected Items:<br /> {{selectedItems2}}</span>
         </div>
-        </br>
+        <br />
         <div class="container">
             <h2>Data Table Example loaded from HTTP GET</h2>
             <akam-data-table data="jsonFromHttpGet" schema="columns" on-change="rowChange(value)" filter-placeholder="Filter Employees" show-checkboxes="true" selected-items="selectedItems3">
@@ -53,7 +53,7 @@
                     <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
                 </akam-menu-button>
             </akam-data-table>
-            <span>Selected Items: </br> {{selectedItems3}}</span>
+            <span>Selected Items: <br /> {{selectedItems3}}</span>
         </div>
         <script src="../node_modules/angular/angular.js"></script>
         <script src="../dist/akamai-components.js"></script>
@@ -134,7 +134,7 @@
                 return function() { }
             })
             
-            .controller('ExampleController', ["$scope", "$http", "$filter","$q","$timeout", function($scope, $http, $filter, $q, $timeout) {
+            .controller('ExampleController', ["$scope", "$http", "$filter","$q","$timeout", "$log", function($scope, $http, $filter, $q, $timeout, $log) {
                 
                 var deferred = $q.defer();
                 
@@ -220,12 +220,12 @@
                                 
                 $scope.process = function($event, type, item){
                     // Log the row selected with the first column in the table (full name)
-                    console.log('Row Menu Item Selected for: ' + item.cells[0]);
+                    $log.log('Row Menu Item Selected for: ' + item.cells[0]);
                 };
                 
                 // When the row changes display what is selected
                 $scope.rowChange = function(value){
-                    console.log('Row selected' + value);
+                    $log.log('Row selected' + value);
                 };
                 
                 // Load data from a json file to test out HTTP GET functionality

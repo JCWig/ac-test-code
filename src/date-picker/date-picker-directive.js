@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log, $filter, $parse, translate) {
+module.exports = function($filter, translate) {
     var PICKER_TYPES = {
         'day' : 'day',
         'month' : 'month'
@@ -56,8 +56,9 @@ module.exports = function($log, $filter, $parse, translate) {
                         formatMonth: 'MMM'
                     };
                 }
-            },
+            }, 
             post: function(scope, element, attrs, ngModel) {
+                //Code Coverage Ignoring becuause ngModel is always defined. Good defensive coding though.
                 /* istanbul ignore if */
                 if (!ngModel) {
                     return;
@@ -78,6 +79,11 @@ module.exports = function($log, $filter, $parse, translate) {
                     $event.stopPropagation();
 
                     scope.opened = !scope.opened;
+                };
+
+                scope.clearDate = function(){
+                    scope.value = null;
+                    ngModel.$setViewValue(null);
                 };
 
                 scope.$watch('opened', function(newValue){

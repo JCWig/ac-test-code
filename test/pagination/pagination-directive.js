@@ -11,16 +11,17 @@ var translationMock = {
         }
     }
 };
-
+var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var CONFIG_PATH = '/apps/appname/locales/en_US.json';  
 var PREVIOUS_BUTTON = '.pagination li:first-child';
-var NEXT_BUTTON = '.pagination li:last-child'
+var NEXT_BUTTON = '.pagination li:last-child';
 var TOTAL_ITEMS_SPAN = '.total-items';
 var PAGINATION_INDEX_NTH =  '.pagination li:nth-child';
 var PAGINATION_INDEX_REVERSE =  '.pagination li:nth-last-child';
 var PAGE_SIZE_SMALLEST = '.page-size li:first-child';
 var PAGE_SIZE_LARGEST = '.page-size li:last-child';
 var PAGE_SIZE_NTH = '.page-size li:nth-child';
-var PAGE_SIZES= '.page-size li'
+var PAGE_SIZES= '.page-size li';
 describe('akam-pagination directive', function() {
     var compile = null;
     var self = this;
@@ -28,21 +29,15 @@ describe('akam-pagination directive', function() {
         var spyOnChangePage = null;
         angular.mock.module(require('../../src/pagination').name);
         angular.mock.module(function($provide, $translateProvider) {
-            $provide.factory('i18nCustomLoader', function($q, $timeout) {
-                return function(options) {
-                    var deferred = $q.defer();
-                    $timeout(function() {
-                        deferred.resolve(translationMock);
-                    });
-                    return deferred.promise;
-                };
-            });
             $translateProvider.useLoader('i18nCustomLoader');
         });
-        inject(function($compile, $rootScope, $timeout) {
+        inject(function($compile, $rootScope, $timeout, $httpBackend) {
             self.scope = $rootScope.$new();
             self.timeout = $timeout;
             compile = $compile;
+            $httpBackend.when('GET', LIBRARY_PATH).respond(translationMock);
+            $httpBackend.when('GET', CONFIG_PATH).respond({}); 
+            $httpBackend.flush(); 
         });
         var markup = '<akam-pagination total-items="pager.count" ' +
                 'current-page="pager.page" onchangepage="onchangepage(page)" ' +
@@ -63,7 +58,7 @@ describe('akam-pagination directive', function() {
         self.el = compile(markup)(self.scope);
         self.scope.$digest();
         self.element = document.body.appendChild(self.el[0]);
-    };
+    }
     afterEach(function() {
         if(self.element){
             document.body.removeChild(self.element);
@@ -93,12 +88,12 @@ describe('akam-pagination directive', function() {
 
         it('should display the first page', function() {
             var firstPageIndex = self.element.querySelector(PAGINATION_INDEX_NTH+'(2)');
-            expect(firstPageIndex.textContent).toMatch(/1/);
+            expect(firstPageIndex.textContent).toContain("1");
         });
 
         it('should display the last page', function() {
             var finalPageIndex = self.element.querySelector(PAGINATION_INDEX_REVERSE+'(2)');
-            expect(finalPageIndex.textContent).toMatch(/9/);
+            expect(finalPageIndex.textContent).toContain("9");
         });
 
         it('should display pages', function() {
@@ -126,11 +121,20 @@ describe('akam-pagination directive', function() {
             expect(pageSizeOptions.length).toEqual(3);
         });
 
-        describe('when the page size is not set', function() {
+        describe('when the page size is set to null or NaN', function() {
             it('should default to 10', function() {
                 var pageSizeTen;
 
                 self.scope.pager.size = null;
+                self.scope.$digest();
+
+                pageSizeTen = self.element.querySelector(PAGE_SIZE_SMALLEST);
+                expect(pageSizeTen.classList.contains('active')).toBe(true);
+            });
+            it('should default to 10', function() {
+                var pageSizeTen;
+
+                self.scope.pager.size = "Hello";
                 self.scope.$digest();
 
                 pageSizeTen = self.element.querySelector(PAGE_SIZE_SMALLEST);
@@ -159,7 +163,7 @@ describe('akam-pagination directive', function() {
 
             it('should display only 1 page', function() {
                 var pageOneIndex = self.element.querySelector('.pagination li.active');
-                expect(pageOneIndex.textContent).toMatch(/1/);
+                expect(pageOneIndex.textContent).toContain("1");
             });
             it('should disable previous and forward arrows', function() {
                 var nextButton = self.element.querySelector(NEXT_BUTTON);
@@ -209,7 +213,7 @@ describe('akam-pagination directive', function() {
                 self.scope.$digest();
 
                 var pageOneIndex = self.element.querySelector('.pagination li.active');
-                expect(pageOneIndex.textContent).toMatch(/1/);
+                expect(pageOneIndex.textContent).toContain("1");
             });
             it('should still be able to change page size', function() {
                 self.scope.pager.count = 0;
@@ -229,7 +233,7 @@ describe('akam-pagination directive', function() {
                 expect(secondSmallestPageSizeOption.classList.contains('active')).toBe(true);
                 
                 var pageOneIndex = self.element.querySelector('.pagination li.active');
-                expect(pageOneIndex.textContent).toMatch(/1/);
+                expect(pageOneIndex.textContent).toContain("1");
             });
         });
         describe('when total item count is changed to less than 0 ', function() {
@@ -412,9 +416,27 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
 
             var lastPage = self.element.querySelector(PAGINATION_INDEX_REVERSE+'(2)');
+            expect(lastPage.textContent).toContain("5");
+        }); 
+        it('should change to greatest page if switching to a page that is greater than the new maximum', function() {
+            var smallestPageSizeOption = self.element.querySelector(PAGE_SIZE_SMALLEST);
+            var greatestPageSizeOption = self.element.querySelector(PAGE_SIZE_LARGEST);
+            utils.click(smallestPageSizeOption.querySelector('a'));
+            self.scope.$digest();
 
-            expect(lastPage.textContent).toMatch(/5/);
-        });
+            var lastPage = self.element.querySelector(PAGINATION_INDEX_REVERSE+'(2)');
+            utils.click(lastPage.querySelector('a'));
+            self.scope.$digest();
+
+            expect(lastPage.textContent).toContain("22");
+            expect(lastPage.classList.contains('active')).toBe(true);
+
+            utils.click(greatestPageSizeOption.querySelector('a'));
+            self.scope.$digest();
+
+            expect(lastPage.textContent).toContain("5");
+            expect(lastPage.classList.contains('active')).toBe(true);
+        }); 
     });
 
     describe('when the active page size is clicked', function() {
@@ -436,14 +458,14 @@ describe('akam-pagination directive', function() {
             self.scope.pager.page = 100;
             self.scope.$digest();
             
-            expect(self.scope.pager.page).toEqual(1)
+            expect(self.scope.pager.page).toEqual(9);
         });
         it('should default to first page when negative than it', function() {
             self.scope.pager.page = -1;
             self.scope.$digest();
             self.scope.$digest();
             
-            expect(self.scope.pager.page).toEqual(1)
+            expect(self.scope.pager.page).toEqual(1);
         });
     });
 
@@ -465,7 +487,7 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
 
             highestPaginationIndex = self.element.querySelector(PAGINATION_INDEX_REVERSE+'(2)');
-            expect(highestPaginationIndex.textContent).toMatch(/20/);
+            expect(highestPaginationIndex.textContent).toContain("20");
         });
     });
 
@@ -477,7 +499,7 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
 
             totalNumberOfItemsSpan = self.element.querySelector(TOTAL_ITEMS_SPAN);
-            expect(totalNumberOfItemsSpan.textContent).toMatch(/Results: /);
+            expect(totalNumberOfItemsSpan.textContent).toContain("Results: ");
         });
 
         it('should translated show entries label display correctly', function() {
@@ -487,7 +509,7 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
 
             showEntriesSpan = self.element.querySelector('.page-size').childNodes[1];
-            expect(showEntriesSpan.textContent).toMatch(/Show Entries: /);
+            expect(showEntriesSpan.textContent).toContain("Show Entries: ");
         });
     });
     describe('when changing html inputs', function(){
@@ -526,7 +548,7 @@ describe('akam-pagination directive', function() {
             self.scope.$digest();
             
             var pageOneIndex = self.element.querySelector('.pagination li.active');
-            expect(pageOneIndex.textContent).toMatch(/1/);
+            expect(pageOneIndex.textContent).toContain("1");
         }); 
         it('should not be able to change page size if no onchangesize provided', function(){
             self.scope.pager.size = 10;
