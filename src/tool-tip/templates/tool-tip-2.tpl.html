@@ -1,0 +1,8 @@
+<div ng-class="{ in: isOpen(), fade: isAnimation()}" class="tooltip {{placement}}" ng-style="{top: myTop, left:myLeft}" style="display:block">
+	<div class="tooltip-arrow"></div>
+	<div class="tool-tip-contents">
+		<i class="luna-close hover-states util-clickable pull-right" ng-click="toggle()"></i>
+		<h3 class="tool-tip-header">{{header}}</h3>
+	  	<div  class="tooltip-inner ng-binding">{{content}}</div>  
+	</div>	
+</div>

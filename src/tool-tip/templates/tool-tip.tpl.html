@@ -1,6 +1,8 @@
-<div class="common-css ">
-	<a class="akam-tool-tip" tooltip="{{text}}" tooltip-animation="{{animation}}" tooltip-popup-delay="{{popupDelay}}"
-	tooltip-placement="{{placement}}">
-		{{ triggerText }}
-	</a>
-</div>
+<a class="akam-tool-tip" 
+	tooltip-html-unsafe="{{content}}" 
+	tooltip-animation="{{animation}}" 
+	tooltip-trigger="{{trigger}}" 
+	tooltip-popup-delay="{{popupDelay}}" 
+	tooltip-placement="{{placement}}" 
+	ng-transclude>
+</a>
