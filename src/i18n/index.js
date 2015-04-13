@@ -78,6 +78,8 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
     }
 })
 
+.constant("$LOCALE", require('./i18n-$locale-constant'))
+
 /**
  * @ngdoc service
  *
@@ -217,7 +219,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  */
 /* @ngInject */
-.config(function($translateProvider, i18nConfig) {
+.config(function($provide, $translateProvider, i18nConfig) {
     $translateProvider
         .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
         .useLoader('i18nCustomLoader')
@@ -227,6 +229,15 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
         .cloakClassName('util-hide')
         .determinePreferredLanguage()
         .useMissingTranslationHandler('missingTranslationFactory');
+
+    $provide.decorator('$locale', ['$delegate', 'i18nToken', '$LOCALE', function($delegate, i18nToken, $LOCALE) {
+        var loc = $LOCALE[i18nToken.getCurrentLocale()];
+        if (loc) {
+            $delegate.DATETIME_FORMATS = loc.DATETIME_FORMATS;
+            $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;
+        }
+        return $delegate;
+    }]);
 })
 
 /**
