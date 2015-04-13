@@ -87,7 +87,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * that includes 12 supported locales and sections based on locale names, such as: "en_US", "de_DE"
  *
  */
-.constant("LOCALE", require('./i18n-$locale-constant'))
+.constant("LOCALE", require('./i18n-locale-constant'))
 
 /**
  * @ngdoc service
@@ -242,9 +242,9 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 
     /**
      * a decorator to intercept $locale service and add datetime abd number values specific for current locale
-     * @param  {[type]} $delegate original $locale object
-     * @param  {[type]} i18nToken a factory service holds value of current locale
-     * @param  {[type]} $LOCALE locale constant
+     * @param  {object} $delegate original $locale object
+     * @param  {object} i18nToken a factory service holds value of current locale
+     * @param  {object} $LOCALE locale constant
      * @return {object} $decorator modified $locale object
      */
     $provide.decorator('$locale', ['$delegate', 'i18nToken', 'LOCALE', function($delegate, i18nToken, LOCALE) {
