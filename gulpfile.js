@@ -203,7 +203,12 @@ gulp.task('deploy', function(){
           args: ["--copy-dirlinks", "--verbose", "--compress"]
           //dryRun: true
         }, function(error, stdout, stderr, cmd) {
-            plugins.util.log(error, stdout);
+            if (error) {
+                plugins.util.log(error, stdout);
+            }else{
+                plugins.util.log(cmd);
+                plugins.util.log(stdout);
+            }
         });
     });
 });
