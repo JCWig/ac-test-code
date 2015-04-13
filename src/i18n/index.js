@@ -78,7 +78,16 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
     }
 })
 
-.constant("$LOCALE", require('./i18n-$locale-constant'))
+/**
+ * @ngdoc service
+ *
+ * @name akamai.components.i18n.service:LOCALE
+ *
+ * @description A service that provides datetime and number locale constant values,
+ * that includes 12 supported locales and sections based on locale names, such as: "en_US", "de_DE"
+ *
+ */
+.constant("LOCALE", require('./i18n-$locale-constant'))
 
 /**
  * @ngdoc service
@@ -208,6 +217,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @description Adds methods to `$translateProvider` that load any
  * locale resource files for an application's run phase.
+ * Also a decorator for service of $locale to inject DATETIME_FORMATS and NUMBER_FORMATS
  *
  * __NOTE__: localStorage is not used, the browser will not cache the
  * language key.
@@ -230,8 +240,15 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
         .determinePreferredLanguage()
         .useMissingTranslationHandler('missingTranslationFactory');
 
-    $provide.decorator('$locale', ['$delegate', 'i18nToken', '$LOCALE', function($delegate, i18nToken, $LOCALE) {
-        var loc = $LOCALE[i18nToken.getCurrentLocale()];
+    /**
+     * a decorator to intercept $locale service and add datetime abd number values specific for current locale
+     * @param  {[type]} $delegate original $locale object
+     * @param  {[type]} i18nToken a factory service holds value of current locale
+     * @param  {[type]} $LOCALE locale constant
+     * @return {object} $decorator modified $locale object
+     */
+    $provide.decorator('$locale', ['$delegate', 'i18nToken', 'LOCALE', function($delegate, i18nToken, LOCALE) {
+        var loc = LOCALE[i18nToken.getCurrentLocale()];
         if (loc) {
             $delegate.DATETIME_FORMATS = loc.DATETIME_FORMATS;
             $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;
