@@ -1,8 +1,11 @@
-<div ng-class="{ in: isOpen(), fade: isAnimation()}" class="tooltip {{placement}}" ng-style="{top: myTop, left:myLeft}" style="display:block">
-	<div class="tooltip-arrow"></div>
+<div ng-class="{ in: isOpen(), fade: isAnimation()}" class="tooltip {{placement}}" ng-style="{top: toolTipTop, left:toolTipLeft}" 
+style="display:block">
+	<div class="tooltiparrow" ng-style="{'top': arrowTop, 'left':arrowLeft}"></div>
 	<div class="tool-tip-contents">
-		<i class="luna-close hover-states util-clickable pull-right" ng-click="toggle()"></i>
-		<h3 class="tool-tip-header">{{header}}</h3>
-	  	<div  class="tooltip-inner ng-binding">{{content}}</div>  
+		<i ng-if="trigger === 'click'" class="luna-close icon-states util-clickable pull-right" ng-click="toggle()"></i>
+		<h3 ng-if="hasHeader()" class="tool-tip-header">{{header}}</h3>
+	  	<div class="tooltip-middle-content">{{content}}</div>  
+	  	<div ng-if="hasLink()" class="tooltip-link-content"><a href="{{linkUrl}}">{{linkText}}</a></div>  
+	  	<div ng-if="hasButton()" class="tooltip-button-content"><button>{{buttonText}}</button></div>  
 	</div>	
 </div>

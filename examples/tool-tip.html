@@ -23,27 +23,68 @@
             <br/>
             <br/>
             <br/>
-            <div >
-              <p akam-tool-tip placement="top" header="Here is a top title" content="hello" trigger="click"> Central City </p>
+            <div > 
+              <span akam-tool-tip placement="bottom" content="helasdfasdfasfasdflo" trigger="click">akjsdfhlkajsdhflkjahdfl</span>
             </div>
             <br/>
             <br/>
             <br/>
-            <div>
-              <i class="luna-close" akam-tool-tip placement="left" header="Here is a left title" content="hello" trigger="click"></i>
-            </div>
+            <br/>
+
+            <span class="pull-right" akam-tool-tip placement="bottom" header="Here is a top title" content="{{hello}}" trigger="click" link-text="Somewhere over the rainbow" 
+            link-url="www.google.com" button-text="Clicky Click" button-function="btnFunction">akjsdfhlkajsdhflkjahdfl</span>
             <br/>
             <br/>
             <br/>
-            <input type="text" akam-tool-tip placement="right" header="Here is a right title" content="hello"  trigger="click" placeholder="Right into Gotham City"></input>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
+            <br/>
+            <br/>
+            <br/><br/>
             <br/>
             <br/>
             <br/>
-            <div akam-tool-tip placement="bottom" header="Here is a bottom title" content="hello"  trigger="click">Bottom </div>
+            <span class="pull-right" akam-tool-tip placement="left" header="Here is a top title" content="hello" trigger="click">akjsdfhlkajsdhflkjahdfl</span>
     </div>
     <script type="text/javascript">
         angular.module("toolTipDemo", ["akamai.components.tool-tip"])
         .controller("Ctrl", ["$scope", function($scope) {
+            $scope.btnFunction = function(){
+                console.log("CLICKY CLICKY");
+            }
+            $scope.hello ="Didn't anyone ever tell you there's one thing you never put in a trap if you're smart, if you value your continued existance, if you have any plans about seeing tomrrow, there's one thing you never ever put in a trap."
         }]);
     </script>
 </body>
