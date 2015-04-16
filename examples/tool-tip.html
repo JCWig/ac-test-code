@@ -24,59 +24,31 @@
             <br/>
             <br/>
             <div > 
-              <span akam-tool-tip placement="bottom" content="helasdfasdfasfasdflo" trigger="click">akjsdfhlkajsdhflkjahdfl</span>
+              <span id="random-id-2">akjsdfhlkajsdhflkjahdfl</span>
+              <akam-tool-tip for-ele="#random-id-2" placement="right" content="helasdfasdfasfasdflo" trigger="hover"></akam-tool-tip>
             </div>
             <br/>
             <br/>
             <br/>
             <br/>
 
-            <span class="pull-right" akam-tool-tip placement="bottom" header="Here is a top title" content="{{hello}}" trigger="click" link-text="Somewhere over the rainbow" 
-            link-url="www.google.com" button-text="Clicky Click" button-function="btnFunction">akjsdfhlkajsdhflkjahdfl</span>
+            <span class="pull-right" id="random-id-1">akjsdfhlkajsdhflkjahdfl</span>
+            <akam-tool-tip for-ele="#random-id-1" placement="left" header="Here is a top title" content="{{hello}}" trigger="click" link-text="Somewhere over the rainbow" 
+            link-url="www.google.com" button-text="Clicky Click" button-function="btnFunction"></akam-tool-tip>
             <br/>
             <br/>
             <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
-            <br/>
-            <br/>
-            <br/><br/>
             <br/>
             <br/>
             <br/>
-            <span class="pull-right" akam-tool-tip placement="left" header="Here is a top title" content="hello" trigger="click">akjsdfhlkajsdhflkjahdfl</span>
+            <br/>
+            <span id="random-id"> Here is Some with Transcluded Content </span>
+            <akam-tool-tip placement="left"  for-ele="#random-id" trigger="click">
+                <h3> Here is a pretty title </h3>
+                <span> Can I take your hat sir? Can I take your hat sir? </span>
+                <i class="luna-close"></i>
+                <div>Sometimes your better off not knowing; but this isn't one of those times. Your life's become a musical and your doctors speak in rhymes. Its bes to know the truth of that we have no doubt. But you'll have to face the future. When the truth comes out! </div>
+            </akam-tool-tip>
     </div>
     <script type="text/javascript">
         angular.module("toolTipDemo", ["akamai.components.tool-tip"])

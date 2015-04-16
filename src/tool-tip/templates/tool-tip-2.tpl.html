@@ -2,10 +2,13 @@
 style="display:block">
 	<div class="tooltiparrow" ng-style="{'top': arrowTop, 'left':arrowLeft}"></div>
 	<div class="tool-tip-contents">
-		<i ng-if="trigger === 'click'" class="luna-close icon-states util-clickable pull-right" ng-click="toggle()"></i>
-		<h3 ng-if="hasHeader()" class="tool-tip-header">{{header}}</h3>
-	  	<div class="tooltip-middle-content">{{content}}</div>  
-	  	<div ng-if="hasLink()" class="tooltip-link-content"><a href="{{linkUrl}}">{{linkText}}</a></div>  
-	  	<div ng-if="hasButton()" class="tooltip-button-content"><button>{{buttonText}}</button></div>  
+		<div ng-if="useContent()">
+			<i ng-if="trigger === 'click'" class="luna-close icon-states util-clickable pull-right" ng-click="toggle()"></i>
+			<h3 ng-if="hasHeader()" class="tool-tip-header">{{header}}</h3>
+		  	<div class="tooltip-middle-content">{{content}}</div>  
+		  	<div ng-if="hasLink()" class="tooltip-link-content"><a href="{{linkUrl}}">{{linkText}}</a></div>  
+		  	<div ng-if="hasButton()" class="tooltip-button-content"><button>{{buttonText}}</button></div>  
+		</div>
+		<div ng-if="!useContent()" ng-transclude></div>
 	</div>	
 </div>
