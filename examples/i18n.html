@@ -67,6 +67,23 @@
                 <h2>Check browser console for Javascript translations using the translate service.</h2>
             </div>
             <br /><br />
+
+            <div>
+            <h2>Using filter on Dates | Currencies | Numbers</h2><br />
+            <div>Dates:
+            <p>{{1288323623006 | date:'medium':'UTC'}} </p>
+            <p>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss':'UTC'}}</p>
+            <p>{{1288323623006 | date:'MM/dd/yyyy @ h:mma':'UTC'}}</p>
+            </div><br />
+            <div>Currency:
+                <p>{{ 1000000 | currency }} (wow, that is lots of money)</p>
+                <p>Force USD:  {{ 1000000 | currency:"USD$"}}</p>
+            </div><br />
+            <div>Number:
+                <p>{{1234.56789 | number}}</p>
+                <p>{{1234.56789 | number:0}}</p>
+                <p>{{-1234.56789 | number:4}}</p>
+            </div><br />
         </div>
         <script src="../node_modules/angular/angular.js"></script>
         <script src="../node_modules/angular-cookies/angular-cookies.js"></script>
