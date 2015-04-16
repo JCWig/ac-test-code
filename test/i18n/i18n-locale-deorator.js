@@ -115,14 +115,16 @@ describe("$locale service used as filter", function() {
         it('should value display correctly when using datetime filter ', function() {
             var markup = ["<div id='dtFilter'>",
                 "<p>{{1288323623006 | date:'medium'}} </p>",
+                "<p>{{1288323623006 | date:'medium':'UTC'}} </p>",
                 "<p>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>",
                 "<p>{{1288323623006 | date:'MM/dd/yyyy @ h:mma'}}</p></div>"
             ].join("");
             addElement(markup);
             var all = document.querySelectorAll("#dtFilter > p");
-            expect(all[0].textContent).toBe("Oct 28, 2010 11:40:23 PM ");
-            expect(all[1].textContent).toBe("2010-10-28 23:40:23 -0400");
-            expect(all[2].textContent).toBe("10/28/2010 @ 11:40PM");
+            expect(all[0].textContent).not.toBe("Oct 29, 2010 3:40:23 AM ");
+            expect(all[1].textContent).toBe("Oct 29, 2010 3:40:23 AM ");
+            expect(all[2].textContent).toBe("2010-10-28 23:40:23 -0400");
+            expect(all[3].textContent).toBe("10/28/2010 @ 11:40PM");
         });
 
         it('should value display correctly when using currency filter ', function() {
