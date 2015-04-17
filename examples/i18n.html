@@ -18,7 +18,7 @@
             <br />
             <div>
                 <label class="label">Directive Examples:</label>
-                <h2>Translated Text from Application Locale JSON file</h2>
+                <h3>Translated Text from Application Locale JSON file</h3>
                 <div>
                     <ul>
                         <li akam-translate="reseller-tools.note"></li>
@@ -27,7 +27,7 @@
             </div>
             <br />
             <div>
-                <h2>Translated Text from Component Locale JSON file</h2>
+                <h3>Translated Text from Component Locale JSON file</h3>
                 <div>
                     <ul>
                         <li akam-translate="components.notifications.success"></li>
@@ -37,7 +37,7 @@
             <br><br>
              <div>
                 <label class="label">Filter Examples:</label>
-                <h2>Translated Text from Application Locale JSON file</h2>
+                <h3>Translated Text from Application Locale JSON file</h3>
                 <div>
                     <ul>
                         <li><span>{{"reseller-tools.note" | akamTranslate}}</span></li>
@@ -46,7 +46,7 @@
             </div>
             <br />
             <div>
-                <h2>Translated Text from Component Locale JSON file</h2>
+                <h3>Translated Text from Component Locale JSON file</h3>
                 <div>
                     <ul>
                         <li><span>{{"components.notifications.success" | akamTranslate}}</span></li>
@@ -55,35 +55,40 @@
             </div>
             <br />
             <div>
-                <h2>Translated Placeholder Text from Application Locale JSON file</h2>
+                <h3>Translated Placeholder Text from Application Locale JSON file</h3>
                 <div>
                     <ul>
                         <li><input type="text" placeholder='{{"contractselector.filter.products" | akamTranslate}}'/></li>
                     </ul>
                 </div>
             </div>
+            <br />
+            <div>
+                <label class="label">Using Filter on Dates | Currencies | Numbers:</label>
+                <h3>Dates:</h3>
+                <br />
+                <ul>{{1288323623006 | date:'medium':'UTC'}} </ul>
+                <ul>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss':'UTC'}}</ul>
+                <ul>{{1288323623006 | date:'MM/dd/yyyy @ h:mma':'UTC'}}</ul>
+            </div><br />
+            <div>
+                <h3>Currencies:</h3>
+                <br />
+                <ul>{{ 1000000 | currency }}</ul>
+                <ul>Force USD:  {{ 1000000 | currency:"USD$"}}</ul>
+            </div><br />
+            <div>
+                <h3>Numbers:</h3>
+                <br />
+                <ul>{{1234.56789 | number}}</ul>
+                <ul>{{1234.56789 | number:0}}</ul>
+                <ul>{{-1234.56789 | number:4}}</ul>
+            </div><br />
             <br /><br />
             <div>
-                <h2>Check browser console for Javascript translations using the translate service.</h2>
+                <h3>Check browser console for Javascript translations using the translate service.</h3>
             </div>
             <br /><br />
-
-            <div>
-            <h2>Using filter on Dates | Currencies | Numbers</h2><br />
-            <div>Dates:
-            <p>{{1288323623006 | date:'medium':'UTC'}} </p>
-            <p>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss':'UTC'}}</p>
-            <p>{{1288323623006 | date:'MM/dd/yyyy @ h:mma':'UTC'}}</p>
-            </div><br />
-            <div>Currency:
-                <p>{{ 1000000 | currency }} (wow, that is lots of money)</p>
-                <p>Force USD:  {{ 1000000 | currency:"USD$"}}</p>
-            </div><br />
-            <div>Number:
-                <p>{{1234.56789 | number}}</p>
-                <p>{{1234.56789 | number:0}}</p>
-                <p>{{-1234.56789 | number:4}}</p>
-            </div><br />
         </div>
         <script src="../node_modules/angular/angular.js"></script>
         <script src="../node_modules/angular-cookies/angular-cookies.js"></script>
