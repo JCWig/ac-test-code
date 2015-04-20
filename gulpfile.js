@@ -1,12 +1,29 @@
-/**
- *
- *  Akamai Components
- *  Copyright 2015 Akamai Technologies Inc. All rights reserved.
- */
-
 'use strict';
 
+/*
+  Akamai Components
+  Copyright 2015 Akamai Technologies Inc. All rights reserved.
+
+  Rather than manage one giant configuration file responsible
+  for creating multiple tasks, each task has been broken out into
+  its own file in gulp/tasks. Any files in that directory get
+  automatically required below.
+  
+  To add a new task, simply add a new task file that directory.
+  gulp/tasks/default.js specifies the default set of tasks to run
+  when you run `gulp`.
+*/
+
+var requireDir = require('require-dir');
+
+// Require all tasks in gulp/tasks, including subfolders
+requireDir('./gulp/tasks', { recurse: true });
+
+
+
 var gulp = require('gulp');
+var runSequence = require('run-sequence');
+
 var plugins = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
@@ -16,110 +33,31 @@ var watchify = require('watchify');
 var karma = require('karma');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var _ = require('lodash');
 var pretty = require('pretty-hrtime');
 var pkg = require('./package.json');
 var path = require('path');
+
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 var rsync = require('rsyncwrapper').rsync;
 var globby = require('globby');
-var moment = require('moment');
-var runSequence = require('run-sequence');
-var mkdirp = require('mkdirp');
 
-var filename = pkg.name + '.js';
+var moment = require('moment');
+
+
+var compass = require('gulp-compass');
+var minifyCSS = require('gulp-minify-css');
+
+var jsFilename = pkg.name + '.js';
+var jsMinFilename = pkg.name + '.min.js';
+var cssFilename = pkg.name + '.css';
 var target = 'dist';
-var bundlePath = path.join(target, filename);
+var bundlePath = path.join(target, jsFilename);
+var cssBundlePath = path.join(target, cssFilename);
+
 var del = require('del');
 
-gulp.task('lint', function() {
-    gulp.src('src/**/*.js')
-        .pipe(plugins.jshint('src/.jshintrc'))
-        .pipe(plugins.jshint.reporter('jshint-junit-reporter', { outputFile : './reports/unit/jshint.xml'}))
-        .pipe(plugins.jshint.reporter('jshint-stylish'))
-        .pipe(plugins.jshint.reporter('fail'));
-});
-
 // TODO support production argument to disable debug
-gulp.task('browserify', function() {
-    var bundler = browserify(_.extend(watchify.args, {
-        entries: ['./src'],
-        fullPaths: false,
-        debug: true
-    }));
-    var startTime;
-
-    function bundle() {
-        startTime = process.hrtime();
-        var unminified = bundler.bundle()
-            .pipe(source(filename))
-            .pipe(buffer())
-            .pipe(sourcemaps.init({loadMaps: true}))
-            .pipe(plugins.ngAnnotate())
-            .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest(target));
-
-        var minified = bundler.bundle()
-            .pipe(source(pkg.name + '.min.js'))
-            .pipe(buffer())
-            .pipe(sourcemaps.init({loadMaps: true}))
-            .pipe(plugins.ngAnnotate())
-            .pipe(plugins.uglify())
-            .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest(target))
-            .on('end', function() {
-                var endTime = process.hrtime(startTime);
-                plugins.util.log('Bundled',
-                                 plugins.util.colors.green(bundlePath), 'in',
-                                 plugins.util.colors.magenta(pretty(endTime)));
-            });
-
-        return es.concat(unminified, minified);
-    }
-
-    if (global.isWatching) {
-        bundler = watchify(bundler, { delay: 1000 });
-        bundler.on('update', bundle);
-    }
-
-    return bundle();
-});
-
-gulp.task('build', function(){
-    runSequence('test', 'browserify', 'copy-resources-to-dist');
-});
-
-gulp.task('docs', ['browserify'], function() {
-    return gulp.src('src/**/*.js')
-        .pipe(plugins.ngdocs.process({
-            title: 'Akamai Components',
-            html5Mode: false,
-            scripts: [
-                bundlePath,
-                bundlePath + '.map'
-            ],
-            styles: [
-                'node_modules/pulsar-common-css/dist/styles.css',
-                'node_modules/pulsar-common-css/dist/styles.css.map'
-            ]
-        }))
-        .pipe(gulp.dest('./docs'));
-});
-
-gulp.task('serve-docs', ['docs'], function() {
-    browserSync({
-        server: {
-            baseDir: './docs'
-        }
-    });
-});
-
-gulp.task('test', ['clean', 'lint'], function () {
-    karma.server.start({
-        configFile: __dirname + '/karma.conf.js',
-        singleRun: true
-    });
-});
 
 gulp.task('serve', ['setWatch', 'browserify'], function() {
     browserSync({
@@ -150,7 +88,7 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
 
                 fs.exists(newLocationOfFile, function(exists) {
                   if(!exists) {
-                    console.log('Locale does not exist: ' + filename);
+                    console.log('Locale does not exist: ' + newLocationOfFile);
                     res.writeHead(404, {'Content-Type': 'text/plain'});
                     res.write('404 Not Found\n');
                     res.end();
@@ -168,7 +106,7 @@ gulp.task('serve', ['setWatch', 'browserify'], function() {
             directory : true
         },
         files: [
-            bundlePath, 'node_modules/pulsar-common-css/dist/*.css', 'examples/*.html'
+            bundlePath, cssBundlePath, 'examples/*.html'
         ]
     });
 
@@ -182,66 +120,3 @@ gulp.task('setWatch', function() {
     global.isWatching = true;
 });
 
-gulp.task('linkCss', function(){
-    var commonCssPath = '../pulsar-common-css';
-
-    if( !fs.existsSync(commonCssPath) ){
-        plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
-        return;
-    }
-
-    plugins.util.log('creating global npm link for common css project');
-
-    plugins.shell.task(['cd ../pulsar-common-css/', 'npm link', 'cd ../akamai-components/', 'npm link pulsar-common-css'])();
-});
-
-gulp.task('unlinkCss', function(){
-    var commonCssPath = '../pulsar-common-css';
-
-    if( !fs.existsSync(commonCssPath) ){
-        plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
-        return;
-    }
-
-    plugins.util.log('npm unlinking this project to the common css project');
-
-    plugins.shell.task(['npm unlink pulsar-common-css', 'cd ../pulsar-common-css/', 'npm unlink', 'cd ../akamai-components/'])();
-});
-
-gulp.task('deploy', function(){
-    plugins.git.revParse({args:'--abbrev-ref HEAD'}, function (err, branchName) {
-        plugins.util.log('current git branch: '+ branchName);
-        //clean up branch name:
-        var cleanBranchName = branchName.replace('feature/', '').replace(' ', '_');
-        plugins.util.log('clean branch name: '+ cleanBranchName);
-
-        var longFolderName = '315289/dev/jenkins/' + cleanBranchName;
-
-        plugins.util.log('rsync destination: '+ longFolderName);
-
-        //TODO: Handle scenarios where the folder needs to be generated on the server side
-        rsync({
-          ssh: true,
-          src: ['./dist', './examples', './node_modules'],
-          dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
-          exclude: globby.sync(["node_modules/.*", "node_modules/angular-*", "node_modules/!(angular|pulsar-common-css)/", "node_modules/pulsar-common-css/!(dist)", "node_modules/pulsar-common-css/.*"]),
-          recursive: true,
-          args: ["--copy-dirlinks", "--verbose", "--compress"]
-          //dryRun: true
-        }, function(error, stdout, stderr, cmd) {
-            plugins.util.log(error, stdout);
-        });
-    });
-});
-
-gulp.task('copy-resources-to-dist', function() {
-  return gulp.src('locales/**', { base: '.' } )
-      .pipe(gulp.dest('dist'));
-});
-
-// Clean Output Directory
-gulp.task('clean', function(){
-    mkdirp('./reports/coverage');
-    mkdirp('./reports/unit');
-    del(['dist', 'reports/unit/*', 'reports/coverage/*'], {dot: true});
-});

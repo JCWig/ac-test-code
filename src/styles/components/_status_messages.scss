@@ -1,0 +1,169 @@
+/* Status Messages
+
+Status messages show users important information such as success messages, errors, warnings and informative text. The default state is success. 
+
+Markup:
+<div style="position: relative; width: 100%; height: 100px;"><!-- this div is here to support the component in the styleguide -->
+    <ul class="akam-status-message-wrapper" style="position: absolute">
+        <li class="akam-status-message-item-wrapper {$modifiers}" ng-class="{'util-transparent' : closing}">
+            <div class="akam-status-message-item">
+                <i class="close"></i>
+                <div class="status-message-content">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+.information - A status message in its informative state
+.warning - A status message in its warning state
+.error - A status message in its error state
+
+Styleguide 5.3
+
+*/
+
+
+$status-message-color: #fff;
+$status-message-font-size: 12px;
+
+$status-message-opacity: 0.95;
+$status-message-success-background: rgba(56,142,53,$status-message-opacity);
+$status-message-info-background: rgba(47,121,201,$status-message-opacity);
+$status-message-warning-background: rgba(201,120,32,$status-message-opacity);
+$status-message-error-background: rgba(163,45,45,$status-message-opacity);
+
+$status-message-icon-size: 16px;
+$status-message-close-size: 12px;
+$status-message-close-opacity: 0.5;
+$status-message-close-gutter: 30px;
+
+
+.akam-status-message-wrapper {
+    position: fixed;
+    z-index: $status-message-zindex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.akam-status-message-item-wrapper {
+    color: $status-message-color;
+    font-size: $status-message-font-size;
+    @include transition(opacity linear 0.5s);
+    
+    &, &.success {
+        background: $status-message-success-background;
+        border: solid 0 darken($status-message-success-background, 10%);
+        
+        .akam-status-message-item {
+            padding-left: ($status-message-icon-size * 2);
+            
+            &:before {
+                margin-top: -#{$status-message-icon-size / 2};
+                margin-left: 0;
+                width: $status-message-icon-size;
+                height: $status-message-icon-size;
+                background: transparent center center no-repeat;
+                background-image: inline-svg-image("svg/checkmark_white.svg");
+                background-size: contain;
+            }
+        }
+    }
+    
+    &.information {
+        background: $status-message-info-background;
+        border-top-color: darken($status-message-info-background, 10%);
+        
+        .akam-status-message-item {
+            
+            &:before {
+                background-image: inline-svg-image("svg/information-white.svg");
+            }
+        }
+    }
+    
+    &.warning {
+        background: $status-message-warning-background;
+        border-top-color: darken($status-message-warning-background, 10%);
+        
+        .akam-status-message-item {
+            
+            &:before {
+                background-image: inline-svg-image("svg/error-white.svg");
+            }
+        }
+    }
+    
+    &.error {
+        background: $status-message-error-background;
+        border-top-color: darken($status-message-error-background, 10%);
+        
+        .akam-status-message-item {
+            
+            &:before {
+                background-image: inline-svg-image("svg/error-white.svg");
+            }
+        }
+    }
+    
+    & + .akam-status-message-item-wrapper {
+        border-top-width: 1px;
+    }
+}
+
+.akam-status-message-item {
+    width: 90%; // Supplemented by a max-width, whose context is dependent on the environment (Luna, Pulsar, etc)
+    margin: 0 auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: ($status-message-close-size + $status-message-close-gutter);
+    position: relative;
+    @include box-sizing(border-box);
+    
+    .close {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: $status-message-close-size;
+        height: $status-message-close-size;
+        margin-top: -#{$status-message-close-size / 2};
+        cursor: pointer;
+        background: transparent center center no-repeat;
+        background-image: inline-svg-image("svg/small-close-white.svg");
+        background-size: contain;
+        display: block !important;
+        opacity: $status-message-close-opacity;
+        
+        &:hover {
+            opacity: 1;
+        }
+    }
+    
+    p {
+        margin: 0;
+    }
+    
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0;
+    }
+}
+
+&, &.luna {
+    // Luna tweaks here
+    .akam-status-message-item {
+        max-width: 990px;
+    }
+}
+
+&.pulsar {
+    // Pulsar tweaks here
+}

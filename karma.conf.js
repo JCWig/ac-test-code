@@ -14,12 +14,12 @@ module.exports = function(config) {
             {pattern: 'node_modules/bootstrap/dist/fonts/*', included: false, served: true},
             'node_modules/bootstrap/dist/css/bootstrap.css',
             'node_modules/moment/moment.js',
-            'test/*.js',
-            'test/**/*.js'
+            'spec/*.js',
+            'spec/**/*.js'
         ],
         frameworks: ['browserify', 'jasmine'],
         preprocessors: {
-            'test/**/*.js': ['browserify']
+            'spec/**/*.js': ['browserify']
         },
         browsers: ['PhantomJS'],
         reporters: ['spec', 'junit', 'coverage'],
@@ -27,15 +27,15 @@ module.exports = function(config) {
             debug: true,
             transform: [
                 istanbul({
-                    ignore: ['**/*.html', 'test/**/*.js']
+                    ignore: ['**/*.html', 'spec/**/*.js']
                 })
             ]
         },
         junitReporter: {
-            outputFile: 'reports/unit/unit.xml'
+            outputFile: 'build/reports/unit/unit.xml'
         },
         coverageReporter: {
-            dir: 'reports/coverage/',
+            dir: 'build/reports/coverage/',
             reporters: [
                 { type: 'html' },
                 { type: 'cobertura' },
