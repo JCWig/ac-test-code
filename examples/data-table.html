@@ -11,6 +11,25 @@
             <br/>
         </div>
         <div class="container">
+            <h2>Data Table Example with Trusted Content Switching</h2>
+            <form>
+                 <div class="form-group">
+                <input type="checkbox" ng-click="updateColumns()" name="trustContent" id="trustContent" ng-model="trustContent.value">
+                <label class="label" for="trustContent">Trust Content?</label>
+                <p>Specify whether or not the content in the table data will be trusted for the Full Name column.  If trusted the code in the HTML will
+                execute in the component when the data is displayed and you hover over the column data.</p>
+                </div>
+            </form>
+            <akam-data-table data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="noDataMessage">
+                <akam-menu-button position="right">
+                    <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
+                    <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
+                </akam-menu-button>
+            </akam-data-table>
+        </div>
+        <br />
+        <div>
+            <br />
             <h2>Data Table with Loading Options - Loaded using {{status | json}}</h2>
             <br />
             <label class="label">Data Load Type:</label>
@@ -57,7 +76,8 @@
         </div>
         <script src="../node_modules/angular/angular.js"></script>
         <script src="../dist/akamai-components.js"></script>
-        <script>        
+        <script>
+            var fullName;
             var BASE_DATA = [
                 {"id":1,"first_name":"Norma","last_name":"White","email":"nwhite0@japanpost.jp","country":"China","ip_address":"131.46.59.162","boolean":true,"color":"Yellow"},
                 {"id":2,"first_name":"Amanda","last_name":"Martin","email":"amartin1@unesco.org","country":"Haiti","ip_address":"249.90.111.115","boolean":false,"color":"Blue"},
@@ -134,12 +154,13 @@
                 return function() { }
             })
             
-            .controller('ExampleController', ["$scope", "$http", "$filter","$q","$timeout", "$log", function($scope, $http, $filter, $q, $timeout, $log) {
+            .controller('ExampleController', ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce", function($scope, $http, $filter, $q, $timeout, $log, $sce) {
                 
                 var deferred = $q.defer();
                 
                 $scope.basedata = BASE_DATA10;
-                              
+                $scope.basedata10 = BASE_DATA10;
+                
                 // Set default status to exampleData
                 $scope.status = "exampleData";
                 
@@ -149,15 +170,57 @@
                     basedata : BASE_DATA,
                     nulldata : []
                 };
-                    
+                
+                // Initialize the value to true for the trusted content
+                $scope.trustContent = {
+                    value : true
+                };
+     
+                // Set the default timeout
                 $timeout(function(){
                     deferred.resolve(BASE_DATA);
                 }, 2000);
                 
-                // Specify the columns for the result set
-                $scope.columns = [
+                
+                // Reload the columns
+                $scope.updateColumns = function() {
+                    $scope.columns10 = getColumns10();
+                }
+                
+                // Load the columns    
+                $scope.updateColumns();
+                
+                function getColumns10() {
+                    return [
                     {
-                        // Concentenate the first_name and last_name fields into full name
+                        // Concatenate the first_name and last_name fields into full name.  The span string is to test out what happens
+                        // when content is trusted by the component.  When trusted the code will execute in the component when the data is displayed
+                        // and you hover over the data is the Full Name column.
+                        content : function(){
+                            fullName = this.first_name + ' ' + this.last_name +
+                            "<span class='hi' onmouseover=\"alert('Trusted Content')\"> (mouseover to see an alert, if content trusted)</span>";
+
+                            if ($scope.trustContent.value) {
+                                // Set whether or not to trust the content
+                                return $sce.trustAsHtml(fullName);
+                            }
+                            else  {
+                                return fullName;
+                            }
+                        },
+                        header : 'Full Name',
+                        className : 'column-full-name',
+                        title: true,
+                        sort:true,
+                    },  
+                ];
+                }
+                    
+                // Return the columns for the data table control                
+                $scope.columns =  [
+                    {
+                        // Concatenate the first_name and last_name fields into full name.
+                        // NOTE that the "this" context for the function call will the object being worked on and not the column itself
                         content : function(){
                             return this.first_name + ' ' + this.last_name;
                         },
@@ -217,7 +280,7 @@
                         }
                     },               
                 ];
-                                
+                
                 $scope.process = function($event, type, item){
                     // Log the row selected with the first column in the table (full name)
                     $log.log('Row Menu Item Selected for: ' + item.cells[0]);
