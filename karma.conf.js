@@ -32,10 +32,10 @@ module.exports = function(config) {
             ]
         },
         junitReporter: {
-            outputFile: 'build/reports/unit/unit.xml'
+            outputFile: 'target/reports/unit/unit.xml'
         },
         coverageReporter: {
-            dir: 'build/reports/coverage/',
+            dir: 'target/reports/coverage/',
             reporters: [
                 { type: 'html' },
                 { type: 'cobertura' },

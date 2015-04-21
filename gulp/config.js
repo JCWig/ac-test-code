@@ -1,4 +1,5 @@
-var dest = './build/dist';
+var target = './target';
+var dest = target + '/dist';
 var src = './src';
 var assets = './assets';
 
@@ -40,6 +41,7 @@ module.exports = {
   production: {
     cssSrc: dest + '/*.css',
     jsSrc: dest + '/*.js',
-    dest: dest
+    dest: dest,
+    target : target
   }
 };

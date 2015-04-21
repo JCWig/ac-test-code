@@ -15,7 +15,7 @@ var minifyCSS = require('gulp-minify-css');
 
 var jsFilename = pkg.name + '.js';
 var jsMinFilename = pkg.name + '.min.js';
-var target = 'build/dist';
+var target = 'target/dist';
 var bundlePath = path.join(target, jsFilename);
 
 var bundleLogger = require('../util/bundle-logger');
