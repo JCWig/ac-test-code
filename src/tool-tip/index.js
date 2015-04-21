@@ -10,7 +10,8 @@ var angular = require('angular');
     * @description Provides a set of directives to use in order to create Pulsar compatible menu buttons.
     *
     */
-    module.exports = angular.module('akamai.components.tool-tip', [
+    module.exports = angular.module('akamai.components.tooltip', [
+        'ngSanitize',
         require('angular-bootstrap-npm')
     ])
 
@@ -28,4 +29,4 @@ var angular = require('angular');
      * @example
      *
      */
-.directive('akamToolTip', require('./tool-tip-directive'));
+.directive('akamTooltip', require('./tooltip-directive'));
