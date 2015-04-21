@@ -29,28 +29,28 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
             var triggerElement = element;
             scope.useCustomContent = function(){
                 return !!scope.customContent;
-            }
+            };
             scope.isOpen = function(){
                 return scope.opened;
-            }
+            };
             scope.toggle = function(){
                 $timeout(function(){
                     scope.opened = !scope.opened;
                     toolTip.toggleClass('in', scope.opened);
                 });
-            }
+            };
             scope.isAnimation = function(){
                 return scope.animation;
-            }
+            };
             scope.hasHeader = function(){
                 return scope.header && scope.header.length > 0;
-            }
+            };
             scope.hasButton = function(){
                 return scope.buttonText && scope.buttonText.length > 0;
-            }
+            };
             scope.hasLink = function(){
                 return scope.linkText && scope.linkText.length > 0 && scope.linkUrl && scope.linkUrl.length > 0;
-            }
+            };
             if(scope.trigger === "click"){
                 triggerElement.on("click", function(){
                     scope.toggle();
@@ -65,7 +65,6 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                     scope.toggle();
                 });
             }
-            angular.element(window).on('resize', _.debounce(setCoords, 200));
             function setCoords(){
                 var pageMidCoords = document.body.clientWidth / 2;
                 var triggerElementOffsetLeft = triggerElement[0].offsetLeft;
@@ -84,7 +83,7 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                     scope.toolTipTop = (elementOffsetTop - toolTipArrowOffset);
                     scope.arrowTop = toolTipArrowOffset;
                     scope.arrowLeft = -arrowHeight;
-                } else if(scope.position == 'left') {
+                } else if(scope.position === 'left') {
                     scope.toolTipLeft = (triggerElementOffsetLeft - toolTipWidth - arrowHeight);
                     scope.toolTipTop = (elementOffsetTop - toolTipArrowOffset);
                     scope.arrowTop = toolTipArrowOffset;
@@ -114,7 +113,7 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                 scope.arrowTop = scope.arrowTop + "px";
                 scope.arrowLeft = scope.arrowLeft + "px";
             }
-
+            angular.element(window).on('resize', _.debounce(setCoords, 200));
             $timeout(function(){
                 setCoords();
             },0);
