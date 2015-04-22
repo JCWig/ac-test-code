@@ -12,7 +12,7 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
             position: "@",
             header:"@",
             trigger:"@",
-            content: "@",
+            tooltipContent: "@",
             customContent: "=",
             linkText:"@",
             linkUrl:"@",
@@ -22,8 +22,8 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
         link: function(scope, element, attrs) {
             scope.opened = false;
             scope.animation = true; 
-            var content = require('./templates/tooltip.tpl.html');
-            var toolTip = $compile(content)(scope,function(toolTip){
+            var template = require('./templates/tooltip.tpl.html');
+            var toolTip = $compile(template)(scope,function(toolTip){
                 element.after(toolTip);
             });
             var triggerElement = element;

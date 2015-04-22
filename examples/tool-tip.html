@@ -14,22 +14,22 @@
                 <h1>Tool Tip/ Bubble Help Example</h1>
         </div>
         <div class="container">
-            <span akam-tooltip position="bottom" content="This just has Content and nothing else." trigger="click">Clicky for Bottom Left Side </span>
-            <span class="pull-right" akam-tooltip position="bottom" header="Here is a top title" content="{{trap}}" trigger="click" link-text="Somewhere over the rainbow" 
+            <span akam-tooltip position="bottom" tooltip-content="This just has Content and nothing else." trigger="click">Clicky for Bottom Left Side </span>
+            <span class="pull-right" akam-tooltip position="bottom" header="Here is a top title" tooltip-content="{{trap}}" trigger="click" link-text="Somewhere over the rainbow" 
                     link-url="www.google.com" button-text="Clicky Click" button-function="btnFunction">Clicky for Bottom Right Side</span>
             <br/><br/><br/><br/><br/><br/><br/>
             <button akam-tooltip position="right" custom-content="customData" trigger="click"> Here is Some with Transcluded Content </button>
             <button  akam-tooltip class="pull-right" position="left" custom-content="customData" trigger="hover">Here is Some with Transcluded Content (Hover)</button>
             <br/><br/><br/><br/><br/><br/><br/>
-            <i class="luna-close" header="The Flash AKA Barry Allen" trigger="click" position="top" akam-tooltip content="{{flashQuote}}"></i>
-            <i class="luna-close pull-right" trigger="click" position="top" akam-tooltip link-text="Go To the Arrow Cave" link-url="/arrowCave" content="{{arrowQuote}}"></i>
+            <i class="luna-close" header="The Flash AKA Barry Allen" trigger="click" position="top" akam-tooltip tooltip-content="{{flashQuote}}"></i>
+            <i class="luna-close pull-right" trigger="click" position="top" akam-tooltip link-text="Go To the Arrow Cave" link-url="/arrowCave" tooltip-content="{{arrowQuote}}"></i>
             <br/><br/><br/><br/><br/><br/><br/>
             <input type="text" placeholder="hover" akam-tooltip position="bottom" custom-content="customData" trigger="hover">
             <input class="pull-right" placeholder="click" type="text" akam-tooltip class="pull-right" position="bottom" custom-content="customData" trigger="clik">
             <br/><br/><br/><br/><br/><br/><br/>
             <div style="">
                 <h3 akam-tooltip position="top" custom-content="information" trigger="hover"> Hover for Information </h3> <br>
-                <div> My name is Barry Allen and I am the Fastest Man alive. When I was a kid I saw my mom killed by something impossible. My father went to prison for her murder. But then an accident made me the impossible. To the outside world I'm an ordinary <span style="color:blue" akam-tooltip trigger="click" position="right" custom-content="flashContent">forensic scientist</span> but secretly I use my speed to fight crime and find others like me. And one day I will find killed my mother and get justice for my father. <span style="color:red" akam-tooltip header="Flash Fact" position="left" trigger="hover" content="{{flashFact}}">I am the Flash.</span> </div>
+                <div> My name is Barry Allen and I am the Fastest Man alive. When I was a kid I saw my mom killed by something impossible. My father went to prison for her murder. But then an accident made me the impossible. To the outside world I'm an ordinary <span style="color:blue" akam-tooltip trigger="click" position="right" custom-content="flashContent">forensic scientist</span> but secretly I use my speed to fight crime and find others like me. And one day I will find killed my mother and get justice for my father. <span style="color:red" akam-tooltip header="Flash Fact" position="left" trigger="hover" tooltip-content="{{flashFact}}">I am the Flash.</span> </div>
         </div>
     </div>
     <script type="text/javascript">
@@ -39,7 +39,7 @@
                 console.log("CLICKY CLICKY");
             }
             scope.trap ="Didn't anyone ever tell you there's one thing you never put in a trap if you're smart, if you value your continued existance, if you have any plans about seeing tomrrow, there's one thing you never ever put in a trap.";
-            scope.flashQuote ="My name is Barry Allen and I am the Fastest Man alive. When I was a kid I saw my mom killed by something impossible. My father went to prison for her murder. But then an accident made me the impossible. To the outside world I'm an ordinary forensic scientist but secretly I use my speed to fight crime and find others like me. And one day I will find killed my mother and get justice for my father. I am The Flash.";
+            scope.flashQuote ="My name is Barry Allen and I am the Fastest Man alive. When I was a kid I saw my mom killed by something impossible. My father went to prison for her murder. But then an accident made me the impossible. To the outside world I'm an ordinary forensic scientist but secretly I use my speed to fight crime and find others like me. And one day I will find killed my mother and get justice for my father. I am The Flash";
             scope.arrowQuote = "My name is Oliver Queen.";
             scope.information = $sce.trustAsHtml('<h3 style="color:blue"> Blue : Click,</h3><h3 style="color:red"> Red : Hover</h3>');
             scope.flashFact = "Proven multiple times over The Flash is faster than Superman";
