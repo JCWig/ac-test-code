@@ -1,10 +1,9 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($http, $q, $timeout, $log, i18nToken, i18nConfig) {
+module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
     var locale = i18nToken.getCurrentLocale(),
         urls = i18nToken.getUrls(),
-        dirty = false,
         errorList = [],
         translationTable = [];
 
@@ -61,7 +60,7 @@ module.exports = function($http, $q, $timeout, $log, i18nToken, i18nConfig) {
                     translationTable = [];
                     deferred.resolve(loadTranslations(i18nConfig.defaultLocale, urls));
                 } else {
-                    deferred.reject(errorList[0]);
+                    deferred.reject(errorList);
                 }
             } else {
                 deferred.resolve([translationTable]);

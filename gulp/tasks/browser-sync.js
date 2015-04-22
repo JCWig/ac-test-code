@@ -25,7 +25,7 @@ gulp.task('browser-sync', function() {
                 if (appsMatches) {
                     newLocationOfFile = './examples/locales/json/messages/' + appsMatches[1];
                 }else if (libsMatches) {
-                    newLocationOfFile = './locales/' + libsMatches[1];
+                    newLocationOfFile = './assets/locales/' + libsMatches[1];
                 }
 
                 console.log("Overwriting the location", req.originalUrl, newLocationOfFile);

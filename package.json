@@ -96,9 +96,11 @@
     "reports"
   ],
   "scripts": {
-    "test": "./node_modules/.bin/gulp clean --no-color && ./node_modules/.bin/gulp test --no-color",
+    "compass" : "./node_modules/.bin/gulp compass --no-color",
+    "clean" : "./node_modules/.bin/gulp clean --no-color",
+    "test": "npm run clean && npm run compass && ./node_modules/.bin/gulp test --no-color",
     "start": "./node_modules/.bin/gulp default --no-color",
-    "build": "./node_modules/.bin/gulp build --no-color --production",
+    "build": "npm run clean && npm run compass && ./node_modules/.bin/gulp build --no-color --production",
     "netstorage": "./node_modules/.bin/gulp deploy --no-color"
   }
 }
