@@ -513,6 +513,12 @@ describe('akam-pagination directive', function() {
         });
     });
     describe('when changing html inputs', function(){
+        beforeEach(function(){
+            if(self.element){
+                document.body.removeChild(self.element);
+                self.element = null;
+            }
+        });
         it('should throw angular error if current page not given', function(){
             var markup = '<akam-pagination total-items="pager.count" ' +
                 'onchangepage="onchangepage(page)" ' +
