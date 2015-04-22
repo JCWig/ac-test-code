@@ -25,8 +25,7 @@
           <input type="checkbox"
                  ng-model="state.allSelected"
                  ng-change="selectAll()"
-                 id="{{::(tableId + 'allSelected')}}">
-          <label for="{{::(tableId + 'allSelected')}}"></label>
+                 id="{{::(tableId + 'allSelected')}}"><label for="{{::(tableId + 'allSelected')}}"></label>
         </th>
         <th ng-repeat="column in ::columns"
             ng-class="getColumnClasses(column, true, state)"
@@ -44,8 +43,7 @@
           <input type="checkbox"
                  ng-model="item.selected"
                  ng-change="updateChanged(item)"
-                 id="{{ ::(tableId + '_item_' + $index )}}">
-          <label for="{{ ::(tableId + '_item_' + $index) }}"></label>
+                 id="{{ ::(tableId + '_item_' + $index )}}"><label for="{{ ::(tableId + '_item_' + $index) }}"></label>
         </td>
         <td ng-repeat="column in ::columns track by item.cells[$index].id"
           ng-class="::getColumnClasses(column, false, state)"
@@ -83,9 +81,8 @@
       <input type="checkbox"
              ng-model="state.viewSelectedOnly"
              ng-change="updateSearchFilter();"
-             id="{{::(tableId + 'viewSelectedOnly')}}">
-      <label for="{{::(tableId + 'viewSelectedOnly')}}"
-             akam-translate="components.list-box.text.viewSelected"></label>
+             id="{{::(tableId + 'viewSelectedOnly')}}"><label for="{{::(tableId + 'viewSelectedOnly')}}"
+                                                              akam-translate="components.list-box.text.viewSelected"></label>
     </span>
   </div>
 
