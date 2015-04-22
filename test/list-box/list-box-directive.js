@@ -177,6 +177,7 @@ describe('akam-list-box', function() {
         it('should can have filter loaded with placeholder', function() {
             var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
             addElement(markup);
+            httpBackend.flush();
 
             var filterBox = document.querySelector(FILTER_BOX);
 
@@ -1041,7 +1042,7 @@ describe('akam-list-box', function() {
 
             var dataTableRow = document.querySelector('.empty-table-message');
 
-            expect(dataTableRow.textContent).toEqual('There is no data based upon your criteria');
+            expect(dataTableRow.textContent).toContain('There is no data based upon your criteria');
         });
         it('should present a the no data message when no data is available not filtered and view selected only on', function(){
             var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
@@ -1164,14 +1165,14 @@ describe('akam-list-box', function() {
                     header:"header"
                 },
                 {content : null,
-                header : 'Name'},
+                header : 'Name'}
             ];
             var markup = '<akam-list-box data="mydata" schema="badcolumns"></akam-list-box>';
             try{
                 addElement(markup);
                 timeout.flush();
             } catch (e){
-                expect(e).toEqual("The column content field is using an unknown type.  Content field may only be String or Function type");
+                expect(e).toEqual('The column content field is using an unknown type. Content field may only be String or Function type');
             }
         });
         it('should throw error when data is not an array', function(){
