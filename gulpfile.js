@@ -182,32 +182,6 @@ gulp.task('setWatch', function() {
     global.isWatching = true;
 });
 
-gulp.task('linkCss', function(){
-    var commonCssPath = '../pulsar-common-css';
-
-    if( !fs.existsSync(commonCssPath) ){
-        plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
-        return;
-    }
-
-    plugins.util.log('creating global npm link for common css project');
-
-    plugins.shell.task(['cd ../pulsar-common-css/', 'npm link', 'cd ../akamai-components/', 'npm link pulsar-common-css'])();
-});
-
-gulp.task('unlinkCss', function(){
-    var commonCssPath = '../pulsar-common-css';
-
-    if( !fs.existsSync(commonCssPath) ){
-        plugins.util.log('common css project does not exist at the expected path: ' + commonCssPath);
-        return;
-    }
-
-    plugins.util.log('npm unlinking this project to the common css project');
-
-    plugins.shell.task(['npm unlink pulsar-common-css', 'cd ../pulsar-common-css/', 'npm unlink', 'cd ../akamai-components/'])();
-});
-
 gulp.task('deploy', function(){
     plugins.git.revParse({args:'--abbrev-ref HEAD'}, function (err, branchName) {
         plugins.util.log('current git branch: '+ branchName);
@@ -215,7 +189,7 @@ gulp.task('deploy', function(){
         var cleanBranchName = branchName.replace('feature/', '').replace(' ', '_');
         plugins.util.log('clean branch name: '+ cleanBranchName);
 
-        var longFolderName = '315289/dev/jenkins/' + cleanBranchName;
+        var longFolderName = '/315289/website/branches/' + cleanBranchName;
 
         plugins.util.log('rsync destination: '+ longFolderName);
 
@@ -229,7 +203,12 @@ gulp.task('deploy', function(){
           args: ["--copy-dirlinks", "--verbose", "--compress"]
           //dryRun: true
         }, function(error, stdout, stderr, cmd) {
-            plugins.util.log(error, stdout);
+            if (error) {
+                plugins.util.log(error, stdout);
+            }else{
+                plugins.util.log(cmd);
+                plugins.util.log(stdout);
+            }
         });
     });
 });
