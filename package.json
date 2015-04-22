@@ -100,6 +100,7 @@
     "clean" : "./node_modules/.bin/gulp clean --no-color",
     "test": "npm run clean && npm run compass && ./node_modules/.bin/gulp test --no-color",
     "start": "./node_modules/.bin/gulp default --no-color",
+    "jenkins-build" : "./jenkins.sh build",
     "build": "npm run clean && npm run compass && ./node_modules/.bin/gulp build --no-color --production",
     "netstorage": "./node_modules/.bin/gulp deploy --no-color"
   }
