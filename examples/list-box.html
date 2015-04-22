@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../dist/akamai-core.css">
     
     <style>
         .container {
@@ -65,7 +65,7 @@
     </div>
     
     <script src="../node_modules/angular/angular.js"></script>
-    <script src="../dist/akamai-components.js"></script>
+    <script src="../dist/akamai-core.js"></script>
     <script>
         var BASE_DATA = [
             {
@@ -140,7 +140,7 @@
         });
 
         app.factory('noop', function() {
-          return function() { }
+          return angular.noop;
         });
 
         app.controller("Ctrl", ["$scope", "$timeout", "$q", "$http", "translate", "$sce", function(scope, $timeout, $q, $http, translate, $sce) {

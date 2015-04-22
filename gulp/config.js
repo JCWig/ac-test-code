@@ -1,9 +1,17 @@
-var target = './target';
-var dest = target + '/dist';
+var pkg        = require('../package.json');
+var path       = require('path');
+
+var dest = './dist';
 var src = './src';
 var assets = './assets';
+var reports = './reports';
+var production = !!(require('yargs').argv.production);
+var packageName = pkg.name;
+
+var jsFileName = packageName + '.js';
 
 module.exports = {
+  productionBuild : production,
   browserSync: {
     server: {
       // Serve up our build folder
@@ -13,35 +21,25 @@ module.exports = {
   sass: {
     src: src + "/styles/**/*.scss",
     dest: dest,
-    settings: {
-      imagePath: 'assets/images' // Used by the image-url helper
-    }
+    imagePath: 'assets/images' // Used by the image-url helper
   },
   images: {
     src: assets + "/images/**",
     dest: dest + "/images"
   },
   browserify: {
-    // A separate bundle will be generated for each
-    // bundle config in the list below
-    bundleConfigs: [{
-      entries: src + '/javascript/global.coffee',
-      dest: dest,
-      outputName: 'global.js',
-      // Additional file extentions to make optional
-      extensions: [],
-      // list of modules to make require-able externally
-      require: []
-    }, {
-      entries: src + '/javascript/page.js',
-      dest: dest,
-      outputName: 'app.js'
-    }]
+    entries: [src],
+    fullPaths: false,
+    debug: true,
+    outputName : jsFileName,
+    dest : dest
   },
   production: {
+    src : src,
     cssSrc: dest + '/*.css',
-    jsSrc: dest + '/*.js',
+    jsSrc: path.join(dest, jsFileName),
     dest: dest,
-    target : target
+    reports: reports,
+    packageName : pkg.name
   }
 };

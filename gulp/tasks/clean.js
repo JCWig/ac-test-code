@@ -4,5 +4,5 @@ var config    = require('../config').production;
 
 // Clean Output Directory
 gulp.task('clean', function(){
-    del([config.target], {dot: true});
+    del([config.reports, config.dest], {dot: true});
 });

@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log) {
+module.exports = function() {
     return {
         restrict: 'E',
         transclude: true,

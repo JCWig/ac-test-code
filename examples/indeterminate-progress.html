@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Akamai Component Examples - Indeterminate Progress</title>
-        <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../dist/akamai-core.css">
         <style>
             .container {
                 min-height: 150px;
@@ -47,7 +47,7 @@
                 <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" size="large" label="{{label}}"></akam-indeterminate-progress>
             </div>
             <script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
-            <script type="text/javascript" src="../dist/akamai-components.min.js"></script>
+            <script type="text/javascript" src="../dist/akamai-core.js"></script>
             <script>
                 var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress"]);
                 
