@@ -34,7 +34,7 @@
                     </ul>
                 </div>
             </div>
-            <br><br>
+            <br />
              <div>
                 <label class="label">Filter Examples:</label>
                 <h3>Translated Text from Application Locale JSON file</h3>
@@ -67,28 +67,32 @@
                 <label class="label">Using Filter on Dates | Currencies | Numbers:</label>
                 <h3>Dates:</h3>
                 <br />
-                <ul>{{1288323623006 | date:'medium':'UTC'}} </ul>
-                <ul>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss':'UTC'}}</ul>
-                <ul>{{1288323623006 | date:'MM/dd/yyyy @ h:mma':'UTC'}}</ul>
+                <ul>
+                    <li>{{1288323623006 | date:'medium':'UTC'}} </li>
+                    <li>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss':'UTC'}}</li>
+                    <li>{{1288323623006 | date:'MM/dd/yyyy @ h:mma':'UTC'}}</li>
+                </ul>                
             </div><br />
             <div>
                 <h3>Currencies:</h3>
                 <br />
-                <ul>{{ 1000000 | currency }}</ul>
-                <ul>Force USD:  {{ 1000000 | currency:"USD$"}}</ul>
+                <ul>
+                    <li>{{ 1000000 | currency }}</li>
+                    <li>Force USD:  {{ 1000000 | currency:"USD$"}}</li>
+                </ul>
             </div><br />
             <div>
                 <h3>Numbers:</h3>
                 <br />
-                <ul>{{1234.56789 | number}}</ul>
-                <ul>{{1234.56789 | number:0}}</ul>
-                <ul>{{-1234.56789 | number:4}}</ul>
+                <ul>
+                    <li>{{1234.56789 | number}}</li>
+                    <li>{{1234.56789 | number:0}}</li>
+                    <li>{{-1234.56789 | number:4}}</li>
+                </ul>
             </div><br />
-            <br /><br />
             <div>
-                <h3>Check browser console for Javascript translations using the translate service.</h3>
+                <label class=label>Check browser console for Javascript translations examples using the translate service.</label>
             </div>
-            <br /><br />
         </div>
         <script src="../node_modules/angular/angular.js"></script>
         <script src="../node_modules/angular-cookies/angular-cookies.js"></script>
@@ -96,8 +100,15 @@
         <script type="text/javascript" src="../dist/akamai-components.js"></script>
         <script>
             var app = angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
+            
+            // Override the location of the Component and Application locale files
+            app.config(function(i18nTokenProvider) {
+                i18nTokenProvider.setComponentLocalePath("/libs/akamai-components/0.5.0/locales/");
+                i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
+            });
 
-            app.controller('TranslationPageController', ['$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log', function($scope, $cookies, translate, $rootScope, $filter, $log) {
+            app.controller('TranslationPageController', ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log',
+                            function(i18nToken, $scope, $cookies, translate, $rootScope, $filter, $log) {
                 $rootScope.$on('$translateChangeEnd', function() {
                     // List of locales to populate the locale selection dropdown. Note that not all of these exist
                     $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
@@ -109,13 +120,15 @@
                     if($cookies.AKALOCALE) {
                         $scope.selected = atob($cookies.AKALOCALE);
                     }
-
+                    
                     $scope.changeLocale = changeLocale;
-
+            
                     $log.log(translate.sync('reseller-tools.note'));
                     $log.log(translate.sync('components.menu-button.label'));
                     $log.log($filter('akamTranslate')('components.notifications.success'));
-                    $log.log($filter('akamTranslate')('recurring-report.activate.modal.message'));
+                    $log.log($filter('akamTranslate')('recurring-report.activate.modal.message'));              
+                    $log.log('compURLs ' + i18nToken.getUrls());
+                    $log.log('appPath ' + i18nToken.getCurrentLocale());
                 });
 
                 // Reload the page when the locale is changed.  This will force the lookup of the keys again.
@@ -123,6 +136,7 @@
                     document.cookie = 'AKALOCALE='+btoa($scope.selected);
                     window.location.reload();
                 }
+                
             }]);
     </script>
     </body>
