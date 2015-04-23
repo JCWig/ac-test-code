@@ -56,7 +56,6 @@
     "gulp-rename": "^1.2.2",
     "gulp-shell": "^0.4.0",
     "gulp-sourcemaps": "^1.5.1",
-    "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.4",
     "jasmine-core": "^2.2.0",
     "jshint-junit-reporter": "~0.1.0",
@@ -82,6 +81,7 @@
     "rsyncwrapper": "^0.4.2",
     "run-sequence": "^1.0.2",
     "semver": "^4.3.3",
+    "uglify-js": "^2.4.20",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.0",
@@ -96,11 +96,11 @@
     "reports"
   ],
   "scripts": {
-    "compass" : "./node_modules/.bin/gulp compass --no-color",
-    "clean" : "./node_modules/.bin/gulp clean --no-color",
+    "compass": "./node_modules/.bin/gulp compass --no-color",
+    "clean": "./node_modules/.bin/gulp clean --no-color",
     "test": "npm run clean && npm run compass && ./node_modules/.bin/gulp test --no-color",
     "start": "./node_modules/.bin/gulp default --no-color",
-    "jenkins-build" : "./jenkins.sh build",
+    "jenkins-build": "./jenkins.sh build",
     "build": "npm run clean && npm run compass && ./node_modules/.bin/gulp build --no-color --production",
     "netstorage": "./node_modules/.bin/gulp deploy --no-color"
   }

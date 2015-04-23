@@ -27,6 +27,10 @@ module.exports = {
     src: assets + "/images/**",
     dest: dest + "/images"
   },
+  lint : {
+    path : reports + '/unit/',
+    file : 'jshint.xml'
+  },
   browserify: {
     entries: [src],
     fullPaths: false,
@@ -38,6 +42,8 @@ module.exports = {
     src : src,
     cssSrc: dest + '/*.css',
     jsSrc: path.join(dest, jsFileName),
+    jsSrcMin: path.join(dest, packageName + '.min.js'),
+    jsMinMap: packageName + '.min.js.map',
     dest: dest,
     reports: reports,
     packageName : pkg.name

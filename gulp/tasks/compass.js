@@ -15,7 +15,7 @@ gulp.task('compass', function() {
       css: config.dest,
       sass: config.src,
       environment : 'development',
-      debug : true
+      debug : false
     }))
     .on('error', function(error) {
       // Would like to catch the error here 
@@ -32,7 +32,8 @@ gulp.task('compass', function() {
         suffix: '.min'
     }))
     .pipe(gulp.dest(config.dest))
-    .pipe(size());
-    
-    del([path.join(config.dest, 'index.css'), path.join(config.dest, 'index.css.map')], {dot: true});
+    .pipe(size())
+    .on('end', function(){
+        del([path.join(config.dest, 'index.css'), path.join(config.dest, 'index.css.map')], {dot: true});
+    });
 });

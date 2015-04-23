@@ -40,7 +40,7 @@ end
 # environment
 
 # Output verbose messages when an error occurs during compile
-debug = true
+debug = false
 
 # The path to the project when running within the web server. Defaults to "/".
 http_path = "."
