@@ -1,0 +1,95 @@
+@import '../variables';
+
+// custom taggle for Luna tags here
+.luna-tags {
+
+  .taggle_placeholder, .taggle_input {
+    @include transition(none);
+  }
+
+  .taggle_list {
+    margin: 0;
+    padding: 0;
+
+    & li {
+      margin-bottom: 2px;
+      margin-top: 3px;
+      font-weight: initial;
+    }
+
+    & .taggle {
+      padding: 5px 15px 5px 5px;
+      border: 1px solid #aaa;
+      background: #e4e4e4;
+      @include transition(none);
+
+      &:focus {
+        background: #cac8c4;
+      }
+
+      &:hover {
+        @include transition(none);
+      }
+
+      &.taggle_hot {
+        background-color: #cac8c4;;
+      }
+
+      .close {
+        color: #333;
+        font-size: $input-text-size;
+        display: block;
+        padding-top: 0;
+
+        &:hover {
+          font-weight: bold;
+          @include transition(none);
+        }
+      }
+    }
+  }
+
+  .taggle_input {
+    box-shadow: none;
+    height: 24px;
+    font-size: $input-text-size;
+    padding: 0;
+    margin: 0;
+  }
+
+  &.textarea.input {
+    background-color: $input-background-color;
+    min-height: initial;
+    border: solid 1px $input-border-color;
+    padding: 0 0 0 $input-padding;
+    color: $input-text-color;
+    font-size: $input-text-size;
+    outline: none;
+    vertical-align: middle;
+    line-height: normal;
+    @include transition(background-color, .25s);
+    @include box-sizing(border-box);
+    @include box-shadow($input-box-shadow);
+    @include border-radius($input-border-radius);
+
+    &.active {
+      border-color: $input-border-color-focus;
+      background-color: $input-background-color-focus;
+      @include box-shadow($input-box-shadow);
+    }
+
+    &:active, &:focus {
+      background-color: $input-background-color-focus;
+      @include transition(none);
+    }
+  }
+
+  .taggle_text {
+    font-size: $input-text-size;
+  }
+
+  .placeholder_input span {
+    color: $input-placeholder-text-color;
+  }
+}
+

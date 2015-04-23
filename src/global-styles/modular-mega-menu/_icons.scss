@@ -1,0 +1,116 @@
+i {
+  background: url('images/head_sprite.png') no-repeat 0 0;
+  border-style: initial;
+  border-width: 0;
+  cursor: pointer;
+  display: inline-block;
+  float: none;
+
+  &.orange-caret-right {
+    background-position: 0 $orange-caret-position;
+    width: $caret-width;
+    height: $caret-height;
+  }
+
+  &.caret-right {
+    background-position: 0 $orange-caret-position+ 32px;
+    width: $caret-width;
+    height: $caret-height;
+  }
+
+  &.luna-logo {
+    width: 186px;
+    height: $luna-logo-height;
+    cursor: default;
+  }
+
+  // folder icon -- not in common css
+  &.context-0 {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAAJ1BMVEUAAAD///+Wo7CWo7CWo7CWo7CWo7CWo7CZprOisL67ydm+zNzH1uYLGZQXAAAAB3RSTlMAABBQv8/vTFz/PQAAADRJREFUeAFjYEQH1BNhYwcCFiYGKACKsPPw8HBxsDKjivBwc7JDABtUBAHYB1yEDeI0uAsB8CwHFA4JgOkAAAAASUVORK5CYII=);
+    width: $context-icon-width;
+    height: $context-icon-height;
+  }
+
+  // site icon -- background color is different from what's in common css
+  &.context-1 {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAARVBMVEUAAACWo7CWo7CWo7CWo7CWo7CWo7CWo7CWo7CWo7CWo7CWo7Cjr7qqtL+wusS9xs7Ey9PL0djR19zY3eHl6Ovr7vDy9PWN963dAAAAC3RSTlMAECAwQGCAj6+/73hlzdYAAABXSURBVHjapc/bCoAwCIBhO6y2Vm5rh/d/1BQaaNFVP159ICLAuMgMweZVK8xe51j21Au3YEu5MeTSpfBQKKUiFaV8bf2UilHfOkrvZHn/NT3EAhgns8MF+PsNiG4Z0oYAAAAASUVORK5CYII=);
+    width: $context-icon-width;
+    height: $context-icon-height;
+  }
+
+  // application icon -- background color is different from what's in common css
+  &.context-2 {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAAQlBMVEUAAAD///+Wo7CWo7CWo7CWo7CWo7CdqbWjr7qwusS3wMm9xs7Ey9PL0djR19zY3eHe4ubl6Ovr7vDy9PX4+fr///99RtIiAAAABnRSTlMAADBAYJ/rWpeCAAAAX0lEQVQY05XQNxKAMAwFURGNEMlh739VChMGGBds+Sp9SfVOpOsftVL3r6QpyDBFNr3EmQeAYKdMMcs2HqLRzBNM13QKRHMWgFtA4Z+4OWXxdl3o5qRpGUorvks/39gB5XcKepBUtF0AAAAASUVORK5CYII=);
+    width: $context-icon-width;
+    height: $context-icon-height;
+  }
+
+  // on demand icon -- background color is different from what's in common css
+  &.context-3 {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAAPFBMVEUAAACWo7CWo7CWo7CWo7CWo7CWo7CdqbWjr7qqtL+wusS3wMm9xs7Ey9PL0djY3eHr7vDy9PX4+fr///9ZWy8RAAAABnRSTlMAUGBwgL9ZP2FfAAAAS0lEQVR42n3OSxKAIAwE0TGAH9Cgcv+7yhK7Snv5FpNIFsdMmuZ3pghJX5JXijdfKO3eIb0zQ3oH5CrYcexU3Crb/88UGSRIlsaCHrIgB+pYQtL9AAAAAElFTkSuQmCC);
+    width: $context-icon-width;
+    height: $context-icon-height;
+  }
+
+  // download icon -- background color is different from what's in common css
+  &.context-4 {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAALVBMVEUAAAD///+Wo7CWo7CWo7CWo7CWo7Cjr7qwusS9xs7L0djR19zY3eHr7vD///9jWi+IAAAABnRSTlMAADBAYJ/rWpeCAAAATklEQVR4AZXMOxKAIBAE0QVh+c/9j2tZusBYJnb4ghbxx5YXJ1Gp6ERfmaScE0sF6l/B05JyQ1mi7YJGnw50JdExdJM8M8HMhPqSwBDcCWhEB7DMbuKWAAAAAElFTkSuQmCC);
+    width: $context-icon-width;
+    height: $context-icon-height;
+  }
+
+  // live streaming icon -- background color is different from what's in common css
+  &.context-5 {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAAV1BMVEUAAACWo7CWo7CWo7CWo7CwusT///+Wo7CWo7CWo7CWo7CWo7CWo7CdqbWjr7qqtL+wusS3wMm9xs7Ey9PL0djR19zY3eHe4ubl6Ovr7vDy9PX4+fr///8fpv2ZAAAADHRSTlMAECAwQEBAYHCPn++MzUDHAAAAiklEQVR42o3O2xKDIAxF0bRaezsBBAWq5/+/s8BU2/Gpe5gJWU8RueG351VOOCT9X2LivplkqsQMp20fkWMVjrp6DQF+La+IpTpiJoPSWTZBkUhOoDNV2nT6yuqpY5MUESymCdYjpypuQSnNAHSx3wtzPt687HL+fMhN5NGmbnIXka4vXYahr3XyBmY7D4HsTENPAAAAAElFTkSuQmCC);
+    width: $context-icon-width;
+    height: $context-icon-height;
+  }
+
+  // advanced (star) icon -- background color is different from what's in common css
+  &.context-6 {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAKlBMVEWWo7CWo7CdqbWjr7qqtL+wusTEy9PL0djR193Y3eLl6Ovs7vD5+vr///8Uxy43AAAAAXRSTlOArV5bRgAAAFVJREFUeNptz0EOwCAIRFFFKSrM/a/bVOM0pv0JC98CYkr5iG+2wewEiZADDLAXqloAYVoXOJhPEIrLBIrLXqoLlFeuBRehAe0Zwugl59IHgf3B5/s3HTIEAWoXGb8AAAAASUVORK5CYII=);
+    width: $context-icon-width;
+    height: $context-icon-height;
+  }
+
+  &.arrow-down {
+    background-image: url(data:image/gif;base64,R0lGODlhDQALALMAAAAAAP///+Dj59/i5nyJloSQnIaSnpOeqYuXou/x8vj5+f///wAAAAAAAAAAAAAAACH5BAEAAAsALAAAAAANAAsAAAQhcMlJq704Z0O6JwaVHB9xJFWCeAhqDQVRDJmACNqi5FgEADs=);
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
+
+    &:hover {
+      background-image: url(data:image/gif;base64,R0lGODlhDQALAKIAAODj59/i5u/x8vj5+fVrKf///wAAAAAAACH5BAEAAAUALAAAAAANAAsAAAMZWLrc/jBGQmtlwlbRsuVOUAURQABSMaRQAgA7);
+    }
+  }
+
+  &.arrow-up {
+    background-image: url(data:image/gif;base64,R0lGODlhDQAJALMAAAAAAP////3+/vVrKfVvL/RwMfVzNfR1OP///wAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAgALAAAAAANAAkAAAQcEMlJq7204EkG2cYgGtchnkdlniglBHAcCJsVAQA7);
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
+
+  }
+
+  &.context-help {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAA8CAMAAABcthojAAABC1BMVEWutr6Gkp5ebn57iJVod4b19vdjcoKapK7r7e/N0tfh5OdndoV8jJvc4OTX29+FkZ3s7vDDyc9xf410go+4v8bT2d5fb398iZbW2t6Zo62Qm6Zgb39te4rz9PV/jJmqsrvCydD29/jl6Ovt7vDCyM6PmqXn6eyzusJ2hJGvt7+FlKKxusPb3uKosrz7/Pyfq7b09fbL0dekrbZ+i5ipsrrv8fJ3hJLf4ubP09jY3N+1vMN2g5Fkc4O5wspicoGdp7DGzNJldIPIzdNvfozi5ehreoh/i5jm6Ot1g5C5wMdse4mWo6/k5+qDj5ylrreOm6lygI7M0daIlKB4hpOxucB0hZVdbX3///////+Fnu4wAAAAWXRSTlP/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AE+FAQ8AAAGwSURBVHgBnZFnc+IwEIZXlhzbODahkxBIOMKlF6733ns55P3/v+ReFd+IuckXnhkP7zysd6U1MReXS3DZYw/x6dJzXqueF2DfqxPk06JYbC6XJ17V/5pqr9iz+E8VePHzitpHzeaNUJ0HxqmnoXEKfb5PeUWhqMcrqoAqQhWw+uJ6CqyrfhLRcRYoyke3J4N3SpFX8UA9umAwPsxlbFQsJ2/Y07g3iKF2jsbMw3muJTG//7HDVL48Yz7QllvMr6KSkl9s1LyRbmuNKBNSL2wT81j1R1H/ih2oyvFzP6K+E3GOXgcIV1Bj57TeHjL4EpFqOdVusuVQUfKVQy5+J1Q+e2BHNl1V1n9IPH99E3GotR37GKfHrSdwKRHM2Vs5heKpHH27y2D2XLlNAFJPPghxNFLHwVYzAtkan+OOaDbFXqBEpC2R8GprQ/9jY8uoFCZ0ULsmiSyuGmTSLlNXg6Sy2NyljlOZbLeqyuQOuWHSPE5FpGtQFdtQqzxGryRQoKpawiWKvEpLHyI3MaRDXRdkWVd9JP5kg3AnsKf3t24TuTvOoHgWbiK9Zl+WPQH8Vv8CBG0r6HhTUDEAAAAASUVORK5CYII=) no-repeat 0 -20px;
+    width: $help-icon-width;
+    height: $help-icon-height;
+
+    &:hover {
+      background-position: 0 -41px; // yup, it's off by a pixel and gets clipped in the current mega menu
+    }
+  }
+
+  &.timeout {
+    background-image: url(data:image/gif;base64,R0lGODlhIAAgALMMAKY1Nc+Tk7hdXfnx8duurqxCQsR4eLJQUPPk5O3W1ufJyaAnJ////wAAAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NjNCM0UyNkE3RDNCMTFFMjk1MTE4MDI5MDkyM0YzODUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NjNCM0UyNkI3RDNCMTFFMjk1MTE4MDI5MDkyM0YzODUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2M0IzRTI2ODdEM0IxMUUyOTUxMTgwMjkwOTIzRjM4NSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2M0IzRTI2OTdEM0IxMUUyOTUxMTgwMjkwOTIzRjM4NSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAEAAAwALAAAAAAgACAAAASskMlJawg16z3VWgoncsInjCjlfWCaFuxSuCMRfwTNwfesZ7Yb7kcZAIQfwIAoCbBCjNUCQzQ+JVIl0XmNxqg0xLErXQAQOsMNWl4YwkK2EJ1Sr7HCNyqBlAsTKCVxeEInIm1kSC0kin6FHIiJjRs8SAYXdkg+FUGKnjc5FZVIBwICB5+bEp2TXp+hDFafjopaDFyzhJ8Ysp+lp59JA7jBxV9jxslmyMrFAEwpEQA7);
+    width: 32px;
+    height: 32px;
+    cursor: default;
+  }
+}
+
+// moving specificity down so we can override this more easily in the partner css rules
+.company-logo {
+  background-position: 0 -240px;
+  height: $company-logo-height;
+  width: 72px;
+}
