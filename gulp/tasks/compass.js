@@ -1,12 +1,13 @@
-var gulp      = require('gulp');
-var config    = require('../config').production;
-var compass   = require('gulp-compass');
-var minifyCSS = require('gulp-minify-css');
-var size      = require('gulp-filesize');
-var rename    = require('gulp-rename');
-var gulpif    = require('gulp-if');
-var del       = require('del');
-var path      = require('path');
+var gulp       = require('gulp');
+var config     = require('../config').production;
+var compass    = require('gulp-compass');
+var sourcemaps = require('gulp-sourcemaps');
+var minifyCSS  = require('gulp-minify-css');
+var size       = require('gulp-filesize');
+var rename     = require('gulp-rename');
+var gulpif     = require('gulp-if');
+var del        = require('del');
+var path       = require('path');
 
 gulp.task('compass', function() {
   gulp.src('./src/**/*.scss')
@@ -26,13 +27,13 @@ gulp.task('compass', function() {
         basename : config.packageName
     }))
     .pipe(gulp.dest(config.dest))
-    .pipe(size())
+    .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(minifyCSS({keepBreaks:true}))
     .pipe(rename({
         suffix: '.min'
     }))
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.dest))
-    .pipe(size())
     .on('end', function(){
     });
 });

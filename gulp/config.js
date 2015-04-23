@@ -32,7 +32,7 @@ module.exports = {
     file : 'jshint.xml'
   },
   browserify: {
-    entries: [src],
+    entries: [src + '/' + packageName],
     fullPaths: false,
     debug: true,
     outputName : jsFileName,
