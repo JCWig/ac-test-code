@@ -19,7 +19,7 @@ var handleErrors = require('../util/handle-errors');
 var source       = require('vinyl-source-stream');
 var config       = require('../config');
 var _            = require('lodash');
-var rename    = require('gulp-rename');
+var rename       = require('gulp-rename');
 
 var sourcemaps   = require('gulp-sourcemaps');
 var ngAnnotate   = require('gulp-ng-annotate');
