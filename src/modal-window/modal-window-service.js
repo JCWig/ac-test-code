@@ -127,7 +127,6 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
 
                 $q.when(result).then(
                     function(returnValue) {
-                        console.log(instance);
                         instance.close(returnValue);
                         statusMessage.showSuccess({text: scope.modalWindow.successMessage});
                     }
