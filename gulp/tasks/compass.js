@@ -34,6 +34,5 @@ gulp.task('compass', function() {
     .pipe(gulp.dest(config.dest))
     .pipe(size())
     .on('end', function(){
-        del([path.join(config.dest, 'index.css'), path.join(config.dest, 'index.css.map')], {dot: true});
     });
 });

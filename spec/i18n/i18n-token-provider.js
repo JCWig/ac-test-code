@@ -2,7 +2,7 @@
 var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json';
 var LOCALE_BASE_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales/;
 var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
-var CONFIG_PREFIX = 'prefix'
+var CONFIG_PREFIX = 'prefix';
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
 var enUsResponse = require ("./i18n_responses/en_US.json");
 describe('i18nTokenProvider', function() {
@@ -10,7 +10,7 @@ describe('i18nTokenProvider', function() {
     var provider, config, cook, i18nConfig, location,  i18nToken;
 
     beforeEach(function() {
-        angular.mock.module(require('../../src/modules/i18n').name);
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
@@ -36,7 +36,6 @@ describe('i18nTokenProvider', function() {
             expect(provider.rawUrls[1].path).toContain('{appname}');
         });
         it('should not to add app locale value if given array as null', function() {
-            var arrOfPath = null;
             expect(provider.rawUrls.length).toEqual(2);
         });
     });
@@ -69,7 +68,6 @@ describe('i18nTokenProvider', function() {
             expect(provider.rawUrls[0].overridden).toBe(false);
         });
         it('should not change if rawUrl path is not default', function(){
-            var appPath = config.localeAppPath;
             var newUrl = "this/is/a/new/url";
             provider.setAppLocalePath(newUrl);
             expect(provider.rawUrls.length).toEqual(2);
@@ -82,7 +80,7 @@ describe('i18nToken service', function() {
 
     var service, cookies, rootScope, provider, location, config;
     beforeEach(function() {
-        angular.mock.module(require('../../src/modules/i18n').name);
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
             provider = i18nTokenProvider;
             $translateProvider.useLoader('i18nCustomLoader');
@@ -186,7 +184,7 @@ describe('i18nToken service', function() {
 
         it("should cookie 'AKALOCALE' value exists", function() {
             var locale = cookies.AKALOCALE;
-            expect(locale).not.toBe(undefined);;
+            expect(locale).not.toBe(undefined);
         });
 
         it("should cookie locale value be 'en_US' after decoded", function() {
@@ -200,7 +198,7 @@ describe('locale cookie set to "de_DE', function() {
     var service, cookies, rootScope;
 
     beforeEach(function() {
-        angular.mock.module(require('../../src/modules/i18n').name);
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
             $provide.decorator ('$cookies', function ($delegate) {
                 $delegate = {AKALOCALE:"ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
@@ -231,11 +229,11 @@ describe('locale cookie set to "de_DE', function() {
 });
 
 describe('locale cookie set to cookie without translation file', function() {
-    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
     var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
     var enUsResponse = require ("./i18n_responses/en_US.json");
     beforeEach(function(){
-        angular.mock.module(require('../../src/modules/i18n').name);
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
@@ -272,11 +270,11 @@ describe('locale cookie set to cookie without translation file', function() {
 });
 
 describe('locale cookie set to invalid cookie', function() {
-    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
     var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
     var enUsResponse = require ("./i18n_responses/en_US.json");
     beforeEach(function(){
-        angular.mock.module(require('../../src/modules/i18n').name);
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
@@ -312,11 +310,11 @@ describe('locale cookie set to invalid cookie', function() {
     });
 });
 describe('locale cookie set to zn_CN wnot properly encoded', function() {
-    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
     var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
     var enUsResponse = require ("./i18n_responses/en_US.json");
     beforeEach(function(){
-        angular.mock.module(require('../../src/modules/i18n').name);
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
@@ -352,11 +350,11 @@ describe('locale cookie set to zn_CN wnot properly encoded', function() {
     });
 });
 describe('locale cookie already decoded', function() {
-    var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
     var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
     var enUsResponse = require ("./i18n_responses/en_US.json");
     beforeEach(function(){
-        angular.mock.module(require('../../src/modules/i18n').name);
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });

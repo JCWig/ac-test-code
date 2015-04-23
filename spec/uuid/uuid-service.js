@@ -5,7 +5,7 @@ describe('akamai.components.uuid-service', function() {
     describe('uuid service', function(){
         beforeEach(function() {
             var self = this;
-            angular.mock.module(require('../../src/modules/uuid').name);
+            angular.mock.module(require('../../src/uuid').name);
             angular.mock.module(function ($controllerProvider) {
                 $controllerProvider.register('Controller', function($scope) {
                 });

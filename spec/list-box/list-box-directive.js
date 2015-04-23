@@ -24,7 +24,7 @@ describe('akam-list-box', function() {
     var sce;
     beforeEach(function() {
         self = this;
-        angular.mock.module(require('../../src/modules/list-box').name);
+        angular.mock.module(require('../../src/list-box').name);
         angular.mock.module(function($provide) {
             $provide.decorator ('$http', function ($delegate) {
                 $http = $delegate;

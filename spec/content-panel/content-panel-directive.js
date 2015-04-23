@@ -13,7 +13,7 @@ describe('akam-content-panel', function() {
     var timeout = null;
     beforeEach(function() {
         self = this;
-        angular.mock.module(require('../../src/modules/content-panel').name);
+        angular.mock.module(require('../../src/content-panel').name);
         inject(function($compile, $rootScope,$timeout) {
             compile = $compile;
             scope = $rootScope.$new();

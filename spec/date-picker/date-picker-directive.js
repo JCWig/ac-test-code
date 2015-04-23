@@ -29,7 +29,7 @@ describe('akam-date-picker', function() {
 
     beforeEach(function() {
         self = this;
-        angular.mock.module(require('../../src/modules/date-picker').name);
+        angular.mock.module(require('../../src/date-picker').name);
         inject(function($compile, $rootScope, $httpBackend) {
             compile = $compile;
             scope = $rootScope.$new();

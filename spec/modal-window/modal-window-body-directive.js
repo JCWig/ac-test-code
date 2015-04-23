@@ -5,7 +5,7 @@ describe('akam-modal-window-body directive', function() {
     var self = this;
     beforeEach(function() {
         self = this;
-        angular.mock.module(require('../../src/modules/modal-window').name);
+        angular.mock.module(require('../../src/modal-window').name);
         angular.mock.module(function($provide, $translateProvider) {
             $provide.factory('i18nCustomLoader', function($q, $timeout) {
                 return function(options) {

@@ -26,7 +26,7 @@ describe('akam-pagination directive', function() {
     var compile = null;
     var self = this;
     beforeEach(function() {
-        angular.mock.module(require('../../src/modules/pagination').name);
+        angular.mock.module(require('../../src/pagination').name);
         angular.mock.module(function($provide, $translateProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
         });

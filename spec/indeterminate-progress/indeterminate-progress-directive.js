@@ -12,7 +12,7 @@ describe('akam-indeterminate-progress', function() {
     
     beforeEach(function() {
         self = this;
-        angular.mock.module(require('../../src/modules/indeterminate-progress').name);
+        angular.mock.module(require('../../src/indeterminate-progress').name);
         inject(function($compile, $rootScope) {
             compile = $compile;
             scope = $rootScope.$new();

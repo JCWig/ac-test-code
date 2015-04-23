@@ -10,7 +10,7 @@ describe('translate service', function() {
     };
 
     beforeEach(function() {
-        angular.mock.module(require('../../src/modules/i18n').name);
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
             $translateProvider
                 .translations('en_US', translationMock)

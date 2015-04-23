@@ -39,7 +39,7 @@ describe('akam-data-table', function() {
     var http = null;
     beforeEach(function() {
         self = this;
-        angular.mock.module(require('../../src/modules/data-table').name);
+        angular.mock.module(require('../../src/data-table').name);
         angular.mock.module(function($provide, $translateProvider, $sceProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
         });

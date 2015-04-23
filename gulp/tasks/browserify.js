@@ -14,6 +14,7 @@ var watchify     = require('watchify');
 var bundleLogger = require('../util/bundle-logger');
 var gulp         = require('gulp');
 var gulpif       = require('gulp-if');
+var uglify       = require('gulp-uglify');
 var handleErrors = require('../util/handle-errors');
 var source       = require('vinyl-source-stream');
 var config       = require('../config');
@@ -22,6 +23,7 @@ var _            = require('lodash');
 var sourcemaps   = require('gulp-sourcemaps');
 var ngAnnotate   = require('gulp-ng-annotate');
 var buffer       = require('vinyl-buffer');
+var es           = require('event-stream');
 
 var browserifyTask = function(devMode) {
 
@@ -41,7 +43,38 @@ var browserifyTask = function(devMode) {
     var bundle = function() {
       // Log when bundling starts
       bundleLogger.start(bundleConfig.outputName);
+      
+      
+      
+      var aBundle = b
+        .bundle()
+        .on('error', handleErrors);
 
+      var normal = aBundle
+        .pipe(source(bundleConfig.outputName+'.js'))
+        .pipe(buffer())
+        .pipe(gulpif(bundleConfig.debug, sourcemaps.init({loadMaps: true})))
+        .pipe(ngAnnotate())
+        .pipe(gulpif(bundleConfig.debug, sourcemaps.write('./')))
+        .pipe(gulp.dest(bundleConfig.dest))
+        .pipe(browserSync.reload({
+          stream: true
+        }));
+
+      var min = aBundle
+        .pipe(source(bundleConfig.outputName+'.min.js'))
+        .pipe(buffer())
+        .pipe(gulpif(bundleConfig.debug, sourcemaps.init({loadMaps: true})))
+        .pipe(gulpif(config.productionBuild, uglify()))
+        .pipe(gulpif(config.productionBuild && bundleConfig.debug, sourcemaps.write('./')))
+        .pipe(gulpif(config.productionBuild, gulp.dest(bundleConfig.dest)))
+        .on('end', function(){
+              bundleLogger.end(bundleConfig.outputName);
+        });
+
+      return es.concat(normal, min);
+      
+      /*
       return b
         .bundle()
         // Report compile errors
@@ -61,6 +94,8 @@ var browserifyTask = function(devMode) {
         .pipe(browserSync.reload({
           stream: true
         }));
+    */
+        
     };
 
     if(devMode) {

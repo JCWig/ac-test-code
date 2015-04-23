@@ -8,7 +8,7 @@ var CLOSE_ICON = 'i.close';
 describe('akamai.components.status-message-service', function() {
     beforeEach(function() {
         var self = this;
-        angular.mock.module(require('../../src/modules/status-message').name);
+        angular.mock.module(require('../../src/status-message').name);
         angular.mock.module(function ($controllerProvider) {
             $controllerProvider.register('Controller', function($scope) {
             });
@@ -147,7 +147,7 @@ describe('akamai.components.status-message-service', function() {
             this.scope.$digest();
 
             var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
-            var closeIcon = document.querySelector('i.close')
+            var closeIcon = document.querySelector('i.close');
 
             expect(statusMessageContent).not.toBe(null);
             utilities.click(closeIcon);

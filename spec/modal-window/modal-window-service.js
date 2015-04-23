@@ -30,7 +30,7 @@ describe('modalWindow service', function() {
         self.notify = function(){};
         spyOn(self,"notify");
 
-        angular.mock.module(require('../../src/modules/modal-window').name);
+        angular.mock.module(require('../../src/modal-window').name);
         angular.mock.module(function($translateProvider) {            
             $translateProvider.useLoader('i18nCustomLoader');
         });

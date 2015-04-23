@@ -10,7 +10,7 @@ describe('akamai.components.status-message-directive', function() {
     var self = this;
     
     beforeEach(function() {
-        angular.mock.module(require('../../src/modules/status-message').name);
+        angular.mock.module(require('../../src/status-message').name);
         inject(function($compile, $rootScope, $timeout) {
             scope = $rootScope.$new();
             timeout = $timeout;

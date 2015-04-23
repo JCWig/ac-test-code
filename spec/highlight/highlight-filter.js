@@ -8,7 +8,7 @@ describe('akamai-components.highlight', function() {
     var self = this;
     beforeEach(function() {
         self = this;
-        angular.mock.module(require('../../src/modules/highlight').name);
+        angular.mock.module(require('../../src/highlight').name);
         inject(function($compile, $rootScope,$timeout, $filter) {
             compile = $compile;
             scope = $rootScope.$new();

@@ -24,7 +24,7 @@ describe('akam-translate directive', function() {
     });
     describe('when rendering', function() {
         beforeEach(function() {
-            angular.mock.module(require('../../src/modules/i18n').name);
+            angular.mock.module(require('../../src/i18n').name);
             angular.mock.module(function($provide, $translateProvider) {
                 $translateProvider.useLoader('i18nCustomLoader');
             });

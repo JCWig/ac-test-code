@@ -4,7 +4,7 @@ var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
 var enUsResponse = require ("./i18n_responses/en_US.json");
 describe('akamTranslate filter', function() {
-    var element, scope, compile, markup, translation, filter, timeout, httpBackend;
+    var element, scope, compile, markup, translation, filter, timeout, httpBackend, self;
 
     var translationMock = {
         'TRANSLATION_ID': 'Lorem Ipsum {{value}}',
@@ -13,7 +13,8 @@ describe('akamTranslate filter', function() {
     };
 
     beforeEach(function() {
-        angular.mock.module(require('../../src/modules/i18n').name);
+        self = this;
+        angular.mock.module(require('../../src/i18n').name);
         angular.mock.module(function($provide, $translateProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
         });
@@ -35,7 +36,7 @@ describe('akamTranslate filter', function() {
         httpBackend.flush();
         timeout.flush();
         document.body.appendChild(self.element);
-    };
+    }
     describe('when rendering', function() {
         afterEach(function(){
             document.body.removeChild(self.element);
