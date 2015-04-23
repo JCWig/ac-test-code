@@ -1,0 +1,82 @@
+/* Angular Form Validation
+
+Common CSS supports the Angular form validation classes seen below. For more information on using classes, see: https://docs.angularjs.org/guide/forms#using-css-classes
+
+Markup:
+<input type="text" class="{$modifiers}" value="Lorem ipsum dolor sit amet" />
+
+.ng-valid - the model is valid
+.ng-invalid - the model is invalid
+.ng-valid-* - for each valid key added by $setValidity
+.ng-invalid-* - for each invalid key added by $setValidity
+.ng-pristine - the control hasn't been interacted with yet
+.ng-dirty - the control has been interacted with
+.ng-touched - the control has been blurred
+.ng-untouched - the control hasn't been blurred
+.ng-pending - any $asyncValidators are unfulfilled
+.ng-invalid.ng-touched - the model is invalid and has been blurred
+.ng-invalid.ng-dirty - the model is invalid and has been interacted with
+
+Styleguide 8.1
+
+*/
+
+
+
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="date"],
+input[type="month"],
+textarea {
+
+    &.ng-invalid.ng-touched,
+    &.ng-invalid.ng-dirty {
+        border-color: $border-color-invalid;
+    }
+}
+
+
+
+input[type="search"],
+input[type="date"],
+input[type="month"] {
+
+    &.ng-invalid.ng-touched,
+    &.ng-invalid.ng-dirty {
+        
+        & ~ .button,
+        & ~ .btn {
+            border-left-color: $border-color-invalid;
+        }
+    }
+}
+
+
+
+ul.dropdown-menu {
+
+    &.ng-invalid {
+        border-color: $border-color-invalid;
+    }
+}
+
+
+
+.akam-date-picker.ng-invalid {
+
+    &.ng-touched {
+        & > input {
+            border-color: $border-color-invalid;
+            
+            & ~ .button,
+            & ~ .btn {
+                border-left-color: $border-color-invalid;
+            }
+        }
+    }
+    
+    ul.dropdown-menu {
+        border-color: $border-color-invalid;
+    }
+}

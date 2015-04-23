@@ -1,0 +1,74 @@
+/* Checkboxes
+
+Checkboxes provide a simple interface for users to set a binary option. 
+Use them singly for simple binary choices or in groups for related options 
+where users may select more than one option.
+
+Markup:
+<input type="checkbox" id="checkbox" class="fee {$modifiers}" value="input[type='checkbox']"/>
+<label for="checkbox">Unchecked Label</label>
+<br/>
+<input type="checkbox" id="checkedbox" class="fee {$modifiers}" value="input[type='checkbox']" checked="checked" />
+<label for="checkedbox">Checked Label</label>
+
+:focus - A focused checkbox.
+:hover - A hovered checkbox.
+:active - An active checkbox.
+:disabled - A disabled checkbox.
+
+Styleguide 4.2
+
+*/
+input[type="checkbox"] {
+    // Remove the input from the document flow and hide it
+    position: absolute;
+    width: 0;
+    height: 0;
+    @include opacity(0);
+
+    & + label {
+        font-size: $label-font-size;
+        // Override TWBS
+        font-weight: normal;
+        padding-left: 0;
+    }
+
+    // Adjacent labels will construct a custom input using the content property
+    & + label:before {
+        content: "";
+        display: inline-block;
+        background-color: transparent;
+        vertical-align: middle;
+        // By default, checkboxes want space between it and its label
+        padding-right: $checkbox-label-padding;
+        @include luna-sprite(checkbox);
+        // Override TWBS
+        @include box-sizing(content-box);
+    }
+}
+
+input[type="checkbox"] {
+    // The cascade order matters here: Disabled > Active > Hover > Focus > Default
+    &:focus + label:before { @include luna-sprite(checkbox_focus); }
+    &:hover + label:before { @include luna-sprite(checkbox_hover); }
+    &:active + label:before { @include luna-sprite(checkbox_active); }
+    &:disabled + label:before { @include luna-sprite(checkbox_disabled); }
+
+    // The states for a checked checkbox
+    &:checked {
+        // The cascade order matters here: Disabled > Active > Hover > Focus > Default
+        & + label:before { @include luna-sprite(checkbox-selected); }
+        &:focus + label:before { @include luna-sprite(checkbox-selected_focus); }
+        &:hover + label:before { @include luna-sprite(checkbox-selected_hover); }
+        &:active + label:before { @include luna-sprite(checkbox-selected_active); }
+        &:disabled + label:before { @include luna-sprite(checkbox-selected_disabled); }
+    }
+}
+
+&.luna input[type="checkbox"] {
+    // Luna tweaks here
+}
+
+&.pulsar input[type="checkbox"] {
+    // Pulsar tweaks here
+}

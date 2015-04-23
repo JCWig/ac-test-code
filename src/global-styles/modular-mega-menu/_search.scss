@@ -1,0 +1,273 @@
+@import '../variables';
+
+$button-width: 105px;
+$button-margin-left: 2px;
+$button-font-size: 12px;
+$icon-top-margin: 5px;
+$search-arrow-down-lr: 3px;
+
+.button {
+  background: linear-gradient(to top, #ececec 0, #fff 100%);
+  border: 1px solid #ccc;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  text-align: left;
+  text-transform: capitalize;
+  margin-left: $button-margin-left;
+  height: 26px;
+  line-height: initial;
+  font-size: $button-font-size;
+
+  &:hover {
+    text-decoration: none;
+    border: 1px solid #999;
+    background: linear-gradient(to top, #cbcbcb 0, #f4f4f4 100%);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.open {
+    border: 1px solid #ccc;
+    background: linear-gradient(to top, #f4f4f4 0, #cbcbcb 100%);
+  }
+
+  // Firefox doesn't like white-space: nowrap; with a floated element.
+  //see https://bugzilla.mozilla.org/show_bug.cgi?id=488725
+  .selected-placeholder {
+    width: $button-width - ($button-padding-lr + $button-border-width + $search-arrow-down-lr) * 2;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+
+  .search-arrow-down {
+    float: right;
+    margin-top: 5px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px $search-arrow-down-lr 0 $search-arrow-down-lr;
+    border-color: #888888 transparent transparent transparent;
+  }
+}
+
+.search-categories {
+  position: absolute;
+  width: $button-width;
+  z-index: $status-message-zindex;
+  padding: 0;
+  margin-left: $button-margin-left;
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #999;
+  box-shadow: 0 2px 2px 1px rgba(0,0,0,0.15);
+  cursor: pointer;
+
+  li {
+    text-transform: capitalize;
+    display: block;
+    line-height: 32px;
+    padding: 3px 7px 4px;
+    font-size: $button-font-size;
+
+    &:hover {
+      background: $row-hover-color;
+    }
+  }
+}
+
+.search {
+  width: 164px;
+  padding: 2px 2px 2px 10px;
+  height: 26px;
+  text-align: left;
+  font-size: 14px;
+  border: 1px #ccc solid;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-shadow: inset 2px 2px 2px 0 rgba(0,0,0,0.1);
+  background-color: #FFF;
+  @include placeholder-enhanced(#ccc, normal);
+
+  &:focus {
+    outline-style: none;
+    border-color: #0087b8;
+  }
+}
+
+.search-results {
+  margin-top: 12px;
+  width: 522px;
+  text-align: left;
+  padding-right: 0;
+
+  .scroll-pane {
+    padding-right: 8px;
+    width: 100%;
+    max-height: 500px;
+    overflow: auto;
+  }
+
+  .loading, .no-results {
+    font-size: 15px;
+    display: block;
+    text-align: center;
+    border-bottom: $popup-border-style;
+  }
+
+  header {
+    padding: 16px 10px 8px 10px;
+    cursor: pointer;
+  }
+
+  .more-results {
+    padding: 13px 20px 0 20px;
+    line-height: 20px;
+
+    a {
+      margin-left: 19px;
+      color: #0097cf;
+      display: inline;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      border-bottom: none;
+    }
+  }
+
+  section {
+    margin-right: 0; // reset from normal popup
+
+    &.result {
+      border-bottom: $popup-border-style;
+      padding: 3px 20px 0 20px;
+      line-height: 20px;
+
+      &:hover {
+        background: $row-hover-color;
+        cursor: pointer;
+      }
+
+      .greyout {
+        opacity: 0.5;
+      }
+
+      .actions, & > .lunasearch-icon {
+        vertical-align: top;
+        margin: $icon-top-margin 0 0 0;
+      }
+
+      .info {
+        margin-left: 35px;
+        display: block;
+        strong {
+          color: $context-selector-match-color;
+        }
+      }
+
+      p {
+        font-size: 12px;
+        margin: 0;
+        white-space: nowrap;
+
+        &.title {
+          font-size: 14px;
+          font-weight: bold;
+        }
+      }
+
+      a {
+        display: inline;
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.lunasearch-icon {
+  background:url('images/search-icons.png') no-repeat scroll center 0;
+  width: 16px;
+  height: 16px;
+
+  &.users {
+   background-position: center -532px;
+  }
+
+   &.accounts {
+    background-position: center -323px;
+  }
+
+   &.documentation {
+    background-position: center -418px;
+  }
+
+   &.knowledge_base {
+    background-position: center -304px;
+  }
+
+   &.applications {
+    background-position: center -380px;
+  }
+
+   &.group {
+    background-position: center -456px;
+  }
+
+   &.property-icon-site {
+    background-position: center -513px;
+  }
+
+   &.property-icon-lvm {
+    background-position: center -475px;
+  }
+
+   &.property-icon-odm {
+    background-position: center -494px;
+  }
+
+   &.property-icon-app {
+    background-position: center -399px;
+  }
+
+   &.property-icon-adv {
+    background-position: center -361px;
+  }
+
+   &.property-icon-dl {
+    background-position: center 0;
+  }
+
+   &.lunasearch-manage {
+    background-position: center -189px;
+  }
+
+   &.lunasearch-view-users {
+    background-position: center -835px;
+  }
+
+   &.lunasearch-view-contracts {
+    background-position: center -75px;
+  }
+
+   &.lunasearch-view-account-team {
+    background-position: center -607px;
+  }
+
+   &.lunasearch-view-acg-summary {
+    background-position: center -18px;
+  }
+
+   &.lunasearch-view-article {
+    background-position: center -797px;
+  }
+
+   &.lunasearch-applications {
+    background-position: center -398px;
+  }
+
+  &.icon-search {
+    background-position: center -798px;
+  }
+}

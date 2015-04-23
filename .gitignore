@@ -9,9 +9,9 @@
 .settings
 
 .DS_Store
-npm-debug.log
-reports
-dist
-docs
-node_modules
 TAGS
+npm-debug.log
+node_modules
+dist
+reports
+.sass-cache
