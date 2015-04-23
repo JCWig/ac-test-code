@@ -33,7 +33,6 @@ describe('akamai.components.tooltip', function() {
         compile(document.body)(scope);
         scope.$digest();
         scope.$digest();
-        timeout.flush();
     };
     describe('when rendering', function(){
         it('should render all parts', function(){
@@ -43,6 +42,7 @@ describe('akamai.components.tooltip', function() {
                 'button-text="button text" button-function="btnFunction">'+
                 'Clicky for Bottom Right Side</span>';
             addElement(markup);
+            timeout.flush();
             var tooltipHeader = document.querySelector(TOOLTIP_HEADER);
             var tooltipContent = document.querySelector(TOOLTIP_CONTENT);
             var tooltipLink = document.querySelector(TOOLTIP_LINK);
@@ -62,6 +62,7 @@ describe('akamai.components.tooltip', function() {
                 'link-url="www.example.com" button-text="button text" '+
                 'button-function="btnFunction">Clicky for Bottom Right Side</span>';
             addElement(markup);
+            timeout.flush();
             var tooltipHeader = document.querySelector(TOOLTIP_HEADER);
             var tooltipContent = document.querySelector(TOOLTIP_CONTENT);
             var tooltipLink = document.querySelector(TOOLTIP_LINK);
@@ -80,6 +81,7 @@ describe('akamai.components.tooltip', function() {
                 'trigger="click" button-text="button text" button-function="btnFunction">'+
                 'Clicky for Bottom Right Side</span>';
             addElement(markup);
+            timeout.flush();
             var tooltipHeader = document.querySelector(TOOLTIP_HEADER);
             var tooltipContent = document.querySelector(TOOLTIP_CONTENT);
             var tooltipLink = document.querySelector(TOOLTIP_LINK);
@@ -97,6 +99,7 @@ describe('akamai.components.tooltip', function() {
                 'header="Simple Header" tooltip-content="tool tip content" trigger="click"'+
                 'link-text="link text"link-url="www.example.com">Clicky for Bottom Right Side</span>';
             addElement(markup);
+            timeout.flush();
             var tooltipHeader = document.querySelector(TOOLTIP_HEADER);
             var tooltipContent = document.querySelector(TOOLTIP_CONTENT);
             var tooltipLink = document.querySelector(TOOLTIP_LINK);
@@ -116,6 +119,7 @@ describe('akamai.components.tooltip', function() {
                 'button-text="button text" button-function="btnFunction">'+
                 'Clicky for Bottom Right Side</span>';
             addElement(markup);
+            timeout.flush();
             var tooltipHeader = document.querySelector(TOOLTIP_HEADER);
             var tooltipContent = document.querySelector(TOOLTIP_CONTENT);
             var tooltipLink = document.querySelector(TOOLTIP_LINK);
@@ -135,6 +139,7 @@ describe('akamai.components.tooltip', function() {
                 '<button id="random-button1">Click this to do something</button><br>'+
                 '<button id="random-button2" ng-click="btnFunction()">Click this to do something else </button>');
             addElement(markup);
+            timeout.flush();
             expect(document.querySelector('#random-span1')).not.toBe(null);
             expect(document.querySelector('#random-button1')).not.toBe(null);
             expect(document.querySelector('#random-button2')).not.toBe(null);
@@ -144,17 +149,23 @@ describe('akamai.components.tooltip', function() {
                 'header="Simple Header" tooltip-content="tool tip content" '+
                 'trigger="click">Clicky for Bottom Right Side</span>';
             addElement(markup);
+            timeout.flush();
             
             var tooltip = document.querySelector(TOOLTIP);
 
             expect(tooltip.classList).toContain('top');
+
+            var midPoint = document.body.clientWidth / 2;
+            var offsetLeft = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
+            expect(parseInt(offsetLeft) > midPoint).toBe(true);
         }); 
         it('should be able to render on the left', function(){
             var markup = '<span class="pull-right" akam-tooltip position="left" '+
                 'header="Simple Header" tooltip-content="tool tip content" '+
                 'trigger="click">Clicky for Bottom Right Side</span>';
             addElement(markup);
-            
+            timeout.flush();
+
             var tooltip = document.querySelector(TOOLTIP);
 
             expect(tooltip.classList).toContain('left');
@@ -164,10 +175,26 @@ describe('akamai.components.tooltip', function() {
                 'header="Simple Header" tooltip-content="tool tip content" '+
                 'trigger="click">Clicky for Bottom Right Side</span>';
             addElement(markup);
+            timeout.flush();
             
             var tooltip = document.querySelector(TOOLTIP);
 
             expect(tooltip.classList).toContain('right');
+        });
+        it('should be able to render on the bottom', function(){
+            var markup = '<span class="pull-right" akam-tooltip position="bottom" '+
+                'header="Simple Header" tooltip-content="tool tip content" '+
+                'trigger="click">Clicky for Bottom Right Side</span>';
+            addElement(markup);
+            timeout.flush();
+            
+            var tooltip = document.querySelector(TOOLTIP);
+
+            expect(tooltip.classList).toContain('bottom');
+
+            var midPoint = document.body.clientWidth / 2;
+            var offsetLeft = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
+            expect(parseInt(offsetLeft) > midPoint).toBe(true);
         }); 
     });
     describe('when rendered', function(){
@@ -177,6 +204,7 @@ describe('akamai.components.tooltip', function() {
                 'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side</span>';
             scope.btnFunction = jasmine.createSpy('spy');
             addElement(markup);
+            timeout.flush();
                 
             utilities.click(TOOLTIP_BUTTON);
             scope.$digest();
@@ -188,6 +216,7 @@ describe('akamai.components.tooltip', function() {
                 'tooltip-content="tool tip content" trigger="click"'+
                 'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side</span>';
             addElement(markup);
+            timeout.flush();
                 
             utilities.click('#trigger-element');
             scope.$digest();
@@ -203,11 +232,34 @@ describe('akamai.components.tooltip', function() {
 
             expect(tooltip.classList).not.toContain("in");
         });
-        it('should be able to toggle in and out (hover)', function(){
+        it('should be able to toggle in and out (click icon)', function(){
+            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
+                'tooltip-content="tool tip content" trigger="click"'+
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side</span>';
+            addElement(markup);
+            timeout.flush();
+                
+            utilities.click('#trigger-element');
+            scope.$digest();
+            timeout.flush();
+            
+            var tooltip = document.querySelector(TOOLTIP);
+
+            expect(tooltip.classList).toContain("in");
+
+            utilities.click(TOOLTIP_CLOSE_ICON);
+            scope.$digest();
+            timeout.flush();
+
+            expect(tooltip.classList).not.toContain("in");
+        });
+        it('should be able to toggle (hover)', function(){
             var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
                 'tooltip-content="tool tip content" trigger="hover"'+
-                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side</span><button id="butttton"></button>';
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side'+
+                '</span><button id="butttton"></button>';
             addElement(markup);
+            timeout.flush();
                 
             utilities.mouseHover('#trigger-element');
             timeout.flush();
@@ -215,11 +267,112 @@ describe('akamai.components.tooltip', function() {
             var tooltip = document.querySelector(TOOLTIP);
 
             expect(tooltip.classList).toContain("in");
+        });
+    });
+    describe('when rendering on left side of page', function(){
+        it('should render bottom arrow and tooltip in different format', function(){
+            var midPoint = document.body.clientWidth / 2;
+            var markup = '<span style="margin-right: '+(midPoint+5)+'px" id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
+                'tooltip-content="tool tip content" trigger="hover"'+
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side'+
+                '</span><button id="butttton"></button>';
+            addElement(markup);
+            timeout.flush();
 
-            utilities.mouseHover('#butttton');
+            var offsetLeft = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
+            expect(parseInt(offsetLeft) < midPoint).toBe(true);
 
+        });
+        it('should render top arrow and tooltip in different format', function(){
+            var midPoint = document.body.clientWidth / 2;
+            var markup = '<span style="margin-right: '+(midPoint+5)+'px" id="trigger-element" class="pull-right" akam-tooltip position="top"'+
+                'tooltip-content="tool tip content" trigger="hover"'+
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side'+
+                '</span><button id="butttton"></button>';
+            addElement(markup);
+            timeout.flush();
+            var offsetLeft = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
+            expect(parseInt(offsetLeft) < midPoint).toBe(true);
+        });
+    });
+    describe('when passing bad data', function(){
+        it('should not render when position is invalid', function(){
+            var midPoint = document.body.clientWidth / 2;
+            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="nothing"'+
+                'tooltip-content="tool tip content" trigger="hover"'+
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side'+
+                '</span><button id="butttton"></button>';
+            addElement(markup);
 
-            expect(tooltip.classList).not.toContain("in");
+            var tooltip = document.querySelector(TOOLTIP);
+            expect(tooltip).toBe(null);
+        });
+        it('should not render when position is not provided', function(){
+            var midPoint = document.body.clientWidth / 2;
+            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip'+
+                'tooltip-content="tool tip content" trigger="hover"'+
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side'+
+                '</span><button id="butttton"></button>';
+            addElement(markup);
+
+            var tooltip = document.querySelector(TOOLTIP);
+            expect(tooltip).toBe(null);
+        });
+    });
+    describe('when passing bad data', function(){
+        it('should not render when position is invalid', function(){
+            var midPoint = document.body.clientWidth / 2;
+            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="nothing"'+
+                'tooltip-content="tool tip content" trigger="hover"'+
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side'+
+                '</span><button id="butttton"></button>';
+            addElement(markup);
+
+            var tooltip = document.querySelector(TOOLTIP);
+            expect(tooltip).toBe(null);
+        });
+        it('should not render when position is not provided', function(){
+            var midPoint = document.body.clientWidth / 2;
+            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip'+
+                'tooltip-content="tool tip content" trigger="hover"'+
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side'+
+                '</span><button id="butttton"></button>';
+            addElement(markup);
+
+            var tooltip = document.querySelector(TOOLTIP);
+            expect(tooltip).toBe(null);
+        });
+    });
+    describe('when resizing page', function(){
+        it('should relocated the tooltip', function(){
+            var midPointWidth = document.body.clientWidth / 2;
+            var midPointHeight = document.body.clientHeight / 2;
+            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
+                'header="Simple Header" tooltip-content="tool tip content"'+
+                'trigger="click" link-text="link text" link-url="www.example.com" '+
+                'button-text="button text" button-function="btnFunction">'+
+                'Clicky for Bottom Right Side</span>';
+            addElement(markup);
+            timeout.flush();
+            var offsetLeftBefore = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
+            var offsetTopBefore = scope.$$childTail.toolTipTop.substring(0, scope.$$childTail.toolTipTop.length-2); 
+            
+            var tooltip = document.querySelector(TOOLTIP);
+            var triggerElement = document.querySelector('#trigger-element');
+            
+            tooltip.offsetHeight = 0;
+            tooltip.offsetWidth = 0;
+            triggerElement.offsetHeight = 0;
+            triggerElement.offsetWidth = 0;
+            
+            scope.$$childTail.setCoords();
+            scope.$digest();
+            
+            var offsetLeftAfter = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
+            var offsetTopAfter = scope.$$childTail.toolTipTop.substring(0, scope.$$childTail.toolTipTop.length-2); 
+            
+            expect(offsetLeftBefore).not.toEqual(offsetLeftAfter);
+            expect(offsetTopBefore).not.toEqual(offsetTopAfter);
         });
     });
 });

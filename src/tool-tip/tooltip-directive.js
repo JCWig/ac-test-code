@@ -20,13 +20,6 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
             buttonFunction: "=",
         }, 
         link: function(scope, element, attrs) {
-            scope.opened = false;
-            scope.animation = true; 
-            var template = require('./templates/tooltip.tpl.html');
-            var toolTip = $compile(template)(scope,function(toolTip){
-                element.after(toolTip);
-            });
-            var triggerElement = element;
             scope.useCustomContent = function(){
                 return !!scope.customContent;
             };
@@ -50,30 +43,16 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
             };
             scope.hasLink = function(){
                 return scope.linkText && scope.linkText.length > 0 && scope.linkUrl && scope.linkUrl.length > 0;
-            };
-            if(scope.trigger === "click"){
-                triggerElement.on("click", function(){
-                    scope.toggle();
-                });
-            } else {
-                triggerElement.on("mouseover", function(){
-                    $timeout(function(){
-                        scope.toggle();
-                    }, POPUP_DELAY);
-                });
-                triggerElement.on("mouseleave", function(){
-                    scope.toggle();
-                });
-            }
-            function setCoords(){
+            };            
+            scope.setCoords = function() {
                 var pageMidCoords = document.body.clientWidth / 2;
                 var triggerElementOffsetLeft = triggerElement[0].offsetLeft;
                 var isOnLeftSide = triggerElementOffsetLeft < pageMidCoords;
                 var elementOffsetTop = triggerElement[0].offsetTop;
-                var toolTipWidth = (toolTip[0].offsetWidth || toolTip[0].clientWidth);
-                var toolTipHeight = (toolTip[0].offsetHeight || toolTip[0].clientHeight);
-                var triggerElementWidth = triggerElement[0].offsetWidth || triggerElement[0].clientWidth;
-                var triggerElementHeight = triggerElement[0].offsetHeight || triggerElement[0].clientHeight;
+                var toolTipWidth = toolTip[0].offsetWidth;
+                var toolTipHeight = toolTip[0].offsetHeight;
+                var triggerElementWidth = triggerElement[0].offsetWidth;
+                var triggerElementHeight = triggerElement[0].offsetHeight;
                 var arrowWidth = 16;
                 var arrowHeight = 11;
                 var toolTipArrowOffset = 21;
@@ -97,7 +76,7 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                         toolTipArrowOffset : 
                         (toolTipWidth - toolTipArrowOffset - arrowWidth);
                     scope.arrowTop = -arrowHeight;
-                } else if (scope.position === 'top') {
+                } else {
                     scope.toolTipLeft = isOnLeftSide ? 
                         (triggerElementOffsetLeft - toolTipArrowOffset):
                         (triggerElementOffsetLeft - toolTipWidth + triggerElementWidth + toolTipArrowOffset);
@@ -112,11 +91,41 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                 scope.toolTipLeft = scope.toolTipLeft + "px";
                 scope.arrowTop = scope.arrowTop + "px";
                 scope.arrowLeft = scope.arrowLeft + "px";
+            };
+            function validParameters(){
+                var validPositions = ['right', 'left', 'top', 'bottom'];
+                if (!scope.position || !_.includes(validPositions, scope.position)) {
+                    return false;
+                }
+                return true;
             }
-            angular.element(window).on('resize', _.debounce(setCoords, 200));
-            $timeout(function(){
-                setCoords();
-            },0);
+            if(validParameters()){
+                scope.opened = false;
+                scope.animation = true; 
+                var template = require('./templates/tooltip.tpl.html');
+                var toolTip = $compile(template)(scope,function(toolTip){
+                    element.after(toolTip);
+                });
+                var triggerElement = element;
+                if(scope.trigger === "click"){
+                    triggerElement.on("click", function(){
+                        scope.toggle();
+                    });
+                } else {
+                    triggerElement.on("mouseover", function(){
+                        $timeout(function(){
+                            scope.toggle();
+                        }, POPUP_DELAY);
+                    });
+                    triggerElement.on("mouseleave", function(){
+                        scope.toggle();
+                    });
+                }
+                angular.element(window).on('resize', _.debounce(scope.setCoords, 200));
+                $timeout(function(){
+                    scope.setCoords();
+                },0);
+            }
         }
     };
 };
