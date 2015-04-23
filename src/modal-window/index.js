@@ -13,6 +13,7 @@ var angular = require('angular');
  */
 module.exports = angular.module('akamai.components.modal-window', [
     require('angular-bootstrap-npm'),
+    require('../status-message').name,
     require('../i18n').name
 ])
 
@@ -26,4 +27,12 @@ module.exports = angular.module('akamai.components.modal-window', [
  */
 .factory('modalWindow', require('./modal-window-service'))
 
+/**
+ * @ngdoc directive
+ *
+ * @name akamai.components.modal-window.directive:akamModalWindowBody
+ *
+ * @description Provides directive to display content body section in html.
+ *
+ */
 .directive('akamModalWindowBody', require('./modal-window-body-directive'));

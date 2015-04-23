@@ -50,21 +50,23 @@
         <script type="text/javascript" src="../dist/akamai-components.js"></script>
         <script>
             angular.module('example', ['akamai.components.modal-window'])
-    
+
             .controller('ExampleController', function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
                 var modalScope = $rootScope.$new();
                 var times = 0;
-    
+
                 modalScope.name = 'Akamai Engineer';
                 modalScope.sean = 'hi';
-                
+
                 $scope.options = {
                     title: 'Regarding Your Subscription Information',
                     cancelLabel: 'Cancel',
                     submitLabel: 'OK',
-                    hideSubmit: false
+                    hideSubmit: false,
+                    successMessage: 'haha, success!',
+                    errorMessage: 'oops, error!!'
                 };
-                
+
                 $scope.open = function() {
                     // Create a new modal window instance with supplied options
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
@@ -80,19 +82,19 @@
                                     }else{
                                         deferral.resolve( { status: $scope.sean } );
                                     }
-                                    
+
                                     times++;
                                 }, 1000);
                                 return deferral.promise;
                             });
                             console.log($scope.sean);
                             console.log(modalScope.sean);
-                            
+
                             $scope.sean = "world";
                             modalScope.customValue = 'some custom value';
                         }
                     }));
-                    
+
                     // Listen for the result returned by the modal window
                     instance.result
                         .then(function(result) {
@@ -102,16 +104,16 @@
                             $log.log('open: Modal Window was cancelled');
                         });
                 };
-                            
+
                 $scope.openWithTemplateUrl = function() {
                     // Create a new modal window instance with a specific template url
-                    
+
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
                         templateUrl: 'templates/modal-window.tpl.html',
                         controller: 'ModalController'
                     }));
-                    
+
                     // Listen for the result returned by the modal window that is opened with a template
                     instance.result
                         .then(function(result) {
@@ -123,10 +125,10 @@
                         });
                 };
             })
-            
+
             .controller('ModalController', function($scope, $q, $timeout) {
                 var times = 0;
-                
+
                 $scope.setOnSubmit(function(){
                     var deferral = $q.defer();
                         $timeout(function() {
@@ -137,15 +139,15 @@
                             }
 
                         }, 3000);
-                    
-                    return deferral.promise; 
+
+                    return deferral.promise;
                 });
-                
+
                 // Disable the save button by default
                 $scope.disableSubmit();
-                
+
                 $scope.customValue = 'some custom value';
-    
+
                 // Control the disabled state of the submit button
                 $scope.toggle = function() {
                     if ($scope.isSubmitDisabled()) {
