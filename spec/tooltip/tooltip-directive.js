@@ -335,7 +335,7 @@ describe('akamai.components.tooltip', function() {
             expect(tooltip).toBe(null);
         });
     });
-    /*   describe('when resizing page', function(){
+    /*describe('when resizing page', function(){
         it('should relocated the tooltip', function(){
             var midPointWidth = document.body.clientWidth / 2;
             var midPointHeight = document.body.clientHeight / 2;
