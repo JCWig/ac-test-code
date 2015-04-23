@@ -22,7 +22,7 @@ module.exports = function(config) {
         browsers: ['PhantomJS'],
         reporters: ['spec', 'junit', 'coverage'],
         browserify: {
-            debug: false,
+            debug: true,
             transform: [
                 istanbul({
                     ignore: ['**/*.html', 'spec/**/*.js']
