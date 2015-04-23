@@ -114,11 +114,10 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
             };
 
             scope.submit = function() {
-                processing = true;
-
-                scope.showSubmitError = false;
-
                 var result;
+
+                processing = true;
+                scope.showSubmitError = false;
 
                 if (angular.isFunction(onSubmit)) {
                     result = onSubmit();
@@ -128,6 +127,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
 
                 $q.when(result).then(
                     function(returnValue) {
+                        console.log(instance);
                         instance.close(returnValue);
                         statusMessage.showSuccess({text: scope.modalWindow.successMessage});
                     }
