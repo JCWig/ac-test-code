@@ -4,7 +4,7 @@ var rsync = require('rsyncwrapper').rsync;
 var bundleLogger = require('../util/bundle-logger');
 
 gulp.task('deploy', function(){
-    var result = shell.exec('echo $GIT_BRANCH');
+    var result = shell.exec('echo $GIT_URL');
     var symbolicName = result.output.trim();
     bundleLogger.log('symbolic name', symbolicName);
     
@@ -16,6 +16,7 @@ gulp.task('deploy', function(){
 
     bundleLogger.log('rsync destination: '+ longFolderName);
     //TODO: Handle scenarios where the folder needs to be generated on the server side
+    /*
     rsync({
       ssh: true,
       src: ['./dist', './examples'],
@@ -26,4 +27,5 @@ gulp.task('deploy', function(){
     }, function(error, stdout, stderr, cmd) {
         bundleLogger.log(error, stdout, cmd);
     });
+    */
 });
