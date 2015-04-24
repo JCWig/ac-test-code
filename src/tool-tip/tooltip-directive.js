@@ -44,7 +44,7 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
             scope.hasLink = function(){
                 return scope.linkText && scope.linkText.length > 0 && scope.linkUrl && scope.linkUrl.length > 0;
             };            
-            scope.setCoords = function() {
+            function setCoords() {
                 var pageMidCoords = document.body.clientWidth / 2;
                 var triggerElementOffsetLeft = triggerElement[0].offsetLeft;
                 var isOnLeftSide = triggerElementOffsetLeft < pageMidCoords;
@@ -91,7 +91,7 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                 scope.toolTipLeft = scope.toolTipLeft + "px";
                 scope.arrowTop = scope.arrowTop + "px";
                 scope.arrowLeft = scope.arrowLeft + "px";
-            };
+            }
             function validParameters(){
                 var validPositions = ['right', 'left', 'top', 'bottom'];
                 if (!scope.position || !_.includes(validPositions, scope.position)) {
@@ -121,9 +121,9 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                         scope.toggle();
                     });
                 }
-                angular.element(window).on('resize', _.debounce(scope.setCoords, 200));
+                angular.element(window).on('resize', _.debounce(setCoords, 200));
                 $timeout(function(){
-                    scope.setCoords();
+                    setCoords();
                 },0);
             }
         }

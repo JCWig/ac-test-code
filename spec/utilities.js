@@ -23,6 +23,12 @@ module.exports = {
         ev.initMouseEvent('mouseover', true);
         el.dispatchEvent(ev);
     },
+    mouseLeave: function(obj){
+        var el = this.find(obj);
+        var ev = document.createEvent('MouseEvent');
+        ev.initMouseEvent('mouseout', true);
+        el.dispatchEvent(ev);
+    },
     clickAwayCreationAndClick : function(ele){
         var clickAwayArea = document.createElement(ele);
         clickAwayArea.setAttribute("id", "click-away");

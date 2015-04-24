@@ -258,6 +258,12 @@ describe('akamai.components.tooltip', function() {
             var tooltip = document.querySelector(TOOLTIP);
 
             expect(tooltip.classList).toContain("in");
+
+            utilities.mouseLeave('#trigger-element');
+            timeout.flush();
+
+            expect(tooltip.classList).not.toContain("in");
+
         });
     });
     describe('when rendering on left side of page', function(){
@@ -334,36 +340,4 @@ describe('akamai.components.tooltip', function() {
             expect(tooltip).toBe(null);
         });
     });
-    /*   describe('when resizing page', function(){
-        it('should relocated the tooltip', function(){
-            var midPointWidth = document.body.clientWidth / 2;
-            var midPointHeight = document.body.clientHeight / 2;
-            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
-                'header="Simple Header" tooltip-content="tool tip content"'+
-                'trigger="click" link-text="link text" link-url="www.example.com" '+
-                'button-text="button text" button-function="btnFunction">'+
-                'Clicky for Bottom Right Side</span>';
-            addElement(markup);
-            timeout.flush();
-            var offsetLeftBefore = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
-            var offsetTopBefore = scope.$$childTail.toolTipTop.substring(0, scope.$$childTail.toolTipTop.length-2); 
-            
-            var tooltip = document.querySelector(TOOLTIP);
-            var triggerElement = document.querySelector('#trigger-element');
-            
-            tooltip.offsetHeight = 0;
-            tooltip.offsetWidth = 0;
-            triggerElement.offsetHeight = 0;
-            triggerElement.offsetWidth = 0;
-            
-            scope.$$childTail.setCoords();
-            scope.$digest();
-            
-            var offsetLeftAfter = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
-            var offsetTopAfter = scope.$$childTail.toolTipTop.substring(0, scope.$$childTail.toolTipTop.length-2); 
-            
-            expect(offsetLeftBefore).not.toEqual(offsetLeftAfter);
-            expect(offsetTopBefore).not.toEqual(offsetTopAfter);
-        });
-    });*/
 });
