@@ -1,7 +1,7 @@
 <div class="modal-header" ng-class="{'error': showSubmitError}">
-    <i ng-if="modalWindow.icon" class="title-icon" ng-class="modalWindow.icon"></i>
+    <i ng-if="modalWindow.icon" class="title-icon" ng-class="modalWindow.icon" ></i>
     <h3 class="modal-title">{{ modalWindow.title }}</h3>
-    <i class="close-icon" ng-click="close()"></i>
+    <i class="close-icon" ng-click="close()" ng-if="!isProcessing()"></i>
     <div class="akam-status-message-wrapper" ng-if='showSubmitError'>
         <div class="akam-status-message-item-wrapper" ng-class="{'error': showSubmitError}">
             <div class="akam-status-message-item">
@@ -12,7 +12,7 @@
 </div>
 <akam-modal-window-body></akam-modal-window-body>
 <div class="modal-footer">
-    <button type="button" class="button large" ng-click="close()">
+    <button type="button" class="button large" ng-click="close()" ng-disabled="isSubmitDisabled()">
         {{ modalWindow.cancelLabel }}
     </button>
     <button type="button" class="button large primary" ng-class="{'submit-button-spinner': isProcessing()}" ng-if="!isSubmitHidden()" ng-disabled="isSubmitDisabled()" ng-click="submit()">

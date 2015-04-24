@@ -316,7 +316,7 @@ describe('modalWindow service', function() {
                 expect(messageContentEl.textContent).not.toBe(null);
             });
 
-            it('should allow X icon to close modal when processing', function() {
+            it('should not display close X when processing', function() {
                 var submitButton;
                 var deferral = this.q.defer();
 
@@ -339,43 +339,7 @@ describe('modalWindow service', function() {
                 this.scope.$digest();
 
                 var closeIcon = document.querySelector('.modal-header i');
-                utilities.click(closeIcon);
-                this.scope.$digest();
-                this.timeout.flush();
-
-                var modalWindow = document.querySelector('.modal');
-                expect(modalWindow).toBe(null);
-            });
-
-            it('should allow cancel button to close modal when processing', function() {
-                var submitButton;
-                var deferral = this.q.defer();
-
-                this.modalWindowService.open({
-                    scope: this.scope,
-                    template: '<p></p>',
-                    controller: function($scope, $q){
-                        $scope.setOnSubmit(
-                            function () {
-                                return deferral.promise;
-                            }
-                        );
-                    }
-                });
-
-                this.scope.$digest();
-                submitButton = document.querySelector(SUBMIT_BUTTON);
-
-                utilities.click(submitButton);
-                this.scope.$digest();
-
-                var closeButton = document.querySelector(CANCEL_BUTTON);
-                utilities.click(closeButton);
-                this.scope.$digest();
-                this.timeout.flush();
-
-                var modalWindow = document.querySelector('.modal');
-                expect(modalWindow).toBe(null);
+                expect(closeIcon).toBe(null);
             });
 
             it('should verify submit-button-spinner class when processing', function() {

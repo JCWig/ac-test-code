@@ -61,6 +61,8 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
                 processing = false, //variable used to determine if the submit is clicked, but promise has not resolved
                 instance;
 
+            scope.showSubmitError = false;
+
             // check that a template was provided
             if (!(angular.isDefined(options.template) ||
                     angular.isDefined(options.templateUrl))) {
