@@ -4,7 +4,7 @@ var rsync = require('rsyncwrapper').rsync;
 var bundleLogger = require('../util/bundle-logger');
 
 gulp.task('deploy', function(){
-    var result = shell.exec('env');
+    var result = shell.exec('git branch -a --contains 88067b886eb7886299ad7a318b125a6b8e0b4622');
     var symbolicName = result.output.trim();
     bundleLogger.log('symbolic name', symbolicName);
     
