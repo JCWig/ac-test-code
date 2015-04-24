@@ -36,7 +36,7 @@ $tooltip-arrow-border: 8px solid transparent;
             font-family: arial;
             font-color: $text-color;
         }
-        .tooltip-link-content .tooltip-button-content{
+        .tooltip-link-content, .tooltip-button-content{
             padding-top: 20px;
         }
     }
