@@ -1,6 +1,7 @@
 $tooltip-arrow-border: 8px solid transparent;
 
 .tooltip {
+    transition:z-index 0.15s ease 0s, opacity 0.15s linear 0s
     max-width: $tooltip-max-width;
     min-width: $tooltip-min-width;
     max-height: $tooltip-max-height;
