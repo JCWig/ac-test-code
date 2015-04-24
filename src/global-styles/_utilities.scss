@@ -1,0 +1,105 @@
+
+$utility-prefix: util-;
+
+.#{$utility-prefix}pull-right, .pull-right { float: right !important; }
+.#{$utility-prefix}pull-left, .pull-left { float: left !important; }
+
+.#{$utility-prefix}clearfix { @include clearfix(); }
+.#{$utility-prefix}clear { clear: both; }
+
+.#{$utility-prefix}hide { display: none !important; }
+.#{$utility-prefix}show { display: block !important; }
+.#{$utility-prefix}show-inline { display: inline; }
+.#{$utility-prefix}show-inline-block { display: inline-block; }
+
+.#{$utility-prefix}invisible { visibility: hidden !important; }
+.#{$utility-prefix}visible { visibility: visible !important; }
+
+.#{$utility-prefix}hidden-overflow { overflow: hidden; }
+.#{$utility-prefix}visible-overflow { overflow: visible; }
+.#{$utility-prefix}auto-overflow { overflow: auto; }
+
+.#{$utility-prefix}ellipsis { @include ellipsis(); } // TODO: review view makes heavy use of @include ellipsis
+.#{$utility-prefix}ellipsis-block { @extend .#{$utility-prefix}ellipsis; display: block; }
+
+.#{$utility-prefix}border-box { @include box-sizing(border-box); }
+.#{$utility-prefix}full-width { @extend .#{$utility-prefix}border-box; width: 100%; }
+.#{$utility-prefix}half-width { @extend .#{$utility-prefix}border-box; width: 50%; }
+
+.#{$utility-prefix}no-resize { @include resizable(none); }
+.#{$utility-prefix}no-wrap { white-space: nowrap; }
+
+.#{$utility-prefix}no-fade { @include no-fade(); }
+.#{$utility-prefix}fade { @include fade(); }
+
+ul.#{$utility-prefix}list { @include list-type(disc); }
+ol.#{$utility-prefix}list { @include list-type(decimal); }
+ul.#{$utility-prefix}checkmark { @include list-type(checkmark); }
+
+.#{$utility-prefix}text-right { text-align: right; * { @extend .#{$utility-prefix}text-right; } }
+.#{$utility-prefix}text-left { text-align: left; * { @extend .#{$utility-prefix}text-left; } }
+.#{$utility-prefix}text-center { text-align: center; * { @extend .#{$utility-prefix}text-center; } }
+.#{$utility-prefix}text-justify { text-align: justify; * { @extend .#{$utility-prefix}text-justify; } }
+
+.#{$utility-prefix}monospace { font-family: monospace; }
+.#{$utility-prefix}pre-wrap { @extend .#{$utility-prefix}monospace; @include force-wrap; }
+
+.#{$utility-prefix}bold { font-weight: bold; }
+.#{$utility-prefix}italicize { font-style: italic; }
+.#{$utility-prefix}underline { text-decoration: underline; }
+.#{$utility-prefix}align-top { vertical-align: top; }
+.#{$utility-prefix}align-middle { vertical-align: middle; }
+.#{$utility-prefix}text-top { vertical-align: text-top; }
+
+.#{$utility-prefix}draggable { @include grab-icon(); }
+.#{$utility-prefix}clickable { cursor: pointer; }
+
+.#{$utility-prefix}scrollable-y { @include scrollable(hidden, auto); }
+.#{$utility-prefix}scrollable-x { @include scrollable(auto, hidden); }
+.#{$utility-prefix}scrolling-table { @extend .#{$utility-prefix}scrollable-y; }
+
+.#{$utility-prefix}transform-layer { @include translateZ(0); }
+
+.#{$utility-prefix}opaque { opacity: 1; }
+.#{$utility-prefix}transparent { opacity: 0; }
+
+.#{$utility-prefix}screen-center-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include translate(-50%, -50.01%); // See FEE-436 for reason behind decimal places
+}
+
+.#{$utility-prefix}vertical-center-box {
+    position: relative;
+    top: 50%;
+    @include translateY(-50.01%); // See FEE-436 for reason behind decimal places
+}
+
+.#{$utility-prefix}horiztonal-center-box {
+    margin: 0 auto;
+}
+
+// Modular Mega Menu utils
+%arrow {
+  display: inline-block !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-style: solid !important;
+}
+
+// used as the arrow next to the customer name and the account-selector
+.#{$utility-prefix}arrow-down {
+  @extend %arrow; 
+  border-width: $arrow-down-height-small $arrow-down-height-small 0 $arrow-down-height-small !important;
+  border-color: #3c4c5b transparent transparent transparent;
+  vertical-align: middle !important;
+}
+
+// used as the pointer from the nav popups
+.#{$utility-prefix}arrow-up {
+  @extend %arrow; 
+  border-width: 0 $arrow-up-height-large $arrow-up-height-large $arrow-up-height-large !important;
+  border-color: transparent transparent #97a4b1 transparent;
+  vertical-align: bottom !important;
+}
