@@ -32,7 +32,6 @@ describe('akamai.components.tooltip', function() {
         document.body.appendChild(self.element);
         compile(document.body)(scope);
         scope.$digest();
-        scope.$digest();
     };
     describe('when rendering', function(){
         it('should render all parts', function(){
