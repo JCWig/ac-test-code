@@ -67,6 +67,7 @@ $dialog-footer-bottom-padding: 15px;
 
 $dialog-header-icon-gutter: 10px;
 $dialog-header-height: 36px;
+$dialog-header-error-height: 40px;
 $dialog-gradient-top: #ffffff;
 $dialog-gradient-bottom: #f7f7f7;
 
@@ -198,6 +199,11 @@ $dialog-indeterminate-backdrop-color: rgba(255,255,255,.85);
             list-style: none;
             margin: 0;
             padding: 0;
+
+            .status-message-content {
+                max-height: $dialog-header-error-height;
+                text-overflow: ellipsis;
+            }
         }
 
         & > i {
@@ -211,7 +217,7 @@ $dialog-indeterminate-backdrop-color: rgba(255,255,255,.85);
         }
 
         &.error + .modal-body {
-            margin-top: $dialog-header-height;
+            margin-top: $dialog-header-error-height;
         }
     }
 
