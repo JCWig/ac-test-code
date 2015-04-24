@@ -4,7 +4,7 @@ var rsync = require('rsyncwrapper').rsync;
 var bundleLogger = require('../util/bundle-logger');
 
 gulp.task('deploy', function(){
-    var result = shell.exec('echo $GIT_URL');
+    var result = shell.exec('env');
     var symbolicName = result.output.trim();
     bundleLogger.log('symbolic name', symbolicName);
     
@@ -12,9 +12,9 @@ gulp.task('deploy', function(){
     var cleanBranchName = symbolicName.replace('origin/feature/', '').replace(' ', '_');
     bundleLogger.log('clean branch name: '+ cleanBranchName);
 
-    var longFolderName = '/315289/website/branches/' + cleanBranchName;
+    //var longFolderName = '/315289/website/branches/' + cleanBranchName;
 
-    bundleLogger.log('rsync destination: '+ longFolderName);
+    //bundleLogger.log('rsync destination: '+ longFolderName);
     //TODO: Handle scenarios where the folder needs to be generated on the server side
     /*
     rsync({
