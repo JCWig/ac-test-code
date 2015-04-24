@@ -363,9 +363,8 @@ describe('modalWindow service', function() {
 
                 utilities.click(submitButton);
                 this.scope.$digest();
-                submitButton = document.querySelector(SUBMIT_BUTTON);
-                var submitButtonEl = angular.element(submitButton);
-                expect(submitButtonEl.hasClass('submit-button-spinner')).toBe(true);
+                var spinnerEl = angular.element(document.querySelector(SUBMIT_BUTTON + ' div:first-child'));
+                expect(spinnerEl.hasClass('submit-button-spinner')).toBe(true);
                 expect(submitButton.textContent.trim()).toBe('');
             });
 
