@@ -54,12 +54,12 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * `message_en_US`.
  *
  */
-  .constant("i18nConfig", {
+  .constant('i18nConfig', {
     localeCookie: 'AKALOCALE',
     localeComponentPath: '/libs/akamai-components/{version}/locales/',
     localeAppPath: '/apps/{appname}/locales/',
     defaultLocale: 'en_US',
-    localePrefix: "",
+    localePrefix: '',
     availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
     langKeysMapper: {
       'de_DE': 'de_DE',
@@ -84,7 +84,8 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @name akamai.components.i18n.service:LOCALE
  *
  * @description A service that provides datetime and number locale constant values,
- * that includes 12 supported locales and sections based on locale names, such as: "en_US", "de_DE"
+ * that includes 12 supported locales and sections based on locale names,
+ * such as: 'en_US', 'de_DE'
  *
  */
   .constant("LOCALES", require('./i18n-locale-constant'))
@@ -265,22 +266,25 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @requires $log
  * @requires i18nToken
  *
- * @description This service factory sole purpose is to Intercept missing translation key error, log error in the console (not blocking)
+ * @description This service factory sole purpose is to Intercept missing
+ * translation key error, log error in the console (not blocking)
  *
  */
   .factory('missingTranslationFactory', function($log, i18nToken) {
     return function(translationID) {
-      $log.warn("Missing " + translationID + " key in " + i18nToken.getCurrentLocale() + " table.");
+      $log.warn('Missing ' + translationID + ' key in ' + i18nToken.getCurrentLocale() + ' table.');
     };
   })
 
 /**
- * This run block tells angular $translate service to use per language key, so the current translation table will be based upon that.
- * __NOTE__: Since run block is last flow, only this block completed, the $translation table is sure loaded.
+ * This run block tells angular $translate service to use per language key,
+ * so the current translation table will be based upon that.
+ * __NOTE__: Since run block is last flow, only this block completed,
+ * the $translation table is sure loaded.
  */
   /* @ngInject */
   .run(function($translate, i18nToken, i18nConfig) {
-    //it loads twice using "use" function if current locale is different from default locale
+    //it loads twice using 'use' function if current locale is different from default locale
     if (i18nToken.getCurrentLocale() === i18nConfig.defaultLocale) {
       $translate.use(i18nToken.getCurrentLocale());
     }
