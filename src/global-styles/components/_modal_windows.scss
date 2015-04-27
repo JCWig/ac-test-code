@@ -202,7 +202,9 @@ $dialog-indeterminate-backdrop-color: rgba(255,255,255,.85);
 
             .status-message-content {
                 max-height: $dialog-header-error-height;
+                overflow: hidden;
                 text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
 
