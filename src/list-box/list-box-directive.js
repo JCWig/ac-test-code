@@ -11,7 +11,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       data: '=',
       schema: '=',
       filterPlaceholder: '@',
-      noFilterResultsMessage:'@',
+      noFilterResultsMessage: '@',
       noDataMessage: '=?',
       noneSelectedMessage: '@',
       // the ? marks the property as optional.
@@ -97,8 +97,8 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
                 };
               }
             ),
-            titles : scope.columns.map(
-              function (column) {
+            titles: scope.columns.map(
+              function(column) {
                 return getColumnTitles(column, dataItem, '');
               }
             ),
@@ -110,7 +110,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           // make the digest cycle a little longer (as we're creating and destroying one DOM element per
           // row. If this directive is updated to only take in text, then this can be simplified
           var allText = newItem.cells.map(function(cell) {
-             return cell.content;
+            return cell.content;
           }).join(' ');
           newItem.searchTitle = angular.element('<span>' + allText + '</span>').text();
 
@@ -191,13 +191,13 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       scope.updateChanged = function(item) {
         var i = scope.selectedItems.indexOf(item.item);
 
-        if(item.selected) {
-          if(i === -1) {
+        if (item.selected) {
+          if (i === -1) {
             scope.selectedItems.push(item.item);
           }
         } else {
           scope.selectedItems.splice(i, 1);
-          if(scope.state.viewSelectedOnly) {
+          if (scope.state.viewSelectedOnly) {
             scope.dataTable = scope.dataTable.filter(function(rowItem) {
               return rowItem !== item;
             });

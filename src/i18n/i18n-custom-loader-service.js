@@ -2,10 +2,10 @@
 
 /* @ngInject */
 module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
-    var locale = i18nToken.getCurrentLocale(),
-        urls = i18nToken.getUrls(),
-        errorList = [],
-        translationTable = [];
+  var locale = i18nToken.getCurrentLocale(),
+    urls = i18nToken.getUrls(),
+    errorList = [],
+    translationTable = [];
 
   /**
    * @name invalid
@@ -13,13 +13,13 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
    * @description any error from get call will go through here, we log to console, and we save error message to errorList array
    * @param {object} r response object with error info
    */
-    function invalid(r) {
-        $log.error({
-            "message": r.data,
-            "status": r.status
-        });
-        errorList.push(r.data);
-    }
+  function invalid(r) {
+    $log.error({
+      "message": r.data,
+      "status": r.status
+    });
+    errorList.push(r.data);
+  }
 
   /**
    * @name valid
@@ -27,11 +27,11 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
    * @description any success response from get call will go through here, we save data to translationTable array
    * @param {object} r response object with data info
    */
-    function valid(r) {
-        var src = r.data,
-            clone = src ? angular.copy(src) : {};
-        angular.extend(translationTable, clone);
-    }
+  function valid(r) {
+    var src = r.data,
+      clone = src ? angular.copy(src) : {};
+    angular.extend(translationTable, clone);
+  }
 
   /**
    * @name loadTranslations
@@ -43,32 +43,32 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
    * @param {string} locale current locale
    * @param {array} urls tht contains list of locale file url paths to be used in $http.get func
    */
-    var loadTranslations = function(locale, urls) {
-        var deferreds = [],
-            n = urls.length,
-            url,
-            deferred = $q.defer();
-        while (n > 0) {
-            url = urls[n - 1] + locale + ".json";
-            deferreds.push($http.get(url).then(valid).catch(invalid));
-            n--;
+  var loadTranslations = function(locale, urls) {
+    var deferreds = [],
+      n = urls.length,
+      url,
+      deferred = $q.defer();
+    while (n > 0) {
+      url = urls[n - 1] + locale + ".json";
+      deferreds.push($http.get(url).then(valid).catch(invalid));
+      n--;
+    }
+    $q.all(deferreds).then(function(results) {
+      if (errorList.length) {
+        if (locale !== i18nConfig.defaultLocale) {
+          errorList = [];
+          translationTable = [];
+          deferred.resolve(loadTranslations(i18nConfig.defaultLocale, urls));
+        } else {
+          deferred.reject(errorList);
         }
-        $q.all(deferreds).then(function(results) {
-            if (errorList.length) {
-                if (locale !== i18nConfig.defaultLocale) {
-                    errorList = [];
-                    translationTable = [];
-                    deferred.resolve(loadTranslations(i18nConfig.defaultLocale, urls));
-                } else {
-                    deferred.reject(errorList);
-                }
-            } else {
-                deferred.resolve([translationTable]);
-            }
-        });
-        return deferred.promise;
-    };
-    return function(options) {
-        return loadTranslations(locale, urls);
-    };
+      } else {
+        deferred.resolve([translationTable]);
+      }
+    });
+    return deferred.promise;
+  };
+  return function(options) {
+    return loadTranslations(locale, urls);
+  };
 };

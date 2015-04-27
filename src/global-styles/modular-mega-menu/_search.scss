@@ -62,7 +62,7 @@ $search-arrow-down-lr: 3px;
   background: #fff;
   border-radius: 3px;
   border: 1px solid #999;
-  box-shadow: 0 2px 2px 1px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15);
   cursor: pointer;
 
   li {
@@ -87,7 +87,7 @@ $search-arrow-down-lr: 3px;
   border: 1px #ccc solid;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  box-shadow: inset 2px 2px 2px 0 rgba(0,0,0,0.1);
+  box-shadow: inset 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
   background-color: #FFF;
   @include placeholder-enhanced(#ccc, normal);
 
@@ -187,83 +187,83 @@ $search-arrow-down-lr: 3px;
 }
 
 .lunasearch-icon {
-  background:url('images/search-icons.png') no-repeat scroll center 0;
+  background: url('images/search-icons.png') no-repeat scroll center 0;
   width: 16px;
   height: 16px;
 
   &.users {
-   background-position: center -532px;
+    background-position: center -532px;
   }
 
-   &.accounts {
+  &.accounts {
     background-position: center -323px;
   }
 
-   &.documentation {
+  &.documentation {
     background-position: center -418px;
   }
 
-   &.knowledge_base {
+  &.knowledge_base {
     background-position: center -304px;
   }
 
-   &.applications {
+  &.applications {
     background-position: center -380px;
   }
 
-   &.group {
+  &.group {
     background-position: center -456px;
   }
 
-   &.property-icon-site {
+  &.property-icon-site {
     background-position: center -513px;
   }
 
-   &.property-icon-lvm {
+  &.property-icon-lvm {
     background-position: center -475px;
   }
 
-   &.property-icon-odm {
+  &.property-icon-odm {
     background-position: center -494px;
   }
 
-   &.property-icon-app {
+  &.property-icon-app {
     background-position: center -399px;
   }
 
-   &.property-icon-adv {
+  &.property-icon-adv {
     background-position: center -361px;
   }
 
-   &.property-icon-dl {
+  &.property-icon-dl {
     background-position: center 0;
   }
 
-   &.lunasearch-manage {
+  &.lunasearch-manage {
     background-position: center -189px;
   }
 
-   &.lunasearch-view-users {
+  &.lunasearch-view-users {
     background-position: center -835px;
   }
 
-   &.lunasearch-view-contracts {
+  &.lunasearch-view-contracts {
     background-position: center -75px;
   }
 
-   &.lunasearch-view-account-team {
+  &.lunasearch-view-account-team {
     background-position: center -607px;
   }
 
-   &.lunasearch-view-acg-summary {
+  &.lunasearch-view-acg-summary {
     background-position: center -18px;
   }
 
-   &.lunasearch-view-article {
+  &.lunasearch-view-article {
     background-position: center -797px;
   }
 
-   &.lunasearch-applications {
+  &.lunasearch-applications {
     background-position: center -398px;
   }
 

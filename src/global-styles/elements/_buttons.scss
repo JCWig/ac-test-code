@@ -25,114 +25,111 @@ Styleguide 4.1
 
 */
 
-
 .btn,
 .button {
-    cursor: pointer;
-    outline: none;
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    font-size: $button-text-size;
-    font-family: Arial, sans-serif;
-    line-height: 1;
-    vertical-align: middle;
+  cursor: pointer;
+  outline: none;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  font-size: $button-text-size;
+  font-family: Arial, sans-serif;
+  line-height: 1;
+  vertical-align: middle;
+  color: $button-text-color;
+  min-width: $button-min-width;
+  height: $button-height;
+  padding: $button-padding;
+  margin: 0;
+  background: $button-background-color;
+  border: solid $button-border-width $button-border-color;
+  border-radius: $button-border-radius;
+  @include background-image(linear-gradient($button-gradient-top, $button-gradient-bottom));
+  @include box-sizing(border-box);
+
+  &:hover {
     color: $button-text-color;
-    min-width: $button-min-width;
-    height: $button-height;
-    padding: $button-padding;
-    margin: 0;
-    background: $button-background-color;
-    border: solid $button-border-width $button-border-color;
-    border-radius: $button-border-radius;
-    @include background-image(linear-gradient($button-gradient-top, $button-gradient-bottom));
-    @include box-sizing(border-box);
+    border-color: $button-border-color-hover;
+    text-decoration: none;
+    @include background-image(linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover));
+  }
+
+  &:active,
+  &:visited {
+    color: $button-text-color;
+    border-color: $button-border-color-hover;
+    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+  }
+
+  &:disabled,
+  &.disabled {
+    cursor: default;
+    background: $button-background-color-disabled;
+    border-color: $button-border-color-disabled;
+    color: $button-text-color-disabled;
+  }
+
+  &.small {
+    height: $button-height-small;
+    line-height: ($button-height-small - $button-border-width*2);
+    font-size: $button-text-size-small;
+  }
+
+  &.large {
+    height: $button-height-large;
+    line-height: ($button-height-large - $button-border-width*2);
+    font-size: $button-text-size-large;
+    // font-weight: bold;
+  }
+
+  &.primary {
+    color: $button-primary-text-color;
+    background-color: $button-primary-background-color;
+    border-color: $button-primary-border-color;
+    @include background-image(linear-gradient($button-primary-gradient-top, $button-primary-gradient-bottom));
 
     &:hover {
-        color: $button-text-color;
-        border-color: $button-border-color-hover;
-        text-decoration: none;
-        @include background-image(linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover));
+      color: $button-primary-text-color;
+      @include background-image(linear-gradient($button-primary-gradient-bottom, $button-primary-gradient-top));
     }
-    
-    &:active, 
+
+    &:active,
     &:visited {
-        color: $button-text-color;
-        border-color: $button-border-color-hover;
-        @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+      color: $button-primary-text-color;
+      background: $button-primary-background-color;
     }
-    
+
     &:disabled,
     &.disabled {
-        cursor: default;
-        background: $button-background-color-disabled;
-        border-color: $button-border-color-disabled;
-        color: $button-text-color-disabled;
+      cursor: default;
+      background: $button-primary-background-color-disabled;
+      border-color: $button-primary-border-color-disabled;
+      color: $button-primary-text-color-disabled;
     }
-    
-    &.small {
-        height: $button-height-small;
-        line-height: ($button-height-small - $button-border-width*2);
-        font-size: $button-text-size-small;
-    }
-    
-    &.large {
-        height: $button-height-large;
-        line-height: ($button-height-large - $button-border-width*2);
-        font-size: $button-text-size-large;
-        // font-weight: bold;
-    }
-    
-    &.primary {
-        color: $button-primary-text-color;
-        background-color: $button-primary-background-color;
-        border-color: $button-primary-border-color;
-        @include background-image(linear-gradient($button-primary-gradient-top, $button-primary-gradient-bottom));
-        
-        &:hover {
-            color: $button-primary-text-color;
-            @include background-image(linear-gradient($button-primary-gradient-bottom, $button-primary-gradient-top));
-        }
-        
-        &:active, 
-        &:visited {
-            color: $button-primary-text-color;
-            background: $button-primary-background-color;
-        }
-        
-        &:disabled,
-        &.disabled {
-            cursor: default;
-            background: $button-primary-background-color-disabled;
-            border-color: $button-primary-border-color-disabled;
-            color: $button-primary-text-color-disabled;
-        }
-    }
-    
-    & > i {
-        vertical-align: middle;
-    }
-    
-    // Override TWBS
-    &,
-    &:active,
-    &:focus {
-        outline: none;
-        box-shadow: none;
-    }
+  }
+
+  & > i {
+    vertical-align: middle;
+  }
+
+  // Override TWBS
+  &,
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 }
 
-&.luna .btn, 
+&.luna .btn,
 &.luna .button {
-    // Luna tweaks here
+  // Luna tweaks here
 }
 
-&.pulsar .btn, 
+&.pulsar .btn,
 &.pulsar .button {
-    // Pulsar tweaks here
+  // Pulsar tweaks here
 }
-
-
 
 /* Menu Buttons
 
@@ -156,44 +153,42 @@ Styleguide 4.7
 
 */
 
-
-
-.btn.dropdown-toggle, 
+.btn.dropdown-toggle,
 .button.dropdown-toggle {
-    min-width: 0;
-    
-    & > i + .separator {
-        border-left: 1px solid #999;
-        margin: 0 3px;
-    }
+  min-width: 0;
+
+  & > i + .separator {
+    border-left: 1px solid #999;
+    margin: 0 3px;
+  }
 }
 
 .btn-group {
-    
-    & > .btn,
-    & > .button {
-        
-        & + .dropdown-toggle {
-            padding-left: $button-padding-lr;
-            padding-right: $button-padding-lr;
-        }
+
+  & > .btn,
+  & > .button {
+
+    & + .dropdown-toggle {
+      padding-left: $button-padding-lr;
+      padding-right: $button-padding-lr;
     }
-    
-    &.open {
-        .dropdown-toggle {
-            @include box-shadow(none);
-            @extend .btn:active;
-        }
+  }
+
+  &.open {
+    .dropdown-toggle {
+      @include box-shadow(none);
+      @extend .btn:active;
     }
+  }
 }
 
 :not(.btn-group) {
-    > .button + .button.dropdown-toggle,
-    > .btn + .btn.dropdown-toggle,
-    > .button + .btn.dropdown-toggle,
-    > .btn + .button.dropdown-toggle {
-        margin-left: -#{$button-border-radius * 2};
-        @include border-top-left-radius(0);
-        @include border-bottom-left-radius(0);
-    }
+  > .button + .button.dropdown-toggle,
+  > .btn + .btn.dropdown-toggle,
+  > .button + .btn.dropdown-toggle,
+  > .btn + .button.dropdown-toggle {
+    margin-left: -#{$button-border-radius * 2};
+    @include border-top-left-radius(0);
+    @include border-bottom-left-radius(0);
+  }
 }

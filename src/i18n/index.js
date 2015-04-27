@@ -54,7 +54,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * `message_en_US`.
  *
  */
-.constant("i18nConfig", {
+  .constant("i18nConfig", {
     localeCookie: 'AKALOCALE',
     localeComponentPath: '/libs/akamai-components/{version}/locales/',
     localeAppPath: '/apps/{appname}/locales/',
@@ -62,21 +62,21 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
     localePrefix: "",
     availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
     langKeysMapper: {
-        'de_DE': 'de_DE',
-        'en_US': 'en_US',
-        'en_US_ATT': 'en_US_ATT',
-        'es_ES': 'es_ES',
-        'es_LA': 'es_LA',
-        'fr_FR': 'fr_FR',
-        'it_IT': 'it_IT',
-        'ja_JP': 'ja_JP',
-        'ko_KR': 'ko_KR',
-        'pt_BR': 'pt_BR',
-        'zh_CN': 'zh_CN',
-        'zh_TW': 'zh_TW',
-        '*': 'en_US'
+      'de_DE': 'de_DE',
+      'en_US': 'en_US',
+      'en_US_ATT': 'en_US_ATT',
+      'es_ES': 'es_ES',
+      'es_LA': 'es_LA',
+      'fr_FR': 'fr_FR',
+      'it_IT': 'it_IT',
+      'ja_JP': 'ja_JP',
+      'ko_KR': 'ko_KR',
+      'pt_BR': 'pt_BR',
+      'zh_CN': 'zh_CN',
+      'zh_TW': 'zh_TW',
+      '*': 'en_US'
     }
-})
+  })
 
 /**
  * @ngdoc service
@@ -87,7 +87,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * that includes 12 supported locales and sections based on locale names, such as: "en_US", "de_DE"
  *
  */
-.constant("LOCALES", require('./i18n-locale-constant'))
+  .constant("LOCALES", require('./i18n-locale-constant'))
 
 /**
  * @ngdoc service
@@ -104,7 +104,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * methods to translate string keys.
  *
  */
-.factory('translate', require('./translate-service'))
+  .factory('translate', require('./translate-service'))
 
 /**
  * @ngdoc directive
@@ -123,7 +123,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @restrict A
  *
  */
-.directive('akamTranslate', require('./translate-directive'))
+  .directive('akamTranslate', require('./translate-directive'))
 
 /**
  * @ngdoc filter
@@ -148,7 +148,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * </pre>
  *
  */
-.filter('akamTranslate', require('./translate-filter'))
+  .filter('akamTranslate', require('./translate-filter'))
 
 /**
  * @ngdoc service
@@ -166,8 +166,8 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * in an application's configuration phase.
  *
  */
-/* @ngInject */
-.service('i18nToken')
+  /* @ngInject */
+  .service('i18nToken')
 
 /**
  * @ngdoc service
@@ -182,7 +182,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * values during run phase.
  *
  */
-.provider('i18nToken', require('./i18n-token-provider'))
+  .provider('i18nToken', require('./i18n-token-provider'))
 
 /**
  * @ngdoc service
@@ -204,7 +204,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * service, directive, and filter.
  *
  */
-.factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
+  .factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
 
 /**
  * @ngdoc service
@@ -228,17 +228,17 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * !important;}.`
  *
  */
-/* @ngInject */
-.config(function($provide, $translateProvider, i18nConfig) {
+  /* @ngInject */
+  .config(function($provide, $translateProvider, i18nConfig) {
     $translateProvider
-        .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
-        .useLoader('i18nCustomLoader')
-        .useSanitizeValueStrategy('escaped')
-        .preferredLanguage(i18nConfig.defaultLocale)
-        .fallbackLanguage(i18nConfig.defaultLocale)
-        .cloakClassName('util-hide')
-        .determinePreferredLanguage()
-        .useMissingTranslationHandler('missingTranslationFactory');
+      .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
+      .useLoader('i18nCustomLoader')
+      .useSanitizeValueStrategy('escaped')
+      .preferredLanguage(i18nConfig.defaultLocale)
+      .fallbackLanguage(i18nConfig.defaultLocale)
+      .cloakClassName('util-hide')
+      .determinePreferredLanguage()
+      .useMissingTranslationHandler('missingTranslationFactory');
 
     /**
      * a decorator to intercept $locale service and add datetime abd number values specific for current locale
@@ -248,14 +248,14 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
      * @return {object} $delegate modified $locale service object
      */
     $provide.decorator('$locale', ['$delegate', 'i18nToken', 'LOCALES', function($delegate, i18nToken, LOCALES) {
-        var loc = LOCALES[i18nToken.getCurrentLocale()];
-        if (loc) {
-            $delegate.DATETIME_FORMATS = loc.DATETIME_FORMATS;
-            $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;
-        }
-        return $delegate;
+      var loc = LOCALES[i18nToken.getCurrentLocale()];
+      if (loc) {
+        $delegate.DATETIME_FORMATS = loc.DATETIME_FORMATS;
+        $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;
+      }
+      return $delegate;
     }]);
-})
+  })
 
 /**
  * @ngdoc service
@@ -268,20 +268,20 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @description This service factory sole purpose is to Intercept missing translation key error, log error in the console (not blocking)
  *
  */
-.factory('missingTranslationFactory', function($log, i18nToken) {
+  .factory('missingTranslationFactory', function($log, i18nToken) {
     return function(translationID) {
-        $log.warn("Missing " + translationID + " key in " + i18nToken.getCurrentLocale() + " table.");
+      $log.warn("Missing " + translationID + " key in " + i18nToken.getCurrentLocale() + " table.");
     };
-})
+  })
 
 /**
  * This run block tells angular $translate service to use per language key, so the current translation table will be based upon that.
  * __NOTE__: Since run block is last flow, only this block completed, the $translation table is sure loaded.
  */
-/* @ngInject */
-.run(function($translate, i18nToken, i18nConfig) {
+  /* @ngInject */
+  .run(function($translate, i18nToken, i18nConfig) {
     //it loads twice using "use" function if current locale is different from default locale
     if (i18nToken.getCurrentLocale() === i18nConfig.defaultLocale) {
-        $translate.use(i18nToken.getCurrentLocale());
+      $translate.use(i18nToken.getCurrentLocale());
     }
-});
+  });

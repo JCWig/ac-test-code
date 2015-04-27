@@ -1,142 +1,141 @@
 .fc-bubble-content.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1060; //TODO: determine with Nick L what the best way to determine the z index.  This number is currently arbitrary.
+  display: none;
+  max-width: 300px;
+  max-height: 256px;
+  min-width: 120px;
+  padding: 15px;
+  padding-right: 30px;
+  text-align: left;
+  white-space: normal;
+  background-color: $bubble-help-background-color;
+  border: 1px solid $bubble-help-border-color;
+  border-radius: 3px;
+  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+
+  .close {
     position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1060; //TODO: determine with Nick L what the best way to determine the z index.  This number is currently arbitrary.
-    display: none;
-    max-width: 300px;
-    max-height: 256px;
-    min-width: 120px;
-    padding: 15px;
-    padding-right: 30px;
-    text-align: left;
-    white-space: normal;
-    background-color: $bubble-help-background-color;
-    border: 1px solid $bubble-help-border-color;
-    border-radius: 3px;
-    box-shadow: 0 2px 2px 1px rgba(0,0,0,0.15);
-    font-size: 12px;
-    
-    .close {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-    }
+    top: 5px;
+    right: 5px;
+  }
 
-    &.top {
-        margin-top: -$bubble-help-arrow-position;
-        
-        > .arrow {
-            bottom: -$bubble-help-arrow-size;
-            left: 50%;
-            margin-left: -$bubble-help-arrow-size;
-            border-top-color: $bubble-help-border-color;
-            border-bottom-width: 0;
-        }
+  &.top {
+    margin-top: -$bubble-help-arrow-position;
 
-        > .arrow:after {
-            content: " ";
-            bottom: $bubble-help-arrow-size-inner-spread;
-            margin-left: -$bubble-help-arrow-size-inner;
-            border-bottom-width: 0;
-            border-top-color: $bubble-help-background-color;
-        }
-    }
-
-    &.left {
-        margin-left: -$bubble-help-arrow-position;
-        
-        & > .arrow {
-            top: 50%;
-            right: -$bubble-help-arrow-size;
-            margin-top: -$bubble-help-arrow-size;
-            border-right-width: 0;
-            border-left-color: $bubble-help-border-color;
-        }
-        
-        > .arrow:after {
-            content: " ";
-            right: $bubble-help-arrow-size-inner-spread;
-            border-right-width: 0;
-            border-left-color: $bubble-help-background-color;
-            bottom: -$bubble-help-arrow-size-inner;
-        }
-    }
-    
-    &.right {
-        margin-left: $bubble-help-arrow-position;
-        
-        & > .arrow {
-            top: 50%;
-            left: -$bubble-help-arrow-size;
-            margin-top: -$bubble-help-arrow-size;
-            border-right-color: $bubble-help-border-color;
-            border-left-width: 0;
-        }
-        
-        > .arrow:after {
-            content: " ";
-            left: $bubble-help-arrow-size-inner-spread;
-            bottom: -$bubble-help-arrow-size-inner;
-            border-left-width: 0;
-            border-right-color: $bubble-help-background-color;
-        }
-    }
-    
-    &.bottom {
-        margin-top: $bubble-help-arrow-position;
-        
-        .right {
-            & > .arrow {
-                left: 25%;
-            }
-        }
-        
-        
-        & > .arrow {
-            left: 50%;
-            margin-left: -$bubble-help-arrow-size;
-            border-top-width: 0;
-            border-bottom-color: $bubble-help-border-color;
-            top: -$bubble-help-arrow-size;
-        }
-        
-        > .arrow:after {
-            content: " ";
-            top: $bubble-help-arrow-size-inner-spread;
-            margin-left: -$bubble-help-arrow-size-inner;
-            border-top-width: 0;
-            border-bottom-color: $bubble-help-background-color;
-        }
-    }
-    
-    .popover-content {
-        line-height: 1.1em;
-    }
-
-    & > .popover-title + .popover-content, .popover-button {
-        margin-top: 10px;
-    }
-    
-    .popover-button {
-        display: inline-block;
-    }
-    
     > .arrow {
-        border-width: $bubble-help-arrow-size;
-    }
-    
-    > .arrow:after{
-        border-width: $bubble-help-arrow-size-inner;
+      bottom: -$bubble-help-arrow-size;
+      left: 50%;
+      margin-left: -$bubble-help-arrow-size;
+      border-top-color: $bubble-help-border-color;
+      border-bottom-width: 0;
     }
 
-    & >.arrow,
-    & > .arrow:after {
-       position: absolute;
-       display: block;
-       width: 0;
-       height: 0;
-       border-color: transparent;
-       border-style: solid;
+    > .arrow:after {
+      content: " ";
+      bottom: $bubble-help-arrow-size-inner-spread;
+      margin-left: -$bubble-help-arrow-size-inner;
+      border-bottom-width: 0;
+      border-top-color: $bubble-help-background-color;
     }
+  }
+
+  &.left {
+    margin-left: -$bubble-help-arrow-position;
+
+    & > .arrow {
+      top: 50%;
+      right: -$bubble-help-arrow-size;
+      margin-top: -$bubble-help-arrow-size;
+      border-right-width: 0;
+      border-left-color: $bubble-help-border-color;
+    }
+
+    > .arrow:after {
+      content: " ";
+      right: $bubble-help-arrow-size-inner-spread;
+      border-right-width: 0;
+      border-left-color: $bubble-help-background-color;
+      bottom: -$bubble-help-arrow-size-inner;
+    }
+  }
+
+  &.right {
+    margin-left: $bubble-help-arrow-position;
+
+    & > .arrow {
+      top: 50%;
+      left: -$bubble-help-arrow-size;
+      margin-top: -$bubble-help-arrow-size;
+      border-right-color: $bubble-help-border-color;
+      border-left-width: 0;
+    }
+
+    > .arrow:after {
+      content: " ";
+      left: $bubble-help-arrow-size-inner-spread;
+      bottom: -$bubble-help-arrow-size-inner;
+      border-left-width: 0;
+      border-right-color: $bubble-help-background-color;
+    }
+  }
+
+  &.bottom {
+    margin-top: $bubble-help-arrow-position;
+
+    .right {
+      & > .arrow {
+        left: 25%;
+      }
+    }
+
+    & > .arrow {
+      left: 50%;
+      margin-left: -$bubble-help-arrow-size;
+      border-top-width: 0;
+      border-bottom-color: $bubble-help-border-color;
+      top: -$bubble-help-arrow-size;
+    }
+
+    > .arrow:after {
+      content: " ";
+      top: $bubble-help-arrow-size-inner-spread;
+      margin-left: -$bubble-help-arrow-size-inner;
+      border-top-width: 0;
+      border-bottom-color: $bubble-help-background-color;
+    }
+  }
+
+  .popover-content {
+    line-height: 1.1em;
+  }
+
+  & > .popover-title + .popover-content, .popover-button {
+    margin-top: 10px;
+  }
+
+  .popover-button {
+    display: inline-block;
+  }
+
+  > .arrow {
+    border-width: $bubble-help-arrow-size;
+  }
+
+  > .arrow:after {
+    border-width: $bubble-help-arrow-size-inner;
+  }
+
+  & > .arrow,
+  & > .arrow:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
 }

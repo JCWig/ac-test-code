@@ -1,12 +1,15 @@
 <div class="message-box">
-    <h3 class="message-box-headline" ng-if="messageBox.headline">{{ messageBox.headline }}</h3>
-    <p class="message-box-text">{{ messageBox.text }}</p>
-    <div class="message-box-details" ng-if="messageBox.details">
-        <span ng-click="toggle()">{{"components.message-box.label.detail" | akamTranslate}}
+  <h3 class="message-box-headline" ng-if="messageBox.headline">{{ messageBox.headline }}</h3>
+
+  <p class="message-box-text">{{ messageBox.text }}</p>
+
+  <div class="message-box-details" ng-if="messageBox.details">
+        <span ng-click="toggle()">{{ "components.message-box.label.detail" | akamTranslate }}
             <i ng-class="isCollapsed() ? 'svg-caret-right' : 'svg-caret-down'"></i>
         </span>
-        <div collapse="isCollapsed()">
-            {{ messageBox.details }}
-        </div>
+
+    <div collapse="isCollapsed()">
+      {{ messageBox.details }}
     </div>
+  </div>
 </div>
