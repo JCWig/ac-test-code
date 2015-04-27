@@ -1,6 +1,7 @@
 'use strict';
 
-//TODO: we have some ESLint errors because 'en_US' isn't in camelcase, but we have to use this format
+//TODO: we have some ESLint errors because 'en_US' isn't in camelcase,
+//but we have to use this format
 module.exports = {
   en_US: {
     DATETIME_FORMATS: {

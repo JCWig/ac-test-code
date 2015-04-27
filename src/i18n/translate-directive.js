@@ -6,6 +6,7 @@ module.exports = function(translate) {
     restrict: 'A',
     link: function(scope, elem, attr) {
       var key = attr.akamTranslate;
+
       translate.async(key).then(function(value) {
         elem.text(value);
       });

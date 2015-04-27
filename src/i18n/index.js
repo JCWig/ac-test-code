@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+
 require('angular-translate');
 require('angular-cookies');
 
@@ -17,7 +18,8 @@ require('angular-cookies');
  * capabilities for any application.
  *
  */
-module.exports = angular.module('akamai.components.i18n', ['pascalprecht.translate', 'ngCookies', require('../utils').name])
+module.exports = angular.module('akamai.components.i18n',
+  ['pascalprecht.translate', 'ngCookies', require('../utils').name])
 
 /**
  * @ngdoc service
@@ -60,20 +62,21 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
     localeAppPath: '/apps/{appname}/locales/',
     defaultLocale: 'en_US',
     localePrefix: '',
-    availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
+    availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT',
+    'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
     langKeysMapper: {
-      'de_DE': 'de_DE',
-      'en_US': 'en_US',
-      'en_US_ATT': 'en_US_ATT',
-      'es_ES': 'es_ES',
-      'es_LA': 'es_LA',
-      'fr_FR': 'fr_FR',
-      'it_IT': 'it_IT',
-      'ja_JP': 'ja_JP',
-      'ko_KR': 'ko_KR',
-      'pt_BR': 'pt_BR',
-      'zh_CN': 'zh_CN',
-      'zh_TW': 'zh_TW',
+      de_DE: 'de_DE',
+      en_US: 'en_US',
+      en_US_ATT: 'en_US_ATT',
+      es_ES: 'es_ES',
+      es_LA: 'es_LA',
+      fr_FR: 'fr_FR',
+      it_IT: 'it_IT',
+      ja_JP: 'ja_JP',
+      ko_KR: 'ko_KR',
+      pt_BR: 'pt_BR',
+      zh_CN: 'zh_CN',
+      zh_TW: 'zh_TW',
       '*': 'en_US'
     }
   })
@@ -88,7 +91,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * such as: 'en_US', 'de_DE'
  *
  */
-  .constant("LOCALES", require('./i18n-locale-constant'))
+  .constant('LOCALES', require('./i18n-locale-constant'))
 
 /**
  * @ngdoc service
@@ -118,7 +121,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * For example:
  *
  * <pre>
- * <any akam-translate="any.optionally.nested.key"></any>
+ * <any akam-translate='any.optionally.nested.key'></any>
  * </pre>
  *
  * @restrict A
@@ -137,15 +140,15 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * you want to translate the key.  For example:
  *
  * <pre>
- * <any>{{"translationId" | akamTranslate}}</any>
+ * <any>{{'translationId' | akamTranslate}}</any>
  * </pre>
  *
  * <pre>
- * <any abc="{number: myNumber}">{{"translationId" | akamTranslate : abc}}</any>
+ * <any abc='{number: myNumber}''>{{'translationId' | akamTranslate : abc}}</any>
  * </pre>
  *
  * <pre>
- * var translatedValue = $filter("akamTranslate")("translationId");
+ * var translatedValue = $filter('akamTranslate')('translationId');
  * </pre>
  *
  */
@@ -242,14 +245,17 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
       .useMissingTranslationHandler('missingTranslationFactory');
 
     /**
-     * a decorator to intercept $locale service and add datetime abd number values specific for current locale
+     * a decorator to intercept $locale service and add datetime abd number
+     * values specific for current locale
      * @param  {object} $delegate original $locale service object
      * @param  {object} i18nToken a factory service holds value of current locale
-     * @param  {object} $LOCALE locale constant
+     * @param  {object} LOCALES locale constant
      * @return {object} $delegate modified $locale service object
      */
-    $provide.decorator('$locale', ['$delegate', 'i18nToken', 'LOCALES', function($delegate, i18nToken, LOCALES) {
+    $provide.decorator('$locale', ['$delegate', 'i18nToken', 'LOCALES',
+      function($delegate, i18nToken, LOCALES) {
       var loc = LOCALES[i18nToken.getCurrentLocale()];
+
       if (loc) {
         $delegate.DATETIME_FORMATS = loc.DATETIME_FORMATS;
         $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;

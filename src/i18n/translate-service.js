@@ -1,11 +1,12 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($translate) {
+module.exports = function(angular, $translate) {
   // use sync
   var syncMethod = function(key, args) {
     return $translate.instant(key, args);
   };
+
   //use async
   var asyncMethod = function(keys, args) {
     if (angular.isArray(keys)) {
@@ -14,6 +15,7 @@ module.exports = function($translate) {
       return $translate(keys, args);
     }
   };
+
   return {
     /**
      * @ngdoc method

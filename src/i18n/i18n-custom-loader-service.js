@@ -23,10 +23,12 @@ module.exports = function(angular, $http, $q, $log, i18nToken, i18nConfig) {
    */
 
   var loadTranslations = function() {
+
     var deferreds = [],
       n = urls.length,
       url,
       deferred = $q.defer();
+
     while (n > 0) {
       url = urls[n - 1] + locale + '.json';
       deferreds.push($http.get(url).then(valid).catch(invalid));
@@ -82,6 +84,7 @@ module.exports = function(angular, $http, $q, $log, i18nToken, i18nConfig) {
   function valid(r) {
     var src = r.data,
         clone = src ? angular.copy(src) : {};
+
     angular.extend(translationTable, clone);
     return translationTable;
   }
