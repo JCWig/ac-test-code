@@ -1,9 +1,9 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
-  this.rawUrls = [];
-  var self = this;
+module.exports = function i18nTokenProvider(angular, $log, i18nConfig, VERSION) {
+  var self = this,
+      cPath;
 
   /**
    * @ngdoc service
@@ -38,9 +38,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     };
   };
 
-  var cPath = new Path();
-  cPath.resolve();
-
   /**
    * @ngdoc method
    *
@@ -53,8 +50,8 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    * @example of usage
    * <pre>
    *     app.config(function(i18nTokenProvider) {
-     *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-components/0.5.0/locales/");
-     *        i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
+     *        i18nTokenProvider.setComponentLocalePath('/libs/akamai-components/0.5.0/locales/'');
+     *        i18nTokenProvider.setAppLocalePath('/apps/appname/locales/'');
      *     });
    * </pre>
    */
@@ -97,6 +94,10 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     });
   };
 
+  this.rawUrls = [];
+  cPath = new Path();
+  cPath.resolve();
+
   /**
    *
    * @ngdoc method
@@ -116,7 +117,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    */
 
   /* @ngInject */
-  this.$get = function i18nTokenFactory($cookies, i18nConfig, $location) {
+  this.$get = function i18nTokenFactory($cookies, $location) {
     var cookieLocale = $cookies[i18nConfig.localeCookie],
       locale = i18nConfig.defaultLocale,
       localeUrls = [],
@@ -128,9 +129,12 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     //just to prevent from improperly encoded cookies
     if (cookieLocale) {
       try {
-        //try decode cookieLocale, then get first array value from split of non alpha, non digits and non underscore
+        //try decode cookieLocale, then get first array value from split of non alpha,
+        //non digits and non underscore
         locale = atob(cookieLocale).split(/(?![A-Za-z0-9-_])/)[0];
-      } catch (e) {} //let it go
+      } catch (e) {
+        $log.warn('Decode cookie failed: ' + cookieLocale);
+      }
     }
 
     angular.forEach(this.rawUrls, function(raw) {
@@ -138,9 +142,10 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
         localeUrls.push(raw.path);
       } else {
         if (raw.app) {
-          appName = "appname";
+          appName = 'appname';
           matchResults = [];
-          // browser url lookups for app locale path to get app name. e.g. https://control.akamai.com/apps/billing-center/somethingelse
+          // browser url lookups for app locale path to get app name.
+          // e.g. https://control.akamai.com/apps/billing-center/somethingelse
           // Capture string in pattern from path  apps/{}/
           matchResults = appUrlRx.exec(decodeURIComponent($location.absUrl()));
           if (matchResults) {
@@ -155,6 +160,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     });
 
     return {
+
       /**
        * @ngdoc method
        *
@@ -164,11 +170,14 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        *
        * @description get a list of URLs that reference locale
        * files.
+       * @return localeUrls
        *
        */
+
       getUrls: function() {
         return localeUrls;
       },
+
       /**
        * @ngdoc method
        *
@@ -177,8 +186,10 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        * @methodOf akamai.components.i18n.service:i18nTokenProvider
        *
        * @description Get the current locale value.
+       * @return locale
        *
        */
+
       getCurrentLocale: function() {
         return locale;
       }
