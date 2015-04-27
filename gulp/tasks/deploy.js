@@ -7,11 +7,17 @@ gulp.task('deploy', function(){
     var result = shell.exec('git branch -a --contains $GIT_COMMIT');
     var symbolicName = result.output.trim();
     bundleLogger.log('symbolic name', symbolicName);
+
+    var regex = /origin\/feature\/(.+)$/;
+
+    var matches = symbolicName.match(regex);
+
+    bundleLogger.log(matches);
     
     //clean up branch name:
     var cleanBranchName = symbolicName.replace('origin/feature/', '').replace(' ', '_');
     bundleLogger.log('clean branch name: '+ cleanBranchName);
-
+    
     //var longFolderName = '/315289/website/branches/' + cleanBranchName;
 
     //bundleLogger.log('rsync destination: '+ longFolderName);
