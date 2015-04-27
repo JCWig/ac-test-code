@@ -62,6 +62,7 @@ $tooltip-arrow-border: 8px solid transparent;
         width: 0; 
         height: 0; 
         border:$tooltip-arrow-border;
+        margin: 0px;
     }
     .tooltip-arrow:after{
         content: "";
