@@ -12,17 +12,17 @@ gulp.task('deploy', function(){
 
     var matches = symbolicName.match(regex);
 
-    bundleLogger.log(matches);
+    var branchName = matches[1];
     
     //clean up branch name:
-    var cleanBranchName = symbolicName.replace('origin/feature/', '').replace(' ', '_');
+    var cleanBranchName = branchName.replace(' ', '_');
     bundleLogger.log('clean branch name: '+ cleanBranchName);
     
-    //var longFolderName = '/315289/website/branches/' + cleanBranchName;
+    var longFolderName = '/315289/website/branches/' + cleanBranchName;
 
-    //bundleLogger.log('rsync destination: '+ longFolderName);
+    bundleLogger.log('rsync destination: '+ longFolderName);
+    
     //TODO: Handle scenarios where the folder needs to be generated on the server side
-    /*
     rsync({
       ssh: true,
       src: ['./dist', './examples'],
@@ -33,5 +33,4 @@ gulp.task('deploy', function(){
     }, function(error, stdout, stderr, cmd) {
         bundleLogger.log(error, stdout, cmd);
     });
-    */
 });
