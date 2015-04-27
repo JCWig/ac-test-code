@@ -1,7 +1,7 @@
 .*
 *.markdown
 *.md
-test/
+spec/
 bin/
 gulpfile.js
 node_modules/
