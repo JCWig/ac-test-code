@@ -1,3 +1,5 @@
+'use strict';
+
 var pkg = require('../package.json');
 var path = require('path');
 
@@ -5,7 +7,7 @@ var dest = './dist';
 var src = './src';
 var assets = './assets';
 var reports = './reports';
-var production = !!(require('yargs').argv.production);
+var production = !!require('yargs').argv.production;
 var packageName = pkg.name;
 
 var jsFileName = packageName + '.js';
@@ -19,17 +21,17 @@ module.exports = {
     }
   },
   sass: {
-    src: src + "/styles/**/*.scss",
+    src: src + '/styles/**/*.scss',
     dest: dest,
     imagePath: 'assets/images' // Used by the image-url helper
   },
   images: {
-    src: assets + "/images/**",
-    dest: dest + "/images"
+    src: assets + '/images/**',
+    dest: dest + '/images'
   },
   lint: {
     path: reports + '/unit/',
-    file: 'jshint.xml'
+    file: 'lint.xml'
   },
   browserify: {
     entries: [src + '/' + packageName],
