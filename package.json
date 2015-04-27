@@ -80,6 +80,7 @@
     "rsyncwrapper": "^0.4.2",
     "run-sequence": "^1.0.2",
     "semver": "^4.3.3",
+    "shelljs": "^0.4.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.0",
