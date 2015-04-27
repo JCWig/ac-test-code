@@ -1,23 +1,22 @@
-<div class="modal-header">
-    <i ng-if="modalWindow.icon" class="title-icon" ng-class="modalWindow.icon"></i>
-    <h3 class="modal-title">{{ modalWindow.title }}</h4>
-    <i class="close-icon" ng-disabled="isProcessing()" ng-click="close()"></i>
+<div class="modal-header" ng-class="{'error': showSubmitError}">
+    <i ng-if="modalWindow.icon" class="title-icon" ng-class="modalWindow.icon" ></i>
+    <h3 class="modal-title">{{ modalWindow.title }}</h3>
+    <i class="close-icon" ng-click="close()" ng-if="!isProcessing()"></i>
+    <div class="akam-status-message-wrapper" ng-if='showSubmitError'>
+        <div class="akam-status-message-item-wrapper" ng-class="{'error': showSubmitError}">
+            <div class="akam-status-message-item">
+                <div class="status-message-content">{{modalWindow.errorMessage}}</div>
+            </div>
+        </div>
+    </div>
 </div>
 <akam-modal-window-body></akam-modal-window-body>
 <div class="modal-footer">
-    <button
-        type="button"
-        class="button large"
-        ng-click="close()"
-        ng-disabled="isProcessing()">
+    <button type="button" class="button large" ng-click="close()" ng-disabled="isSubmitDisabled()">
         {{ modalWindow.cancelLabel }}
     </button>
-    <button
-        type="button"
-        class="button large primary"
-        ng-if="!isSubmitHidden()"
-        ng-disabled="isSubmitDisabled()"
-        ng-click="submit()">
-        {{ modalWindow.submitLabel }}
+    <button type="button" class="button large primary"  ng-if="!isSubmitHidden()" ng-disabled="isSubmitDisabled()" ng-click="submit()">
+        {{ !isProcessing()? modalWindow.submitLabel : '' }}
+        <div class='submit-button-spinner' ng-if='isProcessing()'></div>
     </button>
 </div>
