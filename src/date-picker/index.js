@@ -53,4 +53,4 @@ module.exports = angular.module('akamai.components.date-picker', [
  * format.
  *
  */
-  .directive("akamDatePicker", require('./date-picker-directive'));
+  .directive('akamDatePicker', require('./date-picker-directive'));

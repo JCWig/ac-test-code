@@ -2,6 +2,8 @@
 
 module.exports = function($provide) {
   $provide.decorator('monthpickerDirective', function($delegate) {
+    var link;
+
     // since: directives could potentially share names, the provider returns an array
     // therefore: get the first item as we know we only have one.
     var directive = $delegate[0];
@@ -13,7 +15,7 @@ module.exports = function($provide) {
     directive.templateUrl = undefined;
 
     // reference the original link function
-    var link = directive.link;
+    link = directive.link;
 
     //redefine the compile to do both the old link function and add additional scoped functions
     directive.compile = function() {
@@ -23,12 +25,14 @@ module.exports = function($provide) {
         //disable navigation according to the range
         scope.monthpickerNavPrevDisabled = function() {
           var firstMonth = new Date(ctrl.activeDate.getFullYear(), 0, 1);
-          return ctrl.minDate && (firstMonth <= ctrl.minDate);
+
+          return ctrl.minDate && firstMonth <= ctrl.minDate;
         };
 
         scope.monthpickerNavNextDisabled = function() {
           var lastMonth = new Date(ctrl.activeDate.getFullYear(), 11, 31);
-          return ctrl.maxDate && (lastMonth >= ctrl.maxDate);
+
+          return ctrl.maxDate && lastMonth >= ctrl.maxDate;
         };
       };
     };

@@ -27,7 +27,7 @@ module.exports = angular.module('akamai.components.status-message', [])
  * @param {String} text The required text to display.
  *
  */
-  .directive("akamStatusMessage", require('./status-message-directive'))
+  .directive('akamStatusMessage', require('./status-message-directive'))
 
 /**
  * @ngdoc directive
@@ -42,7 +42,7 @@ module.exports = angular.module('akamai.components.status-message', [])
  * to display.
  *
  */
-  .directive("akamStatusMessageGroup", require('./status-message-group-directive'))
+  .directive('akamStatusMessageGroup', require('./status-message-group-directive'))
 
 /**
  * @ngdoc object

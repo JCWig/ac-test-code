@@ -1,8 +1,7 @@
 'use strict';
+var angular = require('angular');
 
 require('angular-sanitize');
-
-var angular = require('angular');
 
 /**
  * @ngdoc overview
@@ -43,4 +42,4 @@ module.exports = angular.module('akamai.components.list-box', [
  * schema to the list box layout and formatting.
  *
  */
-  .directive("akamListBox", require('./list-box-directive'));
+  .directive('akamListBox', require('./list-box-directive'));

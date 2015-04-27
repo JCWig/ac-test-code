@@ -3,8 +3,8 @@
 /* @ngInject */
 module.exports = function($filter, translate) {
   var PICKER_TYPES = {
-    'day': 'day',
-    'month': 'month'
+    day: 'day',
+    month: 'month'
   };
 
   return {
@@ -22,13 +22,13 @@ module.exports = function($filter, translate) {
     link: {
       pre: function(scope) {
         scope.opened = false;
-        scope.mode = (scope.mode in PICKER_TYPES) ?
+        scope.mode = scope.mode in PICKER_TYPES ?
           scope.mode : PICKER_TYPES.day;
 
         if (scope.mode === PICKER_TYPES.day) {
           scope.format = scope.format || 'EEE, MMM dd, yyyy';
           if (!scope.placeholder) {
-            translate.async("components.date-picker.placeholder.date").then(function(value) {
+            translate.async('components.date-picker.placeholder.date').then(function(value) {
               scope.placeholder = value;
             });
           }
@@ -42,7 +42,7 @@ module.exports = function($filter, translate) {
         } else {
           scope.format = scope.format || 'MMM yyyy';
           if (!scope.placeholder) {
-            translate.async("components.date-picker.placeholder.month").then(function(value) {
+            translate.async('components.date-picker.placeholder.month').then(function(value) {
               scope.placeholder = value;
             });
           }

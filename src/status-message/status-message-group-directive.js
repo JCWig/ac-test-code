@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log) {
+module.exports = function() {
   return {
     restrict: 'E',
     scope: {
@@ -9,11 +9,13 @@ module.exports = function($log) {
     },
     replace: true,
     template: require('./templates/status-message-group-directive.tpl.html'),
-    link: function(scope, element, attrs) {
+    link: function(scope) {
       scope.items = scope.items || [];
 
       function removeItemByItemId(itemId) {
-        for (var i = 0; i < scope.items.length; i++) {
+        var i;
+
+        for (i = 0; i < scope.items.length; i++) {
           if (scope.items[i].itemId === itemId) {
             scope.items.splice(i, 1);
             return;

@@ -51,13 +51,13 @@ describe('messageBox service', function() {
     }
   });
 
-  describe('_show()', function() {
+  describe('show()', function() {
     describe('when no headline option is provided', function() {
       it('should throw an error', function() {
         var opts = {
           text: 'Some text'
         };
-        var openingFunction = angular.bind(this.messageBox, this.messageBox._show, opts);
+        var openingFunction = angular.bind(this.messageBox, this.messageBox.show, opts);
         expect(openingFunction).toThrowError();
       });
     });
@@ -67,7 +67,7 @@ describe('messageBox service', function() {
         var opts = {
           headline: 'Some text'
         };
-        var openingFunction = angular.bind(this.messageBox, this.messageBox._show, opts);
+        var openingFunction = angular.bind(this.messageBox, this.messageBox.show, opts);
         expect(openingFunction).toThrowError();
       });
     });
@@ -75,7 +75,7 @@ describe('messageBox service', function() {
     it('should limit the title to 20 characters', function() {
       var title = 'I am very long title that should be truncated';
 
-      this.messageBox._show({
+      this.messageBox.show({
         title: title,
         headline: 'Headline',
         text: 'Message',
@@ -90,7 +90,7 @@ describe('messageBox service', function() {
     it('should support a headline option', function() {
       var headline = 'Headline';
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: headline,
         text: 'Message'
       });
@@ -105,7 +105,7 @@ describe('messageBox service', function() {
 
       this.$timeout.flush();
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: 'headline',
         text: 'Message',
         cancelLabel: ""
@@ -121,7 +121,7 @@ describe('messageBox service', function() {
 
       this.$timeout.flush();
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: 'headline',
         text: 'Message',
         submitLabel: submitLabelKey
@@ -135,7 +135,7 @@ describe('messageBox service', function() {
     it('should limit the headline to 48 characters', function() {
       var headline = 'A very long headline that will be truncated to 48 chars';
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: headline,
         text: 'Message'
       });
@@ -148,7 +148,7 @@ describe('messageBox service', function() {
     it('should support a text option', function() {
       var text = 'Message';
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: 'Headline',
         text: text
       });
@@ -162,7 +162,7 @@ describe('messageBox service', function() {
       var text = new Array(300).join('x');
       var el;
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: 'Headline',
         text: text
       });
@@ -175,7 +175,7 @@ describe('messageBox service', function() {
     it('should support a details option', function() {
       var details = 'Message details';
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: 'Headline',
         text: 'Message',
         details: details
@@ -189,7 +189,7 @@ describe('messageBox service', function() {
     it('should support translating a question message', function() {
       var headline = 'Headline';
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: headline,
         text: 'Message'
       }, "question");
@@ -201,7 +201,7 @@ describe('messageBox service', function() {
     it('should support translating a error message', function() {
       var headline = 'Headline';
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: headline,
         text: 'Message'
       }, "error");
@@ -214,7 +214,7 @@ describe('messageBox service', function() {
     it('should have a close icon button which can close', function() {
       var details = 'Message details';
 
-      this.messageBox._show({
+      this.messageBox.show({
         headline: 'Headline',
         text: 'Message',
         details: details
@@ -232,7 +232,7 @@ describe('messageBox service', function() {
 
     describe('when view details is clicked', function() {
       it('should toggle the visibility of the content', function() {
-        this.messageBox._show({
+        this.messageBox.show({
           headline: 'Headline',
           text: 'Message',
           details: 'Details'
@@ -253,7 +253,7 @@ describe('messageBox service', function() {
       it('should close the message box', function() {
         this.$rootScope.spyOnResultFunction = function() {};
         var spy = spyOn(this.$rootScope, "spyOnResultFunction");
-        var box = this.messageBox._show({
+        var box = this.messageBox.show({
           headline: 'Headline',
           text: 'Message',
           details: 'Details'
@@ -274,7 +274,7 @@ describe('messageBox service', function() {
       it('should close the message box', function() {
         this.$rootScope.spyOnResultFunction = function() {};
         var spy = spyOn(this.$rootScope, "spyOnResultFunction");
-        var messageBox = this.messageBox._show({
+        var messageBox = this.messageBox.show({
           headline: 'Headline',
           text: 'Message',
           details: 'Details'
@@ -295,7 +295,7 @@ describe('messageBox service', function() {
       it('should be able to be opened with new data', function() {
         var title = 'I am very long title that should be truncated';
         var title2 = 'I am a very different title from the one before hand';
-        this.messageBox._show({
+        this.messageBox.show({
           title: title,
           headline: 'Headline',
           text: 'Message'
@@ -306,7 +306,7 @@ describe('messageBox service', function() {
         this.$timeout.flush();
         this.$timeout.flush();
         this.$rootScope.$digest();
-        this.messageBox._show({
+        this.messageBox.show({
           title: title2,
           headline: 'a new headline',
           text: 'All the messages'
@@ -329,7 +329,7 @@ describe('messageBox service', function() {
         this.$rootScope.spyOnShowInfo = function() {};
         var spy = spyOn(this.$rootScope, "spyOnShowInfo");
 
-        this.messageBox._show = this.$rootScope.spyOnShowInfo;
+        this.messageBox.show = this.$rootScope.spyOnShowInfo;
         this.messageBox.showInfo();
         expect(spy).toHaveBeenCalled();
         expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-information');
@@ -339,7 +339,7 @@ describe('messageBox service', function() {
         this.$rootScope.spyOnShowInfo = function() {};
         var spy = spyOn(this.$rootScope, "spyOnShowInfo");
 
-        this.messageBox._show = this.$rootScope.spyOnShowInfo;
+        this.messageBox.show = this.$rootScope.spyOnShowInfo;
         this.messageBox.showInfo();
         expect(spy).toHaveBeenCalled();
         expect(spy.calls.allArgs()[0][0].windowClass).toEqual('information akam-message-box');
@@ -352,7 +352,7 @@ describe('messageBox service', function() {
         this.$rootScope.spyOnShowQuestion = function() {};
         var spy = spyOn(this.$rootScope, "spyOnShowQuestion");
 
-        this.messageBox._show = this.$rootScope.spyOnShowQuestion;
+        this.messageBox.show = this.$rootScope.spyOnShowQuestion;
         this.messageBox.showQuestion();
         expect(spy).toHaveBeenCalled();
         expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-question');
@@ -362,7 +362,7 @@ describe('messageBox service', function() {
         this.$rootScope.spyOnShowQuestion = function() {};
         var spy = spyOn(this.$rootScope, "spyOnShowQuestion");
 
-        this.messageBox._show = this.$rootScope.spyOnShowQuestion;
+        this.messageBox.show = this.$rootScope.spyOnShowQuestion;
         this.messageBox.showQuestion();
         expect(spy).toHaveBeenCalled();
         expect(spy.calls.allArgs()[0][0].windowClass).toEqual('question akam-message-box');
@@ -376,7 +376,7 @@ describe('messageBox service', function() {
         this.$rootScope.spyOnShowError = function() {};
         var spy = spyOn(this.$rootScope, "spyOnShowError");
 
-        this.messageBox._show = this.$rootScope.spyOnShowError;
+        this.messageBox.show = this.$rootScope.spyOnShowError;
         this.messageBox.showError();
         expect(spy).toHaveBeenCalled();
         expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-error');
@@ -386,7 +386,7 @@ describe('messageBox service', function() {
         this.$rootScope.spyOnShowError = function() {};
         var spy = spyOn(this.$rootScope, "spyOnShowError");
 
-        this.messageBox._show = this.$rootScope.spyOnShowError;
+        this.messageBox.show = this.$rootScope.spyOnShowError;
         this.messageBox.showError();
         expect(spy).toHaveBeenCalled();
         expect(spy.calls.allArgs()[0][0].windowClass).toEqual('error akam-message-box');

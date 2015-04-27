@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($log) {
+module.exports = function() {
   return {
     restrict: 'E',
     transclude: true,
@@ -13,7 +13,7 @@ module.exports = function($log) {
     },
     template: require('./templates/menu-button.tpl.html'),
     link: function(scope) {
-      scope.iconOnly = (scope.iconOnly !== 'false') && !(scope.label);
+      scope.iconOnly = scope.iconOnly !== 'false' && !scope.label;
     }
   };
 };

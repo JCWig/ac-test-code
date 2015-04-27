@@ -10,39 +10,41 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
     scope: {
       data: '=',
       schema: '=',
-      filterPlaceholder: "@",
-      noFilterResultsMessage: "@",
-      noDataMessage: "=?",
-      selectedItems: "=?", // selected items from the outside
+      filterPlaceholder: '@',
+      noFilterResultsMessage: '@',
+      noDataMessage: '=?',
+      selectedItems: '=?', // selected items from the outside
       onChange: '&?'
     },
     template: require('./templates/data-table.tpl.html'),
     transclude: true,
     link: function(scope, element, attrs, controller, transclude) {
+      var orderBy, filter;
+
       scope.hasActionColumn = false;
-      transclude(function(clone, $scope) {
+      transclude(function(clone) {
         if (clone.children().length > 0) {
           scope.hasActionColumn = true;
         }
       });
 
-      var orderBy = $filter('orderBy');
-      var filter = $filter('filter');
+      orderBy = $filter('orderBy');
+      filter = $filter('filter');
 
       scope.loading = true;
       scope.tableId = uuid.guid();
       if (!scope.filterPlaceholder) {
-        translate.async("components.data-table.placeholder.filter").then(function(value) {
+        translate.async('components.data-table.placeholder.filter').then(function(value) {
           scope.filterPlaceholder = value;
         });
       }
       if (!scope.noFilterResultsMessage) {
-        translate.async("components.data-table.text.noFilterResults").then(function(value) {
+        translate.async('components.data-table.text.noFilterResults').then(function(value) {
           scope.noFilterResultsMessage = value;
         });
       }
       if (!scope.noDataMessage) {
-        translate.async("components.data-table.text.noDataMessage").then(function(value) {
+        translate.async('components.data-table.text.noDataMessage').then(function(value) {
           scope.noDataMessage = value;
         });
       }
@@ -59,7 +61,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           },
           viewSelectedOnly: false,
           allSelected: false,
-          filter: "",
+          filter: '',
           search: {
             searchTitle: ''
           }
@@ -70,6 +72,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
       function update() {
         var output = scope.dataTable;
+
         output = filter(output, scope.state.search);
         output = orderBy(output, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
 
@@ -95,6 +98,9 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
       function getColumnContent(column, item, defaultValue) {
         var columnContent = column.content;
+        var columnUnknownTypeErrorMessage = 'The column content field is using ' +
+          'an unknown type.  Content field may only be String or Function type';
+
         if (angular.isString(columnContent)) {
           if (columnContent in item) {
             // retrieve the property for the item with the same name
@@ -108,11 +114,12 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           return convertToString(angular.bind(item, column.content)() || defaultValue);
         }
 
-        throw "The column content field is using an unknown type.  Content field may only be String or Function type";
+        throw columnUnknownTypeErrorMessage;
       }
 
       function getColumnTitles(column, item, defaultValue) {
         var title;
+
         if (angular.isFunction(column.title)) {
           title = column.title.call(item);
         }
@@ -121,7 +128,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
       function convertToString(value) {
         if (value == null) {
-          return "";
+          return '';
         }
 
         if (angular.isArray(value)) {
@@ -136,16 +143,20 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
       }
 
       scope.processDataTable = function() {
+        var dataTableOutput, newItem, autoSortableColumns;
+
         // we can only really process the data if both fields are set
         if (scope.columns == null || scope.internalData == null) {
           return;
         }
 
         // do the same process as ng-repeat, except we do this only once to cache the output
-        var dataTableOutput = [];
+        dataTableOutput = [];
         angular.forEach(scope.internalData, function(dataItem) {
-          var newItem = {
-            selected: scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
+          newItem = {
+            selected: scope.internalSelectedItems.filter(function(item) {
+              return item === dataItem;
+            }).length > 0,
             cells: scope.columns.map(
               function(column) {
                 return getColumnContent(column, dataItem, column.defaultValue);
@@ -153,18 +164,19 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             ),
             titles: scope.columns.map(
               function(column) {
-                return getColumnTitles(column, dataItem, "");
+                return getColumnTitles(column, dataItem, '');
               }
             ),
             item: dataItem
           };
 
-          newItem.searchTitle = angular.element('<span>' + newItem.cells.join(' ') + '</span>').text();
+          newItem.searchTitle =
+            angular.element('<span>' + newItem.cells.join(' ') + '</span>').text();
 
           dataTableOutput.push(newItem);
         });
 
-        var autoSortableColumns = scope.columns.filter(
+        autoSortableColumns = scope.columns.filter(
           function(col) {
             return col.sort !== false && col.autoSort !== false;
           }
@@ -189,12 +201,16 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
       scope.$watch('selectedItems', function(items) {
         scope.internalSelectedItems = items;
         angular.forEach(scope.dataTable, function(data) {
-          data.selected = scope.internalSelectedItems.filter(function(a) { return a === data.item; }).length > 0;
+          data.selected = scope.internalSelectedItems.filter(function(a) {
+            return a === data.item;
+          }).length > 0;
         });
         update();
       });
 
-      scope.$watch('data', function(newValue) {
+      scope.$watch('data', function() {
+        var dataArrayErrorMessage = 'Data must be an array';
+
         scope.loading = true;
         $q.when(scope.data).then(function(data) {
           if (angular.isObject(data) && angular.isDefined(data.data)) {
@@ -202,7 +218,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           }
 
           if (!angular.isArray(data)) {
-            throw "Data must be an array";
+            throw dataArrayErrorMessage;
           }
 
           setDefaults();
@@ -216,8 +232,10 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
       });
 
       scope.$watch('schema', function(newValue) {
+        var schemaArrayErrorMessage = 'Schema must be an array';
+
         if (!angular.isArray(newValue)) {
-          throw "Schema must be an array";
+          throw schemaArrayErrorMessage;
         }
         scope.columns = angular.copy(newValue).map(function(value, index) {
           value.index = index;
@@ -231,7 +249,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           return;
         }
 
-        scope.dataTable.forEach(function(currentValue, index) {
+        scope.dataTable.forEach(function(currentValue) {
           currentValue.selected = newValue;
         });
 
@@ -253,8 +271,11 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
       };
 
       scope.sortColumn = function(column) {
+        var sortInfo, isSameColumnFromLastSort, isReversed, predicate;
+        var columnUndefinedErrorMessage = 'Column may not be null/undefined';
+
         if (column == null) {
-          throw "Column may not be null/undefined";
+          throw columnUndefinedErrorMessage;
         }
 
         // make sure we have a valid dataset to sort & ensure at least 2 elements
@@ -262,12 +283,12 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           return;
         }
 
-        var sortInfo = scope.state.sortInfo;
+        sortInfo = scope.state.sortInfo;
 
         // first check if the column we're sorting is the same column from the last sort
-        var isSameColumnFromLastSort = sortInfo.sortedColumn === column;
+        isSameColumnFromLastSort = sortInfo.sortedColumn === column;
 
-        var isReversed = false;
+        isReversed = false;
 
         if (isSameColumnFromLastSort) {
           // if we're sorting the same column, just flip the order and go
@@ -277,7 +298,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           isReversed = !!column.reversed;
         }
 
-        var predicate = scope.getColumnPredicate(column);
+        predicate = scope.getColumnPredicate(column);
 
         scope.state.sortInfo = {
           sortedColumn: column,
@@ -296,16 +317,24 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
         }
 
         if (column.sort != null && column.sort !== true) {
-          predicate = angular.isString(column.sort) ? ('+item.' + column.sort) : function(obj) { return angular.bind(obj.item, column.sort)(); };
+          predicate = angular.isString(column.sort) ?
+            '+item.' + column.sort :
+            function(obj) {
+             return angular.bind(obj.item, column.sort)();
+           };
         } else {
-          predicate = angular.isString(column.content) ? ('+item.' + column.content) : function(obj) { return angular.bind(obj.item, column.content)(); };
+          predicate = angular.isString(column.content) ?
+            '+item.' + column.content :
+            function(obj) {
+              return angular.bind(obj.item, column.content)();
+            };
         }
 
         return predicate;
       };
 
       scope.isSortable = function(column) {
-        return (column.sort !== false);
+        return column.sort !== false;
       };
 
       scope.getColumnClasses = function(column, isHeader) {
@@ -321,6 +350,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
       scope.getColumnSortClass = function(column) {
         var sortInfo = scope.state.sortInfo;
+
         if (column !== sortInfo.sortedColumn) {
           return 'column-sortable';
         }
@@ -329,6 +359,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
       };
       scope.getColumnsLength = function() {
         var colLength = scope.columns ? scope.columns.length : 0;
+
         return colLength + (scope.hasActionColumn ? 1 : 0) + (scope.showCheckboxes ? 1 : 0);
       };
       scope.getEmptyStatusMessage = function() {
