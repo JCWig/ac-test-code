@@ -76,7 +76,9 @@
                 "cancel": "Cancel",
                 "save": "Save"
             },
-            "title": "Modal Window"
+            "title": "Modal Window",
+            "successMessage": "Value has been successfully submitted.",
+            "errorMessage": "Error occurs during last submission."
         },
         "pagination": {
             "label": {
