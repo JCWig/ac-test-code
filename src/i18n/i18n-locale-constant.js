@@ -103,7 +103,7 @@ module.exports = {
       }]
     }
   },
-  'en_US_ATT': {
+  en_US_ATT: {
     'DATETIME_FORMATS': {
       'AMPMS': [
         'AM',
