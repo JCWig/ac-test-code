@@ -15,7 +15,7 @@ module.exports = function($log, $timeout) {
       var defaultTimeout = 2000;
       var timer = null;
 
-      if (scope.status == null || scope.status === "") {
+      if (scope.status == null || scope.status === '') {
         scope.status = 'success';
       }
 

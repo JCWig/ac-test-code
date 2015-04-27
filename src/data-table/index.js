@@ -1,8 +1,7 @@
 'use strict';
+var angular = require('angular');
 
 require('angular-sanitize');
-
-var angular = require('angular');
 
 /**
  * @ngdoc overview
@@ -60,4 +59,4 @@ module.exports = angular.module('akamai.components.data-table', [
  * schema to the data table layout and formatting.
  *
  */
-  .directive("akamDataTable", require('./data-table-directive'));
+  .directive('akamDataTable', require('./data-table-directive'));

@@ -17,7 +17,7 @@ module.exports = function($compile, $http, $templateCache, $q) {
     restrict: 'E',
     replace: true,
     template: '<div class="modal-body"></div>',
-    link: function(scope, element, attrs) {
+    link: function(scope, element) {
       getBodyTemplate(scope.modalWindow)
         .then(function(content) {
           element.append($compile(content)(scope));

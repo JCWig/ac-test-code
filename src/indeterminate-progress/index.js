@@ -34,4 +34,4 @@ module.exports = angular.module('akamai.components.indeterminate-progress', [])
  * indeterminate progress encountered a `completed` state.
  *
  */
-  .directive("akamIndeterminateProgress", require('./indeterminate-progress'));
+  .directive('akamIndeterminateProgress', require('./indeterminate-progress'));

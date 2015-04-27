@@ -1,7 +1,8 @@
 'use strict';
+var angular = require('angular');
 
 /* @ngInject */
-module.exports = function($document, $compile, $rootScope, $log) {
+module.exports = function($document, $compile, $rootScope) {
 
   var body = $document.find('body').eq(0);
   var items = [];
@@ -12,9 +13,10 @@ module.exports = function($document, $compile, $rootScope, $log) {
    * A check to make sure we have something to wrap our status messages with
    */
   function initializeStatusMessageGroup() {
-    var scope = $rootScope.$new();
+    var scope = $rootScope.$new(), wrapper;
+
     scope.items = items;
-    var wrapper = $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
+    wrapper = $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
     body.prepend(wrapper);
     return true;
   }

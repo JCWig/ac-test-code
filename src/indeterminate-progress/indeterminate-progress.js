@@ -3,15 +3,15 @@
 /* @ngInject */
 module.exports = function() {
   return {
-    restrict: "AE",
+    restrict: 'AE',
     scope: {
-      label: "@label",
-      stateFailed: "@failed",
-      stateCompleted: "@completed",
-      spinnerSize: "@size"
+      label: '@label',
+      stateFailed: '@failed',
+      stateCompleted: '@completed',
+      spinnerSize: '@size'
     },
     template: require('./templates/indeterminate-progress.tpl.html'),
-    link: function($scope, element, attrs) {
+    link: function($scope, element) {
       element.addClass('indeterminate-progress-wrapper');
 
       $scope.size = function() {
@@ -40,19 +40,19 @@ module.exports = function() {
       };
 
       $scope.completed = function() {
-        return $scope.stateCompleted === "true";
+        return $scope.stateCompleted === 'true';
       };
 
       $scope.failed = function() {
-        return $scope.stateFailed === "true";
+        return $scope.stateFailed === 'true';
       };
 
-      $scope.$watch('stateFailed', function(newval, oldval) {
+      $scope.$watch('stateFailed', function() {
         //add or remove the class based on wether or not the element is "completed".
         element.toggleClass('failed', $scope.failed());
       }, true);
 
-      $scope.$watch('stateCompleted', function(newval, oldval) {
+      $scope.$watch('stateCompleted', function() {
         //add or remove the class based on wether or not the element is "completed".
         element.parent().toggleClass('indeterminate-progress', !$scope.completed());
       }, true);

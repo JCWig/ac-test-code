@@ -12,13 +12,14 @@ module.exports = function(translate) {
       onchangesize: '&'
     },
     template: require('./templates/pagination.tpl.html'),
-    link: function(scope, element) {
+    link: function(scope) {
       var maxPages = 7;
       var defaultSize = 10;
+      var i;
 
       scope.sizes = [10, 25, 50];
 
-      translate.async("components.pagination.label.results")
+      translate.async('components.pagination.label.results')
         .then(function(value) {
           scope.resultText = value;
         });
@@ -40,7 +41,7 @@ module.exports = function(translate) {
 
         // setup page size
         scope.pageSize = parseInt(scope.pageSize, 10);
-        if ((scope.pageSize == null) || (!isValidSize(scope.pageSize))) {
+        if (scope.pageSize == null || !isValidSize(scope.pageSize)) {
           scope.pageSize = defaultSize;
         }
 
@@ -68,7 +69,7 @@ module.exports = function(translate) {
         start = start >= 2 ? start : 2;
         // setup the page objects for rendering
         scope.pages = [];
-        for (var i = 0; i < count; i++) {
+        for (i = 0; i < count; i++) {
           scope.pages.push({
             number: start + i,
             active: start + i === scope.currentPage
@@ -98,14 +99,14 @@ module.exports = function(translate) {
       };
 
       scope.selectPage = function(page) {
-        if ((page !== scope.currentPage) && (inBounds(page))) {
+        if (page !== scope.currentPage && inBounds(page)) {
           scope.currentPage = page;
           scope.onchangepage({page: page});
         }
       };
 
       scope.selectSize = function(size) {
-        if ((size !== scope.pageSize)) {
+        if (size !== scope.pageSize) {
           scope.pageSize = size;
           scope.onchangesize({size: size});
         }

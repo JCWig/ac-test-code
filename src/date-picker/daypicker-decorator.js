@@ -2,6 +2,8 @@
 
 module.exports = function($provide) {
   $provide.decorator('daypickerDirective', function($delegate) {
+    var link;
+
     // since: directives could potentially share names, the provider returns an array
     // therefore: get the first item as we know we only have one.
     var directive = $delegate[0];
@@ -11,7 +13,7 @@ module.exports = function($provide) {
     directive.templateUrl = undefined;
 
     // reference the original link function
-    var link = directive.link;
+    link = directive.link;
 
     directive.compile = function() {
       return function(scope, element, attrs, ctrl) {
@@ -19,15 +21,20 @@ module.exports = function($provide) {
 
         //disable navigation according to the range
         scope.daypickerNavPrevDisabled = function() {
-          var firstDayOfMonth = new Date(ctrl.activeDate.getFullYear(), ctrl.activeDate.getMonth(), 1);
-          return ctrl.minDate && (firstDayOfMonth <= ctrl.minDate);
+          var firstDayOfMonth = new Date(ctrl.activeDate.getFullYear(),
+              ctrl.activeDate.getMonth(), 1);
+
+          return ctrl.minDate && firstDayOfMonth <= ctrl.minDate;
         };
 
         scope.daypickerNavNextDisabled = function() {
           // calculate last day of month by using the 0th day trick:
-          // if values are greater/lesser than their logical range, the adjacent value will be adjusted.
-          var lastDayOfMonth = new Date(ctrl.activeDate.getFullYear(), ctrl.activeDate.getMonth() + 1, 0);
-          return ctrl.maxDate && (lastDayOfMonth >= ctrl.maxDate);
+          // if values are greater/lesser than their logical range,
+          // the adjacent value will be adjusted.
+          var lastDayOfMonth =
+            new Date(ctrl.activeDate.getFullYear(), ctrl.activeDate.getMonth() + 1, 0);
+
+          return ctrl.maxDate && lastDayOfMonth >= ctrl.maxDate;
         };
       };
     };
