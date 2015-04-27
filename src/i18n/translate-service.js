@@ -1,7 +1,9 @@
 'use strict';
 
+var angular = require('angular');
+
 /* @ngInject */
-module.exports = function(angular, $translate) {
+module.exports = function($translate) {
   // use sync
   var syncMethod = function(key, args) {
     return $translate.instant(key, args);

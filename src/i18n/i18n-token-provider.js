@@ -1,7 +1,9 @@
 'use strict';
 
+var angular = require('angular');
+
 /* @ngInject */
-module.exports = function i18nTokenProvider(angular, $log, i18nConfig, VERSION) {
+module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
   var self = this,
       cPath;
 
@@ -117,7 +119,7 @@ module.exports = function i18nTokenProvider(angular, $log, i18nConfig, VERSION) 
    */
 
   /* @ngInject */
-  this.$get = function i18nTokenFactory($cookies, $location) {
+  this.$get = function i18nTokenFactory($cookies, $location, $log) {
     var cookieLocale = $cookies[i18nConfig.localeCookie],
       locale = i18nConfig.defaultLocale,
       localeUrls = [],

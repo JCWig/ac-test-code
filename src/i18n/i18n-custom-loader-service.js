@@ -1,7 +1,9 @@
 'use strict';
 
+var angular = require('angular');
+
 /* @ngInject */
-module.exports = function(angular, $http, $q, $log, i18nToken, i18nConfig) {
+module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
   var locale = i18nToken.getCurrentLocale(),
     urls = i18nToken.getUrls(),
     errorList = [],

@@ -1,7 +1,8 @@
 'use strict';
+var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(angular, $parse, translate) {
+module.exports = function($parse, translate) {
   var akamTranslateFilter = function(translationId, params) {
     if (!angular.isObject(params)) {
       params = $parse(params)(this);
