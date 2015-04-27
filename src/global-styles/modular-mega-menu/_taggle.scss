@@ -1,0 +1,173 @@
+// adapted from https://github.com/okcoker/taggle.js/blob/master/assets/scss/taggle.scss
+// not all of the CSS in that file is actually used so some manual updating had to be done.
+
+// The major changes include:
+//  Using 2 spaces for whitespace
+//  changing the project color to #333
+//  removing the first ~240 lines (up until the first .taggle_list)
+//  removed the auto complete CSS since we don't use it
+//  Removing the ".custom" tag definitions at the bottom
+//  Adding a custom tag definition called ".luna-tags" (see _luna_taggle.scss for that)
+
+$project_color: #333;
+
+.taggle_list {
+  float: left;
+  width: 100%;
+}
+
+.taggle_input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.taggle_list li {
+  float: left;
+  display: inline-block;
+  white-space: nowrap;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.taggle_list .taggle {
+  margin-right: 8px;
+  background: #E2E1DF;
+  padding: 5px 10px;
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+  @include transition(all .3s);
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  -o-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.taggle_list .taggle_hot {
+  background: #cac8c4;
+}
+
+.taggle_list .taggle .close {
+  font-size: 1.1rem;
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  text-decoration: none;
+  padding-left: 2px;
+  padding-top: 3px;
+  line-height: 75%;
+  color: #ccc;
+  color: rgba(0, 0, 0, 0.2);
+  padding-bottom: 4px;
+  display: none;
+}
+
+.taggle_list .taggle:hover {
+  padding: 5px;
+  padding-right: 15px;
+  background: #ccc;
+  @include transition(all .3s);
+}
+
+.taggle_list .taggle:hover > .close {
+  display: block;
+}
+
+.taggle_list .taggle .close:hover {
+  color: $project_color;
+}
+
+.taggle_placeholder {
+  position: absolute;
+  color: #CCC;
+  top: 12px;
+  left: 8px;
+  @include transition(opacity, .25s);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.taggle_input {
+  padding: 8px;
+  padding-left: 0;
+  float: left;
+  margin-top: -5px;
+  background: none;
+  width: 100%;
+  max-width: 100%;
+}
+
+.taggle_sizer {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: -500px;
+  z-index: -1;
+  visibility: hidden;
+}
+
+/*container styles*/
+textarea.input,
+.textarea.input {
+  border: 0;
+  background: #FDFDFD;
+  @include box-shadow(inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(255, 255, 255, 0.7));
+  min-height: 60px;
+  padding: 8px;
+  @include border-radius(3px);
+  color: #555;
+  @include transition(all .25s);
+  cursor: text;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.textarea.input:focus,
+.textarea.input.active,
+textarea.input:focus,
+textarea.input.active {
+  background: #fff;
+  @include transition(all .25s);
+}
+
+.textarea.input,
+textarea.input {
+  height: auto;
+}
+
+
+.textarea.tags {
+  position: relative;
+}
+
+.textarea.tags * {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -o-box-sizing: content-box;
+  -ms-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+
+.placeholder_input {
+  position: relative;
+}
+
+.placeholder_input span {
+  position: absolute;
+  color: #AAA;
+  top: 50%;
+  margin-top: -11px;
+  left: 10px;
+}
+
+.placeholder_input input {
+  width: 120px;
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
+module.exports = function($modal, $templateCache, $rootScope, $q, translate, statusMessage) {
     return {
         /**
          * @ngdoc method
@@ -56,14 +56,16 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
          */
         open: function(options) {
             var scope = (options.scope || $rootScope).$new(),
-                onSubmit = angular.noop;
-            var disabled = false,
-                processing = false; //variable used to determine if the submit is clicked, but promise has not resolved
-            var instance;
+                onSubmit = angular.noop,
+                disabled = false,
+                processing = false, //variable used to determine if the submit is clicked, but promise has not resolved
+                instance;
+
+            scope.showSubmitError = false;
 
             // check that a template was provided
             if (!(angular.isDefined(options.template) ||
-                  angular.isDefined(options.templateUrl))) {
+                    angular.isDefined(options.templateUrl))) {
                 throw new Error('Modal Window template or templateUrl option required');
             }
 
@@ -74,12 +76,14 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
                 cancelLabel: options.cancelLabel || translate.sync('components.modal-window.label.cancel'),
                 submitLabel: options.submitLabel || translate.sync('components.modal-window.label.save'),
                 template: options.template,
-                templateUrl: options.templateUrl
+                templateUrl: options.templateUrl,
+                errorMessage: options.errorMessage || translate.sync('components.modal-window.errorMessage'),
+                successMessage: options.successMessage || translate.sync('components.modal-window.successMessage')
             };
 
             scope.isSubmitHidden = function() {
                 return angular.isDefined(options.hideSubmit) ?
-                   options.hideSubmit : false;
+                    options.hideSubmit : false;
             };
 
             // provide methods to control submit button disabled state
@@ -101,38 +105,40 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate) {
                 scope: scope,
                 template: require('./templates/modal-window.tpl.html')
             }));
-            
-            scope.close = function(){
-                if(!scope.isProcessing()) {
-                    instance.dismiss();
-                }
+
+            scope.close = function() {
+                instance.dismiss();
             };
 
             // setup promise that will resolve when submit button is clicked
-            scope.setOnSubmit  = function(fn){ onSubmit = fn; };
-            
+            scope.setOnSubmit = function(fn) {
+                onSubmit = fn;
+            };
+
             scope.submit = function() {
-                processing = true;
-                
                 var result;
-                
-                if(angular.isFunction(onSubmit)){
+
+                processing = true;
+                scope.showSubmitError = false;
+
+                if (angular.isFunction(onSubmit)) {
                     result = onSubmit();
-                }else{
+                } else {
                     result = onSubmit;
                 }
-                
+
                 $q.when(result).then(
-                    function (returnValue) {
+                    function(returnValue) {
                         instance.close(returnValue);
+                        statusMessage.showSuccess({text: scope.modalWindow.successMessage});
                     }
                 ).catch(
                     function() {
                         processing = false;
+                        scope.showSubmitError = true;
                     }
                 );
             };
-
             return instance;
         }
     };

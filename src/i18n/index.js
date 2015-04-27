@@ -81,6 +81,17 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
 /**
  * @ngdoc service
  *
+ * @name akamai.components.i18n.service:LOCALE
+ *
+ * @description A service that provides datetime and number locale constant values,
+ * that includes 12 supported locales and sections based on locale names, such as: "en_US", "de_DE"
+ *
+ */
+.constant("LOCALES", require('./i18n-locale-constant'))
+
+/**
+ * @ngdoc service
+ *
  * @name akamai.components.i18n.service:translate
  *
  * @requires pascalprecht.translate.$translate
@@ -206,6 +217,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @description Adds methods to `$translateProvider` that load any
  * locale resource files for an application's run phase.
+ * Also a decorator for service of $locale to inject DATETIME_FORMATS and NUMBER_FORMATS
  *
  * __NOTE__: localStorage is not used, the browser will not cache the
  * language key.
@@ -217,7 +229,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  */
 /* @ngInject */
-.config(function($translateProvider, i18nConfig) {
+.config(function($provide, $translateProvider, i18nConfig) {
     $translateProvider
         .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
         .useLoader('i18nCustomLoader')
@@ -227,6 +239,22 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
         .cloakClassName('util-hide')
         .determinePreferredLanguage()
         .useMissingTranslationHandler('missingTranslationFactory');
+
+    /**
+     * a decorator to intercept $locale service and add datetime abd number values specific for current locale
+     * @param  {object} $delegate original $locale service object
+     * @param  {object} i18nToken a factory service holds value of current locale
+     * @param  {object} $LOCALE locale constant
+     * @return {object} $delegate modified $locale service object
+     */
+    $provide.decorator('$locale', ['$delegate', 'i18nToken', 'LOCALES', function($delegate, i18nToken, LOCALES) {
+        var loc = LOCALES[i18nToken.getCurrentLocale()];
+        if (loc) {
+            $delegate.DATETIME_FORMATS = loc.DATETIME_FORMATS;
+            $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;
+        }
+        return $delegate;
+    }]);
 })
 
 /**

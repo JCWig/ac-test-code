@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Akamai Component Examples</title>
-        <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+        <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
     <body ng-app="example" ng-controller="ExampleController" class="common-css luna">
         <div class="container">
@@ -29,8 +29,8 @@
                 <akam-pagination total-items="pager.totalItems" current-page="pager.page"
                     page-size="pager.size" onchangepage="pageChanged(page)"></akam-pagination>
         </div>
-        <script src="../node_modules/angular/angular.js"></script>
-        <script src="../dist/akamai-components.js"></script>
+
+        <script src="../dist/akamai-core.js"></script>
         <script>
             angular.module('example', ['akamai.components.pagination'])
             

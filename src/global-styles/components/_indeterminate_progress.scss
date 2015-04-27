@@ -1,0 +1,198 @@
+/* Indeterminate Progress Bars
+
+The indeterminate progress indicator displays a looping animation that indicates an operation that has no estimated completion time is in progress. The animation continues for the duration of the operation
+
+Markup:
+<div class="indeterminate-progress">
+    <div class="indeterminate-progress-wrapper {$modifiers}">
+        <div class="indeterminate-progress-spinner"><span></span></div>
+        <div class="indeterminate-progress-label">Loading</div>
+    </div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+</div>
+<div class="common-css pulsar"><!-- this div is here to support the component in the styleguide -->
+    <div class="indeterminate-progress">
+        <div class="indeterminate-progress-wrapper {$modifiers}">
+            <div class="indeterminate-progress-spinner"><span></span></div>
+            <div class="indeterminate-progress-label">Loading</div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    </div>
+</div>
+
+.large - A large spinner
+.small - A small spinner
+.failed - Progress has failed.
+.failed.large - Progress has failed (large).
+.failed.small - Progress has failed (small).
+
+Styleguide 5.2
+
+*/
+
+
+$progress-label-color: #666666;
+$progress-label-font-size: 12px;
+$progress-label-font: normal #{$progress-label-font-size}/1em Arial, sans-serif;
+
+$progress-spinner-dimensions: 60px;
+$progress-spinner-dimensions-large: 80px;
+$progress-spinner-dimensions-small: 25px;
+$progress-spinner-gutter: 5px;
+
+$progress-backdrop-color_luna: rgba(255,255,255,0.85);
+$progress-backdrop-color_pulsar: rgba(255,255,255,0.85);
+
+
+/** This mixin is used to position the PULSAR spinner and label */
+@mixin indeterminateProgressPosition($dimensions: $progress-spinner-dimensions, $gutter: $progress-spinner-gutter) {
+    .indeterminate-progress-spinner {
+        width: $dimensions;
+        height: $dimensions;
+        top: calc(50% - #{$dimensions / 2} - #{$gutter});
+        left: calc(50% - #{$dimensions / 2});
+    }
+    
+    .indeterminate-progress-label {
+        top: calc(50% + #{$dimensions / 2});
+    }
+}
+
+
+@include keyframes(spin360) {
+    100% { @include transform(rotate(1turn)); }
+}
+
+
+
+/** Wrapper is hidden by default (requires .indeterminate-progress class on parent) */
+.indeterminate-progress-wrapper {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+    @include opacity(0);
+    @include transition(opacity 0.5s);
+    
+    .indeterminate-progress-label {
+        @include opacity(0);
+    }
+}
+
+/** This .indeterminate-progress class is required on the wrapper parent to enable absolute positioning, and show the spinner */
+.indeterminate-progress {
+    position: relative;
+    
+    /** Wrapper is responsible for creating the backdrop. Show if its a child of .indeterminate-progress */
+    & > .indeterminate-progress-wrapper {
+        overflow: hidden;
+        display: block;
+        width: 100%;
+        height: 100%;
+        z-index: 100; // TODO: Need to add this to zindex map. Might be an inappropriate value
+        @include transform(translate3d(0,0,0));
+        @include opacity(1);
+        @include indeterminateProgressPosition($progress-spinner-dimensions);
+        
+        /** Absolute position the spinner graphic */
+        .indeterminate-progress-spinner {
+            position: absolute;
+            background-color: transparent;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        /** Absolute position a full-width, text-aligned label */
+        .indeterminate-progress-label {
+            width: 100%;
+            position: absolute;
+            color: #fff;
+            text-shadow: 1px 1px 1px #000;
+            font: $progress-label-font;
+            text-align: center;
+            @include opacity(1);
+        }
+        
+        &.large {
+            @include indeterminateProgressPosition($progress-spinner-dimensions-large);
+        }
+        
+        &.small {
+            @include indeterminateProgressPosition($progress-spinner-dimensions-small);
+            
+            .indeterminate-progress-label {
+                display: none; // UXD spec says not to show this for small spinners
+            }
+        }
+    }
+}
+
+
+
+/**
+* The & context is .common-css
+*/
+& {
+    .indeterminate-progress-wrapper {
+        background: $progress-backdrop-color_luna;
+    }
+    
+    .indeterminate-progress {
+        
+        & > .indeterminate-progress-wrapper {
+            
+            .indeterminate-progress-spinner {
+                background-image: inline-svg-image("svg/luna-spinner.svg");
+                @include animation(spin360 1s infinite steps(8));
+            }
+            
+            .indeterminate-progress-label {
+                @include opacity(1);
+            }
+            
+            &.failed {
+                .indeterminate-progress-spinner {
+                    background-image: inline-svg-image("svg/failed.svg");
+                    @include animation(none);
+                }
+            }
+        }
+    }
+}
+
+
+/**
+* The & context is .common-css
+* These styles apply to .common-css.pulsar only
+*/
+&.pulsar {
+    .indeterminate-progress-wrapper {
+        background: $progress-backdrop-color_pulsar;
+    }
+    
+    .indeterminate-progress {
+        
+        & > .indeterminate-progress-wrapper {
+            
+            .indeterminate-progress-spinner {
+                background-image: inline-svg-image("svg/spinner.svg");
+                @include animation(spin360 3s infinite linear);
+            }
+            
+            &.failed {
+                .indeterminate-progress-spinner {
+                    background-image: inline-svg-image("svg/warning.svg");
+                    @include animation(none);
+                }
+            }
+        }
+    }
+}
