@@ -214,8 +214,8 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           }
         }
 
-        scope.onChange({
-          value: scope.selectedItems
+        scope.$eval(function() {
+          scope.onChange({value: scope.selectedItems});
         });
       };
 
