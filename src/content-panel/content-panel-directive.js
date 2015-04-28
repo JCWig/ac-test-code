@@ -16,7 +16,7 @@ module.exports = function() {
       scope.isCollapsed = !!scope.isCollapsed;
 
       scope.$watch('isCollapsed', function(newValue, oldValue) {
-        if (newValue !== oldValue && scope.onToggle) {
+        if (newValue !== oldValue) {
           scope.onToggle({value: newValue});
         }
       });
