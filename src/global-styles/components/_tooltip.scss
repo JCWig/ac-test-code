@@ -70,35 +70,35 @@ $tooltip-arrow-border: 8px solid transparent;
         margin-right: 5px;
         .tooltip-arrow {        
             border-right:none;
-            border-left: 11px solid $border-color; 
+            border-left: 10.5px solid $border-color; 
         }        
         > .tooltip-arrow:after {    
             top: -8px;
             position: absolute;
             left: -12px;
             border-right:none;
-            border-left: 11px solid $tooltip-background-color; 
+            border-left: 10.5px solid $tooltip-background-color; 
         }  
     }
     &.right {
         margin-left: 5px;
         .tooltip-arrow {        
             border-left:none;
-            border-right:11px solid $border-color; 
+            border-right:10.5px solid $border-color; 
         }   
         > .tooltip-arrow:after {
             top: -8px;
             position: absolute;
             left:1px;
             border-left:none;
-            border-right:11px solid $tooltip-background-color; 
+            border-right:10.5px solid $tooltip-background-color; 
         }   
     }
     &.bottom{
         margin-top: 5px;
         > .tooltip-arrow {   
             border-top:none; 
-            border-bottom:11px solid $border-color; 
+            border-bottom:10.5px solid $border-color; 
         }
         > .tooltip-arrow:after {
             width: 0; 
@@ -107,7 +107,7 @@ $tooltip-arrow-border: 8px solid transparent;
             position:relative;
             top: -13px;
             border-top:none; 
-            border-bottom:11px solid $tooltip-background-color; 
+            border-bottom:10.5px solid $tooltip-background-color; 
         }   
     }
     &.top{
@@ -115,7 +115,7 @@ $tooltip-arrow-border: 8px solid transparent;
         marign-top : 0px;
         .tooltip-arrow {        
             border-bottom:none;
-            border-top:11px solid $border-color; 
+            border-top:10.5px solid $border-color; 
         } 
         > .tooltip-arrow:after {
             width: 0; 
@@ -124,7 +124,7 @@ $tooltip-arrow-border: 8px solid transparent;
             position:relative;
             top: -3px;
             border-bottom:none;
-            border-top:11px solid $tooltip-background-color; 
+            border-top:10.5px solid $tooltip-background-color; 
         }   
     }
 }

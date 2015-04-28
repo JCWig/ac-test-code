@@ -57,7 +57,7 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                 var triggerElementWidth = triggerElement[0].offsetWidth;
                 var triggerElementHeight = triggerElement[0].offsetHeight;
                 var arrowWidth = 16;
-                var arrowHeight = 11;
+                var arrowHeight = 10;
                 var toolTipArrowOffset = 21;
 
                 if (scope.position === 'right') {
@@ -69,7 +69,7 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
                     scope.toolTipLeft = (triggerElementOffsetLeft - toolTipWidth - arrowHeight);
                     scope.toolTipTop = (elementOffsetTop - toolTipArrowOffset);
                     scope.arrowTop = toolTipArrowOffset;
-                    scope.arrowLeft = toolTipWidth;
+                    scope.arrowLeft = toolTipWidth - 1;
                 } else if (scope.position === 'bottom') {
                     scope.toolTipLeft = isOnLeftSide ? 
                         (triggerElementOffsetLeft - toolTipArrowOffset):
