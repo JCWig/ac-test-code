@@ -309,7 +309,7 @@ describe('locale cookie set to invalid cookie', function() {
         });
     });
 });
-describe('locale cookie set to zn_CN wnot properly encoded', function() {
+describe('locale cookie set to zn_CN wont properly encode', function() {
     var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
     var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
     var enUsResponse = require ("./i18n_responses/en_US.json");
