@@ -267,9 +267,10 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
         scope.selectedItems = selectedItemsList;
 
-        scope.$eval(function() {
+        /* istanbul ignore else */
+        if (scope.onChange) {
           scope.onChange({value: selectedItemsList});
-        });
+        }
       };
 
       scope.sortColumn = function(column) {

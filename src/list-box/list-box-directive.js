@@ -214,9 +214,10 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           }
         }
 
-        scope.$eval(function() {
+        /* istanbul ignore else */
+        if (scope.onChange) {
           scope.onChange({value: scope.selectedItems});
-        });
+        }
       };
 
       scope.sortColumn = function(column) {
