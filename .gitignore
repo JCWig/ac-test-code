@@ -9,7 +9,6 @@
 .settings
 
 .DS_Store
-TAGS
 npm-debug.log
 node_modules
 dist
