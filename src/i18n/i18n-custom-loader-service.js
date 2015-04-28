@@ -4,10 +4,10 @@ var angular = require('angular');
 
 /* @ngInject */
 module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
-  var locale = i18nToken.getCurrentLocale(),
-    urls = i18nToken.getUrls(),
-    errorList = [],
-    translationTable = [];
+  var errorList = [],
+    translationTable = [],
+    urls,
+    locale;
 
   /**
    * @name loadTranslations
@@ -52,6 +52,10 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
     });
     return deferred.promise;
   };
+
+  urls = i18nToken.getUrls();
+  locale = i18nToken.getCurrentLocale();
+
   return function() {
     return loadTranslations();
   };

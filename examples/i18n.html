@@ -71,7 +71,7 @@
                     <li>{{1288323623006 | date:'medium':'UTC'}} </li>
                     <li>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss':'UTC'}}</li>
                     <li>{{1288323623006 | date:'MM/dd/yyyy @ h:mma':'UTC'}}</li>
-                </ul>                
+                </ul>
             </div><br />
             <div>
                 <h3>Currencies:</h3>
@@ -96,15 +96,15 @@
         </div>
         <script type="text/javascript" src="../dist/akamai-core.js"></script>
         <script>
-            var app = angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
-            
+            angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
+
             // Override the location of the Component and Application locale files
-            app.config(function(i18nTokenProvider) {
+            angular.module('i18nDemo3')
+            .config(function(i18nTokenProvider) {
                 i18nTokenProvider.setComponentLocalePath("/libs/akamai-components/0.5.0/locales/");
                 i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
-            });
-
-            app.controller('TranslationPageController', ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log',
+            })
+            .controller('TranslationPageController', ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log',
                             function(i18nToken, $scope, $cookies, translate, $rootScope, $filter, $log) {
                 $rootScope.$on('$translateChangeEnd', function() {
                     // List of locales to populate the locale selection dropdown. Note that not all of these exist
@@ -117,13 +117,13 @@
                     if($cookies.AKALOCALE) {
                         $scope.selected = atob($cookies.AKALOCALE);
                     }
-                    
+
                     $scope.changeLocale = changeLocale;
-            
+
                     $log.log(translate.sync('reseller-tools.note'));
                     $log.log(translate.sync('components.menu-button.label'));
                     $log.log($filter('akamTranslate')('components.notifications.success'));
-                    $log.log($filter('akamTranslate')('recurring-report.activate.modal.message'));              
+                    $log.log($filter('akamTranslate')('recurring-report.activate.modal.message'));
                     $log.log('compURLs ' + i18nToken.getUrls());
                     $log.log('appPath ' + i18nToken.getCurrentLocale());
                 });
@@ -133,7 +133,7 @@
                     document.cookie = 'AKALOCALE='+btoa($scope.selected);
                     window.location.reload();
                 }
-                
+
             }]);
     </script>
     </body>

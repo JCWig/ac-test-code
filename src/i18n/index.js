@@ -64,6 +64,7 @@ module.exports = angular.module('akamai.components.i18n',
     localePrefix: '',
     availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT',
     'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
+      /*eslint-disable camelcase */
     langKeysMapper: {
       de_DE: 'de_DE',
       en_US: 'en_US',
@@ -79,6 +80,7 @@ module.exports = angular.module('akamai.components.i18n',
       zh_TW: 'zh_TW',
       '*': 'en_US'
     }
+    /*eslint-enable camelcase */
   })
 
 /**

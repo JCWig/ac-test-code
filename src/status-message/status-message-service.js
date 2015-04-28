@@ -4,19 +4,24 @@ var angular = require('angular');
 /* @ngInject */
 module.exports = function($document, $compile, $rootScope) {
 
-  var body = $document.find('body').eq(0);
-  var items = [];
-  var itemCount = 0;
-  var initialized = false;
+  var body = $document.find('body').eq(0),
+    items = [],
+    itemCount = 0,
+    initialized = false;
 
   /**
-   * A check to make sure we have something to wrap our status messages with
+   * @name initializeStatusMessageGroup
+   * @private
+   * @description A check to make sure we have something to wrap our status messages with
+   * @return {boolean} true
    */
   function initializeStatusMessageGroup() {
-    var scope = $rootScope.$new(), wrapper;
+    var scope = $rootScope.$new(),
+      wrapper;
 
     scope.items = items;
-    wrapper = $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
+    wrapper =
+      $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
     body.prepend(wrapper);
     return true;
   }
@@ -26,7 +31,8 @@ module.exports = function($document, $compile, $rootScope) {
       initialized = initializeStatusMessageGroup();
     }
     options = options;
-    options.itemId = 'akam-status-message-' + (++itemCount);
+    itemCount++;
+    options.itemId = 'akam-status-message-' + itemCount;
     items.push(options);
   }
 

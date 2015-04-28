@@ -1,8 +1,7 @@
 'use strict';
 
-//TODO: we have some ESLint errors because 'en_US' isn't in camelcase,
-//but we have to use this format
 module.exports = {
+  /*eslint-disable camelcase */
   en_US: {
     DATETIME_FORMATS: {
       AMPMS: [
@@ -105,12 +104,12 @@ module.exports = {
     }
   },
   en_US_ATT: {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+    DATETIME_FORMATS: {
+      AMPMS: [
         'AM',
         'PM'
       ],
-      'DAY': [
+      DAY: [
         'Sunday',
         'Monday',
         'Tuesday',
@@ -119,16 +118,16 @@ module.exports = {
         'Friday',
         'Saturday'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         'Before Christ',
         'Anno Domini'
       ],
-      'ERAS': [
+      ERAS: [
         'BC',
         'AD'
       ],
-      'FIRSTDAYOFWEEK': 6,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 6,
+      MONTH: [
         'January',
         'February',
         'March',
@@ -142,7 +141,7 @@ module.exports = {
         'November',
         'December'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         'Sun',
         'Mon',
         'Tue',
@@ -151,7 +150,7 @@ module.exports = {
         'Fri',
         'Sat'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         'Jan',
         'Feb',
         'Mar',
@@ -165,53 +164,53 @@ module.exports = {
         'Nov',
         'Dec'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'EEEE, MMMM d, y',
-      'longDate': 'MMMM d, y',
-      'medium': 'MMM d, y h:mm:ss a',
-      'mediumDate': 'MMM d, y',
-      'mediumTime': 'h:mm:ss a',
-      'short': 'M/d/yy h:mm a',
-      'shortDate': 'M/d/yy',
-      'shortTime': 'h:mm a'
+      fullDate: 'EEEE, MMMM d, y',
+      longDate: 'MMMM d, y',
+      medium: 'MMM d, y h:mm:ss a',
+      mediumDate: 'MMM d, y',
+      mediumTime: 'h:mm:ss a',
+      short: 'M/d/yy h:mm a',
+      shortDate: 'M/d/yy',
+      shortTime: 'h:mm a'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '$',
-      'DECIMAL_SEP': '.',
-      'GROUP_SEP': ',',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '$',
+      DECIMAL_SEP: '.',
+      GROUP_SEP: ',',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '\u00a4-',
-        'negSuf': '',
-        'posPre': '\u00a4',
-        'posSuf': ''
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '\u00a4-',
+        negSuf: '',
+        posPre: '\u00a4',
+        posSuf: ''
       }]
     }
   },
-  'de_DE': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  de_DE: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         'vorm.',
         'nachm.'
       ],
-      'DAY': [
+      DAY: [
         'Sonntag',
         'Montag',
         'Dienstag',
@@ -220,16 +219,16 @@ module.exports = {
         'Freitag',
         'Samstag'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         'v. Chr.',
         'n. Chr.'
       ],
-      'ERAS': [
+      ERAS: [
         'v. Chr.',
         'n. Chr.'
       ],
-      'FIRSTDAYOFWEEK': 0,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 0,
+      MONTH: [
         'Januar',
         'Februar',
         'M\u00e4rz',
@@ -243,7 +242,7 @@ module.exports = {
         'November',
         'Dezember'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         'So.',
         'Mo.',
         'Di.',
@@ -252,7 +251,7 @@ module.exports = {
         'Fr.',
         'Sa.'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         'Jan.',
         'Feb.',
         'M\u00e4rz',
@@ -266,53 +265,53 @@ module.exports = {
         'Nov.',
         'Dez.'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'EEEE, d. MMMM y',
-      'longDate': 'd. MMMM y',
-      'medium': 'dd.MM.y HH:mm:ss',
-      'mediumDate': 'dd.MM.y',
-      'mediumTime': 'HH:mm:ss',
-      'short': 'dd.MM.yy HH:mm',
-      'shortDate': 'dd.MM.yy',
-      'shortTime': 'HH:mm'
+      fullDate: 'EEEE, d. MMMM y',
+      longDate: 'd. MMMM y',
+      medium: 'dd.MM.y HH:mm:ss',
+      mediumDate: 'dd.MM.y',
+      mediumTime: 'HH:mm:ss',
+      short: 'dd.MM.yy HH:mm',
+      shortDate: 'dd.MM.yy',
+      shortTime: 'HH:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '\u20ac',
-      'DECIMAL_SEP': ',',
-      'GROUP_SEP': '.',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '\u20ac',
+      DECIMAL_SEP: ',',
+      GROUP_SEP: '.',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '\u00a0\u00a4',
-        'posPre': '',
-        'posSuf': '\u00a0\u00a4'
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '\u00a0\u00a4',
+        posPre: '',
+        posSuf: '\u00a0\u00a4'
       }]
     }
   },
-  'es_ES': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  es_ES: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         'a. m.',
         'p. m.'
       ],
-      'DAY': [
+      DAY: [
         'domingo',
         'lunes',
         'martes',
@@ -321,16 +320,16 @@ module.exports = {
         'viernes',
         's\u00e1bado'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         'antes de Cristo',
         'anno D\u00f3mini'
       ],
-      'ERAS': [
+      ERAS: [
         'a. C.',
         'd. C.'
       ],
-      'FIRSTDAYOFWEEK': 0,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 0,
+      MONTH: [
         'enero',
         'febrero',
         'marzo',
@@ -344,7 +343,7 @@ module.exports = {
         'noviembre',
         'diciembre'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         'dom.',
         'lun.',
         'mar.',
@@ -353,7 +352,7 @@ module.exports = {
         'vie.',
         's\u00e1b.'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         'ene.',
         'feb.',
         'mar.',
@@ -367,53 +366,53 @@ module.exports = {
         'nov.',
         'dic.'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'EEEE, d \'de\' MMMM \'de\' y',
-      'longDate': 'd \'de\' MMMM \'de\' y',
-      'medium': 'd \'de\' MMM \'de\' y H:mm:ss',
-      'mediumDate': 'd \'de\' MMM \'de\' y',
-      'mediumTime': 'H:mm:ss',
-      'short': 'd/M/yy H:mm',
-      'shortDate': 'd/M/yy',
-      'shortTime': 'H:mm'
+      fullDate: 'EEEE, d \'de\' MMMM \'de\' y',
+      longDate: 'd \'de\' MMMM \'de\' y',
+      medium: 'd \'de\' MMM \'de\' y H:mm:ss',
+      mediumDate: 'd \'de\' MMM \'de\' y',
+      mediumTime: 'H:mm:ss',
+      short: 'd/M/yy H:mm',
+      shortDate: 'd/M/yy',
+      shortTime: 'H:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '\u20ac',
-      'DECIMAL_SEP': ',',
-      'GROUP_SEP': '.',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '\u20ac',
+      DECIMAL_SEP: ',',
+      GROUP_SEP: '.',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '\u00a0\u00a4',
-        'posPre': '',
-        'posSuf': '\u00a0\u00a4'
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '\u00a0\u00a4',
+        posPre: '',
+        posSuf: '\u00a0\u00a4'
       }]
     }
   },
-  'es_LA': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  es_LA: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         'a. m.',
         'p. m.'
       ],
-      'DAY': [
+      DAY: [
         'domingo',
         'lunes',
         'martes',
@@ -422,16 +421,16 @@ module.exports = {
         'viernes',
         's\u00e1bado'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         'antes de Cristo',
         'anno D\u00f3mini'
       ],
-      'ERAS': [
+      ERAS: [
         'a. C.',
         'd. C.'
       ],
-      'FIRSTDAYOFWEEK': 0,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 0,
+      MONTH: [
         'enero',
         'febrero',
         'marzo',
@@ -445,7 +444,7 @@ module.exports = {
         'noviembre',
         'diciembre'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         'dom.',
         'lun.',
         'mar.',
@@ -454,7 +453,7 @@ module.exports = {
         'vie.',
         's\u00e1b.'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         'ene.',
         'feb.',
         'mar.',
@@ -468,53 +467,53 @@ module.exports = {
         'nov.',
         'dic.'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'EEEE, d \'de\' MMMM \'de\' y',
-      'longDate': 'd \'de\' MMMM \'de\' y',
-      'medium': 'd \'de\' MMM \'de\' y H:mm:ss',
-      'mediumDate': 'd \'de\' MMM \'de\' y',
-      'mediumTime': 'H:mm:ss',
-      'short': 'd/M/yy H:mm',
-      'shortDate': 'd/M/yy',
-      'shortTime': 'H:mm'
+      fullDate: 'EEEE, d \'de\' MMMM \'de\' y',
+      longDate: 'd \'de\' MMMM \'de\' y',
+      medium: 'd \'de\' MMM \'de\' y H:mm:ss',
+      mediumDate: 'd \'de\' MMM \'de\' y',
+      mediumTime: 'H:mm:ss',
+      short: 'd/M/yy H:mm',
+      shortDate: 'd/M/yy',
+      shortTime: 'H:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '\u20ac',
-      'DECIMAL_SEP': ',',
-      'GROUP_SEP': '.',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '\u20ac',
+      DECIMAL_SEP: ',',
+      GROUP_SEP: '.',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '\u00a0\u00a4',
-        'posPre': '',
-        'posSuf': '\u00a0\u00a4'
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '\u00a0\u00a4',
+        posPre: '',
+        posSuf: '\u00a0\u00a4'
       }]
     }
   },
-  'fr_FR': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  fr_FR: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         'AM',
         'PM'
       ],
-      'DAY': [
+      DAY: [
         'dimanche',
         'lundi',
         'mardi',
@@ -523,16 +522,16 @@ module.exports = {
         'vendredi',
         'samedi'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         'avant J\u00e9sus-Christ',
         'apr\u00e8s J\u00e9sus-Christ'
       ],
-      'ERAS': [
+      ERAS: [
         'av. J.-C.',
         'ap. J.-C.'
       ],
-      'FIRSTDAYOFWEEK': 0,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 0,
+      MONTH: [
         'janvier',
         'f\u00e9vrier',
         'mars',
@@ -546,7 +545,7 @@ module.exports = {
         'novembre',
         'd\u00e9cembre'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         'dim.',
         'lun.',
         'mar.',
@@ -555,7 +554,7 @@ module.exports = {
         'ven.',
         'sam.'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         'janv.',
         'f\u00e9vr.',
         'mars',
@@ -569,53 +568,53 @@ module.exports = {
         'nov.',
         'd\u00e9c.'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'EEEE d MMMM y',
-      'longDate': 'd MMMM y',
-      'medium': 'd MMM y HH:mm:ss',
-      'mediumDate': 'd MMM y',
-      'mediumTime': 'HH:mm:ss',
-      'short': 'dd/MM/y HH:mm',
-      'shortDate': 'dd/MM/y',
-      'shortTime': 'HH:mm'
+      fullDate: 'EEEE d MMMM y',
+      longDate: 'd MMMM y',
+      medium: 'd MMM y HH:mm:ss',
+      mediumDate: 'd MMM y',
+      mediumTime: 'HH:mm:ss',
+      short: 'dd/MM/y HH:mm',
+      shortDate: 'dd/MM/y',
+      shortTime: 'HH:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '\u20ac',
-      'DECIMAL_SEP': ',',
-      'GROUP_SEP': '\u00a0',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '\u20ac',
+      DECIMAL_SEP: ',',
+      GROUP_SEP: '\u00a0',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '\u00a0\u00a4',
-        'posPre': '',
-        'posSuf': '\u00a0\u00a4'
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '\u00a0\u00a4',
+        posPre: '',
+        posSuf: '\u00a0\u00a4'
       }]
     }
   },
-  'it_IT': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  it_IT: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         'AM',
         'PM'
       ],
-      'DAY': [
+      DAY: [
         'domenica',
         'luned\u00ec',
         'marted\u00ec',
@@ -624,16 +623,16 @@ module.exports = {
         'venerd\u00ec',
         'sabato'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         'a.C.',
         'd.C.'
       ],
-      'ERAS': [
+      ERAS: [
         'aC',
         'dC'
       ],
-      'FIRSTDAYOFWEEK': 0,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 0,
+      MONTH: [
         'gennaio',
         'febbraio',
         'marzo',
@@ -647,7 +646,7 @@ module.exports = {
         'novembre',
         'dicembre'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         'dom',
         'lun',
         'mar',
@@ -656,7 +655,7 @@ module.exports = {
         'ven',
         'sab'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         'gen',
         'feb',
         'mar',
@@ -670,53 +669,53 @@ module.exports = {
         'nov',
         'dic'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'EEEE d MMMM y',
-      'longDate': 'd MMMM y',
-      'medium': 'dd MMM y HH:mm:ss',
-      'mediumDate': 'dd MMM y',
-      'mediumTime': 'HH:mm:ss',
-      'short': 'dd/MM/yy HH:mm',
-      'shortDate': 'dd/MM/yy',
-      'shortTime': 'HH:mm'
+      fullDate: 'EEEE d MMMM y',
+      longDate: 'd MMMM y',
+      medium: 'dd MMM y HH:mm:ss',
+      mediumDate: 'dd MMM y',
+      mediumTime: 'HH:mm:ss',
+      short: 'dd/MM/yy HH:mm',
+      shortDate: 'dd/MM/yy',
+      shortTime: 'HH:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '\u20ac',
-      'DECIMAL_SEP': ',',
-      'GROUP_SEP': '.',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '\u20ac',
+      DECIMAL_SEP: ',',
+      GROUP_SEP: '.',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '\u00a0\u00a4',
-        'posPre': '',
-        'posSuf': '\u00a0\u00a4'
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '\u00a0\u00a4',
+        posPre: '',
+        posSuf: '\u00a0\u00a4'
       }]
     }
   },
-  'ja_JP': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  ja_JP: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         '\u5348\u524d',
         '\u5348\u5f8c'
       ],
-      'DAY': [
+      DAY: [
         '\u65e5\u66dc\u65e5',
         '\u6708\u66dc\u65e5',
         '\u706b\u66dc\u65e5',
@@ -725,16 +724,16 @@ module.exports = {
         '\u91d1\u66dc\u65e5',
         '\u571f\u66dc\u65e5'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         '\u7d00\u5143\u524d',
         '\u897f\u66a6'
       ],
-      'ERAS': [
+      ERAS: [
         '\u7d00\u5143\u524d',
         '\u897f\u66a6'
       ],
-      'FIRSTDAYOFWEEK': 6,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 6,
+      MONTH: [
         '1\u6708',
         '2\u6708',
         '3\u6708',
@@ -748,7 +747,7 @@ module.exports = {
         '11\u6708',
         '12\u6708'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         '\u65e5',
         '\u6708',
         '\u706b',
@@ -757,7 +756,7 @@ module.exports = {
         '\u91d1',
         '\u571f'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         '1\u6708',
         '2\u6708',
         '3\u6708',
@@ -771,53 +770,53 @@ module.exports = {
         '11\u6708',
         '12\u6708'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'y\u5e74M\u6708d\u65e5EEEE',
-      'longDate': 'y\u5e74M\u6708d\u65e5',
-      'medium': 'y/MM/dd H:mm:ss',
-      'mediumDate': 'y/MM/dd',
-      'mediumTime': 'H:mm:ss',
-      'short': 'y/MM/dd H:mm',
-      'shortDate': 'y/MM/dd',
-      'shortTime': 'H:mm'
+      fullDate: 'y\u5e74M\u6708d\u65e5EEEE',
+      longDate: 'y\u5e74M\u6708d\u65e5',
+      medium: 'y/MM/dd H:mm:ss',
+      mediumDate: 'y/MM/dd',
+      mediumTime: 'H:mm:ss',
+      short: 'y/MM/dd H:mm',
+      shortDate: 'y/MM/dd',
+      shortTime: 'H:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '\u00a5',
-      'DECIMAL_SEP': '.',
-      'GROUP_SEP': ',',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '\u00a5',
+      DECIMAL_SEP: '.',
+      GROUP_SEP: ',',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '\u00a4-',
-        'negSuf': '',
-        'posPre': '\u00a4',
-        'posSuf': ''
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '\u00a4-',
+        negSuf: '',
+        posPre: '\u00a4',
+        posSuf: ''
       }]
     }
   },
-  'ko_KR': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  ko_KR: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         '\uc624\uc804',
         '\uc624\ud6c4'
       ],
-      'DAY': [
+      DAY: [
         '\uc77c\uc694\uc77c',
         '\uc6d4\uc694\uc77c',
         '\ud654\uc694\uc77c',
@@ -826,16 +825,16 @@ module.exports = {
         '\uae08\uc694\uc77c',
         '\ud1a0\uc694\uc77c'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         '\uae30\uc6d0\uc804',
         '\uc11c\uae30'
       ],
-      'ERAS': [
+      ERAS: [
         '\uae30\uc6d0\uc804',
         '\uc11c\uae30'
       ],
-      'FIRSTDAYOFWEEK': 6,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 6,
+      MONTH: [
         '1\uc6d4',
         '2\uc6d4',
         '3\uc6d4',
@@ -849,7 +848,7 @@ module.exports = {
         '11\uc6d4',
         '12\uc6d4'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         '\uc77c',
         '\uc6d4',
         '\ud654',
@@ -858,7 +857,7 @@ module.exports = {
         '\uae08',
         '\ud1a0'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         '1\uc6d4',
         '2\uc6d4',
         '3\uc6d4',
@@ -872,53 +871,53 @@ module.exports = {
         '11\uc6d4',
         '12\uc6d4'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'y\ub144 M\uc6d4 d\uc77c EEEE',
-      'longDate': 'y\ub144 M\uc6d4 d\uc77c',
-      'medium': 'y. M. d. a h:mm:ss',
-      'mediumDate': 'y. M. d.',
-      'mediumTime': 'a h:mm:ss',
-      'short': 'yy. M. d. a h:mm',
-      'shortDate': 'yy. M. d.',
-      'shortTime': 'a h:mm'
+      fullDate: 'y\ub144 M\uc6d4 d\uc77c EEEE',
+      longDate: 'y\ub144 M\uc6d4 d\uc77c',
+      medium: 'y. M. d. a h:mm:ss',
+      mediumDate: 'y. M. d.',
+      mediumTime: 'a h:mm:ss',
+      short: 'yy. M. d. a h:mm',
+      shortDate: 'yy. M. d.',
+      shortTime: 'a h:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '\u20a9',
-      'DECIMAL_SEP': '.',
-      'GROUP_SEP': ',',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '\u20a9',
+      DECIMAL_SEP: '.',
+      GROUP_SEP: ',',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '\u00a4-',
-        'negSuf': '',
-        'posPre': '\u00a4',
-        'posSuf': ''
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '\u00a4-',
+        negSuf: '',
+        posPre: '\u00a4',
+        posSuf: ''
       }]
     }
   },
-  'pt_BR': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  pt_BR: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         'AM',
         'PM'
       ],
-      'DAY': [
+      DAY: [
         'domingo',
         'segunda-feira',
         'ter\u00e7a-feira',
@@ -927,16 +926,16 @@ module.exports = {
         'sexta-feira',
         's\u00e1bado'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         'Antes de Cristo',
         'Ano do Senhor'
       ],
-      'ERAS': [
+      ERAS: [
         'a.C.',
         'd.C.'
       ],
-      'FIRSTDAYOFWEEK': 6,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 6,
+      MONTH: [
         'janeiro',
         'fevereiro',
         'mar\u00e7o',
@@ -950,7 +949,7 @@ module.exports = {
         'novembro',
         'dezembro'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         'dom',
         'seg',
         'ter',
@@ -959,7 +958,7 @@ module.exports = {
         'sex',
         's\u00e1b'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         'jan',
         'fev',
         'mar',
@@ -973,53 +972,53 @@ module.exports = {
         'nov',
         'dez'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'EEEE, d \'de\' MMMM \'de\' y',
-      'longDate': 'd \'de\' MMMM \'de\' y',
-      'medium': 'd \'de\' MMM \'de\' y HH:mm:ss',
-      'mediumDate': 'd \'de\' MMM \'de\' y',
-      'mediumTime': 'HH:mm:ss',
-      'short': 'dd/MM/yy HH:mm',
-      'shortDate': 'dd/MM/yy',
-      'shortTime': 'HH:mm'
+      fullDate: 'EEEE, d \'de\' MMMM \'de\' y',
+      longDate: 'd \'de\' MMMM \'de\' y',
+      medium: 'd \'de\' MMM \'de\' y HH:mm:ss',
+      mediumDate: 'd \'de\' MMM \'de\' y',
+      mediumTime: 'HH:mm:ss',
+      short: 'dd/MM/yy HH:mm',
+      shortDate: 'dd/MM/yy',
+      shortTime: 'HH:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': 'R$',
-      'DECIMAL_SEP': ',',
-      'GROUP_SEP': '.',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: 'R$',
+      DECIMAL_SEP: ',',
+      GROUP_SEP: '.',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '\u00a4-',
-        'negSuf': '',
-        'posPre': '\u00a4',
-        'posSuf': ''
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '\u00a4-',
+        negSuf: '',
+        posPre: '\u00a4',
+        posSuf: ''
       }]
     }
   },
-  'zh_CN': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  zh_CN: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         '\u4e0a\u5348',
         '\u4e0b\u5348'
       ],
-      'DAY': [
+      DAY: [
         '\u661f\u671f\u65e5',
         '\u661f\u671f\u4e00',
         '\u661f\u671f\u4e8c',
@@ -1028,16 +1027,16 @@ module.exports = {
         '\u661f\u671f\u4e94',
         '\u661f\u671f\u516d'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         '\u516c\u5143\u524d',
         '\u516c\u5143'
       ],
-      'ERAS': [
+      ERAS: [
         '\u516c\u5143\u524d',
         '\u516c\u5143'
       ],
-      'FIRSTDAYOFWEEK': 6,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 6,
+      MONTH: [
         '\u4e00\u6708',
         '\u4e8c\u6708',
         '\u4e09\u6708',
@@ -1051,7 +1050,7 @@ module.exports = {
         '\u5341\u4e00\u6708',
         '\u5341\u4e8c\u6708'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         '\u5468\u65e5',
         '\u5468\u4e00',
         '\u5468\u4e8c',
@@ -1060,7 +1059,7 @@ module.exports = {
         '\u5468\u4e94',
         '\u5468\u516d'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         '1\u6708',
         '2\u6708',
         '3\u6708',
@@ -1074,53 +1073,53 @@ module.exports = {
         '11\u6708',
         '12\u6708'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'y\u5e74M\u6708d\u65e5EEEE',
-      'longDate': 'y\u5e74M\u6708d\u65e5',
-      'medium': 'y\u5e74M\u6708d\u65e5 ah:mm:ss',
-      'mediumDate': 'y\u5e74M\u6708d\u65e5',
-      'mediumTime': 'ah:mm:ss',
-      'short': 'yy/M/d ah:mm',
-      'shortDate': 'yy/M/d',
-      'shortTime': 'ah:mm'
+      fullDate: 'y\u5e74M\u6708d\u65e5EEEE',
+      longDate: 'y\u5e74M\u6708d\u65e5',
+      medium: 'y\u5e74M\u6708d\u65e5 ah:mm:ss',
+      mediumDate: 'y\u5e74M\u6708d\u65e5',
+      mediumTime: 'ah:mm:ss',
+      short: 'yy/M/d ah:mm',
+      shortDate: 'yy/M/d',
+      shortTime: 'ah:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': '\u00a5',
-      'DECIMAL_SEP': '.',
-      'GROUP_SEP': ',',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: '\u00a5',
+      DECIMAL_SEP: '.',
+      GROUP_SEP: ',',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '\u00a4\u00a0-',
-        'negSuf': '',
-        'posPre': '\u00a4\u00a0',
-        'posSuf': ''
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '\u00a4\u00a0-',
+        negSuf: '',
+        posPre: '\u00a4\u00a0',
+        posSuf: ''
       }]
     }
   },
-  'zh_TW': {
-    'DATETIME_FORMATS': {
-      'AMPMS': [
+  zh_TW: {
+    DATETIME_FORMATS: {
+      AMPMS: [
         '\u4e0a\u5348',
         '\u4e0b\u5348'
       ],
-      'DAY': [
+      DAY: [
         '\u661f\u671f\u65e5',
         '\u661f\u671f\u4e00',
         '\u661f\u671f\u4e8c',
@@ -1129,16 +1128,16 @@ module.exports = {
         '\u661f\u671f\u4e94',
         '\u661f\u671f\u516d'
       ],
-      'ERANAMES': [
+      ERANAMES: [
         '\u897f\u5143\u524d',
         '\u897f\u5143'
       ],
-      'ERAS': [
+      ERAS: [
         '\u897f\u5143\u524d',
         '\u897f\u5143'
       ],
-      'FIRSTDAYOFWEEK': 6,
-      'MONTH': [
+      FIRSTDAYOFWEEK: 6,
+      MONTH: [
         '1\u6708',
         '2\u6708',
         '3\u6708',
@@ -1152,7 +1151,7 @@ module.exports = {
         '11\u6708',
         '12\u6708'
       ],
-      'SHORTDAY': [
+      SHORTDAY: [
         '\u9031\u65e5',
         '\u9031\u4e00',
         '\u9031\u4e8c',
@@ -1161,7 +1160,7 @@ module.exports = {
         '\u9031\u4e94',
         '\u9031\u516d'
       ],
-      'SHORTMONTH': [
+      SHORTMONTH: [
         '1\u6708',
         '2\u6708',
         '3\u6708',
@@ -1175,44 +1174,45 @@ module.exports = {
         '11\u6708',
         '12\u6708'
       ],
-      'WEEKENDRANGE': [
+      WEEKENDRANGE: [
         5,
         6
       ],
-      'fullDate': 'y\u5e74M\u6708d\u65e5 EEEE',
-      'longDate': 'y\u5e74M\u6708d\u65e5',
-      'medium': 'y\u5e74M\u6708d\u65e5 ah:mm:ss',
-      'mediumDate': 'y\u5e74M\u6708d\u65e5',
-      'mediumTime': 'ah:mm:ss',
-      'short': 'y/M/d ah:mm',
-      'shortDate': 'y/M/d',
-      'shortTime': 'ah:mm'
+      fullDate: 'y\u5e74M\u6708d\u65e5 EEEE',
+      longDate: 'y\u5e74M\u6708d\u65e5',
+      medium: 'y\u5e74M\u6708d\u65e5 ah:mm:ss',
+      mediumDate: 'y\u5e74M\u6708d\u65e5',
+      mediumTime: 'ah:mm:ss',
+      short: 'y/M/d ah:mm',
+      shortDate: 'y/M/d',
+      shortTime: 'ah:mm'
     },
-    'NUMBER_FORMATS': {
-      'CURRENCY_SYM': 'NT$',
-      'DECIMAL_SEP': '.',
-      'GROUP_SEP': ',',
-      'PATTERNS': [{
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 3,
-        'minFrac': 0,
-        'minInt': 1,
-        'negPre': '-',
-        'negSuf': '',
-        'posPre': '',
-        'posSuf': ''
+    NUMBER_FORMATS: {
+      CURRENCY_SYM: 'NT$',
+      DECIMAL_SEP: '.',
+      GROUP_SEP: ',',
+      PATTERNS: [{
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 3,
+        minFrac: 0,
+        minInt: 1,
+        negPre: '-',
+        negSuf: '',
+        posPre: '',
+        posSuf: ''
       }, {
-        'gSize': 3,
-        'lgSize': 3,
-        'maxFrac': 2,
-        'minFrac': 2,
-        'minInt': 1,
-        'negPre': '\u00a4-',
-        'negSuf': '',
-        'posPre': '\u00a4',
-        'posSuf': ''
+        gSize: 3,
+        lgSize: 3,
+        maxFrac: 2,
+        minFrac: 2,
+        minInt: 1,
+        negPre: '\u00a4-',
+        negSuf: '',
+        posPre: '\u00a4',
+        posSuf: ''
       }]
     }
   }
+  /*eslint-enable camelcase */
 };

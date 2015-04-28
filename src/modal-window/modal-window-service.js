@@ -60,7 +60,8 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
       var scope = (options.scope || $rootScope).$new(),
         onSubmit = angular.noop,
         disabled = false,
-        processing = false, //variable used to determine if the submit is clicked, but promise has not resolved
+        //variable used to determine if the submit is clicked, but promise has not resolved
+        processing = false,
         instance;
 
       scope.showSubmitError = false;
@@ -75,12 +76,16 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
       scope.modalWindow = {
         title: options.title || translate.sync('components.modal-window.title'),
         icon: options.icon,
-        cancelLabel: options.cancelLabel || translate.sync('components.modal-window.label.cancel'),
-        submitLabel: options.submitLabel || translate.sync('components.modal-window.label.save'),
+        cancelLabel: options.cancelLabel ||
+          translate.sync('components.modal-window.label.cancel'),
+        submitLabel: options.submitLabel ||
+          translate.sync('components.modal-window.label.save'),
         template: options.template,
         templateUrl: options.templateUrl,
-        errorMessage: options.errorMessage || translate.sync('components.modal-window.errorMessage'),
-        successMessage: options.successMessage || translate.sync('components.modal-window.successMessage')
+        errorMessage: options.errorMessage ||
+          translate.sync('components.modal-window.errorMessage'),
+        successMessage: options.successMessage ||
+          translate.sync('components.modal-window.successMessage')
       };
 
       scope.isSubmitHidden = function() {
