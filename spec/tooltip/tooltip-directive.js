@@ -111,7 +111,7 @@ describe('akamai.components.tooltip', function() {
             expect(tooltipButton).toBe(null);
             expect(tooltipCloseIcon).not.toBe(null);
         });
-        it('should render without close icon when trigger = hover', function(){
+        it('should render without close icon, link or button when trigger = hover', function(){
             var markup = '<span class="pull-right" akam-tooltip position="bottom"'+
                 ' header="Simple Header" tooltip-content="tool tip content" '+
                 'trigger="hover" link-text="link text" link-url="www.example.com" '+
@@ -127,8 +127,8 @@ describe('akamai.components.tooltip', function() {
 
             expect(tooltipHeader.textContent).toContain('Simple Header');
             expect(tooltipContent.textContent).toContain('tool tip content');
-            expect(tooltipLink.textContent).toContain('link text');
-            expect(tooltipButton.textContent).toContain('button text');
+            expect(tooltipLink).toBe(null);
+            expect(tooltipButton).toBe(null);
             expect(tooltipCloseIcon).toBe(null);
         }); 
         it('should be able to render custom html', function(){

@@ -10,7 +10,7 @@ $tooltip-arrow-border: 8px solid transparent;
     padding: 0px;
     z-index: -1;
     background-color: transparent;
-    position:fixed;
+    position:absolute;
     &.in{
         z-index: $tooltip-zindex;
         opacity: 1;
@@ -104,8 +104,8 @@ $tooltip-arrow-border: 8px solid transparent;
             width: 0; 
             height: 0; 
             margin-left: -8px;
-            position:relative;
-            top: -13px;
+            position:absolute;
+            top: 1px;
             border-top:none; 
             border-bottom:10.5px solid $tooltip-background-color; 
         }   
@@ -121,8 +121,8 @@ $tooltip-arrow-border: 8px solid transparent;
             width: 0; 
             height: 0; 
             margin-left: -8px;
-            position:relative;
-            top: -3px;
+            position:absolute;
+            top: -12px;
             border-bottom:none;
             border-top:10.5px solid $tooltip-background-color; 
         }   
