@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Akamai Component Examples</title>
     <link rel="stylesheet" href="../dist/akamai-core.css">
-    <script type="text/javascript" src="../dist/akamai-core.js"></script>
 </head>
 <body ng-app="toolTipDemo" ng-controller="Ctrl" class="common-css luna">
     <div class="container">
@@ -30,6 +29,7 @@
                 <div> My name is Barry Allen and I am the Fastest Man alive. When I was a kid I saw my mom killed by something impossible. My father went to prison for her murder. But then an accident made me the impossible. To the outside world I'm an ordinary <span style="color:blue" akam-tooltip trigger="click" position="right" custom-content="flashContent">forensic scientist</span> but secretly I use my speed to fight crime and find others like me. And one day I will find killed my mother and get justice for my father. <span style="color:red" akam-tooltip header="Flash Fact" position="left" trigger="hover" tooltip-content="{{flashFact}}">I am the Flash.</span> </div>
         </div>
     </div>
+    <script type="text/javascript" src="../dist/akamai-core.js"></script>
     <script type="text/javascript">
         angular.module("toolTipDemo", ["akamai.components.tooltip"])
         .controller("Ctrl", ["$scope", "$sce", function(scope, $sce) {
