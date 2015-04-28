@@ -78,7 +78,7 @@ describe('i18nTokenProvider', function() {
 });
 describe('i18nToken service', function() {
 
-  var service, cookies, rootScope, provider, location, config;
+  var service, cookies, rootScope, provider, location, config, log;
   beforeEach(function() {
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
@@ -89,12 +89,13 @@ describe('i18nToken service', function() {
         return $delegate;
       });
     });
-    inject(function(i18nToken, _$cookies_, _$rootScope_, $httpBackend, i18nConfig, $location) {
+    inject(function(i18nToken, _$cookies_, _$rootScope_, $httpBackend, i18nConfig, $location, $log) {
       service = i18nToken;
       rootScope = _$rootScope_.$new();
       cookies = _$cookies_;
       config = i18nConfig;
       location = $location;
+      log = $log;
       $httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsMessagesResponse);
       $httpBackend.when('GET', LIBRARY_PATH).respond(enUsResponse);
     });
@@ -124,14 +125,14 @@ describe('i18nToken service', function() {
     });
     it('should be able to retrieve appname from url', function() {
       spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/banana-app/somethingelse');
-      var urls = provider.$get(cookies, config, location).getUrls();
+      var urls = provider.$get(cookies, location, log).getUrls();
       expect(urls.length).toEqual(2);
       expect(urls[0]).toMatch(LOCALE_BASE_PATH);
       expect(urls[1]).toEqual('/apps/banana-app/locales/');
     });
     it('should be able to decode a URI component on a path', function() {
       spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/%7Bappname%7D/somethingelse');
-      var urls = provider.$get(cookies, config, location).getUrls();
+      var urls = provider.$get(cookies, location, log).getUrls();
       expect(urls.length).toEqual(2);
       expect(urls[0]).toMatch(LOCALE_BASE_PATH);
       expect(urls[1]).toEqual('/apps/appname/locales/');
@@ -140,7 +141,7 @@ describe('i18nToken service', function() {
       spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/pineapple-app/somethingelse');
       config.path = 'here/is/a/path/{appname}/ending/path';
       config.prefix = null;
-      var urls = provider.$get(cookies, config, location).getUrls();
+      var urls = provider.$get(cookies, location, log).getUrls();
       expect(urls.length).toEqual(2);
       expect(urls[0]).toMatch(LOCALE_BASE_PATH);
       expect(urls[1]).toEqual('/apps/pineapple-app/locales/');
@@ -151,7 +152,7 @@ describe('i18nToken service', function() {
       spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/pineapple-app/somethingelse');
       config.path = 'here/is/a/path/{appname}/ending/path';
       config.prefix = null;
-      var urls = provider.$get(cookies, config, location).getUrls();
+      var urls = provider.$get(cookies, location, log).getUrls();
       expect(urls.length).toEqual(2);
       expect(urls[0]).toEqual(newUrl);
       expect(urls[1]).toEqual('/apps/pineapple-app/locales/');
@@ -162,7 +163,7 @@ describe('i18nToken service', function() {
       spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/pineapple-app/somethingelse');
       config.path = 'here/is/a/path/{appname}/ending/path';
       config.prefix = null;
-      var urls = provider.$get(cookies, config, location).getUrls();
+      var urls = provider.$get(cookies, location, log).getUrls();
       expect(urls.length).toEqual(2);
       expect(urls[0]).toMatch(LOCALE_BASE_PATH);
       expect(urls[1]).toEqual(newUrl);
@@ -174,7 +175,7 @@ describe('i18nToken service', function() {
       spyOn(location, 'absUrl').and.returnValue('https://control.akamai.com/apps/pineapple-app/somethingelse');
       config.path = 'here/is/a/path/{appname}/ending/path';
       config.prefix = null;
-      var urls = provider.$get(cookies, config, location).getUrls();
+      var urls = provider.$get(cookies, location, log).getUrls();
       expect(urls.length).toEqual(2);
       expect(urls[0]).toEqual(newUrl);
       expect(urls[1]).toEqual(newUrl);
@@ -309,45 +310,53 @@ describe('locale cookie set to invalid cookie', function() {
     });
   });
 });
-describe('locale cookie set to zn_CN wnot properly encoded', function() {
-  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
-  var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
-  var enUsResponse = require("./i18n_responses/en_US.json");
-  beforeEach(function() {
-    angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function(i18nTokenProvider) {
-      provider = i18nTokenProvider;
+describe('locale cookie set to zn_CN will not properly encode', function() {
+    var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+    var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+    var enUsResponse = require ("./i18n_responses/en_US.json");
+    beforeEach(function(){
+        angular.mock.module(require('../../src/i18n').name);
+        angular.mock.module(function(i18nTokenProvider) {
+            provider = i18nTokenProvider;
+        });
+        angular.mock.module(function($provide, $translateProvider) {
+            $translateProvider.useLoader('i18nCustomLoader');
+            $provide.decorator ('$cookies', function ($delegate) {
+                $delegate = {AKALOCALE:"emhfQ04=+TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
+                return $delegate;
+            });
+        });
+        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
+            $translate = _$translate_;
+            loader = i18nCustomLoader;
+            config = i18nConfig;
+            translation = translate;
+            timeout = $timeout;
+            httpBackend = $httpBackend;
+            scope = $rootScope;
+            log = $log;
+        });
+        httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
-      $provide.decorator('$cookies', function($delegate) {
-        $delegate = {AKALOCALE: "emhfQ04=+TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
-        return $delegate;
+    describe('when using custom loader service bad cookie', function(){
+      it('should ignore gracefully and continue to english cookie', function(){
+        httpBackend.flush();
+        expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+        expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+        expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
       });
     });
-    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
-      $translate = _$translate_;
-      loader = i18nCustomLoader;
-      config = i18nConfig;
-      translation = translate;
-      timeout = $timeout;
-      httpBackend = $httpBackend;
-      scope = $rootScope;
-      log = $log;
+    describe('when using custom loader service bad cookie', function() {
+      it('should ignore gracefully and continue to english cookie', function() {
+        httpBackend.flush();
+        expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+        expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+        expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
+      });
     });
-    httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
-    httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
-    httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
-    httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
-  });
-  describe('when using custom loader service bad cookie', function() {
-    it('should ignore gracefully and continue to english cookie', function() {
-      httpBackend.flush();
-      expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
-      expect(translation.sync("components.name")).toEqual("Akamai Common Components");
-      expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
-    });
-  });
 });
 describe('locale cookie already decoded', function() {
   var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
