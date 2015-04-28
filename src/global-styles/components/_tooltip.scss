@@ -1,7 +1,6 @@
 $tooltip-arrow-border: 8px solid transparent;
 
 .tooltip {
-    transition:z-index 0.15s ease 0s, opacity 0.15s linear 0s;
     max-width: $tooltip-max-width;
     min-width: $tooltip-min-width;
     max-height: $tooltip-max-height;
@@ -11,13 +10,14 @@ $tooltip-arrow-border: 8px solid transparent;
     padding: 0px;
     z-index: -1;
     background-color: transparent;
+    position:fixed;
     &.in{
         z-index: $tooltip-zindex;
         opacity: 1;
     }
     .tooltip-contents{
         overflow:hidden;
-        padding: 15px 25px 15px 15px;
+        padding: 16px 26px 16px 16px;
         background-color: $tooltip-background-color;
         border-color: $border-color;
         border-width: 1px;
@@ -28,17 +28,15 @@ $tooltip-arrow-border: 8px solid transparent;
             margin-top: -9px;
         }
         .tooltip-header{
-            font-size: $font-size-h3;
-            font-family: arial;
-            font-color: $text-color;   
-            margin-bottom: 12px;
+            margin-bottom: 9px;
         }
         .tooltip-middle-content{
             font-family: arial;
+            font-size: 12px;
             font-color: $text-color;
         }
         .tooltip-link-content, .tooltip-button-content{
-            padding-top: 20px;
+            padding-top: 12px;
         }
     }
     &.left, &.right {

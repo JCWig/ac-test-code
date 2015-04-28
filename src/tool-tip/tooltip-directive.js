@@ -43,7 +43,10 @@ module.exports = function($log, $position, $compile, $timeout, $sce) {
             };
             scope.hasLink = function(){
                 return scope.linkText && scope.linkText.length > 0 && scope.linkUrl && scope.linkUrl.length > 0;
-            };            
+            };   
+            scope.isTriggerClick = function() {
+                return scope.trigger === 'click';
+            };      
             function setCoords() {
                 var pageMidCoords = document.body.clientWidth / 2;
                 var triggerElementOffsetLeft = triggerElement[0].offsetLeft;
