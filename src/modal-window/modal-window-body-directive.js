@@ -16,7 +16,7 @@ module.exports = function($compile, $http, $templateCache, $q) {
   return {
     restrict: 'E',
     replace: true,
-    template: '<div class="modal-body"></div>',
+    template: '<div class="modal-body"><div ng-if="isProcessing()" class="backwash"></div></div>',
     link: function(scope, element) {
       getBodyTemplate(scope.modalWindow)
         .then(function(content) {
