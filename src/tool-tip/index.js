@@ -15,29 +15,29 @@ module.exports = angular.module('akamai.components.tooltip', [
  *
  * @restrict A
  *
- * @param {String} position Where tooltip appears 
+ * @param {String} position Where tooltip appears
  * [top, bottom, left, right]
- *  
- * @param {String} header What header should appear on 
+ *
+ * @param {String} header What header should appear on
  * tooltip
  *
- * @param {String} trigger What triggers the tooltip 
+ * @param {String} trigger What triggers the tooltip
  * ['click', 'hover']
  *
  * @param {String} tooltip-content What text content
  * should appear in the tooltip
  *
  * @param {String} custom-content What html content
- * should appear in the tooltip 
+ * should appear in the tooltip
  *
  * @param {String} link-text What text a link should show
  *
- * @param {String} link-url Where link should take 
+ * @param {String} link-url Where link should take
  * user
  *
  * @param {String} button-text What text content
  * should appear on a button in a tooltip
- * 
+ *
  * @param {String} button-function What function should
  * fire when button is pressed
  */
