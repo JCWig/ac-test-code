@@ -47,7 +47,7 @@ describe('akam-modal-window-body directive', function() {
       this.scope.modalWindow.template = template;
       addElement(markup);
 
-      expect(self.element.childNodes.length).toEqual(1);
+      expect(self.element.childNodes.length).toEqual(2);
       expect(self.element.textContent).toEqual('Hello Akamai');
     });
 
@@ -62,7 +62,7 @@ describe('akam-modal-window-body directive', function() {
       this.$httpBackend.flush();
 
       this.$httpBackend.verifyNoOutstandingRequest();
-      expect(self.element.childNodes.length).toEqual(1);
+      expect(self.element.childNodes.length).toEqual(2);
       expect(self.element.textContent).toEqual('Hello Akamai');
     });
   });
