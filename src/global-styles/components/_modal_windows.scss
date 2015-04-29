@@ -229,6 +229,12 @@ $dialog-indeterminate-backdrop-color: rgba(255,255,255,.85);
         color: $dialog-text-color;
         line-height: 140%;
         position: relative;
+
+        &.backwash {
+            background-color: transparent;
+            @include opacity(0.3);
+            @include transition(opacity 0.5s);
+        }
     }
 
     & > .modal-footer {
