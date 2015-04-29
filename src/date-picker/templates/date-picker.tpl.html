@@ -1,20 +1,20 @@
 <div class="akam-date-picker" ng-class="mode">
-    <input
-        type="text"
-        datepicker-popup="{{ format }}"
-        ng-model="value"
-        ng-change="change()"
-        is-open="opened"
-        datepicker-options="dateOptions"
-        datepicker-mode="mode"
-        min-date="{{ min }}"
-        max-date="{{ max }}"
-        placeholder="{{ placeholder }}"
-        ng-click="toggle($event)"
-        readonly="readonly"
-        show-button-bar="false">
-    <i class="luna-close clear-date util-clickable" ng-if="value" ng-click="clearDate()"></i>
-    <button class="button" ng-click="toggle($event)">
-        <i class="luna-calendar"></i>
-    </button>
+  <input
+    type="text"
+    datepicker-popup="{{ format }}"
+    ng-model="value"
+    ng-change="change()"
+    is-open="opened"
+    datepicker-options="dateOptions"
+    datepicker-mode="mode"
+    min-date="{{ min }}"
+    max-date="{{ max }}"
+    placeholder="{{ placeholder }}"
+    ng-click="toggle($event)"
+    readonly="readonly"
+    show-button-bar="false"> <i class="luna-close clear-date util-clickable" ng-if="value"
+                                ng-click="clearDate()"></i>
+  <button class="button" ng-click="toggle($event)">
+    <i class="luna-calendar"></i>
+  </button>
 </div>

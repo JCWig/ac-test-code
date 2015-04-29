@@ -2,12 +2,13 @@
 
 $desired-height: 54px;
 $icon-padding-right: 3px;
-$context-item-line-height: 35px; //TODO: why is this different than everything else?
+$context-item-line-height: 35px;
+//TODO: why is this different than everything else?
 
 .context-selector {
 
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAXCAMAAADNyMQcAAABblBMVEX///8AAAAAAAAAAAD///8AAAC/v78AAACZmZkAAAB/f38AAABtbW1gYGC/v78AAABVVVVMTEwAAABGRkYAAABAQEAAAAA3NzcAAAAzMzMAAAAAAAAtLS0AAAAqKioAAAAoKCgmJiYkJCQAAAAAAAAcHBwaGhoZGRkXFxff39/q6uoAAAAVFRUUFBTr6+sAAAASEhILCwtiYmIAAABtbW0AAAAAAAAAAAAKCgoKCgoAAAAJCQlbW1uysrKZmZmdnZ29vb2srKx6enrx8fF9fX2pqanr6+uvr6+QkJDs7Oz29vatra3Nzc339/fT09Ps7OzW1ta3t7fj4+Pf39/b29vc3Ny5ubm4uLjZ2dn4+Pj5+fnk5OTh4eHh4eHY2NjY2Nji4uL7+/vk5OT4+Pjw8PD6+vrw8PDq6ury8vLx8fHw8PD39/fv7+/u7u719fX6+vr19fX29vbx8fHz8/P9/f35+fn4+Pj6+vr5+fn///89yz91AAAAeXRSTlMAAQIDAwQEBQUGBgcHCAgJCQoLCwwMDg4PDxARERISExMUFRgaGx0eISIkJSUmJysrLy8xMTIzNDQ1Njg6SEtNVFleXl9faGlqa3N1dnl/gISHh4uMjY6Pj5GdqaqrsbK6u7zCzc3P0dfY2dna29vd3uDh4+Pm5+/wYdinfwAAARhJREFUeNqVyedbglAUx/EjlYJoQFDiaKiVDdt72t572N4LTNpZ97/vAnLD+zy96PfqfM8Hyotjg5JsTWSdFzgUak53mEu3xAOUianV7IG57PZ4mDJ5DTm7baCsep9YIf4Pk3Z/LUaZf5PYs0SZt/WqSB+zrNu8YrgOL5FBZ03mEZNZYv5E9zDeyBy6GDOPnpRELDCh53RN017Ql4an5w5DxIJTqHQntkFFlVo/jU6TqsJ5rKqdtIuBsmh739ASOh8d6EpyVg3OWNXIA997nTfe0bdhPMwrwPdf5o03qxZrQNhAzu4jIGyReo2CsEfqKeKuQqmplHE7pB4Vd30qwCyTuvEBs0DqzgdQuX5s76jNg2vFqU5cf+8HHxOIN5r3ut0AAAAASUVORK5CYII=) no-repeat scroll center center, linear-gradient(to bottom, $orange-gradient-top, $orange-gradient-bottom);
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) inset,1px 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) inset, 1px 1px 0 rgba(255, 255, 255, 0.1);
   border-radius: $border-radius;
   width: $context-selector-width;
   height: $context-selector-height;
@@ -148,7 +149,6 @@ $context-item-line-height: 35px; //TODO: why is this different than everything e
     margin-left: 7.5px !important;
   }
 
-
   i.arrow-down, i.arrow-up {
     position: absolute;
 
@@ -172,6 +172,6 @@ $context-item-line-height: 35px; //TODO: why is this different than everything e
     color: #000; //is declared as #888 in CSS but resolves to #000
     padding: 2px 10px;
     border-radius: 3px;
-    box-shadow: 1px 1px 2px #d3d3d3 inset,1px 1px 0 #fff;
+    box-shadow: 1px 1px 2px #d3d3d3 inset, 1px 1px 0 #fff;
   }
 }

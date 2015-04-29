@@ -11,7 +11,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       data: '=',
       schema: '=',
       filterPlaceholder: '@',
-      noFilterResultsMessage:'@',
+      noFilterResultsMessage: '@',
       noDataMessage: '=?',
       noneSelectedMessage: '@',
       // the ? marks the property as optional.
@@ -57,9 +57,10 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       });
 
       /**
-       * Method to update scope.state.search. This sets the 'expression' field that is used in the filter filter
-       * in the template. In particular, this one searches on each row's 'searchTitle' field and can optionally
-       * filter based on whether or not the field is selected (to support the 'Show Selected Only' checkbox
+       * Method to update scope.state.search. This sets the 'expression' field that is used in the
+       * filter filter in the template. In particular, this one searches on each row's 'searchTitle'
+       * field and can optionally filter based on whether or not the field is selected
+       * (to support the 'Show Selected Only' checkbox)
        */
       scope.updateSearchFilter = function() {
         if (scope.state.viewSelectedOnly === true) {
@@ -77,6 +78,8 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       };
 
       scope.processDataTable = function() {
+        var dataTableOutput, newItem, allText, autoSortableColumns;
+
         // we can only really process the data if both fields are set
         if (scope.columns == null || scope.internalData == null) {
           return;
@@ -85,8 +88,8 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         // TODO: to our future selves: this assumes that the
         // selected items actually exist in the data array so we should
         // consider that when redoing this module
-        var dataTableOutput = scope.internalData.map(function(dataItem) {
-          var newItem = {
+        dataTableOutput = scope.internalData.map(function(dataItem) {
+          newItem = {
             id: uuid.guid(),
             selected: isSelected(scope.selectedItems, dataItem),
             cells: scope.columns.map(
@@ -97,27 +100,28 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
                 };
               }
             ),
-            titles : scope.columns.map(
-              function (column) {
+            titles: scope.columns.map(
+              function(column) {
                 return getColumnTitles(column, dataItem, '');
               }
             ),
             item: dataItem
           };
 
-          // adds a key to search on just the text elements in the row. We accomplish this by wrapping
-          // the content in a span element and using `angular.element` to get the inner text. This does
-          // make the digest cycle a little longer (as we're creating and destroying one DOM element per
-          // row. If this directive is updated to only take in text, then this can be simplified
-          var allText = newItem.cells.map(function(cell) {
-             return cell.content;
+          // adds a key to search on just the text elements in the row. We accomplish this by
+          // wrapping the content in a span element and using `angular.element` to get the
+          // inner text. This does make the digest cycle a little longer (as we're creating
+          // and destroying one DOM element per row. If this directive is updated to only
+          // take in text, then this can be simplified
+          allText = newItem.cells.map(function(cell) {
+            return cell.content;
           }).join(' ');
           newItem.searchTitle = angular.element('<span>' + allText + '</span>').text();
 
           return newItem;
         });
 
-        var autoSortableColumns = scope.columns.filter(
+        autoSortableColumns = scope.columns.filter(
           function(col) {
             return col.sort !== false && col.autoSort !== false;
           }
@@ -136,6 +140,8 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       };
 
       scope.$watch('data', function() {
+        var dataArrayErrorMessage = 'Data must be an array';
+
         scope.loading = true;
         $q.when(scope.data).then(function(data) {
           //handle $http get promise responses.
@@ -144,7 +150,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           }
 
           if (!angular.isArray(data)) {
-            throw 'Data must be an array';
+            throw dataArrayErrorMessage;
           }
 
           scope.state = getDefaults();
@@ -161,8 +167,10 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       });
 
       scope.$watch('schema', function(newValue) {
+        var schemaArrayErrorMessage = 'Schema must be an array';
+
         if (!angular.isArray(newValue)) {
-          throw 'Schema must be an array';
+          throw schemaArrayErrorMessage;
         }
 
         scope.columns = angular.copy(newValue).map(function(value, index) {
@@ -175,11 +183,13 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       scope.showCheckboxes = attrs.showCheckboxes !== 'false';
 
       scope.selectAll = function() {
+        var newValue;
+
         if (!scope.dataTable || scope.dataTable.length === 0) {
           return;
         }
 
-        var newValue = scope.state.allSelected;
+        newValue = scope.state.allSelected;
 
         scope.dataTable.forEach(function(currentValue) {
           currentValue.selected = newValue;
@@ -191,27 +201,28 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       scope.updateChanged = function(item) {
         var i = scope.selectedItems.indexOf(item.item);
 
-        if(item.selected) {
-          if(i === -1) {
+        if (item.selected) {
+          if (i === -1) {
             scope.selectedItems.push(item.item);
           }
         } else {
           scope.selectedItems.splice(i, 1);
-          if(scope.state.viewSelectedOnly) {
+          if (scope.state.viewSelectedOnly) {
             scope.dataTable = scope.dataTable.filter(function(rowItem) {
               return rowItem !== item;
             });
           }
         }
 
-        scope.onChange({
-          value: scope.selectedItems
-        });
+        scope.onChange({value: scope.selectedItems});
       };
 
       scope.sortColumn = function(column) {
+        var columnUndefinedErrorMessage = 'Column may not be null/undefined';
+        var sortInfo, isSameColumnFromLastSort, isReversed, predicate;
+
         if (column == null) {
-          throw 'Column may not be null/undefined';
+          throw columnUndefinedErrorMessage;
         }
 
         // make sure we have a valid dataset to sort & ensure at least 2 elements
@@ -219,12 +230,12 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           return;
         }
 
-        var sortInfo = scope.state.sortInfo;
+        sortInfo = scope.state.sortInfo;
 
         // first check if the column we're sorting is the same column from the last sort
-        var isSameColumnFromLastSort = sortInfo.sortedColumn === column;
+        isSameColumnFromLastSort = sortInfo.sortedColumn === column;
 
-        var isReversed = false;
+        isReversed = false;
 
         if (isSameColumnFromLastSort) {
           // if we're sorting the same column, just flip the order and go
@@ -234,7 +245,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           isReversed = !!column.reversed;
         }
 
-        var predicate = getColumnPredicate(column);
+        predicate = getColumnPredicate(column);
 
         scope.state.sortInfo = {
           sortedColumn: column,
@@ -300,6 +311,8 @@ function convertToString(value) {
 
 function getColumnContent(column, item, defaultValue) {
   var columnContent = column.content;
+  var columnUnknownTypeErrorMessage = 'The column content field is using an unknown type.' +
+    ' Content field may only be String or Function type';
 
   if (angular.isString(columnContent)) {
     if (columnContent in item) {
@@ -314,11 +327,12 @@ function getColumnContent(column, item, defaultValue) {
     return convertToString(column.content.call(item) || defaultValue);
   }
 
-  throw 'The column content field is using an unknown type. Content field may only be String or Function type';
+  throw columnUnknownTypeErrorMessage;
 }
 
 function getColumnTitles(column, item, defaultValue) {
   var title;
+
   if (angular.isFunction(column.title)) {
     title = column.title.call(item);
   }
@@ -326,7 +340,7 @@ function getColumnTitles(column, item, defaultValue) {
 }
 
 function isSortable(column) {
-  return (column.sort !== false);
+  return column.sort !== false;
 }
 
 function getColumnPredicate(column) {
@@ -337,11 +351,11 @@ function getColumnPredicate(column) {
   }
 
   if (column.sort != null && column.sort !== true) {
-    predicate = angular.isString(column.sort) ? ('+item.' + column.sort) : function(obj) {
+    predicate = angular.isString(column.sort) ? '+item.' + column.sort : function(obj) {
       return column.sort.call(obj.item);
     };
   } else {
-    predicate = angular.isString(column.content) ? ('+item.' + column.content) : function(obj) {
+    predicate = angular.isString(column.content) ? '+item.' + column.content : function(obj) {
       return column.content.call(obj.item);
     };
   }
@@ -369,5 +383,3 @@ function getColumnSortClass(column, sortedColumn, reverseSort) {
 
   return 'column-sortable column-sorted ' + (reverseSort ? 'desc' : 'asc');
 }
-
-
