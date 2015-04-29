@@ -20,7 +20,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
     },
     template: require('./templates/list-box.tpl.html'),
 
-    link: function(scope, element, attrs) {
+    link: function(scope) {
 
       var orderBy = $filter('orderBy'),
         filter = $filter('filter'),
@@ -179,8 +179,6 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         });
         scope.processDataTable();
       });
-
-      scope.showCheckboxes = attrs.showCheckboxes !== 'false';
 
       scope.selectAll = function() {
         var newValue;
