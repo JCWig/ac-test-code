@@ -196,15 +196,19 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
       .akam-status-message-item {
         width: 100%;
         padding-left: 32px + $dialog-left-padding;
+        height: $dialog-header-error-height;
         &:before {
             margin-left: $dialog-left-padding;
         }
       }
 
       .status-message-content {
-        max-height: $dialog-content-top-padding;
+        max-height: 2.8em;
         overflow: hidden;
-        height: 30px;
+        top: 50%;
+        position: absolute;
+        padding-right: $dialog-right-padding;
+        @include translateY(-50.01%);
       }
     }
 
