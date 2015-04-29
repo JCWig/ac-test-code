@@ -1,18 +1,18 @@
-    // Typography
+// Typography
 $text-color: #666666;
 $text-font-family: Arial, sans-serif;
 $text-font-size: 12px;
 
-    // Titles
+// Titles
 $title-main-color: #5d6d7d;
 $title-callout-color: #333333;
 $title-color: #666666;
 $title-subheading-font-size: 18px;
 
-    // Tour Bubble
+// Tour Bubble
 $tourbubble-background-color: #333333;
 
-    // Icons
+// Icons
 $icon-color: #666666;
 $icon-color_disabled: #cccccc;
 $icon-color_hover: #0096d6;
@@ -20,18 +20,18 @@ $icon-warning-color: #f8981d;
 $icon-error-color: #a32d2d;
 $icon-special-color: #7aaa60;
 
-    // Borders
+// Borders
 $border-color: #cccccc;
 $border-radius: 3px;
 
-    // Data grids
+// Data grids
 $datagrid-background-color_hover: #e2f3fc;
 $datagrid-background-color_selected: #cee7ff;
 
-    // Links
+// Links
 $link-color: #1385b8;
 
-    // Notifications
+// Notifications
 $notification-red-border-color: #ab2213;
 $notification-red-background-color: #de6056;
 $notification-yellow-border-color: #c97820;
@@ -41,26 +41,26 @@ $notification-blue-background-color: #58b5dc;
 $notification-green-border-color: #388e35;
 $notification-green-background-color: #70b46e;
 
-    // Modals
-$modal-backdrop-background-color: rgba(34,43,53,0.85);
+// Modals
+$modal-backdrop-background-color: rgba(34, 43, 53, 0.85);
 $modal-sm: auto;
 $modal-md: auto;
 $modal-lg: auto;
 
-    // Radios
+// Radios
 $radio-label-margin: 5px;
 $radio-group-gutter: 15px;
 
-    // Checkboxes
+// Checkboxes
 $checkbox-label-padding: 5px;
 $checkbox-group-gutter: 15px;
 
-    // Labels
+// Labels
 $label-font-size: 14px;
 $checkbox-label-font-size: $label-font-size;
 $radio-label-font-size: $label-font-size;
 
-    // Buttons
+// Buttons
 $button-border-radius: $border-radius;
 $button-height: 28px;
 $button-min-width: 80px;
@@ -218,8 +218,7 @@ $orange-gradient-bottom: #d44818;
 
 $context-and-account-selector-width: 35%;
 
-
-    // Bootstrap overrides
+// Bootstrap overrides
 $font-family-base: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $font-size-base: 12px;
 

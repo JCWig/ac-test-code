@@ -4,11 +4,7 @@ This section is responsible for setting up the foundation of the project.
 
 Styleguide 1.0
 */
-
 @import "global-styles/_prerequisites";
-
-
-
 /* Sprites
 
 All the sprites
@@ -16,12 +12,8 @@ All the sprites
 Styleguide 2.0
 
 */
-
 @import "global-styles/_sprites";
 @import "global-styles/_svg";
-
-
-
 /* Utility Classes
 
 Classes to make your life easier. Please see common-css/scss/_utilities.scss for a full list of utility classes
@@ -29,10 +21,7 @@ Classes to make your life easier. Please see common-css/scss/_utilities.scss for
 Styleguide 3.0
 
 */
-
 @import "global-styles/_utilities";
-
-
 
 /* Elements
 
@@ -45,16 +34,14 @@ Styleguide 4.0
 */
 
 .common-css {
-    @import "global-styles/elements/_buttons";
-    @import "global-styles/elements/_checkboxes";
-    @import "global-styles/elements/_radios";
-    @import "global-styles/elements/_text_elements";
-    @import "global-styles/elements/_text_inputs";
-    @import "global-styles/elements/_forms";
-    @import "global-styles/elements/_dropdowns";
+  @import "global-styles/elements/_buttons";
+  @import "global-styles/elements/_checkboxes";
+  @import "global-styles/elements/_radios";
+  @import "global-styles/elements/_text_elements";
+  @import "global-styles/elements/_text_inputs";
+  @import "global-styles/elements/_forms";
+  @import "global-styles/elements/_dropdowns";
 }
-
-
 
 /* Components
 
@@ -66,13 +53,13 @@ Styleguide 5.0
 */
 
 .common-css {
-    @import "global-styles/components/_determinate_progress";
-    @import "global-styles/components/_indeterminate_progress";
-    @import "global-styles/components/_status_messages";
-    @import "global-styles/components/_popovers";
-    @import "global-styles/components/_date_picker";
-    @import "global-styles/components/_list_box";
-    @import "global-styles/components/_panels";
+  @import "global-styles/components/_determinate_progress";
+  @import "global-styles/components/_indeterminate_progress";
+  @import "global-styles/components/_status_messages";
+  @import "global-styles/components/_popovers";
+  @import "global-styles/components/_date_picker";
+  @import "global-styles/components/_list_box";
+  @import "global-styles/components/_panels";
 }
 
 /* Advanced Components
@@ -84,10 +71,10 @@ Styleguide 6.0
 */
 
 .common-css {
-    @import "global-styles/components/_modal_windows";
-    @import "global-styles/components/_message_box";
-    @import "global-styles/components/_tabs";
-    @import "global-styles/components/_pagination";
+  @import "global-styles/components/_modal_windows";
+  @import "global-styles/components/_message_box";
+  @import "global-styles/components/_tabs";
+  @import "global-styles/components/_pagination";
 }
 
 /* Angular
@@ -98,12 +85,10 @@ Styleguide 8.0
 
 */
 .common-css {
-    @import "global-styles/angular/_form_validation";
+  @import "global-styles/angular/_form_validation";
 }
 
-
-
-/* Modular Mega Menu 
+/* Modular Mega Menu
 
 This section describes the modular mega menu that adds a page header & footer for all pages.
 
@@ -117,5 +102,5 @@ A placeholder for CSS without a home
 
 */
 .common-css {
-    @import "global-styles/_refactor";
+  @import "global-styles/_refactor";
 }

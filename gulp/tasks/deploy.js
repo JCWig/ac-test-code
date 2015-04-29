@@ -1,4 +1,4 @@
-var gulp      = require('gulp');
+var gulp  = require('gulp');
 var shell = require('shelljs');
 var rsync = require('rsyncwrapper').rsync;
 var bundleLogger = require('../util/bundle-logger');
@@ -34,3 +34,4 @@ gulp.task('deploy', function(){
         bundleLogger.log(error, stdout, cmd);
     });
 });
+
