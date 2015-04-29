@@ -2,7 +2,7 @@
 
 var angular = require('angular');
 var _ = require('lodash');
-var POPUP_DELAY = 500;
+var POPUP_DELAY = 200;
 
 /* @ngInject */
 module.exports = function($log, $position, $compile, $timeout, $document) {
