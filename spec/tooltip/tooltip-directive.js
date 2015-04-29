@@ -276,7 +276,7 @@ describe('akamai.components.tooltip', function() {
             addElement(markup);
             timeout.flush();
 
-            var offsetLeft = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
+            var offsetLeft = scope.$$childHead.toolTipLeft.substring(0, scope.$$childHead.toolTipLeft.length-2); 
             expect(parseInt(offsetLeft) < midPoint).toBe(true);
 
         });
@@ -288,7 +288,8 @@ describe('akamai.components.tooltip', function() {
                 '</span><button id="butttton"></button>';
             addElement(markup);
             timeout.flush();
-            var offsetLeft = scope.$$childTail.toolTipLeft.substring(0, scope.$$childTail.toolTipLeft.length-2); 
+            
+            var offsetLeft = scope.$$childHead.toolTipLeft.substring(0, scope.$$childHead.toolTipLeft.length-2); 
             expect(parseInt(offsetLeft) < midPoint).toBe(true);
         });
     });

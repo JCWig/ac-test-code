@@ -3,7 +3,6 @@ $tooltip-arrow-border: 8px solid transparent;
 .tooltip {
     max-width: $tooltip-max-width;
     min-width: $tooltip-min-width;
-    max-height: $tooltip-max-height;
     min-height: $tooltip-min-height;
     @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, 0.15));
     border-radius: $border-radius;
@@ -43,7 +42,6 @@ $tooltip-arrow-border: 8px solid transparent;
         .tooltip-contents {
             max-width: 279px;
             min-width: 119px;
-            max-height: $tooltip-max-height;
             min-height: $tooltip-min-height;
         }
     }
@@ -51,7 +49,6 @@ $tooltip-arrow-border: 8px solid transparent;
         .tooltip-contents {
             max-width: $tooltip-max-width;
             min-width: $tooltip-min-width;
-            max-height: 245px;
             min-height: 72px;
         }
     }
