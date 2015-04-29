@@ -9,11 +9,7 @@ Markup:
 Styleguide 1.1
 
 */
-
 @import "compass";
-
-
-
 /* Fonts
 
 Akamai's corporate font is Frutiger. 
@@ -26,11 +22,7 @@ Markup:
 Styleguide 1.2
 
 */
-
 @import "_fonts";
-
-
-
 /* Variables
 
 These variables define colors, dimensions, and properties that are repeated and/or referenced from other rules.
@@ -42,11 +34,7 @@ Please see common-css/scss/_variables.scss for a full list of variables
 Styleguide 1.3
 
 */
-
 @import "_variables";
-
-
-
 /* Global Styles
 
 These styles apply to HTML elements at the lowest specificity. They're meant to provide a consistent and useful default between browsers and browser versions.
@@ -57,11 +45,7 @@ Please see common-css/scss/_globals.scss for a full list of element defaults
 Styleguide 1.4
 
 */
-
 @import "_global";
-
-
-
 /* Mixins
 
 These custom mixins assist developers in applying CSS3 properties, experimental properties, reusable chunks of code, and more. 
@@ -73,11 +57,7 @@ Please see common-css/scss/_mixins.scss for a full list of mixins
 Styleguide 1.5
 
 */
-
 @import "_mixins";
-
-
-
 /* Extenders
 
 These custom extenders assist developers in inheriting/extending CSS3 properties. 
@@ -89,11 +69,7 @@ Please see common-css/scss/_extenders.scss for a full list of extenders
 Styleguide 1.6
 
 */
-
 @import "_extenders";
-
-
-
 /* Bootstrap
 
 Bootstrap styles
@@ -104,5 +80,4 @@ Please see common-css/sass/bootstrap/ for a full list of bootstrap styles
 Styleguide 1.7
 
 */
-
 @import "_bootstrap-custom";

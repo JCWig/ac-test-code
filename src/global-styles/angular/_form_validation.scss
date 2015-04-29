@@ -21,8 +21,6 @@ Styleguide 8.1
 
 */
 
-
-
 input[type="text"],
 input[type="search"],
 input[type="email"],
@@ -30,53 +28,47 @@ input[type="date"],
 input[type="month"],
 textarea {
 
-    &.ng-invalid.ng-touched,
-    &.ng-invalid.ng-dirty {
-        border-color: $border-color-invalid;
-    }
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-dirty {
+    border-color: $border-color-invalid;
+  }
 }
-
-
 
 input[type="search"],
 input[type="date"],
 input[type="month"] {
 
-    &.ng-invalid.ng-touched,
-    &.ng-invalid.ng-dirty {
-        
-        & ~ .button,
-        & ~ .btn {
-            border-left-color: $border-color-invalid;
-        }
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-dirty {
+
+    & ~ .button,
+    & ~ .btn {
+      border-left-color: $border-color-invalid;
     }
+  }
 }
-
-
 
 ul.dropdown-menu {
 
-    &.ng-invalid {
-        border-color: $border-color-invalid;
-    }
+  &.ng-invalid {
+    border-color: $border-color-invalid;
+  }
 }
-
-
 
 .akam-date-picker.ng-invalid {
 
-    &.ng-touched {
-        & > input {
-            border-color: $border-color-invalid;
-            
-            & ~ .button,
-            & ~ .btn {
-                border-left-color: $border-color-invalid;
-            }
-        }
+  &.ng-touched {
+    & > input {
+      border-color: $border-color-invalid;
+
+      & ~ .button,
+      & ~ .btn {
+        border-left-color: $border-color-invalid;
+      }
     }
-    
-    ul.dropdown-menu {
-        border-color: $border-color-invalid;
-    }
+  }
+
+  ul.dropdown-menu {
+    border-color: $border-color-invalid;
+  }
 }

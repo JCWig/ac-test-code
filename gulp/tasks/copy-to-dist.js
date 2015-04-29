@@ -1,9 +1,9 @@
-var gulp      = require('gulp');
-var config    = require('../config').production;
+var gulp = require('gulp');
+var config = require('../config').production;
 
 gulp.task('copy-to-dist', function() {
   gulp.src('assets/locales/**', {
-        base: 'assets'
+    base: 'assets'
   })
-  .pipe(gulp.dest(config.dest));
+    .pipe(gulp.dest(config.dest));
 });

@@ -4,336 +4,371 @@ var angular = require('angular');
 
 /* @ngInject */
 module.exports = function($log, $q, uuid, $filter, $compile, translate) {
-    return {
-        replace: true,
-        restrict: 'E',
-        scope: {
-            data: '=',
-            schema: '=',
-            filterPlaceholder : "@",
-            noFilterResultsMessage :"@",
-            noDataMessage : "=?",
-            selectedItems:"=?", // selected items from the outside
-            onChange : '&?'
-        },
-        template: require('./templates/data-table.tpl.html'),
-        transclude : true,
-        link: function(scope, element, attrs, controller, transclude) {
-            scope.hasActionColumn = false;
-            transclude(function(clone, $scope) {
-                if (clone.children().length > 0) {
-                    scope.hasActionColumn = true;
-                }
-            });
+  return {
+    replace: true,
+    restrict: 'E',
+    scope: {
+      data: '=',
+      schema: '=',
+      filterPlaceholder: '@',
+      noFilterResultsMessage: '@',
+      noDataMessage: '=?',
+      selectedItems: '=?', // selected items from the outside
+      onChange: '&?'
+    },
+    template: require('./templates/data-table.tpl.html'),
+    transclude: true,
+    link: function(scope, element, attrs, controller, transclude) {
+      var orderBy, filter;
 
-            var orderBy = $filter('orderBy');
-            var filter = $filter('filter');
+      scope.hasActionColumn = false;
+      transclude(function(clone) {
+        if (clone.children().length > 0) {
+          scope.hasActionColumn = true;
+        }
+      });
 
-            scope.loading = true;
-            scope.tableId = uuid.guid();
-            if (!scope.filterPlaceholder) {
-                translate.async("components.data-table.placeholder.filter").then(function(value) {
-                    scope.filterPlaceholder = value;
-                });
-            }
-            if (!scope.noFilterResultsMessage) {
-                translate.async("components.data-table.text.noFilterResults").then(function(value) {
-                    scope.noFilterResultsMessage = value;
-                });
-            }
-            if (!scope.noDataMessage) {
-                translate.async("components.data-table.text.noDataMessage").then(function(value) {
-                    scope.noDataMessage = value;
-                });
-            }
-            scope.selectedItems = scope.selectedItems || [];
-            scope.internalSelectedItems = angular.copy(scope.selectedItems);
-            scope.showCheckboxes = attrs.showCheckboxes === 'true';
-            
-            function setDefaults(){
-                scope.state = {
-                    sortInfo : {
-                        sortedColumn : null,
-                        predicate : null,
-                        reverseSort : false
-                    },
-                    viewSelectedOnly : false,
-                    allSelected : false,
-                    filter : "",
-                    search : {
-                        searchTitle : ''
-                    }
-                };
-            }
+      orderBy = $filter('orderBy');
+      filter = $filter('filter');
 
-            setDefaults();
+      scope.loading = true;
+      scope.tableId = uuid.guid();
+      if (!scope.filterPlaceholder) {
+        translate.async('components.data-table.placeholder.filter').then(function(value) {
+          scope.filterPlaceholder = value;
+        });
+      }
+      if (!scope.noFilterResultsMessage) {
+        translate.async('components.data-table.text.noFilterResults').then(function(value) {
+          scope.noFilterResultsMessage = value;
+        });
+      }
+      if (!scope.noDataMessage) {
+        translate.async('components.data-table.text.noDataMessage').then(function(value) {
+          scope.noDataMessage = value;
+        });
+      }
+      scope.selectedItems = scope.selectedItems || [];
+      scope.internalSelectedItems = angular.copy(scope.selectedItems);
+      scope.showCheckboxes = attrs.showCheckboxes === 'true';
 
-            function update(){
-                var output = scope.dataTable;
-                output = filter(output, scope.state.search);
-                output = orderBy(output, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
+      function setDefaults() {
+        scope.state = {
+          sortInfo: {
+            sortedColumn: null,
+            predicate: null,
+            reverseSort: false
+          },
+          viewSelectedOnly: false,
+          allSelected: false,
+          filter: '',
+          search: {
+            searchTitle: ''
+          }
+        };
+      }
 
-                scope.pager.page = 1;
+      setDefaults();
 
-                scope.filtered = output;
-            }
+      function update() {
+        var output = scope.dataTable;
 
-    
-            scope.updateSearchFilter = function(){
-                if (scope.state.viewSelectedOnly === true) {
-                    scope.state.search = {
-                        selected : true,
-                        searchTitle : scope.state.filter
-                    };
-                }else{
-                    scope.state.search = {
-                        searchTitle : scope.state.filter
-                    };
-                }
+        output = filter(output, scope.state.search);
+        output = orderBy(output, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
 
-                update();
-            };
+        scope.pager.page = 1;
 
-            function getColumnContent(column, item, defaultValue){
-                var columnContent = column.content;
-                if (angular.isString(columnContent)) {
-                    if (columnContent in item) {
-                        // retrieve the property for the item with the same name
-                        return convertToString(item[columnContent] || defaultValue);
-                    }else{
-                        // this means that the property is undefined in the object
-                        return defaultValue;
-                    }
-                }else if (angular.isFunction(columnContent)) {
-                    // return the content based on the result of the function call
-                    return convertToString(angular.bind(item, column.content)() || defaultValue);
-                }
+        scope.filtered = output;
+      }
 
-                throw "The column content field is using an unknown type.  Content field may only be String or Function type";
-            }
-            function getColumnTitles(column, item, defaultValue) {
-                var title;
-                if (angular.isFunction(column.title)) {
-                    title = column.title.call(item);
-                }
-                return title || defaultValue;
-            }
-            function convertToString(value) {
-                if (value == null) {
-                    return "";
-                }
+      scope.updateSearchFilter = function() {
+        if (scope.state.viewSelectedOnly === true) {
+          scope.state.search = {
+            selected: true,
+            searchTitle: scope.state.filter
+          };
+        } else {
+          scope.state.search = {
+            searchTitle: scope.state.filter
+          };
+        }
 
-                if (angular.isArray(value)) {
-                    return value.join('<br />');
-                }
+        update();
+      };
 
-                if (angular.isNumber(value) || angular.isDate(value) || value === true || value === false) {
-                    return String(value);
-                }
+      function getColumnContent(column, item, defaultValue) {
+        var columnContent = column.content;
+        var columnUnknownTypeErrorMessage = 'The column content field is using ' +
+          'an unknown type.  Content field may only be String or Function type';
 
-                return value;
-            }
+        if (angular.isString(columnContent)) {
+          if (columnContent in item) {
+            // retrieve the property for the item with the same name
+            return convertToString(item[columnContent] || defaultValue);
+          } else {
+            // this means that the property is undefined in the object
+            return defaultValue;
+          }
+        } else if (angular.isFunction(columnContent)) {
+          // return the content based on the result of the function call
+          return convertToString(angular.bind(item, column.content)() || defaultValue);
+        }
 
-            scope.processDataTable = function(){
-                // we can only really process the data if both fields are set
-                if (scope.columns == null || scope.internalData == null) {
-                    return;
-                }
+        throw columnUnknownTypeErrorMessage;
+      }
 
-                // do the same process as ng-repeat, except we do this only once to cache the output
-                var dataTableOutput = [];
-                angular.forEach(scope.internalData, function(dataItem) {
-                    var newItem = {
-                        selected : scope.internalSelectedItems.filter(function(item) { return item === dataItem; }).length > 0,
-                        cells : scope.columns.map(
-                            function (column) {
-                                return getColumnContent(column, dataItem, column.defaultValue);
-                            }
-                        ),
-                        titles : scope.columns.map(
-                            function (column){
-                                return getColumnTitles(column, dataItem, "");
-                            }
-                        ),
-                        item : dataItem
-                    };
+      function getColumnTitles(column, item, defaultValue) {
+        var title;
 
-                    newItem.searchTitle = angular.element('<span>' + newItem.cells.join(' ') + '</span>').text();
+        if (angular.isFunction(column.title)) {
+          title = column.title.call(item);
+        }
+        return title || defaultValue;
+      }
 
-                    dataTableOutput.push(newItem);
-                });
+      function convertToString(value) {
+        if (value == null) {
+          return '';
+        }
 
-                var autoSortableColumns = scope.columns.filter(
-                    function (col) {
-                        return col.sort !== false && col.autoSort !== false;
-                    }
-                );
+        if (angular.isArray(value)) {
+          return value.join('<br />');
+        }
 
-                scope.dataTable = dataTableOutput;
+        if (angular.isNumber(value) || angular.isDate(value) || value === true || value === false) {
+          return String(value);
+        }
 
-                scope.pager = {
-                    page : 1,
-                    size : 10
-                };
+        return value;
+      }
 
-                if (scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
-                    scope.sortColumn(autoSortableColumns[0]);
-                }else{
-                    update();
-                }
+      scope.processDataTable = function() {
+        var dataTableOutput, newItem, autoSortableColumns;
 
-                scope.loading = false;
-            };
+        // we can only really process the data if both fields are set
+        if (scope.columns == null || scope.internalData == null) {
+          return;
+        }
 
-            scope.$watch('selectedItems', function(items) {
-                scope.internalSelectedItems = items;
-                angular.forEach(scope.dataTable, function(data) {
-                    data.selected = scope.internalSelectedItems.filter(function(a) { return a === data.item; }).length > 0;
-                });
-                update();
-            });
+        // do the same process as ng-repeat, except we do this only once to cache the output
+        dataTableOutput = [];
+        angular.forEach(scope.internalData, function(dataItem) {
+          newItem = {
+            selected: scope.internalSelectedItems.filter(function(item) {
+              return item === dataItem;
+            }).length > 0,
+            cells: scope.columns.map(
+              function(column) {
+                return getColumnContent(column, dataItem, column.defaultValue);
+              }
+            ),
+            titles: scope.columns.map(
+              function(column) {
+                return getColumnTitles(column, dataItem, '');
+              }
+            ),
+            item: dataItem
+          };
 
-            scope.$watch('data', function(newValue) {
-                scope.loading = true;
-                $q.when(scope.data).then(function(data){
-                    if (angular.isObject(data) && angular.isDefined(data.data)) {
-                        data = data.data;
-                    }
+          newItem.searchTitle =
+            angular.element('<span>' + newItem.cells.join(' ') + '</span>').text();
 
-                    if (!angular.isArray(data)) {
-                        throw "Data must be an array";
-                    }  
+          dataTableOutput.push(newItem);
+        });
 
-                    setDefaults();
+        autoSortableColumns = scope.columns.filter(
+          function(col) {
+            return col.sort !== false && col.autoSort !== false;
+          }
+        );
 
-                    scope.updateSearchFilter();
-                    scope.internalData = data;
-                    scope.processDataTable();
-                }).catch(function() {
-                  scope.failed = true;
-                });
-            });
+        scope.dataTable = dataTableOutput;
 
-            scope.$watch('schema', function(newValue){
-                if (!angular.isArray(newValue)) {
-                    throw "Schema must be an array";
-                }
-                scope.columns = angular.copy(newValue).map(function(value, index){ value.index = index; return value;});
-                scope.processDataTable();
-            });
+        scope.pager = {
+          page: 1,
+          size: 10
+        };
 
-            scope.$watch('state.allSelected', function(newValue){
-                if(!scope.dataTable){
-                    return;
-                }
+        if (scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
+          scope.sortColumn(autoSortableColumns[0]);
+        } else {
+          update();
+        }
 
-                scope.dataTable.forEach(function(currentValue, index){
-                    currentValue.selected = newValue;
-                });
+        scope.loading = false;
+      };
 
-                scope.updateChanged();
-            });
+      scope.$watch('selectedItems', function(items) {
+        scope.internalSelectedItems = items;
+        angular.forEach(scope.dataTable, function(data) {
+          data.selected = scope.internalSelectedItems.filter(function(a) {
+            return a === data.item;
+          }).length > 0;
+        });
+        update();
+      });
 
-            scope.updateChanged = function(){
-                var selectedItemsList = [];
+      scope.$watch('data', function() {
+        var dataArrayErrorMessage = 'Data must be an array';
 
-                angular.forEach(scope.dataTable, function(tableItem){
-                    if (tableItem.selected) {
-                        selectedItemsList.push(tableItem.item);
-                    }
-                });
+        scope.loading = true;
+        $q.when(scope.data).then(function(data) {
+          if (angular.isObject(data) && angular.isDefined(data.data)) {
+            data = data.data;
+          }
 
-                scope.selectedItems = selectedItemsList;
-                
-                scope.onChange({value : selectedItemsList});
-            };
+          if (!angular.isArray(data)) {
+            throw dataArrayErrorMessage;
+          }
 
-            scope.sortColumn = function(column){
-                if (column == null) {
-                    throw "Column may not be null/undefined";
-                }
+          setDefaults();
 
-                // make sure we have a valid dataset to sort & ensure at least 2 elements
-                if (!angular.isArray(scope.dataTable) || scope.dataTable.length < 2) {
-                    return;
-                }
+          scope.updateSearchFilter();
+          scope.internalData = data;
+          scope.processDataTable();
+        }).catch(function() {
+          scope.failed = true;
+        });
+      });
 
-                var sortInfo = scope.state.sortInfo;
+      scope.$watch('schema', function(newValue) {
+        var schemaArrayErrorMessage = 'Schema must be an array';
 
-                // first check if the column we're sorting is the same column from the last sort
-                var isSameColumnFromLastSort = sortInfo.sortedColumn === column;
+        if (!angular.isArray(newValue)) {
+          throw schemaArrayErrorMessage;
+        }
+        scope.columns = angular.copy(newValue).map(function(value, index) {
+          value.index = index;
+          return value;
+        });
+        scope.processDataTable();
+      });
 
-                var isReversed = false;
+      scope.$watch('state.allSelected', function(newValue) {
+        if (!scope.dataTable) {
+          return;
+        }
 
-                if(isSameColumnFromLastSort){
-                    // if we're sorting the same column, just flip the order and go
-                    isReversed = !sortInfo.reverseSort;
-                } else{
-                    // otherwise, start the sort from the user defined override or default value
-                    isReversed = !!column.reversed;
-                }
+        scope.dataTable.forEach(function(currentValue) {
+          currentValue.selected = newValue;
+        });
 
-                var predicate = scope.getColumnPredicate(column);
+        scope.updateChanged();
+      });
 
-                scope.state.sortInfo = {
-                    sortedColumn : column,
-                    predicate : predicate,
-                    reverseSort : isReversed
-                };
+      scope.updateChanged = function() {
+        var selectedItemsList = [];
 
-                update();
-            };
+        angular.forEach(scope.dataTable, function(tableItem) {
+          if (tableItem.selected) {
+            selectedItemsList.push(tableItem.item);
+          }
+        });
 
-            scope.getColumnPredicate = function(column){
-                var predicate;
+        scope.selectedItems = selectedItemsList;
 
-                if (column.sort === false) {
-                    return null;
-                }
+        scope.onChange({value: selectedItemsList});
+      };
 
-                if (column.sort != null && column.sort !== true) {
-                    predicate = angular.isString(column.sort) ? ('+item.' + column.sort) : function(obj){ return angular.bind(obj.item, column.sort)(); };
-                }else{
-                    predicate = angular.isString(column.content) ? ('+item.' + column.content) : function(obj){ return angular.bind(obj.item, column.content)(); };
-                }
+      scope.sortColumn = function(column) {
+        var sortInfo, isSameColumnFromLastSort, isReversed, predicate;
+        var columnUndefinedErrorMessage = 'Column may not be null/undefined';
 
-                return predicate;
-            };
+        if (column == null) {
+          throw columnUndefinedErrorMessage;
+        }
 
-            scope.isSortable = function(column){
-                return (column.sort !== false);
-            };
+        // make sure we have a valid dataset to sort & ensure at least 2 elements
+        if (!angular.isArray(scope.dataTable) || scope.dataTable.length < 2) {
+          return;
+        }
 
-            scope.getColumnClasses = function(column, isHeader){
-                var output = '';
+        sortInfo = scope.state.sortInfo;
 
-                if(isHeader && scope.isSortable(column)){
-                    output = scope.getColumnSortClass(column) + ' ';
-                }
+        // first check if the column we're sorting is the same column from the last sort
+        isSameColumnFromLastSort = sortInfo.sortedColumn === column;
 
-                output += column.className ? column.className : 'column';
-                return output;
-            };
+        isReversed = false;
 
-            scope.getColumnSortClass = function(column){
-                var sortInfo = scope.state.sortInfo;
-                if (column !== sortInfo.sortedColumn) {
-                    return 'column-sortable';
-                }
+        if (isSameColumnFromLastSort) {
+          // if we're sorting the same column, just flip the order and go
+          isReversed = !sortInfo.reverseSort;
+        } else {
+          // otherwise, start the sort from the user defined override or default value
+          isReversed = !!column.reversed;
+        }
 
-                return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
-            };
-            scope.getColumnsLength = function(){
-                var colLength = scope.columns ? scope.columns.length : 0;
-                return colLength + (scope.hasActionColumn ? 1 : 0) + (scope.showCheckboxes ? 1 : 0);
-            };
-            scope.getEmptyStatusMessage = function() {
-                if(scope.dataTable.length > 0) {
-                    return scope.noFilterResultsMessage;
-                } else {
-                    return scope.noDataMessage;
-                }
+        predicate = scope.getColumnPredicate(column);
+
+        scope.state.sortInfo = {
+          sortedColumn: column,
+          predicate: predicate,
+          reverseSort: isReversed
+        };
+
+        update();
+      };
+
+      scope.getColumnPredicate = function(column) {
+        var predicate;
+
+        if (column.sort === false) {
+          return null;
+        }
+
+        if (column.sort != null && column.sort !== true) {
+          predicate = angular.isString(column.sort) ?
+            '+item.' + column.sort :
+            function(obj) {
+             return angular.bind(obj.item, column.sort)();
+           };
+        } else {
+          predicate = angular.isString(column.content) ?
+            '+item.' + column.content :
+            function(obj) {
+              return angular.bind(obj.item, column.content)();
             };
         }
-    };
+
+        return predicate;
+      };
+
+      scope.isSortable = function(column) {
+        return column.sort !== false;
+      };
+
+      scope.getColumnClasses = function(column, isHeader) {
+        var output = '';
+
+        if (isHeader && scope.isSortable(column)) {
+          output = scope.getColumnSortClass(column) + ' ';
+        }
+
+        output += column.className ? column.className : 'column';
+        return output;
+      };
+
+      scope.getColumnSortClass = function(column) {
+        var sortInfo = scope.state.sortInfo;
+
+        if (column !== sortInfo.sortedColumn) {
+          return 'column-sortable';
+        }
+
+        return 'column-sortable column-sorted ' + (sortInfo.reverseSort ? 'desc' : 'asc');
+      };
+      scope.getColumnsLength = function() {
+        var colLength = scope.columns ? scope.columns.length : 0;
+
+        return colLength + (scope.hasActionColumn ? 1 : 0) + (scope.showCheckboxes ? 1 : 0);
+      };
+      scope.getEmptyStatusMessage = function() {
+        if (scope.dataTable.length > 0) {
+          return scope.noFilterResultsMessage;
+        } else {
+          return scope.noDataMessage;
+        }
+      };
+    }
+  };
 };
