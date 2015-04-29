@@ -15,13 +15,13 @@
             <span class="pull-right" akam-tooltip position="bottom" header="Here is a top title" tooltip-content="{{trap}}" trigger="click" link-text="Somewhere over the rainbow" 
                     link-url="www.google.com" button-text="Clicky Click" button-function="btnFunction">Clicky for Bottom Right Side</span>
             <br/><br/><br/><br/><br/><br/><br/>
-            <button akam-tooltip position="right" custom-content="customData" trigger="click"> Here is Some with Transcluded Content </button>
-            <button  akam-tooltip class="pull-right" position="left" custom-content="customData" trigger="hover">Here is Some with Transcluded Content (Hover)</button>
+            <button akam-tooltip position="right" custom-content="customData" trigger="click"> Here is Some with Custom Content </button>
+            <button  akam-tooltip class="pull-right" position="left" custom-content="customHover" trigger="hover">Here is Some with Custom Content (Hover)</button>
             <br/><br/><br/><br/><br/><br/><br/>
             <i class="luna-close" header="The Flash AKA Barry Allen" trigger="click" position="top" akam-tooltip tooltip-content="{{flashQuote}}"></i>
-            <i class="luna-close pull-right" trigger="click" position="top" akam-tooltip link-text="Go To the Arrow Cave" link-url="/pagination.html" tooltip-content="{{arrowQuote}}"></i>
+            <i class="luna-close pull-right" trigger="click" position="top" akam-tooltip link-text="Go To the Arrow Cave" link-url="/examples/pagination.html" tooltip-content="{{arrowQuote}}"></i>
             <br/><br/><br/><br/><br/><br/><br/>
-            <input type="text" placeholder="hover" akam-tooltip position="bottom" custom-content="customData" trigger="hover">
+            <input type="text" placeholder="hover" akam-tooltip position="bottom" custom-content="flashContent" trigger="hover">
             <input class="pull-right" placeholder="click" type="text" akam-tooltip class="pull-right" position="bottom" custom-content="customData" trigger="click">
             <br/><br/><br/><br/><br/><br/><br/>
             <div style="">
@@ -37,9 +37,10 @@
                 console.log("CLICKY CLICKY");
             }
             scope.trap ="Didn't anyone ever tell you there's one thing you never put in a trap if you're smart, if you value your continued existance, if you have any plans about seeing tomrrow, there's one thing you never ever put in a trap.";
-            scope.flashQuote ="My name is Barry Allen and I am the Fastest Man alive. When I was a kid I saw my mom killed by something impossible. My father went to prison for her murder. But then an accident made me the impossible. To the outside world I'm an ordinary forensic scientist but secretly I use my speed to fight crime and find others like me. And one day I will find killed my mother and get justice for my father. yo soy The Flash";
+            scope.flashQuote ="My name is Barry Allen and I am the Fastest Man alive. When I was a kid I saw my mom killed by something impossible. My father went to prison for her murder. But then an accident made me the impossible. To the outside world I'm an ordinary forensic scientist but secretly I use my speed to fight crime and find others like me. And one day I will find who killed my mother and get justice for my father. yo soy The Flash";
             scope.arrowQuote = "My name is Oliver Queen.";
             scope.information = $sce.trustAsHtml('<h3 style="color:blue"> Blue : Click,</h3><h3 style="color:red"> Red : Hover</h3>');
+            scope.customHover = $sce.trustAsHtml('<h3 style="color:blue"> Here is some blue text</h3><h3 style="color:red">Here is some red Text</h3><span> Didnt anyone ever tell you theres one thing you never put in a trap if youre smart</span>');
             scope.flashFact = "Proven multiple times over The Flash is faster than Superman";
             scope.flashContent = $sce.trustAsHtml('<div><h1>His Job</h1> <br>'+
                 '<span> Barry </span> <br>'+

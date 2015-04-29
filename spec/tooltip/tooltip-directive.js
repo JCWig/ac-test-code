@@ -215,13 +215,13 @@ describe('akamai.components.tooltip', function() {
             
             var tooltip = document.querySelector(TOOLTIP);
 
-            expect(tooltip.classList).toContain("in");
+            expect(tooltip.classList).toContain("fade");
 
             utilities.click('#trigger-element');
             scope.$digest();
             timeout.flush();
 
-            expect(tooltip.classList).not.toContain("in");
+            expect(tooltip.classList).not.toContain("fade");
         });
         it('should be able to toggle in and out (click icon)', function(){
             var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
@@ -236,13 +236,13 @@ describe('akamai.components.tooltip', function() {
             
             var tooltip = document.querySelector(TOOLTIP);
 
-            expect(tooltip.classList).toContain("in");
+            expect(tooltip.classList).toContain("fade");
 
             utilities.click(TOOLTIP_CLOSE_ICON);
             scope.$digest();
             timeout.flush();
 
-            expect(tooltip.classList).not.toContain("in");
+            expect(tooltip.classList).not.toContain("fade");
         });
         it('should be able to toggle (hover)', function(){
             var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
@@ -257,14 +257,32 @@ describe('akamai.components.tooltip', function() {
             
             var tooltip = document.querySelector(TOOLTIP);
 
-            expect(tooltip.classList).toContain("in");
+            expect(tooltip.classList).toContain("fade");
 
             utilities.mouseLeave('#trigger-element');
             timeout.flush();
 
-            expect(tooltip.classList).not.toContain("in");
-
+            expect(tooltip.classList).not.toContain("fade");
         });
+        it('should close on click away', function(){
+            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
+                'tooltip-content="tool tip content" trigger="click"'+
+                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side</span>';
+            addElement(markup);
+            timeout.flush();
+                
+            utilities.click('#trigger-element');
+            scope.$digest();
+            timeout.flush();
+
+            var tooltip = document.querySelector(TOOLTIP);
+
+            utilities.clickAwayCreationAndClick('div');
+            scope.$digest();
+            timeout.flush();
+
+            expect(tooltip.classList).not.toContain("fade");
+        }); 
     });
     describe('when rendering on left side of page', function(){
         it('should render bottom arrow and tooltip in different format', function(){
