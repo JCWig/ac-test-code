@@ -21,7 +21,7 @@ module.exports = {
     }
   },
   sass: {
-    src: src + '/styles/**/*.scss',
+    src: src + '/global-styles/**/*.scss',
     dest: dest,
     imagePath: 'assets/images' // Used by the image-url helper
   },

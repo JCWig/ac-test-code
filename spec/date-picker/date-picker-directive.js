@@ -14,7 +14,8 @@ var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 var findCertainButton = function(buttonKey) {
   var calendar = document.querySelectorAll('td.ng-scope');
   for (var i = 0; i < calendar.length; i++) {
-    if (calendar[i].textContent.indexOf(buttonKey) >= 0) {
+    if (calendar[i].textContent.indexOf(buttonKey) >= 0 && 
+      !calendar[i].querySelector('span').classList.contains('text-muted')) {
       return calendar[i];
     }
   }
@@ -120,6 +121,7 @@ describe('akam-date-picker', function() {
     });
     it('should have todays date highlighted', function() {
       var todaysButton = findCertainButton(utilities.getTodaysDay()).querySelector('span');
+      console.log(todaysButton);
       expect(todaysButton.classList.contains('text-info')).toBe(true);
     });
   });
