@@ -221,6 +221,7 @@ $list-box-filter-icon-margin-left : -($list-box-filter-icon + 6px);
 $list-box-filter-padding-right: $list-box-filter-icon + 8px;
 
 $list-box-footer-height: 28px;
+$list-box-header-height: 30px;
 
 
 .akam-list-box {
@@ -254,9 +255,9 @@ $list-box-footer-height: 28px;
   .th-inner {
     position: absolute;
     top: 0;
-    line-height: 30px; /* height of header */
+    line-height: $list-box-header-height;
     text-align: left;
-    border-left: 1px solid #eee;
+    border-left: $list-box-border;
     padding-left: 10px;
     margin-left: -10px;
     vertical-align: middle;
@@ -285,7 +286,7 @@ $list-box-footer-height: 28px;
 
   .data {
     position: relative; /* could be absolute or relative */
-    padding-top: 31px; /* height of header +1 px for border of body */
+    padding-top: $list-box-header-height + 1px; /* height of header +1 px for border of body */
     overflow-x: hidden;
   }
 
@@ -326,8 +327,8 @@ $list-box-footer-height: 28px;
     padding: 0;
     padding-left: 10px;
     padding-right: 10px;
-    height: 31px;
-    line-height: 31px;
+    height: $list-box-header-height + 1px;
+    line-height: $list-box-header-height + 1px;
 
     @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
     & + th {
@@ -413,8 +414,8 @@ $list-box-footer-height: 28px;
   td {
     @include ellipsis();
     white-space: nowrap;
-    height: 30px;
-    line-height: 30px;
+    height: $list-box-header-height;
+    line-height: $list-box-header-height;
   }
 
   tbody tr td {

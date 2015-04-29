@@ -5,7 +5,7 @@ var utilities = require('../utilities');
 var FILTER_BOX = 'div.filter input[type="search"]';
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-list-box thead tr th';
-var TABLE_ROW = 'div.list-box-data tbody tr';
+var TABLE_ROW = 'div.data tbody tr';
 var SELECTED_SPAN = 'div.list-box-footer span.ng-binding';
 var VIEW_SELECTED_ONLY_CHECKBOX = 'div.list-box-footer span.util-pull-right input[type=checkbox]';
 var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
