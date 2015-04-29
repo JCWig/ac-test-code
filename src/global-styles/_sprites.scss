@@ -7,8 +7,6 @@
 */
 $custom-sprite-selectors: append($sprite-selectors, disabled);
 
-
-
 /*
     http://compass-style.org/help/tutorials/spriting/customization-options/
     
@@ -17,20 +15,15 @@ $custom-sprite-selectors: append($sprite-selectors, disabled);
 */
 $custom-sprite-separator: "_";
 
-
-
 /*
     Define the custom class to enable magical states
 */
 $magic-sprite-selectors-class: "icon-states";
 
-
-
 /*
     Disable magic sprite selectors by default
 */
 $disable-magic-sprite-selectors: true;
-
 
 // Luna Sprites
 $luna-spacing: 8px;
@@ -39,7 +32,6 @@ $luna-sprites: sprite-map("luna/*.png");
 @import "luna/*.png";
 @include all-luna-sprites;
 @include create-magic-sprite-selectors($luna-sprites, $custom-sprite-selectors, $custom-sprite-separator);
-
 
 // Pulsar Sprites
 $pulsar-spacing: 8px;
@@ -50,20 +42,19 @@ $pulsar-sprites: sprite-map("pulsar/*.png");
 @include create-magic-sprite-selectors($pulsar-sprites, $custom-sprite-selectors, $custom-sprite-separator);
 
 i {
-    display: inline-block;
+  display: inline-block;
 }
 
-
 i.glyphicon {
-    font-family: inherit;
-    vertical-align: middle;
-    
-    &.glyphicon-chevron-left {
-        @include luna-sprite(arrow_smLeft);
-    }
-    
-    &.glyphicon-chevron-right {
-        @include luna-sprite(arrow_smRight);
-    }
+  font-family: inherit;
+  vertical-align: middle;
+
+  &.glyphicon-chevron-left {
+    @include luna-sprite(arrow_smLeft);
+  }
+
+  &.glyphicon-chevron-right {
+    @include luna-sprite(arrow_smRight);
+  }
 
 }

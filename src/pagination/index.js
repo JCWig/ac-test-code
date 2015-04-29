@@ -12,7 +12,7 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.pagination', [
-    require('../i18n').name
+  require('../i18n').name
 ])
 
 /**
@@ -40,4 +40,4 @@ module.exports = angular.module('akamai.components.pagination', [
  * `size`.
  *
  */
-.directive('akamPagination', require('./pagination-directive'));
+  .directive('akamPagination', require('./pagination-directive'));

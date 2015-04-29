@@ -25,96 +25,92 @@ Styleguide 4.9
 
 */
 
-
 label {
-    // Override TWBS
-    margin: 0;
-    
-    & + input[type="text"],
-    & + input[type="search"],
-    & + input[type="email"],
-    & + textarea {
-        margin-left: $input-label-spacing;
-    }
+  // Override TWBS
+  margin: 0;
+
+  & + input[type="text"],
+  & + input[type="search"],
+  & + input[type="email"],
+  & + textarea {
+    margin-left: $input-label-spacing;
+  }
 }
 
-.label, 
+.label,
 .label-inline {
-    font-weight: bold;
-    font-size: 14px;
-    vertical-align: middle;
+  font-weight: bold;
+  font-size: 14px;
+  vertical-align: middle;
 }
 
 .label {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .label-inline {
-    display: inline-block;
-    margin-right: 10px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
-.form-group.required label, 
+.form-group.required label,
 label.required {
-    &:after {
-        content: "*";
-        color: lighten($input-border-color-invalid, 10%);
-        margin-left: $input-validation-icon-gutter;
-    }
+  &:after {
+    content: "*";
+    color: lighten($input-border-color-invalid, 10%);
+    margin-left: $input-validation-icon-gutter;
+  }
 }
 
 .form-group {
-    margin-bottom: 10px;
-    
-    label + .form-control {
-        margin-top: $input-label-spacing;
-        margin-left: 0;
-    }
+  margin-bottom: 10px;
+
+  label + .form-control {
+    margin-top: $input-label-spacing;
+    margin-left: 0;
+  }
 }
 
 .form-inline {
-    
-    .form-group {
-        
-        label {
-            
-            & + .form-control {
-                margin-top: 0;
-                margin-left: $input-label-spacing;
-            }
-        }
+
+  .form-group {
+
+    label {
+
+      & + .form-control {
+        margin-top: 0;
+        margin-left: $input-label-spacing;
+      }
     }
+  }
 }
 
 .form-horizontal {
-    
-    .form-group {
-        
-        label {
-            display: block;
-        }
-        
-        input[type="text"],
-        input[type="search"],
-        input[type="search"] + .button,
-        input[type="email"],
-        textarea {
-            margin-top: $input-label-spacing;
-            margin-left: 0;
-        }
+
+  .form-group {
+
+    label {
+      display: block;
     }
+
+    input[type="text"],
+    input[type="search"],
+    input[type="search"] + .button,
+    input[type="email"],
+    textarea {
+      margin-top: $input-label-spacing;
+      margin-left: 0;
+    }
+  }
 }
 
-
 &, &.luna label {
-    // Luna tweaks here
+  // Luna tweaks here
 }
 
 &.pulsar label {
-    // Pulsar tweaks here
+  // Pulsar tweaks here
 }
-
-
 
 /* Form Controls
 
@@ -142,8 +138,6 @@ Markup:
 Styleguide 4.10
 
 */
-
-
 
 /* Checkbox Groups
 
@@ -179,18 +173,18 @@ Styleguide 4.11
 
 .radio,
 .checkbox {
-    margin-top: 15px;
-    margin-bottom: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .radio-inline,
 .checkbox-inline {
-    padding-left: 0;
-    
-    & + .radio-inline,
-    & + .checkbox-inline {
-        margin-left: 15px; 
-    }
+  padding-left: 0;
+
+  & + .radio-inline,
+  & + .checkbox-inline {
+    margin-left: 15px;
+  }
 }
 
 /* Radio Groups

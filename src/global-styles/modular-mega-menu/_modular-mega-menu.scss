@@ -103,7 +103,6 @@
     }
   }
 
-
   .top-nav {
     margin: 8px 0 5px;
     font-size: 11px;
@@ -139,8 +138,8 @@
         border-right: 1px solid #3c4c5b;
         color: #036; //Reset color
         &:hover {
-           color: $anchor-hover-color;
-         }
+          color: $anchor-hover-color;
+        }
         > a {
           color: #036;
           &:hover {
@@ -170,7 +169,7 @@
     position: relative;
     border-radius: $border-radius $border-radius 0 0;
     @include for("IE10+") {
-        border-radius: 0;
+      border-radius: 0;
     }
     padding: 0 $nav-horizontal-padding;
     background: linear-gradient(to bottom, #2a3b43, #385068);
@@ -327,7 +326,7 @@
     }
 
     .date {
-      width : 30%;
+      width: 30%;
     }
 
     .actions {
@@ -383,7 +382,6 @@
         }
       }
     }
-
 
   }
 

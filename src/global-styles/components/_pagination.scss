@@ -46,8 +46,6 @@ Styleguide 6.7
 
 */
 
-
-
 $pagination-height: 28px;
 $pagination-gutter: 10px;
 
@@ -63,85 +61,84 @@ $pagination-item-font-color-disabled: #cccccc;
 $pagination-item-width: 40px;
 $pagination-ellipsis-width: 20px;
 
-
 .akam-pagination {
-    display: table;
-    width: 100%;
-    height: $pagination-height;
-    line-height: $pagination-height;
-    border: solid 1px $pagination-border-color;
-    text-align: center;
+  display: table;
+  width: 100%;
+  height: $pagination-height;
+  line-height: $pagination-height;
+  border: solid 1px $pagination-border-color;
+  text-align: center;
+  padding: 0;
+  padding-left: $pagination-gutter;
+  box-sizing: border-box;
+  font-size: $pagination-item-font-size;
+  @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
+
+  & > * {
+    display: table-cell !important;
+    width: 1px;
+    white-space: nowrap;
+  }
+
+  ul {
+    margin: 0;
     padding: 0;
-    padding-left: $pagination-gutter;
-    box-sizing: border-box;
-    font-size: $pagination-item-font-size;
-    @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
-    
-    & > * {
-        display: table-cell !important;
-        width: 1px;
-        white-space: nowrap;
-    }
-    
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
+    list-style: none;
+    display: inline-block;
+
+    li {
+      display: inline-block;
+
+      a, span {
         display: inline-block;
-        
-        li {
-            display: inline-block;
-            
-            a, span {
-                display: inline-block;
-                color: $pagination-item-font-color;
-            }
-            
-            a {
-                box-sizing: border-box;
-                padding: 0;
-                padding-left: 4px;
-                padding-right: 4px;
-                min-width: $pagination-item-width;
-                
-                i {
-                    vertical-align: middle;
-                    margin-top: -1px;
-                }
-            }
-            
-            span {
-                width: $pagination-ellipsis-width;
-            }
-            
-            a:hover {
-                text-decoration: none;
-            }
-            
-            &.active a, &:hover a {
-                color: $pagination-item-font-color-active;
-                font-weight: bold;
-            }
-            
-            &.disabled a {
-                color: $pagination-item-font-color-disabled;
-                cursor: not-allowed;
-            }        
+        color: $pagination-item-font-color;
+      }
+
+      a {
+        box-sizing: border-box;
+        padding: 0;
+        padding-left: 4px;
+        padding-right: 4px;
+        min-width: $pagination-item-width;
+
+        i {
+          vertical-align: middle;
+          margin-top: -1px;
         }
+      }
+
+      span {
+        width: $pagination-ellipsis-width;
+      }
+
+      a:hover {
+        text-decoration: none;
+      }
+
+      &.active a, &:hover a {
+        color: $pagination-item-font-color-active;
+        font-weight: bold;
+      }
+
+      &.disabled a {
+        color: $pagination-item-font-color-disabled;
+        cursor: not-allowed;
+      }
     }
-    
-    .pagination {
-        width: auto;
-    }
-    
-    .disabled i.luna-arrow_smLeft,
-    &.disabled i.luna-arrow_smLeft {
-        @include luna-sprite(arrow_smLeft_disabled); 
-    }
-    
-    .disabled i.luna-arrow_smRight,
-    &.disabled i.luna-arrow_smRight {
-        @include luna-sprite(arrow_smRight_disabled); 
-    }
+  }
+
+  .pagination {
+    width: auto;
+  }
+
+  .disabled i.luna-arrow_smLeft,
+  &.disabled i.luna-arrow_smLeft {
+    @include luna-sprite(arrow_smLeft_disabled);
+  }
+
+  .disabled i.luna-arrow_smRight,
+  &.disabled i.luna-arrow_smRight {
+    @include luna-sprite(arrow_smRight_disabled);
+  }
 }
 

@@ -198,9 +198,6 @@ Styleguide 6.8
 
 */
 
-
-
-
 $list-box-border-color: #ccc;
 $list-box-border: 1px solid $list-box-border-color;
 $list-box-data-row-even-background: #f8f8f8;
@@ -214,48 +211,48 @@ $list-box-header-gradient-top: #fff;
 $list-box-header-gradient-bottom-hover: #f4f4f4;
 $list-box-header-gradient-top-hover: #e6e6e6;
 
-$list-box-cell-border : 1px solid #ededed;
+$list-box-cell-border: 1px solid #ededed;
 
-$list-box-filter-icon : luna-sprite-width(close);
-$list-box-filter-icon-margin-left : -($list-box-filter-icon + 6px);
+$list-box-filter-icon: luna-sprite-width(close);
+$list-box-filter-icon-margin-left: -($list-box-filter-icon + 6px);
 $list-box-filter-padding-right: $list-box-filter-icon + 8px;
 
 $list-box-footer-height: 28px;
 
 .akam-list-box {
-    .list-box-data {
-        overflow-y: auto;
-        height: 298px;
-        border-top: $list-box-border;
-        border-bottom: $list-box-border;
-        position: relative; // Addresses a scrollbar issue in Firefox 36.0.4
-        
-        &::-webkit-scrollbar {
-            -webkit-appearance: none;
-            width: 7px;
-            background: transparent;
-        }
-        &::-webkit-scrollbar-thumb {
-            border-radius: 4px;
-            background-color: rgba(0,0,0,.5);
-            -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-            border-right: 1px solid white;
-        }
-    }
+  .list-box-data {
+    overflow-y: auto;
+    height: 298px;
+    border-top: $list-box-border;
+    border-bottom: $list-box-border;
+    position: relative; // Addresses a scrollbar issue in Firefox 36.0.4
 
-    .list-box-footer {
-        height: $list-box-footer-height;
-        line-height: $list-box-footer-height;
-        padding: 0px 10px;
-        label {
-            font-weight: normal;
-            font-size: 12px;
-            
-            &:before {
-                margin-right: 5px;
-            }
-        }
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px;
+      background: transparent;
     }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, .5);
+      -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+      border-right: 1px solid white;
+    }
+  }
+
+  .list-box-footer {
+    height: $list-box-footer-height;
+    line-height: $list-box-footer-height;
+    padding: 0px 10px;
+    label {
+      font-weight: normal;
+      font-size: 12px;
+
+      &:before {
+        margin-right: 5px;
+      }
+    }
+  }
 }
 
 .akam-data-table .data {
@@ -263,154 +260,153 @@ $list-box-footer-height: 28px;
 }
 
 .akam-data-table {
-    
-    .akam-pagination {
-        border: 0 none;
-    }
+
+  .akam-pagination {
+    border: 0 none;
+  }
 }
 
 .akam-list-box, .akam-data-table {
-    margin: 16px 0;
-    border: $list-box-border;
-    @include box-shadow(0 2px 2px 1px rgba(0,0,0,0.15));
-    font-size: $body-font-size;
-    color: $body-font-color;
-    background: #fff;
+  margin: 16px 0;
+  border: $list-box-border;
+  @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, 0.15));
+  font-size: $body-font-size;
+  color: $body-font-color;
+  background: #fff;
 
-    
-    .filter {
-        height: 36px;
-        padding: 4px;
-        
-        input {
-            width: 100%;
-            max-width: 298px;
-            padding-right: $list-box-filter-padding-right;
-        }
-        
-        input + i {
-            vertical-align: middle;
-            margin-left: $list-box-filter-icon-margin-left;
-        }    
+  .filter {
+    height: 36px;
+    padding: 4px;
+
+    input {
+      width: 100%;
+      max-width: 298px;
+      padding-right: $list-box-filter-padding-right;
     }
-    
-    .data {
-        border-top: $list-box-border;
-        border-bottom: $list-box-border;
+
+    input + i {
+      vertical-align: middle;
+      margin-left: $list-box-filter-icon-margin-left;
     }
-    
-    table {
-        width: 100%;
-        table-layout: fixed;
+  }
+
+  .data {
+    border-top: $list-box-border;
+    border-bottom: $list-box-border;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  tbody {
+    tr:nth-child(even) {
+      background-color: $list-box-data-row-even-background;
     }
-    
-    tbody {
-        tr:nth-child(even) {
-            background-color: $list-box-data-row-even-background;
-        }
-        tr:nth-child(odd) {
-            background-color: $list-box-data-row-odd-background;
-        }
-        tr:hover{
-            background-color: $list-box-data-row-hover-background;
-        }
-        tr.row-selected {
-            background-color: $list-box-data-row-selected-background;
-        }
+    tr:nth-child(odd) {
+      background-color: $list-box-data-row-odd-background;
     }
-    
-    th {
-        text-align: left;
-        border-bottom: $list-box-border;
-        @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
-        & + th { border-left: $list-box-border; }
+    tr:hover {
+      background-color: $list-box-data-row-hover-background;
     }
-    
-    th.column-sortable {
-        @extend .util-clickable;
-        padding-right: 20px;
+    tr.row-selected {
+      background-color: $list-box-data-row-selected-background;
     }
-    
-    th.column-sortable:hover, th.column-sorted {
-        position: relative;
-        @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
-        
-        i {
-            @extend .luna-arrow-down;
-            position: absolute;
-            right: 9px;
-            top: 38%;
-        }
-        
-        &.desc i {
-            @extend .luna-arrow-up;
-        }
+  }
+
+  th {
+    text-align: left;
+    border-bottom: $list-box-border;
+    @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
+    & + th {
+      border-left: $list-box-border;
     }
-    
-    th, td {
-        @include ellipsis();
-        white-space: nowrap;
-        padding: 0;
-        padding-left: 10px;
-        padding-right: 10px;
-        height: 31px;
-        line-height: 31px;
+  }
+
+  th.column-sortable {
+    @extend .util-clickable;
+    padding-right: 20px;
+  }
+
+  th.column-sortable:hover, th.column-sorted {
+    position: relative;
+    @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+
+    i {
+      @extend .luna-arrow-down;
+      position: absolute;
+      right: 9px;
+      top: 38%;
     }
-    
-    tbody tr td {
-        border-bottom: $list-box-cell-border;
+
+    &.desc i {
+      @extend .luna-arrow-up;
     }
-    
-    tbody tr:last-child td {
-        border-bottom: none;
+  }
+
+  th, td {
+    @include ellipsis();
+    white-space: nowrap;
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 31px;
+    line-height: 31px;
+  }
+
+  tbody tr td {
+    border-bottom: $list-box-cell-border;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .column-checkbox {
+    width: 30px;
+  }
+
+  .column-action {
+    width: 80px;
+    text-align: center;
+  }
+
+  td.column-action {
+    overflow: visible;
+  }
+
+  tr td.column-action > * {
+    visibility: hidden;
+  }
+
+  tr:hover td.column-action > * {
+    visibility: visible;
+  }
+
+  td span.highlighted {
+    color: #0099cc;
+  }
+
+  .dropdown {
+
+    i + .dropdown-menu {
+      margin-top: 3px;
     }
-    
-    .column-checkbox {
-        width: 30px;
+  }
+
+  .empty-table-message {
+    position: relative;
+    padding: 10px 10px 10px 36px;
+
+    i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      margin-top: -8px;
     }
-    
-    .column-action {
-        width: 80px;
-        text-align: center;
-    }
-    
-    td.column-action {
-        overflow: visible;
-    }
-    
-    tr td.column-action > * {
-        visibility: hidden;
-    }
-    
-    tr:hover td.column-action > * {
-        visibility: visible;
-    }
-    
-    td span.highlighted{
-        color: #0099cc;
-    }
-    
-    .dropdown {
-        
-        i + .dropdown-menu {
-            margin-top: 3px;
-        }
-    }
-    
-    .empty-table-message { 
-        position: relative;
-        padding: 10px 10px 10px 36px;
-        
-        i {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            margin-top: -8px;
-        }
-    }
+  }
 }
-
-
 
 /* List Box
 
