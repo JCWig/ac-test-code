@@ -15,5 +15,6 @@ angular.module('akamai.components', [
   require('./pagination').name,
   require('./list-box').name,
   require('./data-table').name,
-  require('./utils').name
+  require('./utils').name,
+  require('./tool-tip').name
 ]);
