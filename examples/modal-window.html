@@ -55,15 +55,15 @@
                 var times = 0;
 
                 modalScope.name = 'Akamai Engineer';
-                modalScope.sean = 'hi';
+                modalScope.deferredValue = 'Opened';
 
                 $scope.options = {
                     title: 'Regarding Your Subscription Information',
                     cancelLabel: 'Cancel',
                     submitLabel: 'OK',
                     hideSubmit: false,
-                    successMessage: 'haha, success!',
-                    errorMessage: 'oops, error!!'
+                    successMessage: 'Success!',
+                    errorMessage: 'Error!'
                 };
 
                 $scope.open = function() {
@@ -79,18 +79,19 @@
                                     if (times % 2 === 0) {
                                         deferral.reject({enableSubmit : true });
                                     }else{
-                                        deferral.resolve( { status: $scope.sean } );
+                                        deferral.resolve( { status: $scope.deferredValue } );
                                     }
 
                                     times++;
                                 }, 1000);
                                 return deferral.promise;
                             });
-                            console.log($scope.sean);
-                            console.log(modalScope.sean);
+                            
+                            $log.log($scope.deferredValue);
+                            $log.log(modalScope.deferredValue);
 
-                            $scope.sean = "world";
-                            modalScope.customValue = 'some custom value';
+                            $scope.deferredValue = "Deferred Value returned";
+                            modalScope.customValue = 'Custom Value returned';
                         }
                     }));
 
@@ -105,8 +106,8 @@
                 };
 
                 $scope.openWithTemplateUrl = function() {
+                    
                     // Create a new modal window instance with a specific template url
-
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
                         templateUrl: 'templates/modal-window.tpl.html',
@@ -145,7 +146,7 @@
                 // Disable the save button by default
                 $scope.disableSubmit();
 
-                $scope.customValue = 'some custom value';
+                $scope.customValue = 'Custom Value returned';
 
                 // Control the disabled state of the submit button
                 $scope.toggle = function() {
