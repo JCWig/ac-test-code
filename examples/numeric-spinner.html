@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Akamai Components Examples - Content Panel</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+  </head>
+
+  <body class="common-css luna" ng-app="numericSpinner" ng-controller="numericSpinnerController as vm">
+
+    <form name="form" >
+      Model value : <input type="text" size="3" ng-model="vm.value"><br>
+      Min value: <span>{{vm.min}}</span><br>
+      Max value: <span>{{vm.max}}</span><br>
+      Form has been modified : {{ form.$dirty }}<br>
+      Form is valid : {{ form.$valid }}
+      <hr>
+      <akam-numeric-spinner min="0" max="500000000" label="Numeric Input "  ng-model="vm.value"></akam-numeric-spinner>
+    </form>
+
+    <script src="../dist/akamai-core.js"></script>
+    <script>
+    angular.module('numericSpinner', ['akamai.components.numeric-spinner']);
+
+    angular
+      .module('numericSpinner')
+      .controller('numericSpinnerController', NumericSpinnerController);
+
+    function NumericSpinnerController() {
+      var vm = this;
+      vm.value = "tt";
+      vm.min = 0;
+      vm.max = 500000000;
+    }
+
+    </script>
+  </body>
+
+</html>
+<!--
+<body ng-app="demo" ng-controller="DemoController">
+    <form name="form" >
+        Model value : <input type="text" size="3" ng-model="rating"><br>
+        Min value: <input type="text" size="3" ng-model="minRating"><br>
+        Max value: <input type="text" size="3" ng-model="maxRating"><br>
+        Form has been modified : {{ form.$dirty }}<br>
+        Form is valid : {{ form.$valid }}
+        <hr>
+        <div min="minRating" max="maxRating"  ng-model="rating" rn-stepper></div>
+    </form>
+</body>
+
+ -->

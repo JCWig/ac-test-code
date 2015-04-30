@@ -1,0 +1,6 @@
+<div class="akam-numeric-spinner">
+  <label for="spinnerInput">{{label}}</label>
+  <input id="spinnerInput " type="text" required="required" ng-change="checkInput(inputValue)" ng-model="inputValue">
+  <button type="button" ng-disabled="isUnderMin()" ng-keydown="stepdown()" ng-click="stepdown()">-</button>
+  <button type="button" ng-disabled="isOverMax()" ng-keydown="stepup()" ng-click="stepup()">+</button>
+</div>
