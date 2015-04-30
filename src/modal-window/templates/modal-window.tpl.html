@@ -17,7 +17,7 @@
   <button type="button" class="button large" ng-click="close()" ng-disabled="isSubmitDisabled()">
     {{ modalWindow.cancelLabel }}
   </button>
-  <button type="button" class="button large primary" ng-if="!isSubmitHidden()"
+  <button type="button" class="button large primary" ng-class="{'has-spinner': isProcessing()}" ng-if="!isSubmitHidden()"
           ng-disabled="isSubmitDisabled()" ng-click="submit()">
     {{ !isProcessing()? modalWindow.submitLabel : '' }}
     <div class='submit-button-spinner' ng-if='isProcessing()'></div>
