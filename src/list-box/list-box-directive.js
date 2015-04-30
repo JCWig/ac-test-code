@@ -18,10 +18,26 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       selectedItems: '=?',
       onChange: '&?'
     },
+
+    controller: function($scope) {
+      this.loadMoreData = function() {
+        var current = $scope.page * 10;
+        var end = $scope.page * 10 + 10;
+        var i;
+
+        for (i = current; i < end; i++) {
+          if (!$scope.dataTable || !$scope.dataTable[i]) {
+            break;
+          }
+          $scope.dataSource.push($scope.dataTable[i]);
+        }
+        $scope.page++;
+      };
+    },
+
     template: require('./templates/list-box.tpl.html'),
 
     link: function(scope) {
-
       var orderBy = $filter('orderBy'),
         filter = $filter('filter'),
         messages = {
@@ -37,6 +53,22 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       scope.selectedItems = scope.selectedItems || [];
       scope.state = getDefaults();
       scope.getColumnClasses = getColumnClasses;
+      scope.dataTable = [];
+      scope.dataSource = [];
+      scope.page = 1;
+
+      scope.$watch('dataTable', function(newData) {
+        var sourceData = [], i;
+
+        scope.page = 1;
+        for (i = 0; i < 10; i++) {
+          if (!newData || !newData[i]) {
+            break;
+          }
+          sourceData.push(newData[i]);
+        }
+        scope.dataSource = sourceData;
+      });
 
       // batch all translate calls so it, in theory, should only cause 1 digest
       $q.all([
@@ -135,7 +167,6 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         if (autoSortableColumns.length > 0) {
           scope.sortColumn(autoSortableColumns[0]);
         }
-
         scope.loading = false;
       };
 
@@ -260,8 +291,8 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           scope.internalData.push(dataObj.item);
         });
       };
-
     }
+
   };
 };
 

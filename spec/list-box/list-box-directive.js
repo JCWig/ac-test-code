@@ -12,6 +12,8 @@ var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+var MAX_INITIALLY_DISPLAYED = 10;
+
 
 describe('akam-list-box', function() {
   var compile = null;
@@ -234,7 +236,6 @@ describe('akam-list-box', function() {
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
 
-      var dataLength = Object.keys(jsonData).length;
       httpBackend.when('GET', dataPath).respond(jsonData);
 
       scope.jsonFromHttpGet = $http.get(dataPath);
@@ -247,7 +248,7 @@ describe('akam-list-box', function() {
 
       var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
       expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
-      expect(allRowsLoadedInTable.length).toEqual(dataLength);
+      expect(allRowsLoadedInTable.length).toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should be able to use default sorting method on first column', function() {
       scope.mydata = [

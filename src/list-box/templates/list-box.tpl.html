@@ -16,7 +16,7 @@
                                completed="{{!loading}}"
                                failed="{{ failed }}"></akam-indeterminate-progress>
     <div class="data fixed-table-container sort-decoration">
-        <div class="fixed-table-container-inner">
+        <div akam-infinite-scroll class="fixed-table-container-inner">
             <table class="tablesorter" cellspacing="0">
                 <thead>
                     <tr>
@@ -42,7 +42,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in dataTable track by item.id"
+                    <tr ng-repeat="item in dataSource track by item.id"
                         ng-class="{ 'row-selected' : item.selected }">
                         <td class="column-checkbox">
                             <input type="checkbox"
