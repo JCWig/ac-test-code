@@ -121,7 +121,6 @@ describe('akam-date-picker', function() {
     });
     it('should have todays date highlighted', function() {
       var todaysButton = findCertainButton(utilities.getTodaysDay()).querySelector('span');
-      console.log(todaysButton);
       expect(todaysButton.classList.contains('text-info')).toBe(true);
     });
   });
