@@ -273,6 +273,30 @@ describe('akam-list-box', function() {
       expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
     });
   });
+  /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED 
+  describe('when data exceeds 10 items', function(){
+    it('should display more items as scrolling takes place', function() {
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json');
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+
+      document.querySelector('div.fixed-table-container-inner').scrollTop = 100;
+      scope.$digest();
+
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+  });*/
   describe('when given selectedItems', function() {
     it('should not delete selectedItems on load', function() {
       scope.selectedItems = [{
