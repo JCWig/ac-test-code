@@ -200,6 +200,7 @@ describe('akam-list-box', function() {
       expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
       expect(allRowsLoadedInTable.length).toEqual(scope.mydata.length);
     });
+
     it('should display failed indetermine progress when http call fails', function() {
       var dataPath = '/get/json/data';
       scope.jsonColumns = [
@@ -221,6 +222,39 @@ describe('akam-list-box', function() {
       httpBackend.flush();
       timeout.flush();
       expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/true/);
+    });
+    it('should display rerender indetermine progress when http call fails the starts again', function() {
+      var dataPath = '/get/json/data';
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        }
+      ];
+      httpBackend.when('GET', 'new_path').respond(404, "ERROR: NOT FOUND");
+
+      scope.jsonFromHttpGet = $http.get('new_path');
+      var markup = '<akam-list-box data="jsonFromHttpGet" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/false/);
+      httpBackend.flush();
+      timeout.flush();
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/true/);
+
+      httpBackend.when('GET', 'success/path').respond(scope.mydata);
+      scope.jsonFromHttpGet = $http.get('success/path');
+      scope.$digest();
+
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/false/);
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/false/);
+
+      httpBackend.flush();
+      timeout.flush();
+
+      expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
+      expect(document.querySelector(TABLE_ROW)).not.toBe(null);
     });
     it('should display indeterminate progress and load data on http get', function() {
       var dataPath = '/get/json/data';

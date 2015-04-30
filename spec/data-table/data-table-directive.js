@@ -251,6 +251,40 @@ describe('akam-data-table', function() {
       timeout.flush();
       expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/true/);
     });
+    it('should display rerender indetermine progress when http call fails the starts again', function() {
+      var dataPath = '/get/json/data';
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        }
+      ];
+      httpBackend.when('GET', dataPath).respond(404, "ERROR: NOT FOUND");
+
+      scope.jsonFromHttpGet = http.get(dataPath);
+      var markup = '<akam-data-table data="jsonFromHttpGet" schema="jsonColumns"></akam-data-table>';
+      addElement(markup);
+
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/false/);
+      httpBackend.flush();
+      timeout.flush();
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/true/);
+
+      httpBackend.when('GET', 'success/path').respond(scope.mydata);
+      scope.jsonFromHttpGet = http.get('success/path');
+      scope.$digest();
+
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/false/);
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/false/);
+
+      httpBackend.flush();
+      timeout.flush();
+
+      expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
+      expect(document.querySelector(TABLE_ROW)).not.toBe(null);
+
+    });
   });
   describe('when data table is rendered', function() {
     it('should display the total number of results', function() {

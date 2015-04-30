@@ -211,6 +211,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
       scope.$watch('data', function() {
         var dataArrayErrorMessage = 'Data must be an array';
 
+        scope.failed = false;
         scope.loading = true;
         $q.when(scope.data).then(function(data) {
           if (angular.isObject(data) && angular.isDefined(data.data)) {
