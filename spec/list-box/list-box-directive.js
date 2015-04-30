@@ -12,6 +12,8 @@ var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+var MAX_INITIALLY_DISPLAYED = 10;
+
 
 describe('akam-list-box', function() {
   var compile = null;
@@ -268,7 +270,6 @@ describe('akam-list-box', function() {
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
 
-      var dataLength = Object.keys(jsonData).length;
       httpBackend.when('GET', dataPath).respond(jsonData);
 
       scope.jsonFromHttpGet = $http.get(dataPath);
@@ -281,7 +282,7 @@ describe('akam-list-box', function() {
 
       var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
       expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
-      expect(allRowsLoadedInTable.length).toEqual(dataLength);
+      expect(allRowsLoadedInTable.length).toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should be able to use default sorting method on first column', function() {
       scope.mydata = [
@@ -306,6 +307,30 @@ describe('akam-list-box', function() {
       expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
     });
   });
+  /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED 
+  describe('when data exceeds 10 items', function(){
+    it('should display more items as scrolling takes place', function() {
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json');
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+
+      document.querySelector('div.fixed-table-container-inner').scrollTop = 100;
+      scope.$digest();
+
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+  });*/
   describe('when given selectedItems', function() {
     it('should not delete selectedItems on load', function() {
       scope.selectedItems = [{
