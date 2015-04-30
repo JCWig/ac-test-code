@@ -61,6 +61,12 @@
         <div class="container">
             <h3>List Box Example with Rejection Testing</h3>
             <akam-list-box data="deferredRejection" schema="columns"></akam-list-box>
+        </div> 
+        <br />
+        <div class="container">
+            <h2>Data Table Example that fails loading data then successfully loads data</h2>
+            <akam-list-box data="failThenLoadData" schema="columns" selected-items="selectedItems4">
+            </akam-list-box>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
@@ -144,6 +150,7 @@
             .controller('ExampleController', ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce", function($scope, $http, $filter, $q, $timeout, $log, $sce) {
                 
                 var deferred = $q.defer();
+                var failedDeferred = $q.defer();
                 
                 $scope.basedata = BASE_DATA10;
                 $scope.basedata10 = BASE_DATA10;
@@ -163,12 +170,31 @@
                     value : false
                 };
      
+                $scope.failThenLoadData = failedDeferred.promise;
                 // Set the default timeout
                 $timeout(function(){
                     deferred.resolve(BASE_DATA);
                 }, 2000);
                 
+                $timeout(function(){
+                    failedDeferred.reject();
+                }, 2000)
+
+                $timeout(function(){
+                    var newDeferred = $q.defer();
+                    $scope.failThenLoadData =  newDeferred.promise;
+                    $timeout(function(){
+                        newDeferred.resolve(BASE_DATA);
+                    }, 3000)
+                }, 4000);
                 
+                $timeout(function(){
+                    var hello = $q.defer();
+                    $scope.obj.exampleData =  hello.promise;
+                    $timeout(function(){
+                        hello.resolve(BASE_DATA);
+                    }, 3000)
+                }, 4000);
                 // Reload the columns
                 $scope.updateColumns = function() {
                     $scope.columns10 = getColumns10();

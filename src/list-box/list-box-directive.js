@@ -143,6 +143,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         var dataArrayErrorMessage = 'Data must be an array';
 
         scope.loading = true;
+        scope.failed = false;
         $q.when(scope.data).then(function(data) {
           //handle $http get promise responses.
           if (angular.isObject(data) && angular.isDefined(data.data)) {
