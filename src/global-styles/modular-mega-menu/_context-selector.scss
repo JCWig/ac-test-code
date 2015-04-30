@@ -1,0 +1,177 @@
+@import '../variables';
+
+$desired-height: 54px;
+$icon-padding-right: 3px;
+$context-item-line-height: 35px;
+//TODO: why is this different than everything else?
+
+.context-selector {
+
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAXCAMAAADNyMQcAAABblBMVEX///8AAAAAAAAAAAD///8AAAC/v78AAACZmZkAAAB/f38AAABtbW1gYGC/v78AAABVVVVMTEwAAABGRkYAAABAQEAAAAA3NzcAAAAzMzMAAAAAAAAtLS0AAAAqKioAAAAoKCgmJiYkJCQAAAAAAAAcHBwaGhoZGRkXFxff39/q6uoAAAAVFRUUFBTr6+sAAAASEhILCwtiYmIAAABtbW0AAAAAAAAAAAAKCgoKCgoAAAAJCQlbW1uysrKZmZmdnZ29vb2srKx6enrx8fF9fX2pqanr6+uvr6+QkJDs7Oz29vatra3Nzc339/fT09Ps7OzW1ta3t7fj4+Pf39/b29vc3Ny5ubm4uLjZ2dn4+Pj5+fnk5OTh4eHh4eHY2NjY2Nji4uL7+/vk5OT4+Pjw8PD6+vrw8PDq6ury8vLx8fHw8PD39/fv7+/u7u719fX6+vr19fX29vbx8fHz8/P9/f35+fn4+Pj6+vr5+fn///89yz91AAAAeXRSTlMAAQIDAwQEBQUGBgcHCAgJCQoLCwwMDg4PDxARERISExMUFRgaGx0eISIkJSUmJysrLy8xMTIzNDQ1Njg6SEtNVFleXl9faGlqa3N1dnl/gISHh4uMjY6Pj5GdqaqrsbK6u7zCzc3P0dfY2dna29vd3uDh4+Pm5+/wYdinfwAAARhJREFUeNqVyedbglAUx/EjlYJoQFDiaKiVDdt72t572N4LTNpZ97/vAnLD+zy96PfqfM8Hyotjg5JsTWSdFzgUak53mEu3xAOUianV7IG57PZ4mDJ5DTm7baCsep9YIf4Pk3Z/LUaZf5PYs0SZt/WqSB+zrNu8YrgOL5FBZ03mEZNZYv5E9zDeyBy6GDOPnpRELDCh53RN017Ql4an5w5DxIJTqHQntkFFlVo/jU6TqsJ5rKqdtIuBsmh739ASOh8d6EpyVg3OWNXIA997nTfe0bdhPMwrwPdf5o03qxZrQNhAzu4jIGyReo2CsEfqKeKuQqmplHE7pB4Vd30qwCyTuvEBs0DqzgdQuX5s76jNg2vFqU5cf+8HHxOIN5r3ut0AAAAASUVORK5CYII=) no-repeat scroll center center, linear-gradient(to bottom, $orange-gradient-top, $orange-gradient-bottom);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) inset, 1px 1px 0 rgba(255, 255, 255, 0.1);
+  border-radius: $border-radius;
+  width: $context-selector-width;
+  height: $context-selector-height;
+  margin: ($desired-height - $context-selector-height) / 2 0;
+  padding: 0 $context-selector-horizontal-padding;
+  vertical-align: middle;
+  display: inline-block;
+  cursor: pointer;
+
+  //popup overrides -- this is mostly to remove the padding around the popup nav and re-create it for the inner
+  // elements. This is done so that the scrollbar lines up with the 8px border for the popup and isn't awkwardly
+  // located 18px inside of the popup
+  nav.context {
+    left: 0;
+    right: auto;
+    margin-top: $hoverable-vertical-padding;
+    padding: 0;
+    cursor: default;
+
+    // the portal context menu doesn't have a border between the search box and the scrollable pane but that's
+    // not something we should replicate. Adding a border to more cleanly separate the scrollable part from the static one
+    .header {
+      padding: $popup-padding $popup-padding 5px $popup-padding;
+      border-bottom: $popup-border-style;
+
+      header {
+        border: none;
+        position: relative;
+        box-sizing: border-box;
+        padding-right: $help-icon-width;
+
+        a {
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+
+    .scroll-pane {
+      max-height: 400px;
+      min-width: 300px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 0 $popup-padding $popup-padding $popup-padding;
+
+      // no results
+      p {
+        margin: 0;
+        &:hover {
+          background-color: $row-hover-color;
+        }
+
+        span {
+          margin: 0 0 0 $context-selector-item-padding;
+        }
+      }
+
+      a, p {
+        // super weird edge case where we have a long group name and no scrollbar but expanding the group name causes
+        // a scrollbar to appear. In this case, we prevent the text from wrapping. alternatively, we can
+        // set the overflow-y above to scroll to always show the scrollbar. There is probably a better way to do this and
+        // avoid clipping text.
+        @extend %hide-overflow;
+
+        // normally the a link has the border bottom but for this, we're using a div to absolutely position the right icon
+        border: none;
+        padding: 0;
+        color: $context-selector-color;
+        font-weight: bold;
+        line-height: $context-item-line-height;
+        text-transform: none;
+
+        &.open, strong {
+          color: $context-selector-match-color;
+        }
+
+        i {
+          margin-right: $icon-padding-right;
+          vertical-align: middle;
+          &.context-0 {
+            // of course there is one icon that doesn't line up correctly. It's because the image has some empty white space at the top so it isn't vertically aligned with itself
+            vertical-align: initial;
+          }
+        }
+      }
+
+      section {
+        margin-left: $context-selector-item-padding;
+        margin-right: 0;
+
+        .extra {
+          @extend %hide-overflow;
+
+          display: block;
+          margin-left: $context-icon-width + $icon-padding-right;
+          margin-bottom: 5px;
+          font-size: 12px;
+          line-height: 1em;
+          color: $context-selector-color;
+          font-weight: bold;
+
+          .extra-text {
+            color: #96A3B0;
+            line-height: 1em;
+
+            &:after {
+              content: '\00a0'; // adds a non-breaking space
+            }
+          }
+
+          strong {
+            color: $context-selector-match-color;
+          }
+        }
+
+        div {
+          position: relative;
+
+          // give a bigger target for clicking the dropdown link and not the anchor to change context
+          padding-right: $arrow-icon-width * 2;
+          border-bottom: $popup-border-style;
+
+          &:hover {
+            background-color: $row-hover-color;
+          }
+        }
+      }
+
+      > section {
+        margin-left: 0;
+      }
+    }
+  }
+
+  // popup override for calculating the position for the arrow up icon. Hack until I can figure out why the math is wrong
+  // popup module is calculating 0.5px so it's ignoring something that isn't present on the other popups
+  .util-arrow-up {
+    margin-left: 7.5px !important;
+  }
+
+  i.arrow-down, i.arrow-up {
+    position: absolute;
+
+    // places the icon centered horizontally inside the padding of the relatively positioned div element
+    right: $arrow-icon-width / 2;
+
+    // trick to vertically center the icon inside the relatively positioned div elementx
+    top: 50%;
+    bottom: 50%;
+    margin: auto;
+  }
+
+  input {
+    @include placeholder-enhanced(#ccc, normal);
+    box-sizing: border-box;
+    font-size: 12px;
+    height: 22px; //non-standard input height
+    line-height: 1em;
+    background-color: #eff0f1;
+    border: 1px solid #d0d3d5;
+    color: #000; //is declared as #888 in CSS but resolves to #000
+    padding: 2px 10px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 2px #d3d3d3 inset, 1px 1px 0 #fff;
+  }
+}

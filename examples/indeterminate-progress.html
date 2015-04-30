@@ -1,71 +1,60 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <link href="../node_modules/pulsar-common-css/dist/styles.css" rel="stylesheet" />
-    <style>
-        .container {
-            min-height: 150px;
-        }
-        
-        fieldset > div {
-            min-height: 30px;
-        }
-        
-        fieldset {
-            padding-bottom: 20px; 
-        }
-        
-        h3 {
-            margin: 1em 0 !important;
-        }
-    </style>
-</head>
-<body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" class="common-css luna">
-    <div class="container">
-        <div class="page-header">
-            <h1>Indeterminate Progress Example</h1>
-        </div>
-        <form>
-            <fieldset>
-                <legend>Form Options:</legend>
-                <div>
-                    <input type="checkbox" id="check_completed" ng-model="completed" value="completed"><label for="check_completed">Completed</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="check_failed" ng-model="failed" value="failed"><label for="check_failed">Failed</label>
-                </div>
-                <div class="form-group">
-                    <label for="label_text">Label Text</label>
-                    <input type="text" id="label_text" ng-model="label">
-                </div>
-            </fieldset>
-        </form>
-    
-        <h3>Regular:</h3>
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Component Examples - Indeterminate Progress</title>
+        <link rel="stylesheet" href="../dist/akamai-core.css">
+        <style>
+            .container {
+                min-height: 150px;
+            }
+        </style>
+    </head>
+    <body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" class="common-css luna">
         <div class="container">
-            <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}"></akam-indeterminate-progress>
+            <div class="page-header">
+                <h1>Indeterminate Progress Example</h1>
+            </div>
+            <div>
+                <label class="label">Progress Status:</label>
+                <input type="checkbox" name="completed" id="completed" ng-model="completed"/><label class="label" for="completed">Completed</label>
+                <input type="checkbox" name="failed" id="failed" ng-model="failed"/><label class="label" for="failed">Failed</label>
+            </div>
+            <br />    
+            <div>
+                <label class="label" for="labelText">Progress Label Text:</label><br>
+                <input type="text" name="labelText" id="labeltext" ng-model="label" size="50"</input>
+            </div>
+            <br />   
+            <div>
+                <label class="label">Small Spinner:</label>
+            </div>
+            <div class="container" id="smallspinner">
+                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" size="small" label="{{label}}"></akam-indeterminate-progress>
+            </div>
+            <br />
+             <div>
+                <label class="label">Regular Spinner:</label>
+            </div>
+            <div class="container" id="regularspinner">
+                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" label="{{label}}"></akam-indeterminate-progress>
+            </div>
+            <br />
+             <div>
+                <label class="label">Large Spinner:</label>
+            </div>
+            <div class="container" id="largespinner">
+                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" size="large" label="{{label}}"></akam-indeterminate-progress>
+            </div>
+            <script type="text/javascript" src="../dist/akamai-core.js"></script>
+            <script>
+                var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress"]);
+                
+                app.controller("Ctrl", ["$scope", function($scope) {
+                    $scope.completed = false;
+                    $scope.failed = false;            
+                }]);       
+            </script>
         </div>
-    
-        <h3>Small:</h3>
-        <div class="container">
-            <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}" size="small"></akam-indeterminate-progress>
-        </div>
-    
-        <h3>Large:</h3>
-        <div class="container">
-            <akam-indeterminate-progress failed="{{failed}}" completed="{{completed}}" label="{{label}}" size="large"></akam-indeterminate-progress>
-        </div>
-    
-        <script src="../node_modules/angular/angular.js"></script>
-        <script src="../dist/akamai-components.js"></script>
-        <script>
-            var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress"]);
-            app.controller("Ctrl", ["$scope", function($scope) {
-                $scope.completed = false;
-                $scope.failed = false;
-                $scope.size="regular";
-            }]);
-        </script>
-    </div>
-</body>
+    </body>
 </html>

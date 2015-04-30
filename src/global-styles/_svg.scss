@@ -1,0 +1,46 @@
+
+[class*="svg-"] {
+  display: inline-block;
+  background-size: contain;
+  vertical-align: middle;
+}
+
+.svg-caret-down {
+  @include svg('caret-down', 12px, 8px);
+}
+
+.svg-caret-right {
+  @include svg('caret-right', 8px, 12px);
+}
+
+.svg-error {
+  @include svg('error');
+}
+
+.svg-information {
+  @include svg('information');
+}
+
+.svg-question {
+  @include svg('question');
+}
+
+.svg-warning {
+  @include svg('warning');
+}
+
+.svg-x {
+  @include svg('x');
+
+  &:hover {
+    @include svg('x-hover');
+  }
+}
+
+.svg-close {
+  @include svg('small-close');
+
+  &:hover {
+    @include svg('small-close-hover');
+  }
+}

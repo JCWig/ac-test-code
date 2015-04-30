@@ -1,0 +1,107 @@
+/* Prerequisites
+
+This section is responsible for setting up the foundation of the project. 
+
+Styleguide 1.0
+*/
+@import "global-styles/_prerequisites";
+/* Sprites
+
+All the sprites
+
+Styleguide 2.0
+
+*/
+@import "global-styles/_sprites";
+@import "global-styles/_svg";
+/* Utility Classes
+
+Classes to make your life easier. Please see common-css/scss/_utilities.scss for a full list of utility classes
+
+Styleguide 3.0
+
+*/
+@import "global-styles/_utilities";
+
+/* Elements
+
+This section describes basic HTML elements that have a branded display. 
+These elements require minimal class markup, with some elements requiring no special markup. 
+Simply include the markup pattern (and possible classes) to receive the visual treatment. 
+
+Styleguide 4.0
+
+*/
+
+.common-css {
+  @import "global-styles/elements/_buttons";
+  @import "global-styles/elements/_checkboxes";
+  @import "global-styles/elements/_radios";
+  @import "global-styles/elements/_text_elements";
+  @import "global-styles/elements/_text_inputs";
+  @import "global-styles/elements/_forms";
+  @import "global-styles/elements/_dropdowns";
+}
+
+/* Components
+
+This section describes components that have a branded display. 
+Simply include the markup pattern and classes to receive the visual treatment. 
+
+Styleguide 5.0
+
+*/
+
+.common-css {
+  @import "global-styles/components/_determinate_progress";
+  @import "global-styles/components/_indeterminate_progress";
+  @import "global-styles/components/_status_messages";
+  @import "global-styles/components/_popovers";
+  @import "global-styles/components/_date_picker";
+  @import "global-styles/components/_list_box";
+  @import "global-styles/components/_panels";   
+  @import "global-styles/components/_tooltip";
+}
+
+/* Advanced Components
+
+This section describes complex components with a branded display. 
+
+Styleguide 6.0
+
+*/
+
+.common-css {
+  @import "global-styles/components/_modal_windows";
+  @import "global-styles/components/_message_box";
+  @import "global-styles/components/_tabs";
+  @import "global-styles/components/_pagination";
+}
+
+/* Angular
+
+A section for Angular CSS
+
+Styleguide 8.0
+
+*/
+.common-css {
+  @import "global-styles/angular/_form_validation";
+}
+
+/* Modular Mega Menu
+
+This section describes the modular mega menu that adds a page header & footer for all pages.
+
+*/
+
+@import "global-styles/modular-mega-menu/_modular-mega-menu";
+
+/* Refactor
+
+A placeholder for CSS without a home
+
+*/
+.common-css {
+  @import "global-styles/_refactor";
+}

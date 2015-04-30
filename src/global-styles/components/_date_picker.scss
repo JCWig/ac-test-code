@@ -1,0 +1,410 @@
+/* Date Picker
+
+Users select a date from a popup calendar.
+
+Markup:
+<div style="height: 400px">
+<div class="akam-date-picker day" min="&quot;2015-02-05T05:00:00.000Z&quot;" mode="day" placeholder="date picker">
+    <input type="text" datepicker-popup="EEE, MMM dd, yyyy" is-open="opened" datepicker-options="dateOptions" datepicker-mode="mode" min-date="&quot;2015-02-05T05:00:00.000Z&quot;" max-date="" placeholder="date picker" readonly="readonly" show-button-bar="false" >
+    <button class="button">
+        <i class="luna-calendar"></i>
+    </button>
+</div>
+<br><br>
+<div class="akam-date-picker day opened" min="&quot;2015-02-05T05:00:00.000Z&quot;" mode="day" placeholder="date picker">
+    <input type="text" datepicker-popup="EEE, MMM dd, yyyy" is-open="opened" datepicker-options="dateOptions" datepicker-mode="mode" min-date="&quot;2015-02-05T05:00:00.000Z&quot;" max-date="" placeholder="date picker" readonly="readonly" show-button-bar="false" >
+    <ul class="dropdown-menu" datepicker-popup-wrap="" style="display: block;">
+    <li><div role="application" datepicker="" starting-day="0" show-weeks="false" autoclose="true" min-mode="day" max-mode="day" min-date="watchData.minDate" datepicker-mode="watchData.datepickerMode" >
+  <table role="grid" aria-labelledby="datepicker-8-5445-title" aria-activedescendant="datepicker-8-5445-9" tabindex="0">
+  <thead>
+    <tr>
+      <th><button type="button" class="btn btn-default btn-sm pull-left" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>
+      <th colspan="5"><button id="datepicker-8-5445-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm" tabindex="-1" style="width:100%;"><strong >February 2015</strong></button></th>
+      <th><button type="button" class="btn btn-default btn-sm pull-right" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>
+    </tr>
+    <tr>
+      <th class="text-center util-hide"></th>
+      <th class="text-center"><small aria-label="Sunday" >Sun</small></th><th class="text-center"><small aria-label="Monday" >Mon</small></th><th class="text-center"><small aria-label="Tuesday" >Tue</small></th><th class="text-center"><small aria-label="Wednesday" >Wed</small></th><th class="text-center"><small aria-label="Thursday" >Thu</small></th><th class="text-center"><small aria-label="Friday" >Fri</small></th><th class="text-center"><small aria-label="Saturday" >Sat</small></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr >
+      <td class="text-center h6 util-hide"><em ></em></td>
+      <td class="text-center" role="gridcell" id="datepicker-8-5445-0" aria-disabled="true">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1" disabled="disabled"><span >01</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-1" aria-disabled="true">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1" disabled="disabled"><span >02</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-2" aria-disabled="true">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1" disabled="disabled"><span >03</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-3" aria-disabled="true">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1" disabled="disabled"><span >04</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-4" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >05</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-5" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >06</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-6" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >07</span></button>
+      </td>
+    </tr><tr >
+      <td class="text-center h6 util-hide"><em ></em></td>
+      <td class="text-center" role="gridcell" id="datepicker-8-5445-7" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >08</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-8" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >09</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-9" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm btn-info active" tabindex="-1"><span >10</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-10" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >11</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-11" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >12</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-12" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >13</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-13" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >14</span></button>
+      </td>
+    </tr><tr >
+      <td class="text-center h6 util-hide"><em ></em></td>
+      <td class="text-center" role="gridcell" id="datepicker-8-5445-14" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >15</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-15" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >16</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-16" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >17</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-17" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >18</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-18" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >19</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-19" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >20</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-20" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >21</span></button>
+      </td>
+    </tr><tr >
+      <td class="text-center h6 util-hide"><em ></em></td>
+      <td class="text-center" role="gridcell" id="datepicker-8-5445-21" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >22</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-22" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >23</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-23" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >24</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-24" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >25</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-25" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >26</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-26" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >27</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-27" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span >28</span></button>
+      </td>
+    </tr><tr >
+      <td class="text-center h6 util-hide"><em ></em></td>
+      <td class="text-center" role="gridcell" id="datepicker-8-5445-28" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">01</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-29" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">02</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-30" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">03</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-31" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">04</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-32" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">05</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-33" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">06</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-34" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">07</span></button>
+      </td>
+    </tr><tr >
+      <td class="text-center h6 util-hide"><em ></em></td>
+      <td class="text-center" role="gridcell" id="datepicker-8-5445-35" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">08</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-36" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">09</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-37" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">10</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-38" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">11</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-39" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">12</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-40" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted text-info">13</span></button>
+      </td><td class="text-center" role="gridcell" id="datepicker-8-5445-41" aria-disabled="false">
+        <button type="button" style="width:100%;" class="btn btn-default btn-sm" tabindex="-1"><span class=" text-muted">14</span></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div></li>
+</ul>
+    <button class="button">
+        <i class="luna-calendar"></i>
+    </button>
+</div>
+</div>
+
+Styleguide 6.10
+
+*/
+
+$datepicker-padding: 10px;
+$datepicker-cell-size: 27px;
+$monthpicker-cell-size: 60px;
+
+.akam-date-picker {
+  position: relative;
+
+  input {
+    //padding-top used to center text due to removal of border-shadow when date selected
+    padding-top: 2px;
+    padding-right: #{$input-border-radius * 2};
+    -webkit-appearance: textfield;
+    outline: 0;
+
+    & ~ .button,
+    & ~ .btn {
+      min-width: 0;
+      margin-left: -#{$input-border-radius * 3};
+      @include border-left-radius(0);
+      i {
+        @include disable-magic-sprite-selectors(calendar);
+      }
+
+    }
+
+    &:disabled ~ .button,
+    &:disabled ~ .btn {
+      background: $button-background-color-disabled;
+      border-color: $button-border-color-disabled;
+      color: $button-text-color-disabled;
+      cursor: default;
+
+      i {
+        opacity: $input-button-icon-opacity-disabled;
+      }
+    }
+
+    &.ng-invalid.ng-touched ~ .button,
+    &.ng-invalid.ng-touched ~ .btn {
+      border-left-color: $border-color-invalid;
+    }
+
+    &:focus {
+      border-color: transparent;
+    }
+  }
+
+  .clear-date {
+    margin-left: -30px;
+    margin-top: 6px;
+    position: absolute;
+    opacity: .28;
+
+    &:hover {
+      opacity: .64;
+    }
+  }
+
+  &.opened {
+    input {
+      border: 1px solid $input-border-color-focus;
+      background-color: white;
+      @include box-shadow(none);
+    }
+
+    input ~ .button,
+    input ~ .btn {
+      border-color: #999999;
+      border-left-color: $input-border-color-focus;
+      @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+    }
+    .clear-date {
+      opacity: .333;
+    }
+  }
+
+  // Date Picker Popup is done via drop down menu item
+  ul.dropdown-menu {
+    padding: $datepicker-padding;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: $border-radius;
+    margin-top: 0;
+    top: 100%;
+    min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
+    @include box-shadow(2px 2px 2px 0px rgba(0, 0, 0, 0.10));
+
+    // Override TWBS
+    .btn,
+    .button {
+      min-width: 0;
+      height: auto;
+      line-height: 1;
+      background: 0 none;
+    }
+
+    > li * {
+      outline: none; // stop outlines for any of the popup
+    }
+
+    table {
+      border-color: #c8c8c8;
+      border-spacing: 0px;
+      border-collapse: collapse;
+    }
+
+    table thead tr + tr th {
+      padding-bottom: 5px;
+    }
+
+    table tbody tr td {
+      border: 1px solid #ccc;
+    }
+
+    table tbody td button {
+      border: 0;
+      span {
+        display: inline-block;
+        color: #666666;
+
+        &.text-muted {
+          display: none;
+        }
+
+        // TODAYs DATE
+        &.text-info {
+          background: #ededed;
+          color: #666666;
+        }
+      }
+
+      &:disabled {
+        span {
+          background: #fff;
+          color: #c8c8c8;
+        }
+      }
+
+      // Keyboard selected date
+      &.active {
+        background-color: #ffffff;
+        @include box-shadow(none);
+      }
+
+      // Selected date
+      &.btn-info {
+        span, span:hover {
+          background-color: #0099CC;
+          color: #ffffff;
+        }
+
+        span.text-muted {
+          background-color: #0099CC;
+        }
+      }
+
+      // Date being hovered over
+      &:hover {
+        span {
+          color: #666666;
+          background-color: #CEE7FF;
+        }
+      }
+    }
+
+    thead th button[role="heading"] {
+      &,
+      &:hover,
+      &:active,
+      &:focus {
+        border: none;
+        outline: 0;
+        background: #FFFFFF;
+        box-shadow: none;
+      }
+
+      strong {
+        font-size: 14px;
+        color: #666666;
+        font-weight: normal;
+      }
+    }
+
+    thead tr:first-child th {
+      padding-bottom: 15px;
+    }
+
+    thead tr th button:not([role="heading"]) {
+      padding: 5px;
+      color: #666666;
+
+      background: $button-background-color;
+      border: solid $button-border-width $button-border-color;
+      border-radius: $button-border-radius;
+      @include background-image(linear-gradient($button-gradient-top, $button-gradient-bottom));
+
+      &:hover {
+        color: $button-text-color;
+        border-color: $button-border-color-hover;
+        text-decoration: none;
+        @include background-image(linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover));
+      }
+
+      &:active, &:visited {
+        color: $button-text-color;
+        border-color: $button-border-color-hover;
+        @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+      }
+
+      &:disabled,
+      &.disabled {
+        background: $button-background-color-disabled;
+        border-color: $button-border-color-disabled;
+        color: $button-text-color-disabled;
+      }
+    }
+
+    thead th small {
+      font-weight: bold;
+      font-size: 11px;
+      color: #666666;
+      text-align: center;
+    }
+
+    tbody td {
+      padding: 0;
+      height: 22px;
+
+      button {
+        padding: 0;
+        border-radius: 0;
+
+        span {
+          display: inline-block;
+          width: $datepicker-cell-size;
+          font-size: 12px;
+          line-height: 22px;
+        }
+
+        &[disabled] {
+          background-color: #e6e6e6;
+          color: #c8c8c8;
+        }
+      }
+    }
+  }
+
+  &.month {
+    ul.dropdown-menu {
+      min-width: (($monthpicker-cell-size + 1) * 3) + ($datepicker-padding * 2) + 2;
+
+      tbody td {
+        height: 30px;
+        button span {
+          width: $monthpicker-cell-size;
+          height: 30px;
+          font-size: 14px;
+          line-height: 2.14;
+        }
+      }
+    }
+  }
+}

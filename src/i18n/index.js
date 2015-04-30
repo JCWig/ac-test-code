@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+
 require('angular-translate');
 require('angular-cookies');
 
@@ -17,7 +18,8 @@ require('angular-cookies');
  * capabilities for any application.
  *
  */
-module.exports = angular.module('akamai.components.i18n', ['pascalprecht.translate', 'ngCookies', require('../utils').name])
+module.exports = angular.module('akamai.components.i18n',
+  ['pascalprecht.translate', 'ngCookies', require('../utils').name])
 
 /**
  * @ngdoc service
@@ -54,29 +56,44 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * `message_en_US`.
  *
  */
-.constant("i18nConfig", {
+  .constant('i18nConfig', {
     localeCookie: 'AKALOCALE',
     localeComponentPath: '/libs/akamai-components/{version}/locales/',
     localeAppPath: '/apps/{appname}/locales/',
     defaultLocale: 'en_US',
-    localePrefix: "",
-    availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
+    localePrefix: '',
+    availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT',
+    'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'],
+      /*eslint-disable camelcase */
     langKeysMapper: {
-        'de_DE': 'de_DE',
-        'en_US': 'en_US',
-        'en_US_ATT': 'en_US_ATT',
-        'es_ES': 'es_ES',
-        'es_LA': 'es_LA',
-        'fr_FR': 'fr_FR',
-        'it_IT': 'it_IT',
-        'ja_JP': 'ja_JP',
-        'ko_KR': 'ko_KR',
-        'pt_BR': 'pt_BR',
-        'zh_CN': 'zh_CN',
-        'zh_TW': 'zh_TW',
-        '*': 'en_US'
+      de_DE: 'de_DE',
+      en_US: 'en_US',
+      en_US_ATT: 'en_US_ATT',
+      es_ES: 'es_ES',
+      es_LA: 'es_LA',
+      fr_FR: 'fr_FR',
+      it_IT: 'it_IT',
+      ja_JP: 'ja_JP',
+      ko_KR: 'ko_KR',
+      pt_BR: 'pt_BR',
+      zh_CN: 'zh_CN',
+      zh_TW: 'zh_TW',
+      '*': 'en_US'
     }
-})
+    /*eslint-enable camelcase */
+  })
+
+/**
+ * @ngdoc service
+ *
+ * @name akamai.components.i18n.service:LOCALE
+ *
+ * @description A service that provides datetime and number locale constant values,
+ * that includes 12 supported locales and sections based on locale names,
+ * such as: 'en_US', 'de_DE'
+ *
+ */
+  .constant('LOCALES', require('./i18n-locale-constant'))
 
 /**
  * @ngdoc service
@@ -93,7 +110,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * methods to translate string keys.
  *
  */
-.factory('translate', require('./translate-service'))
+  .factory('translate', require('./translate-service'))
 
 /**
  * @ngdoc directive
@@ -106,13 +123,13 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * For example:
  *
  * <pre>
- * <any akam-translate="any.optionally.nested.key"></any>
+ * <any akam-translate='any.optionally.nested.key'></any>
  * </pre>
  *
  * @restrict A
  *
  */
-.directive('akamTranslate', require('./translate-directive'))
+  .directive('akamTranslate', require('./translate-directive'))
 
 /**
  * @ngdoc filter
@@ -125,19 +142,19 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * you want to translate the key.  For example:
  *
  * <pre>
- * <any>{{"translationId" | akamTranslate}}</any>
+ * <any>{{'translationId' | akamTranslate}}</any>
  * </pre>
  *
  * <pre>
- * <any abc="{number: myNumber}">{{"translationId" | akamTranslate : abc}}</any>
+ * <any abc='{number: myNumber}''>{{'translationId' | akamTranslate : abc}}</any>
  * </pre>
  *
  * <pre>
- * var translatedValue = $filter("akamTranslate")("translationId");
+ * var translatedValue = $filter('akamTranslate')('translationId');
  * </pre>
  *
  */
-.filter('akamTranslate', require('./translate-filter'))
+  .filter('akamTranslate', require('./translate-filter'))
 
 /**
  * @ngdoc service
@@ -155,8 +172,8 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * in an application's configuration phase.
  *
  */
-/* @ngInject */
-.service('i18nToken')
+  /* @ngInject */
+  .service('i18nToken')
 
 /**
  * @ngdoc service
@@ -171,7 +188,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * values during run phase.
  *
  */
-.provider('i18nToken', require('./i18n-token-provider'))
+  .provider('i18nToken', require('./i18n-token-provider'))
 
 /**
  * @ngdoc service
@@ -193,7 +210,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * service, directive, and filter.
  *
  */
-.factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
+  .factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
 
 /**
  * @ngdoc service
@@ -206,6 +223,7 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  *
  * @description Adds methods to `$translateProvider` that load any
  * locale resource files for an application's run phase.
+ * Also a decorator for service of $locale to inject DATETIME_FORMATS and NUMBER_FORMATS
  *
  * __NOTE__: localStorage is not used, the browser will not cache the
  * language key.
@@ -216,18 +234,37 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * !important;}.`
  *
  */
-/* @ngInject */
-.config(function($translateProvider, i18nConfig) {
+  /* @ngInject */
+  .config(function($provide, $translateProvider, i18nConfig) {
     $translateProvider
-        .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
-        .useLoader('i18nCustomLoader')
-        .useSanitizeValueStrategy('escaped')
-        .preferredLanguage(i18nConfig.defaultLocale)
-        .fallbackLanguage(i18nConfig.defaultLocale)
-        .cloakClassName('util-hide')
-        .determinePreferredLanguage()
-        .useMissingTranslationHandler('missingTranslationFactory');
-})
+      .registerAvailableLanguageKeys(i18nConfig.availableLangKeys, i18nConfig.langKeysMapper)
+      .useLoader('i18nCustomLoader')
+      .useSanitizeValueStrategy('escaped')
+      .preferredLanguage(i18nConfig.defaultLocale)
+      .fallbackLanguage(i18nConfig.defaultLocale)
+      .cloakClassName('util-hide')
+      .determinePreferredLanguage()
+      .useMissingTranslationHandler('missingTranslationFactory');
+
+    /**
+     * a decorator to intercept $locale service and add datetime abd number
+     * values specific for current locale
+     * @param  {object} $delegate original $locale service object
+     * @param  {object} i18nToken a factory service holds value of current locale
+     * @param  {object} LOCALES locale constant
+     * @return {object} $delegate modified $locale service object
+     */
+    $provide.decorator('$locale', ['$delegate', 'i18nToken', 'LOCALES',
+      function($delegate, i18nToken, LOCALES) {
+      var loc = LOCALES[i18nToken.getCurrentLocale()];
+
+      if (loc) {
+        $delegate.DATETIME_FORMATS = loc.DATETIME_FORMATS;
+        $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;
+      }
+      return $delegate;
+    }]);
+  })
 
 /**
  * @ngdoc service
@@ -237,23 +274,26 @@ module.exports = angular.module('akamai.components.i18n', ['pascalprecht.transla
  * @requires $log
  * @requires i18nToken
  *
- * @description This service factory sole purpose is to Intercept missing translation key error, log error in the console (not blocking)
+ * @description This service factory sole purpose is to Intercept missing
+ * translation key error, log error in the console (not blocking)
  *
  */
-.factory('missingTranslationFactory', function($log, i18nToken) {
+  .factory('missingTranslationFactory', function($log, i18nToken) {
     return function(translationID) {
-        $log.warn("Missing " + translationID + " key in " + i18nToken.getCurrentLocale() + " table.");
+      $log.warn('Missing ' + translationID + ' key in ' + i18nToken.getCurrentLocale() + ' table.');
     };
-})
+  })
 
 /**
- * This run block tells angular $translate service to use per language key, so the current translation table will be based upon that.
- * __NOTE__: Since run block is last flow, only this block completed, the $translation table is sure loaded.
+ * This run block tells angular $translate service to use per language key,
+ * so the current translation table will be based upon that.
+ * __NOTE__: Since run block is last flow, only this block completed,
+ * the $translation table is sure loaded.
  */
-/* @ngInject */
-.run(function($translate, i18nToken, i18nConfig) {
-    //it loads twice using "use" function if current locale is different from default locale
+  /* @ngInject */
+  .run(function($translate, i18nToken, i18nConfig) {
+    //it loads twice using 'use' function if current locale is different from default locale
     if (i18nToken.getCurrentLocale() === i18nConfig.defaultLocale) {
-        $translate.use(i18nToken.getCurrentLocale());
+      $translate.use(i18nToken.getCurrentLocale());
     }
-});
+  });

@@ -1,133 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Akamai Component Examples - Modal Window</title>
-    <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
-</head>
-<body class="common-css luna" ng-app="example" ng-controller="ExampleController">
-    <div class="container">
-        <div class="page-header">
-            <h1>Modal Window Example</h1>
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Components Examples - Modal Window</title>
+        <link rel="stylesheet" href="../dist/akamai-core.css">
+    </head>
+    <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+        <div class="container">
+             <div class="page-header">
+                <h1>Modal Window Component Example</h1>
+            </div>
+            <h2>Component Options:</h2>
+            <br />
+            <form>
+                <div class="label-group">
+                    <label class="label" for="title">Title:</label><br>
+                    <input id="title" type="text" ng-model="options.title" size="50">
+                </div>
+                <br />
+                <div class="label-group">
+                    <label class="label" for="template">Template:</label><br>
+                    <textarea id="template" type="text" ng-model="options.template" rows="4" cols="50"></textarea>
+                </div>
+                <br />
+                <div>
+                    <h3>Button Options:</h3><br>
+                    <input type="checkbox" name="hideSubmit" id="hideSubmit" ng-model="options.hideSubmit"/>
+                    <label class="label" for="hideSubmit">Hide Submit Button</label>
+                </div>
+                <br />
+                <div class="label-group">
+                    <label class="label" for="cancel">Cancel Button Text:</label><br>
+                    <input id="cancel" type="text" ng-model="options.cancelLabel" size="50"/>
+                </div>
+                <br />
+                <div class="label-group">
+                    <label class="label" for="submit">Submit Button Text:</label><br>
+                    <input id="submit" type="text" ng-model="options.submitLabel" size="50"/>
+                </div>
+                <br />
+                <br />
+                <div>
+                    <button type="button" class="button large" ng-click="open()">Open</button>
+                    <button type="button" class="button large" ng-click="openWithTemplateUrl()">Open With Template Url</button>
+                </div>
+            </form>
         </div>
-        <form>
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input
-                    id="title"
-                    type="text"
-                    ng-model="options.title">
-            </div>
-            <div class="form-group">
-                <label for="cancelLabel">Cancel Label</label>
-                <input
-                    id="cancelLabel"
-                    type="text"
-                    ng-model="options.cancelLabel">
-            </div>
-            <div class="form-group">
-                <label for="submitLabel">Submit Label</label>
-                    <input
-                        id="submitLabel"
-                        type="text"
-                        ng-model="options.submitLabel">
-            </div>
-            
-            <div class="form-group">
-            <input
-                id="hideSubmit"
-                type="checkbox"
-                ng-model="options.hideSubmit">
-            <label for="hideSubmit">Hide Submit</label>
-            </div>
-            
-            <div class="btn-group">
-                <button
-                    type="button"
-                    class="btn"
-                    ng-click="open()">
-                    Open
-                </button>
-                <button
-                    type="button"
-                    class="btn"
-                    ng-click="openWithTemplateUrl()">
-                    Open With Template Url
-                </button>
-            </div>
-        </form>
-    </div>
+        <script type="text/javascript" src="../dist/akamai-core.js"></script>
+        <script>
+            angular.module('example', ['akamai.components.modal-window'])
 
-    <script src="../node_modules/angular/angular.js"></script>
-    <script src="../dist/akamai-components.js"></script>
-    <script>
-        angular.module('example', ['akamai.components.modal-window'])
+            .controller('ExampleController', function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
+                var modalScope = $rootScope.$new();
+                var times = 0;
 
-        .controller('ExampleController', function($scope, $rootScope, modalWindow) {
-            var modalScope = $rootScope.$new();
+                modalScope.name = 'Akamai Engineer';
+                modalScope.deferredValue = 'Opened';
 
-            modalScope.name = 'Akamai';
+                $scope.options = {
+                    title: 'Regarding Your Subscription Information',
+                    cancelLabel: 'Cancel',
+                    submitLabel: 'OK',
+                    hideSubmit: false,
+                    successMessage: 'Success!',
+                    errorMessage: 'Error!'
+                };
 
-            $scope.options = {
-                title: 'Example',
-                cancelLabel: 'Cancel',
-                submitLabel: 'Save',
-                hideSubmit: false
-            };
+                $scope.open = function() {
+                    // Create a new modal window instance with supplied options
+                    var instance = modalWindow.open(angular.extend({}, $scope.options, {
+                        scope: modalScope,
+                        template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
+                                    '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!',
+                        controller: function($scope) {
+                            $scope.setOnSubmit(function(){
+                                var deferral = $q.defer();
+                                $timeout(function() {
+                                    if (times % 2 === 0) {
+                                        deferral.reject({enableSubmit : true });
+                                    }else{
+                                        deferral.resolve( { status: $scope.deferredValue } );
+                                    }
 
-            $scope.open = function() {
-                // create a new modal window instance with supplied options
-                var instance = modalWindow.open(angular.extend({}, $scope.options, {
-                    scope: modalScope,
-                    template: '<p>Hello {{ name }}</p>',
-                    controller: function($scope) {
-                        // listen for when the user clicks the submit button
-                        $scope.submitted.then(function(close) {
-                            // call the supplied close function with an argument to pass as
-                            // the modal window result
-                            close('Hello Developer');
+                                    times++;
+                                }, 1000);
+                                return deferral.promise;
+                            });
+                            
+                            $log.log($scope.deferredValue);
+                            $log.log(modalScope.deferredValue);
+
+                            $scope.deferredValue = "Deferred Value returned";
+                            modalScope.customValue = 'Custom Value returned';
+                        }
+                    }));
+
+                    // Listen for the result returned by the modal window
+                    instance.result
+                        .then(function(result) {
+                            $log.log('open: Modal Window returned ', result);
+                        })
+                        .catch(function() {
+                            $log.log('open: Modal Window was cancelled');
                         });
+                };
+
+                $scope.openWithTemplateUrl = function() {
+                    
+                    // Create a new modal window instance with a specific template url
+                    var instance = modalWindow.open(angular.extend({}, $scope.options, {
+                        scope: modalScope,
+                        templateUrl: 'templates/modal-window.tpl.html',
+                        controller: 'ModalController'
+                    }));
+
+                    // Listen for the result returned by the modal window that is opened with a template
+                    instance.result
+                        .then(function(result) {
+                            $log.log('openWithTemplateUrl: Modal Window returned ', result);
+
+                        })
+                        .catch(function() {
+                            $log.log('openWithTemplateUrl: Modal Window was cancelled.');
+                        });
+                };
+            })
+
+            .controller('ModalController', function($scope, $q, $timeout) {
+                var times = 0;
+
+                $scope.setOnSubmit(function(){
+                    var deferral = $q.defer();
+                        $timeout(function() {
+                            if (times++ % 2 === 0) {
+                                deferral.reject();
+                            }else{
+                                deferral.resolve($scope.customValue);
+                            }
+
+                        }, 3000);
+
+                    return deferral.promise;
+                });
+
+                // Disable the save button by default
+                $scope.disableSubmit();
+
+                $scope.customValue = 'Custom Value returned';
+
+                // Control the disabled state of the submit button
+                $scope.toggle = function() {
+                    if ($scope.isSubmitDisabled()) {
+                        $scope.enableSubmit();
+                    } else {
+                        $scope.disableSubmit();
                     }
-                }))
-
-                // listen for the result returned by the modal window
-                instance.result
-                    .then(function(result) {
-                        console.log('Modal Window returned ' + result);
-                    })
-                    .catch(function() {
-                        console.log('Modal Window was cancelled.');
-                    });
-            };
-
-            $scope.openWithTemplateUrl = function() {
-                // create a new modal window instance with a specific template url
-                modalWindow.open(angular.extend({}, $scope.options, {
-                    scope: modalScope,
-                    templateUrl: 'templates/modal-window.tpl.html',
-                    controller: 'ModalController'
-                }));
-            };
-        })
-
-        .controller('ModalController', function($scope) {
-            // listen for when the user clicks the submit button
-            $scope.submitted.then(function(close) {
-                // call the supplied close function with an argument to pass as
-                // the modal window result
-                close('Hello Developer');
+                };
             });
-
-            // control the disabled state of the submit button
-            $scope.toggle = function() {
-                if ($scope.isSubmitDisabled()) {
-                    $scope.enableSubmit();
-                } else {
-                    $scope.disableSubmit();
-                }
-            };
-        });
-
-    </script>
-</body>
+        </script>
+    </body>
 </html>

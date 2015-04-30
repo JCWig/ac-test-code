@@ -1,0 +1,408 @@
+/* Determinate Progress Bars
+
+Determinate progress indicators show measurable progress toward an end state. A progress value falls along a range between 0 and a designated maximum, which defaults to 1.
+
+Markup:
+<div class="determinate-progress {$modifiers}">
+    <progress value="50" max="100"></progress>
+    <label title="X%">X%</label>
+</div>
+<div class="determinate-progress {$modifiers}">
+    <progress value="100" max="100"></progress>
+    <label class="progress-label" title="X%">X%</label>
+</div>
+<div class="common-css pulsar"><!-- this div is here to support the component in the styleguide -->
+    <div class="determinate-progress {$modifiers}">
+        <progress value="50" max="100"></progress>
+        <label title="X%">X%</label>
+    </div>
+    <div class="determinate-progress {$modifiers}">
+        <progress value="100" max="100"></progress>
+        <label class="progress-label" title="X%">X%</label>
+    </div>
+</div>
+
+.started - Progress has started.
+.completed - Progress has completed.
+.failed - Progress has failed.
+.animated - Progress is animated.
+
+Styleguide 5.1
+
+*/
+
+$progress-bar-wrapper-width: 66%;
+$progress-bar-width: 100%;
+
+$progress-bar-height_pulsar: 3px;
+$progress-bar-height_luna: 20px;
+
+$progress-bar-background-color_pulsar: #e8e8e8;
+$progress-bar-background-color_luna: #f4f4f4;
+
+$progress-bar-border-color_luna: #cccccc;
+$progress-bar-border-width_luna: 1px;
+
+$progress-value-background-color_pulsar: #666666;
+$progress-value-background-color_luna: linear-gradient(#a0a9b3, #5d6d7d);
+$progress-value-backgroundmix_luna: mix(#a0a9b3, #5d6d7d);
+
+$progress-success-color_pulsar: #70b46e;
+$progress-success-color_luna: linear-gradient(#7aaa60, #388e35);
+$progress-success-colormix_luna: mix(#7aaa60, #388e35);
+
+$progress-error-color_pulsar: #db5f54;
+$progress-error-color_luna: linear-gradient(#de6056, #a32d2d);
+$progress-error-colormix_luna: mix(#de6056, #a32d2d);
+
+$progress-label-color: #666666;
+$progress-label-gutter_pulsar: 5px;
+$progress-label-gutter_luna: 10px;
+$progress-label-font-size: 12px;
+$progress-label-font: normal #{$progress-label-font-size}/1em Arial, sans-serif;
+
+$progress-icon-gutter: 10px;
+$progress-icon-width: luna-sprite-width(success-flat);
+$progress-icon-height: luna-sprite-height(success-flat);
+
+$progress-bar-width_icon: calc(#{$progress-bar-width} - #{$progress-icon-width} - #{$progress-icon-gutter});
+
+/**
+* This animation defines a 24px x 100% "background bar"
+* The bar has its first horizontal 12px filled in as black with an opacity
+* The next 12px is transparent to provide a stitched effect
+* The animation moves this background from 0,0 to 24,0 within 500ms and infinitely repeats
+*/
+@mixin pulsarProgressBarAnimation() {
+  @include animation(stitchedProgressBar 500ms linear infinite);
+  @include background-image(linear-gradient(left,
+          rgba(0, 0, 0, .12) 0%,
+          rgba(0, 0, 0, .12) 50%,
+          transparent 50%,
+          transparent 100%
+  ));
+  background-size: 24px 100%;
+}
+
+@include keyframes(stitchedProgressBar) {
+  0% {
+    background-position: 0 100%;
+  }
+  100% {
+    background-position: 24px 100%;
+  }
+}
+
+@mixin lunaProgressBarAnimation() {
+  @include animation(diagonallyStitchedProgressBar 500ms linear infinite);
+  @include background-image(linear-gradient(315deg,
+          rgba(0, 0, 0, .12) 0%,
+          rgba(0, 0, 0, .12) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(0, 0, 0, .12) 50%,
+          rgba(0, 0, 0, .12) 75%,
+          transparent 75%,
+          transparent 100%
+  ));
+  background-size: #{$progress-bar-height_luna - ($progress-bar-border-width_luna * 2)} 100%;
+}
+
+@include keyframes(diagonallyStitchedProgressBar) {
+  0% {
+    background-position: 0 100%;
+  }
+  100% {
+    background-position: #{$progress-bar-height_luna - ($progress-bar-border-width_luna * 2)} 100%;
+  }
+}
+
+/**
+* Styles applied to the <progress> element
+* 
+* 1. Remove the default appearance
+* 2. Correct inconsistent default heights between browsers
+* 3. Removing the default appearance (#1) leaves behind a border in Firefox and Opera
+* 4. IE10 allows us to control the background color of the progress value. Thats it. We do that with 'color'?! 
+     No other browser interprets 'color' for the <progress> element itself, but child elements will inherit this.
+* 5. Do not combine selectors with vendor-prefixed pseudo selectors
+*/
+
+.determinate-progress {
+  display: block;
+  position: relative;
+  width: $progress-bar-wrapper-width;
+
+  progress {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    border: none; /* 3 */
+    @include appearance(none); /* 1 */
+    @include box-sizing(border-box); /* 2 */
+    @include transition(width 0.25s ease-out);
+
+    /** Chrome + Safari value styles */
+    &::-webkit-progress-value {
+      /* 5 */
+      -webkit-transition: width 0.5s ease;
+    }
+
+    /** Mozilla value styles */
+    &::-moz-progress-bar {
+      /* 5 */
+      -moz-transition: width 0.5s ease;
+    }
+
+    /**
+    * Lets handle the progress element label
+    */
+    & ~ label,
+    & ~ .progress-label {
+      display: block;
+      font: $progress-label-font;
+      color: $progress-label-color;
+    }
+
+    /** Provide an indeterminate state for the progress bar */
+    &:not([value]) {
+      &::-webkit-progress-value {
+        /* 5 */
+        visibility: hidden;
+      }
+      &::-moz-progress-bar {
+        /* 5 */
+        visibility: hidden;
+      }
+    }
+  }
+
+  /** Indicate to the user that progress has failed */
+  &.failed {
+    progress {
+      @include animation(none !important);
+    }
+    progress::-webkit-progress-bar {
+      /* 5 */
+      @include animation(none !important);
+    }
+  }
+}
+
+& {
+  .determinate-progress {
+    progress {
+      background: $progress-bar-background-color_luna;
+      height: $progress-bar-height_luna; /* 2 */
+      width: $progress-bar-width;
+      color: $progress-value-backgroundmix_luna; /* 4 */
+      border: solid $progress-bar-border-width_luna $progress-bar-border-color_luna;
+      @include border-radius(3px);
+
+      /** Chrome + Safari bar styles. */
+      &::-webkit-progress-bar {
+        /* 5 */
+        background: $progress-bar-background-color_luna;
+        @include border-radius(3px);
+      }
+
+      /** Chrome + Safari value styles */
+      &::-webkit-progress-value {
+        /* 5 */
+        background: $progress-value-background-color_luna;
+        border-right: solid 1px #515f6e;
+        @include border-left-radius(2px);
+      }
+
+      /** Mozilla value styles */
+      &::-moz-progress-bar {
+        /* 5 */
+        background: $progress-value-background-color_luna;
+        border-right: solid 1px #515f6e;
+        @include border-left-radius(2px);
+      }
+
+      /**
+      * Lets handle the progress element label
+      */
+      & ~ label,
+      & ~ .progress-label {
+        margin-top: $progress-label-gutter_luna;
+      }
+
+      /** Provide an indeterminate state for the progress bar */
+      &:not([value]) {
+        @include lunaProgressBarAnimation();
+
+        &::-webkit-progress-bar {
+          /* 5 */
+          @include lunaProgressBarAnimation();
+        }
+      }
+    }
+
+    /** Indicate to the user that progress has completed */
+    &.completed {
+      progress {
+        &::-moz-progress-bar {
+          /* 5 */
+          background: $progress-success-color_luna;
+          border-right: 0 none;
+          @include border-right-radius(2px);
+        }
+        &::-webkit-progress-value {
+          /* 5 */
+          background: $progress-success-color_luna;
+          border-right: 0 none;
+          @include border-right-radius(2px);
+        }
+        color: $progress-success-colormix_luna; // For IE10+
+      }
+    }
+
+    /** Indicate to the user that progress has failed */
+    &.failed {
+      progress {
+        &::-moz-progress-bar {
+          /* 5 */
+          background: $progress-error-color_luna;
+          border-right: 0 none;
+        }
+        &::-webkit-progress-value {
+          /* 5 */
+          background: $progress-error-color_luna;
+          border-right: 0 none;
+        }
+        color: $progress-error-colormix_luna; // For IE10+
+      }
+    }
+
+    /** Provide animation support for short-term progress bars that havent failed */
+    &.animated {
+      progress {
+        @include lunaProgressBarAnimation();
+      }
+      progress::-webkit-progress-bar {
+        /* 5 */
+        @include lunaProgressBarAnimation();
+      }
+    }
+  }
+}
+
+&.pulsar {
+  .determinate-progress {
+    progress {
+      background: $progress-bar-background-color_pulsar;
+      height: $progress-bar-height_pulsar; /* 2 */
+      width: $progress-bar-width;
+      color: $progress-value-background-color_pulsar; /* 4 */
+      border: 0 none;
+
+      /** Chrome + Safari bar styles. */
+      &::-webkit-progress-bar {
+        /* 5 */
+        background: $progress-bar-background-color_pulsar;
+      }
+
+      /** Chrome + Safari value styles */
+      &::-webkit-progress-value {
+        /* 5 */
+        background: $progress-value-background-color_pulsar;
+      }
+
+      /** Mozilla value styles */
+      &::-moz-progress-bar {
+        /* 5 */
+        background: $progress-value-background-color_pulsar;
+      }
+
+      /**
+      * Lets handle the progress element label
+      */
+      & ~ label,
+      & ~ .progress-label {
+        margin-top: $progress-label-gutter_pulsar;
+      }
+
+      /** Provide an indeterminate state for the progress bar */
+      &:not([value]) {
+        @include pulsarProgressBarAnimation();
+
+        &::-webkit-progress-bar {
+          /* 5 */
+          @include pulsarProgressBarAnimation();
+        }
+      }
+    }
+
+    /**
+    * Lets handle states of the progress bar: [started, complete, failed]
+    * started implies value >= 0, complete implies value == max, failed implies value will never equal max
+    */
+    &::after {
+      content: '';
+      background: transparent;
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      @include opacity(0);
+      @include transition(opacity 0.5s ease 0.25s);
+    }
+
+    /** Indicate to the user that progress has completed */
+    &.completed {
+      &::after {
+        @include luna-sprite(success-flat);
+        @include opacity(1);
+      }
+      progress {
+        width: $progress-bar-width_icon;
+        color: $progress-success-color_pulsar; // For IE10+
+
+        &::-moz-progress-bar {
+          /* 5 */
+          background: $progress-success-color_pulsar;
+        }
+        &::-webkit-progress-value {
+          /* 5 */
+          background: $progress-success-color_pulsar;
+        }
+      }
+    }
+
+    /** Indicate to the user that progress has failed */
+    &.failed {
+      &::after {
+        @include luna-sprite(failure);
+        @include opacity(1);
+      }
+      progress {
+        width: $progress-bar-width_icon;
+        color: $progress-error-color_pulsar; // For IE10+
+
+        &::-moz-progress-bar {
+          /* 5 */
+          background: $progress-error-color_pulsar;
+        }
+        &::-webkit-progress-value {
+          /* 5 */
+          background: $progress-error-color_pulsar;
+        }
+      }
+    }
+
+    /** Provide animation support for short-term progress bars that havent failed */
+    &.animated {
+      progress {
+        @include pulsarProgressBarAnimation();
+      }
+      progress::-webkit-progress-bar {
+        /* 5 */
+        @include pulsarProgressBarAnimation();
+      }
+    }
+  }
+}
+

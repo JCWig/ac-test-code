@@ -1,0 +1,85 @@
+{
+  "components": {
+    "name": "Akamai Common Components",
+    "error": {
+      "validation": {
+      }
+    },
+    "warning": {
+      "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+    },
+    "bubblehelp": {
+      "title": "Information"
+    },
+    "determinate-progress": {
+    },
+    "indeterminate-progress": {
+    },
+    "dialog": {
+    },
+    "message-box": {
+      "no": "No",
+      "yes": "Yes"
+    },
+    "notifications": {
+      "success": "SUCCESS",
+      "warning": "WARNING",
+      "information": "INFORMATION",
+      "error": "ERROR"
+    },
+    "table": {
+    },
+    "menu-button": {
+      "label": "Label"
+    },
+    "modal-window": {
+      "label": {
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "title": "Modal Window"
+    },
+    "pagination": {
+      "label": {
+        "results": "Results: ",
+        "show-entries": "Show Entries: ",
+        "total-items": "Total Items",
+        "current-page": "Current Page"
+      }
+    },
+    "date-picker": {
+      "placeholder": {
+        "dp": "date picker",
+        "mp": "month picker",
+        "yp": "year picker"
+      }
+    },
+    "tooltip": {
+    },
+    "data-table": {
+      "placeholder": {
+        "filter": "Filter"
+      },
+      "label": {
+        "action": "Action"
+      },
+      "text": {
+        "noFilterResults": "There are no results based upon your filter",
+        "noDataMessage": "There is no data based upon your criteria"
+      }
+    },
+    "list-box": {
+      "placeholder": {
+        "filter": "Filter"
+      },
+      "text": {
+        "noItem": "No Item Found",
+        "selected": "Selected: ",
+        "viewSelected": "View Selected Only",
+        "noDataMessage": "There is no data based upon your criteria",
+        "noFilterResults": "There are no results based upon your filter",
+        "viewSelectedOnly": "You have no items selected"
+      }
+    }
+  }
+}

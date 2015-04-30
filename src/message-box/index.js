@@ -13,11 +13,10 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.message-box', [
-    require('angular-bootstrap-npm'),
-    require('../modal-window').name,
-    require('../i18n').name
+  require('angular-bootstrap-npm'),
+  require('../modal-window').name,
+  require('../i18n').name
 ])
-
 
 /**
  * @ngdoc service
@@ -31,4 +30,4 @@ module.exports = angular.module('akamai.components.message-box', [
  * with descriptive `text`.
  *
  */
-.factory('messageBox', require('./message-box-service'));
+  .factory('messageBox', require('./message-box-service'));

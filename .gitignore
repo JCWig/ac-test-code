@@ -10,8 +10,8 @@
 
 .DS_Store
 npm-debug.log
-reports
-dist
-docs
 node_modules
-TAGS
+dist
+reports
+docs
+.sass-cache

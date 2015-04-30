@@ -1,0 +1,21 @@
+$body-font-size: 12px;
+$body-font-color: #666;
+
+body.luna {
+  font-family: Arial Regular, sans-serif;
+  color: $body-font-color;
+  font-size: $body-font-size;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAMAAAC6sdbXAAAADFBMVEXp7/Lq7/Px9/ry9/vqDFK0AAAAGklEQVQI1wXBAQEAAAjDIHb7dxZM4QiTGGIPAS4AEor1KIcAAAAASUVORK5CYII=) repeat scroll 0 0 #EAEFF3;
+  margin: 0 auto;
+  width: 990px;
+
+  @media (min-width: 1030px) {
+    &.fluid {
+      width: auto;
+      margin: 0 20px;
+    }
+  }
+}
+
+
+

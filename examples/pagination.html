@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Akamai Component Examples</title>
-        <link rel="stylesheet" href="../node_modules/pulsar-common-css/dist/styles.css">
+        <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
     <body ng-app="example" ng-controller="ExampleController" class="common-css luna">
         <div class="container">
@@ -14,13 +14,13 @@
                 according to the Result Set Size and Show Entries settings.</h5>
             </div>
             <h2>Pagination Options:</h2>
-            </br>
+            <br />
             <form>
                 <div class="form-group">
                     <label class="label" for="totalItems">Result Set Size:</label>
                     <input type="number" id="totalItems" ng-model="pager.totalItems">
                 </div>
-                </br>
+                <br />
                 <div class="form-group">
                     <label class="label" for="currentPage">Current Page:</label>
                     <input type="number" id="currentPage" ng-model="pager.page">
@@ -29,12 +29,12 @@
                 <akam-pagination total-items="pager.totalItems" current-page="pager.page"
                     page-size="pager.size" onchangepage="pageChanged(page)"></akam-pagination>
         </div>
-        <script src="../node_modules/angular/angular.js"></script>
-        <script src="../dist/akamai-components.js"></script>
+
+        <script src="../dist/akamai-core.js"></script>
         <script>
             angular.module('example', ['akamai.components.pagination'])
             
-            .controller('ExampleController', function($scope) {
+            .controller('ExampleController', function($scope, $log) {
                 $scope.pager = {
                     totalItems: 125,
                     page: 7,
@@ -42,7 +42,7 @@
                 };
                 
                 $scope.pageChanged = function(page) {
-                    console.log('Pagination Component:  Page navigation changed to: ', page);
+                    $log.log('Pagination Component:  Page navigation changed to: ', page);
                 };
             });
         </script>

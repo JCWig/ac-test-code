@@ -1,4 +1,4 @@
-# Akamai Components
+# Akamai Core
 
 ## Overview
 
@@ -24,14 +24,14 @@ components.
 <html lang="en">
 <head>
     <title>Example</title>
-    <link rel="stylesheet" href="path/to/akamai-styles.css">
+    <link rel="stylesheet" href="path/to/akamai-core.css">
 </head>
 <body>
     <div class="container">
     </div> 
 
     <script src="path/to/angular.js"></script>
-    <script src="path/to/akamai-components.js"></script>
+    <script src="path/to/akamai-core.js"></script>
 </body>
 </html>
 ```

@@ -1,0 +1,272 @@
+// Typography
+$text-color: #666666;
+$text-font-family: Arial, sans-serif;
+$text-font-size: 12px;
+
+// Titles
+$title-main-color: #5d6d7d;
+$title-callout-color: #333333;
+$title-color: #666666;
+$title-subheading-font-size: 18px;
+
+// Tour Bubble
+$tourbubble-background-color: #333333;
+
+// Icons
+$icon-color: #666666;
+$icon-color_disabled: #cccccc;
+$icon-color_hover: #0096d6;
+$icon-warning-color: #f8981d;
+$icon-error-color: #a32d2d;
+$icon-special-color: #7aaa60;
+
+// Borders
+$border-color: #cccccc;
+$border-radius: 3px;
+
+// Data grids
+$datagrid-background-color_hover: #e2f3fc;
+$datagrid-background-color_selected: #cee7ff;
+
+// Links
+$link-color: #1385b8;
+
+// Notifications
+$notification-red-border-color: #ab2213;
+$notification-red-background-color: #de6056;
+$notification-yellow-border-color: #c97820;
+$notification-yellow-background-color: #e9a751;
+$notification-blue-border-color: #388e35;
+$notification-blue-background-color: #58b5dc;
+$notification-green-border-color: #388e35;
+$notification-green-background-color: #70b46e;
+
+// Modals
+$modal-backdrop-background-color: rgba(34, 43, 53, 0.85);
+$modal-sm: auto;
+$modal-md: auto;
+$modal-lg: auto;
+
+// Radios
+$radio-label-margin: 5px;
+$radio-group-gutter: 15px;
+
+// Checkboxes
+$checkbox-label-padding: 5px;
+$checkbox-group-gutter: 15px;
+
+// Labels
+$label-font-size: 14px;
+$checkbox-label-font-size: $label-font-size;
+$radio-label-font-size: $label-font-size;
+
+// Buttons
+$button-border-radius: $border-radius;
+$button-height: 28px;
+$button-min-width: 80px;
+$button-padding-tb: 0;
+$button-padding-lr: 10px;
+$button-padding: $button-padding-tb $button-padding-lr;
+$button-text-size: 12px;
+$button-border-width: 1px;
+
+$button-height-large: 32px;
+$button-text-size-large: 15px;
+
+$button-height-small: 24px;
+$button-text-size-small: 11px;
+
+$button-text-color: #666666;
+$button-background-color: #e6e6e6;
+
+$button-border-color: #cccccc;
+$button-gradient-top: #ffffff;
+$button-gradient-bottom: $button-background-color;
+
+$button-border-color-hover: #cccccc;
+$button-gradient-top-hover: #f4f4f4;
+$button-gradient-bottom-hover: #c8c8c8;
+
+$button-background-color-disabled: #fff;
+$button-border-color-disabled: #eee;
+$button-text-color-disabled: #ccc;
+
+$button-primary-text-color: #ffffff;
+$button-primary-background-color: #f46b29;
+$button-primary-border-color: #ab4d09;
+$button-primary-gradient-top: #f8971d;
+$button-primary-gradient-bottom: $button-primary-background-color;
+
+$button-primary-background-color-disabled: #fab99a;
+$button-primary-border-color-disabled: #d7ac8b;
+$button-primary-text-color-disabled: #fde0d2;
+
+$button-blue-text-color: #ffffff;
+$button-blue-background-color: #0d6eac;
+$button-blue-border-color: #2f79c9;
+$button-blue-gradient-top: #1e94df;
+$button-blue-gradient-bottom: $button-blue-background-color;
+
+$button-blue-background-color-disabled: lighten($button-blue-background-color, 10%);
+$button-blue-border-color-disabled: lighten($button-blue-border-color, 10%);
+$button-blue-text-color-disabled: darken($button-blue-text-color, 10%);
+
+// Bubble Help
+$bubble-help-background-color: #ebf6ff;
+$bubble-help-border-color: #c7c7c7;
+
+$bubble-help-arrow-size: 11px;
+$bubble-help-arrow-size-inner: $bubble-help-arrow-size - 1px;
+$bubble-help-arrow-size-inner-spread: 2px;
+
+$bubble-help-arrow-gutter: 5px;
+$bubble-help-arrow-position: $bubble-help-arrow-size + $bubble-help-arrow-gutter;
+
+//Tool Tip :
+$tooltip-background-color: #ebf6ff;
+$tooltip-max-width: 290px;
+$tooltip-min-width: 130px;
+$tooltip-max-height: 256;
+$tooltip-min-height: 72px;
+
+// svg icons
+$svg-icon-width: 16px;
+$svg-icon-height: 16px;
+
+// Zindex Map
+$zindex-dropdown: 950;
+$status-message-zindex: 1000;
+$modal-window-zindex: 1050;
+$modal-window-backdrop-zindex: $modal-window-zindex - 10;
+$message-box-zindex: 1100;
+$message-box-backdrop-zindex: $message-box-zindex - 10;
+$tooltip-zindex: 900;
+
+// Inputs
+
+$border-color-invalid: #9f1a00;
+
+$input-text-color: #666666;
+$input-placeholder-text-color: #ccc;
+$input-text-size: 12px;
+
+$input-height: 28px;
+
+$input-padding: 10px;
+$input-label-spacing: 10px;
+$input-validation-icon-gutter: 7px;
+$input-button-icon-opacity-disabled: 0.25;
+$textarea-padding-top: 7px;
+
+$input-background-color: #f4f4f4;
+$input-background-color-focus: #ffffff;
+$input-background-color-disabled: #ffffff;
+
+$input-border-radius: 3px;
+$input-border-color: #cccccc;
+$input-border-color-focus: #0099cc;
+$input-border-color-invalid: $border-color-invalid;
+$input-border-color-disabled: #eeeeee;
+
+$input-box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.10);
+$input-box-glow-focus: 0 0 1px 0 $input-border-color-focus;
+$input-box-glow-invalid: 0 0 1px 0 $input-border-color-invalid;
+
+// Dropdowns
+$dropdown-item-left-padding: 10px;
+$dropdown-item-right-padding: 15px;
+$dropdown-item-line-height: 32px;
+
+// Modular Mega Menu
+$orange-caret-position: -214px;
+$caret-width: 5px;
+$caret-height: 16px;
+$arrow-up-height-large: 16px;
+$arrow-down-height-small: 5px;
+$company-logo-height: 29px;
+$luna-logo-height: 25px;
+
+$user-popup-padding: 2px 10px;
+
+$row-hover-color: #E1F3FF;
+
+$tab-row-width: 200px;
+$popup-padding: 10px;
+
+$hoverable-border-size: 1px;
+$hoverable-vertical-padding: 8px;
+$hoverable-horizontal-padding: 4px;
+
+$nav-horizontal-padding: 10px;
+
+$context-selector-color: #676D72;
+$context-selector-match-color: #f46b29;
+$context-selector-width: 45px;
+$context-selector-height: 38px;
+$context-selector-horizontal-padding: 5px;
+$context-selector-item-padding: 20px;
+$context-icon-width: 17px;
+$context-icon-height: 17px;
+$arrow-icon-width: 13px;
+$arrow-icon-height: 11px;
+
+$help-icon-width: 19px;
+$help-icon-height: 19px;
+
+$border-radius: 3px;
+$popup-border-style: 1px solid #edf0f2;
+
+$anchor-text-color: #314559;
+$anchor-hover-color: #09c;
+
+$account-selector-height: 30px;
+
+$orange-gradient-top: #ff6423;
+$orange-gradient-bottom: #d44818;
+
+$context-and-account-selector-width: 35%;
+
+// Bootstrap overrides
+$font-family-base: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+$font-size-base: 12px;
+
+$line-height-base: 1.4;
+
+$text-color: #666;
+
+$link-color: #0099cc;
+$link-hover-color: #0099cc;
+
+$headings-line-height: 1;
+
+$font-size-h1: 28px;
+$font-size-h2: 18px;
+$font-size-h3: 16px;
+
+$nav-tabs-border-color: #ccc;
+
+$grid-columns: 12;
+$grid-gutter-width: 0;
+$screen-sm-min: 600px;
+$screen-md-min: 1025px;
+$screen-lg-min: $screen-md-min;
+$container-sm: 100%;
+$container-md: 990px;
+$container-lg: $container-md;
+
+$dropdown-bg: #fff;
+$dropdown-border: #ccc;
+$dropdown-link-color: #666666;
+$dropdown-link-hover-color: #666666;
+$dropdown-link-hover-bg: #e2f3fc;
+$dropdown-link-active-color: #666666;
+$dropdown-link-active-bg: darken($dropdown-link-hover-bg, 10%);
+$dropdown-link-disabled-color: #ccc;
+
+$panel-bg: #fff;
+$panel-body-padding: 0;
+$panel-heading-padding: 9px 15px;
+$panel-border-radius: 3px;
+$panel-default-text: #666;
+$panel-default-border: #ccc;
+$panel-default-heading-bg: #f8f8f8;

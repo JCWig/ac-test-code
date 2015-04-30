@@ -1,0 +1,16 @@
+h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+}
+
+h2, h3 {
+  font-weight: normal;
+}
+
+&.luna {
+  // Luna tweaks here
+}
+
+&.pulsar {
+  // Pulsar tweaks here
+}

@@ -1,0 +1,64 @@
+/* Dropdown Menu Buttons
+
+Menu buttons with an open dropdown.
+
+Markup:
+<div style="height: 200px; display: block; text-align: center;">
+    <div class="btn-group open">
+        <button class="btn">Button Element</button>
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="caret"></i>
+        </button>
+        <ul class="dropdown-menu {$modifiers}" role="menu">
+            <li><a href>List Item</a></li>
+            <li class="active"><a href>Active Item</a></li>
+            <li><a href>Lorem ipsum dolor sit amet, consectetur adipisicing elit</a></li>
+            <li class="disabled"><a href>Disabled Item</a></li>
+            <li><a href>Another List Item</a></li>
+        </ul>
+    </div>
+</div>
+
+.dropdown-menu-right - Right-aligned dropdown
+.dropdown-menu-left - Left-aligned dropdown
+
+Styleguide 4.8
+
+*/
+
+.dropdown {
+  display: inline-block;
+  line-height: 1;
+
+  &.right .dropdown-menu {
+    @extend .dropdown-menu-right;
+  }
+
+  &.left .dropdown-menu {
+    @extend .dropdown-menu-left;
+  }
+
+  & > i {
+    cursor: pointer;
+    vertical-align: middle;
+  }
+}
+
+.dropdown-menu {
+  padding: 0;
+  border-radius: 0;
+  margin-top: 0;
+  @include box-shadow(0 2px 4px 0 rgba(0, 0, 0, .25));
+
+  > li > a {
+    padding: 0;
+    padding-left: $dropdown-item-left-padding;
+    padding-right: $dropdown-item-right-padding;
+    line-height: $dropdown-item-line-height;
+    @include ellipsis();
+
+    &:active {
+      background-color: #CEE7FF;
+    }
+  }
+}
