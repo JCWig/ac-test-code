@@ -6,7 +6,7 @@ var debounce = require('lodash/function/debounce');
 var POPUP_DELAY = 200;
 
 /* @ngInject */
-module.exports = function($log, $position, $compile, $timeout, $document) {
+module.exports = function($log, $position, $compile, $timeout) {
   return {
     restrict: 'A',
     replace: true,
@@ -34,11 +34,6 @@ module.exports = function($log, $position, $compile, $timeout, $document) {
         $timeout(function() {
           scope.opened = !scope.opened;
           toolTip.toggleClass('in', scope.opened);
-          if (!scope.opened) {
-            $document.unbind('click', documentClickBind);
-          } else {
-            $document.bind('click', documentClickBind);
-          }
         });
       };
       scope.hasHeader = function() {
@@ -110,11 +105,6 @@ module.exports = function($log, $position, $compile, $timeout, $document) {
         }
         return true;
       }
-      function documentClickBind(e) {
-        if (scope.opened && e.currentTarget !== toolTip[0]) {
-          scope.toggle();
-        }
-      }
       if (validParameters()) {
         scope.opened = false;
         template = require('./templates/tooltip.tpl.html');
@@ -123,12 +113,8 @@ module.exports = function($log, $position, $compile, $timeout, $document) {
         });
         triggerElement = element;
         if (scope.trigger === 'click') {
-          triggerElement.on('click', function(e) {
-            e.stopPropagation();
+          triggerElement.on('click', function() {
             scope.toggle();
-          });
-          toolTip.on('click', function(e) {
-            e.stopPropagation();
           });
         } else {
           triggerElement.on('mouseover', function() {

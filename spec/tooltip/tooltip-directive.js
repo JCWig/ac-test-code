@@ -264,25 +264,6 @@ describe('akamai.components.tooltip', function() {
 
             expect(tooltip.classList).not.toContain("fade");
         });
-        it('should close on click away', function(){
-            var markup = '<span id="trigger-element" class="pull-right" akam-tooltip position="bottom"'+
-                'tooltip-content="tool tip content" trigger="click"'+
-                'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side</span>';
-            addElement(markup);
-            timeout.flush();
-                
-            utilities.click('#trigger-element');
-            scope.$digest();
-            timeout.flush();
-
-            var tooltip = document.querySelector(TOOLTIP);
-
-            utilities.clickAwayCreationAndClick('div');
-            scope.$digest();
-            timeout.flush();
-
-            expect(tooltip.classList).not.toContain("fade");
-        }); 
     });
     describe('when rendering on left side of page', function(){
         it('should render bottom arrow and tooltip in different format', function(){
