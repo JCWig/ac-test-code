@@ -6,7 +6,7 @@ var TOOLTIP_HEADER = '.tooltip .tooltip-contents .tooltip-header';
 var TOOLTIP_CONTENT = '.tooltip .tooltip-contents .tooltip-middle-content';
 var TOOLTIP_LINK = '.tooltip .tooltip-contents .tooltip-link-content a';
 var TOOLTIP_BUTTON = '.tooltip .tooltip-contents .tooltip-button-content button';
-var TOOLTIP_CLOSE_ICON = '.tooltip .tooltip-contents .luna-close';
+var TOOLTIP_CLOSE_ICON = '.tooltip .tooltip-contents .luna-small_close';
 
 describe('akamai.components.tooltip', function() {
     var scope, timeout, compile, sce;

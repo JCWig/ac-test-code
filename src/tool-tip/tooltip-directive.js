@@ -1,7 +1,8 @@
 'use strict';
 
 var angular = require('angular');
-var _ = require('lodash');
+var includes = require('lodash/collection/includes');
+var debounce = require('lodash/function/debounce');
 var POPUP_DELAY = 200;
 
 /* @ngInject */
@@ -104,7 +105,7 @@ module.exports = function($log, $position, $compile, $timeout, $document) {
       function validParameters() {
         var validPositions = ['right', 'left', 'top', 'bottom'];
 
-        if (!scope.position || !_.includes(validPositions, scope.position)) {
+        if (!scope.position || !includes(validPositions, scope.position)) {
           return false;
         }
         return true;
@@ -139,7 +140,7 @@ module.exports = function($log, $position, $compile, $timeout, $document) {
             scope.toggle();
           });
         }
-        angular.element(window).on('resize', _.debounce(setCoords, 200));
+        angular.element(window).on('resize', debounce(setCoords, 200));
         $timeout(function() {
           setCoords();
         }, 0);
