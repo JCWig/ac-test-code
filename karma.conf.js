@@ -18,7 +18,7 @@ module.exports = function(config) {
         preprocessors: {
             'spec/**/*.js': ['browserify']
         },
-        browsers: ['PhantomJS2'],
+        browsers: ['PhantomJS'],
         reporters: ['spec', 'junit', 'coverage'],
         browserify: {
             debug: true,
