@@ -35,12 +35,7 @@ module.exports = {
     document.body.removeChild(clickAwayArea);
   },
   scroll: function(obj, distance){
-    var domEle;
-    if (typeof obj === 'string' || obj instanceof String) {
-      domEle = document.querySelector(obj);
-    } else {
-      domEle = obj;
-    }
+    var domEle = this.find(obj);
 
     domEle.scrollTop = distance;
     var element = angular.element(domEle);
