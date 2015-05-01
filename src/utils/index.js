@@ -9,4 +9,4 @@ var angular = require('angular');
  */
 module.exports = angular.module('akamai.components.utils', [])
   //TODO: Remember to update this if the version in package.json ever changes
-  .constant('VERSION', '0.6.0');
+  .constant('VERSION', '0.7.0');
