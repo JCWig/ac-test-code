@@ -1,5 +1,6 @@
 # Akamai Core
 
+
 ## Overview
 
 This project provides a set of reusable Angular.js components that adhere to
