@@ -1,6 +1,6 @@
 {
   "name": "akamai-core",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": "Akamai Technologies Inc.",
   "description": "Akamai Core provides a set of Angular.js directives and services as well as styles that implement UXD guidelines.",
   "license": "Apache-2.0",
@@ -63,6 +63,7 @@
     "karma-jasmine": "^0.3.5",
     "karma-junit-reporter": "0.2.2",
     "karma-phantomjs-launcher": "0.1.4",
+    "karma-phantomjs2-launcher": "^0.1.6",
     "karma-spec-reporter": "0.0.19",
     "lodash": "^3.7.0",
     "minimist": "^1.1.1",
@@ -99,6 +100,6 @@
     "build": "npm test && ./node_modules/.bin/gulp build --no-color --production",
     "generic-build": "npm run compass && ./node_modules/.bin/gulp build --no-color --production",
     "netstorage": "./jenkins.sh deploy",
-    "deploy" : "npm run generic-build && ./node_modules/.bin/gulp deploy --no-color"
+    "deploy": "npm run generic-build && ./node_modules/.bin/gulp deploy --no-color"
   }
 }
