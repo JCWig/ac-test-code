@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Switch Button</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+    <script type="text/javascript" src="../dist/akamai-core.js"></script>
+</head>
+
+<body class="common-css luna">
+
+<div class="container">
+    <h1>Switch Button Component Example</h1>
+    <br/>
+    <div class="switch-button switch-button-on" id="theSwitch">
+        <div>
+            <span>On</span>
+            <label>
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <span>Off</span>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var elem = document.getElementById('theSwitch');
+    elem.onclick = function () {
+        if (this.className.indexOf('off') === -1) {
+            this.className = 'switch-button switch-button-off';
+        }
+        else {
+            this.className = 'switch-button switch-button-on';
+        }
+    };
+
+
+</script>
+
+
+</body>
+</html>
