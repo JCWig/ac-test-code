@@ -1,0 +1,79 @@
+/* Numeric Spinner
+
+Users input a number by spinning up and down in input field and up|down buttons, by enter a new number, by prepopulate a number..
+
+Markup:
+
+Styleguide 8.0
+
+*/
+
+$spinner-border-width: 1px;
+$spinner-border-color: #cccccc;
+$spinner-background-color-disabled: #ffffff;
+$spinner-border-color-disabled: #eeeeee;
+
+$spinner-input-height: 28px;
+//$numeric-spinner-gutter: 10px;
+$spinner-input-background-color: #f4f4f4;
+//$numeric-spinner-input-border-color: #cccccc;
+//$numeric-spinner-input-color-active: #ffffff;
+$spinner-input-border-color-active: #0087b8;
+//$numeric-spinner-input-color-disabled: #ffffff;
+//$numeric-spinner-input-border-color-disable: #eeeeee;
+
+//$numeric-spinner-button-uparrow-gradient-top: #ffffff;
+$spinner-button-downarrow-gradient-bottom: #ececec;
+$spinner-button-arrow-color: #666666;
+$spinner-button-arrow-color-hover: #0096d6;
+$spinner-button-hover-gradient-top: #cbcbcb;
+$spinner-button-hover-gradient-bottom: #f4f4f4;
+//$numeric-spinner-button-color-disabled: #ffffff;
+//$numeric-spinner-input-border-color-disable: #eeeeee;
+//$numeric-spinner-input-arrow-color-disable: #cccccc;
+
+.akam-numeric-spinner {
+
+  position: relative;
+
+  input {
+    background: $spinner-input-background-color;
+    border-color: $spinner-border-color;
+    border: solid $spinner-border-width;
+    -webkit-appearance: textfield;
+    outline: 0;
+
+
+
+    &:disabled ~ .a {
+      background: $spinner-background-color-disabled;
+      border-color: $button-border-color-disabled;
+      color: $button-text-color-disabled;
+      cursor: default;
+    }
+
+    &.ng-invalid.ng-touched ~ .a {
+      border-left-color: $border-color-invalid;
+    }
+
+    &:focus {
+      border-color: $spinner-input-border-color-active;
+      background: $spinner-background-color-disabled;
+    }
+
+  }
+
+  input ~ .a {
+    border-color: red;
+    border-left-color: $input-border-color-focus;
+    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+  }
+
+  .clear-value {
+    opacity: .333;
+  }
+
+  div a {
+    color: red;
+  }
+}

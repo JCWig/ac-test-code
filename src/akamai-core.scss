@@ -1,6 +1,6 @@
 /* Prerequisites
 
-This section is responsible for setting up the foundation of the project. 
+This section is responsible for setting up the foundation of the project.
 
 Styleguide 1.0
 */
@@ -25,9 +25,9 @@ Styleguide 3.0
 
 /* Elements
 
-This section describes basic HTML elements that have a branded display. 
-These elements require minimal class markup, with some elements requiring no special markup. 
-Simply include the markup pattern (and possible classes) to receive the visual treatment. 
+This section describes basic HTML elements that have a branded display.
+These elements require minimal class markup, with some elements requiring no special markup.
+Simply include the markup pattern (and possible classes) to receive the visual treatment.
 
 Styleguide 4.0
 
@@ -45,8 +45,8 @@ Styleguide 4.0
 
 /* Components
 
-This section describes components that have a branded display. 
-Simply include the markup pattern and classes to receive the visual treatment. 
+This section describes components that have a branded display.
+Simply include the markup pattern and classes to receive the visual treatment.
 
 Styleguide 5.0
 
@@ -64,7 +64,7 @@ Styleguide 5.0
 
 /* Advanced Components
 
-This section describes complex components with a branded display. 
+This section describes complex components with a branded display.
 
 Styleguide 6.0
 
@@ -84,6 +84,11 @@ A section for Angular CSS
 Styleguide 8.0
 
 */
+
+.common-css {
+  @import "global-styles/components/_spinner";
+}
+
 .common-css {
   @import "global-styles/angular/_form_validation";
 }
