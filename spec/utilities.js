@@ -11,17 +11,20 @@ module.exports = {
 
     return el;
   },
-  click: function(obj) {
+  triggerMouseEvent: function(obj, eventType){
     var el = this.find(obj);
     var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
+    ev.initMouseEvent(eventType, true);
     el.dispatchEvent(ev);
   },
+  click: function(obj) {
+    this.triggerMouseEvent(obj, 'click');
+  },
   mouseHover: function(obj) {
-    var el = this.find(obj);
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('mouseover', true);
-    el.dispatchEvent(ev);
+    this.triggerMouseEvent(obj, 'mouseover');
+  },
+  mouseLeave: function(obj) {
+    this.triggerMouseEvent(obj, 'mouseout');
   },
   clickAwayCreationAndClick: function(ele) {
     var clickAwayArea = document.createElement(ele);
@@ -30,6 +33,13 @@ module.exports = {
     var clickAwayButton = document.querySelector('#click-away');
     this.click(clickAwayButton);
     document.body.removeChild(clickAwayArea);
+  },
+  scroll: function(obj, distance){
+    var domEle = this.find(obj);
+
+    domEle.scrollTop = distance;
+    var element = angular.element(domEle);
+    element.triggerHandler('scroll');
   },
   getMonthInEnglish: function(num) {
     var date = new Date();

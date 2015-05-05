@@ -42,4 +42,6 @@ module.exports = angular.module('akamai.components.list-box', [
  * schema to the list box layout and formatting.
  *
  */
-  .directive('akamListBox', require('./list-box-directive'));
+  .directive('akamListBox', require('./list-box-directive'))
+
+  .directive('akamInfiniteScroll', require('./infinite-scroll-directive'));

@@ -77,8 +77,8 @@
                 "save": "Save"
             },
             "title": "Modal Window",
-            "successMessage": "Value has been successfully submitted.",
-            "errorMessage": "Error occurs during last submission."
+            "successMessage": "The Action has been completed.",
+            "errorMessage": "The action can’t be completed."
         },
         "pagination": {
             "label": {

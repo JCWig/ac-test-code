@@ -1,0 +1,14 @@
+<div  ng-class="{fade: isOpen()}" class="tooltip {{::position}}" ng-style="{top: toolTipTop, left:toolTipLeft}" 
+style="display:block">
+	<div class="tooltip-arrow" ng-style="{'top': arrowTop, 'left':arrowLeft}"></div>
+	<div class="tooltip-contents">
+		<i ng-if="::isTriggerClick()" class="luna-small_close icon-states util-clickable pull-right" ng-click="toggle()"></i>
+		<div ng-if="::!useCustomContent()">
+			<h3 ng-if="::hasHeader()" class="tooltip-header">{{::header}}</h3>
+			<div class="tooltip-middle-content">{{::tooltipContent}}</div>  
+			<div ng-if="::(hasLink() && isTriggerClick())" class="tooltip-link-content"><a href="{{::linkUrl}}" target="_blank">{{::linkText}}</a></div>  
+			<div ng-if="::(hasButton() && isTriggerClick())" class="tooltip-button-content"><button ng-click="buttonFunction()">{{::buttonText}}</button></div>
+		</div>
+		<div ng-if="::useCustomContent()" ng-bind-html="::customContent"></div>
+	</div>
+</div>

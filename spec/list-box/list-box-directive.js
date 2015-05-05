@@ -5,13 +5,15 @@ var utilities = require('../utilities');
 var FILTER_BOX = 'div.filter input[type="search"]';
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-list-box thead tr th';
-var TABLE_ROW = 'div.list-box-data tbody tr';
+var TABLE_ROW = 'div.data tbody tr';
 var SELECTED_SPAN = 'div.list-box-footer span.ng-binding';
 var VIEW_SELECTED_ONLY_CHECKBOX = 'div.list-box-footer span.util-pull-right input[type=checkbox]';
 var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+var MAX_INITIALLY_DISPLAYED = 10;
+
 
 describe('akam-list-box', function() {
   var compile = null;
@@ -200,6 +202,7 @@ describe('akam-list-box', function() {
       expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
       expect(allRowsLoadedInTable.length).toEqual(scope.mydata.length);
     });
+
     it('should display failed indetermine progress when http call fails', function() {
       var dataPath = '/get/json/data';
       scope.jsonColumns = [
@@ -222,6 +225,39 @@ describe('akam-list-box', function() {
       timeout.flush();
       expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/true/);
     });
+    it('should display rerender indetermine progress when http call fails the starts again', function() {
+      var dataPath = '/get/json/data';
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        }
+      ];
+      httpBackend.when('GET', 'new_path').respond(404, "ERROR: NOT FOUND");
+
+      scope.jsonFromHttpGet = $http.get('new_path');
+      var markup = '<akam-list-box data="jsonFromHttpGet" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/false/);
+      httpBackend.flush();
+      timeout.flush();
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/true/);
+
+      httpBackend.when('GET', 'success/path').respond(scope.mydata);
+      scope.jsonFromHttpGet = $http.get('success/path');
+      scope.$digest();
+
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('completed')).toMatch(/false/);
+      expect(document.querySelector('akam-indeterminate-progress').getAttribute('failed')).toMatch(/false/);
+
+      httpBackend.flush();
+      timeout.flush();
+
+      expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
+      expect(document.querySelector(TABLE_ROW)).not.toBe(null);
+    });
     it('should display indeterminate progress and load data on http get', function() {
       var dataPath = '/get/json/data';
       var jsonData = require('./http-data/list-box-data.json');
@@ -234,7 +270,6 @@ describe('akam-list-box', function() {
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
 
-      var dataLength = Object.keys(jsonData).length;
       httpBackend.when('GET', dataPath).respond(jsonData);
 
       scope.jsonFromHttpGet = $http.get(dataPath);
@@ -247,7 +282,7 @@ describe('akam-list-box', function() {
 
       var allRowsLoadedInTable = document.querySelectorAll(TABLE_ROW);
       expect(document.querySelector('akam-indeterminate-progress')).toBe(null);
-      expect(allRowsLoadedInTable.length).toEqual(dataLength);
+      expect(allRowsLoadedInTable.length).toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should be able to use default sorting method on first column', function() {
       scope.mydata = [
@@ -272,6 +307,30 @@ describe('akam-list-box', function() {
       expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
     });
   });
+  /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED 
+  describe('when data exceeds 10 items', function(){
+    it('should display more items as scrolling takes place', function() {
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json');
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+
+      document.querySelector('div.fixed-table-container-inner').scrollTop = 100;
+      scope.$digest();
+
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+  });*/
   describe('when given selectedItems', function() {
     it('should not delete selectedItems on load', function() {
       scope.selectedItems = [{
@@ -1323,5 +1382,107 @@ describe('akam-list-box', function() {
 
       expect(rowOneColumnTwo.textContent).toContain('pwn3d');
     });
-  })
+  });
+  describe('when scrolling ', function(){
+    it('should load more data', function(){
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0,30);
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+
+      utilities.scroll('div.fixed-table-container-inner', 1000);
+      scope.$digest();
+      totalRows = document.querySelectorAll(TABLE_ROW);
+
+      expect(scope.$$childTail.dataSource.length).toEqual(20);
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+    it('should stop loading data if end is reached', function(){
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0,25);
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.scroll('div.fixed-table-container-inner', 1000);
+      scope.$digest();
+
+      utilities.scroll('div.fixed-table-container-inner', 2000);
+      scope.$digest();
+
+      utilities.scroll('div.fixed-table-container-inner', 3000);
+      scope.$digest();
+
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(scope.$$childTail.dataSource.length).toEqual(25);
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+    it('should leave data if rescrolled to top.', function(){
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0,25);
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.scroll('div.fixed-table-container-inner', 1000);
+      scope.$digest();
+
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+
+      expect(scope.$$childTail.dataSource.length).toEqual(20);
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+    it('should not scroll past max-height', function(){
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json');
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+
+      var element = angular.element(document.querySelector('div.fixed-table-container-inner'));
+
+      element.css({"max-height":'150px'})
+
+      element.scrollTop = 10000;
+      element.triggerHandler('scroll');
+      scope.$digest();
+
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+  });
 });

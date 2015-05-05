@@ -15,48 +15,51 @@
                                ng-if="loading"
                                completed="{{!loading}}"
                                failed="{{ failed }}"></akam-indeterminate-progress>
+    <div class="data fixed-table-container sort-decoration">
+        <div akam-infinite-scroll class="fixed-table-container-inner">
+            <table class="tablesorter" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="column-checkbox header first">
+                            <div class="th-inner">
+                                <span><input type="checkbox"
+                                             ng-model="state.allSelected"
+                                             ng-change="selectAll()"
+                                             id="{{::(tableId + 'allSelected')}}"><label for="{{::(tableId + 'allSelected')}}"></label></span>
+                            </div>
+                        </th>
 
-  <div class="list-box-data">
-    <table>
-      <thead>
-
-      <tr>
-        <th ng-if="::showCheckboxes" class="column-checkbox">
-          <input type="checkbox"
-                 ng-model="state.allSelected"
-                 ng-change="selectAll()"
-                 id="{{::(tableId + 'allSelected')}}"><label
-          for="{{::(tableId + 'allSelected')}}"></label>
-        </th>
-        <th ng-repeat="column in ::columns"
-            ng-class="getColumnClasses(column, true, state)"
-            ng-click="sortColumn(column)"
-            title="{{ column.header | akamTranslate }}">
-          {{ column.header | akamTranslate }} <i></i>
-        </th>
-      </tr>
-
-      </thead>
-      <tbody>
-
-      <tr ng-repeat="item in dataTable track by item.id"
-          ng-class="{ 'row-selected' : item.selected }">
-        <td ng-if="::showCheckboxes" class="column-checkbox">
-          <input type="checkbox"
-                 ng-model="item.selected"
-                 ng-change="updateChanged(item)"
-                 id="{{ ::(tableId + '_item_' + $index )}}"><label
-          for="{{ ::(tableId + '_item_' + $index) }}"></label>
-        </td>
-        <td ng-repeat="column in ::columns track by item.cells[$index].id"
-            ng-class="::getColumnClasses(column, false, state)"
-            ng-bind-html="item.cells[$index].content"
-            title="{{ item.titles[$index]}}">
-        </td>
-      </tr>
-
-      </tbody>
-    </table>
+                        <th ng-repeat="column in ::columns"
+                            ng-class="getColumnClasses(column, true, state)"
+                            ng-click="sortColumn(column)"
+                            title="{{ column.header | akamTranslate }}"
+                            class="header">
+                            <div class="th-inner">
+                                <span>{{column.header | akamTranslate}}</span>
+                                <i></i>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in dataSource track by item.id"
+                        ng-class="{ 'row-selected' : item.selected }">
+                        <td class="column-checkbox">
+                            <input type="checkbox"
+                                   ng-model="item.selected"
+                                   ng-change="updateChanged(item)"
+                                   id="{{ ::(tableId + '_item_' + $index )}}"><label
+                                for="{{ ::(tableId + '_item_' + $index) }}"></label>
+                        </td>
+                        <td ng-repeat="column in ::columns track by item.cells[$index].id"
+                            ng-class="::getColumnClasses(column, false, state)"
+                            ng-bind-html="item.cells[$index].content"
+                            title="{{ item.titles[$index]}}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     <div ng-if="dataTable.length === 0 && totalCount > 0 && !state.viewSelectedOnly && !loading"
          class="empty-table-message">
       <i class="luna-alert"></i> <span>{{::messages.noFilterResultsMessage}}</span>
