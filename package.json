@@ -98,6 +98,6 @@
     "build": "npm test && ./node_modules/.bin/gulp build --no-color --production",
     "generic-build": "npm run compass && ./node_modules/.bin/gulp build --no-color --production",
     "netstorage": "./jenkins.sh deploy",
-    "deploy" : "npm run generic-build && ./node_modules/.bin/gulp deploy --no-color"
+    "deploy": "npm run generic-build && ./node_modules/.bin/gulp deploy --no-color"
   }
 }
