@@ -1,6 +1,6 @@
 <div class="akam-spinner">
   <label for="{{spinnerId}}">{{label}}</label>
-  <input id="{{spinnerId}}" type="text" ng-required="required" ng-disabled="disabled" ng-keydown="arrowKeysUpDown($event)" ng-change="checkInput(inputValue)" ng-model="inputValue"">
+  <input id="{{spinnerId}}" type="text" ng-required="required" ng-disabled="disabled" ng-keydown="arrowKeysUpDown($event)" ng-change="checkInput(inputValue)" ng-model="inputValue">
   <button class="button" href="javascript:void(0)" ng-class="{'disabled': isOverMax() || disabled}" ng-disabled="isOverMax() || disabled" ng-mouseup="stopStepUp($event)" ng-mousedown="startStepUp($event)">
     <i class="luna-arrow_smUp"></i>
   </button>
