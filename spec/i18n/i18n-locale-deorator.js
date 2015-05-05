@@ -58,7 +58,7 @@ describe('i18n $locale service', function() {
 describe("$locale service used as filter", function() {
 
   var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json',
-    LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
+    LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
     enUsMessagesResponse = require("./i18n_responses/messages_en_US.json"),
     enUsResponse = require("./i18n_responses/en_US.json");
 
@@ -102,7 +102,7 @@ describe("$locale service used as filter", function() {
       token = i18nToken;
     });
     httpBackend.when('GET', '/apps/appname/locales/en_DE.json').respond(404, "BAD PATH");
-    httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond(404, "BAD PATH");
+    httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond(404, "BAD PATH");
     httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
     httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
   });
