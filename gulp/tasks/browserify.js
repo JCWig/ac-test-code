@@ -9,7 +9,6 @@
  */
 
 var browserify = require('browserify');
-var browserSync = require('browser-sync');
 var watchify = require('watchify');
 var bundleLogger = require('../util/bundle-logger');
 var gulp = require('gulp');
@@ -41,41 +40,31 @@ var browserifyTask = function(devMode) {
 
     var b = browserify(bundleConfig);
 
-    var bundle = function() {
+    var bundle;
+    bundle = function () {
       // Log when bundling starts
       bundleLogger.start(bundleConfig.outputName);
 
       var aBundle = b
-        .bundle()
-        .on('error', handleErrors);
-
-      var normal = aBundle
-        .pipe(source(bundleConfig.outputName))
-        .pipe(buffer())
-        .pipe(gulpif(bundleConfig.debug, sourcemaps.init({loadMaps: true})))
-        .pipe(ngAnnotate())
-        .pipe(gulpif(bundleConfig.debug, sourcemaps.write('./')))
-        .pipe(gulp.dest(bundleConfig.dest))
-        .pipe(browserSync.reload({
-          stream: true
-        }));
+          .bundle()
+          .on('error', handleErrors);
 
       var min = aBundle
-        .pipe(source(bundleConfig.outputName))
-        .pipe(buffer())
-        .pipe(rename({
-          suffix: '.min'
-        }))
-        .pipe(gulpif(bundleConfig.debug, sourcemaps.init({loadMaps: true})))
-        .pipe(gulpif(config.productionBuild, ngAnnotate()))
-        .pipe(gulpif(config.productionBuild, uglify()))
-        .pipe(gulpif(config.productionBuild && bundleConfig.debug, sourcemaps.write('./')))
-        .pipe(gulpif(config.productionBuild, gulp.dest(bundleConfig.dest)))
-        .on('end', function() {
-          bundleLogger.end(bundleConfig.outputName);
-        });
+          .pipe(source(bundleConfig.outputName))
+          .pipe(buffer())
+          .pipe(rename({
+            suffix: '.min'
+          }))
+          .pipe(sourcemaps.init({loadMaps: true}))
+          .pipe(ngAnnotate())
+          .pipe(uglify())
+          .pipe(sourcemaps.write('./'))
+          .pipe(gulp.dest(bundleConfig.dest))
+          .on('end', function () {
+            bundleLogger.end(bundleConfig.outputName);
+          });
 
-      return es.concat(normal, min);
+      return min;
     };
 
     if (devMode) {

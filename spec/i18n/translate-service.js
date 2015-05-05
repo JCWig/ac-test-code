@@ -101,7 +101,6 @@ describe('translate service', function() {
         deferedResponse = akTranslate.async(key);
         deferedResponse.then(function(value) {
           expect(value).toEqual("Lorem Ipsum ");
-          done();
         });
       });
 
@@ -113,7 +112,6 @@ describe('translate service', function() {
         });
         deferedResponse.then(function(value) {
           expect(value).toEqual("Lorem Ipsum sean");
-          done();
         });
       });
 
@@ -126,7 +124,6 @@ describe('translate service', function() {
         });
         deferedResponse.then(function(value) {
           expect(value).toEqual("Lorem Ipsum 22");
-          done();
         });
       });
 
@@ -138,7 +135,6 @@ describe('translate service', function() {
         deferedResponse.then(function(values) {
           expect(values[keys[0]]).toEqual("Lorem Ipsum ");
           expect(values[keys[1]]).toEqual("Lorem Ipsum 2 ");
-          done();
         });
       });
       it('should return key since translation table is not loaded', function() {
@@ -150,7 +146,6 @@ describe('translate service', function() {
         deferedResponse = akTranslate.async(key);
         deferedResponse.then(function(value) {
           expect(value).toEqual(key);
-          done();
         });
         $scope.$apply();
       });

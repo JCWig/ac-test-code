@@ -3,8 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Akamai Component Examples - Tooltip</title>
-        <link rel="stylesheet" href="../dist/akamai-core.css">
-        <script type="text/javascript" src="../dist/akamai-core.js"></script>
+        <link rel="stylesheet" href="../dist/akamai-core.min.css">
     </head>
     <body ng-app="toolTipDemo" ng-controller="Ctrl" class="common-css luna">
         <div class="container">
@@ -141,7 +140,8 @@
              <span style="color:red" akam-tooltip header="Header Text" position="left" trigger="hover" tooltip-content="{{testTextShort}}">Hover over here</span> </div>
         </div>
     </div>
-    <script type="text/javascript">
+        <script type="text/javascript" src="../dist/akamai-core.min.js"></script>
+        <script type="text/javascript">
         angular.module("toolTipDemo", ["akamai.components.tooltip"])
         .controller("Ctrl", ["$scope", "$sce", function($scope, $sce) {
             

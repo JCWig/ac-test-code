@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Akamai Component Examples</title>
-        <link rel="stylesheet" href="../dist/akamai-core.css">
+        <link rel="stylesheet" href="../dist/akamai-core.min.css">
     </head>
     <body ng-app="statusMessageDemo" ng-controller="Ctrl" class="common-css luna">
         <div class="container">
@@ -46,7 +46,7 @@
                 <button class="btn" ng-click="showStatus()">Show Status Message</button>
             </form>
         </div>
-        <script type="text/javascript" src="../dist/akamai-core.js"></script>
+        <script type="text/javascript" src="../dist/akamai-core.min.js"></script>
         <script type="text/javascript">
             angular.module("statusMessageDemo", ["akamai.components.status-message"])
             .controller("Ctrl", ["$scope", "statusMessage", function($scope, statusMessage) {
