@@ -6,7 +6,7 @@ var DATE_PICKER = 'ul.dropdown-menu';
 var HEADER_DISPLAYED_ON_DATEPICKER = 'button.btn strong.ng-binding';
 var NAVIGATE_DATEPICKER_BACKWARDS = 'button.pull-left';
 var NAVIGATE_DATEPICKER_FORWARDS = 'button.pull-right';
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
@@ -493,7 +493,7 @@ describe('when given an i18n locale that does not exist', function(){
             compile = $compile;
             scope = $rootScope.$new();
             $httpBackend.when('GET', '/apps/appname/locales/yz_RE.json').respond({});
-            $httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/yz_RE.json/).respond({});
+            $httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/yz_RE.json/).respond({});
             $httpBackend.flush();
         });
     });

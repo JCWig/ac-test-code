@@ -1,12 +1,12 @@
 {
   "name": "akamai-core",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": "Akamai Technologies Inc.",
   "description": "Akamai Core provides a set of Angular.js directives and services as well as styles that implement UXD guidelines.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "http://lunastash.akamai.com:7999/fee/akamai-components.git"
+    "url": "http://lunastash.akamai.com:7999/fee/akamai-core.git"
   },
   "private": false,
   "publishConfig": {

@@ -45,7 +45,7 @@ module.exports = angular.module('akamai.components.i18n',
  * @param {String} [localeAppPath=apps/{appName}/locales/]
  * A path that references application locale files.
  *
- * @param {String} [localeComponentPath=assets/akamai-components/{version}/locales/]
+ * @param {String} [localeComponentPath=assets/akamai-core/{version}/locales/]
  * A path that references component locale files.
  *
  * @param {String} [localeCookie=AKALOCALE] A cookie name widely used
@@ -58,7 +58,7 @@ module.exports = angular.module('akamai.components.i18n',
  */
   .constant('i18nConfig', {
     localeCookie: 'AKALOCALE',
-    localeComponentPath: '/libs/akamai-components/{version}/locales/',
+    localeComponentPath: '/libs/akamai-core/{version}/locales/',
     localeAppPath: '/apps/{appname}/locales/',
     defaultLocale: 'en_US',
     localePrefix: '',
@@ -234,6 +234,7 @@ module.exports = angular.module('akamai.components.i18n',
  * !important;}.`
  *
  */
+
   /* @ngInject */
   .config(function($provide, $translateProvider, i18nConfig) {
     $translateProvider
@@ -278,6 +279,7 @@ module.exports = angular.module('akamai.components.i18n',
  * translation key error, log error in the console (not blocking)
  *
  */
+  /* @ngInject */
   .factory('missingTranslationFactory', function($log, i18nToken) {
     return function(translationID) {
       $log.warn('Missing ' + translationID + ' key in ' + i18nToken.getCurrentLocale() + ' table.');

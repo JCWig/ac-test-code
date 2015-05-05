@@ -1,7 +1,7 @@
 'use strict';
 var utilities = require('../utilities');
 
-describe('akamai-components.highlight', function() {
+describe('akamai-core.highlight', function() {
   var compile = null;
   var scope = null;
   var filter = null;
