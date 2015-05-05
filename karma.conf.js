@@ -9,7 +9,7 @@ module.exports = function(config) {
             'node_modules/angular/angular.min.js',
             'node_modules/angular-translate/dist/angular-translate.min.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'dist/akamai-core.css',
+            'dist/akamai-core.min.css',
             {pattern: 'dist/images/*', included: false, served: true},
             'node_modules/moment/moment.js',
             'spec/**/*.js'
