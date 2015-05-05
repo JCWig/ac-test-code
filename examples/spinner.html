@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Akamai Components Examples - Content Panel</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+  </head>
+
+  <body class="common-css luna" ng-app="spinner" ng-controller="SpinnerController as vm">
+
+    <form name="form" >
+    <h4>Watch form controller values change</h4>
+    <ul>
+      <li><p>Form has been modified : {{ form.$dirty }}</p></li>
+      <li><p>Form is valid : {{ form.$valid }} </p></li>
+    </ul>
+
+    <br>
+
+      <h4>Plain Vanilla</h4>
+      Model value : <input type="text" size="3" ng-model="vm.value">
+
+      <br><br>
+
+      <h4>Optional Values</h4>
+      Min value: <input type="text" size="3" ng-model="vm.min">
+      Max value: <input type="text" size="3" ng-model="vm.max">
+
+      <br><br>
+
+      <button class="button" ng-click="vm.buttonClick()">{{vm.buttonName}}</button>
+
+      <br><br>
+
+<div style="text-align: center;">
+      <akam-spinner
+        min={{vm.min}}
+        max={{vm.max}}
+        label={{vm.label}}
+        ng-model="vm.value"
+        disabled={{vm.disabled}}>
+      </akam-spinner>
+
+    </div>
+
+    </form>
+
+    <script src="../dist/akamai-core.js"></script>
+    <script>
+    angular.module('spinner', ['akamai.components.spinner']);
+
+    angular
+      .module('spinner')
+      .controller('SpinnerController', SpinnerController);
+
+    function SpinnerController() {
+      var vm = this;
+      vm.value = '';
+      vm.requireLabel = false;
+      vm.label = '';
+      vm.disabled = '';
+      vm.buttonName = 'ToDisableSpinner';
+      vm.buttonClick = toggleButton;
+
+
+      function toggleButton() {
+        vm.buttonName = vm.buttonName === 'ToDisableSpinner'? 'ToEnableSpinner' : 'ToDisableSpinner';
+        if (vm.buttonName === 'ToEnableSpinner') {
+          vm.disabled = 'disabled';
+        }
+        else {
+          vm.disabled = '';
+        }
+      }
+    }
+    </script>
+  </body>
+
+</html>

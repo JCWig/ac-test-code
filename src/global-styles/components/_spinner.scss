@@ -8,72 +8,76 @@ Styleguide 8.0
 
 */
 
-$spinner-border-width: 1px;
 $spinner-border-color: #cccccc;
 $spinner-background-color-disabled: #ffffff;
 $spinner-border-color-disabled: #eeeeee;
-
 $spinner-input-height: 28px;
-//$numeric-spinner-gutter: 10px;
 $spinner-input-background-color: #f4f4f4;
-//$numeric-spinner-input-border-color: #cccccc;
-//$numeric-spinner-input-color-active: #ffffff;
 $spinner-input-border-color-active: #0087b8;
-//$numeric-spinner-input-color-disabled: #ffffff;
-//$numeric-spinner-input-border-color-disable: #eeeeee;
-
-//$numeric-spinner-button-uparrow-gradient-top: #ffffff;
-$spinner-button-downarrow-gradient-bottom: #ececec;
-$spinner-button-arrow-color: #666666;
-$spinner-button-arrow-color-hover: #0096d6;
 $spinner-button-hover-gradient-top: #cbcbcb;
 $spinner-button-hover-gradient-bottom: #f4f4f4;
-//$numeric-spinner-button-color-disabled: #ffffff;
-//$numeric-spinner-input-border-color-disable: #eeeeee;
-//$numeric-spinner-input-arrow-color-disable: #cccccc;
 
-.akam-numeric-spinner {
-
+.akam-spinner {
   position: relative;
 
   input {
-    background: $spinner-input-background-color;
-    border-color: $spinner-border-color;
-    border: solid $spinner-border-width;
+    padding-top: 2px;
+    padding-right: #{$input-border-radius * 2};
     -webkit-appearance: textfield;
     outline: 0;
+    background: $spinner-input-background-color;
+    border-color: $spinner-border-color;
+    height: $spinner-input-height;
 
-
-
-    &:disabled ~ .a {
+    &:disabled {
       background: $spinner-background-color-disabled;
-      border-color: $button-border-color-disabled;
-      color: $button-text-color-disabled;
+      border-color: $spinner-border-color-disabled;
+      color: $spinner-border-color;
       cursor: default;
     }
 
-    &.ng-invalid.ng-touched ~ .a {
-      border-left-color: $border-color-invalid;
+    & ~ .button,
+    & ~ .btn {
+      min-width: 0;
+      margin-left: -#{$input-border-radius * 3};
+      @include border-left-radius(0);
+
+      &:hover {
+        @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
+
+        i {
+          //new sprite for blue color
+        }
+      }
+    }
+
+    &:disabled ~ .button,
+    &:disabled ~ .btn {
+      background: $spinner-background-color-disabled;
+      border-color: $spinner-border-color-disabled;
+      color: $spinner-input-background-color;
+      cursor: default;
     }
 
     &:focus {
       border-color: $spinner-input-border-color-active;
-      background: $spinner-background-color-disabled;
+    }
+  }
+
+  & button {
+
+    &.disabled {
+      pointer-events: none;
     }
 
+    &.disabled i.luna-arrow_smUp {
+      @include luna-sprite(arrow_smUp_disabled);
+    }
+
+    &.disabled i.luna-arrow_smDown {
+      @include luna-sprite(arrow_smDown_disabled);
+    }
   }
 
-  input ~ .a {
-    border-color: red;
-    border-left-color: $input-border-color-focus;
-    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
-  }
 
-  .clear-value {
-    opacity: .333;
-  }
-
-  div a {
-    color: red;
-  }
 }
