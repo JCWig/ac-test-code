@@ -101,7 +101,7 @@
             // Override the location of the Component and Application locale files
             angular.module('i18nDemo3')
             .config(function(i18nTokenProvider) {
-                i18nTokenProvider.setComponentLocalePath("/libs/akamai-components/0.5.0/locales/");
+                i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
                 i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
             })
             .controller('TranslationPageController', ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log',
