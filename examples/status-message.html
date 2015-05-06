@@ -5,7 +5,7 @@
         <title>Akamai Component Examples</title>
         <link rel="stylesheet" href="../dist/akamai-core.min.css">
     </head>
-    <body ng-app="statusMessageDemo" ng-controller="Ctrl" class="common-css luna">
+    <body ng-app="statusMessageDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
         <div class="container">
             <div class="page-header">
                 <h1>Status Message Component Example</h1>
@@ -48,8 +48,7 @@
         </div>
         <script src="../dist/akamai-core.min.js"></script>
         <script>
-            angular.module("statusMessageDemo", ["akamai.components.status-message"])
-            .controller("Ctrl", ["$scope", "statusMessage", function($scope, statusMessage) {
+            var ctrlFunction = function($scope, statusMessage) {
                 $scope.messageTimeout = 3000; //Default time is 2000 (2s), 0 = manual close
                 $scope.messageText = "Basic Message Text";
                 $scope.messageTitle = "Message Title";
@@ -58,7 +57,10 @@
                 $scope.showStatus = function(){
                     statusMessage["show" + $scope.status]({text : $scope.messageText, timeout: $scope.messageTimeout});
                 };
-            }]);
+            };
+            ctrlFunction.$inject = ["$scope", "statusMessage"];
+            angular.module("statusMessageDemo", ["akamai.components.status-message"])
+            .controller("Ctrl", ctrlFunction);
         </script>
     </body>
 </html>

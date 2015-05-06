@@ -5,7 +5,7 @@
         <title>Akamai Component Examples - Message Box</title>
         <link rel="stylesheet" href="../dist/akamai-core.min.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container">
              <div class="page-header">  
                 <h1>Message Box Component Example</h1> 
@@ -55,9 +55,7 @@
             </div>
             <script src="../dist/akamai-core.min.js"></script>
             <script>
-                angular.module('example', ['akamai.components.message-box'])
-        
-                .controller('ExampleController', function($scope, messageBox, $log) {
+                var controllerFunction = function($scope, messageBox, $log) {
                     $scope.options = {
                         title: 'Title Text Goes Here',
                         headline: 'Headline Text Goes Here',
@@ -87,7 +85,11 @@
                     $scope.showErrorBox = function() {
                         messageBox.showError(angular.extend({}, $scope.options));
                     };
-                });
+                };
+                controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
+                angular.module('example', ['akamai.components.message-box'])
+        
+                .controller('ExampleController', controllerFunction);
             </script>
         </div>
     </body>

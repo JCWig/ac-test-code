@@ -5,7 +5,7 @@
         <title>Akamai Components Examples - Modal Window</title>
         <link rel="stylesheet" href="../dist/akamai-core.min.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container">
              <div class="page-header">
                 <h1>Modal Window Component Example</h1>
@@ -48,9 +48,7 @@
         </div>
         <script src="../dist/akamai-core.min.js"></script>
         <script>
-            angular.module('example', ['akamai.components.modal-window'])
-
-            .controller('ExampleController', function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
+            var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
                 var modalScope = $rootScope.$new();
                 var times = 0;
 
@@ -124,9 +122,9 @@
                             $log.log('openWithTemplateUrl: Modal Window was cancelled.');
                         });
                 };
-            })
+            };
 
-            .controller('ModalController', function($scope, $q, $timeout) {
+            var modalController = function($scope, $q, $timeout) {
                 var times = 0;
 
                 $scope.setOnSubmit(function(){
@@ -156,7 +154,16 @@
                         $scope.disableSubmit();
                     }
                 };
-            });
+            };
+
+            exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
+            modalController.$inject = ['$scope', '$q', '$timeout']; 
+
+            angular.module('example', ['akamai.components.modal-window'])
+
+            .controller('ExampleController', exampleController)
+
+            .controller('ModalController', modalController);
         </script>
     </body>
 </html>

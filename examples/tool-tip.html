@@ -5,7 +5,7 @@
         <title>Akamai Component Examples - Tooltip</title>
         <link rel="stylesheet" href="../dist/akamai-core.min.css">
     </head>
-    <body ng-app="toolTipDemo" ng-controller="Ctrl" class="common-css luna">
+    <body ng-app="toolTipDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
         <div class="container">
             <h1>Tooltip Component Example</h1>
         </div>
@@ -142,8 +142,7 @@
     </div>
         <script src="../dist/akamai-core.min.js"></script>
         <script>
-        angular.module("toolTipDemo", ["akamai.components.tooltip"])
-        .controller("Ctrl", ["$scope", "$sce", function($scope, $sce) {
+        var ctrlFunction = function($scope, $sce) {
             
             $scope.btnFunction = function(){
                 console.log("Content Button was clicked");
@@ -171,7 +170,10 @@
                 '<span> CCPD (Central City Police Department) </span></div>');
             $scope.customData = $sce.trustAsHtml('<div class="tooltip-middle-content"><span style="color:green">Here is a little bit of text</span> <div class="tooltip-button-content"> <button>Click this button to do something</button></div>'+
                 '<div class="tooltip-button-content"><button onclick="btnFunction()">Click this button to do something else </button></div>');
-        }]);
+        };
+        ctrlFunction.$inject = ["$scope", "$sce"];
+        angular.module("toolTipDemo", ["akamai.components.tooltip"])
+        .controller("Ctrl",ctrlFunction);
     </script>
 </body>
 </html>
