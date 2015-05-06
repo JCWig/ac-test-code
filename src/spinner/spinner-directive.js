@@ -6,8 +6,6 @@ var angular = require('angular');
 module.exports = function($interval, uuid) {
   var defaults = {
     VALUE: 0,
-    MIN: '',
-    MAX: '',//??
     REQUIRED: false,
     KEY_DOWN: 40,
     KEY_UP: 38,
@@ -32,18 +30,7 @@ module.exports = function($interval, uuid) {
   return directive;
 
   function link(scope, element, attrs, ngModel) {
-
     var upMouseDownPromise, downMouseDownPromise;
-
-    scope.arrowKeysUpDown = function(event) {
-      if (event.keyCode === defaults.KEY_UP && !scope.isOverMax(false)) {
-        updateInput(+1);
-        stopIntrnalEvents(event);
-      }else if (event.keyCode === defaults.KEY_DOWN && !scope.isUnderMin(false)) {
-        updateInput(-1);
-        stopIntrnalEvents(event);
-      }
-    };
 
     scope.isUnderMin = function(strict) {
       var offset = strict ? 0 : 1;
@@ -103,11 +90,6 @@ module.exports = function($interval, uuid) {
       stopIntrnalEvents(event);
     };
 
-    scope.checkInput = function(value) {
-      scope.inputValue = getValidNumber(value);
-      return this;
-    };
-
     // when model change, cast to integer
     ngModel.$formatters.push(function(value) {
       scope.inputValue = getValidNumber(value);
@@ -130,10 +112,7 @@ module.exports = function($interval, uuid) {
     //validateInput();
 
     function initialize() {
-      scope.min = scope.min || defaults.MIN;
-      scope.max = scope.max || defaults.MAX;
       //scope.required = scope.$eval(scope.required) || defaults.REQUIRED;
-      scope.label = scope.label || '';
       scope.ngModel = ngModel.$viewValue || '';
       scope.disabled = scope.disabled === 'disabled' ? scope.disabled : defaults.DISABLED;
       scope.spinnerId = uuid.guid();

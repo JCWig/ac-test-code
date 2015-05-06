@@ -1,12 +1,12 @@
 <div class="akam-spinner">
-  <label for="{{spinnerId}}">{{label}}</label>
-  <input id="{{spinnerId}}" type="text" ng-required="required" ng-disabled="disabled" ng-keydown="arrowKeysUpDown($event)" ng-change="checkInput(inputValue)" ng-model="inputValue">
+  <label for="{{::spinnerId}}">{{::label}}</label>
+  <input id="{{::spinnerId}}" type="number" min="min" max="max" ng-required="required" ng-disabled="disabled" ng-model="inputValue">
   <div class="btn-group-vertical number-input">
-    <button class="btn" href="javascript:void(0)" ng-class="{'disabled': isOverMax() || disabled}" ng-disabled="isOverMax() || disabled" ng-mouseup="stopStepUp($event)" ng-mousedown="startStepUp($event)">
-      <i class="luna-arrow_smUp"></i>
+    <button class="btn" ng-disabled="(isOverMax() || disabled)?'disabled':''" ng-mouseup="stopStepUp($event)" ng-mousedown="startStepUp($event)">
+      <i class="luna-arrow_smUp icon-states" ng-disabled="isOverMax() || disabled"></i>
     </button>
-    <button class="btn" href="javascript:void(0)" ng-class="{'disabled': isUnderMin() || disabled}" ng-disabled="(isUnderMin() || disabled)?'disabled':''" ng-mouseup="stopStepDown($event)" ng-mousedown="startStepDown($event)">
-      <i class="luna-arrow_smDown"></i>
+    <button class="btn" ng-disabled="(isUnderMin() || disabled)?'disabled':''" ng-mouseup="stopStepDown($event)" ng-mousedown="startStepDown($event)">
+      <i class="luna-arrow_smDown icon-states" ng-disabled="isUnderMin() || disabled"></i>
     </button>
   </div>
 </div>

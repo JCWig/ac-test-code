@@ -23,18 +23,13 @@
     <input type="text" size="3" ng-model="vm.value">
     <br>
     <br>
-    <h4>Optional Values</h4>
-    Min value:
-    <input type="text" size="3" ng-model="vm.min">
-    Max value:
+    <h4>Optional Values</h4> Min value:
+    <input type="text" size="3" ng-model="vm.min"> Max value:
     <input type="text" size="3" ng-model="vm.max">
     <br>
-    <br>
-    Label Input:
-    <input type="text" ng-model="vm.label">
+    <br> Label Input: <span>{{vm.label}}</span>
     <br>
     <br>
-
     <button class="button" ng-click="vm.buttonClick()">{{vm.buttonName}}</button>
     <br>
     <br>
@@ -54,7 +49,8 @@
   function SpinnerController() {
     var vm = this;
     vm.value = '';
-    vm.requireLabel = false;
+    vm.min = '';
+    vm.max = '';
     vm.label = '';
     vm.disabled = '';
     vm.buttonName = 'ToDisableSpinner';

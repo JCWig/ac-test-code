@@ -9,65 +9,41 @@ Styleguide 8.0
 */
 
 $spinner-border-color: #cccccc;
-$spinner-background-color-disabled: #ffffff;
-$spinner-border-color-disabled: #eeeeee;
 $spinner-input-height: 28px;
-$spinner-input-background-color: #f4f4f4;
-$spinner-input-border-color-active: #0087b8;
 $spinner-button-hover-gradient-top: #cbcbcb;
 $spinner-button-hover-gradient-bottom: #f4f4f4;
+
 .akam-spinner {
   position: relative;
-  input {
-    padding-top: 2px;
-    padding-right: #{$input-border-radius * 3};
-    margin-right: #{$input-border-radius * 1};
-    -webkit-appearance: textfield;
-    outline: 0;
-    background: $spinner-input-background-color;
-    border-color: $spinner-border-color;
-    height: $spinner-input-height;
+  input[type=number] {
     @include border-right-radius(0);
+    @include appearance(textfield);
+
     &:disabled {
-      background: $spinner-background-color-disabled;
-      border-color: $spinner-border-color-disabled;
       color: $spinner-border-color;
       cursor: default;
     }
-    &:disabled ~ .btn {
-      background: $spinner-background-color-disabled;
-      border-color: $spinner-border-color-disabled;
-      color: $spinner-input-background-color;
-      cursor: default;
-    }
-    &:focus {
-      border-color: $spinner-input-border-color-active;
-    }
   }
+
+  input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+
   .btn-group-vertical.number-input {
     text-align: left;
+
     .btn {
-      min-width: 0;
-      margin-left: -#{$input-border-radius * 2};
+      min-width: 20px;
       height: $spinner-input-height/2;
-      //vertical-align: center;
-      //text-align: center;
       width: 60%;
       @include border-left-radius(0);
+
       &:hover {
         @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
-        i {
-          //new sprite for blue color
-        }
       }
-      &.disabled {
-        pointer-events: none;
-      }
-      &.disabled i.luna-arrow_smUp {
-        @include luna-sprite(arrow_smUp_disabled);
-      }
-      &.disabled i.luna-arrow_smDown {
-        @include luna-sprite(arrow_smDown_disabled);
+
+      &:disabled {
+        cursor: default;
       }
     }
   }
