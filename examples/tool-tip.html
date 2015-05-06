@@ -140,18 +140,18 @@
              <span style="color:red" akam-tooltip header="Header Text" position="left" trigger="hover" tooltip-content="{{testTextShort}}">Hover over here</span> </div>
         </div>
     </div>
-        <script type="text/javascript" src="../dist/akamai-core.min.js"></script>
-        <script type="text/javascript">
+        <script src="../dist/akamai-core.min.js"></script>
+        <script>
         angular.module("toolTipDemo", ["akamai.components.tooltip"])
         .controller("Ctrl", ["$scope", "$sce", function($scope, $sce) {
             
             $scope.btnFunction = function(){
                 console.log("Content Button was clicked");
-            }
+            };
             
             btnFunction = function(){
                 console.log("Button Function was executed");
-            }
+            };
             
             $scope.testText = "Lorem ipsum dolor sit amet, vestibulum et, ipsum vivamus ut vulputate quisque condimentum, lectus laoreet justo risus enim montes." +
             "Magna mi mus euismod, aliquam scelerisque nihil et dictum, volutpat sodales felis at. Ultricies non consectetuer.  " +
