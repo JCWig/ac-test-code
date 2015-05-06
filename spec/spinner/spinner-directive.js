@@ -57,11 +57,6 @@ describe('akamai.components.spinner', function() {
       expect(inputElem.value).toEqual('0');
     });
 
-    it('should verify initial input element has no "disabled" class', function() {
-      var inputElem = spinnerElem.querySelector('input');
-      expect(inputElem.classList.contains('disabled')).toBe(false);
-    })
-
     it('should verify initial label element value to be empty', function() {
       var labelElem = spinnerElem.querySelector('label');
       expect(labelElem.textContent).toBe('');
@@ -107,12 +102,6 @@ describe('akamai.components.spinner', function() {
     it('should verify input element correct value', function() {
       var inputElem = spinnerElem.querySelector('input');
       expect(inputElem.value).toEqual('2');
-    });
-
-    it('should verify button elements have disabled class', function() {
-      var buttonListNode = spinnerElem.querySelectorAll('button');
-      expect(buttonListNode[0].classList.contains(scope.testData.disabled)).toBe(true);
-      expect(buttonListNode[1].classList.contains(scope.testData.disabled)).toBe(true);
     });
 
     it('should verify label element correct value ', function() {
