@@ -34,6 +34,10 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
     }
   }
 
+  &::-ms-clear {
+    display: none;
+  }
+
   input[type=number]::-webkit-inner-spin-button {
       -webkit-appearance: none;
   }
