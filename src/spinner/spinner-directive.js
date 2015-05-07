@@ -4,13 +4,6 @@ var angular = require('angular');
 
 /* @ngInject */
 module.exports = function($interval, uuid) {
-  var defaults = {
-    VALUE: 0,
-    REQUIRED: false,
-    KEY_DOWN: 40,
-    KEY_UP: 38,
-    DISABLED: ''
-  };
 
   var directive = {
     require: 'ngModel',
@@ -31,6 +24,14 @@ module.exports = function($interval, uuid) {
 
   function link(scope, element, attrs, ngModel) {
     var upMouseDownPromise, downMouseDownPromise;
+
+    scope.isUpArrowDisabled = function() {
+      return scope.isOverMax() || scope.disabled === 'disabled' ? 'disabled' : '';
+    };
+
+    scope.isDownArrowDisabled = function() {
+      return scope.isUnderMin() || scope.disabled === 'disabled' ? 'disabled' : '';
+    };
 
     scope.isUnderMin = function(strict) {
       var offset = strict ? 0 : 1;
@@ -92,7 +93,9 @@ module.exports = function($interval, uuid) {
 
     // when model change, cast to integer
     ngModel.$formatters.push(function(value) {
-      scope.inputValue = getValidNumber(value);
+      if (validateInput(value)) {
+        scope.inputValue = parseInt(value, 10);
+      }
       return scope.inputValue;
     });
 
@@ -113,29 +116,38 @@ module.exports = function($interval, uuid) {
 
     function initialize() {
       //scope.required = scope.$eval(scope.required) || defaults.REQUIRED;
-      scope.ngModel = ngModel.$viewValue || '';
-      scope.disabled = scope.disabled === 'disabled' ? scope.disabled : defaults.DISABLED;
+      scope.ngModel = ngModel.$viewValue || 0;
+      scope.disabled = scope.disabled === 'disabled' ? scope.disabled : '';
       scope.spinnerId = uuid.guid();
+      scope.placeholder = '0';
 
       ngModel.$render();
     }
 
-    function getValidNumber(value) {
-      var num = parseInt(value, 10);
+    function validateInput(value) {
+      var valid = true,
+        num;
 
-      return isNaN(num) ? defaults.VALUE : num;
-    }
+      if (scope.disabled === 'disabled') {
+        return !valid;
+      }
 
-    function validateInput() {
       //it is not really do anything... yet
-      var valid = !(scope.isUnderMin(true) || scope.isOverMax(true));
+      valid = !(scope.isUnderMin(true) || scope.isOverMax(true));
 
       if (!valid) {
         ngModel.$setValidity('outOfBounds', valid);
+        return valid;
       }
+
+      valid = !isNaN(parseInt(value, 10));
+      return valid;
     }
 
     function updateInput(offset) {
+      if (!ngModel.$viewValue) {
+        ngModel.$setViewValue(0);
+      }
       ngModel.$setViewValue(ngModel.$viewValue + offset);
       ngModel.$render();
     }

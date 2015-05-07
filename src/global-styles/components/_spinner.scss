@@ -15,6 +15,14 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
 
 .akam-spinner {
   position: relative;
+  font-size: 0px;
+
+  label {
+    font-size: 12px;
+    padding-right: 10px;
+    vertical-align: middle;
+  }
+
   input[type=number] {
     @include border-right-radius(0);
     @include appearance(textfield);
@@ -31,6 +39,7 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
 
   .btn-group-vertical.number-input {
     text-align: left;
+    font-size: 0px;
 
     .btn {
       min-width: 20px;

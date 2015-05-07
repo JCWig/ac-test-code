@@ -23,10 +23,10 @@
     <input type="text" size="3" ng-model="vm.value">
     <br>
     <br>
-    <h4>Optional Values</h4> Min value:
-    <input type="text" size="3" ng-model="vm.min"> Max value:
-    <input type="text" size="3" ng-model="vm.max">
+    <h4>Optional Values</h4>
+    Min value: <span>{{vm.min}}</span>
     <br>
+    Max value: <span>{{vm.max}}</span>
     <br> Label Input: <span>{{vm.label}}</span>
     <br>
     <br>
@@ -34,7 +34,7 @@
     <br>
     <br>
     <div style="text-align: center;">
-      <akam-spinner min={{vm.min}} max={{vm.max}} label={{vm.label}} ng-model="vm.value" disabled={{vm.disabled}}>
+      <akam-spinner min={{::vm.min}} max={{::vm.max}} label={{::vm.label}} ng-model="vm.value" disabled={{::vm.disabled}}>
       </akam-spinner>
     </div>
   </form>
