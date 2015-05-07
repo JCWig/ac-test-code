@@ -98,11 +98,6 @@ describe('akamai.components.spinner', function() {
       var inputElem = spinnerElem.querySelector('input');
       expect(inputElem.value).toEqual('2');
     });
-
-    it('should verify label element correct value ', function() {
-      var labelElem = spinnerElem.querySelector('label');
-      expect(labelElem.textContent).toBe('my spinner');
-    });
   });
 
   describe('when rendered', function() {
