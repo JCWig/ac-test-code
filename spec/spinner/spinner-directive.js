@@ -52,11 +52,6 @@ describe('akamai.components.spinner', function() {
       removeElement();
     });
 
-    it('should verify initial input element value of 0', function() {
-      var inputElem = spinnerElem.querySelector('input');
-      expect(inputElem.value).toEqual('0');
-    });
-
     it('should verify initial label element value to be empty', function() {
       var labelElem = spinnerElem.querySelector('label');
       expect(labelElem.textContent).toBe('');

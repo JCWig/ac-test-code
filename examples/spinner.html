@@ -27,14 +27,13 @@
     Min value: <span>{{vm.min}}</span>
     <br>
     Max value: <span>{{vm.max}}</span>
-    <br> Label Input: <span>{{vm.label}}</span>
     <br>
     <br>
     <button class="button" ng-click="vm.buttonClick()">{{vm.buttonName}}</button>
     <br>
     <br>
     <div style="text-align: center;">
-      <akam-spinner min={{::vm.min}} max={{::vm.max}} label={{::vm.label}} ng-model="vm.value" disabled={{::vm.disabled}}>
+      <akam-spinner min={{::vm.min}} max={{::vm.max}} ng-model="vm.value" disabled={{vm.disabled}}>
       </akam-spinner>
     </div>
   </form>
@@ -49,9 +48,8 @@
   function SpinnerController() {
     var vm = this;
     vm.value = '';
-    vm.min = '';
-    vm.max = '';
-    vm.label = '';
+    vm.min = '0';
+    vm.max = '30';
     vm.disabled = '';
     vm.buttonName = 'ToDisableSpinner';
     vm.buttonClick = toggleButton;

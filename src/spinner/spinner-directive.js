@@ -25,6 +25,11 @@ module.exports = function($interval, uuid) {
   function link(scope, element, attrs, ngModel) {
     var upMouseDownPromise, downMouseDownPromise;
 
+    scope.stopStep = function() {
+      scope.stopStepUp();
+      scope.stopStepDown();
+    };
+
     scope.isUpArrowDisabled = function() {
       return scope.isOverMax() || scope.disabled === 'disabled' ? 'disabled' : '';
     };
@@ -125,8 +130,7 @@ module.exports = function($interval, uuid) {
     }
 
     function validateInput(value) {
-      var valid = true,
-        num;
+      var valid = true;
 
       if (scope.disabled === 'disabled') {
         return !valid;

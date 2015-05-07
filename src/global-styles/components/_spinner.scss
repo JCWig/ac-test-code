@@ -26,6 +26,7 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
   input[type=number] {
     @include border-right-radius(0);
     @include appearance(textfield);
+    width: 149px;//in Chrome, when applies min and max on this type of input, the width shrunk
 
     &:disabled {
       color: $spinner-border-color;
