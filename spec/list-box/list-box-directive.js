@@ -8,7 +8,7 @@ var TABLE_COLUMN_HEADER = '.akam-list-box thead tr th';
 var TABLE_ROW = 'div.data tbody tr';
 var SELECTED_SPAN = 'div.list-box-footer span.ng-binding';
 var VIEW_SELECTED_ONLY_CHECKBOX = 'div.list-box-footer span.util-pull-right input[type=checkbox]';
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
@@ -25,9 +25,11 @@ describe('akam-list-box', function() {
   var httpBackend = null;
   var sce;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/list-box').name);
     angular.mock.module(function($provide) {
+      /*@ngInject*/
       $provide.decorator('$http', function($delegate) {
         $http = $delegate;
         return $delegate;
@@ -307,7 +309,7 @@ describe('akam-list-box', function() {
       expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
     });
   });
-  /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED 
+  /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED
   describe('when data exceeds 10 items', function(){
     it('should display more items as scrolling takes place', function() {
       scope.jsonColumns = [

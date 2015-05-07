@@ -10,7 +10,7 @@
             }
         </style>
     </head>
-    <body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" class="common-css luna">
+    <body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
         <div class="container">
             <div class="page-header">
                 <h1>Indeterminate Progress Example</h1>
@@ -46,14 +46,17 @@
             <div class="container" id="largespinner">
                 <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" size="large" label="{{label}}"></akam-indeterminate-progress>
             </div>
-            <script type="text/javascript" src="../dist/akamai-core.js"></script>
+            <script src="../dist/akamai-core.js"></script>
             <script>
-                var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress"]);
-                
-                app.controller("Ctrl", ["$scope", function($scope) {
+
+                var controllerFunction = function($scope) {
                     $scope.completed = false;
                     $scope.failed = false;            
-                }]);       
+                };
+                controllerFunction.$inject = ["$scope"];
+                var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress"]);
+                
+                app.controller("Ctrl", controllerFunction);       
             </script>
         </div>
     </body>

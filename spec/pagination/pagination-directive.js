@@ -11,7 +11,7 @@ var translationMock = {
     }
   }
 };
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var PREVIOUS_BUTTON = '.pagination li:first-child';
 var NEXT_BUTTON = '.pagination li:last-child';
@@ -26,6 +26,7 @@ describe('akam-pagination directive', function() {
   var compile = null;
   var self = this;
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/pagination').name);
     angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
