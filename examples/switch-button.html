@@ -15,7 +15,7 @@
     </style>
 </head>
 
-<body class="common-css luna" ng-app="switchButtonApp" ng-controller="SwitchButtonController as vm">
+<body class="common-css luna" ng-app="switchButtonApp" ng-strict-di ng-controller="SwitchButtonController as vm">
 
     <h1>Switch Button Component Example</h1>
 
@@ -61,7 +61,6 @@
         angular.module('switchButtonApp', ['akamai.components.switch-button'])
             .controller('SwitchButtonController', SwitchButtonController);
 
-        /* @ngInject */
         function SwitchButtonController() {
             var vm = this;
 

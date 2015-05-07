@@ -12,12 +12,10 @@ module.exports = function() {
     OFF: 'Off'
   };
 
-  function setDefaultAttrsValues(scope) {
-    scope.size = scope.size !== c.small && scope.size !== c.MEDIUM ? c.SMALL : scope.size;
-    scope.theme = scope.theme === c.GRAYSCALE ? scope.theme : c.COLOR;
+  function setDefaultScopeValues(scope) {
     scope.onLabel = typeof scope.onLabel === 'string' ? scope.onLabel : c.ON;
     scope.offLabel = typeof scope.offLabel === 'string' ? scope.offLabel : c.OFF;
-    scope.disabled = scope.disabled === 'true' ? scope.disabled : 'false';
+    scope.disabled = scope.disabled === 'true' ? true : false;
   }
 
   return {
@@ -26,8 +24,6 @@ module.exports = function() {
     replace: true,
     scope: {
       on: '=ngModel',
-      size: '@?',
-      theme: '@?',
       disabled: '@?',
       onLabel: '@?',
       offLabel: '@?'
@@ -35,21 +31,15 @@ module.exports = function() {
     template: require('./templates/switch-button-directive.tpl.html'),
 
     link: function(scope, elem, attrs, ngModel) {
-      setDefaultAttrsValues(scope);
+      var size = (attrs.size !== c.SMALL && attrs.size !== c.MEDIUM) ? c.SMALL : attrs.size;
+      var theme = attrs.theme === c.GRAYSCALE ? attrs.theme : c.COLOR;
 
-      if (scope.size === c.MEDIUM) {
-        elem.addClass(c.MEDIUM);
-      } else {
-        elem.removeClass(c.MEDIUM);
-      }
+      setDefaultScopeValues(scope);
 
-      if (scope.theme === c.GRAYSCALE) {
-        elem.addClass(c.GRAYSCALE);
-      } else {
-        elem.removeClass(c.GRAYSCALE);
-      }
+      elem.toggleClass(c.MEDIUM, size === c.MEDIUM);
+      elem.toggleClass(c.GRAYSCALE, theme === c.GRAYSCALE);
 
-      if (scope.disabled === 'false') {
+      if (scope.disabled === false) {
         elem.on('click', function() {
           ngModel.$setViewValue(!ngModel.$viewValue);
         });
