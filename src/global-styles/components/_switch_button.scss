@@ -1,8 +1,7 @@
-
-
+$enabled-border: 1px solid #999;
+$disabled-border: 1px solid #e6e6e6;
 
 .switch-button {
-
   min-width: 90px;
   display: inline-block;
   cursor: pointer;
@@ -10,12 +9,10 @@
   line-height: 8px;
   overflow: hidden;
   border-radius: $border-radius;
-  border: 1px solid #999;
+  border: $enabled-border;
 
-
-  & div:first-child {
-    width: 150%;
-
+  & .switch-button-container {
+    width: 152%;
     font-size: 0;
     border-radius: $border-radius;
     transition: margin-left 150ms ease-in-out;
@@ -44,30 +41,28 @@
         border-right: 1px solid #fff;
         margin-right: 1px;
       }
-
     }
-
 
     & span:first-child {
       color: #fff;
-      background-color: #999;
+      background-color: #7aaa60;
     }
 
     & span:last-child {
-      color: #666;
-      background-image: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
+      color: #fff;
+      background-color: #a32d2d;
     }
   }
 
   &.switch-button-on {
 
-    & div:first-child {
+    & .switch-button-container {
       margin-left: 0;
-      border-right: 1px solid #999;
+      border-right: $enabled-border;
 
       label {
         border-radius: 0 3px 3px 0;
-        border-left: 1px solid #999;
+        border-left: $enabled-border;
       }
     }
 
@@ -75,17 +70,77 @@
 
   &.switch-button-off {
 
-    & div:first-child {
-      margin-left: -50%;
+    & .switch-button-container {
+      margin-left: -51%;
 
       label {
         border-radius: 3px 0 0 3px;
-        border-right: 1px solid #999;
+        border-right: $enabled-border;
+      }
+    }
+  }
+
+  &.medium {
+    & .switch-button-container {
+      & > * {
+        line-height: 20px;
+      }
+    }
+  }
+
+  &.grayscale {
+    & .switch-button-container {
+      & span:first-child {
+        background-color: #999;
+      }
+
+      & span:last-child {
+        color: #666;
+        background-image: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
+      }
+    }
+  }
+
+  &.disabled {
+    border: $disabled-border;
+    cursor: default;
+
+    & .switch-button-container {
+      border-right: $disabled-border;
+
+      & > span {
+        background-color: #fff;
+        background-image: none;
+        color: #e6e6e6;
+      }
+
+      & > label {
+        cursor: default;
+
+        & > span {
+          border-left: 1px solid #e6e6e6;
+          border-right: 1px solid #fff;
+          margin-right: 1px;
+        }
       }
     }
 
+    &.switch-button-on {
+      & .switch-button-container {
+        label {
+          border-left: $disabled-border;
+        }
+      }
+    }
+
+    &.switch-button-off {
+      & .switch-button-container {
+        label {
+          border-right: $disabled-border;
+        }
+      }
+    }
 
   }
-
 
 }

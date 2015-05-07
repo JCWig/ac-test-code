@@ -4,43 +4,76 @@
     <meta charset="UTF-8">
     <title>Akamai Component Examples - Switch Button</title>
     <link rel="stylesheet" href="../dist/akamai-core.css">
-    <script type="text/javascript" src="../dist/akamai-core.js"></script>
+
+    <style>
+        div h2:first-child {
+            margin-bottom:10px;
+        }
+        body.luna > h1 {
+            margin-bottom:20px;
+        }
+    </style>
 </head>
 
-<body class="common-css luna">
+<body class="common-css luna" ng-app="switchButtonApp" ng-controller="SwitchButtonController as vm">
 
-<div class="container">
     <h1>Switch Button Component Example</h1>
-    <br/>
-    <div class="switch-button switch-button-on" id="theSwitch">
-        <div>
-            <span>On</span>
-            <label>
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-            <span>Off</span>
-        </div>
+
+    <div>
+        <h2>Default switch</h2>
+        <akam-switch-button ng-model="vm.ex1.on"></akam-switch-button>
     </div>
-</div>
+    <br/>
 
+    <div>
+        <h2>Custom Labels</h2>
+        <akam-switch-button ng-model="vm.ex2.on" on-label="Allow" off-label="Deny"></akam-switch-button>
+    </div>
+    <br/>
 
-<script>
+    <div>
+        <h2>Medium size</h2>
+        <akam-switch-button ng-model="vm.ex3.on" size="medium"></akam-switch-button>
+    </div>
+    <br/>
 
-    var elem = document.getElementById('theSwitch');
-    elem.onclick = function () {
-        if (this.className.indexOf('off') === -1) {
-            this.className = 'switch-button switch-button-off';
+    <div>
+        <h2>Grayscale: small</h2>
+        <akam-switch-button ng-model="vm.ex4.on" theme="grayscale"></akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Grayscale: medium</h2>
+        <akam-switch-button ng-model="vm.ex5.on" theme="grayscale" size="medium"></akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Disabled</h2>
+        <akam-switch-button ng-model="vm.ex6.on" disabled="true"></akam-switch-button>
+    </div>
+
+    <script src="../dist/akamai-core.js"></script>
+
+    <script>
+
+        angular.module('switchButtonApp', ['akamai.components.switch-button'])
+            .controller('SwitchButtonController', SwitchButtonController);
+
+        /* @ngInject */
+        function SwitchButtonController() {
+            var vm = this;
+
+            vm.ex1 = { on: true };
+            vm.ex2 = { on: false };
+            vm.ex3 = { on: true };
+            vm.ex4 = { on: false };
+            vm.ex5 = { on: true };
+            vm.ex6 = { on: false };
         }
-        else {
-            this.className = 'switch-button switch-button-on';
-        }
-    };
 
-
-</script>
-
+    </script>
 
 </body>
 </html>
