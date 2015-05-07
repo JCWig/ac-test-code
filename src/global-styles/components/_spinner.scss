@@ -41,14 +41,23 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
   .btn-group-vertical.number-input {
     text-align: left;
     font-size: 0px;
+    height: 28px;
 
     .btn {
       min-width: 20px;
       height: $spinner-input-height/2;
       width: auto;
-      border-left-width: 0px;
+      border-left-width: 0;
       display: block;
       @include border-left-radius(0);
+
+      & + .btn {
+        margin-top: 0;
+      }
+
+      &:first-child {
+        border-bottom-width: 0;
+      }
 
       i {
         height: 14px;
