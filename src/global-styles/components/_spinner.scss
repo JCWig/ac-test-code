@@ -45,8 +45,32 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
     .btn {
       min-width: 20px;
       height: $spinner-input-height/2;
-      width: 60%;
+      width: auto;
+      border-left-width: 0px;
+      display: block;
       @include border-left-radius(0);
+
+      i {
+        height: 14px;
+
+        &.luna-arrow_smDown {
+          background-position:sprite-position($luna-sprites, arrow_smDown, 0, -1);
+          &:hover {
+            background-position:sprite-position($luna-sprites, arrow_smDown_hover, 0, -1);
+          }
+        }
+
+        &.luna-arrow_smUp {
+          background-position:sprite-position($luna-sprites, arrow_smUp, 0, -1);
+          &:hover {
+            background-position:sprite-position($luna-sprites, arrow_smUp_hover, 0, -1);
+          }
+        }
+
+
+        //luna-arrow_smDown
+        //background-position:
+      }
 
       &:hover {
         @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
