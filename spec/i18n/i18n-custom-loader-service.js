@@ -1,6 +1,6 @@
 'use strict';
 var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json';
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var SECOND_INTERNATIONALIZATION_PATH = '/random/path/that/doesnt/exist/';
 var SECOND_INTERNATIONALIZATION_JSON_PATH = SECOND_INTERNATIONALIZATION_PATH + 'en_US.json';
 describe('i18nCustomLoader service', function() {
@@ -9,8 +9,9 @@ describe('i18nCustomLoader service', function() {
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function(i18nTokenProvider) {
+    angular.mock.module(/*@ngInject*/function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
     angular.mock.module(function($provide, $translateProvider) {

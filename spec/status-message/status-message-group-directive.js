@@ -8,6 +8,7 @@ describe('akamai.components.status-message-group', function() {
   var timeout = null;
   var self = null;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
 
     angular.mock.module(require('../../src/status-message').name);

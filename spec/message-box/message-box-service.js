@@ -1,6 +1,6 @@
 'use strict';
 var utilities = require('../utilities');
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PATH = '../../_appen_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
@@ -15,10 +15,11 @@ describe('messageBox service', function() {
     }
   };
   beforeEach(function() {
+    inject.strictDi(true);
     var self = this;
 
     angular.mock.module(require('../../src/message-box').name);
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $provide.factory('i18nCustomLoader', function($q, $timeout) {
         return function(options) {
           var deferred = $q.defer();

@@ -23,7 +23,7 @@ var PAGE_SIZE_NTH = 'div.akam-pagination .page-size li:nth-child';
 var PAGE_SIZES = 'div.akam-pagination .page-size li';
 
 //i18n Requirements
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
@@ -37,6 +37,7 @@ describe('akam-data-table', function() {
   var httpBackend = null;
   var http = null;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/data-table').name);
     angular.mock.module(function($provide, $translateProvider, $sceProvider) {

@@ -11,6 +11,7 @@ describe('akam-indeterminate-progress', function() {
   var self = this;
 
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/indeterminate-progress').name);
     inject(function($compile, $rootScope) {

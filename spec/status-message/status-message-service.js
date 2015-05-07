@@ -7,6 +7,7 @@ var STATUS_MESSAGE_CONTENT = '.status-message-content';
 var CLOSE_ICON = 'i.close';
 describe('akamai.components.status-message-service', function() {
   beforeEach(function() {
+    inject.strictDi(true);
     var self = this;
     angular.mock.module(require('../../src/status-message').name);
     angular.mock.module(function($controllerProvider) {
