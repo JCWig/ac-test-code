@@ -34,6 +34,7 @@
     "browser-sync": "^2.6.5",
     "browserify": "^9.0.8",
     "browserify-istanbul": "^0.2.1",
+    "browserify-ngannotate": "^0.7.2",
     "browserify-shim": "^3.8.5",
     "del": "^1.1.1",
     "event-stream": "^3.3.0",

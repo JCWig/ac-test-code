@@ -4,9 +4,10 @@ describe('akam-modal-window-body directive', function() {
   var compile = null;
   var self = this;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/modal-window').name);
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $provide.factory('i18nCustomLoader', function($q, $timeout) {
         return function(options) {
           var deferred = $q.defer();
@@ -18,11 +19,18 @@ describe('akam-modal-window-body directive', function() {
       });
       $translateProvider.useLoader('i18nCustomLoader');
     });
-    inject(function($compile, $rootScope, $httpBackend) {
+    inject(function($compile, $rootScope, $httpBackend, $http, $templateCache, $q, $modal, translate, statusMessage, i18nConfig ) {
       self.$httpBackend = $httpBackend;
       self.scope = $rootScope.$new();
       self.scope.modalWindow = {};
       self.scope.name = 'Akamai';
+      self.http = $http;
+      self.templateCache = $templateCache;
+      self.q = $q;
+      self.translate = translate;
+      self.modal = $modal;
+      self.statusMessage = statusMessage;
+      self.i18nConfig = i18nConfig;
       compile = $compile;
     });
   });
