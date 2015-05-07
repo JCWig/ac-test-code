@@ -13,9 +13,7 @@ module.exports = function($interval, uuid) {
     scope: {
       min: '@?',
       max: '@?',
-      label: '@?',
       disabled: '@?',
-      //required: '@?',
       inputValue: '=ngModel'
     }
   };
@@ -24,11 +22,6 @@ module.exports = function($interval, uuid) {
 
   function link(scope, element, attrs, ngModel) {
     var upMouseDownPromise, downMouseDownPromise;
-
-    scope.stopStep = function() {
-      scope.stopStepUp();
-      scope.stopStepDown();
-    };
 
     scope.isUpArrowDisabled = function() {
       return scope.isOverMax() || scope.disabled === 'disabled' ? 'disabled' : '';
@@ -117,10 +110,8 @@ module.exports = function($interval, uuid) {
     //just in case ngModel is not defined, then the code won't break
     ngModel = ngModel || {$setViewValue: angular.noop};
     initialize();
-    //validateInput();
 
     function initialize() {
-      //scope.required = scope.$eval(scope.required) || defaults.REQUIRED;
       scope.ngModel = ngModel.$viewValue || 0;
       scope.disabled = scope.disabled === 'disabled' ? scope.disabled : '';
       scope.spinnerId = uuid.guid();
