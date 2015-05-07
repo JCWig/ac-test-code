@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Akamai Component Examples</title>
-        <link rel="stylesheet" href="../dist/akamai-core.min.css">
+        <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
     <body ng-app="statusMessageDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
         <div class="container">
@@ -46,7 +46,7 @@
                 <button class="btn" ng-click="showStatus()">Show Status Message</button>
             </form>
         </div>
-        <script src="../dist/akamai-core.min.js"></script>
+        <script src="../dist/akamai-core.js"></script>
         <script>
             var ctrlFunction = function($scope, statusMessage) {
                 $scope.messageTimeout = 3000; //Default time is 2000 (2s), 0 = manual close

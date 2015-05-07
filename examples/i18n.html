@@ -94,7 +94,7 @@
                 <label class=label>Check browser console for Javascript translations examples using the translate service.</label>
             </div>
         </div>
-        <script src="../dist/akamai-core.min.js"></script>
+        <script src="../dist/akamai-core.js"></script>
         <script>
 
             var controllerFunction = function(i18nToken, $scope, $cookies, translate, $rootScope, $filter, $log) {
@@ -131,7 +131,7 @@
                 i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
             };
             configFunction.$inject = ['i18nTokenProvider'];
-            controllerFunction.$inject = ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log',];
+            controllerFunction.$inject = ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log'];
             
             angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
 

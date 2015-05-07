@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Akamai Component Examples - List Box</title>
-        <link rel="stylesheet" href="../dist/akamai-core.min.css">
+        <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container">
@@ -68,7 +68,7 @@
             <akam-list-box data="failThenLoadData" schema="columns" selected-items="selectedItems4">
             </akam-list-box>
         </div>
-        <script src="../dist/akamai-core.min.js"></script>
+        <script src="../dist/akamai-core.js"></script>
         <script>
             var fullName;
             var BASE_DATA = [
@@ -168,7 +168,7 @@
                 
                 $timeout(function(){
                     failedDeferred.reject();
-                }, 2000)
+                }, 2000);
 
                 $timeout(function(){
                     var newDeferred = $q.defer();
@@ -313,7 +313,7 @@
             var configFunction = function($translateProvider) {
                 $translateProvider.useMissingTranslationHandler('noop');
             };
-            configFunction.$inject = '$translateProvider';
+            configFunction.$inject = ['$translateProvider'];
             controllerFunction.$inject = ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce"];
             
             angular.module('example', ['akamai.components.list-box', 'akamai.components.i18n'])
