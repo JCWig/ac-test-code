@@ -59,7 +59,8 @@
     <script>
 
         angular.module('switchButtonApp', ['akamai.components.switch-button'])
-            .controller('SwitchButtonController', SwitchButtonController);
+            .controller('SwitchButtonController', SwitchButtonController)
+            .config(configFunction);
 
         function SwitchButtonController() {
             var vm = this;
@@ -70,6 +71,11 @@
             vm.ex4 = { on: false };
             vm.ex5 = { on: true };
             vm.ex6 = { on: false };
+        }
+
+        configFunction.$inject = ['i18nTokenProvider'];
+        function configFunction (i18nTokenProvider) {
+            i18nTokenProvider.setComponentLocalePath("../dist/locales/");
         }
 
     </script>
