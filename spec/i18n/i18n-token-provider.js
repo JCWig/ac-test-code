@@ -10,6 +10,7 @@ describe('i18nTokenProvider', function() {
   var provider, config, cook, i18nConfig, location, i18nToken;
 
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
@@ -80,8 +81,9 @@ describe('i18nToken service', function() {
 
   var service, cookies, rootScope, provider, location, config, log;
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
       provider = i18nTokenProvider;
       $translateProvider.useLoader('i18nCustomLoader');
       $provide.decorator('$cookies', function($delegate) {
@@ -199,8 +201,9 @@ describe('locale cookie set to "de_DE', function() {
   var service, cookies, rootScope;
 
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {AKALOCALE: "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
         return $delegate;
@@ -234,11 +237,12 @@ describe('locale cookie set to cookie without translation file', function() {
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {AKALOCALE: "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
@@ -275,11 +279,12 @@ describe('locale cookie set to invalid cookie', function() {
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {AKALOCALE: "TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
@@ -319,7 +324,7 @@ describe('locale cookie set to zn_CN will not properly encode', function() {
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
-        angular.mock.module(function($provide, $translateProvider) {
+        angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
             $provide.decorator ('$cookies', function ($delegate) {
                 $delegate = {AKALOCALE:"emhfQ04=+TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
@@ -367,7 +372,7 @@ describe('locale cookie already decoded', function() {
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {AKALOCALE: "zh_CN>MQjIBMmtQk/U82yZ8IxKBvE1bfQWUtDA8rzMpRH38PT4aqp+scxLwT12qV+gGxd5fYGbnfo="};

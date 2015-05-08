@@ -7,6 +7,7 @@ describe('akamai-core.highlight', function() {
   var filter = null;
   var self = this;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/highlight').name);
     inject(function($compile, $rootScope, $timeout, $filter) {

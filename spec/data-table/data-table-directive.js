@@ -37,6 +37,7 @@ describe('akam-data-table', function() {
   var httpBackend = null;
   var http = null;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/data-table').name);
     angular.mock.module(function($provide, $translateProvider, $sceProvider) {
