@@ -19,7 +19,6 @@ describe('akamai.components.spinner', function() {
       value: "",
       min: 0,
       max: 50,
-      label: 'my spinner',
       disabled: 'disabled'
     };
   });
@@ -52,11 +51,6 @@ describe('akamai.components.spinner', function() {
       removeElement();
     });
 
-    it('should verify initial label element value to be empty', function() {
-      var labelElem = spinnerElem.querySelector('label');
-      expect(labelElem.textContent).toBe('');
-    });
-
     it('should verify two button elements', function() {
       var buttonListNode = spinnerElem.querySelectorAll('button');
       expect(buttonListNode.length).toEqual(2);
@@ -79,12 +73,11 @@ describe('akamai.components.spinner', function() {
   describe('when rendering directive with options values', function() {
     var spinnerElem;
     beforeEach(function() { //Will run after the overall beforeEach but before each it statement in this describe block
-      var markup = '<akam-spinner ng-model="value" min="min" max="max" label="{{label}}" disabled="{{disabled}}"></akam-spinner>';
+      var markup = '<akam-spinner ng-model="value" min="min" max="max"  disabled="disabled"></akam-spinner>';
       scope.value = 2;
       scope.min = scope.testData.min;
       scope.max = scope.testData.max;
       scope.disabled = scope.testData.disabled;
-      scope.label = scope.testData.label;
 
       addElement(markup);
       spinnerElem = document.querySelector('.akam-spinner');

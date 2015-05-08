@@ -142,7 +142,7 @@ module.exports = function($interval, $log, uuid) {
       //check if value is number or not
       valid = !isNaN(value);
       if (!valid) {
-        $log.warn("Input is Invalid.");
+        $log.warn('Input is Invalid.');
         scope.ngModel = INITIAL_VALUE;
         //ngModelController.$setValidity('input', valid);
         return valid;
@@ -152,7 +152,7 @@ module.exports = function($interval, $log, uuid) {
       valid = !scope.isUnderMin(true);
       if (!valid) {
         //ngModelController.$setValidity('outOfBounds', valid);
-        $log.warn("Input is under min value.");
+        $log.warn('Input is under min value.');
         scope.ngModel = parseInt(scope.min, 10);
         return valid;
       }
@@ -161,7 +161,7 @@ module.exports = function($interval, $log, uuid) {
       valid = !scope.isOverMax(true);
       if (!valid) {
         //ngModelController.$setValidity('outOfBounds', valid);
-        $log.warn("Input is over max value.");
+        $log.warn('Input is over max value.');
         scope.ngModel = parseInt(scope.max, 10);
         return valid;
       }
