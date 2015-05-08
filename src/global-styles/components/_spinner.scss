@@ -28,10 +28,14 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
       color: $spinner-border-color;
       cursor: default;
     }
-  }
 
-  &::-ms-clear {
-    display: none;
+    &::-ms-clear {
+      display: none;
+    }
+
+    &.hasMax {
+      width: 0;
+    }
   }
 
   input[type=number]::-webkit-inner-spin-button {
@@ -41,7 +45,7 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
   .btn-group-vertical.number-input {
     text-align: left;
     font-size: 0px;
-    height: 28px;
+    height: $spinner-input-height;
 
     .btn {
       min-width: 20px;
@@ -64,17 +68,19 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
       i {
         height: 14px;
 
-        &.luna-arrow_smDown_spinner_box {
-          background-position:sprite-position($luna-sprites, arrow_smDown_spinner_box, 0, 2);
+        &.luna-arrow_extra_smDown {
+          background-position:sprite-position($luna-sprites, arrow_extra_smDown, 0, 2);
           &[disabled] {
-            background-position:sprite-position($luna-sprites, arrow_smDown_disabled_spinner_box, 0, 2) !important;
+            background-position:sprite-position($luna-sprites, arrow_extra_smDown_disabled, 0, 2) !important;
+            border-color: $spinner-border-color;
           }
         }
 
-        &.luna-arrow_smUp_spinner_box {
-          background-position:sprite-position($luna-sprites, arrow_smUp_spinner_box, 0, 3);
+        &.luna-arrow_extra_smUp {
+          background-position:sprite-position($luna-sprites, arrow_extra_smUp, 0, 3);
           &[disabled] {
-            background-position:sprite-position($luna-sprites, arrow_smUp_disabled_spinner_box, 0, 3) !important;
+            background-position:sprite-position($luna-sprites, arrow_extra_smUp_disabled, 0, 3) !important;
+            border-color: $spinner-border-color;
           }
         }
       }

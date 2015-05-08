@@ -106,7 +106,7 @@ module.exports = function($interval, $log, uuid) {
       //validateInput(scope.ngModel);
     };
 
-    //just in case ngModelController is not defined, then the code won't break
+    //ngModelController has to be defined
     if (!ngModelController) {
       return;
     }
@@ -123,8 +123,7 @@ module.exports = function($interval, $log, uuid) {
       if (scope.max) {
         maxlength = scope.max.length;
         scope.dynamicMinWidth = {
-          'min-width': 'calc(' + maxlength + 'em + 10px)',
-          width: 0
+          'min-width': 'calc(' + maxlength + 'em + 10px)'
         };
       }
       ngModelController.$render();

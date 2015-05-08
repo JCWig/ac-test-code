@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../dist/akamai-core.css">
 </head>
 
-<body class="common-css luna" ng-app="spinner" ng-controller="SpinnerController as vm">
+<body class="common-css luna" ng-app="spinner" ng-strict-di ng-controller="SpinnerController as vm">
 <div class="container">
   <form name="form">
     <h4>Watch form controller values change</h4>
@@ -41,7 +41,7 @@
     </div>
   </form>
 </div>
-  <script src="../dist/akamai-core.js"></script>
+  <script src="../dist/akamai-core.min.js"></script>
   <script>
   angular.module('spinner', ['akamai.components.spinner']);
 
