@@ -8,10 +8,13 @@ Styleguide 8.0
 
 */
 
-$spinner-border-color: #cccccc;
 $spinner-input-height: 28px;
-$spinner-button-hover-gradient-top: #cbcbcb;
-$spinner-button-hover-gradient-bottom: #f4f4f4;
+$spinner-border-color: #cccccc;
+$spinner-button-hover-gradient-bottom: #e6e6e6;
+$spinner-button-hover-gradient-top: #ffffff;
+$spinner-border-color-hover: #999999;
+$spinner-button-hover-gradient-bottom-hover: #c8c8c8;
+$spinner-button-hover-gradient-top-hover: #f4f4f4;
 
 .akam-spinner {
   position: relative;
@@ -26,7 +29,6 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
   input[type=number] {
     @include border-right-radius(0);
     @include appearance(textfield);
-    width: 149px;//in Chrome, when applies min and max on this type of input, the width shrunk
 
     &:disabled {
       color: $spinner-border-color;
@@ -54,6 +56,8 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
       border-left-width: 0;
       display: block;
       @include border-left-radius(0);
+      @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
+      border-color: $spinner-border-color;
 
       & + .btn {
         margin-top: 0;
@@ -79,16 +83,11 @@ $spinner-button-hover-gradient-bottom: #f4f4f4;
             background-position:sprite-position($luna-sprites, arrow_smUp_disabled, 0, -1) !important;
           }
         }
-
-
       }
 
       &:hover {
-        @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
-      }
-
-      &:disabled {
-        cursor: default;
+        @include background-image(linear-gradient($spinner-button-hover-gradient-top-hover, $spinner-button-hover-gradient-bottom-hover));
+        border-color: $spinner-border-color-hover;
       }
     }
   }

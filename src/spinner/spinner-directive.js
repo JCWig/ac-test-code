@@ -108,14 +108,28 @@ module.exports = function($interval, uuid) {
     };
 
     //just in case ngModel is not defined, then the code won't break
-    ngModel = ngModel || {$setViewValue: angular.noop};
+    if (!ngModel) {
+      return;
+    }
+
     initialize();
 
     function initialize() {
+      var maxlength = scope.max.length;
+
       scope.ngModel = ngModel.$viewValue || 0;
       scope.disabled = scope.disabled === 'disabled' ? scope.disabled : '';
       scope.spinnerId = uuid.guid();
       scope.placeholder = '0';
+
+      scope.dynamicMinWidth = {};
+
+      if (scope.max) {
+        scope.dynamicMinWidth = {
+          'min-width': 'calc(' + maxlength + 'em + 10px)',
+          width: 0
+        };
+      }
 
       ngModel.$render();
     }
@@ -145,6 +159,7 @@ module.exports = function($interval, uuid) {
       }
       ngModel.$setViewValue(ngModel.$viewValue + offset);
       ngModel.$render();
+      ngModel.$setTouched();
     }
 
     function stopIntrnalEvents(event) {
