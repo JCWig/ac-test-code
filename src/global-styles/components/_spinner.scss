@@ -20,12 +20,6 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
   position: relative;
   font-size: 0px;
 
-  label {
-    font-size: 12px;
-    padding-right: 10px;
-    vertical-align: middle;
-  }
-
   input[type=number] {
     @include border-right-radius(0);
     @include appearance(textfield);

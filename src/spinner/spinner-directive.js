@@ -115,7 +115,7 @@ module.exports = function($interval, uuid) {
     initialize();
 
     function initialize() {
-      var maxlength = scope.max.length;
+      var maxlength;
 
       scope.ngModel = ngModel.$viewValue || 0;
       scope.disabled = scope.disabled === 'disabled' ? scope.disabled : '';
@@ -125,6 +125,7 @@ module.exports = function($interval, uuid) {
       scope.dynamicMinWidth = {};
 
       if (scope.max) {
+        maxlength = scope.max.length;
         scope.dynamicMinWidth = {
           'min-width': 'calc(' + maxlength + 'em + 10px)',
           width: 0
