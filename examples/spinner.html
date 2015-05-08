@@ -8,6 +8,7 @@
 </head>
 
 <body class="common-css luna" ng-app="spinner" ng-controller="SpinnerController as vm">
+<div class="container">
   <form name="form">
     <h4>Watch form controller values change</h4>
     <ul>
@@ -20,9 +21,11 @@
     </ul>
     <br>
     <h4>Plain Vanilla</h4> Model value :
-    <input type="text" size="3" ng-model="vm.value">
+    <input type="text" size="3" ng-change="vm.inputChanged()" ng-model="vm.input">
     <br>
     <br>
+    <h4>Input Value</h4>
+    value: <span>{{vm.value}}</span>
     <h4>Optional Values</h4>
     Min value: <span>{{vm.min}}</span>
     <br>
@@ -37,6 +40,7 @@
       </akam-spinner>
     </div>
   </form>
+</div>
   <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('spinner', ['akamai.components.spinner']);
@@ -47,12 +51,13 @@
 
   function SpinnerController() {
     var vm = this;
-    vm.value = '';
+    vm.value = "";
     vm.min = '0';
     vm.max = '30';
     vm.disabled = '';//disabled if want to disable input and buttons
     vm.buttonName = 'ToDisableSpinner';
     vm.buttonClick = toggleButton;
+    vm.inputChanged = inputChanged;
 
     function toggleButton() {
       vm.buttonName = vm.buttonName === 'ToDisableSpinner' ? 'ToEnableSpinner' : 'ToDisableSpinner';
@@ -61,6 +66,10 @@
       } else {
         vm.disabled = '';
       }
+    }
+
+    function inputChanged() {
+      vm.value = parseInt(vm.input);
     }
   }
   </script>

@@ -3,9 +3,10 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function($interval, uuid) {
+module.exports = function($interval, $log, uuid) {
 
-  var directive = {
+  var INITIAL_VALUE = 0,
+    directive = {
     require: 'ngModel',
     restrict: 'E',
     template: require('./templates/spinner.tpl.html'),
@@ -14,13 +15,13 @@ module.exports = function($interval, uuid) {
       min: '@?',
       max: '@?',
       disabled: '@?',
-      inputValue: '=ngModel'
+      ngModel: '='
     }
   };
 
   return directive;
 
-  function link(scope, element, attrs, ngModel) {
+  function link(scope, element, attrs, ngModelController) {
     var upMouseDownPromise, downMouseDownPromise;
 
     scope.isUpArrowDisabled = function() {
@@ -34,16 +35,17 @@ module.exports = function($interval, uuid) {
     scope.isUnderMin = function(strict) {
       var offset = strict ? 0 : 1;
 
-      return scope.min && ngModel.$viewValue - offset < parseInt(scope.min, 10);
+      return scope.min && scope.ngModel - offset < parseInt(scope.min, 10);
     };
 
     scope.isOverMax = function(strict) {
       var offset = strict ? 0 : 1;
 
-      return scope.max && ngModel.$viewValue + offset > parseInt(scope.max, 10);
+      return scope.max && scope.ngModel + offset > parseInt(scope.max, 10);
     };
 
     scope.startStepUp = function(event) {
+      stopIntrnalEvents(event);
       if (angular.isDefined(upMouseDownPromise)) {
         return;
       }
@@ -55,18 +57,18 @@ module.exports = function($interval, uuid) {
           updateInput(+1);
         }
       }, 80);
-      stopIntrnalEvents(event);
     };
 
     scope.stopStepUp = function(event) {
+      stopIntrnalEvents(event);
       if (angular.isDefined(upMouseDownPromise)) {
         $interval.cancel(upMouseDownPromise);
         upMouseDownPromise = undefined;
       }
-      stopIntrnalEvents(event);
     };
 
     scope.startStepDown = function(event) {
+      stopIntrnalEvents(event);
       if (angular.isDefined(downMouseDownPromise)) {
         return;
       }
@@ -78,37 +80,34 @@ module.exports = function($interval, uuid) {
           updateInput(-1);
         }
       }, 80);
-      stopIntrnalEvents(event);
     };
 
     scope.stopStepDown = function(event) {
+      stopIntrnalEvents(event);
       if (angular.isDefined(downMouseDownPromise)) {
         $interval.cancel(downMouseDownPromise);
         downMouseDownPromise = undefined;
       }
-      stopIntrnalEvents(event);
     };
 
-    // when model change, cast to integer
-    ngModel.$formatters.push(function(value) {
-      if (validateInput(value)) {
-        scope.inputValue = parseInt(value, 10);
-      }
-      return scope.inputValue;
-    });
-
-    // when view change, cast to integer
-    ngModel.$parsers.push(function(value) {
+    // when model change, parse to integer, this sets up to the ngModelController
+    ngModelController.$formatters.push(function(value) {
+      validateInput(value);
       return parseInt(value, 10);
     });
 
-    ngModel.$render = function() {
-      validateInput();
-      return this;
+    // when view change, parse to integer, this sets up to the ngModelController
+    ngModelController.$parsers.push(function(value) {
+      validateInput(value);
+      return parseInt(value, 10);
+    });
+
+    ngModelController.$render = function() {
+      //validateInput(scope.ngModel);
     };
 
-    //just in case ngModel is not defined, then the code won't break
-    if (!ngModel) {
+    //just in case ngModelController is not defined, then the code won't break
+    if (!ngModelController) {
       return;
     }
 
@@ -117,13 +116,10 @@ module.exports = function($interval, uuid) {
     function initialize() {
       var maxlength;
 
-      scope.ngModel = ngModel.$viewValue || 0;
       scope.disabled = scope.disabled === 'disabled' ? scope.disabled : '';
       scope.spinnerId = uuid.guid();
-      scope.placeholder = '0';
 
       scope.dynamicMinWidth = {};
-
       if (scope.max) {
         maxlength = scope.max.length;
         scope.dynamicMinWidth = {
@@ -131,8 +127,7 @@ module.exports = function($interval, uuid) {
           width: 0
         };
       }
-
-      ngModel.$render();
+      ngModelController.$render();
     }
 
     function validateInput(value) {
@@ -142,25 +137,41 @@ module.exports = function($interval, uuid) {
         return !valid;
       }
 
-      //it is not really do anything... yet
-      valid = !(scope.isUnderMin(true) || scope.isOverMax(true));
+      value = parseInt(value, 10);
 
+      //check if value is number or not
+      valid = !isNaN(value);
       if (!valid) {
-        ngModel.$setValidity('outOfBounds', valid);
+        $log.warn("Input is Invalid.");
+        scope.ngModel = INITIAL_VALUE;
+        //ngModelController.$setValidity('input', valid);
         return valid;
       }
 
-      valid = !isNaN(parseInt(value, 10));
+      //check if value is under min value or not
+      valid = !scope.isUnderMin(true);
+      if (!valid) {
+        //ngModelController.$setValidity('outOfBounds', valid);
+        $log.warn("Input is under min value.");
+        scope.ngModel = parseInt(scope.min, 10);
+        return valid;
+      }
+
+      //check if value is under min value or not
+      valid = !scope.isOverMax(true);
+      if (!valid) {
+        //ngModelController.$setValidity('outOfBounds', valid);
+        $log.warn("Input is over max value.");
+        scope.ngModel = parseInt(scope.max, 10);
+        return valid;
+      }
       return valid;
     }
 
     function updateInput(offset) {
-      if (!ngModel.$viewValue) {
-        ngModel.$setViewValue(0);
-      }
-      ngModel.$setViewValue(ngModel.$viewValue + offset);
-      ngModel.$render();
-      ngModel.$setTouched();
+      ngModelController.$setViewValue(scope.ngModel + offset);
+      ngModelController.$setTouched();
+      ngModelController.$render();
     }
 
     function stopIntrnalEvents(event) {
