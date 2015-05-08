@@ -187,8 +187,11 @@ $monthpicker-cell-size: 60px;
       border-left-color: $border-color-invalid;
     }
 
+    // Reset date picker focus state to look like its default state
     &:focus {
-      border-color: transparent;
+      border-color: $input-border-color;
+      background-color: $input-background-color;
+      @include box-shadow($input-box-shadow);
     }
   }
 
