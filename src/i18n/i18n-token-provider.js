@@ -14,7 +14,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    *
    * @description Constructs a URLs array in the Path class for use
    * in the `i18nCustomLoader` service. Paths include
-   * `/libs/akamai-components/{version}/locales/` for components and
+   * `/libs/akamai-core/{version}/locales/` for components and
    * `/apps/{appname}/locales/` for apps, where `{version}` and
    * `{appname}` are replaced by their proper values in the `$get`
    * constructor.
@@ -52,7 +52,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    * @example of usage
    * <pre>
    *     app.config(function(i18nTokenProvider) {
-     *        i18nTokenProvider.setComponentLocalePath('/libs/akamai-components/0.5.0/locales/'');
+     *        i18nTokenProvider.setComponentLocalePath('/libs/akamai-core/0.6.1/locales/'');
      *        i18nTokenProvider.setAppLocalePath('/apps/appname/locales/'');
      *     });
    * </pre>
@@ -81,7 +81,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    *@example of usage
    * <pre>
    *     app.config(function(i18nTokenProvider) {
-     *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-components/0.5.0/locales/");
+     *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
      *        i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
      *     });
    * </pre>
@@ -172,7 +172,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        *
        * @description get a list of URLs that reference locale
        * files.
-       * @return localeUrls
+       * @return {array} localeUrls
        *
        */
 
@@ -188,7 +188,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        * @methodOf akamai.components.i18n.service:i18nTokenProvider
        *
        * @description Get the current locale value.
-       * @return locale
+       * @return {string} locale
        *
        */
 

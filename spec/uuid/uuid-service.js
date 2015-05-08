@@ -4,6 +4,7 @@ var utilities = require('../utilities');
 describe('akamai.components.uuid-service', function() {
   describe('uuid service', function() {
     beforeEach(function() {
+      inject.strictDi(true);
       var self = this;
       angular.mock.module(require('../../src/uuid').name);
       angular.mock.module(function($controllerProvider) {

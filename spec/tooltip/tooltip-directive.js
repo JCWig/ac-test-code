@@ -11,6 +11,7 @@ var TOOLTIP_CLOSE_ICON = '.tooltip .tooltip-contents .luna-small_close';
 describe('akamai.components.tooltip', function() {
     var scope, timeout, compile, sce;
     beforeEach(function() {
+        inject.strictDi(true);
         var self = this;
         angular.mock.module(require('../../src/tool-tip').name);
         inject(function($compile, $rootScope, $timeout, $sce) {
