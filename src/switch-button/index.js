@@ -7,7 +7,7 @@ var angular = require('angular');
  * @name akamai.components.switch-button
  *
  * @description Provides a directive that creates a Luna- and
- * Pulsar-compatible data table.
+ * Pulsar-compatible switch button.
  */
 module.exports = angular.module('akamai.components.switch-button', [
   require('../i18n').name
