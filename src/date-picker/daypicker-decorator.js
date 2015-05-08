@@ -1,5 +1,6 @@
 'use strict';
 
+/* @ngInject */
 module.exports = function($provide) {
   $provide.decorator('daypickerDirective', function($delegate) {
     var link;

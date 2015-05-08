@@ -16,7 +16,7 @@ var translationMock = {
   }
 };
 //i18n paths
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
@@ -28,16 +28,17 @@ var MODAL_TITLE = '.modal .modal-title';
 describe('modalWindow service', function() {
   var self = null;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     self.notify = function() {};
     spyOn(self, "notify");
 
     angular.mock.module(require('../../src/modal-window').name);
-    angular.mock.module(function($translateProvider) {
+    angular.mock.module(/*@ngInject*/function($translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
-    angular.mock.module(function($controllerProvider) {
-      $controllerProvider.register('Controller', function($scope) {
+    angular.mock.module(/*@ngInject*/function($controllerProvider) {
+      $controllerProvider.register('Controller', /*@ngInject*/function($scope) {
         $scope.toggle = function() {
           if ($scope.isSubmitDisabled()) {
             $scope.enableSubmit();
@@ -233,7 +234,7 @@ describe('modalWindow service', function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: function($scope, $q) {
+          controller: /*@ngInject*/function($scope, $q) {
             $scope.setOnSubmit(
               function() {
                 return deferral.promise;
@@ -263,7 +264,7 @@ describe('modalWindow service', function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: function($scope, $q) {
+          controller: /*@ngInject*/function($scope, $q) {
             $scope.setOnSubmit(
               function() {
                 return deferral.promise;
@@ -292,7 +293,8 @@ describe('modalWindow service', function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: function($scope, $q) {
+          controller: /*@ngInject*/
+          function($scope, $q) {
             $scope.setOnSubmit(
               function() {
                 return deferral.promise;
@@ -323,7 +325,7 @@ describe('modalWindow service', function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: function($scope, $q) {
+          controller: /*@ngInject*/function($scope, $q) {
             $scope.setOnSubmit(
               function() {
                 return deferral.promise;
@@ -349,7 +351,7 @@ describe('modalWindow service', function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: function($scope, $q) {
+          controller: /*@ngInject*/function($scope, $q) {
             $scope.setOnSubmit(
               function() {
                 return deferral.promise;
@@ -374,7 +376,7 @@ describe('modalWindow service', function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: function($scope, $q) {
+          controller:/*@ngInject*/function($scope, $q) {
             $scope.setOnSubmit(
               'hello'
             );

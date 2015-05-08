@@ -5,7 +5,7 @@
         <title>Akamai Component Examples</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body ng-app="example" ng-controller="ExampleController" class="common-css luna">
+    <body ng-app="example" ng-controller="ExampleController" ng-strict-di class="common-css luna">
         <div class="container">
             <div class="page-header">
                 <h1>Pagination Component Example</h1>
@@ -32,9 +32,8 @@
 
         <script src="../dist/akamai-core.js"></script>
         <script>
-            angular.module('example', ['akamai.components.pagination'])
-            
-            .controller('ExampleController', function($scope, $log) {
+
+            var exampleControllerFunction = function($scope, $log) {
                 $scope.pager = {
                     totalItems: 125,
                     page: 7,
@@ -44,7 +43,12 @@
                 $scope.pageChanged = function(page) {
                     $log.log('Pagination Component:  Page navigation changed to: ', page);
                 };
-            });
+            };
+            exampleControllerFunction.$inject = ['$scope', '$log'];
+
+            angular.module('example', ['akamai.components.pagination'])
+            
+            .controller('ExampleController', exampleControllerFunction);
         </script>
     </body>
 </html>

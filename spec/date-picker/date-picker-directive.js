@@ -6,7 +6,7 @@ var DATE_PICKER = 'ul.dropdown-menu';
 var HEADER_DISPLAYED_ON_DATEPICKER = 'button.btn strong.ng-binding';
 var NAVIGATE_DATEPICKER_BACKWARDS = 'button.pull-left';
 var NAVIGATE_DATEPICKER_FORWARDS = 'button.pull-right';
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
@@ -27,6 +27,7 @@ describe('akam-date-picker', function() {
   var self = this;
 
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/date-picker').name);
     inject(function($compile, $rootScope, $httpBackend) {
@@ -479,23 +480,24 @@ describe('akam-date-picker', function() {
 describe('when given an i18n locale that does not exist', function(){
     var compile, scope, self;
     beforeEach(function() {
-        self = this;
-        angular.mock.module(require('../../src/date-picker').name);
-        angular.mock.module(require('../../src/i18n').name);
-        angular.mock.module(function($provide, $translateProvider) {
-            $translateProvider.useLoader('i18nCustomLoader');
-            $provide.decorator ('$cookies', function ($delegate) {
-                $delegate = {AKALOCALE:"eXpfUkU="};
-                return $delegate;
-            });
+      inject.strictDi(true);
+      self = this;
+      angular.mock.module(require('../../src/date-picker').name);
+      angular.mock.module(require('../../src/i18n').name);
+      angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
+        $translateProvider.useLoader('i18nCustomLoader');
+        $provide.decorator ('$cookies', function ($delegate) {
+            $delegate = {AKALOCALE:"eXpfUkU="};
+            return $delegate;
         });
-        inject(function($compile, $rootScope, $httpBackend) {
-            compile = $compile;
-            scope = $rootScope.$new();
-            $httpBackend.when('GET', '/apps/appname/locales/yz_RE.json').respond({});
-            $httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/yz_RE.json/).respond({});
-            $httpBackend.flush();
-        });
+      });
+      inject(function($compile, $rootScope, $httpBackend) {
+        compile = $compile;
+        scope = $rootScope.$new();
+        $httpBackend.when('GET', '/apps/appname/locales/yz_RE.json').respond({});
+        $httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/yz_RE.json/).respond({});
+        $httpBackend.flush();
+      });
     });
     afterEach(function() {
         if(this.element){

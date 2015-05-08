@@ -8,7 +8,7 @@ gulp.task('deploy', function(){
     var symbolicName = result.output.trim();
     bundleLogger.log('symbolic name', symbolicName);
 
-    var regex = /origin\/feature\/(.+)$/;
+    var regex = /origin\/feature\/(.+)$/m;
 
     var matches = symbolicName.match(regex);
 
