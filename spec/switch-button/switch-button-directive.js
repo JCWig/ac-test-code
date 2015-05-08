@@ -1,11 +1,10 @@
 /*global inject*/
 'use strict';
 var angular = require('angular');
-
-// var utilities = require('../utilities');
+var utilities = require('../utilities');
 
 describe('akamai.components.switch-button', function() {
-  var $scope, $compile, element;
+  var $scope, $compile, SWITCH_SELECTOR = '.switch-button';
 
   beforeEach(function() {
     inject.strictDi(true);
@@ -17,107 +16,117 @@ describe('akamai.components.switch-button', function() {
     $compile = _$compile_;
   }));
 
-/*  afterEach(function() {
+  afterEach(function() {
     if (self.element) {
       document.body.removeChild(self.element);
       self.element = null;
     }
-  });*/
+  });
 
-/*  function addElement(markup) {
+  function addElement(markup) {
     self.el = $compile(markup)($scope);
     $scope.$digest();
     self.element = document.body.appendChild(self.el[0]);
-  };*/
+  }
 
   describe('when rendering the default switch', function() {
     var ON_CLASS = 'switch-button-on', OFF_CLASS = 'switch-button-off';
     var basicTemplate = '<akam-switch-button ng-model="val"></akam-switch-button>';
 
-    it('should render correctly', function() {
-      var elementScope;
+    it('should render correctly without customization', function() {
+      var elementScope, onLabelElem, offLabelElem;
 
       $scope.val = true;
-      //addElement(basicTemplate);
-      element = $compile(basicTemplate)($scope);
-      $scope.$digest();
+      addElement(basicTemplate);
 
-      elementScope = element.isolateScope();
+      elementScope = self.el.isolateScope();
       expect(elementScope.on).toBe(true);
       expect(elementScope.onLabel).toBe('On');
       expect(elementScope.offLabel).toBe('Off');
+
+      onLabelElem = document.querySelector('.switch-button-container > span:first-child');
+      offLabelElem = document.querySelector('.switch-button-container > span:last-child');
+      expect(onLabelElem.textContent).toMatch(/On/);
+      expect(offLabelElem.textContent).toMatch(/Off/);
     });
 
     it('should show an "on" state', function() {
-      $scope.val = true;
-      element = $compile(basicTemplate)($scope).children();
-      $scope.$digest();
+      var elem;
 
-      expect(element.hasClass(ON_CLASS)).toBe(true);
-      expect(element.hasClass(OFF_CLASS)).toBe(false);
+      $scope.val = true;
+      addElement(basicTemplate);
+      elem = document.querySelector(SWITCH_SELECTOR);
+
+      expect(elem.classList.contains(ON_CLASS)).toBe(true);
+      expect(elem.classList.contains(OFF_CLASS)).toBe(false);
     });
 
     it('should show an "off" state', function() {
-      $scope.val = false;
-      element = $compile(basicTemplate)($scope).children();
-      $scope.$digest();
+      var elem;
 
-      expect(element.hasClass(OFF_CLASS)).toBe(true);
-      expect(element.hasClass(ON_CLASS)).toBe(false);
+      $scope.val = false;
+      addElement(basicTemplate);
+      elem = document.querySelector(SWITCH_SELECTOR);
+
+      expect(elem.classList.contains(OFF_CLASS)).toBe(true);
+      expect(elem.classList.contains(ON_CLASS)).toBe(false);
     });
 
     it('should be able to switch on and off', function() {
       var elem;
 
       $scope.val = true;
-      element = $compile(basicTemplate)($scope);
-      elem = element.children();
-      $scope.$digest();
+      addElement(basicTemplate);
 
-      expect(elem.hasClass(ON_CLASS)).toBe(true);
-      expect(elem.hasClass(OFF_CLASS)).toBe(false);
-      element.triggerHandler('click');
-      expect(elem.hasClass(OFF_CLASS)).toBe(true);
-      expect(elem.hasClass(ON_CLASS)).toBe(false);
+      elem = document.querySelector(SWITCH_SELECTOR);
+
+      expect(elem.classList.contains(ON_CLASS)).toBe(true);
+      expect(elem.classList.contains(OFF_CLASS)).toBe(false);
+      utilities.click(self.element);
+      expect(elem.classList.contains(OFF_CLASS)).toBe(true);
+      expect(elem.classList.contains(ON_CLASS)).toBe(false);
 
       expect($scope.val).toBe(false);
-      expect(element.isolateScope().on).toBe(false);
-      element.triggerHandler('click');
+      expect(self.el.isolateScope().on).toBe(false);
+      utilities.click(self.element);
       expect($scope.val).toBe(true);
-      expect(element.isolateScope().on).toBe(true);
+      expect(self.el.isolateScope().on).toBe(true);
     });
   });
 
   describe('when showing different configurations', function() {
 
     it('should render a medium size version', function() {
+      var elem;
       var template = '<akam-switch-button ng-model="val" size="medium"></akam-switch-button>';
 
       $scope.val = true;
-      element = $compile(template)($scope).children();
-      $scope.$digest();
+      addElement(template);
 
-      expect(element.hasClass('medium'));
+      elem = document.querySelector(SWITCH_SELECTOR);
+      expect(elem.classList.contains('medium'));
     });
 
     it('should render a grayscale theme', function() {
+      var elem;
       var template = '<akam-switch-button ng-model="val" theme="grayscale"></akam-switch-button>';
 
       $scope.val = true;
-      element = $compile(template)($scope).children();
-      $scope.$digest();
+      addElement(template);
 
-      expect(element.hasClass('grayscale'));
+      elem = document.querySelector(SWITCH_SELECTOR);
+      expect(elem.classList.contains('grayscale'));
     });
 
     it('should render a disabled version', function() {
+      var elem;
       var template = '<akam-switch-button ng-model="val" disabled="true"></akam-switch-button>';
 
       $scope.val = true;
-      element = $compile(template)($scope).children();
-      $scope.$digest();
+      addElement(template);
 
-      expect(element.hasClass('disabled'));
+      elem = document.querySelector(SWITCH_SELECTOR);
+      expect(elem.classList.contains('disabled'));
     });
 
   });
