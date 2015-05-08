@@ -15,13 +15,12 @@ module.exports = function() {
   function setDefaultScopeValues(scope) {
     scope.onLabel = typeof scope.onLabel === 'string' ? scope.onLabel : c.ON;
     scope.offLabel = typeof scope.offLabel === 'string' ? scope.offLabel : c.OFF;
-    scope.disabled = scope.disabled === 'true' ? true : false;
+    scope.disabled = scope.disabled === 'true';
   }
 
   return {
     restrict: 'E',
     require: 'ngModel',
-    replace: true,
     scope: {
       on: '=ngModel',
       disabled: '@?',
@@ -31,7 +30,7 @@ module.exports = function() {
     template: require('./templates/switch-button-directive.tpl.html'),
 
     link: function(scope, elem, attrs, ngModel) {
-      var size = (attrs.size !== c.SMALL && attrs.size !== c.MEDIUM) ? c.SMALL : attrs.size;
+      var size = attrs.size !== c.SMALL && attrs.size !== c.MEDIUM ? c.SMALL : attrs.size;
       var theme = attrs.theme === c.GRAYSCALE ? attrs.theme : c.COLOR;
 
       setDefaultScopeValues(scope);
