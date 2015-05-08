@@ -2,7 +2,7 @@
 
 module.exports = {
 
-  LIBRARY_PATH: /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
+  LIBRARY_PATH: /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
 
   CONFIG_PATH: '/apps/appname/locales/en_US.json',
 
