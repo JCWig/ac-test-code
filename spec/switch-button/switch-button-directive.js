@@ -1,5 +1,8 @@
-/*global angular, inject*/
+/*global inject*/
 'use strict';
+var angular = require('angular');
+
+// var utilities = require('../utilities');
 
 describe('akamai.components.switch-button', function() {
   var $scope, $compile, element;
@@ -14,14 +17,28 @@ describe('akamai.components.switch-button', function() {
     $compile = _$compile_;
   }));
 
+/*  afterEach(function() {
+    if (self.element) {
+      document.body.removeChild(self.element);
+      self.element = null;
+    }
+  });*/
+
+/*  function addElement(markup) {
+    self.el = $compile(markup)($scope);
+    $scope.$digest();
+    self.element = document.body.appendChild(self.el[0]);
+  };*/
+
   describe('when rendering the default switch', function() {
     var ON_CLASS = 'switch-button-on', OFF_CLASS = 'switch-button-off';
     var basicTemplate = '<akam-switch-button ng-model="val"></akam-switch-button>';
 
-    it('should set isolate scope defaults correctly', function() {
+    it('should render correctly', function() {
       var elementScope;
 
       $scope.val = true;
+      //addElement(basicTemplate);
       element = $compile(basicTemplate)($scope);
       $scope.$digest();
 
@@ -33,7 +50,7 @@ describe('akamai.components.switch-button', function() {
 
     it('should show an "on" state', function() {
       $scope.val = true;
-      element = $compile(basicTemplate)($scope);
+      element = $compile(basicTemplate)($scope).children();
       $scope.$digest();
 
       expect(element.hasClass(ON_CLASS)).toBe(true);
@@ -42,7 +59,7 @@ describe('akamai.components.switch-button', function() {
 
     it('should show an "off" state', function() {
       $scope.val = false;
-      element = $compile(basicTemplate)($scope);
+      element = $compile(basicTemplate)($scope).children();
       $scope.$digest();
 
       expect(element.hasClass(OFF_CLASS)).toBe(true);
@@ -50,15 +67,18 @@ describe('akamai.components.switch-button', function() {
     });
 
     it('should be able to switch on and off', function() {
+      var elem;
+
       $scope.val = true;
       element = $compile(basicTemplate)($scope);
+      elem = element.children();
       $scope.$digest();
 
-      expect(element.hasClass(ON_CLASS)).toBe(true);
-      expect(element.hasClass(OFF_CLASS)).toBe(false);
+      expect(elem.hasClass(ON_CLASS)).toBe(true);
+      expect(elem.hasClass(OFF_CLASS)).toBe(false);
       element.triggerHandler('click');
-      expect(element.hasClass(OFF_CLASS)).toBe(true);
-      expect(element.hasClass(ON_CLASS)).toBe(false);
+      expect(elem.hasClass(OFF_CLASS)).toBe(true);
+      expect(elem.hasClass(ON_CLASS)).toBe(false);
 
       expect($scope.val).toBe(false);
       expect(element.isolateScope().on).toBe(false);
@@ -74,7 +94,7 @@ describe('akamai.components.switch-button', function() {
       var template = '<akam-switch-button ng-model="val" size="medium"></akam-switch-button>';
 
       $scope.val = true;
-      element = $compile(template)($scope);
+      element = $compile(template)($scope).children();
       $scope.$digest();
 
       expect(element.hasClass('medium'));
@@ -84,7 +104,7 @@ describe('akamai.components.switch-button', function() {
       var template = '<akam-switch-button ng-model="val" theme="grayscale"></akam-switch-button>';
 
       $scope.val = true;
-      element = $compile(template)($scope);
+      element = $compile(template)($scope).children();
       $scope.$digest();
 
       expect(element.hasClass('grayscale'));
@@ -94,7 +114,7 @@ describe('akamai.components.switch-button', function() {
       var template = '<akam-switch-button ng-model="val" disabled="true"></akam-switch-button>';
 
       $scope.val = true;
-      element = $compile(template)($scope);
+      element = $compile(template)($scope).children();
       $scope.$digest();
 
       expect(element.hasClass('disabled'));
