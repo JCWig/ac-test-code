@@ -36,6 +36,7 @@ $toggle-gradient-top: #fff;
     & > span {
       padding-left: 10px;
       padding-right: 10px;
+      white-space: nowrap;
     }
 
     & > label {
@@ -56,13 +57,22 @@ $toggle-gradient-top: #fff;
       color: #fff;
       background-color: #7aaa60;
       box-shadow: -3px 0 2px 0 $box-shadow-opacity inset;
+      padding-right: 7px;
+      
+      &:after {
+        content: "\00a0";
+      }
     }
 
     & > span:last-child {
       color: #fff;
       background-color: #a32d2d;
       box-shadow: 3px 0 2px 0 $box-shadow-opacity inset;
-
+      padding-left: 7px;
+      
+      &:before {
+        content: "\00a0";
+      }
     }
   }
 
