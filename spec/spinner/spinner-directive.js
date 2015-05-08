@@ -59,13 +59,13 @@ describe('akamai.components.spinner', function() {
     it('should verify up button icon', function() {
       var buttonListNode = spinnerElem.querySelectorAll('button');
       var buttonElem = buttonListNode[0].querySelector("i");
-      expect(buttonElem.classList.contains('luna-arrow_smUp_spinner_box')).toBe(true);
+      expect(buttonElem.classList.contains('luna-arrow_extra_smUp')).toBe(true);
     });
 
     it('should verify down button icon', function() {
       var buttonListNode = spinnerElem.querySelectorAll('button');
       var buttonElem = buttonListNode[1].querySelector("i");
-      expect(buttonElem.classList.contains('luna-arrow_smDown_spinner_box')).toBe(true);
+      expect(buttonElem.classList.contains('luna-arrow_extra_smDown')).toBe(true);
     });
 
   });
