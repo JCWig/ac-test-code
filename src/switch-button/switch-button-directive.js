@@ -45,11 +45,12 @@ module.exports = function(translate) {
     link: function(scope, elem, attrs, ngModel) {
       var size = attrs.size !== c.SMALL && attrs.size !== c.MEDIUM ? c.SMALL : attrs.size;
       var theme = attrs.theme === c.GRAYSCALE ? attrs.theme : c.COLOR;
+      var element = elem.children(0);
 
       setDefaultScopeValues(scope);
 
-      elem.toggleClass(c.MEDIUM, size === c.MEDIUM);
-      elem.toggleClass(c.GRAYSCALE, theme === c.GRAYSCALE);
+      element.toggleClass(c.MEDIUM, size === c.MEDIUM);
+      element.toggleClass(c.GRAYSCALE, theme === c.GRAYSCALE);
 
       if (scope.disabled === false) {
         elem.on('click', function() {
