@@ -5,7 +5,7 @@
     <title>Akamai Components Examples - Menu Button</title>
     <link rel="stylesheet" href="../dist/akamai-core.css">
 </head>
-<body class="common-css" ng-app="example" ng-controller="ExampleController">
+<body class="common-css" ng-app="example" ng-strict-di ng-controller="ExampleController">
     <div class="container">
         <akam-menu-button label="Choose an application">
             <akam-menu-button-item
@@ -28,9 +28,7 @@
 
     <script src="../dist/akamai-core.js"></script>
     <script>
-        angular.module('example', ['akamai.components.menu-button'])
-
-        .controller('ExampleController', function($scope) {
+        var controllerFuction = function($scope) {
             $scope.items = [
                 { appName : 'Tranquility', id : 'tranq' },
                 { appName : 'Billing Center', id : 'bc' },
@@ -40,7 +38,12 @@
             $scope.process = function(item) {
                 console.log('You clicked on the the app: ', item.appName);
             };
-        });
+        };
+
+        controllerFuction.$inject = ['scope'];
+        angular.module('example', ['akamai.components.menu-button'])
+
+        .controller('ExampleController', controllerFuction);
     </script>
 </body>
 </html>

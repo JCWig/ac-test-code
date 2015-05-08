@@ -15,10 +15,11 @@ describe('messageBox service', function() {
     }
   };
   beforeEach(function() {
+    inject.strictDi(true);
     var self = this;
 
     angular.mock.module(require('../../src/message-box').name);
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $provide.factory('i18nCustomLoader', function($q, $timeout) {
         return function(options) {
           var deferred = $q.defer();

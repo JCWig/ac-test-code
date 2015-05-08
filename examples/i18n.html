@@ -5,7 +5,7 @@
         <title>Akamai Component Examples - i18N</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body ng-app="i18nDemo3" ng-controller="TranslationPageController" class="common-css luna" translate-cloak>
+    <body ng-app="i18nDemo3" ng-controller="TranslationPageController" ng-strict-di class="common-css luna" translate-cloak>
         <div class="container">
             <h1>i18N Component Example</h1>
             <br/>
@@ -94,18 +94,10 @@
                 <label class=label>Check browser console for Javascript translations examples using the translate service.</label>
             </div>
         </div>
-        <script type="text/javascript" src="../dist/akamai-core.js"></script>
+        <script src="../dist/akamai-core.js"></script>
         <script>
-            angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
 
-            // Override the location of the Component and Application locale files
-            angular.module('i18nDemo3')
-            .config(function(i18nTokenProvider) {
-                i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
-                i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
-            })
-            .controller('TranslationPageController', ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log',
-                            function(i18nToken, $scope, $cookies, translate, $rootScope, $filter, $log) {
+            var controllerFunction = function(i18nToken, $scope, $cookies, translate, $rootScope, $filter, $log) {
                 $rootScope.$on('$translateChangeEnd', function() {
                     // List of locales to populate the locale selection dropdown. Note that not all of these exist
                     $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
@@ -133,8 +125,21 @@
                     document.cookie = 'AKALOCALE='+btoa($scope.selected);
                     window.location.reload();
                 }
+            };
+            var configFunction = function(i18nTokenProvider) {
+                i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
+                i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
+            };
+            configFunction.$inject = ['i18nTokenProvider'];
+            controllerFunction.$inject = ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log'];
+            
+            angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
 
-            }]);
+            // Override the location of the Component and Application locale files
+            angular.module('i18nDemo3')
+            .config(configFunction)
+            .controller('TranslationPageController', controllerFunction);
+                            
     </script>
     </body>
 </html>

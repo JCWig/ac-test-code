@@ -12,6 +12,7 @@ describe('akam-content-panel', function() {
   var self = this;
   var timeout = null;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/content-panel').name);
     inject(function($compile, $rootScope, $timeout) {

@@ -13,6 +13,7 @@ describe('akamTranslate filter', function() {
   };
 
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(function($provide, $translateProvider) {

@@ -9,8 +9,9 @@ describe('i18nCustomLoader service', function() {
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function(i18nTokenProvider) {
+    angular.mock.module(/*@ngInject*/function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
     angular.mock.module(function($provide, $translateProvider) {

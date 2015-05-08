@@ -25,9 +25,11 @@ describe('akam-list-box', function() {
   var httpBackend = null;
   var sce;
   beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/list-box').name);
     angular.mock.module(function($provide) {
+      /*@ngInject*/
       $provide.decorator('$http', function($delegate) {
         $http = $delegate;
         return $delegate;
@@ -307,7 +309,7 @@ describe('akam-list-box', function() {
       expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
     });
   });
-  /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED 
+  /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED
   describe('when data exceeds 10 items', function(){
     it('should display more items as scrolling takes place', function() {
       scope.jsonColumns = [
@@ -1383,4 +1385,107 @@ describe('akam-list-box', function() {
       expect(rowOneColumnTwo.textContent).toContain('pwn3d');
     });
   })
+
+  describe('when scrolling ', function(){
+    it('should load more data', function(){
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0,30);
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+
+      utilities.scroll('div.fixed-table-container-inner', 1000);
+      scope.$digest();
+      totalRows = document.querySelectorAll(TABLE_ROW);
+
+      expect(scope.$$childTail.dataSource.length).toEqual(20);
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+    it('should stop loading data if end is reached', function(){
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0,25);
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.scroll('div.fixed-table-container-inner', 1000);
+      scope.$digest();
+
+      utilities.scroll('div.fixed-table-container-inner', 2000);
+      scope.$digest();
+
+      utilities.scroll('div.fixed-table-container-inner', 3000);
+      scope.$digest();
+
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(scope.$$childTail.dataSource.length).toEqual(25);
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+    it('should leave data if rescrolled to top.', function(){
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0,25);
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.scroll('div.fixed-table-container-inner', 1000);
+      scope.$digest();
+
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+
+      expect(scope.$$childTail.dataSource.length).toEqual(20);
+      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+    it('should not scroll past max-height', function(){
+      scope.jsonColumns = [
+        {
+          content: function() {return this.first + ' ' + this.last;},
+          header: 'Full Name',
+          className: 'column-full-name'
+        },
+        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+      ];
+      scope.jsonData = require('./http-data/list-box-data.json');
+      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+
+      var totalRows = document.querySelectorAll(TABLE_ROW);
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+
+      var element = angular.element(document.querySelector('div.fixed-table-container-inner'));
+
+      element.css({"max-height":'150px'})
+
+      element.scrollTop = 10000;
+      element.triggerHandler('scroll');
+      scope.$digest();
+
+      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+  });
 });
