@@ -58,12 +58,13 @@ module.exports = function($filter, translate) {
         }
       },
       post: function(scope, element, attrs, ngModel) {
+        var disableClear = !!attrs.disableClear;
+
         //Code Coverage Ignoring becuause ngModel is always defined. Good defensive coding though.
         /* istanbul ignore if */
         if (!ngModel) {
           return;
         }
-
         ngModel.$render = function() {
           scope.value =
             $filter('date')(ngModel.$modelValue, scope.format);
@@ -79,6 +80,10 @@ module.exports = function($filter, translate) {
           $event.stopPropagation();
 
           scope.opened = !scope.opened;
+        };
+
+        scope.showClear = function() {
+          return scope.value && !disableClear;
         };
 
         scope.clearDate = function() {
