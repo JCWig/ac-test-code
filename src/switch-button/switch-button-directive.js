@@ -1,6 +1,7 @@
 'use strict';
 
-module.exports = function() {
+/* @ngInject */
+module.exports = function(translate) {
 
   var c = {
     SMALL: 'small',
@@ -12,8 +13,21 @@ module.exports = function() {
   };
 
   function setDefaultScopeValues(scope) {
-    scope.onLabel = typeof scope.onLabel === 'string' ? scope.onLabel : c.ON;
-    scope.offLabel = typeof scope.offLabel === 'string' ? scope.offLabel : c.OFF;
+
+    if (typeof scope.onLabel !== 'string') {
+      translate.async('components.switch-button.onLabel')
+        .then(function(value) {
+          scope.onLabel = value;
+        });
+    }
+
+    if (typeof scope.offLabel !== 'string') {
+      translate.async('components.switch-button.offLabel')
+        .then(function(value) {
+          scope.offLabel = value;
+        });
+    }
+
     scope.disabled = scope.disabled === 'true';
   }
 

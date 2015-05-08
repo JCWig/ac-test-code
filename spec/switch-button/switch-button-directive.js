@@ -2,19 +2,37 @@
 'use strict';
 var angular = require('angular');
 var utilities = require('../utilities');
+var translationMock = require('../fixtures/translationFixture.json');
+
+/*var translationMock = {
+  "components": {
+    "switch-button": {
+      "onLabel": "On",
+      "offLabel": "Off"
+    }
+  }
+};*/
 
 describe('akamai.components.switch-button', function() {
-  var $scope, $compile, SWITCH_SELECTOR = '.switch-button';
+  var $scope, compile, SWITCH_SELECTOR = '.switch-button';
 
   beforeEach(function() {
-    inject.strictDi(true);
+    //inject.strictDi(true);
     angular.mock.module(require('../../src/switch-button').name);
+    angular.mock.module(function($provide, $translateProvider) {
+      $translateProvider.useLoader('i18nCustomLoader');
+    });
+    inject(function($rootScope, $compile, $httpBackend) {
+      $scope = $rootScope.$new();
+      compile = $compile;
+
+      $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
+      $httpBackend.when('GET', utilities.CONFIG_PATH).respond(translationMock);
+      $httpBackend.flush();
+    });
   });
 
-  beforeEach(inject(function($rootScope, _$compile_) {
-    $scope = $rootScope;
-    $compile = _$compile_;
-  }));
+  //beforeEach();
 
   afterEach(function() {
     if (self.element) {
@@ -24,7 +42,7 @@ describe('akamai.components.switch-button', function() {
   });
 
   function addElement(markup) {
-    self.el = $compile(markup)($scope);
+    self.el = compile(markup)($scope);
     $scope.$digest();
     self.element = document.body.appendChild(self.el[0]);
   }
