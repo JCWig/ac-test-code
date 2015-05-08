@@ -75,8 +75,11 @@
 
         configFunction.$inject = ['i18nTokenProvider'];
         function configFunction (i18nTokenProvider) {
-            i18nTokenProvider.setComponentLocalePath("../dist/locales/");
-            i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            // need to overwrite locales path on fee.akamai.com
+            if(window.location.host == 'fee.akamai.com') {
+                i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+                i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            }
         }
 
     </script>
