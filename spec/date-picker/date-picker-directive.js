@@ -124,6 +124,27 @@ describe('akam-date-picker', function() {
       expect(todaysButton.classList.contains('text-info')).toBe(true);
     });
   });
+
+  describe('when clear is disabled', function() {
+    beforeEach(function() {
+      var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" disable-clear="true"></akam-date-picker></div>';
+      addElement(markup);
+      utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+    });
+
+    it('should hide the clear icon', function() {
+      var clearIcon = document.querySelector('.clear-date');
+      expect(clearIcon).toBe(null);
+
+      var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      utilities.click(firstDayOfMonthButton);
+      scope.$digest();
+
+      clearIcon = document.querySelector('.clear-date');
+      expect(clearIcon).toBe(null);
+    });
+  });
+
   describe('when interacting with the date picker', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" ng-change="mychange()"></akam-date-picker></div>';
@@ -194,7 +215,6 @@ describe('akam-date-picker', function() {
 
       clearIcon = document.querySelector('.clear-date');
       expect(clearIcon).not.toBe(null);
-
     });
     it('should be able to clear date', function() {
       var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
