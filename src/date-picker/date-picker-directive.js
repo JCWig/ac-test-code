@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /* @ngInject */
 module.exports = function($filter, translate) {
   var PICKER_TYPES = {
@@ -58,7 +60,7 @@ module.exports = function($filter, translate) {
         }
       },
       post: function(scope, element, attrs, ngModel) {
-        var disableClear = !!attrs.disableClear;
+        var noClear = angular.isDefined(attrs.noClear) ? true : false;
 
         //Code Coverage Ignoring becuause ngModel is always defined. Good defensive coding though.
         /* istanbul ignore if */
@@ -83,7 +85,7 @@ module.exports = function($filter, translate) {
         };
 
         scope.showClear = function() {
-          return scope.value && !disableClear;
+          return scope.value && !noClear;
         };
 
         scope.clearDate = function() {
