@@ -128,7 +128,7 @@ describe('akam-date-picker', function() {
 
   describe('when clear is disabled', function() {
     beforeEach(function() {
-      var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" disable-clear="true"></akam-date-picker></div>';
+      var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" no-clear></akam-date-picker></div>';
       addElement(markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
