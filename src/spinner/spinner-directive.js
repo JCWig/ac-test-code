@@ -86,16 +86,24 @@ module.exports = function($interval, $log, uuid) {
 
     scope.isUnderMin = function(strict) {
       var offset = strict ? 0 : 1,
-        value = scope.ngModel ? scope.ngModel : defaults.VALUE;
+        num = parseInt(scope.ngModel, 10);
 
-      return value - offset < parseInt(scope.min, 10);
+      if (isNaN(num)) {
+        return false;
+      }
+
+      return num - offset < parseInt(scope.min, 10);
     };
 
     scope.isOverMax = function(strict) {
       var offset = strict ? 0 : 1,
-        value = scope.ngModel ? scope.ngModel : defaults.VALUE;
+        num = parseInt(scope.ngModel, 10);
 
-      return value + offset > parseInt(scope.max, 10);
+      if (isNaN(num)) {
+        return false;
+      }
+
+      return num + offset > parseInt(scope.max, 10);
     };
 
     scope.startStepUp = function(event) {

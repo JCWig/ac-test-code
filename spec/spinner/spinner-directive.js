@@ -38,8 +38,7 @@ describe('akamai.components.spinner', function() {
     var tpl;
     if (markup) {
       tpl = markup;
-    }
-    else {
+    } else {
       tpl = '<akam-spinner ng-model="ngModel"></akam-spinner>';
     }
     tpl = '<form name="form">' + tpl + '</form>';
@@ -85,9 +84,8 @@ describe('akamai.components.spinner', function() {
     });
 
     it('should check validity on init', function() {
-        expect(scope.form.$valid).toBeTruthy();
+      expect(scope.form.$valid).toBeTruthy();
     });
-
   });
 
   describe('when rendering directive with options values', function() {
@@ -117,19 +115,49 @@ describe('akamai.components.spinner', function() {
       var disabledAttr = spinnerElem.querySelector('input').getAttribute('disabled');
       expect(disabledAttr).toEqual('disabled');
     });
+  });
 
-    it('should verify input element correct hadMax class', function() {
-      var inputElem = spinnerElem.querySelector('input');
-      expect(inputElem.classList.contains('hasMax')).toBeTruthy();
+  describe('when instantiating directive, the isolated scope...', function() {
+    it("should functions to be defined", function() {
+      addElement();
+      expect(self.isoScope.isUpArrowDisabled).toBeDefined();
+      expect(self.isoScope.isDownArrowDisabled).toBeDefined();
+      expect(self.isoScope.isUnderMin).toBeDefined();
+      expect(self.isoScope.isOverMax).toBeDefined();
+      expect(self.isoScope.startStepUp).toBeDefined();
+      expect(self.isoScope.stopStepUp).toBeDefined();
+      expect(self.isoScope.startStepDown).toBeDefined();
+      expect(self.isoScope.stopStepDown).toBeDefined();
+
+    });
+
+    it ("should verify correct min value and form $valid", function() {
+      addElement();
+      expect(self.isoScope.isUnderMin()).toBeFalsy();
+      expect(scope.form.$valid).toBeTruthy();
+
+      var markup = '<akam-spinner ng-model="ngModel" min={{::min}}></akam-spinner>';
+      scope.ngModel = 3;
+      scope.min = 4;
+      addElement(markup);
+      expect(scope.form.$valid).toBeFalsy();
+
+    });
+
+    it ("should verify correct max value and form $valid", function() {
+      addElement();
+      expect(self.isoScope.isOverMax()).toBeFalsy();
+      expect(scope.form.$valid).toBeTruthy();
+
+      var markup = '<akam-spinner ng-model="ngModel" max={{::max}}></akam-spinner>';
+      scope.ngModel = 5;
+      scope.max = 4;
+      addElement(markup);
+      expect(scope.form.$valid).toBeFalsy();
     });
   });
 
   describe('when rendered', function() {
-
-    it('should verify isOverMax method on the isolated scope', function() {
-      addElement()
-      expect(self.isoScope.isOverMax).toBeDefined();
-    });
 
     it('should verify value not over max and form is $valid', function() {
       var markup = '<akam-spinner ng-model="ngModel" max="max"></akam-spinner>';

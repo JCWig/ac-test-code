@@ -33,7 +33,7 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
       display: none;
     }
 
-    &.hasMax {
+    &[max]:not([max=""]) {
       width: 0;
     }
   }
@@ -57,30 +57,39 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
       @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
       border-color: $spinner-border-color;
 
+      &[disabled] {
+        opacity: 1;
+      }
+
       & + .btn {
         margin-top: 0;
       }
 
       &:first-child {
         border-bottom-width: 0;
+        &:hover {
+          border-bottom-width: 1px;
+          & + .btn {
+            border-top-width: 0;
+          }
+        }
       }
 
       i {
-        height: 14px;
 
         &.luna-arrow_extra_smDown {
-          background-position:sprite-position($luna-sprites, arrow_extra_smDown, 0, 2);
+          background-position:sprite-position($luna-sprites, arrow_extra_smDown, 0, -1);
           &[disabled] {
-            background-position:sprite-position($luna-sprites, arrow_extra_smDown_disabled, 0, 2) !important;
+            background-position:sprite-position($luna-sprites, arrow_extra_smDown_disabled, 0, -2) !important;
             border-color: $spinner-border-color;
           }
         }
 
         &.luna-arrow_extra_smUp {
-          background-position:sprite-position($luna-sprites, arrow_extra_smUp, 0, 3);
+          background-position:sprite-position($luna-sprites, arrow_extra_smUp, 0, -1);
           &[disabled] {
-            background-position:sprite-position($luna-sprites, arrow_extra_smUp_disabled, 0, 3) !important;
-            border-color: $spinner-border-color;
+            background-position:sprite-position($luna-sprites, arrow_extra_smUp_disabled, 0, -2) !important;
+            border: 1px $spinner-border-color;
           }
         }
       }
@@ -89,6 +98,8 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
         @include background-image(linear-gradient($spinner-button-hover-gradient-top-hover, $spinner-button-hover-gradient-bottom-hover));
         border-color: $spinner-border-color-hover;
       }
+
+
     }
   }
 }
