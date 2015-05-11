@@ -5,24 +5,76 @@ var angular = require('angular');
 /* @ngInject */
 module.exports = function($interval, $log, uuid) {
 
-  var INITIAL_VALUE = 0,
+  var defaults = {
+      VALUE: 0,
+      STEP: 1
+    },
     directive = {
-    require: 'ngModel',
-    restrict: 'E',
-    template: require('./templates/spinner.tpl.html'),
-    link: link,
-    scope: {
-      min: '@?',
-      max: '@?',
-      disabled: '@?',
-      ngModel: '='
-    }
-  };
+      require: 'ngModel',
+      restrict: 'E',
+      template: require('./templates/spinner.tpl.html'),
+      link: link,
+      scope: {
+        min: '@?',
+        max: '@?',
+        disabled: '@?',
+        ngModel: '='
+      }
+    };
 
   return directive;
 
+  function validateInput(value, scope) {
+    var valid = true;
+
+    if (scope.disabled === 'disabled') {
+      return !valid;
+    }
+
+    if (!value) {
+      $log.warn('Input is Invalid.');
+      return !valid;
+    }
+
+    //check if value is number or not
+    valid = !isNaN(parseInt(value, 10));
+    if (!valid) {
+      $log.warn('Input is Invalid.');
+      return valid;
+    }
+
+    //check if value is under min value or not
+    valid = !scope.isUnderMin(true);
+    if (!valid) {
+      $log.warn('Input is under min value.');
+      return valid;
+    }
+
+    //check if value is under max value or not,
+    valid = !scope.isOverMax(true);
+    if (!valid) {
+      $log.warn('Input is over max value.');
+      return valid;
+    }
+    return valid;
+  }
+
+  function stopIntrnalEvents(event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  }
+
   function link(scope, element, attrs, ngModelController) {
     var upMouseDownPromise, downMouseDownPromise;
+
+    //ngModelController has to be defined
+    if (!ngModelController) {
+      return;
+    }
+
+    initialize();
 
     scope.isUpArrowDisabled = function() {
       return scope.isOverMax() || scope.disabled === 'disabled' ? 'disabled' : '';
@@ -33,15 +85,17 @@ module.exports = function($interval, $log, uuid) {
     };
 
     scope.isUnderMin = function(strict) {
-      var offset = strict ? 0 : 1;
+      var offset = strict ? 0 : 1,
+        value = scope.ngModel ? scope.ngModel : defaults.VALUE;
 
-      return scope.min && scope.ngModel - offset < parseInt(scope.min, 10);
+      return value - offset < parseInt(scope.min, 10);
     };
 
     scope.isOverMax = function(strict) {
-      var offset = strict ? 0 : 1;
+      var offset = strict ? 0 : 1,
+        value = scope.ngModel ? scope.ngModel : defaults.VALUE;
 
-      return scope.max && scope.ngModel + offset > parseInt(scope.max, 10);
+      return value + offset > parseInt(scope.max, 10);
     };
 
     scope.startStepUp = function(event) {
@@ -49,12 +103,11 @@ module.exports = function($interval, $log, uuid) {
       if (angular.isDefined(upMouseDownPromise)) {
         return;
       }
-
       upMouseDownPromise = $interval(function() {
         if (scope.isOverMax(false)) {
           scope.stopStepUp();
         } else {
-          updateInput(+1);
+          updateInput(+defaults.STEP);
         }
       }, 80);
     };
@@ -77,7 +130,7 @@ module.exports = function($interval, $log, uuid) {
         if (scope.isUnderMin(false)) {
           scope.stopStepDown();
         } else {
-          updateInput(-1);
+          updateInput(-defaults.STEP);
         }
       }, 80);
     };
@@ -92,26 +145,18 @@ module.exports = function($interval, $log, uuid) {
 
     // when model change, parse to integer, this sets up to the ngModelController
     ngModelController.$formatters.push(function(value) {
-      validateInput(value);
       return parseInt(value, 10);
     });
 
     // when view change, parse to integer, this sets up to the ngModelController
     ngModelController.$parsers.push(function(value) {
-      validateInput(value);
       return parseInt(value, 10);
     });
 
     ngModelController.$render = function() {
-      //validateInput(scope.ngModel);
+      validateInput(ngModelController.$viewValue, scope);
+      ngModelController.$setTouched();
     };
-
-    //ngModelController has to be defined
-    if (!ngModelController) {
-      return;
-    }
-
-    initialize();
 
     function initialize() {
       var maxlength;
@@ -129,55 +174,9 @@ module.exports = function($interval, $log, uuid) {
       ngModelController.$render();
     }
 
-    function validateInput(value) {
-      var valid = true;
-
-      if (scope.disabled === 'disabled') {
-        return !valid;
-      }
-
-      value = parseInt(value, 10);
-
-      //check if value is number or not
-      valid = !isNaN(value);
-      if (!valid) {
-        $log.warn('Input is Invalid.');
-        scope.ngModel = INITIAL_VALUE;
-        //ngModelController.$setValidity('input', valid);
-        return valid;
-      }
-
-      //check if value is under min value or not
-      valid = !scope.isUnderMin(true);
-      if (!valid) {
-        //ngModelController.$setValidity('outOfBounds', valid);
-        $log.warn('Input is under min value.');
-        scope.ngModel = parseInt(scope.min, 10);
-        return valid;
-      }
-
-      //check if value is under min value or not
-      valid = !scope.isOverMax(true);
-      if (!valid) {
-        //ngModelController.$setValidity('outOfBounds', valid);
-        $log.warn('Input is over max value.');
-        scope.ngModel = parseInt(scope.max, 10);
-        return valid;
-      }
-      return valid;
-    }
-
     function updateInput(offset) {
       ngModelController.$setViewValue(scope.ngModel + offset);
-      ngModelController.$setTouched();
       ngModelController.$render();
-    }
-
-    function stopIntrnalEvents(event) {
-      if (event) {
-        event.stopPropagation();
-        event.preventDefault();
-      }
     }
   }
 };

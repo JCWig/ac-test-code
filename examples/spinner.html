@@ -8,7 +8,7 @@
 </head>
 
 <body class="common-css luna" ng-app="spinner" ng-strict-di ng-controller="SpinnerController as vm">
-<div class="container">
+<div class="container" style="padding-left: 50px;">
   <form name="form">
     <h4>Watch form controller values change</h4>
     <ul>
@@ -20,12 +20,22 @@
       </li>
     </ul>
     <br>
-    <h4>Plain Vanilla</h4> Model value :
-    <input type="text" size="3" ng-change="vm.inputChanged()" ng-model="vm.input">
-    <br>
+    <h3>Example 1</h3>
     <br>
     <h4>Input Value</h4>
-    value: <span>{{vm.value}}</span>
+    value: <span>{{vm.value1}}</span>
+    <div style="padding-left: 150px;">
+      <akam-spinner ng-model="vm.value1"></akam-spinner>
+    </div>
+        <br>
+                <br>
+    <h3>Example 2</h3>
+        <br>
+    Update value here:
+    <input type="text" size="3" ng-change="vm.inputChanged()" ng-model="vm.input">
+    <br>
+    <h4>Input Value</h4>
+    value: <span>{{vm.value2}}</span>
     <h4>Optional Values</h4>
     Min value: <span>{{vm.min}}</span>
     <br>
@@ -35,13 +45,13 @@
     <button class="button" ng-click="vm.buttonClick()">{{vm.buttonName}}</button>
     <br>
     <br>
-    <div style="text-align: center;">
-      <akam-spinner min={{::vm.min}} max={{::vm.max}} ng-model="vm.value" disabled={{vm.disabled}}>
+    <div style="padding-left: 150px;">
+      <akam-spinner min={{::vm.min}} max={{::vm.max}} ng-model="vm.value2" disabled={{vm.disabled}}>
       </akam-spinner>
     </div>
   </form>
 </div>
-  <script src="../dist/akamai-core.min.js"></script>
+  <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('spinner', ['akamai.components.spinner']);
 
@@ -51,7 +61,8 @@
 
   function SpinnerController() {
     var vm = this;
-    vm.value = "";
+    vm.value1 = 0;
+    vm.value2 = 0;
     vm.min = '0';
     vm.max = '30';
     vm.disabled = '';//disabled if want to disable input and buttons
@@ -69,7 +80,7 @@
     }
 
     function inputChanged() {
-      vm.value = parseInt(vm.input);
+      vm.value2 = parseInt(vm.input);
     }
   }
   </script>

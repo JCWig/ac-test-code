@@ -3,26 +3,27 @@
 var utils = require('../utilities');
 
 describe('akamai.components.spinner', function() {
-  var scope, self, compile;
+  var scope, self, compile, timeout;
   var UP_BUTTON = '.akam-spinner button:first-child';
   var DOWN_BUTTON = '.akam-spinner button:last-child';
 
-  beforeEach(function() { //Will run before each complete block
+  beforeEach(function() {
+    inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/spinner').name);
-    inject(function($rootScope, _$compile_) {
-      //Include Services, Factories and Constants
-      scope = $rootScope.$new(); //angular service
+    inject(function(_$rootScope_, _$compile_, _$timeout_) {
+      scope = _$rootScope_.$new();
       compile = _$compile_;
+      timeout = _$timeout_;
     });
     scope.testData = {
-      value: "",
+      ngModel: "",
       min: 0,
       max: 50,
       disabled: 'disabled'
     };
   });
-  afterEach(function() { //Will run after each it block is completed
+  afterEach(function() {
     removeElement();
   });
 
@@ -34,38 +35,57 @@ describe('akamai.components.spinner', function() {
   }
 
   function addElement(markup) {
-    self.el = compile(markup)(scope);
+    var tpl;
+    if (markup) {
+      tpl = markup;
+    }
+    else {
+      tpl = '<akam-spinner ng-model="ngModel"></akam-spinner>';
+    }
+    tpl = '<form name="form">' + tpl + '</form>';
+    self.el = compile(tpl)(scope);
+    self.spinnerEl = self.el.find("akam-spinner");
+    self.isoScope = self.spinnerEl.isolateScope();
     scope.$digest();
     self.element = document.body.appendChild(self.el[0]);
+
   };
+
   describe('when rendering directive without options values', function() {
-    var spinnerElem;
-    beforeEach(function() { //Will run after the overall beforeEach but before each it statement in this describe block
-      var markup = '<akam-spinner ng-model="value"></akam-spinner>';
-      scope.value = scope.testData.value;
-      addElement(markup);
-      spinnerElem = document.querySelector('.akam-spinner');
+    beforeEach(function() {
+      scope.ngModel = '';
+      addElement();
+    })
+
+    it('should verify input element exist', function() {
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem).not.toBe(undefined);
     });
 
-    afterEach(function() { //Will run after each it block is completed
-      removeElement();
+    it('should verify input element value of empty', function() {
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('');
     });
 
     it('should verify two button elements', function() {
-      var buttonListNode = spinnerElem.querySelectorAll('button');
+      var buttonListNode = self.element.querySelectorAll('button');
       expect(buttonListNode.length).toEqual(2);
     });
 
     it('should verify up button icon', function() {
-      var buttonListNode = spinnerElem.querySelectorAll('button');
+      var buttonListNode = self.element.querySelectorAll('button');
       var buttonElem = buttonListNode[0].querySelector("i");
-      expect(buttonElem.classList.contains('luna-arrow_extra_smUp')).toBe(true);
+      expect(buttonElem.classList.contains('luna-arrow_extra_smUp')).toBeTruthy();
     });
 
     it('should verify down button icon', function() {
-      var buttonListNode = spinnerElem.querySelectorAll('button');
+      var buttonListNode = self.element.querySelectorAll('button');
       var buttonElem = buttonListNode[1].querySelector("i");
-      expect(buttonElem.classList.contains('luna-arrow_extra_smDown')).toBe(true);
+      expect(buttonElem.classList.contains('luna-arrow_extra_smDown')).toBeTruthy();
+    });
+
+    it('should check validity on init', function() {
+        expect(scope.form.$valid).toBeTruthy();
     });
 
   });
@@ -73,8 +93,8 @@ describe('akamai.components.spinner', function() {
   describe('when rendering directive with options values', function() {
     var spinnerElem;
     beforeEach(function() { //Will run after the overall beforeEach but before each it statement in this describe block
-      var markup = '<akam-spinner ng-model="value" min="min" max="max"  disabled="disabled"></akam-spinner>';
-      scope.value = 2;
+      var markup = '<akam-spinner ng-model="ngModel" min="min" max="max" disabled="disabled"></akam-spinner>';
+      scope.ngModel = 2;
       scope.min = scope.testData.min;
       scope.max = scope.testData.max;
       scope.disabled = scope.testData.disabled;
@@ -83,54 +103,55 @@ describe('akamai.components.spinner', function() {
       spinnerElem = document.querySelector('.akam-spinner');
     });
 
-    afterEach(function() { //Will run after each it block is completed
-      removeElement();
+    it('should verify input element have correct type of number', function() {
+      var typeAttr = spinnerElem.querySelector('input').getAttribute('type');
+      expect(typeAttr).toEqual('number');
     });
 
     it('should verify input element correct value', function() {
       var inputElem = spinnerElem.querySelector('input');
       expect(inputElem.value).toEqual('2');
     });
+
+    it('should verify input element correct attribute disabled value', function() {
+      var disabledAttr = spinnerElem.querySelector('input').getAttribute('disabled');
+      expect(disabledAttr).toEqual('disabled');
+    });
+
+    it('should verify input element correct hadMax class', function() {
+      var inputElem = spinnerElem.querySelector('input');
+      expect(inputElem.classList.contains('hasMax')).toBeTruthy();
+    });
   });
 
   describe('when rendered', function() {
-    var spinnerElem;
-    beforeEach(function() { //Will run after the overall beforeEach but before each it statement in this describe block
-      var markup = '<akam-spinner ng-model="value"></akam-spinner>';
-      scope.value = scope.testData.value;
+
+    it('should verify isOverMax method on the isolated scope', function() {
+      addElement()
+      expect(self.isoScope.isOverMax).toBeDefined();
+    });
+
+    it('should verify value not over max and form is $valid', function() {
+      var markup = '<akam-spinner ng-model="ngModel" max="max"></akam-spinner>';
+      scope.ngModel = 4;
+      scope.max = 5;
       addElement(markup);
-      spinnerElem = document.querySelector('.akam-spinner');
-    });
-    afterEach(function() { //Will run after each it block is completed
-      removeElement();
+      expect(self.isoScope.isOverMax()).toBeFalsy();
+      expect(scope.form.$valid).toBeTruthy();
     });
 
-    it('should input field take numeric values only', function() {
-
+    it('should verify isUnderMin method on the isolated scope', function() {
+      addElement()
+      expect(self.isoScope.isUnderMin).toBeDefined();
     });
 
-    it('should input field keydown event up key incremental by 1', function() {
-
+    it('should verify value is not under the min value ', function() {
+      var markup = '<akam-spinner ng-model="ngModel" min="min"></akam-spinner>';
+      scope.ngModel = 5;
+      scope.min = 3;
+      addElement(markup);
+      expect(self.isoScope.isUnderMin()).toBeFalsy();
     });
-
-    it('should input field field keydown event down key decremental by 1', function() {
-
-    });
-
-    it('should verify input field change event triggered', function() {
-
-    });
-
-    it('should input field restrained by min value', function() {
-
-    });
-
-    it('should input field restrained by max value', function() {
-
-    });
-
-
-
   });
 
 });
