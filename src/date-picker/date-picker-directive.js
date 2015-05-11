@@ -67,7 +67,6 @@ module.exports = function($filter, translate) {
         if (!ngModel) {
           return;
         }
-
         ngModel.$render = function() {
           scope.value =
             $filter('date')(ngModel.$modelValue, scope.format);
