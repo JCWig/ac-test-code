@@ -83,6 +83,10 @@
             "warning": "AVVISO",
             "success": "OPERAZIONE RIUSCITA",
             "error": "ERRORE"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
     }
 }
