@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Switch Button</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+
+    <style>
+        div h2:first-child {
+            margin-bottom:10px;
+        }
+        body.luna > h1 {
+            margin-bottom:20px;
+        }
+    </style>
+</head>
+
+<body class="common-css luna" ng-app="switchButtonApp" ng-strict-di ng-controller="SwitchButtonController as vm">
+
+    <h1>Switch Button Component Example</h1>
+
+    <div>
+        <h2>Default switch</h2>
+        <akam-switch-button ng-model="vm.ex1.on"></akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Custom Labels</h2>
+        <akam-switch-button ng-model="vm.ex2.on" on-label="Allow" off-label="Deny"></akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Medium size</h2>
+        <akam-switch-button ng-model="vm.ex3.on" size="medium"></akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Grayscale: small</h2>
+        <akam-switch-button ng-model="vm.ex4.on" theme="grayscale"></akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Grayscale: medium</h2>
+        <akam-switch-button ng-model="vm.ex5.on" theme="grayscale" size="medium"></akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Disabled</h2>
+        <akam-switch-button ng-model="vm.ex6.on" disabled="true"></akam-switch-button>
+    </div>
+
+    <script src="../dist/akamai-core.js"></script>
+
+    <script>
+
+        angular.module('switchButtonApp', ['akamai.components.switch-button'])
+            .controller('SwitchButtonController', SwitchButtonController)
+            .config(configFunction);
+
+        function SwitchButtonController() {
+            var vm = this;
+
+            vm.ex1 = { on: true };
+            vm.ex2 = { on: false };
+            vm.ex3 = { on: true };
+            vm.ex4 = { on: false };
+            vm.ex5 = { on: true };
+            vm.ex6 = { on: false };
+        }
+
+        configFunction.$inject = ['i18nTokenProvider'];
+        function configFunction (i18nTokenProvider) {
+            // need to overwrite locales path on fee.akamai.com
+            if(window.location.host == 'fee.akamai.com') {
+                i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+                i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            }
+        }
+
+    </script>
+
+</body>
+</html>

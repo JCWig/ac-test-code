@@ -83,6 +83,10 @@
             "warning": "경고",
             "success": "성공",
             "error": "오류"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
     }
 }

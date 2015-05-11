@@ -17,5 +17,7 @@ angular.module('akamai.components', [
   require('./data-table').name,
   require('./spinner').name,
   require('./tool-tip').name,
-  require('./utils').name
+  require('./utils').name,
+  require('./switch-button').name,
+  require('./tool-tip').name
 ]);
