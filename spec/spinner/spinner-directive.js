@@ -3,7 +3,7 @@
 var utils = require('../utilities');
 
 describe('akamai.components.spinner', function() {
-  var scope, self, compile, timeout;
+  var scope, self, compile, interval;
   var UP_BUTTON = '.akam-spinner button:first-child';
   var DOWN_BUTTON = '.akam-spinner button:last-child';
 
@@ -11,10 +11,10 @@ describe('akamai.components.spinner', function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/spinner').name);
-    inject(function(_$rootScope_, _$compile_, _$timeout_) {
+    inject(function(_$rootScope_, _$compile_, _$interval_) {
       scope = _$rootScope_.$new();
       compile = _$compile_;
-      timeout = _$timeout_;
+      interval = _$interval_;
     });
     scope.testData = {
       ngModel: "",
@@ -46,6 +46,7 @@ describe('akamai.components.spinner', function() {
     self.spinnerEl = self.el.find("akam-spinner");
     self.isoScope = self.spinnerEl.isolateScope();
     scope.$digest();
+
     self.element = document.body.appendChild(self.el[0]);
 
   };
@@ -141,7 +142,6 @@ describe('akamai.components.spinner', function() {
       scope.min = 4;
       addElement(markup);
       expect(scope.form.$valid).toBeFalsy();
-
     });
 
     it ("should verify correct max value and form $valid", function() {
@@ -155,31 +155,162 @@ describe('akamai.components.spinner', function() {
       addElement(markup);
       expect(scope.form.$valid).toBeFalsy();
     });
+
+    it ("should verify correct disabled state", function() {
+      addElement();
+      expect(self.isoScope.disabled).toBe("");
+
+      var markup = '<akam-spinner ng-model="ngModel" disabled="disabled"></akam-spinner>';
+      scope.ngModel = 5;
+      scope.disabled = "disabled";
+      addElement(markup);
+
+      expect(self.isoScope.isUpArrowDisabled()).toBe("disabled");
+      expect(self.isoScope.isDownArrowDisabled()).toBe("disabled");
+    });
   });
 
   describe('when rendered', function() {
 
-    it('should verify value not over max and form is $valid', function() {
-      var markup = '<akam-spinner ng-model="ngModel" max="max"></akam-spinner>';
-      scope.ngModel = 4;
-      scope.max = 5;
-      addElement(markup);
-      expect(self.isoScope.isOverMax()).toBeFalsy();
-      expect(scope.form.$valid).toBeTruthy();
+    it('should verify input value in mousedown event on uparrow button', function() {
+      scope.ngModel = 2;
+      addElement();
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+      utils.triggerMouseEvent(buttonListNode[0], "mousedown");
+
+      interval.flush(81);
+
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('3');
+
     });
 
-    it('should verify isUnderMin method on the isolated scope', function() {
-      addElement()
-      expect(self.isoScope.isUnderMin).toBeDefined();
+    it('should verify input value in mousedown event on downArrow button', function() {
+      scope.ngModel = 2;
+      addElement();
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+      utils.triggerMouseEvent(buttonListNode[1], "mousedown");
+
+      interval.flush(81);
+
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('1');
+
     });
 
-    it('should verify value is not under the min value ', function() {
-      var markup = '<akam-spinner ng-model="ngModel" min="min"></akam-spinner>';
-      scope.ngModel = 5;
-      scope.min = 3;
+    it('should verify input value in mousedown event not changing value when in disabled state', function() {
+      scope.ngModel = 2;
+      scope.disabled = "disabled";
+      var markup = '<akam-spinner ng-model="ngModel" disabled="disabled"></akam-spinner>';
       addElement(markup);
-      expect(self.isoScope.isUnderMin()).toBeFalsy();
+
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+
+      utils.triggerMouseEvent(buttonListNode[1], "mousedown");
+      interval.flush(81);
+      var inputElem = self.element.querySelector('.akam-spinner input');
+
+      expect(inputElem.value).toBe('2');
+
+      utils.triggerMouseEvent(buttonListNode[0], "mousedown");
+      interval.flush(81);
+      var inputElem = self.element.querySelector('.akam-spinner input');
+
+      expect(inputElem.value).toBe('2');
+    });
+
+    it('should verify input value remain same in mouseup event on downArrow button', function() {
+      scope.ngModel = 2;
+      addElement();
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+      utils.triggerMouseEvent(buttonListNode[1], "mouseup");
+
+      interval.flush(81);
+
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+    });
+
+    it('should verify input value remain same in mouseup event on upArrow button', function() {
+      scope.ngModel = 2;
+      addElement();
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+      utils.triggerMouseEvent(buttonListNode[0], "mouseup");
+
+      interval.flush(81);
+
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+    });
+
+    it('should verify input value remain same in mouseleave event on upArrow button', function() {
+      scope.ngModel = 2;
+      addElement();
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+      utils.triggerMouseEvent(buttonListNode[0], "mouseleave");
+
+      interval.flush(81);
+
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+    });
+
+    it('should verify input value remain same in mouseleave event on downArrow button', function() {
+      scope.ngModel = 2;
+      addElement();
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+      utils.triggerMouseEvent(buttonListNode[0], "mouseleave");
+
+      interval.flush(81);
+
+      var inputElem = self.element.querySelector('.akam-spinner input');
+      expect(inputElem.value).toBe('2');
+
+    });
+
+    it('should scope function of startStepUp called', function() {
+      addElement();
+      spyOn(self.isoScope, 'startStepUp');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+      utils.triggerMouseEvent(buttonListNode[0], "mousedown");
+
+      expect(self.isoScope.startStepUp).toHaveBeenCalled();
+
+    });
+
+    it('should scope function of startStepDown called', function() {
+      addElement();
+      spyOn(self.isoScope, 'startStepDown');
+
+      var buttonListNode = self.element.querySelectorAll('button');
+      utils.triggerMouseEvent(buttonListNode[1], "mousedown");
+
+      expect(self.isoScope.startStepDown).toHaveBeenCalled();
+
     });
   });
-
 });
