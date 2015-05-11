@@ -121,13 +121,13 @@ $toggle-gradient-top: #fff;
       border-right: $disabled-border;
 
       & > span {
-        background-color: #fff;
-        background-image: none;
+        background: #fff none;
         color: $off-white;
       }
 
       & > label {
         cursor: default;
+        background: #fff none;
 
         & > span {
           border-left: 1px solid $off-white;
