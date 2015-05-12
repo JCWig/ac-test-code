@@ -5,7 +5,13 @@
   overflow: hidden;
 
   > span {
-    margin-left: 4px;
+    padding-left: 4px;
+    white-space: nowrap;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+    width: calc(100% - 18px); // 18px comes from the width, margin-left and margin-right on .util-arrow-down
   }
 
   .util-arrow-down {
