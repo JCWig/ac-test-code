@@ -316,6 +316,7 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
 .akam-data-table {
 
   .data {
+    position: relative;
     min-height: 353px;
   }
 
