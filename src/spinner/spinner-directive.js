@@ -77,33 +77,19 @@ module.exports = function($interval, $log, uuid) {
     initialize();
 
     scope.isUpArrowDisabled = function() {
-      return scope.isOverMax() || scope.disabled === 'disabled' ? 'disabled' : '';
+      return scope.isOverMax() || scope.disabled === 'disabled';
     };
 
     scope.isDownArrowDisabled = function() {
-      return scope.isUnderMin() || scope.disabled === 'disabled' ? 'disabled' : '';
+      return scope.isUnderMin() || scope.disabled === 'disabled';
     };
 
     scope.isUnderMin = function(strict) {
-      var offset = strict ? 0 : 1,
-        num = parseInt(scope.ngModel, 10);
-
-      if (isNaN(num)) {
-        return false;
-      }
-
-      return num - offset < parseInt(scope.min, 10);
+      return isOutOfBound(strict, 'min');
     };
 
     scope.isOverMax = function(strict) {
-      var offset = strict ? 0 : 1,
-        num = parseInt(scope.ngModel, 10);
-
-      if (isNaN(num)) {
-        return false;
-      }
-
-      return num + offset > parseInt(scope.max, 10);
+      return isOutOfBound(strict, 'max');
     };
 
     scope.startStepUp = function(event) {
@@ -185,6 +171,19 @@ module.exports = function($interval, $log, uuid) {
     function updateInput(offset) {
       ngModelController.$setViewValue(scope.ngModel + offset);
       ngModelController.$render();
+    }
+
+    function isOutOfBound(strict, type) {
+      var offset = strict ? 0 : 1,
+        num = parseInt(scope.ngModel, 10),
+        isMin = type === 'min';
+
+      if (isNaN(num)) {
+        return false;
+      }
+
+      return isMin ?
+       num - offset < parseInt(scope.min, 10) : num + offset > parseInt(scope.max, 10);
     }
   }
 };

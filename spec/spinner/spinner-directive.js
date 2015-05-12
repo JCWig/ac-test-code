@@ -190,8 +190,8 @@ describe('akamai.components.spinner', function() {
       scope.disabled = "disabled";
       addElement(markup);
 
-      expect(self.isoScope.isUpArrowDisabled()).toBe("disabled");
-      expect(self.isoScope.isDownArrowDisabled()).toBe("disabled");
+      expect(self.isoScope.isUpArrowDisabled()).toBeTruthy();
+      expect(self.isoScope.isDownArrowDisabled()).toBeTruthy();
     });
   });
 
