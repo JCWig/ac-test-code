@@ -172,7 +172,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        *
        * @description get a list of URLs that reference locale
        * files.
-       * @return localeUrls
+       * @return {array} localeUrls
        *
        */
 
@@ -188,7 +188,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        * @methodOf akamai.components.i18n.service:i18nTokenProvider
        *
        * @description Get the current locale value.
-       * @return locale
+       * @return {string} locale
        *
        */
 

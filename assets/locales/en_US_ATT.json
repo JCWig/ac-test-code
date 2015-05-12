@@ -87,6 +87,11 @@
             "warning": "WARNING",
             "success": "SUCCESS",
             "error": "ERROR"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
+
     }
 }

@@ -1,0 +1,174 @@
+$off-white: #e6e6e6;
+$toggle-gradient-bottom: $off-white;
+$dark-grey: #999;
+$enabled-border: 1px solid $dark-grey;
+$disabled-border: 1px solid $off-white;
+$box-shadow-opacity: rgba(0, 0, 0, 0.12);
+$toggle-gradient-top: #fff;
+
+
+.switch-button {
+  min-width: 90px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  line-height: 8px;
+  overflow: hidden;
+  border-radius: $border-radius;
+  border: $enabled-border;
+
+  & .switch-button-container {
+    // The extra 2% accounts for weird text zoom and cross-browser issues.
+    width: 152%;
+    font-size: 0;
+    border-radius: $border-radius;
+    transition: margin-left 150ms ease-in-out;
+
+    & > * {
+      width: 33.3333%;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      line-height: 16px;
+      display: inline-block;
+      font-size: 12px;
+    }
+
+    & > span {
+      padding-left: 10px;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    & > label {
+      cursor: pointer;
+      @include background-image(linear-gradient($toggle-gradient-top, $toggle-gradient-bottom));
+
+
+      & > span {
+        height: 12px;
+        width: 1px;
+        border-left: 1px solid #c3c3c3;
+        border-right: 1px solid #fff;
+        margin-right: 1px;
+      }
+    }
+
+    & > span:first-child {
+      color: #fff;
+      background-color: #7aaa60;
+      box-shadow: -3px 0 2px 0 $box-shadow-opacity inset;
+      padding-right: 7px;
+      
+      &:after {
+        content: "\00a0";
+      }
+    }
+
+    & > span:last-child {
+      color: #fff;
+      background-color: #a32d2d;
+      box-shadow: 3px 0 2px 0 $box-shadow-opacity inset;
+      padding-left: 7px;
+      
+      &:before {
+        content: "\00a0";
+      }
+    }
+  }
+
+  &.switch-button-on {
+
+    & .switch-button-container {
+      margin-left: 0;
+      border-right: $enabled-border;
+
+      label {
+        border-radius: 0 3px 3px 0;
+        border-left: $enabled-border;
+      }
+    }
+
+  }
+
+  &.switch-button-off {
+
+    & .switch-button-container {
+      margin-left: -51%;
+
+      label {
+        border-radius: 3px 0 0 3px;
+        border-right: $enabled-border;
+      }
+    }
+  }
+
+  &.medium {
+    & .switch-button-container {
+      & > * {
+        line-height: 20px;
+      }
+    }
+  }
+
+  &.grayscale {
+    & .switch-button-container {
+      & > span:first-child {
+        background-color: $dark-grey;
+      }
+
+      & > span:last-child {
+        color: #666;
+        background-image: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
+      }
+    }
+  }
+
+  &.disabled {
+    border: $disabled-border;
+    cursor: default;
+
+    & .switch-button-container {
+      border-right: $disabled-border;
+
+      & > span {
+        background: #fff none;
+        color: $off-white;
+      }
+
+      & > label {
+        cursor: default;
+        background: #fff none;
+
+        & > span {
+          border-left: 1px solid $off-white;
+          border-right: 1px solid #fff;
+          margin-right: 1px;
+        }
+      }
+
+      & > span:first-child,
+      & > span:last-child{
+        box-shadow: none;
+      }
+
+    }
+
+    &.switch-button-on {
+      & .switch-button-container {
+        label {
+          border-left: $disabled-border;
+        }
+      }
+    }
+
+    &.switch-button-off {
+      & .switch-button-container {
+        label {
+          border-right: $disabled-border;
+        }
+      }
+    }
+
+  }
+
+}

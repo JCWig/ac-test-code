@@ -87,6 +87,10 @@
             "warning": "警告！",
             "success": "成功",
             "error": "错误"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
     }
 }

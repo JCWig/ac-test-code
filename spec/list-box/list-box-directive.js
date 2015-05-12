@@ -1384,8 +1384,7 @@ describe('akam-list-box', function() {
 
       expect(rowOneColumnTwo.textContent).toContain('pwn3d');
     });
-  })
-
+  });
   describe('when scrolling ', function(){
     it('should load more data', function(){
       scope.jsonColumns = [
@@ -1400,7 +1399,7 @@ describe('akam-list-box', function() {
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
-
+      
       var totalRows = document.querySelectorAll(TABLE_ROW);
       expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
 
@@ -1473,7 +1472,7 @@ describe('akam-list-box', function() {
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
-
+      
       var totalRows = document.querySelectorAll(TABLE_ROW);
       expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
 
