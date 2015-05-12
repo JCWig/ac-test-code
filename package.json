@@ -21,7 +21,7 @@
   "browserify-shim": {},
   "dependencies": {
     "angular": "^1.4.0-rc.1",
-    "angular-bootstrap-npm": "^0.12.3",
+    "angular-bootstrap-npm": "^0.13.0",
     "angular-cookies": "^1.4.0-rc.1",
     "angular-sanitize": "^1.4.0-rc.1",
     "angular-translate": "^2.6.1"
