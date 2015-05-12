@@ -23,7 +23,9 @@
             "label": {
                 "cancel": "取消",
                 "save": "儲存"
-            }
+            },
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
         },
         "pagination": {
             "label": {

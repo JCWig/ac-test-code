@@ -48,6 +48,9 @@ module.exports = angular.module('akamai.components.date-picker', [
  * @param {Date} max The latest date users can select. Any date after
  * this point is disabled.
  *
+ * @param {String} [disable-clear="false"] A flag to disable clearing
+ * of a selected/set date.
+ *
  * @param {String} [format="EEE, MMM dd, yyyy" for mode="day" |
  * format="MMM yyyy" for mode="month"] An angular-compatible date
  * format.

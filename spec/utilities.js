@@ -11,20 +11,30 @@ module.exports = {
 
     return el;
   },
-  triggerMouseEvent: function(obj, eventType){
-    var el = this.find(obj);
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent(eventType, true);
-    el.dispatchEvent(ev);
+  scroll: function(obj, distance){
+    var domEle = this.find(obj);
+
+    domEle.scrollTop = distance;
+    var element = angular.element(domEle);
+    element.triggerHandler('scroll');
   },
   click: function(obj) {
-    this.triggerMouseEvent(obj, 'click');
+    var el = this.find(obj);
+    var ev = document.createEvent('MouseEvent');
+    ev.initMouseEvent('click', true);
+    el.dispatchEvent(ev);
   },
   mouseHover: function(obj) {
-    this.triggerMouseEvent(obj, 'mouseover');
+    var el = this.find(obj);
+    var ev = document.createEvent('MouseEvent');
+    ev.initMouseEvent('mouseover', true);
+    el.dispatchEvent(ev);
   },
   mouseLeave: function(obj) {
-    this.triggerMouseEvent(obj, 'mouseout');
+    var el = this.find(obj);
+    var ev = document.createEvent('MouseEvent');
+    ev.initMouseEvent('mouseout', true);
+    el.dispatchEvent(ev);
   },
   clickAwayCreationAndClick: function(ele) {
     var clickAwayArea = document.createElement(ele);
@@ -33,13 +43,6 @@ module.exports = {
     var clickAwayButton = document.querySelector('#click-away');
     this.click(clickAwayButton);
     document.body.removeChild(clickAwayArea);
-  },
-  scroll: function(obj, distance){
-    var domEle = this.find(obj);
-
-    domEle.scrollTop = distance;
-    var element = angular.element(domEle);
-    element.triggerHandler('scroll');
   },
   getMonthInEnglish: function(num) {
     var date = new Date();

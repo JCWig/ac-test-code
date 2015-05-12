@@ -4,8 +4,9 @@ describe('i18n $locale service', function() {
   var locale, rootScope, token, localeConstant;
 
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function($provide, i18nTokenProvider) {
+    angular.mock.module(/*@ngInject*/ function($provide, i18nTokenProvider) {
       $provide.decorator('$locale', function($delegate, LOCALES, i18nToken) {
         localeConstant = LOCALES;
         var loc = LOCALES[i18nToken.getCurrentLocale()];
@@ -58,7 +59,7 @@ describe('i18n $locale service', function() {
 describe("$locale service used as filter", function() {
 
   var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json',
-    LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
+    LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
     enUsMessagesResponse = require("./i18n_responses/messages_en_US.json"),
     enUsResponse = require("./i18n_responses/en_US.json");
 
@@ -73,8 +74,9 @@ describe("$locale service used as filter", function() {
   }
 
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {
           AKALOCALE: "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"
@@ -102,7 +104,7 @@ describe("$locale service used as filter", function() {
       token = i18nToken;
     });
     httpBackend.when('GET', '/apps/appname/locales/en_DE.json').respond(404, "BAD PATH");
-    httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond(404, "BAD PATH");
+    httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond(404, "BAD PATH");
     httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
     httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
   });

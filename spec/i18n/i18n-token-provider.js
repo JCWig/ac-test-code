@@ -1,7 +1,7 @@
 'use strict';
 var INTERNATIONALIZATION_PATH = '/apps/appname/locales/en_US.json';
-var LOCALE_BASE_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales/;
-var LIBRARY_PATH = /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var LOCALE_BASE_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales/;
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
 var CONFIG_PREFIX = 'prefix';
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
 var enUsResponse = require("./i18n_responses/en_US.json");
@@ -10,6 +10,7 @@ describe('i18nTokenProvider', function() {
   var provider, config, cook, i18nConfig, location, i18nToken;
 
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
@@ -80,8 +81,9 @@ describe('i18nToken service', function() {
 
   var service, cookies, rootScope, provider, location, config, log;
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
       provider = i18nTokenProvider;
       $translateProvider.useLoader('i18nCustomLoader');
       $provide.decorator('$cookies', function($delegate) {
@@ -199,8 +201,9 @@ describe('locale cookie set to "de_DE', function() {
   var service, cookies, rootScope;
 
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {AKALOCALE: "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
         return $delegate;
@@ -234,11 +237,12 @@ describe('locale cookie set to cookie without translation file', function() {
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {AKALOCALE: "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
@@ -256,7 +260,7 @@ describe('locale cookie set to cookie without translation file', function() {
       log = $log;
     });
     httpBackend.when('GET', '/apps/appname/locales/de_DE.json').respond(404, "BAD PATH");
-    httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond(404, "BAD PATH");
+    httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond(404, "BAD PATH");
     httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
     httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
   });
@@ -275,11 +279,12 @@ describe('locale cookie set to invalid cookie', function() {
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
+    inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {AKALOCALE: "TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
@@ -297,7 +302,7 @@ describe('locale cookie set to invalid cookie', function() {
       log = $log;
     });
     httpBackend.when('GET', '/apps/appname/locales/MQjIBMmtQk.json').respond(404, "BAD PATH");
-    httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/MQjIBMmtQk.json/).respond(404, "BAD PATH");
+    httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/MQjIBMmtQk.json/).respond(404, "BAD PATH");
     httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
     httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
   });
@@ -319,7 +324,7 @@ describe('locale cookie set to zn_CN will not properly encode', function() {
         angular.mock.module(function(i18nTokenProvider) {
             provider = i18nTokenProvider;
         });
-        angular.mock.module(function($provide, $translateProvider) {
+        angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
             $translateProvider.useLoader('i18nCustomLoader');
             $provide.decorator ('$cookies', function ($delegate) {
                 $delegate = {AKALOCALE:"emhfQ04=+TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
@@ -337,7 +342,7 @@ describe('locale cookie set to zn_CN will not properly encode', function() {
             log = $log;
         });
         httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
-        httpBackend.when('GET', /\/libs\/akamai-components\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
+        httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
         httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
         httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
@@ -367,7 +372,7 @@ describe('locale cookie already decoded', function() {
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(function($provide, $translateProvider) {
+    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
       $provide.decorator('$cookies', function($delegate) {
         $delegate = {AKALOCALE: "zh_CN>MQjIBMmtQk/U82yZ8IxKBvE1bfQWUtDA8rzMpRH38PT4aqp+scxLwT12qV+gGxd5fYGbnfo="};

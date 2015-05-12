@@ -19,6 +19,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       onChange: '&?'
     },
 
+    /* @ngInject */
     controller: function($scope) {
       this.loadMoreData = function() {
         var current = $scope.page * 10;
