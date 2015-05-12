@@ -27,7 +27,7 @@ module.exports = function($interval, $log, uuid) {
   function validateInput(value, scope) {
     var valid = true;
 
-    if (scope.disabled === 'disabled') {
+    if (scope.disabled) {
       return !valid;
     }
 
@@ -77,11 +77,11 @@ module.exports = function($interval, $log, uuid) {
     initialize();
 
     scope.isUpArrowDisabled = function() {
-      return scope.isOverMax() || scope.disabled === 'disabled';
+      return scope.isOverMax() || scope.disabled;
     };
 
     scope.isDownArrowDisabled = function() {
-      return scope.isUnderMin() || scope.disabled === 'disabled';
+      return scope.isUnderMin() || scope.disabled;
     };
 
     scope.isUnderMin = function(strict) {
@@ -155,16 +155,21 @@ module.exports = function($interval, $log, uuid) {
     function initialize() {
       var maxlength;
 
-      scope.disabled = scope.disabled === 'disabled' ? scope.disabled : '';
+      //have to use empty string, since max or min will tell browser
+      //to constrain it with 0 value, which is not right
+      scope.max = scope.max ? parseInt(scope.max, 10) : '';
+      scope.min = scope.min ? parseInt(scope.min, 10) : '';
+      scope.disabled = scope.disabled ? scope.$eval(scope.disabled) : false;
       scope.spinnerId = uuid.guid();
 
       scope.dynamicMinWidth = {};
       if (scope.max) {
-        maxlength = scope.max.length;
+        maxlength = String(scope.max).length;
         scope.dynamicMinWidth = {
           'min-width': 'calc(' + maxlength + 'em + 10px)'
         };
       }
+
       ngModelController.$render();
     }
 
@@ -183,7 +188,7 @@ module.exports = function($interval, $log, uuid) {
       }
 
       return isMin ?
-       num - offset < parseInt(scope.min, 10) : num + offset > parseInt(scope.max, 10);
+        num - offset < parseInt(scope.min, 10) : num + offset > parseInt(scope.max, 10);
     }
   }
 };

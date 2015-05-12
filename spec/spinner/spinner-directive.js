@@ -183,7 +183,7 @@ describe('akamai.components.spinner', function() {
 
     it("should verify correct disabled state", function() {
       addElement();
-      expect(self.isoScope.disabled).toBe("");
+      expect(self.isoScope.disabled).toBeFalsy();
 
       var markup = '<akam-spinner ng-model="ngModel" disabled="disabled"></akam-spinner>';
       scope.ngModel = 5;
