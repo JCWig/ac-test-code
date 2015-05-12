@@ -20,11 +20,17 @@ module.exports = angular.module('akamai.components.spinner', [require('../uuid')
  *
  * @description Create HTML element that contains input and upper array and down arrow buttons
  *
- * @param {Number|String} max number value for upper bound of spinner can go, optional. Default is unlimit
+ * @param {Number|String} ngModel input value, it is required to be able to use directive.
+ * Two way bind
  *
- * @param {Number|String} min number value for lower bound limit of spinner can go, optional. Default is unlimit
+ * @param {Number|String} max number value for upper bound of spinner can go, optional.
+ * Default is unlimit. One way bind
  *
- * @param {String} disabled a string value intend to disable the spinner if provided, optional. Default is enabled
+ * @param {Number|String} min number value for lower bound limit of spinner can go, optional.
+ * Default is unlimit One way bind
+ *
+ * @param {String} disabled a string value intend to disable the spinner if provided, optional.
+ * Default is other than String of "disabled". Two way bind
  *
  */
 .directive('akamSpinner', require('./spinner-directive'));
