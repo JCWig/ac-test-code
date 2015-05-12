@@ -223,6 +223,7 @@ $list-box-filter-padding-right: $list-box-filter-icon + 8px;
 $list-box-cell-height: 30px;
 $list-box-footer-height: 28px;
 $list-box-header-height: $list-box-cell-height + $list-box-border-width;
+$list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) * 8);
 
 
 .akam-list-box {
@@ -237,7 +238,8 @@ $list-box-header-height: $list-box-cell-height + $list-box-border-width;
     overflow-x: hidden;
     overflow-y: auto;
     height: 100%;
-    max-height: 300px; //Note that this should be reset by a user to whatever the more appropriate value is
+    max-height: $list-box-body-height; //Note that this should be reset by a user to whatever the more appropriate value is
+    min-height: $list-box-body-height; 
     border-top: $list-box-border;
 
     &::-webkit-scrollbar {
@@ -314,6 +316,7 @@ $list-box-header-height: $list-box-cell-height + $list-box-border-width;
 .akam-data-table {
 
   .data {
+    position: relative;
     min-height: 353px;
   }
 
@@ -463,8 +466,11 @@ $list-box-header-height: $list-box-cell-height + $list-box-border-width;
   }
 
   .empty-table-message {
-    position: relative;
+    position: absolute;
     padding: 10px 10px 10px 36px;
+    top: $list-box-header-height;
+    left: 0;
+    right: 0;
 
     i {
       position: absolute;

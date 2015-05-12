@@ -268,7 +268,9 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
         scope.selectedItems = selectedItemsList;
 
-        scope.onChange({value: selectedItemsList});
+        if (typeof scope.onChange === 'function') {
+          scope.onChange({value: selectedItemsList});
+        }
       };
 
       scope.sortColumn = function(column) {
