@@ -1,12 +1,15 @@
 'use strict';
+var foreach = require('lodash/collection/foreach');
+var angular = require('angular');
 
 /* @ngInject */
-module.exports = function($q, $compile, $log) {
+module.exports = function($q, $compile, $log, $timeout) {
   return {
     restrict: 'E',
     scope: {
       contextData: '=',
-      onContextChange: '='
+      onContextChange: '=',
+      loadingMessage: '@'
     },
     template: require('./templates/tree-view.tpl.html'),
     link: function(scope) {
@@ -16,22 +19,24 @@ module.exports = function($q, $compile, $log) {
       scope.children = [];
       scope.contextChangeNew = function(clickedObj, up) {
         haveDataFlag = true;
-        //up if (up === false) going down tree
-        //if (up === true) going up tree
         if (up) {
           maintainParentTree(clickedObj, up);
         } else {
           maintainParentTree(scope.current, up);
         }
-        if(scope.parentTree.length === 0){
+        if (scope.parentTree.length === 0) {
           clickedObj.root = true;
         }
         scope.current = clickedObj;
         scope.onContextChange(clickedObj, up);
       };
       scope.$watch('contextData', function() {
-
-        scope.loading = true;
+        scope.retrievedData = false;
+        $timeout(function() {
+          if (!scope.retrievedData) {
+            scope.loading = true;
+          }
+        }, 300);
         scope.failed = false;
         $q.when(scope.contextData).then(function(data) {
           if (data.parent && !haveDataFlag) {
@@ -47,11 +52,10 @@ module.exports = function($q, $compile, $log) {
           } else {
             scope.children = [];
           }
-
           scope.loading = false;
+          scope.retrievedData = true;
         }).catch(function() {
           scope.failed = true;
-          $log.error('failed getting data');
         });
       });
       scope.hasParents = function() {
@@ -60,6 +64,10 @@ module.exports = function($q, $compile, $log) {
       function maintainParentTree(obj, toRemove) {
         if (toRemove) {
           scope.parentTree.splice(scope.parentTree.indexOf(obj), scope.parentTree.length);
+        } else if (angular.isArray(obj)) {
+          foreach(obj, function(val) {
+            scope.parentTree.push(val);
+          });
         } else {
           scope.parentTree.push(obj);
         }

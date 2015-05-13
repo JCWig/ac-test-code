@@ -1,6 +1,5 @@
 'use strict';
 var debounce = require('lodash/function/debounce');
-var foreach = require('lodash/collection/foreach');
 var angular = require('angular');
 
 /* @ngInject */
@@ -13,10 +12,11 @@ module.exports = function($timeout, $compile, $document) {
       changeParent: '='
     },
     link: function(scope, element) {
-      var template, toolTip, triggerElement;
+      var template, parentSelector, triggerElement;
+
       scope.toggle = function() {
         scope.opened = !scope.opened;
-        toolTip.toggleClass('in', scope.opened);
+        parentSelector.toggleClass('in', scope.opened);
         if (!scope.opened) {
           triggerElement.removeClass('opened');
           $document.unbind('click', documentClickBind);
@@ -36,7 +36,7 @@ module.exports = function($timeout, $compile, $document) {
         return scope.parentTree.length > 0;
       }
       function documentClickBind(e) {
-        if (scope.opened && e.currentTarget !== toolTip[0]) {
+        if (scope.opened && e.currentTarget !== parentSelector[0]) {
           scope.toggle();
         }
       }
@@ -45,38 +45,28 @@ module.exports = function($timeout, $compile, $document) {
         var elementOffsetTop = triggerElement[0].offsetTop;
         var triggerElementHeight = triggerElement[0].offsetHeight;
         var arrowHeight = 10;
-        var toolTipArrowOffset = 21;
+        var parentSelectorArrowOffset = 21;
 
-        scope.toolTipLeft = triggerElementOffsetLeft - toolTipArrowOffset;
-        scope.toolTipTop = elementOffsetTop + arrowHeight + triggerElementHeight;
-        scope.arrowLeft = toolTipArrowOffset;
-        scope.arrowTop = -arrowHeight;
-
-        scope.toolTipTop = scope.toolTipTop + 'px';
-        scope.toolTipLeft = scope.toolTipLeft + 'px';
-        scope.arrowTop = scope.arrowTop + 'px';
-        scope.arrowLeft = scope.arrowLeft + 'px';
+        scope.parentSelectorLeft = triggerElementOffsetLeft - parentSelectorArrowOffset + 'px';
+        scope.parentSelectorTop = elementOffsetTop + arrowHeight + triggerElementHeight + 'px';
+        scope.arrowLeft = parentSelectorArrowOffset + 'px';
+        scope.arrowTop = -arrowHeight + 'px';
       }
-      scope.$watch('parentTree', function(newTree){
-        console.log(newTree);
-        newTree.reverse();
-        scope.parentTree = newTree;
-      });
+
       scope.opened = false;
       template = require('./templates/tree-view-parent-selector.tpl.html');
-      toolTip = $compile(template)(scope, function(toolTipEle) {
-        element.after(toolTipEle);
+      parentSelector = $compile(template)(scope, function(parentSelectorEle) {
+        element.after(parentSelectorEle);
       });
       triggerElement = element;
       triggerElement.on('click', function(e) {
         if (hasParents()) {
           e.stopPropagation();
           scope.toggle();
-          toolTip.on('click', function(e) {
-            e.stopPropagation();
+          parentSelector.on('click', function(ev) {
+            ev.stopPropagation();
           });
-        } 
-
+        }
       });
       angular.element(window).on('resize', debounce(setCoords, 200));
       $timeout(function() {

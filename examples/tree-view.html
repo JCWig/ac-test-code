@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
     <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
-        <div class="container">
+        <div class="container" >
             <div class="page-header">
                 <h1>Content Panel Component Example</h1>
             </div>
@@ -14,13 +14,16 @@
             <span>What Has Data? <br>
                 Justice League >> Bruce Wayne (timedelay 2 sec) >> Barbara Gordon >> Dinah Lance (timedelay 5 sec)
             </span>
-            <akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>
+            <div style="max-width:225px;">
+                <akam-tree-view context-data="contextData" loading-message="{{message}}"on-context-change="triggerChange"> </akam-tree-view>
+            </div>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
             angular.module('example', ['akamai.components.tree-view'])
             
             .controller('ExampleController', function($scope, $log, $q, $timeout) {
+                $scope.message = "loading..."
                 $scope.triggerChange = function(clickedObj){
                     if(clickedObj.title === 'Barbara Gordon'){
                         $scope.contextData = {
@@ -42,7 +45,14 @@
                                     {title:"Mia Dearden"},
                                     {title:"Roy Harper"}
                             ]});
-                        }, 50000);
+                        }, 5000);
+                    } else if (clickedObj.title === 'Jason Todd') {
+                        var def = $q.defer();
+                        $scope.contextData = def.promise;
+                        $timeout(function(){
+                            def.reject();
+                            $scope.message="Failed";
+                        }, 200);
                     } else if (clickedObj.title === 'Dick Grayson') {
                         var def = $q.defer();
                         $scope.contextData = {
@@ -89,7 +99,7 @@
                     }
                 }
                 $scope.contextData = {
-                    parent:{title:"Justice League"},
+                    parent:[{title:"Justice League"}],
                     current:{title: "Bruce Wayne"},
                     children:[
                         {title:"Dick Grayson"},
