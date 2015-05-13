@@ -130,11 +130,6 @@ $toggle-gradient-top: #fff;
     & .switch-button-container {
       border-right: $disabled-border;
 
-      & > span {
-        background: #fff none;
-        color: $off-white;
-      }
-
       & > label {
         cursor: default;
         background: #fff none;
@@ -168,6 +163,13 @@ $toggle-gradient-top: #fff;
         }
       }
     }
+
+    &.switch-button-on .switch-button-container > span,
+    &.switch-button-off .switch-button-container > span {
+      background: #fff none;
+      color: $off-white;
+    }
+
 
   }
 

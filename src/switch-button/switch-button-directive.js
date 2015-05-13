@@ -9,8 +9,13 @@ module.exports = function(translate) {
     GRAYSCALE: 'grayscale',
     COLOR: 'color',
     ON: 'On',
-    OFF: 'Off'
+    OFF: 'Off',
+    DISABLED: 'disabled'
   };
+
+  function filterDisabled(disabled) {
+    return disabled === 'true' ? disabled : 'false';
+  }
 
   function setDefaultScopeValues(scope) {
 
@@ -28,7 +33,7 @@ module.exports = function(translate) {
         });
     }
 
-    scope.disabled = scope.disabled === 'true';
+    scope.disabled = filterDisabled(scope.disabled);
   }
 
   return {
@@ -47,16 +52,26 @@ module.exports = function(translate) {
       var theme = attrs.theme === c.GRAYSCALE ? attrs.theme : c.COLOR;
       var element = elem.children(0);
 
+      function switchClick() {
+        ngModel.$setViewValue(!ngModel.$viewValue);
+      }
+
       setDefaultScopeValues(scope);
 
       element.toggleClass(c.MEDIUM, size === c.MEDIUM);
       element.toggleClass(c.GRAYSCALE, theme === c.GRAYSCALE);
 
-      if (scope.disabled === false) {
-        elem.on('click', function() {
-          ngModel.$setViewValue(!ngModel.$viewValue);
-        });
-      }
+      scope.$watch('disabled', function(disabled) {
+        scope.disabled = filterDisabled(disabled);
+        element.toggleClass(c.DISABLED, scope.disabled === 'true');
+
+        if (scope.disabled === 'false') {
+          elem.on('click', switchClick);
+        } else {
+          elem.off('click', switchClick);
+        }
+      });
+
     }
   };
 };
