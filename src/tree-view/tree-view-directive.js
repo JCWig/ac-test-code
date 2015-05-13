@@ -1,5 +1,4 @@
 'use strict';
-var foreach = require('lodash/collection/foreach');
 var angular = require('angular');
 
 /* @ngInject */
@@ -65,7 +64,7 @@ module.exports = function($q, $compile, $log, $timeout) {
         if (toRemove) {
           scope.parentTree.splice(scope.parentTree.indexOf(obj), scope.parentTree.length);
         } else if (angular.isArray(obj)) {
-          foreach(obj, function(val) {
+          angular.forEach(obj, function(val) {
             scope.parentTree.push(val);
           });
         } else {
