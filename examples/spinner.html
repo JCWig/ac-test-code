@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Components Examples - Content Panel</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+</head>
+
+<body class="common-css luna" ng-app="spinner" ng-strict-di ng-controller="SpinnerController as vm">
+<div class="container" style="padding-left: 50px;">
+  <form name="form">
+    <h4>Watch form controller values change</h4>
+    <ul>
+      <li>
+        <p>Form has been modified : {{ form.$dirty }}</p>
+      </li>
+      <li>
+        <p>Form is valid : {{ form.$valid }} </p>
+      </li>
+    </ul>
+    <br>
+    <h3>Example 1</h3>
+    <br>
+    <h4>Input Value</h4>
+    value: <span>{{vm.value1}}</span>
+    <div style="padding-left: 150px;">
+      <akam-spinner ng-model="vm.value1"></akam-spinner>
+    </div>
+        <br>
+                <br>
+    <h3>Example 2</h3>
+        <br>
+    Update value here:
+    <input type="text" size="3" ng-change="vm.inputChanged()" ng-model="vm.input">
+    <br>
+    <h4>Input Value</h4>
+    value: <span>{{vm.value2}}</span>
+    <h4>Optional Values</h4>
+    Min value: <span>{{vm.min}}</span>
+    <br>
+    Max value: <span>{{vm.max}}</span>
+    <br>
+    <br>
+    <button class="button" ng-click="vm.buttonClick()">{{vm.buttonName}}</button>
+    <br>
+    <br>
+    <div style="padding-left: 150px;">
+      <akam-spinner min={{::vm.min}} max={{::vm.max}} ng-model="vm.value2" disabled={{vm.disabled}}>
+      </akam-spinner>
+    </div>
+  </form>
+</div>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  angular.module('spinner', ['akamai.components.spinner']);
+
+  angular
+    .module('spinner')
+    .controller('SpinnerController', SpinnerController);
+
+  function SpinnerController() {
+    var vm = this;
+    vm.value1 = 0;
+    vm.value2 = 0;
+    vm.min = 0;
+    vm.max = 30;
+    vm.disabled = false;//true or false
+    vm.buttonName = 'ToDisableSpinner';
+    vm.buttonClick = toggleButton;
+    vm.inputChanged = inputChanged;
+
+    function toggleButton() {
+      vm.buttonName = vm.buttonName === 'ToDisableSpinner' ? 'ToEnableSpinner' : 'ToDisableSpinner';
+      if (vm.buttonName === 'ToEnableSpinner') {
+        vm.disabled = true;
+      } else {
+        vm.disabled = false;
+      }
+    }
+
+    function inputChanged() {
+      vm.value2 = parseInt(vm.input);
+    }
+  }
+  </script>
+</body>
+
+</html>
