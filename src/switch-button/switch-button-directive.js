@@ -9,7 +9,8 @@ module.exports = function(translate) {
     GRAYSCALE: 'grayscale',
     COLOR: 'color',
     ON: 'On',
-    OFF: 'Off'
+    OFF: 'Off',
+    DISABLED: 'disabled'
   };
 
   function setDefaultScopeValues(scope) {
@@ -51,6 +52,7 @@ module.exports = function(translate) {
 
       element.toggleClass(c.MEDIUM, size === c.MEDIUM);
       element.toggleClass(c.GRAYSCALE, theme === c.GRAYSCALE);
+      element.toggleClass(c.DISABLED, scope.disabled);
 
       if (scope.disabled === false) {
         elem.on('click', function() {
