@@ -104,7 +104,12 @@ describe('messageBox service', function() {
     it('should cancelLabel display translation key if not provide one', function() {
       var cancelLabelKey = 'No';
 
-      this.$timeout.flush();
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
+
 
       this.messageBox.show({
         headline: 'headline',
@@ -120,7 +125,11 @@ describe('messageBox service', function() {
     it('should submitLabel display translation key if not provide one', function() {
       var submitLabelKey = 'Yes';
 
-      this.$timeout.flush();
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
 
       this.messageBox.show({
         headline: 'headline',
@@ -226,8 +235,11 @@ describe('messageBox service', function() {
       expect(closeIcon).not.toBe(null)
       utilities.click(closeIcon);
       this.$rootScope.$digest();
-      this.$timeout.flush();
-      this.$timeout.flush();
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
       expect(document.querySelector('.modal-content')).toBe(null);
     });
 
@@ -245,7 +257,11 @@ describe('messageBox service', function() {
 
         expect(angular.element(messageBoxDetails).css('height')).toEqual('0px');
         utilities.click(messageBoxDetailsTrigger);
-        this.$timeout.flush();
+        try {
+          this.$timeout.verifyNoPendingTasks();
+        } catch (e) {
+          this.$timeout.flush();
+        }
         expect(angular.element(messageBoxDetails).css('height')).not.toEqual('0px');
       });
     });
@@ -286,8 +302,11 @@ describe('messageBox service', function() {
         var cancelModalButton = document.querySelector('.modal-footer button');
         utilities.click(cancelModalButton);
         this.$rootScope.$digest();
-        this.$timeout.flush();
-        this.$timeout.flush();
+        try {
+          this.$timeout.verifyNoPendingTasks();
+        } catch (e) {
+          this.$timeout.flush();
+        }
         expect(document.querySelector('.modal-content')).toBe(null);
         expect(spy).not.toHaveBeenCalled();
       });
@@ -304,8 +323,11 @@ describe('messageBox service', function() {
         this.$rootScope.$digest();
         var closeIcon = document.querySelector('.modal-content i.close-icon');
         utilities.click(closeIcon);
-        this.$timeout.flush();
-        this.$timeout.flush();
+        try {
+          this.$timeout.verifyNoPendingTasks();
+        } catch (e) {
+          this.$timeout.flush();
+        }
         this.$rootScope.$digest();
         this.messageBox.show({
           title: title2,

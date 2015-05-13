@@ -21,7 +21,9 @@
             "label": {
                 "cancel": "Cancelar",
                 "save": "Guardar"
-            }
+            },
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
         },
         "pagination": {
             "label": {
@@ -83,6 +85,10 @@
             "warning": "ADVERTENCIA",
             "success": "ÉXITO",
             "error": "ERROR"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
     }
 }

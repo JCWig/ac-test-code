@@ -21,7 +21,9 @@
             "label": {
                 "cancel": "取消",
                 "save": "保存"
-            }
+            },
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
         },
         "pagination": {
             "label": {
@@ -83,6 +85,10 @@
             "warning": "警告！",
             "success": "成功",
             "error": "错误"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
     }
 }

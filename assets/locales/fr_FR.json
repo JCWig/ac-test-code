@@ -21,7 +21,9 @@
             "label": {
                 "cancel": "Annuler",
                 "save": "Enregistrer"
-            }
+            },
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
         },
         "pagination": {
             "label": {
@@ -83,6 +85,10 @@
             "warning": "AVERTISSEMENT",
             "success": "TERMINÉ",
             "error": "ERREUR"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
     }
 }

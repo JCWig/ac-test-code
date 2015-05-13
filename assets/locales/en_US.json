@@ -77,8 +77,8 @@
                 "save": "Save"
             },
             "title": "Modal Window",
-            "successMessage": "The Action has been completed.",
-            "errorMessage": "The action can’t be completed."
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
         },
         "pagination": {
             "label": {
@@ -97,6 +97,10 @@
         },
         "tooltip": {
 
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
     }
 }

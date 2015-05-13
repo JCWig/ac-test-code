@@ -1,6 +1,11 @@
 'use strict';
 
 module.exports = {
+
+  LIBRARY_PATH: /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
+
+  CONFIG_PATH: '/apps/appname/locales/en_US.json',
+
   find: function(obj) {
     var el;
     if (typeof obj === 'string' || obj instanceof String) {
