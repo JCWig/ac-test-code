@@ -5,9 +5,10 @@
     	<span class="parents-indicator" ng-if="hasParents()"> > </span> <span class="tree-view-current-title">{{current.title}} </span>
     </div>
 	<div class="tree-view-children">
-		<div akam-text-overflow text="{{child.title}}" ng-if="retrievedData" ng-repeat="child in children" ng-if="!loading && !failed" class="tree-view-contents">
+		<div akam-text-overflow text="{{child.title}}" ng-click="contextChangeNew(child)" ng-if="retrievedData" ng-repeat="child in children" ng-if="!loading && !failed" 
+			class="tree-view-contents util-clickable">
 			<i class="luna-child_group_folder"></i>
-			<span   ng-click="contextChangeNew(child)">
+			<span>
 				{{child.title}}
 			</span>
 		</div>

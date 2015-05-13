@@ -13,7 +13,8 @@
             <h3>Tree View Examples</h3>
             <span>What Has Data? <br>
                 Justice League >> Bruce Wayne (timedelay 2 sec) >> Barbara Gordon >> Dinah Lance (timedelay 5 sec) <br>
-                Jason Todd = Failed to get data;
+                Jason Todd = Failed to get data; <br>
+                All Others Have No Children At All. <br>
             </span>
             <div style="max-width:225px;">
                 <akam-tree-view context-data="contextData" loading-message="{{message}}"on-context-change="triggerChange"> </akam-tree-view>
@@ -24,6 +25,7 @@
             var exampleController = function($scope, $log, $q, $timeout) {
                 $scope.message = "loading..."
                 $scope.triggerChange = function(clickedObj){
+                    $scope.message = "loading..."
                     if(clickedObj.title === 'Barbara Gordon'){
                         $scope.contextData = {
                             parent:{title:"Bruce Wayne"},

@@ -3,7 +3,7 @@ style="display:block">
 	<div class="tooltip-arrow" ng-style="{'top': arrowTop, 'left':arrowLeft}"></div>
 	<div class="tooltip-contents">
 	 	<div ng-repeat="parent in parentTree.slice().reverse()">
-	 		<div class="tree-view-contents" ng-click="triggerParentChange(parent, true)">
+	 		<div class="tree-view-contents util-clickable" ng-click="triggerParentChange(parent, true)">
 	 			<i ng-class="{'luna-folder':!parent.root, 'luna-home':parent.root}"></i> 
 	 			<span>{{parent.title}}</span>
 	 		</div>
