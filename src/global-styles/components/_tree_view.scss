@@ -1,0 +1,83 @@
+$tooltip-arrow-border: 8px solid transparent;
+.tree-view-wrapper {
+    span {
+        line-height: 1;
+        font-family: Arial;
+        font-weight: bold;
+        font-size: 12px;
+    }
+    max-width:225px;
+    min-width: 225px;
+    background-color:white;
+
+    .tree-view-current{ 
+        white-space: nowrap;
+        padding-top:9px;
+        padding-left: 10px;
+        padding-right: 20px;
+        height : 36px;
+        i {
+            vertical-align:middle;
+            margin-top: -5px;
+            margin-right: 4px;
+            &.opened {
+                @include luna-sprite('parent_group_folder_hover');
+            }
+        }
+    }
+    .tree-view-children{
+        overflow-y:scroll;
+        white-space: nowrap;
+        span {
+            font-weight:normal;
+        }
+    }
+    .tree-view-contents{
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top:11px;
+        overflow-x:hidden;
+        text-overflow: ellipsis;
+        &:hover{
+            background-color: #EBF6FF;
+        }
+        i {
+            vertical-align:middle;
+            margin-top: -5px;
+            margin-right: 4px;
+        }
+        height : 36px;
+    }
+    .tooltip {
+        font-size: 12px;
+        &.in{
+            z-index: $tooltip-zindex;
+            opacity: 1;
+        }
+        .tooltip-contents{
+            overflow:hidden;
+            padding: 10px 0px 10px 0px;
+            background-color: white;
+            border-color: $border-color;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: $border-radius;
+            i {
+                margin-top:-3px;
+            }
+            .tree-view-contents{
+                padding-top:9px; 
+                padding-left:10px;
+                padding-right:10px;
+                &:hover{
+                    background-color: #EBF6FF;
+                }
+            }
+        }
+        &.bottom{
+            > .tooltip-arrow:after {
+                border-bottom:10.5px solid white; 
+            }   
+        }
+    }
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Components Examples - Content Panel</title>
+        <link rel="stylesheet" href="../dist/akamai-core.css">
+    </head>
+    <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+        <div class="container">
+            <div class="page-header">
+                <h1>Content Panel Component Example</h1>
+            </div>
+            <h3>Tree View Examples</h3>
+            <span>What Has Data? <br>
+                Justice League >> Bruce Wayne (timedelay 2 sec) >> Barbara Gordon >> Dinah Lance (timedelay 5 sec)
+            </span>
+            <akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>
+        </div>
+        <script src="../dist/akamai-core.js"></script>
+        <script>
+            angular.module('example', ['akamai.components.tree-view'])
+            
+            .controller('ExampleController', function($scope, $log, $q, $timeout) {
+                $scope.triggerChange = function(clickedObj){
+                    if(clickedObj.title === 'Barbara Gordon'){
+                        $scope.contextData = {
+                            parent:{title:"Bruce Wayne"},
+                            children : [
+                                {title:"Dinah Lance"},
+                                {title:"Helena Bertinelli"},
+                                {title:"Selina Kyle"}
+                            ]
+                        }
+                    } else if (clickedObj.title === 'Dinah Lance') {
+                        var def = $q.defer();
+                        $scope.contextData = def.promise;
+                        $timeout(function(){
+                            def.resolve({
+                                parent:{title:"Barbara Gordon"},
+                                children : [
+                                    {title:"Oliver Queen"},
+                                    {title:"Mia Dearden"},
+                                    {title:"Roy Harper"}
+                            ]});
+                        }, 50000);
+                    } else if (clickedObj.title === 'Dick Grayson') {
+                        var def = $q.defer();
+                        $scope.contextData = {
+                            parent:{title:"Bruce Wayne"},
+                            children : null
+                        }
+                    }  else if (clickedObj.title === 'Tim Drake') {
+                        var def = $q.defer();
+                        $scope.contextData = {
+                            parent:{title:"Bruce Wayne"},
+                            children : []
+                        }
+                    } else if (clickedObj.title === 'Bruce Wayne') {
+                        var def = $q.defer();
+                        $scope.contextData = def.promise;
+                        $timeout(function(){
+                            def.resolve({
+                                parent:{title:"Jusice League"},
+                                children:[
+                                    {title:"Dick Grayson"},
+                                    {title:"Jason Todd"},
+                                    {title:"Tim Drake"},
+                                    {title:"Barbara Gordon"},
+                                    {title:"Damian Wayne"}
+                                ]
+                            });
+                        }, 2000);
+                    } else if (clickedObj.title === 'Justice League') {
+                        $scope.contextData = {
+                            parent : null,
+                            children: [
+                                {title: "Bruce Wayne"},
+                                {title: "Clark Kent"},
+                                {title: "Hal Jordan"},
+                                {title: "Barry Allen"},
+                                {title: "Arthur Curry"},
+                                {title: "Diana Prince"}
+                            ]
+                        }
+                    } else {
+                        $scope.contextData = {
+                            children: null
+                        }
+                    }
+                }
+                $scope.contextData = {
+                    parent:{title:"Justice League"},
+                    current:{title: "Bruce Wayne"},
+                    children:[
+                        {title:"Dick Grayson"},
+                        {title:"Jason Todd"},
+                        {title:"Tim Drake"},
+                        {title:"Barbara Gordon"},
+                        {title:"Damian Wayne"},
+                        {title:"Damian Waynealsdjkfhalksjdfhlkasdjhflkajsdhfjdshfla"},
+                    ]
+                }
+            });
+        </script>
+    </body>
+</html>
