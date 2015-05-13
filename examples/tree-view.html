@@ -5,7 +5,7 @@
         <title>Akamai Components Examples - Content Panel</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container" >
             <div class="page-header">
                 <h1>Content Panel Component Example</h1>
@@ -21,9 +21,7 @@
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            angular.module('example', ['akamai.components.tree-view'])
-            
-            .controller('ExampleController', function($scope, $log, $q, $timeout) {
+            var exampleController = function($scope, $log, $q, $timeout) {
                 $scope.message = "loading..."
                 $scope.triggerChange = function(clickedObj){
                     if(clickedObj.title === 'Barbara Gordon'){
@@ -111,7 +109,12 @@
                         {title:"Damian Waynealsdjkfhalksjdfhlkasdjhflkajsdhfjdshfla"},
                     ]
                 }
-            });
+            };
+            exampleController.$inject = ['$scope', '$log', '$q', '$timeout'];
+            angular.module('example', ['akamai.components.tree-view'])
+            
+
+            .controller('ExampleController', exampleController);
         </script>
     </body>
 </html>
