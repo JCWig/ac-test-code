@@ -65,7 +65,7 @@
     vm.value2 = 0;
     vm.min = 0;
     vm.max = 30;
-    vm.disabled = '';//true or false or empty
+    vm.disabled = false;//true or false
     vm.buttonName = 'ToDisableSpinner';
     vm.buttonClick = toggleButton;
     vm.inputChanged = inputChanged;
@@ -73,9 +73,9 @@
     function toggleButton() {
       vm.buttonName = vm.buttonName === 'ToDisableSpinner' ? 'ToEnableSpinner' : 'ToDisableSpinner';
       if (vm.buttonName === 'ToEnableSpinner') {
-        vm.disabled = 'disabled';
+        vm.disabled = true;
       } else {
-        vm.disabled = '';
+        vm.disabled = false;
       }
     }
 

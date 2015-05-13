@@ -20,7 +20,7 @@ describe('akamai.components.spinner', function() {
       ngModel: "",
       min: 0,
       max: 50,
-      disabled: 'disabled'
+      disabled: true
     };
   });
   afterEach(function() {
@@ -114,7 +114,7 @@ describe('akamai.components.spinner', function() {
 
     it('should verify input element correct attribute disabled value', function() {
       var disabledAttr = spinnerElem.querySelector('input').getAttribute('disabled');
-      expect(disabledAttr).toEqual('disabled');
+      expect(disabledAttr).toEqual(null);
     });
   });
 
@@ -187,11 +187,11 @@ describe('akamai.components.spinner', function() {
 
       var markup = '<akam-spinner ng-model="ngModel" disabled="disabled"></akam-spinner>';
       scope.ngModel = 5;
-      scope.disabled = "disabled";
+      scope.disabled = true;
       addElement(markup);
 
-      expect(self.isoScope.isUpArrowDisabled()).toBeTruthy();
-      expect(self.isoScope.isDownArrowDisabled()).toBeTruthy();
+      expect(self.isoScope.disabled).toBeTruthy();
+      expect(self.isoScope.disabled).toBeTruthy();
     });
   });
 
@@ -232,7 +232,7 @@ describe('akamai.components.spinner', function() {
 
       it('should verify input value in mousedown event not changing value when in disabled state', function() {
         scope.ngModel = 2;
-        scope.disabled = "disabled";
+        scope.disabled = true;
         var markup = '<akam-spinner ng-model="ngModel" disabled="disabled"></akam-spinner>';
         addElement(markup);
 
@@ -245,13 +245,13 @@ describe('akamai.components.spinner', function() {
         interval.flush(81);
         var inputElem = self.element.querySelector('.akam-spinner input');
 
-        expect(inputElem.value).toBe('2');
+        expect(inputElem.value).toBe('1');
 
         utils.triggerMouseEvent(buttonListNode[0], "mousedown");
         interval.flush(81);
         var inputElem = self.element.querySelector('.akam-spinner input');
 
-        expect(inputElem.value).toBe('2');
+        expect(inputElem.value).toBe('1');
       });
 
       it('should verify input value remain same in mouseup event on downArrow button', function() {

@@ -59,7 +59,7 @@ module.exports = function($interval, $log, uuid) {
     return valid;
   }
 
-  function stopIntrnalEvents(event) {
+  function stopInternalEvents(event) {
     if (event) {
       event.stopPropagation();
       event.preventDefault();
@@ -71,17 +71,22 @@ module.exports = function($interval, $log, uuid) {
 
     //ngModelController has to be defined
     if (!ngModelController) {
+      $log.error('The ngModelController is required to instantiate directive instance.')
       return;
     }
 
     initialize();
 
+    scope.isDisabled = function() {
+      return getDisabledState();
+    };
+
     scope.isUpArrowDisabled = function() {
-      return scope.isOverMax() || scope.disabled;
+      return scope.isOverMax() || getDisabledState();
     };
 
     scope.isDownArrowDisabled = function() {
-      return scope.isUnderMin() || scope.disabled;
+      return scope.isUnderMin() || getDisabledState();
     };
 
     scope.isUnderMin = function(strict) {
@@ -93,7 +98,7 @@ module.exports = function($interval, $log, uuid) {
     };
 
     scope.startStepUp = function(event) {
-      stopIntrnalEvents(event);
+      stopInternalEvents(event);
       if (angular.isDefined(upMouseDownPromise)) {
         return;
       }
@@ -107,7 +112,7 @@ module.exports = function($interval, $log, uuid) {
     };
 
     scope.stopStepUp = function(event) {
-      stopIntrnalEvents(event);
+      stopInternalEvents(event);
       if (angular.isDefined(upMouseDownPromise)) {
         $interval.cancel(upMouseDownPromise);
         upMouseDownPromise = undefined;
@@ -115,7 +120,7 @@ module.exports = function($interval, $log, uuid) {
     };
 
     scope.startStepDown = function(event) {
-      stopIntrnalEvents(event);
+      stopInternalEvents(event);
       if (angular.isDefined(downMouseDownPromise)) {
         return;
       }
@@ -130,7 +135,7 @@ module.exports = function($interval, $log, uuid) {
     };
 
     scope.stopStepDown = function(event) {
-      stopIntrnalEvents(event);
+      stopInternalEvents(event);
       if (angular.isDefined(downMouseDownPromise)) {
         $interval.cancel(downMouseDownPromise);
         downMouseDownPromise = undefined;
@@ -153,13 +158,15 @@ module.exports = function($interval, $log, uuid) {
     };
 
     function initialize() {
-      var maxlength;
+      var maxlength, maxValue, minValue;
 
       //have to use empty string, since max or min will tell browser
-      //to constrain it with 0 value, which is not right
-      scope.max = scope.max ? parseInt(scope.max, 10) : '';
-      scope.min = scope.min ? parseInt(scope.min, 10) : '';
-      scope.disabled = scope.disabled ? scope.$eval(scope.disabled) : false;
+      //to constrain it with 0 value, which will not render correctly
+      maxValue = parseInt(scope.max, 10);
+      scope.max = !isNaN(maxValue) ? maxValue : '';
+      minValue = parseInt(scope.min, 10);
+      scope.min = !isNaN(minValue) ? minValue : '';
+      scope.disabled = getDisabledState();
       scope.spinnerId = uuid.guid();
 
       scope.dynamicMinWidth = {};
@@ -189,6 +196,12 @@ module.exports = function($interval, $log, uuid) {
 
       return isMin ?
         num - offset < parseInt(scope.min, 10) : num + offset > parseInt(scope.max, 10);
+    }
+
+    function getDisabledState() {
+      var state = scope.$eval(scope.disabled);
+
+      return state === true;
     }
   }
 };
