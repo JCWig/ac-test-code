@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 var utilities = require('../utilities');
 
 var CURRENT = '.tree-view-current';
@@ -173,7 +173,7 @@ describe('akamai.components.tree-view', function() {
             utilities.mouseHover(parentSelectorRow);
             parentSelectorRow = document.querySelector(PARENT_SELECTOR_ROWS);
             expect(getComputedStyle(parentSelectorRow)['background-color']).toContain('asdfasd');
-        });*/
+        });
         it('should replace current context and update parent nodes when clicking a child', function(){
             var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
             addElement(markup);
@@ -308,4 +308,4 @@ describe('akamai.components.tree-view', function() {
             expect(parentSelector.classList.contains('fade')).toBe(false);
         });
     });
-});
+});*/
