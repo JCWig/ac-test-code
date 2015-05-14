@@ -4,8 +4,8 @@ style="display:block">
 	<div class="tooltip-contents">
 	 	<div ng-repeat="parent in parentTree.slice().reverse()">
 	 		<div class="tree-view-contents util-clickable" ng-click="triggerParentChange(parent, true)">
-	 			<i ng-class="{'luna-folder':!parent.root, 'luna-home':parent.root}"></i> 
-	 			<span>{{parent.title}}</span>
+	 			<i ng-class="{'luna-child_group_folder':!parent.root, 'luna-home':parent.root}"></i> 
+	 			<span ng-class="{'parent-selector-root':parent.root}"> {{parent.title}} </span>
 	 		</div>
 	 	</div>
 	</div>

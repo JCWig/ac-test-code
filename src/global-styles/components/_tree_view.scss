@@ -2,10 +2,7 @@ $tooltip-arrow-border: 8px solid transparent;
 .tree-view-wrapper {
     background-color:white;
     span {
-        line-height: 1;
-        font-family: Arial;
-        font-weight: bold;
-        font-size: 12px;
+        line-height: 34px;
     }
     .tree-view-contents, .tree-view-current {
         height : 36px;
@@ -20,8 +17,10 @@ $tooltip-arrow-border: 8px solid transparent;
     }
     .tree-view-current{ 
         white-space: nowrap;
-        padding-top:9px;
         padding-left: 10px;
+        .tree-view-current-title {
+            font-weight: bold;
+        }
         i {
             &.opened {
                 @include luna-sprite('parent_group_folder_hover');
@@ -30,13 +29,19 @@ $tooltip-arrow-border: 8px solid transparent;
     }
     .tree-view-contents {
         padding-left: 20px;
-        padding-top:11px;
         &:hover{
-            background-color: #EBF6FF;
+            border:$list-box-cell-border;
+            background-color: $tooltip-background-color;
+            padding-left: 19px;
+            padding-right: 19px;
+            span {
+                line-height: 32px;
+            }
         }
     }
     .tree-view-children{
-        overflow-y:scroll;
+
+        overflow-y:auto;
         white-space: nowrap;
         span {
             font-weight:normal;
@@ -51,11 +56,14 @@ $tooltip-arrow-border: 8px solid transparent;
                 margin-top:-3px;
             }
             .tree-view-contents{
-                padding-top:9px; 
                 padding-left:10px;
                 padding-right:10px;
                 &:hover{
-                    background-color: #EBF6FF;
+                    padding-left:9px;
+                    padding-right:9px;
+                }
+                .parent-selector-root{
+                    font-weight:bold
                 }
             }
         }

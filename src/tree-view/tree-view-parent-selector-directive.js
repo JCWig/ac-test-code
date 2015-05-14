@@ -12,16 +12,15 @@ module.exports = function($timeout, $compile, $document) {
       changeParent: '='
     },
     link: function(scope, element) {
-      var template, parentSelector, triggerElement;
+      var template, parentSelector, triggerElement, windowElement;
 
       scope.toggle = function() {
         scope.opened = !scope.opened;
         parentSelector.toggleClass('in', scope.opened);
+        triggerElement.toggleClass('opened', scope.opened);
         if (!scope.opened) {
-          triggerElement.removeClass('opened');
           $document.unbind('click', documentClickBind);
         } else {
-          triggerElement.addClass('opened');
           $document.bind('click', documentClickBind);
         }
       };
@@ -68,7 +67,11 @@ module.exports = function($timeout, $compile, $document) {
           });
         }
       });
-      angular.element(window).on('resize', debounce(setCoords, 200));
+      windowElement = angular.element(window);
+      windowElement.on('resize', debounce(setCoords, 200));
+      element.on('$destroy', function() {
+        windowElement.off('resize');
+      });
       $timeout(function() {
         setCoords();
       }, 0);

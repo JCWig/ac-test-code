@@ -1,5 +1,6 @@
 'use strict';
 var angular = require('angular');
+var treeViewTemplate = require('./templates/tree-view.tpl.html');
 
 /* @ngInject */
 module.exports = function($q, $compile, $log, $timeout) {
@@ -10,7 +11,7 @@ module.exports = function($q, $compile, $log, $timeout) {
       onContextChange: '=',
       loadingMessage: '@'
     },
-    template: require('./templates/tree-view.tpl.html'),
+    template: treeViewTemplate,
     link: function(scope) {
       var haveDataFlag;
 
@@ -46,11 +47,8 @@ module.exports = function($q, $compile, $log, $timeout) {
             scope.current = data.current;
           }
 
-          if (data.children) {
-            scope.children = data.children;
-          } else {
-            scope.children = [];
-          }
+          scope.children = data.children || [];
+
           scope.loading = false;
           scope.retrievedData = true;
         }).catch(function() {
@@ -58,15 +56,13 @@ module.exports = function($q, $compile, $log, $timeout) {
         });
       });
       scope.hasParents = function() {
-        return scope.parentTree.length > 0;
+        return !!scope.parentTree.length;
       };
       function maintainParentTree(obj, toRemove) {
         if (toRemove) {
           scope.parentTree.splice(scope.parentTree.indexOf(obj), scope.parentTree.length);
         } else if (angular.isArray(obj)) {
-          angular.forEach(obj, function(val) {
-            scope.parentTree.push(val);
-          });
+          scope.parentTree = scope.parentTree.concat(obj);
         } else {
           scope.parentTree.push(obj);
         }
