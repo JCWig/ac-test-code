@@ -8,8 +8,7 @@ module.exports = function($q, $compile, $log, $timeout) {
     restrict: 'E',
     scope: {
       contextData: '=',
-      onContextChange: '=',
-      loadingMessage: '@'
+      onContextChange: '='
     },
     template: treeViewTemplate,
     link: function(scope) {
