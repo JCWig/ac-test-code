@@ -30,10 +30,12 @@ describe('akamai.components.tree-view', function() {
                 {title:"Jason Todd"},
                 {title:"Tim Drake"},
                 {title:"Barbara Gordon"},
-                {title:"Damian Wayne"}
+                {title:"Damian Wayne"},
+                {title:"Terry McGinnis"},
             ]
         };
         scope.triggerChange = function(clickedObj){
+            scope.message = "loading..."
             if(clickedObj.title === 'Barbara Gordon'){
                 scope.contextData = {
                     parent:{title:"Bruce Wayne"},
@@ -45,8 +47,8 @@ describe('akamai.components.tree-view', function() {
                 }
             } else if (clickedObj.title === 'Dinah Lance') {
                 var def = q.defer();
-                scope.contextData = def.promise;
                 timeout(function(){
+                    console.log("danm it");
                     def.resolve({
                         parent:{title:"Barbara Gordon"},
                         children : [
@@ -55,23 +57,39 @@ describe('akamai.components.tree-view', function() {
                             {title:"Roy Harper"}
                     ]});
                 }, 5000);
-            } else if (clickedObj.title === 'Dick Grayson') {
-                scope.contextData = {
-                    parent:{title:"Bruce Wayne"},
-                    children : null
-                }
-            }  else if (clickedObj.title === 'Tim Drake') {
-                scope.contextData = {
-                    parent:{title:"Bruce Wayne"},
-                    children : []
-                }
+                return def.promise;
+            } else if (clickedObj.title === 'Damian Wayne') {
+                var def = q.defer();
+                timeout(function(){
+                    def.reject();
+                    scope.message="Failed";
+                }, 200);
+                return def.promise;
             } else if (clickedObj.title === 'Jason Todd') {
                 var def = q.defer();
                 scope.contextData = def.promise;
                 timeout(function(){
                     def.reject();
-                }, 2000);
-            } else if (clickedObj.title === 'Bruce Wayne') {
+                    scope.message="Failed";
+                }, 200);
+            } else if (clickedObj.title === 'Dick Grayson') {
+                return {
+                    parent:{title:"Bruce Wayne"},
+                    children : null
+                };
+            }  else if (clickedObj.title === 'Tim Drake') {
+                var def = q.defer();
+                scope.contextData = {
+                    parent:{title:"Bruce Wayne"},
+                    children : []
+                }
+            }  else if (clickedObj.title === 'Terry McGinnis') {
+                var def = q.defer();
+                scope.contextData = {
+                    parent:{title:"Bruce Wayne"},
+                    children : null
+                }
+            }  else if (clickedObj.title === 'Bruce Wayne') {
                 var def = q.defer();
                 scope.contextData = def.promise;
                 timeout(function(){
@@ -82,7 +100,7 @@ describe('akamai.components.tree-view', function() {
                             {title:"Jason Todd"},
                             {title:"Tim Drake"},
                             {title:"Barbara Gordon"},
-                            {title:"Damian Wayne alksjdfhkasjdhflkjasdhflkjasdhlfk"}
+                            {title:"Damian Wayne"}
                         ]
                     });
                 }, 2000);
@@ -127,7 +145,7 @@ describe('akamai.components.tree-view', function() {
             var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
             var currentContextIcon = document.querySelector(PARENT_ICON);
 
-            expect(treeContents.length).toEqual(5);
+            expect(treeContents.length).toEqual(6);
             expect(treeContents[0].textContent).toContain('Dick Grayson');
             expect(currentContext.textContent).toContain('Bruce Wayne');
             expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
@@ -185,7 +203,7 @@ describe('akamai.components.tree-view', function() {
         it('should replace current context and update parent nodes when clicking a child', function(){
             var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
             addElement(markup);
-            var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
+            var childSelectorRow = document.querySelector(CHILD_CONTENTS);
             var currentContextIcon = document.querySelector(PARENT_ICON);
             utilities.click(childSelectorRow);
             scope.$digest();
@@ -203,7 +221,7 @@ describe('akamai.components.tree-view', function() {
         it('should render new children when needed', function(){
             var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
             addElement(markup);
-            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[3].querySelector('span');
+            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[3];
             var currentContextIcon = document.querySelector(PARENT_ICON);
             utilities.click(childSelectorRow);
             scope.$digest();
@@ -223,7 +241,18 @@ describe('akamai.components.tree-view', function() {
         it('should not render any data if there are no children (null)', function(){
              var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
             addElement(markup);
-            var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
+            var childSelectorRow = document.querySelector(CHILD_CONTENTS);
+            var currentContextIcon = document.querySelector(PARENT_ICON);
+            utilities.click(childSelectorRow);
+            scope.$digest();
+
+            var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
+            expect(childSelectorRows.length).toEqual(0);
+        });
+        it('should not render any data if there are no children returned (null)', function(){
+             var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
+            addElement(markup);
+            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[5];
             var currentContextIcon = document.querySelector(PARENT_ICON);
             utilities.click(childSelectorRow);
             scope.$digest();
@@ -234,7 +263,7 @@ describe('akamai.components.tree-view', function() {
         it('should not render any data if there are no children (empty array)', function(){
              var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
             addElement(markup);
-            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[2].querySelector('span');
+            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[2];
             var currentContextIcon = document.querySelector(PARENT_ICON);
             utilities.click(childSelectorRow);
             scope.$digest();
@@ -245,7 +274,7 @@ describe('akamai.components.tree-view', function() {
         it('should not display indeterminate progress immediately', function(){
             var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
             addElement(markup);
-            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[3].querySelector('span');
+            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[3];
             var currentContextIcon = document.querySelector(PARENT_ICON);
             utilities.click(childSelectorRow);
             scope.$digest();
@@ -258,10 +287,24 @@ describe('akamai.components.tree-view', function() {
             var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
             expect(indeterminateProgress).toBe(null);
         });
-        it('should display rejected information', function(){
+        it('should display rejected information when children changed', function(){
             var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
             addElement(markup);
             var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[1].querySelector('span');
+            var currentContextIcon = document.querySelector(PARENT_ICON);
+            utilities.click(childSelectorRow);
+            timeout.flush();
+            scope.$digest();
+
+            var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
+            expect(childSelectorRows.length).toEqual(0);
+            var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
+            expect(indeterminateProgress.getAttribute('failed')).toBe('true');
+        });
+        it('should display rejected information when children returned', function(){
+            var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
+            addElement(markup);
+            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[4].querySelector('span');
             var currentContextIcon = document.querySelector(PARENT_ICON);
             utilities.click(childSelectorRow);
             timeout.flush();
@@ -325,7 +368,7 @@ describe('akamai.components.tree-view', function() {
             var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
             addElement(markup);
             var currentContextIcon = document.querySelector(PARENT_ICON);
-            var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
+            var childSelectorRow = document.querySelector(CHILD_CONTENTS);
             
             utilities.click(currentContextIcon);
             scope.$digest();

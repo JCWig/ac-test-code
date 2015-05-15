@@ -23,9 +23,7 @@
         <script src="../dist/akamai-core.js"></script>
         <script>
             var exampleController = function($scope, $log, $q, $timeout) {
-                $scope.message = "loading..."
                 $scope.triggerChange = function(clickedObj){
-                    $scope.message = "loading..."
                     if(clickedObj.title === 'Barbara Gordon'){
                         $scope.contextData = {
                             parent:{title:"Bruce Wayne"},
@@ -37,7 +35,6 @@
                         }
                     } else if (clickedObj.title === 'Dinah Lance') {
                         var def = $q.defer();
-                        $scope.contextData = def.promise;
                         $timeout(function(){
                             def.resolve({
                                 parent:{title:"Barbara Gordon"},
@@ -47,19 +44,18 @@
                                     {title:"Roy Harper"}
                             ]});
                         }, 5000);
+                        return def.promise;
                     } else if (clickedObj.title === 'Jason Todd') {
                         var def = $q.defer();
                         $scope.contextData = def.promise;
                         $timeout(function(){
                             def.reject();
-                            $scope.message="Failed";
                         }, 200);
                     } else if (clickedObj.title === 'Dick Grayson') {
-                        var def = $q.defer();
-                        $scope.contextData = {
+                        return {
                             parent:{title:"Bruce Wayne"},
                             children : null
-                        }
+                        };
                     }  else if (clickedObj.title === 'Tim Drake') {
                         var def = $q.defer();
                         $scope.contextData = {

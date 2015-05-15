@@ -27,7 +27,21 @@ module.exports = function($q, $compile, $log, $timeout) {
           clickedObj.root = true;
         }
         scope.current = clickedObj;
-        scope.onContextChange(clickedObj, up);
+
+        scope.retrievedData = false;
+        $timeout(function() {
+          if (!scope.retrievedData) {
+            scope.loading = true;
+          }
+        }, 300);
+        scope.failed = false;
+        $q.when(scope.onContextChange(clickedObj, up)).then(function(children) {
+          scope.children = children ? children.children || [] : [];
+          scope.loading = false;
+          scope.retrievedData = true;
+        }).catch(function() {
+          scope.failed = true;
+        });
       };
       scope.$watch('contextData', function() {
         scope.retrievedData = false;

@@ -12,7 +12,7 @@
 				{{child.title}}
 			</span>
 		</div>
-		<div style="height:100px" ng-if="loading">
+		<div class="tree-view-indeterminate-wrapper" ng-if="loading">
 			<akam-indeterminate-progress class="loading-data-table" size="small"  completed="{{!loading}}"
 				failed="{{ failed }}"></akam-indeterminate-progress>
 		</div>
