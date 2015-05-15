@@ -17,6 +17,8 @@ module.exports = function($timeout) {
 
           if (scrollWidth > width) {
             element.prop('title', scope.text);
+          } else {
+            element.removeAttr('title');
           }
         }, 0);
       }

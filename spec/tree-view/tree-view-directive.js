@@ -48,7 +48,6 @@ describe('akamai.components.tree-view', function() {
             } else if (clickedObj.title === 'Dinah Lance') {
                 var def = q.defer();
                 timeout(function(){
-                    console.log("danm it");
                     def.resolve({
                         parent:{title:"Barbara Gordon"},
                         children : [

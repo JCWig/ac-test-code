@@ -3,8 +3,6 @@ var utilities = require('../utilities');
 
 var TREE_VIEW_WRAPPER = '.akam-tree-view';
 var DATA_TABLE_WRAPPER = '.akam-data-table';
-var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
-var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 
 describe('akamai.components.akam-standalone', function() {
     var scope, timeout, compile, q;
@@ -17,8 +15,8 @@ describe('akamai.components.akam-standalone', function() {
         inject(function($compile, $rootScope, $httpBackend) {
             scope = $rootScope.$new();
             compile = $compile;
-            $httpBackend.when('GET', LIBRARY_PATH).respond({});
-            $httpBackend.when('GET', CONFIG_PATH).respond({});
+            $httpBackend.when('GET', utilities.LIBRARY_PATH).respond({});
+            $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
             $httpBackend.flush();
         });
     });
