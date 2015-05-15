@@ -1,9 +1,10 @@
 'use strict';
 
 var angular = require('angular');
+var sanitize = require('angular-sanitize');
 
 module.exports = angular.module('akamai.components.tooltip', [
-  'ngSanitize',
+  sanitize,
   require('angular-bootstrap-npm')
 ])
 /**
