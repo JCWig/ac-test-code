@@ -250,7 +250,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           return;
         }
 
-        scope.dataTable.forEach(function(currentValue) {
+        scope.filtered.forEach(function(currentValue) {
           currentValue.selected = newValue;
         });
 
