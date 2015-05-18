@@ -8,24 +8,24 @@ $panel-body-wrapper-padding: 20px 15px;
   @include box-shadow($panel-box-shadow);
 
   & > .panel-heading {
+    position: relative;
     background: linear-gradient($panel-gradient-top, $panel-gradient-bottom);
     border-bottom-width: 0;
     @include border-top-radius($panel-border-radius);
+
+    .toggle-icon {
+      position: absolute;
+      right: 15px;
+      top: calc(50% - 8px);
+      cursor: pointer;
+    }
   }
 
   .panel-title {
-    position: relative;
     padding-right: 16px;
 
     & > a {
       text-decoration: none;
-    }
-
-    & > i {
-      position: absolute;
-      right: 0;
-      top: calc(50% - 8px);
-      cursor: pointer;
     }
   }
 
