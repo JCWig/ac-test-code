@@ -214,7 +214,8 @@ $list-box-header-gradient-top: #fff;
 $list-box-header-gradient-bottom-hover: #f4f4f4;
 $list-box-header-gradient-top-hover: #e6e6e6;
 
-$list-box-cell-border : $list-box-border-width solid #ededed;
+$list-box-cell-border-color : #ededed;
+$list-box-cell-border : $list-box-border-width solid $list-box-cell-border-color;
 
 $list-box-filter-icon : luna-sprite-width(close);
 $list-box-filter-icon-margin-left : -($list-box-filter-icon + 6px);
@@ -223,7 +224,11 @@ $list-box-filter-padding-right: $list-box-filter-icon + 8px;
 $list-box-cell-height: 30px;
 $list-box-footer-height: 28px;
 $list-box-header-height: $list-box-cell-height + $list-box-border-width;
-$list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) * 8);
+$list-box-row-count: 8;
+$list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) * $list-box-row-count);
+
+$data-table-row-count: 10;
+$data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $data-table-row-count);
 
 
 .akam-list-box {
@@ -313,11 +318,19 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
   }
 }
 
+.akam-list-box .fixed-table-container-inner {
+  // Addresses an issue in firefox trying to calculate the correct height
+  @include for("Firefox") {
+    max-height: calc(#{$list-box-body-height - $list-box-row-count}); 
+    min-height: calc(#{$list-box-body-height - $list-box-row-count}); 
+  }
+}
+
 .akam-data-table {
 
   .data {
     position: relative;
-    min-height: 353px;
+    min-height: $data-table-body-height + $list-box-header-height + ($list-box-border-width * 2);
   }
 
   .akam-pagination {
@@ -424,6 +437,7 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
   }
 
   tbody tr td {
+    border: 0 solid $list-box-cell-border-color;
     border-bottom: $list-box-cell-border;
 
     &:first-child {
