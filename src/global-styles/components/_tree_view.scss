@@ -38,6 +38,9 @@ $tooltip-arrow-border: 8px solid transparent;
                 line-height: 32px;
             }
         }
+        &:active {
+            background-color: #CEE7FF;
+        }
     }
     .tree-view-children{
 
