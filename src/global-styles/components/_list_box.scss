@@ -347,6 +347,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     padding-right: 10px;
     height: $list-box-header-height;
     line-height: $list-box-cell-height;
+    position: relative;
+    background-clip: padding-box; // bugzilla.mozilla.org/show_bug.cgi?id=688556
 
     @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
     & + th {
@@ -357,6 +359,17 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   th.column-sortable {
     @extend .util-clickable;
     padding-right: 20px;
+    
+    &.column-sorted {
+      @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+    }
+    
+    & > i {
+      position: absolute;
+      right: floor(luna-sprite-width(arrow-up) / 2);
+      top: 50%;
+      @include translateY(-50.01%);
+    }
   }
 
   .column-checkbox {
