@@ -108,6 +108,9 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         }
 
         scope.dataTable = filter(fullDataSet, scope.state.search);
+        scope.dataTable = orderBy(scope.dataTable,
+          scope.state.sortInfo.predicate,
+          scope.state.sortInfo.reverseSort);
       };
 
       scope.processDataTable = function() {
