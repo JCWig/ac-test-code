@@ -408,11 +408,11 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
 
   th.column-sortable:hover, th.column-sorted {
     i {
-      @extend .luna-arrow-down;
+      @extend .luna-arrow-up;
     }
 
     &.desc i {
-      @extend .luna-arrow-up;
+      @extend .luna-arrow-down;
     }
   }
 
