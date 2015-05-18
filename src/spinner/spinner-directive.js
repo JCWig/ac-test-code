@@ -71,7 +71,7 @@ module.exports = function($interval, $log, uuid) {
 
     //ngModelController has to be defined
     if (!ngModelController) {
-      $log.error('The ngModelController is required to instantiate directive instance.')
+      $log.error('The ngModelController is required to instantiate directive instance.');
       return;
     }
 
