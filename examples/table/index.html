@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+  .common-css.luna .container,
+  .common-css.luna .container h1,
+  .common-css.luna .container h2 {
+    padding-bottom: 15px;
+  }
+</style>
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Data Table</title>
+  <link rel="stylesheet" href="../../dist/akamai-core.css">
+</head>
+<body class="common-css luna" ng-app="akamai.components.examples.table" ng-strict-di ng-controller="ExampleController as vm">
+
+<div class="container">
+  <h1>Table Component Examples</h1>
+</div>
+
+<div class="container">
+  <h2>Data Table Example</h2>
+
+  <akam-table rows="vm.rows" akam-standalone on-change="vm.myRowSelectionCallback(selectedItems)" selected-rows="vm.selectedItems">
+
+    <akam-table-toolbar class="toolbar-class util-pull-right">
+      <span>Graphs of stuff</span> {{ vm.testText }}
+      <i class="luna-bar_chart"></i>
+      <akam-menu-button>
+        <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked()">
+        </akam-menu-button-item>
+      </akam-menu-button>
+    </akam-table-toolbar>
+
+    <akam-table-row>
+      <akam-table-column class="bar baz-me" row-property="id" header-name="examples.id">
+        <span>CUSTOM MARKUP {{ ::vm.testText }} </span>{{ ::row.id }}
+      </akam-table-column>
+      <akam-table-column row-property="email" header-name="examples.email"></akam-table-column>
+      <akam-table-column no-filter no-sort class="column-action" header-name="examples.actions">
+          <akam-menu-button>
+            <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked(row)"></akam-menu-button-item>
+          </akam-menu-button>
+      </akam-table-column>
+    </akam-table-row>
+  </akam-table>
+
+</div>
+
+<script src="../../dist/akamai-core.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html>

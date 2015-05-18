@@ -356,13 +356,11 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
 }
 
 .akam-list-box, .akam-data-table {
-  border: $list-box-border;
-  @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, 0.15));
   font-size: $body-font-size;
   color: $body-font-color;
   background: #fff;
 
-  .filter {
+  .filter, .toolbar {
     height: 36px;
     padding: 4px;
 
