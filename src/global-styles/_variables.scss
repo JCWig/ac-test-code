@@ -1,3 +1,8 @@
+//UX defaults
+$global-light-gray-gradient: linear-gradient(#ffffff, #f8f8f8);
+$global-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15);
+$global-inset-box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
+
 // Typography
 $text-color: #666666;
 $text-font-family: Arial, sans-serif;
@@ -87,9 +92,9 @@ $button-border-color-hover: #cccccc;
 $button-gradient-top-hover: #f4f4f4;
 $button-gradient-bottom-hover: #c8c8c8;
 
-$button-background-color-disabled: #fff;
-$button-border-color-disabled: #eee;
-$button-text-color-disabled: #ccc;
+$button-background-color-disabled: #ffffff;
+$button-border-color-disabled: #e6e6e6;
+$button-text-color-disabled: #e6e6e6;
 
 $button-primary-text-color: #ffffff;
 $button-primary-background-color: #f46b29;
@@ -168,7 +173,7 @@ $input-border-color-focus: #0099cc;
 $input-border-color-invalid: $border-color-invalid;
 $input-border-color-disabled: #eeeeee;
 
-$input-box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.10);
+$input-box-shadow: $global-inset-box-shadow;
 $input-box-glow-focus: 0 0 1px 0 $input-border-color-focus;
 $input-box-glow-invalid: 0 0 1px 0 $input-border-color-invalid;
 
@@ -268,10 +273,7 @@ $panel-body-padding: 0;
 $panel-heading-padding: 9px 15px;
 $panel-border-radius: 3px;
 $panel-default-text: #666;
-$panel-default-border: #ccc;
+$panel-default-border: #cccccc;
 $panel-default-heading-bg: #f8f8f8;
 
-//UX defaults
-$global-light-gray-gradient: linear-gradient(#ffffff, #f8f8f8);
-$global-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15);
 
