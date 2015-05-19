@@ -246,7 +246,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
             });
           }
         }
-        if (scope.onChange) {
+        if (typeof scope.onChange === 'function') {
           scope.onChange({value: scope.selectedItems});
         }
       };
