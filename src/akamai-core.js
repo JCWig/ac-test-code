@@ -19,5 +19,6 @@ angular.module('akamai.components', [
   require('./utils').name,
   require('./switch-button').name,
   require('./tool-tip').name,
-  require('./router').name
+  require('./router').name,
+  require('./dropdown').name
 ]);

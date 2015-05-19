@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Dropdown</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+
+    <style>
+        div h2:first-child {
+            margin-bottom:10px;
+        }
+        body.luna > h1 {
+            margin-bottom:20px;
+        }
+    </style>
+</head>
+
+<body class="common-css luna" ng-app="dropdownApp" ng-strict-di ng-controller="DropdownAppController as vm">
+
+    <h1>Dropdown Component Example</h1>
+
+    <div dropdown class="dropdown akam-dropdown">
+        <div class="dropdown-toggle util-clearfix" dropdown-toggle>
+            <span class="dropdown-placeholder">Select one</span>
+            <span class="dropdown-toggle-button"></span>
+        </div>
+        <ul class="dropdown-menu">
+            <li ng-repeat="choice in vm.items">
+                <a href>{{choice}}</a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="../dist/akamai-core.js"></script>
+
+    <script>
+        angular.module('dropdownApp', ['akamai.components.dropdown'])
+                .controller('DropdownAppController', DropdownAppController);
+
+        DropdownAppController.$inject = ['$log'];
+        function DropdownAppController($log) {
+            var vm = this;
+
+            vm.items = [
+                'The first choice!',
+                'And another choice for you. Isn\'t that swell',
+                'but wait! A third!',
+                'and a fourth!',
+                'number five'
+            ];
+
+            vm.toggled = function(open) {
+                $log.log('Dropdown is now: ', open);
+            };
+
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+
+
+
+
+.dropdown.akam-dropdown {
+
+  & > .dropdown-toggle {
+    cursor:pointer;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: $border-radius;
+    @include box-shadow($input-box-shadow);
+    min-width: 200px;
+    height:28px;
+    padding: 0 10px 0;
+
+    .dropdown-placeholder {
+      font-style: italic;
+      color: #ccc;
+      display: inline-block;
+      float:left;
+      margin-top:7px;
+    }
+
+    .dropdown-toggle-button {
+      height: 26px;
+      display: inline-block;
+      float:right;
+      width: 22px;
+      border-left: 1px solid #ccc;
+
+
+      background-image: inline-svg-image("svg/arrow-smDown.svg");
+      background-repeat: no-repeat;
+      background-position: right center;
+    }
+  }
+}
+
