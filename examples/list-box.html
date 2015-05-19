@@ -20,7 +20,7 @@
                 execute in the component when the data is displayed and you hover over the column data.</p>
                 </div>
             </form>
-            <akam-list-box data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="noDataMessage"></akam-list-box>
+            <akam-list-box data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
         </div>
         <br />
         <div>
@@ -41,13 +41,13 @@
                 </tr>
             </table>
             <akam-list-box data="obj[status]" schema="columns" on-change="rowChange(value)"
-                           filter-placeholder="Filter Employees" no-data-message="noDataMessage"></akam-list-box>
+                           filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
         </div>
         <br />
         <div class="container">
             <h2>List Box Example with Checkboxes and Pre-Selected Rows</h2>
             <akam-list-box data="basedata" schema="columns" show-checkboxes="true" filter-placeholder="Filter Employees"
-                           selected-items="selectedItems2" no-data-message="noDataMessage"></akam-list-box>
+                           selected-items="selectedItems2" no-data-message="{{noDataMessage}}"></akam-list-box>
             <span>Selected Items:<br /> {{selectedItems2}}</span>
         </div>
         <br />
