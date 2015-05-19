@@ -40,6 +40,11 @@
                     </td>
                 </tr>
             </table>
+            <div class="label-group">
+                    <label class="label" for="noDataMessage">No Data Message Text:</label><br>
+                    <input id="noDataMessage" type="text" ng-model="noDataMessage" size="50"/>
+            </div>
+            <br />
             <akam-list-box data="obj[status]" schema="columns" on-change="rowChange(value)"
                            filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
         </div>
