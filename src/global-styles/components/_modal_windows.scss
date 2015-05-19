@@ -40,7 +40,7 @@ Styleguide 6.1
 
 // Modal Dialogs
 $dialog-background-color: #ffffff;
-$dialog-header-background-color: #f4f4f4;
+$dialog-header-background-color: $global-light-gray-gradient;
 
 $dialog-width: auto;
 $dialog-min-width: 400px;
@@ -74,7 +74,7 @@ $dialog-border-color: #666666;
 $dialog-border-radius: 3px;
 
 $dialog-separator-color_pulsar: #cccccc;
-$dialog-separator-color_luna: #e6e6e6;
+$dialog-separator-color_luna: #cccccc;
 
 $dialog-mask-color_pulsar: rgba(255, 255, 255, 0.85);
 $dialog-mask-color_luna: rgba(34, 43, 53, 0.85);
@@ -171,7 +171,7 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
     box-sizing: border-box;
     border-radius: $dialog-border-radius $dialog-border-radius 0 0;
     color: $dialog-text-color;
-    background: $dialog-header-background-color;
+    @include background-image($dialog-header-background-color);
     min-height: 0;
 
     & > .modal-title {
