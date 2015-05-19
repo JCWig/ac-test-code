@@ -1100,9 +1100,9 @@ describe('akam-list-box', function() {
           header: 'Name'
         }
       ];
-      httpBackend.flush();
       var markup = '<akam-list-box data="baddata" schema="badcolumns"></akam-list-box>';
       addElement(markup);
+      httpBackend.flush();
       timeout.flush();
     });
     it('should present message when no data is available and no filters that can be provided', function() {
@@ -1113,7 +1113,7 @@ describe('akam-list-box', function() {
           header: 'Name'
         }
       ];
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
       expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
     });
     it('should present the "no data" message when no data is available and filtered', function() {
@@ -1121,7 +1121,7 @@ describe('akam-list-box', function() {
       scope.$$childHead.updateSearchFilter();
       scope.$digest();
 
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
 
       expect(dataTableRow.textContent).toContain('There is no data based upon your criteria');
     });
@@ -1130,7 +1130,7 @@ describe('akam-list-box', function() {
       utilities.click(viewSelectOnlyCheckbox);
       scope.$digest();
 
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
 
       expect(dataTableRow.textContent).toContain('There is no data based upon your criteria');
     });
@@ -1151,7 +1151,7 @@ describe('akam-list-box', function() {
       scope.myNoDataMessage = NO_DATA_MESSAGE;
       scope.myNoneSelectedMessage = NONE_SELECTED_MESSAGE;
       scope.myNoFilterResultsMessage = NO_FILTER_RESULTS_MESSAGE;
-      var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="myNoDataMessage" no-filter-results-message="zero filter results"' +
+      var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="{{myNoDataMessage}}" no-filter-results-message="zero filter results"' +
         'none-selected-message="none selected!!!!!!"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1164,16 +1164,31 @@ describe('akam-list-box', function() {
           header: 'Name'
         }
       ];
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
+      expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
+    });
+    it('should be able to change the no data messages', function() {
+      scope.baddata = [];
+      scope.columns = [
+        {
+          content: "name",
+          header: 'Name'
+        }
+      ];
+      var dataTableRow = document.querySelector('.empty-table-message span');
+      var NEW_MESSAGE = 'new message';
 
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
+      scope.myNoDataMessage = NEW_MESSAGE;
+      scope.$digest();
+      expect(dataTableRow.textContent).toContain(NEW_MESSAGE);
     });
     it('should present the "no data" message when no data is available and filtered', function() {
       scope.$$childHead.state.filter = "Oliver";
       scope.$$childHead.updateSearchFilter();
       scope.$digest();
 
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
 
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
     });
@@ -1182,7 +1197,7 @@ describe('akam-list-box', function() {
       utilities.click(viewSelectOnlyCheckbox);
       scope.$digest();
 
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
 
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
     });
