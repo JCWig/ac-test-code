@@ -227,6 +227,7 @@ describe('messageBox service', function() {
       utilities.click(closeIcon);
       this.$rootScope.$digest();
       this.$timeout.flush();
+      this.$timeout.flush();
       expect(document.querySelector('.modal-content')).toBe(null);
     });
 
@@ -286,6 +287,7 @@ describe('messageBox service', function() {
         utilities.click(cancelModalButton);
         this.$rootScope.$digest();
         this.$timeout.flush();
+        this.$timeout.flush();
         expect(document.querySelector('.modal-content')).toBe(null);
         expect(spy).not.toHaveBeenCalled();
       });
@@ -302,6 +304,7 @@ describe('messageBox service', function() {
         this.$rootScope.$digest();
         var closeIcon = document.querySelector('.modal-content i.close-icon');
         utilities.click(closeIcon);
+        this.$timeout.flush();
         this.$timeout.flush();
         this.$rootScope.$digest();
         this.messageBox.show({

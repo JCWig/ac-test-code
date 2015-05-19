@@ -246,9 +246,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
             });
           }
         }
-        if (typeof scope.onChange === 'function') {
-          scope.onChange({value: scope.selectedItems});
-        }
+        scope.onChange({value: scope.selectedItems});
       };
 
       scope.sortColumn = function(column) {

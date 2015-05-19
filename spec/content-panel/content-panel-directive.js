@@ -170,6 +170,7 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerIcon);
       scope.$digest();
+      timeout.flush();
       expect(scope.process.calls.count()).toEqual(1);
       expect(headerIcon.classList.contains('luna-expand')).toBe(true);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
@@ -177,6 +178,7 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerDiv);
       scope.$digest();
+      timeout.flush();
       expect(scope.process.calls.count()).toEqual(2);
       expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
       expect(headerIcon.classList.contains('luna-expand')).toBe(false);
@@ -198,6 +200,7 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerIcon);
       scope.$digest();
+      timeout.flush();
 
       expect(headerIcon.classList.contains('luna-expand')).toBe(true);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
@@ -205,6 +208,7 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerDiv);
       scope.$digest();
+      timeout.flush();
 
       expect(headerIcon.classList.contains('luna-expand')).toBe(false);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
@@ -224,6 +228,7 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerIcon);
       scope.$digest();
+      timeout.flush();
 
       expect(headerIcon.classList.contains('luna-expand')).toBe(true);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
@@ -231,6 +236,7 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerDiv);
       scope.$digest();
+      timeout.flush();
 
       expect(headerIcon.classList.contains('luna-expand')).toBe(false);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
