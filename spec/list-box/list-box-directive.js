@@ -1033,6 +1033,20 @@ describe('akam-list-box', function() {
 
       expect(viewSelectedOnlyCheckboxIfItsChecked.length).toEqual(0);
     });
+    it('should be automatically unchecked if deselect all is applied', function() {
+      var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
+      var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+      var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
+      utilities.click(firstRowCheckbox);
+      utilities.click(viewSelectOnlyCheckbox);
+      utilities.click(selectAllCheckbox);
+      utilities.click(selectAllCheckbox);      
+
+      var viewSelectedOnlyCheckboxIfItsChecked = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX + ":checked");
+      var rows = document.querySelectorAll(TABLE_ROW);
+      expect(viewSelectedOnlyCheckboxIfItsChecked).toBe(null);
+      expect(rows.length).toEqual(3);
+    });
   });
   describe('when interacting with filter bar', function() {
     beforeEach(function() {
