@@ -1,0 +1,10 @@
+<div class="akam-tag-input">
+	<ui-select multiple tagging tagging-label="(new item)" tagging-tokens=",|ENTER" on-select="onSelect($item, $model)" on-remove="onRemove($item, $model)" ng-model="selectedItems" theme="bootstrap" close-on-select="true">
+	    <ui-select-match placeholder="{{placeholder}}">
+	    	<span class="tag-input-selected-items"> {{$item}} </span>
+		</ui-select-match>
+	    <ui-select-choices repeat="item in availableItems | filter:$select.search">
+	    	{{item}}
+		</ui-select-choices>
+	</ui-select>
+</div>

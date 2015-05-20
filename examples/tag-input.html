@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Components Examples - Content Panel</title>
+        <link rel="stylesheet" href="../dist/akamai-core.css">
+    </head>
+    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
+        <div class="container" >
+            <div class="page-header">
+                <h1>Content Panel Component Example</h1>
+            </div>
+            <h3>Tag Input Example</h3>
+            <div style="width:500px;">
+                <akam-tag-input items="items" available-items="availableItems"> </akam-tree-view>
+            </div>
+        </div>
+        <script src="../dist/akamai-core.js"></script>
+        <script type="text/ng-template" id="/availableTemplate.tpl.html">
+            <span style="font-color:blue">
+                {{item.title}}
+            </span>
+        </script>
+        <script>
+            var exampleController = function($scope) {
+                $scope.items = ["Connor Kent","Bart Allen", "Cassandra Sandsmark"];
+                $scope.availableItems = [
+                    "Dick Grayson",
+                    "Jason Todd",
+                    "Tim Drake",
+                    "Barbara Gordon",
+                    "Damian Wayne",
+                    "Oliver Queen",
+                    "Bruce Wayne",
+                    "Dinah Lance",
+                    "Diana Prince",
+                    "Barry Allen",
+                    "Hal Jordan",
+                    "John Stewart",
+                    "Wally West",
+                    "Connor Kent",
+                    "Bart Allen",
+                    "Cassandra Sandsmark",
+                    "Victor Stone",
+                    "Garfield Logan"
+                ];
+            };
+            exampleController.$inject = ['$scope'];
+            
+            angular.module('example', ['akamai.components.tag-input'])
+            .controller('ExampleController', exampleController);
+        </script>
+    </body>
+</html>
