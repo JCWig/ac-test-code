@@ -20,15 +20,18 @@
     <h1>Dropdown Component Example</h1>
 
     <div dropdown class="dropdown akam-dropdown">
-        <div class="dropdown-toggle util-clearfix" dropdown-toggle>
-            <span class="dropdown-placeholder">Select one</span>
-            <span class="dropdown-toggle-button"></span>
+
+        <div class="dropdown-toggle" dropdown-toggle>
+            <span>Select one</span>
+            <span></span>
         </div>
+
         <ul class="dropdown-menu">
             <li ng-repeat="choice in vm.items">
                 <a href>{{choice}}</a>
             </li>
         </ul>
+
     </div>
 
     <script src="../dist/akamai-core.js"></script>
@@ -39,6 +42,7 @@
 
         DropdownAppController.$inject = ['$log'];
         function DropdownAppController($log) {
+            $log.log('hello');
             var vm = this;
 
             vm.items = [
@@ -46,13 +50,12 @@
                 'And another choice for you. Isn\'t that swell',
                 'but wait! A third!',
                 'and a fourth!',
-                'number five'
+                'kevin has herpes'
             ];
 
             vm.toggled = function(open) {
                 $log.log('Dropdown is now: ', open);
             };
-
         }
 
     </script>

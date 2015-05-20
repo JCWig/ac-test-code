@@ -1,39 +1,57 @@
-
-
-
+$arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
 
 .dropdown.akam-dropdown {
 
   & > .dropdown-toggle {
-    cursor:pointer;
-    background-color: #f4f4f4;
-    border: 1px solid #ccc;
-    border-radius: $border-radius;
-    @include box-shadow($input-box-shadow);
-    min-width: 200px;
-    height:28px;
-    padding: 0 10px 0;
+    display: inline-block;
+    cursor: pointer;
+    height: 28px;
 
-    .dropdown-placeholder {
-      font-style: italic;
-      color: #ccc;
+    & > span {
       display: inline-block;
-      float:left;
-      margin-top:7px;
+      border: 1px solid #ccc;
+      height: 100%;
+      vertical-align: middle;
     }
 
-    .dropdown-toggle-button {
-      height: 26px;
-      display: inline-block;
-      float:right;
-      width: 22px;
-      border-left: 1px solid #ccc;
+    & span:first-child {
+      width: 200px;
+      margin-right: -4px;
+      line-height: 26px;
+      padding: 0 10px;
+      background-color: #f4f4f4;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      font-style: italic;
+      color: #ccc;
+      @include box-shadow($input-box-shadow);
+    }
 
+    & > span:last-child {
+      width: 28px;
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+      background: $arrow-background,
+      linear-gradient(to bottom, #fff, #e6e6e6);
+    }
+  }
 
-      background-image: inline-svg-image("svg/arrow-smDown.svg");
-      background-repeat: no-repeat;
-      background-position: right center;
+  &:hover {
+    & span:last-child {
+      border-color: #999;
+      background: $arrow-background,
+      linear-gradient(to bottom, #f4f4f4, #c8c8c8);
+    }
+
+  }
+
+  &:active {
+    & span:last-child {
+      border-color: #999;
+      background: $arrow-background,
+      linear-gradient(to bottom, #c8c8c8, #f4f4f4);
     }
   }
 }
+
 
