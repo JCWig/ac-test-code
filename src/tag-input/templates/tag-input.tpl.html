@@ -1,7 +1,8 @@
 <div class="akam-tag-input">
-	<ui-select multiple tagging tagging-label="(new item)" tagging-tokens=",|ENTER" on-select="onSelect($item, $model)" on-remove="onRemove($item, $model)" ng-model="selectedItems" theme="bootstrap" close-on-select="true">
+	<ui-select multiple tagging tagging-label="(new item)" tagging-tokens=",|ENTER" on-select="onSelect($item, $model)" on-remove="onRemove($item, $model)" 
+		ng-model="items" theme="bootstrap" close-on-select="true" sortable="true">
 	    <ui-select-match placeholder="{{placeholder}}">
-	    	<span class="tag-input-selected-items"> {{$item}} </span>
+	    	<span class="tag-input-selected-items"> {{$item}} </span> <i class="tag-input-remove" ng-click="$selectMultiple.removeChoice($index)"></i>
 		</ui-select-match>
 	    <ui-select-choices repeat="item in availableItems | filter:$select.search">
 	    	{{item}}
