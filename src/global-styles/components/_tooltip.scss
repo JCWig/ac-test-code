@@ -4,7 +4,7 @@ $tooltip-contents-padding-top: 16px;
 $tooltip-contents-padding-bottom: 16px;
 $tooltip-contents-padding-left: 16px;
 $tooltip-contents-padding-right: 31px;
-$tooltip-border-width: 10.5px solid;
+$tooltip-border-width: 10.5px;
 $tooltip-contents-padding: $tooltip-contents-padding-top $tooltip-contents-padding-right $tooltip-contents-padding-bottom $tooltip-contents-padding-left;
 
 .tooltip {
@@ -71,14 +71,14 @@ $tooltip-contents-padding: $tooltip-contents-padding-top $tooltip-contents-paddi
         margin-right: 5px;
         .tooltip-arrow {
             border-right:none;
-            border-left: $tooltip-border-width $border-color;
+            border-left: $tooltip-border-width solid $border-color;
         }
         > .tooltip-arrow:after {
             top: -8px;
             position: absolute;
             left: -12px;
             border-right:none;
-            border-left: $tooltip-border-width $tooltip-background-color;
+            border-left: $tooltip-border-width solid $tooltip-background-color;
         }
     }
     &.right {
@@ -92,14 +92,14 @@ $tooltip-contents-padding: $tooltip-contents-padding-top $tooltip-contents-paddi
             position: absolute;
             left:1px;
             border-left:none;
-            border-right: $tooltip-border-width $tooltip-background-color;
+            border-right: $tooltip-border-width solid $tooltip-background-color;
         }
     }
     &.bottom{
         margin-top: 5px;
         > .tooltip-arrow {
             border-top:none;
-            border-bottom: $tooltip-border-width $border-color;
+            border-bottom: $tooltip-border-width solid $border-color;
         }
         > .tooltip-arrow:after {
             width: 0;
@@ -108,7 +108,7 @@ $tooltip-contents-padding: $tooltip-contents-padding-top $tooltip-contents-paddi
             position:absolute;
             top: 1px;
             border-top:none;
-            border-bottom: $tooltip-border-width $tooltip-background-color;
+            border-bottom: $tooltip-border-width solid $tooltip-background-color;
         }
     }
     &.top{
@@ -125,7 +125,7 @@ $tooltip-contents-padding: $tooltip-contents-padding-top $tooltip-contents-paddi
             position:absolute;
             top: -12px;
             border-bottom:none;
-            border-top: $tooltip-border-width $tooltip-background-color;
+            border-top: $tooltip-border-width solid $tooltip-background-color;
         }
     }
 }
