@@ -126,7 +126,7 @@ $pagination-ellipsis-width: 20px;
       }
 
       &:hover a {
-        color: $pagination-item-font-color-active;
+        color: $pagination-border-color;
       }
 
       &.disabled a {
