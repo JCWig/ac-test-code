@@ -17,7 +17,7 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
     & span:first-child {
       width: 200px;
       margin-right: -4px;
-      line-height: 26px;
+      line-height: 28px;
       padding: 0 10px;
       background-color: #f4f4f4;
       border-top-left-radius: $border-radius;
@@ -34,23 +34,35 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
       background: $arrow-background,
       linear-gradient(to bottom, #fff, #e6e6e6);
     }
-  }
 
-  &:hover {
-    & span:last-child {
-      border-color: #999;
-      background: $arrow-background,
-      linear-gradient(to bottom, #f4f4f4, #c8c8c8);
+    &:hover {
+      & span:last-child {
+        border-color: #999;
+        background: $arrow-background,
+        linear-gradient(to bottom, #f4f4f4, #c8c8c8);
+      }
+
     }
 
+    &:active {
+      & span:last-child {
+        border-color: #999;
+        background: $arrow-background,
+        linear-gradient(to bottom, #c8c8c8, #f4f4f4);
+      }
+    }
   }
 
-  &:active {
-    & span:last-child {
-      border-color: #999;
-      background: $arrow-background,
-      linear-gradient(to bottom, #c8c8c8, #f4f4f4);
+  & > .dropdown-menu {
+
+    & > li:first-child {
+      padding: 10px 10px 0;
+
+      & input.dropdown-filter {
+        width: 100%;
+      }
     }
+
   }
 }
 

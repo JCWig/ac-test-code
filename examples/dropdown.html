@@ -19,7 +19,7 @@
 
     <h1>Dropdown Component Example</h1>
 
-    <div dropdown class="dropdown akam-dropdown">
+    <div dropdown class="dropdown akam-dropdown" auto-close="outsideClick">
 
         <div class="dropdown-toggle" dropdown-toggle>
             <span>Select one</span>
@@ -27,6 +27,7 @@
         </div>
 
         <ul class="dropdown-menu">
+            <li><input class="dropdown-filter" type="text"/></li>
             <li ng-repeat="choice in vm.items">
                 <a href>{{choice}}</a>
             </li>
