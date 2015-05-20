@@ -604,6 +604,24 @@ describe('akam-list-box', function() {
 
       expect(allCheckedCheckboxes.length).toEqual(0);
     });
+    it('should unchecked after select all pressed and item is unselected', function() {
+      var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
+      utilities.click(selectAllCheckbox);
+      var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+      expect(allCheckedCheckboxes.length).toEqual(scope.mydata.length + 1); //Additional One for the overall checkbox
+
+      var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+      utilities.click(firstRowCheckbox);
+
+      allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+      expect(allCheckedCheckboxes.length).toEqual(scope.mydata.length - 1); //Additional One for the overall checkbox
+
+      selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input:checked');
+      expect(selectAllCheckbox).toBe(null);
+    });
     it('should not break when no items exist and select all is pressed', function() {
       scope.nodata = [];
       var markup = '<akam-list-box data="nodata" schema="columns"></akam-list-box>';

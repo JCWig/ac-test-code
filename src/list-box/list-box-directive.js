@@ -245,6 +245,9 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           }
         } else {
           scope.selectedItems.splice(i, 1);
+          if (scope.state.allSelected) {
+            scope.state.allSelected = false;
+          }
           if (scope.state.viewSelectedOnly) {
             scope.dataTable = scope.dataTable.filter(function(rowItem) {
               return rowItem !== item;
