@@ -229,6 +229,11 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           scope.updateChanged(currentValue);
         });
 
+        if (!scope.state.allSelected && scope.state.viewSelectedOnly) {
+          scope.state.viewSelectedOnly = false;
+          scope.updateSearchFilter();
+        }
+
       };
 
       scope.updateChanged = function(item) {
