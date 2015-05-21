@@ -20,7 +20,7 @@
             <table class="tablesorter" cellspacing="0">
                 <thead>
                     <tr>
-                        <th class="column-checkbox header first">
+                        <th ng-if="::showCheckboxes" class="column-checkbox header first">
                             <div class="th-inner">
                                 <span><input type="checkbox"
                                              ng-model="state.allSelected"
@@ -44,7 +44,7 @@
                 <tbody>
                     <tr ng-repeat="item in dataSource track by item.id"
                         ng-class="{ 'row-selected' : item.selected }">
-                        <td class="column-checkbox">
+                        <td ng-if="::showCheckboxes" class="column-checkbox">
                             <input type="checkbox"
                                    ng-model="item.selected"
                                    ng-change="updateChanged(item)"

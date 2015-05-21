@@ -215,6 +215,8 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         scope.processDataTable();
       });
 
+      scope.showCheckboxes = attrs.showCheckboxes !== 'false';
+
       scope.selectAll = function() {
         var newValue;
 

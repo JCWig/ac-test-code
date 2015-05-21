@@ -214,7 +214,6 @@ $list-box-header-gradient-top: #fff;
 $list-box-header-gradient-bottom-hover: #f4f4f4;
 $list-box-header-gradient-top-hover: #e6e6e6;
 
-<<<<<<< HEAD
 $list-box-cell-border-color : #ededed;
 $list-box-cell-border : $list-box-border-width solid $list-box-cell-border-color;
 
@@ -223,7 +222,6 @@ $list-box-filter-icon-margin-left : -($list-box-filter-icon + 6px);
 $list-box-filter-padding-right: $list-box-filter-icon + 8px;
 
 $list-box-footer-height: 28px;
-<<<<<<< HEAD
 $list-box-header-height: $list-box-cell-height + $list-box-border-width;
 $list-box-row-count: 8;
 $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) * $list-box-row-count);
@@ -264,9 +262,9 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   .th-inner {
     position: absolute;
     top: 0;
-    line-height: $list-box-header-height;
+    line-height: 30px; /* height of header */
     text-align: left;
-    border-left: $list-box-border;
+    border-left: 1px solid #eee;
     padding-left: 10px;
     margin-left: -10px;
     vertical-align: middle;
@@ -295,7 +293,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 
   .data {
     position: relative; /* could be absolute or relative */
-    padding-top: $list-box-header-height + 1px; /* height of header +1 px for border of body */
+    padding-top: 31px; /* height of header +1 px for border of body */
     overflow-x: hidden;
   }
 
@@ -345,11 +343,12 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     padding: 0;
     padding-left: 10px;
     padding-right: 10px;
-<<<<<<< HEAD
     height: $list-box-header-height;
     line-height: $list-box-cell-height;
     position: relative;
     background-clip: padding-box; // bugzilla.mozilla.org/show_bug.cgi?id=688556
+    height: 31px;
+    line-height: 31px;
 
     @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
     & + th {
@@ -446,8 +445,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   td {
     @include ellipsis();
     white-space: nowrap;
-    height: $list-box-header-height;
-    line-height: $list-box-header-height;
+    height: 30px;
+    line-height: 30px;
   }
 
   tbody tr td {
