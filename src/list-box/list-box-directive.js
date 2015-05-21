@@ -110,6 +110,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         scope.dataTable = orderBy(scope.dataTable,
           scope.state.sortInfo.predicate,
           scope.state.sortInfo.reverseSort);
+        manageStates(scope);
       };
 
       scope.processDataTable = function() {
@@ -171,6 +172,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           scope.sortColumn(autoSortableColumns[0]);
         }
         scope.loading = false;
+        manageStates(scope);
       };
 
       scope.$watch('data', function() {
@@ -195,7 +197,6 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           $timeout(function() {
             scope.processDataTable();
           }, 0);
-
         }).catch(function() {
           scope.failed = true;
         });
@@ -254,6 +255,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
             });
           }
         }
+        manageStates(scope);
         scope.onChange({value: scope.selectedItems});
       };
 
@@ -422,4 +424,16 @@ function getColumnSortClass(column, sortedColumn, reverseSort) {
   }
 
   return 'column-sortable column-sorted ' + (reverseSort ? 'desc' : 'asc');
+}
+
+function manageStates(scope) {
+  var selectedItems = [];
+
+  if (scope.dataTable) {
+    selectedItems = scope.dataTable.filter(function(item) {
+      return item.selected;
+    });
+    scope.state.allSelected =
+      scope.dataTable.length && selectedItems.length === scope.dataTable.length;
+  }
 }

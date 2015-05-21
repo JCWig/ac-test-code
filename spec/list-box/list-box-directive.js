@@ -604,6 +604,31 @@ describe('akam-list-box', function() {
 
       expect(allCheckedCheckboxes.length).toEqual(0);
     });
+    it('should auto uncheck de/select all when not everything is selected', function() {
+      var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
+      utilities.click(selectAllCheckbox);
+      var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+      var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+      utilities.click(firstRowCheckbox);
+      selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input:checked');
+      expect(selectAllCheckbox).toBe(null);
+    });
+    it('should auto check de/select all when everything is selected', function() {
+      var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      scope.$$childHead.state.filter = "K-Slice";
+      scope.$$childHead.updateSearchFilter();
+      scope.$digest();
+      expect(document.querySelectorAll(TABLE_ROW).length).toEqual(1);
+      var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+      utilities.click(firstRowCheckbox);
+      var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input:checked');
+      expect(selectAllCheckbox).not.toBe(null);
+    });
     it('should unchecked after select all pressed and item is unselected', function() {
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
