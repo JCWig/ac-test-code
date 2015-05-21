@@ -2,7 +2,6 @@
 	
 	.tag-input-remove {
 		@include svg('tab-close',8px,8px);	
-		margin-bottom: -1px;
 		margin-left: 7px;
 		&:hover {
 			@include svg('tab-close_hover',8px, 8px);	
@@ -169,6 +168,9 @@
 
 	.ui-select-multiple .ui-select-match-item {
 	  position: relative;
+	  &.btn-primary {
+	  	background: $tooltip-background-color;
+	  }
 	}
 
 	.ui-select-multiple .ui-select-match-item.dropping-before:before {
@@ -200,6 +202,12 @@
 	    color: $text-color;
 	    white-space: nowrap;
 	}
+	.ui-select-choices-row {
+		&.active {
+			background-color: #CEE7FF;	
+		}
+
+	}
 
 	.ui-select-bootstrap .ui-select-choices-row>a:hover {
 	    text-decoration: none;
@@ -218,7 +226,7 @@
 	.ui-select-bootstrap .ui-select-choices-row.disabled>a,
 	.ui-select-bootstrap .ui-select-choices-row.active.disabled>a {
 	    cursor: not-allowed;
-	    background-color: #fff;
+	    background-color: #CEE7FF;
 	}
 
 	/* fix hide/show angular animation */

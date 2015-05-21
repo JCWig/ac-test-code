@@ -2,7 +2,7 @@
 	<ui-select multiple tagging tagging-label="(new item)" tagging-tokens=",|ENTER" on-select="onSelect($item, $model)" on-remove="onRemove($item, $model)" 
 		ng-model="items" theme="bootstrap" close-on-select="true" sortable="true">
 	    <ui-select-match placeholder="{{placeholder}}">
-	    	<span class="tag-input-selected-items"> {{$item}} </span> <i class="tag-input-remove" ng-click="$selectMultiple.removeChoice($index)"></i>
+	    	<span class="tag-input-selected-items" ng-dblclick="$selectMultiple.removeChoice($index); $select.activate($item, true)"> {{$item}} </span> <i class="tag-input-remove" ng-click="$selectMultiple.removeChoice($index)"></i>
 		</ui-select-match>
 	    <ui-select-choices repeat="item in availableItems | filter:$select.search">
 	    	{{item}}

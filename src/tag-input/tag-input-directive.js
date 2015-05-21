@@ -3,7 +3,7 @@ var angular = require('angular');
 var tagInputTemplate = require('./templates/tag-input.tpl.html');
 
 /* @ngInject */
-module.exports = function() {
+module.exports = function($document, $timeout) {
   return {
     restrict: 'E',
     scope: {
@@ -21,18 +21,24 @@ module.exports = function() {
       };
       scope.onSelect = function(item) {
         scope.items.push(item);
-        console.log(scope.availableItems);
       };
       scope.onRemove = function(item, model) {
         var index = scope.items.indexOf(item);
         if (index > -1) {
           scope.items.splice(index, 1);
         }
-      }
+      };
       scope.$on('uiSelectSort:change', function(e, model) {
         scope.items = model.array;
         removeClasses();
       });
+      scope.editItem = function(item, blah){
+        var inputField = element[0].querySelector('.ui-select-search');
+        inputField.focus();
+        angular.element(inputField).val(item);
+        scope.$broadcast('uis:activate');
+      }
+
     }
   };
 };
