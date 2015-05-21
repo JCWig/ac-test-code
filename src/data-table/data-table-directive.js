@@ -70,13 +70,15 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
 
       setDefaults();
 
-      function update() {
+      function update(goToFirstPage) {
         var output = scope.dataTable;
 
         output = filter(output, scope.state.search);
         output = orderBy(output, scope.state.sortInfo.predicate, scope.state.sortInfo.reverseSort);
 
-        scope.pager.page = 1;
+        if (goToFirstPage) {
+          scope.pager.page = 1;
+        }
 
         scope.filtered = output;
       }
@@ -93,7 +95,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           };
         }
 
-        update();
+        update(true);
       };
 
       function getColumnContent(column, item, defaultValue) {
@@ -192,7 +194,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
         if (scope.dataTable.length > 1 && autoSortableColumns.length > 0) {
           scope.sortColumn(autoSortableColumns[0]);
         } else {
-          update();
+          update(true);
         }
 
         scope.loading = false;
@@ -205,7 +207,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
             return a === data.item;
           }).length > 0;
         });
-        update();
+        update(false);
       });
 
       scope.$watch('data', function() {
@@ -307,7 +309,7 @@ module.exports = function($log, $q, uuid, $filter, $compile, translate) {
           reverseSort: isReversed
         };
 
-        update();
+        update(true);
       };
 
       scope.getColumnPredicate = function(column) {
