@@ -81,13 +81,16 @@
         vm.min = 0;
         vm.max = 300;
         vm.disabled = false;//true or false
-        vm.buttonName = 'Disable Spinner';
         vm.buttonClick = toggleButton;
         vm.inputChanged = inputChanged;
     
+        var disabledText = 'Disable Spinner';
+        var enabledText = 'Enable Spinner';
+        vm.buttonName = disabledText;
+
         function toggleButton() {
-          vm.buttonName = vm.buttonName === 'Disable Spinner' ? 'Enable Spinner' : 'Disable Spinner';
-          if (vm.buttonName === 'Enable Spinner') {
+          vm.buttonName = vm.buttonName === disabledText ? enabledText : disabledText;
+          if (vm.buttonName === enabledText) {
             vm.disabled = true;
           } else {
             vm.disabled = false;
@@ -95,8 +98,7 @@
         }
     
         function inputChanged() {
-          vm.value2 = parseInt(vm.value2);
-          console.log("input changed: " + vm.value2);
+          vm.value2 = parseInt(vm.value2, 10);
         }
       }
       </script>
