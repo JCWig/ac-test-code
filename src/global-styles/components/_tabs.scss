@@ -20,23 +20,23 @@ Styleguide 6.6
 
 */
 
-$tab-height: 35px;
+$tab-height: 36px;
 $tab-gutter: 5px;
 $tabs-right-gutter: 10px;
 $tab-border-radius: 3px;
 
 $tab-border-color: #cccccc;
-$tab-border-color-disabled: #eeeeee;
+$tab-border-color-disabled: #e6e6e6;
 
-$tab-background-color: #eeeeee;
+$tab-background-color: #f4f4f4;
 $tab-background-color-active: #ffffff;
-$tab-background-color-hover: linear-gradient(#f4f4f4, #cbcbcb);
-$tab-background-color-mousedown: linear-gradient(#f2f2f2, #bfbfbf);
+$tab-background-color-hover: linear-gradient(#f4f4f4, #e6e6e6);
+$tab-background-color-mousedown: linear-gradient(#e6e6e6, #f4f4f4);
 $tab-background-color-disabled: #ffffff;
 
 $tab-label-padding: 30px;
 $tab-label-color: #666666;
-$tab-label-color-disabled: #999999;
+$tab-label-color-disabled: #e6e6e6;
 
 .nav-tabs {
   padding-right: $tabs-right-gutter;

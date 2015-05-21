@@ -1,9 +1,16 @@
 $tooltip-arrow-border: 8px solid transparent;
+$tooltip-close-icon-gutter: 8px;
+$tooltip-contents-padding-top: 16px;
+$tooltip-contents-padding-bottom: 16px;
+$tooltip-contents-padding-left: 16px;
+$tooltip-contents-padding-right: 31px;
+$tooltip-border-width: 10.5px;
+$tooltip-contents-padding: $tooltip-contents-padding-top $tooltip-contents-padding-right $tooltip-contents-padding-bottom $tooltip-contents-padding-left;
 
 .tooltip {
     max-width: $tooltip-max-width;
     min-width: $tooltip-min-width;
-    @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, 0.15));
+    @include box-shadow($global-box-shadow);
     border-radius: $border-radius;
     padding: 0px;
     z-index: -1;
@@ -15,15 +22,15 @@ $tooltip-arrow-border: 8px solid transparent;
     }
     .tooltip-contents{
         overflow:hidden;
-        padding: 16px 31px 16px 16px;
+        padding: $tooltip-contents-padding;
         background-color: $tooltip-background-color;
         border-color: $border-color;
         border-width: 1px;
         border-style: solid;
         border-radius: $border-radius;
         i {
-            margin-right: -19px;
-            margin-top: -9px;
+            margin-right: -($tooltip-contents-padding-right - $tooltip-close-icon-gutter);
+            margin-top: -($tooltip-contents-padding-top - $tooltip-close-icon-gutter);
         }
         .tooltip-header{
             margin-bottom: 9px;
@@ -51,8 +58,8 @@ $tooltip-arrow-border: 8px solid transparent;
     }
     .tooltip-arrow {
         position: absolute;
-        width: 0; 
-        height: 0; 
+        width: 0;
+        height: 0;
         border:$tooltip-arrow-border;
         margin: 0px;
     }
@@ -62,63 +69,63 @@ $tooltip-arrow-border: 8px solid transparent;
     }
     &.left{
         margin-right: 5px;
-        .tooltip-arrow {        
+        .tooltip-arrow {
             border-right:none;
-            border-left: 10.5px solid $border-color; 
-        }        
-        > .tooltip-arrow:after {    
+            border-left: $tooltip-border-width solid $border-color;
+        }
+        > .tooltip-arrow:after {
             top: -8px;
             position: absolute;
             left: -12px;
             border-right:none;
-            border-left: 10.5px solid $tooltip-background-color; 
-        }  
+            border-left: $tooltip-border-width solid $tooltip-background-color;
+        }
     }
     &.right {
         margin-left: 5px;
-        .tooltip-arrow {        
+        .tooltip-arrow {
             border-left:none;
-            border-right:10.5px solid $border-color; 
-        }   
+            border-right:10.5px solid $border-color;
+        }
         > .tooltip-arrow:after {
             top: -8px;
             position: absolute;
             left:1px;
             border-left:none;
-            border-right:10.5px solid $tooltip-background-color; 
-        }   
+            border-right: $tooltip-border-width solid $tooltip-background-color;
+        }
     }
     &.bottom{
         margin-top: 5px;
-        > .tooltip-arrow {   
-            border-top:none; 
-            border-bottom:10.5px solid $border-color; 
+        > .tooltip-arrow {
+            border-top:none;
+            border-bottom: $tooltip-border-width solid $border-color;
         }
         > .tooltip-arrow:after {
-            width: 0; 
-            height: 0; 
+            width: 0;
+            height: 0;
             margin-left: -8px;
             position:absolute;
             top: 1px;
-            border-top:none; 
-            border-bottom:10.5px solid $tooltip-background-color; 
-        }   
+            border-top:none;
+            border-bottom: $tooltip-border-width solid $tooltip-background-color;
+        }
     }
     &.top{
         margin-bottom: 5px;
         marign-top : 0px;
-        .tooltip-arrow {        
+        .tooltip-arrow {
             border-bottom:none;
-            border-top:10.5px solid $border-color; 
-        } 
+            border-top:10.5px solid $border-color;
+        }
         > .tooltip-arrow:after {
-            width: 0; 
-            height: 0; 
+            width: 0;
+            height: 0;
             margin-left: -8px;
             position:absolute;
             top: -12px;
             border-bottom:none;
-            border-top:10.5px solid $tooltip-background-color; 
-        }   
+            border-top: $tooltip-border-width solid $tooltip-background-color;
+        }
     }
 }
