@@ -110,9 +110,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         scope.dataTable = orderBy(scope.dataTable,
           scope.state.sortInfo.predicate,
           scope.state.sortInfo.reverseSort);
-        if (scope.dataTable) {
-          manageStates(scope);
-        }
+        manageStates(scope);
       };
 
       scope.processDataTable = function() {
@@ -429,10 +427,13 @@ function getColumnSortClass(column, sortedColumn, reverseSort) {
 }
 
 function manageStates(scope) {
-  var selectedItems = scope.dataTable.filter(function(item) {
-    return item.selected;
-  });
+  var selectedItems = [];
 
-  scope.state.allSelected = scope.dataTable.length ?
-    selectedItems.length === scope.dataTable.length : false;
+  if (scope.dataTable) {
+    selectedItems = scope.dataTable.filter(function(item) {
+      return item.selected;
+    });
+    scope.state.allSelected =
+      scope.dataTable.length && selectedItems.length === scope.dataTable.length;
+  }
 }
