@@ -296,7 +296,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   .data {
     position: relative; /* could be absolute or relative */
     padding-top: $list-box-header-height;
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   .list-box-footer {
