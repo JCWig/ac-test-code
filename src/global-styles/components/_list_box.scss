@@ -199,7 +199,8 @@ Styleguide 6.8
 */
 
 $list-box-border-color: #ccc;
-$list-box-border: 1px solid $list-box-border-color;
+$list-box-border-width: 1px;
+$list-box-border: $list-box-border-width solid $list-box-border-color;
 $list-box-data-row-even-background: #f8f8f8;
 $list-box-data-row-odd-background: #fff;
 $list-box-data-row-hover-background: #ebf6ff;
@@ -218,6 +219,7 @@ $list-box-filter-icon: luna-sprite-width(close);
 $list-box-filter-icon-margin-left: -($list-box-filter-icon + 6px);
 $list-box-filter-padding-right: $list-box-filter-icon + 8px;
 
+$list-box-cell-height: 30px;
 $list-box-footer-height: 28px;
 $list-box-header-height: $list-box-cell-height + $list-box-border-width;
 $list-box-row-count: 8;
@@ -285,7 +287,6 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 
 .akam-data-table {
 
-<<<<<<< HEAD
   .data {
     position: relative;
     min-height: $data-table-body-height + $list-box-header-height + ($list-box-border-width * 2);
