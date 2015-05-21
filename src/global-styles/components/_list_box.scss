@@ -200,9 +200,9 @@ Styleguide 6.8
 
 
 
-$list-box-border-width: 1px;
+
 $list-box-border-color: #ccc;
-$list-box-border: $list-box-border-width solid $list-box-border-color;
+$list-box-border: 1px solid $list-box-border-color;
 $list-box-data-row-even-background: #f8f8f8;
 $list-box-data-row-odd-background: #fff;
 $list-box-data-row-hover-background: #ebf6ff;
@@ -214,6 +214,7 @@ $list-box-header-gradient-top: #fff;
 $list-box-header-gradient-bottom-hover: #f4f4f4;
 $list-box-header-gradient-top-hover: #e6e6e6;
 
+<<<<<<< HEAD
 $list-box-cell-border-color : #ededed;
 $list-box-cell-border : $list-box-border-width solid $list-box-cell-border-color;
 
@@ -221,8 +222,8 @@ $list-box-filter-icon : luna-sprite-width(close);
 $list-box-filter-icon-margin-left : -($list-box-filter-icon + 6px);
 $list-box-filter-padding-right: $list-box-filter-icon + 8px;
 
-$list-box-cell-height: 30px;
 $list-box-footer-height: 28px;
+<<<<<<< HEAD
 $list-box-header-height: $list-box-cell-height + $list-box-border-width;
 $list-box-row-count: 8;
 $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) * $list-box-row-count);
@@ -263,8 +264,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   .th-inner {
     position: absolute;
     top: 0;
-    line-height: $list-box-cell-height;
-    height: $list-box-header-height;
+    line-height: $list-box-header-height;
     text-align: left;
     border-left: $list-box-border;
     padding-left: 10px;
@@ -295,7 +295,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 
   .data {
     position: relative; /* could be absolute or relative */
-    padding-top: $list-box-header-height;
+    padding-top: $list-box-header-height + 1px; /* height of header +1 px for border of body */
     overflow-x: hidden;
   }
 
@@ -345,6 +345,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     padding: 0;
     padding-left: 10px;
     padding-right: 10px;
+<<<<<<< HEAD
     height: $list-box-header-height;
     line-height: $list-box-cell-height;
     position: relative;
@@ -445,8 +446,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   td {
     @include ellipsis();
     white-space: nowrap;
-    height: $list-box-cell-height;
-    line-height: $list-box-cell-height;
+    height: $list-box-header-height;
+    line-height: $list-box-header-height;
   }
 
   tbody tr td {
