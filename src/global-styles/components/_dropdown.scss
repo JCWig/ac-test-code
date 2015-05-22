@@ -54,6 +54,9 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
   }
 
   & > .dropdown-menu {
+    height: 267px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 
     & > li:first-child {
       padding: 10px 10px 0;

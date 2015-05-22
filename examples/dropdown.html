@@ -28,12 +28,52 @@
 
         <ul class="dropdown-menu">
             <li><input class="dropdown-filter" type="text"/></li>
-            <li ng-repeat="choice in vm.items">
-                <a href>{{choice}}</a>
+            <li ng-repeat="item in vm.items">
+                <a href>{{item}}</a>
+            </li>
+        </ul>
+    </div>
+
+<!--
+        <div class="dropdown-toggle" dropdown-toggle>
+            <span>Select one</span>
+            <span></span>
+        </div>
+
+        <ul class="dropdown-menu">
+            <li>
+                <ul>
+                    <li><input class="dropdown-filter" type="text"/></li>
+                    <li ng-repeat="item in vm.items">
+                        <a href>{{item}}</a>
+                    </li>
+
+                </ul>
             </li>
         </ul>
 
     </div>
+-->
+
+
+<!--
+    <div dropdown class="dropdown akam-dropdown" auto-close="outsideClick">
+
+        <div class="dropdown-toggle" dropdown-toggle>
+            <span>Select one</span>
+            <span></span>
+        </div>
+        <div class="dropdown-menu">
+            <ul>
+                <li><input class="dropdown-filter" type="text"/></li>
+                <li ng-repeat="item in vm.items">
+                    <a href>{{item}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+-->
+
 
     <script src="../dist/akamai-core.js"></script>
 
@@ -46,11 +86,16 @@
             var vm = this;
 
             vm.items = [
-                'The first choice!',
-                'And another choice for you. Isn\'t that swell',
-                'but wait! A third!',
-                'and a fourth!',
-                'kevin has herpes'
+                'The first item. __________________',
+                'The second item.',
+                'The third item.',
+                'The fourth item.',
+                'The fifth item.',
+                'The sixth item.',
+                'The seventh item.',
+                'The eighth item.',
+                'The ninth item.',
+                'The tenth item.'
             ];
 
             vm.toggled = function(open) {
