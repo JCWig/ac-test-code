@@ -435,5 +435,9 @@ function manageStates(scope) {
     });
     scope.state.allSelected =
       scope.dataTable.length && selectedItems.length === scope.dataTable.length;
+    if (!selectedItems.length && scope.state.viewSelectedOnly) {
+      scope.state.viewSelectedOnly = false;
+      scope.updateSearchFilter();
+    }
   }
 }

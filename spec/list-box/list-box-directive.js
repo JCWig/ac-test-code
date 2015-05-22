@@ -1035,7 +1035,7 @@ describe('akam-list-box', function() {
 
       expect(allVisibleRows.length).toEqual(1);
     });
-    it('should remove item from view if deselected', function() {
+    it('should uncheck view select all if nothing is selected', function() {
 
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
@@ -1049,7 +1049,7 @@ describe('akam-list-box', function() {
 
       var allVisibleRows = document.querySelectorAll(TABLE_ROW);
 
-      expect(allVisibleRows.length).toEqual(0);
+      expect(allVisibleRows.length).toEqual(3);
     });
     it('should show unselected items when "view selected only" re-pressed', function() {
       var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
