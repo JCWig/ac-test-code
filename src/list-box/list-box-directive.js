@@ -304,6 +304,19 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           scope.internalData.push(dataObj.item);
         });
       };
+      scope.getSelectedItems = function() {
+        var selectedItems = [];
+
+        if (scope.dataTable) {
+          selectedItems = scope.dataTable.filter(function(item) {
+            return item.selected;
+          });
+        }
+        return selectedItems;
+      };
+      scope.hasSelectedItems = function() {
+        return scope.getSelectedItems().length > 0;
+      };
     }
 
   };
@@ -430,9 +443,7 @@ function manageStates(scope) {
   var selectedItems = [];
 
   if (scope.dataTable) {
-    selectedItems = scope.dataTable.filter(function(item) {
-      return item.selected;
-    });
+    selectedItems = scope.getSelectedItems();
     scope.state.allSelected =
       scope.dataTable.length && selectedItems.length === scope.dataTable.length;
     if (!selectedItems.length && scope.state.viewSelectedOnly) {

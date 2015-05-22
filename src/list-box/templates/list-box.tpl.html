@@ -84,6 +84,7 @@
       <input type="checkbox"
              ng-model="state.viewSelectedOnly"
              ng-change="updateSearchFilter();"
+             ng-disabled="!hasSelectedItems()"
              id="{{::(tableId + 'viewSelectedOnly')}}"><label
       for="{{::(tableId + 'viewSelectedOnly')}}"
       akam-translate="components.list-box.text.viewSelected"></label>
