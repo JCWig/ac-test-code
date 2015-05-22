@@ -11,7 +11,7 @@ function dashCase(str) {
 
 /** @ngAnnotate */
 module.exports = angular.module('akamai.components.router', [
-  router
+  'ngNewRouter'
 ])
   .config(function($componentLoaderProvider) {
     $componentLoaderProvider.setTemplateMapping(function(name) {

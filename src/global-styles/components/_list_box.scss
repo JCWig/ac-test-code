@@ -39,7 +39,7 @@ Markup:
                     <td class="column-action">
                         <span class="akam-menu-button dropdown right" data-dropdown="" position="right">
                             <i class="luna-gear icon-states" data-dropdown-toggle="" aria-haspopup="true" aria-expanded="false"></i>
-                            
+
                             <ul class="dropdown-menu" role="menu">
                                 <li text="PDF" ><a href="javascript:void(0);" >PDF</a></li>
                                 <li text="HTML" ><a href="javascript:void(0);" >HTML</a></li>
@@ -51,7 +51,7 @@ Markup:
                     <td class="column-action">
                         <span class="akam-menu-button dropdown right" data-dropdown="" position="right">
                             <i class="luna-gear icon-states" data-dropdown-toggle="" aria-haspopup="true" aria-expanded="false"></i>
-                            
+
                             <ul class="dropdown-menu" role="menu">
                                 <li text="PDF" ><a href="javascript:void(0);" >PDF</a></li>
                                 <li text="HTML" ><a href="javascript:void(0);" >HTML</a></li>
@@ -169,7 +169,7 @@ Markup:
         <li >
             <a href="javascript:void(0)">
                 <i class="luna-arrow_smRight"></i>
-            </a>    
+            </a>
         </li>
     </ul>
     <div class="page-size">
@@ -239,7 +239,7 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
     overflow-y: auto;
     height: 100%;
     max-height: $list-box-body-height; //Note that this should be reset by a user to whatever the more appropriate value is
-    min-height: $list-box-body-height; 
+    min-height: $list-box-body-height;
     border-top: $list-box-border;
 
     &::-webkit-scrollbar {
@@ -357,7 +357,7 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
 
 .akam-list-box, .akam-data-table {
   border: $list-box-border;
-  @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, 0.15));
+  @include box-shadow($global-box-shadow);
   font-size: $body-font-size;
   color: $body-font-color;
   background: #fff;
