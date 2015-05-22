@@ -133,7 +133,7 @@
                 {"id":47,"first_name":"Andrea","last_name":"Ryan","email":"aryan1a@tuttocitta.it","country":"Philippines","ip_address":"135.16.13.75","boolean":true,"color":"Yellow"},
                 {"id":48,"first_name":"Samuel","last_name":"Williams","email":"swilliams1b@mapy.cz","country":"Uruguay","ip_address":"222.167.233.148","boolean":true,"color":"Blue"},
                 {"id":49,"first_name":"Jimmy","last_name":"Stephens","email":"jstephens1c@icio.us","country":"Pakistan","ip_address":"185.36.75.55","boolean":false,"color":"Yellow"},
-                {"id":50,"first_name":"Andrew","last_name":"Reynolds","email":"areynolds1d@auda.org.au","country":"Brazil","ip_address":"49.211.255.203","boolean":true,"color":"Red"},
+                {"id":50,"first_name":"Andrew","last_name":"Reynolds","email":"areynolds1d@auda.org.au","country":"Brazil","ip_address":"49.211.255.203","boolean":true,"color":"Red"}
             ];
             
             var BASE_DATA10 = [
@@ -146,7 +146,7 @@
                 {"id":7,"first_name":"Sarah","last_name":"West","email":"swest6@shop-pro.jp","country":"China","ip_address":"55.80.171.169","boolean":false,"color":"Green"},
                 {"id":8,"first_name":"Amy","last_name":"Stone","email":"astone7@buzzfeed.com","country":"China","ip_address":"183.243.240.125","boolean":true,"color":"Blue"},
                 {"id":9,"first_name":"Jeffrey","last_name":"Webb","email":"jwebb8@cloudflare.com","country":"China","ip_address":"216.7.198.28","boolean":false,"color":"Yellow"},
-                {"id":10,"first_name":"Andrea","last_name":"Wagner","email":"awagner9@wisc.edu","country":"Sweden","ip_address":"20.158.247.82","boolean":false,"color":"Yellow"},
+                {"id":10,"first_name":"Andrea","last_name":"Wagner","email":"awagner9@wisc.edu","country":"Sweden","ip_address":"20.158.247.82","boolean":false,"color":"Yellow"}
             ];
 
             var controllerFunction =  function($scope, $http, $filter, $q, $timeout, $log, $sce) {
@@ -167,9 +167,9 @@
                     nulldata : []
                 };
                 
-                // Initialize the value to true for the trusted content
+                // Initialize the value to false, so that alert messages are not shown by default for testing
                 $scope.trustContent = {
-                    value : true
+                    value : false
                 };
         
                 $scope.failThenLoadData = failedDeferred.promise;
@@ -193,7 +193,7 @@
                 // Reload the columns
                 $scope.updateColumns = function() {
                     $scope.columns10 = getColumns10();
-                }
+                };
                 
                 // Load the columns    
                 $scope.updateColumns();
@@ -219,8 +219,8 @@
                         header : 'Full Name',
                         className : 'column-full-name',
                         title: true,
-                        sort:true,
-                    },  
+                        sort:true
+                    }
                 ];
                 }
                     
@@ -235,32 +235,32 @@
                         header : 'Full Name',
                         className : 'column-full-name',
                         title: true,
-                        sort:true,
+                        sort:true
                     },
                     {
                         content : 'id',
                         header : 'Emp. ID',
                         className : 'column-employeeid',
                         title: false,
-                        sort:true,
+                        sort:true
                     },
                     {
                         content : 'email',
                         header : 'EMAIL',
                         className : 'column-email',
-                        sort:true,
+                        sort:true
                     },
                     {
                         content : 'country',
                         header : 'Country',
                         className : 'column-country',
-                        sort:true,
+                        sort:true
                     },
                     {
                         content : 'ip_address',
                         header : 'Internet Protocol Address',
                         className : 'column-ipaddress',
-                        sort:true,
+                        sort:true
                     },
                     {
                         content : 'boolean',
@@ -286,7 +286,7 @@
                         title: function(){
                             return this.color + " is my favorite color";
                         }
-                    },               
+                    }
                 ];
                 
                 $scope.process = function($event, type, item){
