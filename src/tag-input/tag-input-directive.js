@@ -3,27 +3,29 @@ var angular = require('angular');
 var tagInputTemplate = require('./templates/tag-input.tpl.html');
 
 /* @ngInject */
-module.exports = function($document, $timeout) {
+module.exports = function() {
   return {
     restrict: 'E',
     scope: {
       items: '=',
-      availableItems:'='
+      availableItems: '='
     },
-    template: tagInputTemplate, 
+    template: tagInputTemplate,
     link: function(scope, element) {
       function removeClasses() {
-        var stillDropping = element.querySelectorAll('.droppping, .dropping-before, .dropping-after');
-        var stillDroppingBefore, stillDroppingAfter;
+        var stillDropping =
+          element.querySelectorAll('.droppping, .dropping-before, .dropping-after');
+
         angular.forEach(stillDropping, function(ele) {
-          angular.element(ele).removeClass('dropping dropping-before dropping-after'); 
+          angular.element(ele).removeClass('dropping dropping-before dropping-after');
         });
-      };
+      }
       scope.onSelect = function(item) {
         scope.items.push(item);
       };
-      scope.onRemove = function(item, model) {
+      scope.onRemove = function(item) {
         var index = scope.items.indexOf(item);
+
         if (index > -1) {
           scope.items.splice(index, 1);
         }
