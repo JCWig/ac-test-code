@@ -7,71 +7,6 @@
 			@include svg('tab-close_hover',8px, 8px);	
 		}
 	}
-	
-	/* Style when highlighting a search. */
-	.ui-select-highlight {
-	  font-weight: bold;
-	}
-
-	.ui-select-offscreen {
-	  clip: rect(0 0 0 0) !important;
-	  width: 1px !important;
-	  height: 1px !important;
-	  border: 0 !important;
-	  margin: 0 !important;
-	  padding: 0 !important;
-	  overflow: hidden !important;
-	  position: absolute !important;
-	  outline: 0 !important;
-	  left: 0px !important;
-	  top: 0px !important;
-	}
-
-	/* Select2 theme */
-
-	/* Mark invalid Select2 */
-	.ng-dirty.ng-invalid > a.select2-choice {
-	    border-color: #D44950;
-	}
-
-	.select2-result-single {
-	  padding-left: 0;
-	}
-
-	.select2-locked > .select2-search-choice-close{
-	  display:none;
-	}
-
-	.select-locked > .ui-select-match-close{
-	    display:none;
-	}
-
-	body > .select2-container.open {
-	  z-index: 9999; /* The z-index Select2 applies to the select2-drop */
-	}
-
-	/* Selectize theme */
-
-	/* Helper class to show styles when focus */
-	.selectize-input.selectize-focus{
-	  border-color: #007FBB !important;
-	}
-
-	/* Fix input width for Selectize theme */
-	.selectize-control > .selectize-input > input {
-	  width: 100%;
-	}
-
-	/* Fix dropdown width for Selectize theme */
-	.selectize-control > .selectize-dropdown {
-	  width: 100%;
-	}
-
-	/* Mark invalid Selectize */
-	.ng-dirty.ng-invalid > div.selectize-input {
-	    border-color: #D44950;
-	}
-
 
 	.ui-select-match-close {
 		display:none;
@@ -82,9 +17,6 @@
 		line-height: 20px;
 	}
 
-	/* Bootstrap theme */
-
-	/* Helper class to show styles when focus */
 	.btn-default-focus {
 	  background-color: #EBEBEB;
 	  border-color: #ADADAD;
@@ -94,43 +26,18 @@
 	  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 	}
 
-	.ui-select-bootstrap .ui-select-toggle {
-	  position: relative;
-	}
-
-	.ui-select-bootstrap .ui-select-toggle > .caret {
-	  position: absolute;
-	  height: 10px;
-	  top: 50%;
-	  right: 10px;
-	  margin-top: -2px;
-	}
 
 	/* Fix Bootstrap dropdown position when inside a input-group */
 	.input-group > .ui-select-bootstrap.dropdown {
-	  /* Instead of relative */
 	  position: static;
 	}
 
 	.input-group > .ui-select-bootstrap > input.ui-select-search.form-control {
-	  border-radius: 4px; /* FIXME hardcoded value :-/ */
+	  border-radius: 3px;
 	  border-top-right-radius: 0;
 	  border-bottom-right-radius: 0;
 	}
 
-	.ui-select-bootstrap > .ui-select-match > .btn{
-	  /* Instead of center because of .btn */
-	  text-align: left !important;
-	}
-
-
-	.ui-select-bootstrap > .ui-select-match > .caret {
-	  position: absolute;
-	  top: 45%;
-	  right: 15px;
-	}
-
-	/* See Scrollable Menu with Bootstrap 3 http://stackoverflow.com/questions/19227496 */
 	.ui-select-bootstrap > .ui-select-choices {
 	  width: 100%;
 	  height: auto;
@@ -149,7 +56,7 @@
 	}
 
 	.ui-select-multiple.ui-select-bootstrap input.ui-select-search {
-	  background-color: transparent !important; /* To prevent double background when disabled */
+	  background-color: transparent;
 	  border: none;
 	  outline: none;
 	  height: 1.666666em;
@@ -197,8 +104,7 @@
 	    display: block;
 	    padding: 3px 20px;
 	    clear: both;
-	    font-weight: 400;
-	    line-height: 1.42857143;
+	    line-height: 1.5;
 	    color: $text-color;
 	    white-space: nowrap;
 	}
@@ -206,9 +112,7 @@
 		&.active {
 			background-color: #CEE7FF;	
 		}
-
 	}
-
 	.ui-select-bootstrap .ui-select-choices-row>a:hover {
 	    text-decoration: none;
 	    border:$list-box-cell-border;
@@ -221,22 +125,5 @@
 	    border:$list-box-cell-border;
 	    padding: 2px 19px;
 	    background-color: #CEE7FF;
-	}
-
-	.ui-select-bootstrap .ui-select-choices-row.disabled>a,
-	.ui-select-bootstrap .ui-select-choices-row.active.disabled>a {
-	    cursor: not-allowed;
-	    background-color: #CEE7FF;
-	}
-
-	/* fix hide/show angular animation */
-	.ui-select-match.ng-hide-add,
-	.ui-select-search.ng-hide-add {
-	    display: none !important;
-	}
-
-	/* Mark invalid Bootstrap */
-	.ui-select-bootstrap.ng-dirty.ng-invalid > button.btn.ui-select-match {
-	    border-color: #D44950;
 	}
 }

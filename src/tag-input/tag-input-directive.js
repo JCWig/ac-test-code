@@ -32,13 +32,6 @@ module.exports = function($document, $timeout) {
         scope.items = model.array;
         removeClasses();
       });
-      scope.editItem = function(item, blah){
-        var inputField = element[0].querySelector('.ui-select-search');
-        inputField.focus();
-        angular.element(inputField).val(item);
-        scope.$broadcast('uis:activate');
-      }
-
     }
   };
 };
