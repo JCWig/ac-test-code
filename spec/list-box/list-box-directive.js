@@ -146,16 +146,18 @@ describe('akam-list-box', function() {
       expect(columnSixHeaderObject.textContent).toMatch(/Generic Sorting/);
 
     });
-    it('should not have anything selected', function() {
+    it('should not have anything selected and view select only should be diabled', function() {
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       httpBackend.flush();
 
       var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
       var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
+      var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
 
       expect(allCheckedCheckboxes.length).toEqual(0);
       expect(numberSelectedSpan.textContent).toMatch(/Selected: 0/);
+      expect(viewSelectOnlyCheckbox.disabled).toBe(true);
     });
     it('should load default values if none are given', function() {
       scope.mydata = [{name: "hello"}, {date: "02/07/1993"}];
@@ -1035,8 +1037,8 @@ describe('akam-list-box', function() {
 
       expect(allVisibleRows.length).toEqual(1);
     });
-    it('should remove item from view if deselected', function() {
-
+    it('should uncheck view select all if nothing is selected', function() {
+      var spy = spyOn(scope.$$childTail, "updateSearchFilter").and.callThrough();
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
       scope.$digest();
@@ -1046,10 +1048,9 @@ describe('akam-list-box', function() {
       firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
       scope.$digest();
-
       var allVisibleRows = document.querySelectorAll(TABLE_ROW);
-
-      expect(allVisibleRows.length).toEqual(0);
+      expect(allVisibleRows.length).toEqual(3);
+      expect(spy.calls.count()).toEqual(2);
     });
     it('should show unselected items when "view selected only" re-pressed', function() {
       var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
