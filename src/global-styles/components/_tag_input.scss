@@ -1,3 +1,13 @@
+$tag-input-drop-down-padding-top : 20px;
+$tag-input-drop-down-padding-left : 3px;
+$tag-input-drag-drop-indicator-border: 1px solid #428bca;  
+$tag-indicator-hover-color: #ebf6ff;
+$tag-indicator-active-color: #CEE7FF;
+$tag-indicator-tag-background-color: #EBEBEB;
+$tag-indicator-tag-border-color: #ADADAD;
+$tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+
+
 .akam-tag-input {
 	
 	.tag-input-remove {
@@ -7,27 +17,21 @@
 			@include svg('tab-close_hover',8px, 8px);	
 		}
 	}
-
 	.ui-select-match-close {
 		display:none;
-		float:right;
-		line-height: 20px;
 	}
 	.tag-input-selected-items{
 		line-height: 20px;
 	}
-
 	.btn-default-focus {
-	  background-color: #EBEBEB;
-	  border-color: #ADADAD;
+	  background-color: $tag-indicator-tag-background-color;
+	  border-color: $tag-indicator-tag-border-color;
 	  text-decoration: none;
 	  outline: 5px auto -webkit-focus-ring-color;
 	  outline-offset: -2px;
-	  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+	  box-shadow: $tag-indicator-tag-box-shadow;
 	}
 
-
-	/* Fix Bootstrap dropdown position when inside a input-group */
 	.input-group > .ui-select-bootstrap.dropdown {
 	  position: static;
 	}
@@ -46,8 +50,8 @@
 	  margin-top: -1px;
 	}
 
-	body > .ui-select-bootstrap.open {
-	  z-index: 1000; /* Standard Bootstrap dropdown z-index */
+	.ui-select-bootstrap.open {
+	  z-index: $zindex-dropdown;
 	}
 
 	.ui-select-multiple.ui-select-bootstrap {
@@ -59,7 +63,7 @@
 	  background-color: transparent;
 	  border: none;
 	  outline: none;
-	  height: 1.666666em;
+	  height: 1.6em;
 	  margin-bottom: 3px;
 	  box-shadow: none;
 	  padding-left: 0px;
@@ -76,54 +80,42 @@
 	.ui-select-multiple .ui-select-match-item {
 	  position: relative;
 	  &.btn-primary {
-	  	background: $tooltip-background-color;
+	  	background: $tag-indicator-hover-color;
 	  }
 	}
-
-	.ui-select-multiple .ui-select-match-item.dropping-before:before {
-	  content: "";
-	  position: absolute;
-	  top: 0;
-	  right: 100%;
-	  height: 100%;
-	  margin-right: 2px;
-	  border-left: 1px solid #428bca;
-	}
-
-	.ui-select-multiple .ui-select-match-item.dropping-after:after {
-	  content: "";
-	  position: absolute;
-	  top: 0;
-	  left: 100%;
-	  height: 100%;
-	  margin-left: 2px;
-	  border-right: 1px solid #428bca;
+	.ui-select-multiple .ui-select-match-item.dropping-after {
+	  &:after, &:before {
+      content: "";
+  	  position: absolute;
+  	  top: 0;
+  	  left: 100%;
+  	  height: 100%;
+  	  margin-left: 2px;
+  	  border-right: $tag-input-drag-drop-indicator-border;
+    }
 	}
 
 	.ui-select-bootstrap .ui-select-choices-row>a {
 	    display: block;
-	    padding: 3px 20px;
 	    clear: both;
 	    line-height: 1.5;
 	    color: $text-color;
 	    white-space: nowrap;
+      &:hover, :active {
+        text-decoration: none;
+      }
 	}
 	.ui-select-choices-row {
-		&.active {
-			background-color: #CEE7FF;	
-		}
-	}
-	.ui-select-bootstrap .ui-select-choices-row>a:hover {
-	    text-decoration: none;
+    padding: $tag-input-drop-down-padding-left $tag-input-drop-down-padding-top;
+    &:hover{
 	    border:$list-box-cell-border;
-	    padding: 2px 19px;
-	    background-color: $tooltip-background-color;
-	}
-
-	.ui-select-bootstrap .ui-select-choices-row>a:active {
-	    text-decoration: none;
+	    padding: ($tag-input-drop-down-padding-left - 1px) ($tag-input-drop-down-padding-top - 1px);
+	    background-color: $tag-indicator-hover-color;
+	  }
+	  &:active, &.active{
 	    border:$list-box-cell-border;
-	    padding: 2px 19px;
-	    background-color: #CEE7FF;
+	    padding: ($tag-input-drop-down-padding-left - 1px) ($tag-input-drop-down-padding-top - 1px);
+	    background-color: $tag-indicator-active-color;
+	  }
 	}
 }

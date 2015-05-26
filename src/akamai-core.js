@@ -21,6 +21,5 @@ angular.module('akamai.components', [
   require('./tool-tip').name,
   require('./router').name,
   require('./tree-view').name,
-  require('./tag-input').name,
-  'ui.select'
+  require('./tag-input').name
 ]);

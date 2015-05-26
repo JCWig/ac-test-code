@@ -25,6 +25,9 @@ module.exports = {
   click: function(obj) {
     this.triggerMouseEvent(obj, 'click');
   },
+  dblClick: function(obj) {
+    this.triggerMouseEvent(obj, 'dblclick');
+  },
   mouseHover: function(obj) {
     this.triggerMouseEvent(obj, 'mouseover');
   },
