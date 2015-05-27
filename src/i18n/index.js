@@ -275,8 +275,8 @@ module.exports = angular.module('akamai.components.i18n',
  * @requires $log
  * @requires i18nToken
  *
- * @description This service factory sole purpose is to Intercept missing
- * translation key error, log error in the console (not blocking)
+ * @description This service factory's sole purpose is to Intercept missing
+ * translation key errors, and log the error in the console (non blocking operation)
  *
  */
   /* @ngInject */
