@@ -5,6 +5,6 @@
       <span class="tag-input-selected-items" ng-dblclick="$selectMultiple.removeChoice($index); $select.close(); $select.activate($item, false)">{{$item}}</span>
       <i class="tag-input-remove util-clickable" ng-click="$selectMultiple.removeChoice($index)"></i>
     </ui-select-match>
-    <ui-select-choices repeat="item in ::availableItems | filter:$select.search">{{item}}</ui-select-choices>
+    <ui-select-choices repeat="item in availableItems | filter:$select.search">{{item}}</ui-select-choices>
   </ui-select>
 </div>

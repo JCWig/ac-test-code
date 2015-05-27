@@ -45,15 +45,18 @@ module.exports = function(translate) {
           angular.element(ele).removeClass('dropping dropping-before dropping-after');
         });
       }
+      scope.setValues = function(newItems){
+        scope.items = newItems;
+        ngModel.$setViewValue(newItems);
+        ngModel.$setTouched();
+      }
       scope.$watch('data.items', function(newItems) {
         var sortedItems = sortItems(scope, newItems);
-
-        scope.items = newItems;
-        ngModel.$setViewValue(sortedItems);
-        ngModel.$setTouched();
+        scope.setValues(sortedItems);
       });
-      scope.$on('uiSelectSort:change', function() {
+      scope.$on('uiSelectSort:change', function(e, model) {
         removeClasses();
+        scope.setValues(model.array);
       });
     }
   };
