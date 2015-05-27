@@ -242,8 +242,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     overflow-y: auto;
     height: 100%;
     max-height: $list-box-body-height; //Note that this should be reset by a user to whatever the more appropriate value is
-    min-height: $list-box-body-height; 
-    border-top: $list-box-border;
+    min-height: $list-box-body-height;
 
     &::-webkit-scrollbar {
       -webkit-appearance: none;
@@ -368,6 +367,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 
   .data {
     position: relative;
+    border-top: $list-box-border;
     border-bottom: $list-box-border;
   }
 
