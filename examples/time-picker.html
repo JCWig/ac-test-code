@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Time Picker</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+</head>
+
+<body ng-app="example" ng-controller="ExampleController as vm" ng-strict-di class="common-css luna">
+  <div class="container">
+    <div class="page-header">
+      <h1>Time Picker Component Example</h1>
+    </div>
+    <br />
+    <form name='time-picker' role='form'>
+      <div class="container">
+        <akam-time-picker ng-model="vm.time" show-meridian="vm.showMeridian" placeholder="Enter time">
+        </akam-time-picker>
+      </div>
+      <br />
+      <br />
+      <br />
+      <div class="form-group" style="padding-top:70px;">
+        <input id="showMeridian" type="checkbox" name='showMeridian' ng-model='vm.showMeridian' />
+        <label class="label" for="showMeridian">Show meridian: </label>
+      </div>
+      <div>
+        <p>Current time is: {{vm.time | date: 'shortTime'}}</p>
+      </div>
+    </form>
+    <br />
+  </div>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  angular.module('example', ['akamai.components.time-picker']);
+  angular
+    .module('example')
+    .controller('ExampleController', ControllerFunction);
+
+  function ControllerFunction($log, $filter) {
+    var vm = this;
+    vm.showMeridian = true;
+    vm.time = new Date();
+  };
+
+  ControllerFunction.$inject = ["$log", "$filter"];
+  </script>
+</body>
+
+</html>

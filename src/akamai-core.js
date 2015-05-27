@@ -20,5 +20,6 @@ angular.module('akamai.components', [
   require('./switch-button').name,
   require('./tool-tip').name,
   require('./router').name,
-  require('./tree-view').name
+  require('./tree-view').name,
+  require('./time-picker').name
 ]);
