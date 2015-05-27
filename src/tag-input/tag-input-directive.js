@@ -13,7 +13,8 @@ module.exports = function(translate) {
       taggingLabel: '@',
       sortFunction: '=',
       dragDropable: '@',
-      placeholder: '@'
+      placeholder: '@',
+      restricted: '@'
     },
     template: tagInputTemplate,
     link: function(scope, element, attrs, ngModel) {
@@ -41,17 +42,27 @@ module.exports = function(translate) {
       function removeClasses() {
         var stillDropping =
           element.querySelectorAll('.droppping, .dropping-before, .dropping-after');
+
         angular.forEach(stillDropping, function(ele) {
           angular.element(ele).removeClass('dropping dropping-before dropping-after');
         });
       }
-      scope.setValues = function(newItems){
+      scope.setValues = function(newItems) {
         scope.items = newItems;
         ngModel.$setViewValue(newItems);
         ngModel.$setTouched();
-      }
+      };
+      scope.onSelect = function(item) {
+        var index = scope.availableItems.indexOf(item);
+
+        if (scope.restricted && scope.restricted === 'true' && scope.availableItems && index < 0) {
+          scope.items.splice(index, 1);
+          scope.data.items = scope.items;
+        }
+      };
       scope.$watch('data.items', function(newItems) {
         var sortedItems = sortItems(scope, newItems);
+
         scope.setValues(sortedItems);
       });
       scope.$on('uiSelectSort:change', function(e, model) {

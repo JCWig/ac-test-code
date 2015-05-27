@@ -175,10 +175,25 @@ describe('akamai.components.tag-input', function() {
         var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0]; 
         firstSelectedTag.classList.add('droppping', 'dropping-before', 'dropping-after');
         var isoScope = self.el.isolateScope();
-        isoScope.$emit('uiSelectSort:change');
+        isoScope.$emit('uiSelectSort:change', {array:scope.items});
         expect(firstSelectedTag.classlist).not.toContain('dropping');
         expect(firstSelectedTag.classlist).not.toContain('dropping-before');
         expect(firstSelectedTag.classlist).not.toContain('dropping-after');
+      });
+      it('should change items if items is changed', function(){
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems" tagging-label="new item"'+
+                        'sort-function="sortFunction"></akam-tag-input>';
+        addElement(markup);
+        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0]; 
+        firstSelectedTag.classList.add('droppping', 'dropping-before', 'dropping-after');
+        var isoScope = self.el.isolateScope();
+        isoScope.$emit('uiSelectSort:change', 
+            {array:  ["Tim Drake", "Barbara Gordon"] });
+        scope.$digest();
+        timeout.flush();
+        firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0]; 
+        expect(scope.items).toContain('Tim Drake');
+        expect(scope.items).toContain('Barbara Gordon');
       });
     });
 });
