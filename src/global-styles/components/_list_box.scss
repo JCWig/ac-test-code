@@ -367,7 +367,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   }
 
   .data {
-    border-top: $list-box-border;
+    position: relative;
     border-bottom: $list-box-border;
   }
 
