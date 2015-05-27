@@ -9,7 +9,9 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 
 
 .akam-tag-input {
-	
+	.ui-select-container {
+		min-height: 30px;
+	}
 	.tag-input-remove {
 		@include svg('tab-close',8px,8px);	
 		margin-left: 7px;

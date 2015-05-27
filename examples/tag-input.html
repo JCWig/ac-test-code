@@ -12,8 +12,16 @@
             </div>
             <h3>Tag Input Example</h3>
             <div style="width:500px;">
-                <akam-tag-input items="items" available-items="availableItems"> </akam-tree-view>
+                <akam-tag-input ng-model="items" available-items="availableItems" tagging-label="(add new item)" drag-dropable="true"> 
+                </akam-tag-input>
+            </div> <br/><br/><br/><br/>
+            <div style="width:500px;">
+                <span> Contains Same data, is alphabetically sortable </span>
+                <akam-tag-input ng-model="items2" available-items="availableItems" tagging-label="(add new item)" placeholder="Select Items" sort-function="sortFunction"> 
+                </akam-tag-input>
             </div>
+            <button ng-click="displayData1()">Click here to display first tag-input data</button>
+            <button ng-click="displayData2()">Click here to display second tag-input data</button>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script type="text/ng-template" id="/availableTemplate.tpl.html">
@@ -24,6 +32,7 @@
         <script>
             var exampleController = function($scope) {
                 $scope.items = ["Connor Kent","Bart Allen", "Cassandra Sandsmark"];
+                $scope.items2 = ["Garfield Logan","Oliver Queen", "Bruce Wayne"];
                 $scope.availableItems = [
                     "Dick Grayson",
                     "Jason Todd",
@@ -44,6 +53,21 @@
                     "Victor Stone",
                     "Garfield Logan"
                 ];
+                $scope.triggerChange = function(){
+                    $scope.items = ["Diana Prince",
+                        "Barry Allen",
+                        "Hal Jordan"
+                    ];
+                }
+                $scope.sortFunction = function(input){
+                    return input.sort();
+                }
+                $scope.displayData1 = function(){
+                    console.log($scope.items);
+                }
+                $scope.displayData2 = function(){
+                    console.log($scope.items2);
+                }
             };
             exampleController.$inject = ['$scope'];
             

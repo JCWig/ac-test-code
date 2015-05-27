@@ -5,16 +5,20 @@ var SELECTED_TAGS = '.tag-input-selected-items';
 var INPUT_FIELD = '.ui-select-search';
 var DROPDOWN_OPTION = '.ui-select-choices-row';
 var REMOVE_ICON = '.tag-input-remove';
+var translationMock = require('../fixtures/translationFixture.json');
 describe('akamai.components.tag-input', function() {
     var scope, compile, timeout;
     beforeEach(function() {
         inject.strictDi(true);
         var self = this;
         angular.mock.module(require('../../src/tag-input').name);
-        inject(function($compile, $rootScope, $timeout) {
+        inject(function($compile, $rootScope, $timeout, $httpBackend) {
             scope = $rootScope.$new();
             compile = $compile;
             timeout = $timeout;
+            $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
+            $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
+            $httpBackend.flush();
         });
         scope.items = ["Connor Kent","Bart Allen", "Cassandra Sandsmark"];
         scope.availableItems = [
@@ -38,7 +42,7 @@ describe('akamai.components.tag-input', function() {
     }
     describe('when rendering', function(){
       it('should render all part', function(){
-        var markup = '<akam-tag-input items="items" available-items="availableItems"> </akam-tag-input>';
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems"> </akam-tag-input>';
         addElement(markup);
 
         var allSelectedTags = document.querySelectorAll(SELECTED_TAGS);
@@ -50,10 +54,24 @@ describe('akamai.components.tag-input', function() {
         expect(inputField).not.toBe(null);
         expect(allDropDownOptions.length).toEqual(scope.availableItems.length - 1);//Bart Allen exists in both
       });
+      it('should render no tags if no selected items provided', function(){
+        scope.emptyItems = [];
+        var markup = '<akam-tag-input ng-model="emptyItems" placeholder="placeholder" available-items="availableItems"> </akam-tag-input>';
+        addElement(markup);
+
+        var allSelectedTags = document.querySelectorAll(SELECTED_TAGS);
+        var inputField = document.querySelector(INPUT_FIELD);
+        utilities.click(inputField);
+        var allDropDownOptions = document.querySelectorAll(DROPDOWN_OPTION);
+        
+        expect(allSelectedTags.length).toEqual(0);
+        expect(inputField).not.toBe(null);
+        expect(allDropDownOptions.length).toEqual(scope.availableItems.length);
+      });
     });
     describe('when interacting with tag input', function(){
       it('should delete from selected list when deleted', function(){
-        var markup = '<akam-tag-input items="items" available-items="availableItems"> </akam-tag-input>';
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems"> </akam-tag-input>';
         addElement(markup);
 
         var firstItemRemoveIcon = document.querySelector(REMOVE_ICON);
@@ -69,7 +87,7 @@ describe('akamai.components.tag-input', function() {
         expect(allDropDownOptions.length).toEqual(scope.availableItems.length);
       });
       it('should add in items if selected from drop down list', function(){
-        var markup = '<akam-tag-input items="items" available-items="availableItems"> </akam-tag-input>';
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems"> </akam-tag-input>';
         addElement(markup);
         var inputField = document.querySelector(INPUT_FIELD);
         utilities.click(inputField);
@@ -80,7 +98,7 @@ describe('akamai.components.tag-input', function() {
         expect(scope.items.length).toEqual(4);
       });
       it('should auto close dropdown on selected item', function(){
-        var markup = '<akam-tag-input items="items" available-items="availableItems"> </akam-tag-input>';
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems"> </akam-tag-input>';
         addElement(markup);
         var inputField = document.querySelector(INPUT_FIELD);
         utilities.click(inputField);
@@ -92,7 +110,7 @@ describe('akamai.components.tag-input', function() {
         expect(firstDropDownOption).toBe(null);
       });
       it('should auto close dropdown on click away', function(){
-        var markup = '<akam-tag-input items="items" available-items="availableItems"> </akam-tag-input>';
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems"> </akam-tag-input>';
         addElement(markup);
         var inputField = document.querySelector(INPUT_FIELD);
         utilities.click(inputField);
@@ -101,7 +119,7 @@ describe('akamai.components.tag-input', function() {
         expect(firstDropDownOption).toBe(null);
       });
       it('should reopen token for editing on double click of token', function(){
-        var markup = '<akam-tag-input items="items" available-items="availableItems"> </akam-tag-input>';
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems"> </akam-tag-input>';
         addElement(markup);
         var firstToken = document.querySelector(SELECTED_TAGS);
         utilities.dblClick(firstToken);
@@ -113,7 +131,7 @@ describe('akamai.components.tag-input', function() {
         expect(firstDropDownOption).not.toBe(null);
       });
       it('should reopen token for editing on double click of token even if dropdown already open', function(){
-        var markup = '<akam-tag-input items="items" available-items="availableItems"></akam-tag-input>';
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems"></akam-tag-input>';
         addElement(markup);
         var inputField = document.querySelector(INPUT_FIELD);
         utilities.click(inputField);
@@ -125,6 +143,42 @@ describe('akamai.components.tag-input', function() {
         expect(inputField.value).toContain('Connor Kent');
         expect(firstDropDownOption).not.toBe(null);
         expect(scope.items.length).toEqual(2);
+      });
+      it('should sort if given a function to sort off of', function(){
+        scope.sortFunction = function(input){
+            return input.sort();
+        }
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems" sort-function="sortFunction"></akam-tag-input>';
+        addElement(markup);
+        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0];
+        expect(firstSelectedTag.textContent).toContain("Bart Allen");
+      });
+      it('should auto sort when adding an item', function(){
+        scope.sortFunction = function(input){
+            return input.sort();
+        }
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems" sort-function="sortFunction"></akam-tag-input>';
+        addElement(markup);
+        var inputField = document.querySelector(INPUT_FIELD);
+        utilities.click(inputField);
+        var fourthDropDownOption = document.querySelectorAll(DROPDOWN_OPTION)[3];
+        utilities.click(fourthDropDownOption);
+        scope.$digest();
+        timeout.flush();
+        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0];
+        expect(firstSelectedTag.textContent).toContain("Barbara Gordon");
+      });
+      it('should remove drag and drop css classes when drag and drop triggered', function(){
+        var markup = '<akam-tag-input ng-model="items" available-items="availableItems" tagging-label="new item"'+
+                        'sort-function="sortFunction"></akam-tag-input>';
+        addElement(markup);
+        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0]; 
+        firstSelectedTag.classList.add('droppping', 'dropping-before', 'dropping-after');
+        var isoScope = self.el.isolateScope();
+        isoScope.$emit('uiSelectSort:change');
+        expect(firstSelectedTag.classlist).not.toContain('dropping');
+        expect(firstSelectedTag.classlist).not.toContain('dropping-before');
+        expect(firstSelectedTag.classlist).not.toContain('dropping-after');
       });
     });
 });
