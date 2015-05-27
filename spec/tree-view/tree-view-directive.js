@@ -11,16 +11,18 @@ var PARENT_SELECTOR_ROWS = '.tree-view-current .tooltip .tree-view-contents';
 var INDETERMINATE_PROGRESS = 'akam-indeterminate-progress';
 
 describe('akamai.components.tree-view', function() {
-    var scope, timeout, compile, q;
+    var scope, timeout, compile, q, http, httpBackend;
     beforeEach(function() {
         inject.strictDi(true);
         var self = this;
         angular.mock.module(require('../../src/tree-view').name);
-        inject(function($compile, $rootScope, $timeout, $q,  $log) {
+        inject(function($compile, $rootScope, $timeout, $q,  $log, $http, $httpBackend) {
             scope = $rootScope.$new();
             timeout = $timeout;
             compile = $compile;
             q = $q;
+            http = $http;
+            httpBackend = $httpBackend;
         });
         scope.contextData = {
             parent:{title:"Justice League"},
@@ -32,6 +34,8 @@ describe('akamai.components.tree-view', function() {
                 {title:"Barbara Gordon"},
                 {title:"Damian Wayne"},
                 {title:"Terry McGinnis"},
+                {title:"Alfred Pennyworth"},
+                {title:"Talia Al Ghul"}
             ]
         };
         scope.triggerChange = function(clickedObj){
@@ -88,6 +92,15 @@ describe('akamai.components.tree-view', function() {
                     parent:{title:"Bruce Wayne"},
                     children : null
                 }
+            }  else if (clickedObj.title === 'Alfred Pennyworth') {
+                httpBackend.when('GET', '/data/from/here').respond({
+                    parent:{title:"Bruce Wayne"},
+                    children : ["Alfred Pennyworth Has No children"]
+                });
+                scope.contextData = http.get('/data/from/here');
+            }  else if (clickedObj.title === 'Talia Al Ghul') {
+                httpBackend.when('GET', '/data/from/here/does/not/exist').respond(404, "NO DATA HERE");
+                scope.contextData = http.get('/data/from/here/does/not/exist');
             }  else if (clickedObj.title === 'Bruce Wayne') {
                 var def = q.defer();
                 scope.contextData = def.promise;
@@ -99,7 +112,10 @@ describe('akamai.components.tree-view', function() {
                             {title:"Jason Todd"},
                             {title:"Tim Drake"},
                             {title:"Barbara Gordon"},
-                            {title:"Damian Wayne"}
+                            {title:"Damian Wayne"},
+                            {title:"Terry McGinnis"},
+                            {title:"Alfred Pennyworth"},
+                            {title:"Talia Al Ghul"}
                         ]
                     });
                 }, 2000);
@@ -144,7 +160,7 @@ describe('akamai.components.tree-view', function() {
             var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
             var currentContextIcon = document.querySelector(PARENT_ICON);
 
-            expect(treeContents.length).toEqual(6);
+            expect(treeContents.length).toEqual(8);
             expect(treeContents[0].textContent).toContain('Dick Grayson');
             expect(currentContext.textContent).toContain('Bruce Wayne');
             expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
@@ -309,6 +325,31 @@ describe('akamai.components.tree-view', function() {
             timeout.flush();
             scope.$digest();
 
+            var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
+            expect(childSelectorRows.length).toEqual(0);
+            var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
+            expect(indeterminateProgress.getAttribute('failed')).toBe('true');
+        });
+        it('should display data retrieved from http get', function(){            
+            var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
+            addElement(markup);
+            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[6].querySelector('span');
+            var currentContextIcon = document.querySelector(PARENT_ICON);
+            utilities.click(childSelectorRow);
+            httpBackend.flush();
+
+            var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
+            expect(childSelectorRows.length).toEqual(1);
+        });
+        it('should display no data retrieved from failed http get ', function(){            
+            var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
+            addElement(markup);
+            var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[7].querySelector('span');
+            var currentContextIcon = document.querySelector(PARENT_ICON);
+            utilities.click(childSelectorRow);
+            httpBackend.flush();
+            scope.$digest();
+            timeout.flush();
             var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
             expect(childSelectorRows.length).toEqual(0);
             var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);

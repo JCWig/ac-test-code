@@ -14,27 +14,30 @@ Styleguide 8.0
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
   }
+
   & > input[type='text'] {
     padding-right: 6px;
     &:focus ~ .btn {
       border-left-color: $input-border-color-focus;
     }
   }
+
   .dropdown-menu {
     padding: 15px;
-
     input[type='text'] {
       box-shadow: none;
       padding-right: $input-padding;
       width: 2em;
       @include box-sizing(content-box);
-
     }
   }
 
-  tr.time-decrement-row td, tr.time-increment-row td {
-    &:hover {
-      background: red;
+  tr.time-decrement-row, tr.time-increment-row {
+    td:nth-child(odd) {
+
+      &:hover {
+        background: $button-gradient-top-hover;
+      }
     }
   }
 }
