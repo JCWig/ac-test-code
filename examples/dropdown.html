@@ -25,13 +25,11 @@
     </div>
     <br/>
 
-<!--
     <div>
         <h2>Default dropdown with a list of objects</h2>
-        <akam-dropdown option-property="name" options="vm.options"></akam-dropdown>
+        <akam-dropdown ng-model="vm.ex2.selectedState" option-property="name" options="vm.stateObjects"></akam-dropdown>
     </div>
     <br/>
--->
 
 
 
@@ -82,6 +80,10 @@
 
             vm.ex1 = {
                 selectedState: 'Massachusetts'
+            };
+
+            vm.ex2 = {
+                selectedState: undefined
             };
 
             vm.doChange = function() {

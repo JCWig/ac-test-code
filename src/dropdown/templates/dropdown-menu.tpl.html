@@ -1,9 +1,8 @@
 <ul class="dropdown-menu">
     <li ng-repeat="option in options">
-<!--
-        <a href ng-if="optionProperty">{{option[optionProperty]}}</a>
-        <a href ng-if="!optionProperty">{{option}}</a>
--->
-        <a href ng-click="setSelectedOption(option)" ng-if="!optionProperty">{{option}}</a>
+        <a href ng-click="setSelectedOption(option)">
+            <span ng-if="optionProperty">{{option[optionProperty]}}</span>
+            <span ng-if="!optionProperty">{{option}}</span>
+        </a>
     </li>
 </ul>
