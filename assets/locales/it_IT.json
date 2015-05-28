@@ -17,6 +17,8 @@
             }
         },
         "modal-window": {
+            "successMessage": "The Action has been completed.",
+            "errorMessage": "The action cant be completed.",
             "title": "Modal Window",
             "label": {
                 "cancel": "Annulla",
