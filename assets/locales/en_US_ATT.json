@@ -17,15 +17,13 @@
             }
         },
         "modal-window": {
-            "successMessage": "The Action has been completed.",
-            "errorMessage": "The action cant be completed.",
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can''t be completed.",
             "title": "Modal Window",
             "label": {
                 "cancel": "Cancel",
                 "save": "Save"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+            }
         },
         "pagination": {
             "label": {
@@ -51,6 +49,10 @@
         },
         "warning": {
             "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         },
         "dialog": {},
         "error": {
@@ -87,11 +89,6 @@
             "warning": "WARNING",
             "success": "SUCCESS",
             "error": "ERROR"
-        },
-        "switch-button": {
-            "onLabel": "On",
-            "offLabel": "Off"
         }
-
     }
 }

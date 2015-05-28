@@ -7,32 +7,30 @@
             "title": "Informações"
         },
         "determinate-progress": {},
-        "name": "Akamai Common Components",
+        "name": "Componentes comuns da Akamai",
         "indeterminate-progress": {},
         "date-picker": {
             "placeholder": {
-                "date": "Date Picker",
-                "year": "Year Picker",
-                "month": "Month Picker"
+                "date": "Seletor de Datas",
+                "year": "Seletor de ano",
+                "month": "Seletor de mês"
             }
         },
         "modal-window": {
-            "successMessage": "The Action has been completed.",
-            "errorMessage": "The action cant be completed.",
-            "title": "Modal Window",
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can''t be completed.",
+            "title": "Janela modal",
             "label": {
                 "cancel": "Cancelar",
                 "save": "Salvar"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+            }
         },
         "pagination": {
             "label": {
-                "show-entries": "Show Entries:",
-                "results": "Results:",
-                "total-items": "Total Items",
-                "current-page": "Current Page"
+                "show-entries": "Mostrar entradas",
+                "results": "Resultados",
+                "total-items": "Total de Itens",
+                "current-page": "Página atual"
             }
         },
         "tooltip": {},
@@ -50,21 +48,25 @@
             "no": "Não"
         },
         "warning": {
-            "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+            "browser-button": "Safari e FireFox no Mac não oferecem suporte ao evento de foco dos elementos BUTTON. Em vez disso, use a tag âncora: A"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         },
         "dialog": {},
         "error": {
             "validation": {},
-            "data": "There was a problem loading the data."
+            "data": "Ocorreu um problema ao carregar os dados."
         },
         "list-box": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "viewSelectedOnly": "You have no items selected.",
-                "selected": "Selected:",
-                "viewSelected": "View Selected Only",
-                "noItem": "No Item Found",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "Não existem resultados com base no seu filtro.",
+                "viewSelectedOnly": "Você não tem itens selecionados.",
+                "selected": "Selecionadas",
+                "viewSelected": "Exibir somente os selecionados",
+                "noItem": "Nenhum item encontrado",
+                "noDataMessage": "Não existem dados com base nos seus critérios."
             },
             "placeholder": {
                 "filter": "Filtro"
@@ -72,8 +74,8 @@
         },
         "data-table": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "Não existem resultados com base no seu filtro.",
+                "noDataMessage": "Não existem dados com base nos seus critérios."
             },
             "placeholder": {
                 "filter": "Filtro"
@@ -83,14 +85,10 @@
             }
         },
         "notifications": {
-            "information": "INFORMATION",
+            "information": "INFORMAÇÕES",
             "warning": "ALERTA:",
             "success": "SUCESSO",
             "error": "ERRO"
-        },
-        "switch-button": {
-            "onLabel": "On",
-            "offLabel": "Off"
         }
     }
 }
