@@ -40,12 +40,10 @@ module.exports = function($interval, uuid, spinnerService) {
 
       stopInternalEvents(event);
 
-      var valid = true;
-      valid = spinnerService.isValid(scope.inputValue);
-      if (!valid) {
-        //reset to previous value
+      if (angular.isUndefined(scope.inputValue)) {
+        scope.inputValue = ngModel.$viewValue;
       }
-    }
+    };
 
     scope.isDisabled = function() {
       return scope.$eval(scope.disabled) === true;
@@ -114,18 +112,13 @@ module.exports = function($interval, uuid, spinnerService) {
       return parseInt(value, 10);
     });
 
-    ngModel.$render = function() {
-      //validateInput(ngModel.$viewValue, scope);
-      ngModel.$setTouched();
-    };
-
     function initialize() {
+      var maxlength,
+        valid = spinnerService.validateScopeVars(scope, ngModel);
 
-      var valid = spinnerService.validateScopeVars(scope, ngModel);
       if (!valid) {
         return;
       }
-      var maxlength;
 
       scope.max = spinnerService.isNumeric(scope.max) ? parseInt(scope.max, 10) : '';
       scope.min = spinnerService.isNumeric(scope.min) ? parseInt(scope.min, 10) : '';
@@ -142,15 +135,26 @@ module.exports = function($interval, uuid, spinnerService) {
 
       ngModel.$render();
 
+      scope.$watch('inputValue', function(newValue, oldValue) {
+        var isValueUnderMin, isValueOverMax;
 
-      scope.$watch("inputValue", function(newValue, oldValue) {
+        isValueUnderMin = spinnerService.isOutOfBound(scope.inputValue, scope.min, false, 1);
+        if (isValueUnderMin) {
+          scope.inputValue = oldValue;
+          return;
+        }
+
+        isValueOverMax = spinnerService.isOutOfBound(scope.inputValue, scope.max, true, 1);
+        if (isValueOverMax) {
+          scope.inputValue = oldValue;
+        }
 
       });
     }
 
     function updateInput(offset) {
       ngModel.$setViewValue(scope.inputValue + offset);
-      ngModel.$render();
+      ngModel.$setTouched();
     }
   }
 };

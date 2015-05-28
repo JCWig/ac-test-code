@@ -76,9 +76,9 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
 
       i {
         &.luna-arrow_extra_smDown {
-          background-position:sprite-position($luna-sprites, arrow_extra_smDown, 0, -1);
+          background-position:sprite-position($luna-sprites, arrow_extra_smDown, 0, -2);
           &[disabled] {
-            background-position:sprite-position($luna-sprites, arrow_extra_smDown_disabled, 0, -1) !important;
+            background-position:sprite-position($luna-sprites, arrow_extra_smDown_disabled, 0, -2) !important;
           }
         }
       }
