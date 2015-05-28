@@ -10,12 +10,7 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 
 .akam-tag-input {
 	.ui-select-container {
-		> div {
-			max-height: 75px;
-			overflow-y: auto;   
-		}
 		min-height: 30px;
-		
 	}
 	.tag-input-remove {
 		@include svg('tab-close',8px,8px);	
@@ -82,6 +77,9 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 	  height: 22px;
 	  min-width: 0px;
 	  padding-right: 5px;
+	  &.invalid-tag {
+	  	background: #FFF4F6;
+	  }
 	}
 
 	.ui-select-multiple .ui-select-match-item {

@@ -19,6 +19,7 @@ module.exports = function(translate) {
     },
     template: tagInputTemplate,
     link: function(scope, element, attrs, ngModel) {
+      scope.invalidInputs = [];
       scope.data = { items: scope.items };
       if (!scope.taggingLabel) {
         translate.async('components.tag-input.taggingLabel').then(function(value) {
@@ -43,13 +44,26 @@ module.exports = function(translate) {
       };
       ngModel.$validators.validInputs = function(modelValue, viewValue) {
         var flag = true;
+        var i;
 
-        angular.forEach(viewValue, function(value) {
-          if (!scope.validate(value)) {
+        for (i = 0; i < viewValue.length; i++) {
+          if (!scope.validate(viewValue[i])) {
             flag = false;
+            scope.invalidInputs.push(i);
           }
-        });
+        }
         return flag;
+      };
+      scope.applyInvalidTags = function() {
+        var tags = element.querySelectorAll('.ui-select-match-item');
+
+        if (tags.length) {
+          angular.forEach(scope.invalidInputs, function(index) {
+            if (tags[index]) {
+              tags[index].classList.add('invalid-tag');
+            }
+          });
+        }
       };
       scope.sortItems = function(items) {
         if (typeof scope.sortFunction === 'function') {
@@ -87,10 +101,12 @@ module.exports = function(translate) {
           scope.removeItem(item);
         }
         ngModel.$validate();
+        scope.applyInvalidTags();
       };
       scope.$watch('data.items', function(newItems) {
         var sortedItems = scope.sortItems(newItems);
 
+        scope.invalidInputs = [];
         scope.setValues(sortedItems);
       });
       scope.$on('uiSelectSort:change', function(e, model) {

@@ -221,9 +221,10 @@ describe('akamai.components.tag-input', function() {
         var originalLength = scope.items.length;
         var isoScope = self.el.isolateScope();
         isoScope.data.items.push('1');
+        scope.$digest();
         isoScope.onSelect('1');
         scope.$digest();
-        var invalidActivatedDirective = document.querySelector('.ng-invalid');
+        var invalidActivatedDirective = document.querySelector('.invalid-tag');
         expect(invalidActivatedDirective).not.toBe(null);
       });
       it('should not allow selected items that are not in availableItems if restricted is set', function(){
