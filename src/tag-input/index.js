@@ -35,5 +35,10 @@ module.exports = angular.module('akamai.components.tag-input', [
  *
  * @param {Boolean} restricted A value that if true will not allow any
  * tags to be input that are not in the available items list.
+ *
+ * @param {Function} validateFunction A function that will be triggered
+ * when a new value is input. It should return true if the input is allowed
+ * false is the input is not a valid input, we do not allow blank, undefined or
+ * null inputs
  */
 .directive('akamTagInput', require('./tag-input-directive'));

@@ -12,16 +12,23 @@
             </div>
             <h3>Tag Input Example</h3>
             <div style="width:500px;">
-                <akam-tag-input ng-model="items" available-items="availableItems" tagging-label="(add new item)" drag-dropable="true"> 
+                <akam-tag-input ng-model="items" available-items="availableItems" tagging-label="(add new item)" drag-dropable="true" validate-function="validateFunction"> 
                 </akam-tag-input>
             </div> <br/><br/><br/><br/>
             <div style="width:500px;">
                 <span> Contains Same data, is alphabetically sortable </span>
                 <akam-tag-input ng-model="items2" available-items="availableItems" tagging-label="(add new item)" restricted="true" placeholder="Select Items" sort-function="sortFunction"> 
                 </akam-tag-input>
+            </div> <br/><br/><br/><br/>
+            <div style="width:500px;">
+                <span> Contains Same data, does not allow string less than 2 characters </span>
+                <akam-tag-input ng-model="items3" available-items="availableItems" tagging-label="(add new item)" drag-dropable="true" validate-function="validateFunction"> 
+                </akam-tag-input>
             </div>
-            <button ng-click="displayData1()">Click here to display first tag-input data</button>
-            <button ng-click="displayData2()">Click here to display second tag-input data</button>
+            
+            <button ng-click="displayData(items)">Click here to log first tag-input data</button>
+            <button ng-click="displayData(items2)">Click here to log second tag-input data</button>
+            <button ng-click="displayData(items3)">Click here to log third tag-input data</button>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script type="text/ng-template" id="/availableTemplate.tpl.html">
@@ -33,6 +40,7 @@
             var exampleController = function($scope) {
                 $scope.items = ["Connor Kent","Bart Allen", "Cassandra Sandsmark"];
                 $scope.items2 = ["Garfield Logan","Oliver Queen", "Bruce Wayne"];
+                $scope.items3 = ["Dick Grayson", "33", "Hal Jordan"];
                 $scope.availableItems = [
                     "Dick Grayson",
                     "Jason Todd",
@@ -62,11 +70,14 @@
                 $scope.sortFunction = function(input){
                     return input.sort();
                 }
-                $scope.displayData1 = function(){
-                    console.log($scope.items);
+                $scope.displayData = function(data){
+                    console.log(data);
                 }
-                $scope.displayData2 = function(){
-                    console.log($scope.items2);
+                $scope.validateFunction = function(item) {
+                    if(!item || item.type === 'string' || item.length > 1){
+                        return true;
+                    }
+                    return false;
                 }
             };
             exampleController.$inject = ['$scope'];

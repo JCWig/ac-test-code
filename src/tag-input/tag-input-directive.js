@@ -14,7 +14,8 @@ module.exports = function(translate) {
       sortFunction: '=',
       dragDropable: '@',
       placeholder: '@',
-      restricted: '@'
+      restricted: '@',
+      validateFunction: '='
     },
     template: tagInputTemplate,
     link: function(scope, element, attrs, ngModel) {
@@ -29,16 +30,6 @@ module.exports = function(translate) {
           scope.placeholder = value;
         });
       }
-      ngModel.$isEmpty = function(value) {
-        return value.length === 0;
-      };
-      function sortItems(scopeVar, items) {
-        if (typeof scopeVar.sortFunction === 'function') {
-          return scopeVar.sortFunction(items);
-        } else {
-          return items;
-        }
-      }
       function removeClasses() {
         var stillDropping =
           element.querySelectorAll('.droppping, .dropping-before, .dropping-after');
@@ -47,6 +38,40 @@ module.exports = function(translate) {
           angular.element(ele).removeClass('dropping dropping-before dropping-after');
         });
       }
+      ngModel.$isEmpty = function(value) {
+        return value.length === 0;
+      };
+      ngModel.$validators.validInputs = function(modelValue, viewValue) {
+        var flag = true;
+
+        angular.forEach(viewValue, function(value) {
+          if (!scope.validate(value)) {
+            flag = false;
+          }
+        });
+        return flag;
+      };
+      scope.sortItems = function(items) {
+        if (typeof scope.sortFunction === 'function') {
+          return scope.sortFunction(items);
+        } else {
+          return items;
+        }
+      };
+      scope.validate = function(item) {
+        if (typeof scope.validateFunction === 'function') {
+          return scope.validateFunction(item);
+        }
+        return true;
+      };
+      scope.removeItem = function(item) {
+        var index = scope.data.items.indexOf(item);
+
+        if (index > -1) {
+          scope.items.splice(index, 1);
+          scope.data.items = scope.items;
+        }
+      };
       scope.setValues = function(newItems) {
         scope.items = newItems;
         ngModel.$setViewValue(newItems);
@@ -55,13 +80,16 @@ module.exports = function(translate) {
       scope.onSelect = function(item) {
         var index = scope.availableItems.indexOf(item);
 
-        if (scope.restricted && scope.restricted === 'true' && scope.availableItems && index < 0) {
-          scope.items.splice(index, 1);
-          scope.data.items = scope.items;
+        if (!item) {
+          scope.removeItem(item);
+        } else if (scope.restricted && scope.restricted === 'true' &&
+                    scope.availableItems && index < 0) {
+          scope.removeItem(item);
         }
+        ngModel.$validate();
       };
       scope.$watch('data.items', function(newItems) {
-        var sortedItems = sortItems(scope, newItems);
+        var sortedItems = scope.sortItems(newItems);
 
         scope.setValues(sortedItems);
       });

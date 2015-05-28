@@ -72,3 +72,11 @@ ul.dropdown-menu {
     border-color: $border-color-invalid;
   }
 }
+
+akam-tag-input.ng-invalid {
+  &.ng-touched {
+    .ui-select-container {
+      border-color: $border-color-invalid;
+    }
+  }
+}
