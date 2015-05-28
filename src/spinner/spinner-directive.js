@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function($interval, $log, uuid) {
+module.exports = function($interval, uuid, spinnerService) {
 
   var defaults = {
       VALUE: 0,
@@ -18,46 +18,11 @@ module.exports = function($interval, $log, uuid) {
         min: '@?',
         max: '@?',
         disabled: '@?',
-        ngModel: '='
+        inputValue: '=ngModel'
       }
     };
 
   return directive;
-
-  function validateInput(value, scope) {
-    var valid = true;
-
-    if (scope.disabled) {
-      return !valid;
-    }
-
-    if (!value) {
-      $log.warn('Input is Invalid.');
-      return !valid;
-    }
-
-    //check if value is number or not
-    valid = !isNaN(parseInt(value, 10));
-    if (!valid) {
-      $log.warn('Input is Invalid.');
-      return valid;
-    }
-
-    //check if value is under min value or not
-    valid = !scope.isUnderMin(true);
-    if (!valid) {
-      $log.warn('Input is under min value.');
-      return valid;
-    }
-
-    //check if value is under max value or not,
-    valid = !scope.isOverMax(true);
-    if (!valid) {
-      $log.warn('Input is over max value.');
-      return valid;
-    }
-    return valid;
-  }
 
   function stopInternalEvents(event) {
     if (event) {
@@ -66,35 +31,32 @@ module.exports = function($interval, $log, uuid) {
     }
   }
 
-  function link(scope, element, attrs, ngModelController) {
+  function link(scope, element, attrs, ngModel) {
     var upMouseDownPromise, downMouseDownPromise;
-
-    //ngModelController has to be defined
-    if (!ngModelController) {
-      $log.error('The ngModelController is required to instantiate directive instance.');
-      return;
-    }
 
     initialize();
 
+    scope.changed = function() {
+
+      stopInternalEvents(event);
+
+      var valid = true;
+      valid = spinnerService.isValid(scope.inputValue);
+      if (!valid) {
+        //reset to previous value
+      }
+    }
+
     scope.isDisabled = function() {
-      return getDisabledState();
+      return scope.$eval(scope.disabled) === true;
     };
 
-    scope.isUpArrowDisabled = function() {
-      return scope.isOverMax() || getDisabledState();
+    scope.isUnderMin = function(offset) {
+      return spinnerService.isOutOfBound(scope.inputValue, scope.min, false, offset);
     };
 
-    scope.isDownArrowDisabled = function() {
-      return scope.isUnderMin() || getDisabledState();
-    };
-
-    scope.isUnderMin = function(strict) {
-      return isOutOfBound(strict, 'min');
-    };
-
-    scope.isOverMax = function(strict) {
-      return isOutOfBound(strict, 'max');
+    scope.isOverMax = function(offset) {
+      return spinnerService.isOutOfBound(scope.inputValue, scope.max, true, offset);
     };
 
     scope.startStepUp = function(event) {
@@ -103,7 +65,7 @@ module.exports = function($interval, $log, uuid) {
         return;
       }
       upMouseDownPromise = $interval(function() {
-        if (scope.isOverMax(false)) {
+        if (scope.isOverMax()) {
           scope.stopStepUp();
         } else {
           updateInput(+defaults.STEP);
@@ -126,7 +88,7 @@ module.exports = function($interval, $log, uuid) {
       }
 
       downMouseDownPromise = $interval(function() {
-        if (scope.isUnderMin(false)) {
+        if (scope.isUnderMin()) {
           scope.stopStepDown();
         } else {
           updateInput(-defaults.STEP);
@@ -143,30 +105,31 @@ module.exports = function($interval, $log, uuid) {
     };
 
     // when model change, parse to integer, this sets up to the ngModelController
-    ngModelController.$formatters.push(function(value) {
+    ngModel.$formatters.push(function(value) {
       return parseInt(value, 10);
     });
 
     // when view change, parse to integer, this sets up to the ngModelController
-    ngModelController.$parsers.push(function(value) {
+    ngModel.$parsers.push(function(value) {
       return parseInt(value, 10);
     });
 
-    ngModelController.$render = function() {
-      validateInput(ngModelController.$viewValue, scope);
-      ngModelController.$setTouched();
+    ngModel.$render = function() {
+      //validateInput(ngModel.$viewValue, scope);
+      ngModel.$setTouched();
     };
 
     function initialize() {
-      var maxlength, maxValue, minValue;
 
-      //have to use empty string, since max or min will tell browser
-      //to constrain it with 0 value, which will not render correctly
-      maxValue = parseInt(scope.max, 10);
-      scope.max = !isNaN(maxValue) ? maxValue : '';
-      minValue = parseInt(scope.min, 10);
-      scope.min = !isNaN(minValue) ? minValue : '';
-      scope.disabled = getDisabledState();
+      var valid = spinnerService.validateScopeVars(scope, ngModel);
+      if (!valid) {
+        return;
+      }
+      var maxlength;
+
+      scope.max = spinnerService.isNumeric(scope.max) ? parseInt(scope.max, 10) : '';
+      scope.min = spinnerService.isNumeric(scope.min) ? parseInt(scope.min, 10) : '';
+      scope.disabled = scope.$eval(scope.disabled) === true;
       scope.spinnerId = uuid.guid();
 
       scope.dynamicMinWidth = {};
@@ -177,31 +140,17 @@ module.exports = function($interval, $log, uuid) {
         };
       }
 
-      ngModelController.$render();
+      ngModel.$render();
+
+
+      scope.$watch("inputValue", function(newValue, oldValue) {
+
+      });
     }
 
     function updateInput(offset) {
-      ngModelController.$setViewValue(scope.ngModel + offset);
-      ngModelController.$render();
-    }
-
-    function isOutOfBound(strict, type) {
-      var offset = strict ? 0 : 1,
-        num = parseInt(scope.ngModel, 10),
-        isMin = type === 'min';
-
-      if (isNaN(num)) {
-        return false;
-      }
-
-      return isMin ?
-        num - offset < parseInt(scope.min, 10) : num + offset > parseInt(scope.max, 10);
-    }
-
-    function getDisabledState() {
-      var state = scope.$eval(scope.disabled);
-
-      return state === true;
+      ngModel.$setViewValue(scope.inputValue + offset);
+      ngModel.$render();
     }
   }
 };
