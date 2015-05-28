@@ -19,61 +19,13 @@
 
     <h1>Dropdown Component Example</h1>
 
-    <div dropdown class="dropdown akam-dropdown" auto-close="outsideClick">
-
-        <div class="dropdown-toggle" dropdown-toggle>
-            <span>Select one</span>
-            <span></span>
-        </div>
-
-        <ul class="dropdown-menu">
-            <li><input class="dropdown-filter" type="text"/></li>
-            <li ng-repeat="item in vm.items">
-                <a href>{{item}}</a>
-            </li>
-        </ul>
-    </div>
-
+    <akam-dropdown option-property="name" options="vm.options">
 <!--
-        <div class="dropdown-toggle" dropdown-toggle>
-            <span>Select one</span>
-            <span></span>
-        </div>
-
-        <ul class="dropdown-menu">
-            <li>
-                <ul>
-                    <li><input class="dropdown-filter" type="text"/></li>
-                    <li ng-repeat="item in vm.items">
-                        <a href>{{item}}</a>
-                    </li>
-
-                </ul>
-            </li>
-        </ul>
-
-    </div>
+        <akam-dropdown-option>
+            <a href><b>{{option.name}}</b></a>
+        </akam-dropdown-option>
 -->
-
-
-<!--
-    <div dropdown class="dropdown akam-dropdown" auto-close="outsideClick">
-
-        <div class="dropdown-toggle" dropdown-toggle>
-            <span>Select one</span>
-            <span></span>
-        </div>
-        <div class="dropdown-menu">
-            <ul>
-                <li><input class="dropdown-filter" type="text"/></li>
-                <li ng-repeat="item in vm.items">
-                    <a href>{{item}}</a>
-                </li>
-            </ul>
-        </div>
-    </div>
--->
-
+    </akam-dropdown>
 
     <script src="../dist/akamai-core.js"></script>
 
@@ -84,23 +36,33 @@
         DropdownAppController.$inject = ['$log'];
         function DropdownAppController($log) {
             var vm = this;
+            vm.test = 'test';
 
-            vm.items = [
-                'The first item. __________________',
-                'The second item.',
-                'The third item.',
-                'The fourth item.',
-                'The fifth item.',
-                'The sixth item.',
-                'The seventh item.',
-                'The eighth item.',
-                'The ninth item.',
-                'The tenth item.'
+            vm.options = [
+                {name: 'The first option. ________________'},
+                {name: 'The second option.'},
+                {name: 'The third option.'},
+                {name: 'The fourth option.'},
+                {name: 'The fifth option.'},
+                {name: 'The sixth option.'},
+                {name: 'The seventh option.'},
+                {name: 'The eighth option.'},
+                {name: 'The ninth option.'},
+                {name: 'The tenth option.'},
             ];
 
-            vm.toggled = function(open) {
-                $log.log('Dropdown is now: ', open);
-            };
+            vm.options2 = [
+                'The first option. ________________',
+                'The second option.',
+                'The third option.',
+                'The fourth option.',
+                'The fifth option.',
+                'The sixth option.',
+                'The seventh option.',
+                'The eighth option.',
+                'The ninth option.',
+                'The tenth option.'
+            ];
         }
 
     </script>

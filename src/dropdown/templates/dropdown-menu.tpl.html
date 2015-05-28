@@ -1,0 +1,6 @@
+<ul class="dropdown-menu">
+    <li ng-repeat="option in options">
+        <a href ng-if="optionProperty">{{option[optionProperty]}}</a>
+        <a href ng-if="!optionProperty">{{option}}</a>
+    </li>
+</ul>
