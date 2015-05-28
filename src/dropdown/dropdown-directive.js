@@ -11,9 +11,11 @@ module.exports = function($log, $compile, dropdownTransformer) {
     require: 'ngModel',
     scope: {
       selectedOption: '=ngModel',
-      options: "=",
-      optionProperty: "@?"
+      options: '=',
+      optionProperty: '@?',
+      onChange: '&?'
     },
+
     template: function (elem) {
       optionTemplate = elem.find('akam-dropdown-option').html();
       selectedTemplate = elem.find('akam-dropdown-selected').html();
@@ -29,6 +31,13 @@ module.exports = function($log, $compile, dropdownTransformer) {
         $event.stopPropagation();
         scope.selectedOption = undefined;
       };
+
+      scope.$watch('selectedOption', function(selectedOption) {
+        if(typeof scope.onChange === 'function') {
+          scope.onChange();
+        }
+      });
+
       var dropdownMenuElem = dropdownTransformer.getDropdownMenu(scope, optionTemplate);
       elem.children(0).append(dropdownMenuElem);
     }
