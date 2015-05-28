@@ -8,7 +8,9 @@ module.exports = function($log, $compile, dropdownTransformer) {
 
   return {
     restrict: 'E',
+    require: 'ngModel',
     scope: {
+      selectedOption: '=ngModel',
       options: "=",
       optionProperty: "@?"
     },
@@ -19,8 +21,16 @@ module.exports = function($log, $compile, dropdownTransformer) {
     },
 
     link: function (scope, elem, attrs) {
-      var ntpl = dropdownTransformer.getDropdownMenu(scope, optionTemplate);
-      elem.children(0).append(ntpl);
+      scope.setSelectedOption = function (option) {
+        scope.selectedOption = option;
+      };
+
+      scope.clearSelectedOption = function($event) {
+        $event.stopPropagation();
+        scope.selectedOption = undefined;
+      };
+      var dropdownMenuElem = dropdownTransformer.getDropdownMenu(scope, optionTemplate);
+      elem.children(0).append(dropdownMenuElem);
     }
 
   };

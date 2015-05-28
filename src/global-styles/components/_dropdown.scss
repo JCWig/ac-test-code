@@ -35,6 +35,11 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
       background: $arrow-background,
       linear-gradient(to bottom, #fff, #e6e6e6);
     }
+    & i.clear-dropdown {
+      position: absolute;
+      right: 33px;
+      top: 6px;
+    }
 
     &:hover {
       & span:last-child {
@@ -55,7 +60,7 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
   }
 
   & > .dropdown-menu {
-    height: 267px;
+    max-height: 267px;
     overflow-x: hidden;
     overflow-y: scroll;
 

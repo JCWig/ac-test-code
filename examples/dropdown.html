@@ -19,13 +19,29 @@
 
     <h1>Dropdown Component Example</h1>
 
-    <akam-dropdown option-property="name" options="vm.options">
+    <div>
+        <h2>Default dropdown with a list of strings</h2>
+        <akam-dropdown ng-model="vm.ex1.selectedState" options="vm.strings"></akam-dropdown>
+    </div>
+    <br/>
+
 <!--
+    <div>
+        <h2>Default dropdown with a list of objects</h2>
+        <akam-dropdown option-property="name" options="vm.options"></akam-dropdown>
+    </div>
+    <br/>
+-->
+
+
+
+<!--
+    <akam-dropdown option-property="name" options="vm.options">
         <akam-dropdown-option>
             <a href><b>{{option.name}}</b></a>
         </akam-dropdown-option>
--->
     </akam-dropdown>
+-->
 
     <script src="../dist/akamai-core.js"></script>
 
@@ -38,31 +54,35 @@
             var vm = this;
             vm.test = 'test';
 
-            vm.options = [
-                {name: 'The first option. ________________'},
-                {name: 'The second option.'},
-                {name: 'The third option.'},
-                {name: 'The fourth option.'},
-                {name: 'The fifth option.'},
-                {name: 'The sixth option.'},
-                {name: 'The seventh option.'},
-                {name: 'The eighth option.'},
-                {name: 'The ninth option.'},
-                {name: 'The tenth option.'},
+            vm.stateObjects = [
+                {name: 'Colorado'},
+                {name: 'Connecticut'},
+                {name: 'Maryland'},
+                {name: 'Massachusetts'},
+                {name: 'New Hampshire'},
+                {name: 'New Jersey'},
+                {name: 'New York'},
+                {name: 'Vermont'},
+                {name: 'Virginia'},
+                {name: 'Washington DC'},
             ];
 
-            vm.options2 = [
-                'The first option. ________________',
-                'The second option.',
-                'The third option.',
-                'The fourth option.',
-                'The fifth option.',
-                'The sixth option.',
-                'The seventh option.',
-                'The eighth option.',
-                'The ninth option.',
-                'The tenth option.'
+            vm.strings = [
+                'Colorado',
+                'Connecticut',
+                'Maryland',
+                'Massachusetts',
+                'New Hampshire',
+                'New Jersey',
+                'New York',
+                'Vermont',
+                'Virginia',
+                'Washington DC'
             ];
+
+            vm.ex1 = {
+                selectedState: 'Massachusetts'
+            };
         }
 
     </script>

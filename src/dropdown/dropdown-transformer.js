@@ -6,9 +6,6 @@
 module.exports = function($compile, $log) {
 
   return {
-    noop: function() {
-      $log.log('noop');
-    },
 
     getDropdownMenu: function(scope, optionTemplate) {
       var dropdownMenuScope;
@@ -22,7 +19,6 @@ module.exports = function($compile, $log) {
       }
 
       return $compile(dropdownMenuElem)(scope);
-
     }
   };
 };
