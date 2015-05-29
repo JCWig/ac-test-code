@@ -35,6 +35,7 @@ module.exports = function(modalWindow, translate, $rootScope) {
 
     return modalWindow.open(angular.extend(options, {
       template: require('./templates/message-box.tpl.html'),
+      doNotShowMessage: true,
 
       /* @ngInject */
       controller: function($scope) {
