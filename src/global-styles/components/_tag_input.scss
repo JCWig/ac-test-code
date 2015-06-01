@@ -80,9 +80,6 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 	  &.invalid-tag {
 	  	background: #FFF4F6;
 	  }
-	}
-
-	.ui-select-multiple .ui-select-match-item {
 	  position: relative;
 	  &.btn-primary {
 	  	background: $tag-indicator-hover-color;
@@ -90,14 +87,14 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 	}
 	.ui-select-multiple .ui-select-match-item.dropping-after {
 	  &:after, &:before {
-      content: "";
-  	  position: absolute;
-  	  top: 0;
-  	  left: 100%;
-  	  height: 100%;
-  	  margin-left: 2px;
-  	  border-right: $tag-input-drag-drop-indicator-border;
-    }
+	      content: "";
+	  	  position: absolute;
+	  	  top: 0;
+	  	  left: 100%;
+	  	  height: 100%;
+	  	  margin-left: 2px;
+	  	  border-right: $tag-input-drag-drop-indicator-border;
+	    }
 	}
 
 	.ui-select-bootstrap .ui-select-choices-row>a {

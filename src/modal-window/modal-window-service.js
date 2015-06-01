@@ -125,7 +125,6 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
       scope.submit = function() {
         var result;
 
-        processing = true;
         scope.showSubmitError = false;
 
         if (angular.isFunction(onSubmit)) {
@@ -134,10 +133,17 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
           result = onSubmit;
         }
 
+        // check to see if the onSubmit returns a promise
+        if (result && angular.isFunction(result.then)) {
+          processing = true;
+        }
+
         $q.when(result).then(
           function(returnValue) {
             instance.close(returnValue);
-            statusMessage.showSuccess({text: scope.modalWindow.successMessage});
+            if (!options.doNotShowMessage) {
+              statusMessage.showSuccess({text: scope.modalWindow.successMessage});
+            }
           }
         ).catch(
           function() {
