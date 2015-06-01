@@ -30,6 +30,7 @@ $timepicker-input-disabled-color: #cccccc;
 }
 
 .akam-time-picker {
+  position: relative;
   & > .btn {
     min-width: 0;
     margin-left: -9px;
@@ -48,7 +49,7 @@ $timepicker-input-disabled-color: #cccccc;
       color: $timepicker-input-disabled-color;
       cursor: default;
     }
-    &.ng-invalid.ng-touched ~ .button,
+
     &.ng-invalid.ng-touched ~ .btn {
       border-left-color: $border-color-invalid;
     }
@@ -65,8 +66,14 @@ $timepicker-input-disabled-color: #cccccc;
   table {
     border-collapse: separate;
     border-spacing: $dropdown-menu-table-spacing;
-    td.meridian button {
+    td.meridian input[type='button'] {
+      background-color: $input-background-color;
+      border: solid 1px $input-border-color;
+      outline: none;
+      box-shadow: none;
       margin-left: 3px;
+      padding-top: 3px;
+      @include border-radius($input-border-radius);
     }
   }
   tr.time-decrement-row {
