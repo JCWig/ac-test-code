@@ -1,7 +1,7 @@
 <div class="akam-time-picker open" style="position: relative">
-    <input type="text" ng-model="inputTime" time-formatter show-meridian='showMeridian' ng-focus='isOpen=true' ng-disabled='disabled' placeholder="{{::placeholder}}">
-    <button class="btn" ng-click="isOpen=!isOpen" ng-disabled='disabled'>
-        <i class="luna-time icon-states"></i>
+    <input type="text" ng-model="inputTime" time-formatter show-meridian='showMeridian' ng-focus='isOpen=true' ng-disabled='isDisabled()' placeholder="{{::placeholder}}">
+    <button class="btn" ng-click="isOpen=!isOpen" ng-disabled='isDisabled()'>
+        <i class="luna-time icon-states" ng-disabled='isDisabled()'></i>
     </button>
     <div class="dropdown-menu" ng-show="isOpen" ng-class='{open:isOpen}'>
         <timepicker ng-model="inputTime" ng-change="changed()" hour-step="hourStep" minute-step="minuteStep" show-meridian="showMeridian"></timepicker>

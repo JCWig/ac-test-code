@@ -6,24 +6,55 @@ Styleguide 8.0
 
 */
 
+$button-background-hover-color: #e6e6e6;
+$dropdown-menu-table-height: 110px;
+$dropdown-menu-data-row-height: 36px;
+$dropdown-menu-padding-leftright: 10px;
+$dropdown-menu-padding-topbottom: 7px;
+$dropdown-menu-table-spacing: 3px;
+$timepicker-input-disabled-color: #cccccc;
+%arrow-row {
+  a {
+    display: block;
+    cursor: pointer;
+    i {
+      vertical-align: middle;
+    }
+  }
+  td {
+    height: ($dropdown-menu-table-height - $dropdown-menu-data-row-height - $dropdown-menu-table-spacing * 8)/2;
+    &:nth-child(odd):hover {
+      background: $button-background-hover-color;
+    }
+  }
+}
+
 .akam-time-picker {
-  //TODO: timepicker style goes here
   & > .btn {
     min-width: 0;
     margin-left: -9px;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+    &:hover > i {
+      @include luna-sprite(time_hover);
+    }
   }
-
   & > input[type='text'] {
     padding-right: 6px;
     &:focus ~ .btn {
       border-left-color: $input-border-color-focus;
     }
+    &:disabled {
+      color: $timepicker-input-disabled-color;
+      cursor: default;
+    }
+    &.ng-invalid.ng-touched ~ .button,
+    &.ng-invalid.ng-touched ~ .btn {
+      border-left-color: $border-color-invalid;
+    }
   }
-
   .dropdown-menu {
-    padding: 15px;
+    padding: $dropdown-menu-padding-topbottom $dropdown-menu-padding-leftright;
     input[type='text'] {
       box-shadow: none;
       padding-right: $input-padding;
@@ -31,13 +62,23 @@ Styleguide 8.0
       @include box-sizing(content-box);
     }
   }
-
-  tr.time-decrement-row, tr.time-increment-row {
-    td:nth-child(odd) {
-
-      &:hover {
-        background: $button-gradient-top-hover;
-      }
+  table {
+    border-collapse: separate;
+    border-spacing: $dropdown-menu-table-spacing;
+    td.meridian button {
+      margin-left: 3px;
+    }
+  }
+  tr.time-decrement-row {
+    @extend %arrow-row;
+    td:hover i {
+      @include luna-sprite(arrow_smDown_hover);
+    }
+  }
+  tr.time-increment-row {
+    @extend %arrow-row;
+    td:hover i {
+      @include luna-sprite(arrow_smUp_hover);
     }
   }
 }

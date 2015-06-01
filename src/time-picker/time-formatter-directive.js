@@ -1,81 +1,99 @@
- 'use strict';
+'use strict';
 
- var angular = require('angular');
+var angular = require('angular');
 
- var formatConfig = {
-   meridianOn: "hh:mm a",
-   meridianOff: "HH:mm"
- };
+var timepickerConfig = {
+  MERIDIAN_ON: 'hh:mm a',
+  MERIDIAN_OFF: 'HH:mm',
+  TIME_MERIDIAN_REGEX: /^(0?[0-9]|1[0-2]):[0-5][0-9] ?[a|p]m$/i,
+  TIME_REGEX: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
+  APM_REGEX: /[a|p]m/i
+};
 
- /* @ngInject */
- module.exports = function($filter) {
+/* @ngInject */
+module.exports = function($filter) {
 
-   var directive = {
-     restrict: 'A',
-     require: 'ngModel',
-     scope: {
-       showMeridian: '='
-     },
-     link: link
-   };
+  var directive = {
+    restrict: 'A',
+    require: 'ngModel',
+    scope: {
+      showMeridian: '='
+    },
+    link: link
+  };
 
-   return directive;
+  return directive;
 
-   function link(scope, element, attrs, ngModel) {
+  function link(scope, element, attrs, ngModel) {
 
-     ngModel.$parsers.push(parseTime);
-     ngModel.$formatters.push(displayTime);
+    ngModel.$parsers.push(parseTime);
+    ngModel.$formatters.push(displayTime);
 
-     scope.$watch('showMeridian', function(value) {
-       var value = ngModel.$modelValue;
-       if (value) {
-         element.val(displayTime(value));
-       }
-     });
+    scope.$watch('showMeridian', function() {
+      var value = ngModel.$modelValue;
 
-     //may use moment.js here
-     function parseTime(viewValue) {
+      if (value) {
+        element.val(displayTime(value));
+      }
+    });
 
-       if (!viewValue) {
-         ngModel.$setValidity('time', true);
-         return null;
-       } else if (angular.isDate(viewValue) && !isNaN(viewValue)) {
-         ngModel.$setValidity('time', true);
-         return viewValue;
-       } else if (angular.isString(viewValue)) {
-         var timeRegex = /^(0?[0-9]|1[0-2]):[0-5][0-9] ?[a|p]m$/i;
-         if (!scope.showMeridian) {
-           timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-         }
-         if (!timeRegex.test(viewValue)) {
-           ngModel.$setValidity('time', false);
-           return undefined;
-         } else {
-           ngModel.$setValidity('time', true);
-           var date = new Date();
-           var sp = viewValue.split(":");
-           var apm = sp[1].match(/[a|p]m/i);
-           if (apm) {
-             sp[1] = sp[1].replace(/[a|p]m/i, '');
-             if (apm[0].toLowerCase() == 'pm') {
-               sp[0] = sp[0] + 12;
-             }
-           }
-           date.setHours(sp[0], sp[1]);
-           return date;
-         };
-       } else {
-         ngModel.$setValidity('time', false);
-         return undefined;
-       };
-     }
+    function parseTime(value) {
 
-     function displayTime(data) {
-       parseTime(data);
-       var timeFormat = (!scope.showMeridian) ?
-        formatConfig.meridianOff : formatConfig.meridianOn;
+      var timeRegex = timepickerConfig.TIME_MERIDIAN_REGEX,
+        date = new Date(),
+        sp,
+        apm;
 
-       return $filter('date')(data, timeFormat);
-     }
-   }
- }
+      //empty valie is fine
+      if (!value) {
+        setTimepickerValidState(true);
+        return null;
+      }
+
+      //date value is fine
+      if (angular.isDate(value) && !isNaN(value)) {
+        setTimepickerValidState(true);
+        return value;
+      }
+
+      if (!angular.isString(value)) {
+        setTimepickerValidState(false);
+        return undefined;
+      }
+
+      if (!scope.showMeridian) {
+        timeRegex = timepickerConfig.TIME_REGEX;
+      }
+
+      if (!timeRegex.test(value)) {
+        setTimepickerValidState(false);
+        return undefined;
+      }
+
+      setTimepickerValidState(true);
+
+      sp = value.split(':');
+      apm = sp[1].match(timepickerConfig.APM_REGEX);
+      if (apm) {
+        sp[1] = sp[1].replace(timepickerConfig.APM_REGEX, '');
+        if (apm[0].toLowerCase() === 'pm') {
+          sp[0] = sp[0] + 12;
+        }
+      }
+      date.setHours(sp[0], sp[1]);
+      return date;
+    }
+
+    function displayTime(value) {
+      var timeFormat = !scope.showMeridian ?
+        timepickerConfig.MERIDIAN_OFF : timepickerConfig.MERIDIAN_ON;
+
+      parseTime(value);
+      return $filter('date')(value, timeFormat);
+    }
+
+    function setTimepickerValidState(state) {
+      ngModel.$setValidity('time', state);
+    }
+  }
+};

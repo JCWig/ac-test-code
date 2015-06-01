@@ -29,9 +29,9 @@ module.exports = angular.module('akamai.components.time-picker', [
  *
  * @param {string} inputTime - the time value.
  *
- * @param {boolean} show-meridian -  Whether to display 12H or 24H mode. default is 12H
+ * @param {boolean} show-meridian - Whether to display 12H or 24H mode. default is 12H, param optional.
  *
- * @param {string} placeholder - the placeholder value, it is optional, default is empty
+ * @param {string} disabled - whether to disable the picker input and button or not. Default is enabled. param optional.
  *
  */
 .directive('akamTimePicker', require('./time-picker-directive'))
@@ -48,7 +48,7 @@ module.exports = angular.module('akamai.components.time-picker', [
  *
  * @restrict A
  *
- * @param {boolean} show-meridian -  Whether to display 12H or 24H mode. default is 12H
+ * @param {boolean} show-meridian - bind this value and listen to its change, reformat display value once it is changed.
  *
  */
 .directive('timeFormatter', require('./time-formatter-directive'));

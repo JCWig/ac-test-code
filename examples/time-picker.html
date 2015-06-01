@@ -15,18 +15,23 @@
     <br />
     <form name='time-picker' role='form'>
       <div class="container">
-        <akam-time-picker ng-model="vm.time" show-meridian="vm.showMeridian" placeholder="Enter time">
+        <akam-time-picker ng-model="vm.time" disabled="vm.disabled" show-meridian="vm.showMeridian">
         </akam-time-picker>
       </div>
       <br />
-      <br />
-      <br />
-      <div class="form-group" style="padding-top:70px;">
+      <div class="form-group" style="padding-top:100px;">
         <input id="showMeridian" type="checkbox" name='showMeridian' ng-model='vm.showMeridian' />
         <label class="label" for="showMeridian">Show meridian: </label>
       </div>
+      <div class="form-group">
+        <input id="disableTimepicker" type="checkbox" name='disableTimepicker' ng-model='vm.disabled' />
+        <label class="label" for="disableTimepicker">To disabled timepicker: </label>
+      </div>
       <div>
         <p>Current time is: {{vm.time | date: 'shortTime'}}</p>
+        <p>Current UTC time is: {{vm.time | date: 'shortTime' : 'UTC'}}</p>
+        <p>Current date and time is: {{vm.time | date: 'medium'}}</p>
+        <p>Current date and time value is: {{vm.time}}</p>
       </div>
     </form>
     <br />
@@ -38,13 +43,13 @@
     .module('example')
     .controller('ExampleController', ControllerFunction);
 
-  function ControllerFunction($log, $filter) {
+  function ControllerFunction() {
     var vm = this;
+    vm.disabled = false;
     vm.showMeridian = true;
     vm.time = new Date();
   };
 
-  ControllerFunction.$inject = ["$log", "$filter"];
   </script>
 </body>
 
