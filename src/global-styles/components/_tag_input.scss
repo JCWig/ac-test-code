@@ -6,7 +6,10 @@ $tag-indicator-active-color: #CEE7FF;
 $tag-indicator-tag-background-color: #EBEBEB;
 $tag-indicator-tag-border-color: #ADADAD;
 $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-
+$tag-input-selected-padding : 5px;
+$tag-input-height-of-selected-tags: 22px;
+$tag-input-max-height-of-dropdown: 200px;
+$tag-input-width-from-text-to-icon: 7px;
 
 .akam-tag-input {
 	.ui-select-container {
@@ -14,7 +17,7 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 	}
 	.tag-input-remove {
 		@include svg('tab-close',8px,8px);	
-		margin-left: 7px;
+		margin-left: $tag-input-width-from-text-to-icon;
 		&:hover {
 			@include svg('tab-close_hover',8px, 8px);	
 		}
@@ -45,15 +48,21 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 	}
 
 	.ui-select-bootstrap > .ui-select-choices {
-	  width: 100%;
+	  width: calc(100% + 2px);
+	  margin-left:-1px;
 	  height: auto;
-	  max-height: 200px;
+	  max-height: $tag-input-max-height-of-dropdown;
 	  overflow-x: hidden;
-	  margin-top: -1px;
+	  margin-top: 1px;
+	  border-color : $input-border-color-focus;
+	  border-top: none;
 	}
 
 	.ui-select-bootstrap.open {
 	  z-index: $zindex-dropdown;
+	  border-color: $input-border-color-focus;
+	  border-bottom-right-radius : 0px;
+	  border-bottom-left-radius : 0px;
 	}
 
 	.ui-select-multiple.ui-select-bootstrap {
@@ -65,7 +74,7 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 	  background-color: transparent;
 	  border: none;
 	  outline: none;
-	  height: 1.6em;
+	  height: 1.8em;
 	  margin-bottom: 3px;
 	  box-shadow: none;
 	  padding-left: 0px;
@@ -74,9 +83,9 @@ $tag-indicator-tag-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb
 	.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
 	  outline: 0;
 	  margin: 0 3px 3px 0;
-	  height: 22px;
+	  height: $tag-input-height-of-selected-tags;
 	  min-width: 0px;
-	  padding-right: 5px;
+	  padding-right: $tag-input-selected-padding;
 	  &.invalid-tag {
 	  	background: #FFF4F6;
 	  }
