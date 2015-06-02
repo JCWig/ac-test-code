@@ -260,12 +260,12 @@ $container-md: 990px;
 $container-lg: $container-md;
 
 $dropdown-bg: #fff;
-$dropdown-border: #ccc;
+$dropdown-border: #ccc; 
 $dropdown-link-color: #666666;
 $dropdown-link-hover-color: #666666;
 $dropdown-link-hover-bg: #e2f3fc;
 $dropdown-link-active-color: #666666;
-$dropdown-link-active-bg: darken($dropdown-link-hover-bg, 10%);
+$dropdown-link-active-bg: #CEE7FF;
 $dropdown-link-disabled-color: #ccc;
 
 $panel-bg: #fff;
