@@ -120,14 +120,13 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
 
   /* @ngInject */
   this.$get = function i18nTokenFactory($cookies, $location, $log) {
-    var cookieLocale = $cookies[i18nConfig.localeCookie],
+    var cookieLocale = $cookies.get(i18nConfig.localeCookie),
       locale = i18nConfig.defaultLocale,
       localeUrls = [],
       appName, matchResults,
       normalizedPath,
     // valid chars: lower case alpha, digits, and hyphen for possible appName from url
       appUrlRx = /[^/]\/apps\/([a-z0-9-]+)?[/?]?/;
-
     //just to prevent from improperly encoded cookies
     if (cookieLocale) {
       try {

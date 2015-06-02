@@ -498,7 +498,7 @@ describe('akam-date-picker', function() {
   });
 });
 describe('when given an i18n locale that does not exist', function(){
-    var compile, scope, self;
+    var compile, scope, self, cookies;
     beforeEach(function() {
       inject.strictDi(true);
       self = this;
@@ -506,16 +506,16 @@ describe('when given an i18n locale that does not exist', function(){
       angular.mock.module(require('../../src/i18n').name);
       angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
         $translateProvider.useLoader('i18nCustomLoader');
-        $provide.decorator ('$cookies', function ($delegate) {
-            $delegate = {AKALOCALE:"eXpfUkU="};
-            return $delegate;
-        });
       });
-      inject(function($compile, $rootScope, $httpBackend) {
+      inject(function($compile, $rootScope, $httpBackend, _$cookies_) {
         compile = $compile;
         scope = $rootScope.$new();
+        _$cookies_.put('AKALOCALE', "eXpfUkU=");
+        cookies = _$cookies_;
         $httpBackend.when('GET', '/apps/appname/locales/yz_RE.json').respond({});
         $httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/yz_RE.json/).respond({});
+        $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+        $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
         $httpBackend.flush();
       });
     });
@@ -544,5 +544,7 @@ describe('when given an i18n locale that does not exist', function(){
         var inputDateField = document.querySelector('input.ng-valid-date');
 
         expect(inputDateField.value).toEqual(dayString);
+
+        cookies.put('AKALOCALE', "en_US=");
     });
 });

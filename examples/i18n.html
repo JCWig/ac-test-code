@@ -106,8 +106,8 @@
                     $scope.selected = 'en_US';
 
                     // Check to see if the AKALOCALE cookie is used
-                    if($cookies.AKALOCALE) {
-                        $scope.selected = atob($cookies.AKALOCALE);
+                    if($cookies.get('AKALOCALE')) {
+                        $scope.selected = atob($cookies.get('AKALOCALE'));
                     }
 
                     $scope.changeLocale = changeLocale;
