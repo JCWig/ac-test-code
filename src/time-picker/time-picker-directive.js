@@ -8,7 +8,7 @@ var timepikerConfig = {
 };
 
 /* @ngInject */
-module.exports = function($document) {
+module.exports = function($document, $parse) {
   var directive = {
     restrict: 'E',
     transclude: false,
@@ -17,29 +17,38 @@ module.exports = function($document) {
     scope: {
       inputTime: '=ngModel',
       showMeridian: '=?',
-      disabled: '=?'
+      disabled: '=?',
+      hourStep: '=?',
+      minuteStep: '=?'
     }
   };
 
   return directive;
 
-  function link(scope, elem, attr) {
+  function link(scope, element, attrs) {
 
-    var notShowMeridian = false, defaultPlaceholder = '';
+    var notShowMeridian = false,
+      defaultPlaceholder = '';
 
-    scope.disabled = scope.disabled === true || attr.disabled === 'disabled';
+    scope.disabled = scope.disabled === true || attrs.disabled === 'disabled';
 
-    //not to expose minute steps nd hour syeps as APIs
     scope.minuteStep = timepikerConfig.MINUTE_STEP;
+    $parse(attrs.minuteStep, function(value) {
+      scope.minuteStep = parseInt(value, 10);
+    });
+
     scope.hourStep = timepikerConfig.HOUR_STEP;
+    $parse(attrs.hourStep, function(value) {
+      scope.hourStep = parseInt(value, 10);
+    });
 
     notShowMeridian = scope.showMeridian === false ||
-      scope.$eval(attr.showMeridian) === false;
+      scope.$eval(attrs.showMeridian) === false;
     scope.showMeridian = !notShowMeridian;
 
     defaultPlaceholder = scope.showMeridian ?
       timepikerConfig.MERIDIAN_ON : timepikerConfig.MERIDIAN_OFF;
-    scope.placeholder = attr.placeholder ? attr.placeholder : defaultPlaceholder;
+    scope.placeholder = attrs.placeholder ? attrs.placeholder : defaultPlaceholder;
 
     scope.isOpen = false;
 
@@ -47,7 +56,7 @@ module.exports = function($document) {
       return scope.disabled === true || scope.$eval(scope.disabled) === true;
     };
 
-    elem.bind('click', function(event) {
+    element.bind('click', function(event) {
       event.preventDefault();
       event.stopPropagation();
     });

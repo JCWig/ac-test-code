@@ -11,7 +11,7 @@ var timepickerConfig = {
 };
 
 /* @ngInject */
-module.exports = function($filter) {
+module.exports = function($filter, $timeout, $parse) {
 
   var directive = {
     restrict: 'A',
@@ -26,8 +26,19 @@ module.exports = function($filter) {
 
   function link(scope, element, attrs, ngModel) {
 
+    var initialized = false;
+
+    scope.minuteStep = 15;
+    $parse(attrs.minuteStep, function(value) {
+      scope.minuteStep = parseInt(value, 10);
+    });
+
     ngModel.$parsers.push(parseTime);
     ngModel.$formatters.push(displayTime);
+
+    $timeout(function() {
+      initialized = true;
+    });
 
     scope.$watch('showMeridian', function() {
       var value = ngModel.$modelValue;
@@ -41,16 +52,20 @@ module.exports = function($filter) {
 
       var timeRegex = timepickerConfig.TIME_MERIDIAN_REGEX,
         date = new Date(),
-        sp,
-        apm;
+        sp;
 
-      //empty valie is fine
+      if (angular.isUndefined(value)) {
+        setTimepickerValidState(false);
+        return undefined;
+      }
+
+      //empty or null value is valid
       if (!value) {
         setTimepickerValidState(true);
         return null;
       }
 
-      //date value is fine
+      //date type is always valid, and need to check minutes to do rounding to nearest
       if (angular.isDate(value) && !isNaN(value)) {
         setTimepickerValidState(true);
         return value;
@@ -71,15 +86,7 @@ module.exports = function($filter) {
       }
 
       setTimepickerValidState(true);
-
-      sp = value.split(':');
-      apm = sp[1].match(timepickerConfig.APM_REGEX);
-      if (apm) {
-        sp[1] = sp[1].replace(timepickerConfig.APM_REGEX, '');
-        if (apm[0].toLowerCase() === 'pm') {
-          sp[0] = sp[0] + 12;
-        }
-      }
+      sp = parse(value);
       date.setHours(sp[0], sp[1]);
       return date;
     }
@@ -94,6 +101,19 @@ module.exports = function($filter) {
 
     function setTimepickerValidState(state) {
       ngModel.$setValidity('time', state);
+    }
+
+    function parse(value) {
+      var sp = value.split(':'),
+        apm = sp[1].match(timepickerConfig.APM_REGEX);
+
+      if (apm) {
+        sp[1] = sp[1].replace(timepickerConfig.APM_REGEX, '');
+        if (apm[0].toLowerCase() === 'pm') {
+          sp[0] = sp[0] + 12;
+        }
+      }
+      return sp;
     }
   }
 };
