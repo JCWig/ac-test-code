@@ -524,6 +524,7 @@ describe('when given an i18n locale that does not exist', function(){
             document.body.removeChild(this.element);
             this.element = null;
         }
+        cookies.remove('AKALOCALE');
     });
     function addElement(markup) {
         self.el = compile(markup)(scope);
@@ -544,7 +545,5 @@ describe('when given an i18n locale that does not exist', function(){
         var inputDateField = document.querySelector('input.ng-valid-date');
 
         expect(inputDateField.value).toEqual(dayString);
-
-        cookies.put('AKALOCALE', "en_US=");
     });
 });

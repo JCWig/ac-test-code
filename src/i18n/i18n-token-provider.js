@@ -127,6 +127,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
       normalizedPath,
     // valid chars: lower case alpha, digits, and hyphen for possible appName from url
       appUrlRx = /[^/]\/apps\/([a-z0-9-]+)?[/?]?/;
+
     //just to prevent from improperly encoded cookies
     if (cookieLocale) {
       try {
