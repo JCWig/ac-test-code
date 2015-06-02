@@ -16,7 +16,7 @@ function ExampleController($http, $log) {
 
   // pre-select the first two rows
   this.rows.then(function(data) {
-    vm.selectedItems = [data[0], data[1]];
+    vm.selectedItems = [data.data[0], data.data[1]];
     return data;
   });
 

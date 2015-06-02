@@ -6,6 +6,10 @@
   .common-css.luna .container h2 {
     padding-bottom: 15px;
   }
+  .common-css.luna .container p {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
 </style>
 <head>
   <meta charset="UTF-8">
@@ -21,7 +25,9 @@
 <div class="container">
   <h2>Data Table Example</h2>
 
-  <akam-table rows="vm.rows" akam-standalone on-change="vm.myRowSelectionCallback(selectedItems)" selected-rows="vm.selectedItems">
+  <akam-table rows="vm.rows" akam-standalone
+              on-change="vm.myRowSelectionCallback(selectedItems)"
+              selected-rows="vm.selectedItems">
 
     <akam-table-toolbar class="toolbar-class util-pull-right">
       <span>Graphs of stuff</span> {{ vm.testText }}
@@ -44,6 +50,10 @@
       </akam-table-column>
     </akam-table-row>
   </akam-table>
+
+  <p>
+    SELECTED ROWS {{ vm.selectedItems }}
+  </p>
 
 </div>
 

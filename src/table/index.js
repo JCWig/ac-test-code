@@ -32,6 +32,10 @@ module.exports = angular.module('akamai.components.table', [
  *
  * @param {Object[]} rows Required data model for the table.
  *
+ * @param {String} [id-property='id'] Attribute to use as an ID for the row. This will be used
+ * to keep track of selected items, as well as used as the `track by` clause in our ng-repeat.
+ * The ID must be unique per row.
+ *
  * @param {Function} [on-change] Optional callback that will be called whenever an item is selected.
  * Passes in the entire array of selected items.
  *
@@ -50,7 +54,10 @@ module.exports = angular.module('akamai.components.table', [
  * input box.
  *
  * @example
- *  <akam-table rows="rows" on-change="myRowSelectionCallback(selectedItems)" selected-rows="selectedItems">
+ *  <akam-table rows="rows"
+ *    id-property="custom-id-field"
+ *    on-change="myRowSelectionCallback(selectedItems)"
+ *    selected-rows="selectedItems">
  *    <akam-toolbar>
  *      <span>Custom toolbar markup here</span>
  *      <i class="my-awesome-icon"></i>
@@ -59,7 +66,9 @@ module.exports = angular.module('akamai.components.table', [
  *      <akam-table-column row-property="id" header-name="my.id">
  *        <span>CUSTOM MARKUP</span>{{ row.id }}
  *      </akam-table-column>
- *      <akam-table-column row-property="name" no-filter no-sort header-name="my.name">{{ row.name }} is awesome</akam-table-column>
+ *      <akam-table-column row-property="name" no-filter no-sort header-name="my.name">
+ *        {{ row.name }} is awesome
+ *      </akam-table-column>
  *      <akam-table-column row-property="street" header-name="my.street"></akam-table-column>
  *      <akam-table-column class="foo" header-name="my.actions">
  *        <akam-menu-button></akam-menu-button>

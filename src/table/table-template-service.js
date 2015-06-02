@@ -16,15 +16,17 @@ module.exports = function($log) {
    *
    * @param {HTMLElement} element the DOM element to operate on
    * @param {Object} attributes attributes given to the `akam-table` directive.
+   * @param {Boolean} selectable Whether or not to add checkbox columns
    * @returns {String} The template to compile
    */
-  function getTableTemplate(element, attributes) {
+  function getTableTemplate(element, attributes, selectable) {
     var template;
 
     template = '<table><thead><tr>' +
-    getHeaderTemplate(element[0], attributes) +
-    '</tr></thead><tbody><tr ng-repeat="row in table.filtered">' +
-    getRowTemplate(element[0], attributes) +
+    getHeaderTemplate(element[0], attributes, selectable) +
+    '</tr></thead><tbody><tr ng-repeat="row in table.filtered track by table.idProperty(row)" ' +
+    'ng-class="table.rowSelectedClass(table.idProperty(row))">' +
+    getRowTemplate(element[0], attributes, selectable) +
     '</tr></tbody></table>';
 
     return template;
@@ -35,10 +37,16 @@ module.exports = function($log) {
    * ng-click and ng-class from the akam-table-column.
    * @param {HTMLElement} element the `akam-table-row` element to compile.
    * @param {Object} attributes attributes given to the `akam-table` directive.
+   * @param {Boolean} selectable Whether or not to add checkbox columns
    * @returns {String} the template string to compile for the header
    */
-  function getHeaderTemplate(element, attributes) {
+  function getHeaderTemplate(element, attributes, selectable) {
     var template = '', headerHtml;
+
+    // add select all checkbox
+    if (selectable) {
+      template += '<th class="column-checkbox"></th>';
+    }
 
     angular.forEach(element.children, function(elem) {
       // clone the element because we will be modifying it with setAttribute and classList
@@ -79,10 +87,18 @@ module.exports = function($log) {
    * Configures the template for the table row, including `td` elements.
    * @param {HTMLElement} element the `akam-table-row` element to compile.
    * @param {Object} attributes attributes given to the `akam-table` directive.
+   * @param {Boolean} selectable Whether or not to add checkbox columns
    * @returns {String} the template string to compile for the header
    */
-  function getRowTemplate(element, attributes) {
+  function getRowTemplate(element, attributes, selectable) {
     var template = '';
+
+    if (selectable) {
+      template += '<td class="column-checkbox">' +
+      '<input type="checkbox" ng-model="table.selectedRowsMap[table.idProperty(row)]" ' +
+      'ng-change="table.toggleSelected(row)" id="{{ table.id + \'-item-\' + $index }}">' +
+      '<label for="{{ table.id + \'-item-\' + $index }}"></label></td>';
+    }
 
     angular.forEach(element.children, function(elem) {
       var tpl, content;
@@ -118,12 +134,6 @@ module.exports = function($log) {
     });
 
     return template;
-  }
-
-  function isFilterable(element, attributes) {
-    return !angular.isDefined(attributes.noFilter) &&
-      !element.hasAttribute('no-filter') &&
-      element.hasAttribute('row-property');
   }
 
   function isSortable(element, attributes) {

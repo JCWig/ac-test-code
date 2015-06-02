@@ -21,10 +21,11 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     scope: {},
     bindToController: {
       rows: '=',
+      idProperty: '@',
       filterPlaceholder: '@',
       noFilterResultsMessage: '@',
       noDataMessage: '=?',
-      selectedItems: '=?', // selected items from the outside
+      selectedRows: '=?', // selected items from the outside
       onChange: '&?'
     },
     controller: TableController,
@@ -68,7 +69,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
         toolbarScope = scope.$parent.$new(),
         table = element.find(rowSelector + '-placeholder'),
         toolbar = element.find(toolbarSelector + '-placeholder'),
-        template = akamTableTemplate.template(tableRowElem, attributes);
+        selectable = !!element.attr('selected-rows') || !!element.attr('on-change'),
+        template = akamTableTemplate.template(tableRowElem, attributes, selectable);
 
       // set scope variables for our <table> element and compile
       tableScope.table = scope.table;
@@ -115,7 +117,11 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
    */
   /* @ngInject */
   function TableController($scope) {
-    this.id = uuid.uid(); // auto increment ID
+    // auto increment table ID. This is used purely for the HTML label and input
+    this.id = uuid.uid();
+
+    // this ID is used as a 'track by' clause as well as to keep track of selected rows
+    this.idProperty = $parse(this.idProperty || 'id');
 
     // used to handle filter, sorting and paginating. Can be passed to the resource model
     // to allow them to fetch a new page of data from the server
@@ -128,6 +134,11 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       pageNumber: 0
     };
 
+    // mapping between row id properties and a boolean indicating whether or not the
+    // row is selected
+    this.selectedRowsMap = {};
+    this.rowSelectedClass = rowSelectedClass;
+
     this.sortDirectionClass = sortDirectionClass;
     this.sortColumn = sortColumn;
 
@@ -135,11 +146,15 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     this.pageSizeChanged = pageSizeChanged;
 
     this.applyState = applyState;
+    this.filterRows = filterRows;
     this.updateRowData = updateRowData;
+
+    this.toggleSelected = toggleSelected;
 
     translateMessages.call(this);
 
     $scope.$watch('table.rows', angular.bind(this, loadingFn));
+    $scope.$watch('table.selectedRows', angular.bind(this, setSelectedRows));
 
     // --- utility methods below ---
 
@@ -153,6 +168,55 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
         .then(angular.bind(this, updateRowData))
         .catch(angular.bind(this, failedLoading))
         .finally(angular.bind(this, doneLoading));
+    }
+
+    /**
+     * Rebuilds the internal selected rows map based on the selected items
+     * @this TableController
+     * @param {Object[]} items the set of selected items
+     */
+    function setSelectedRows(items) {
+      this.selectedRowsMap = {};
+
+      angular.forEach(items, function(item) {
+        this.selectedRowsMap[this.idProperty(item)] = true;
+      }, this);
+    }
+
+    /**
+     * Toggles the selected row. Handles updating the selectedRows property.
+     * @this TableController
+     * @param {Object} row the row that has been selected or de-selected
+     */
+    function toggleSelected(row) {
+      var index;
+
+      if (this.selectedRowsMap[this.idProperty(row)]) {
+        this.selectedRows.push(row);
+      } else {
+        index = this.selectedRows.indexOf(row);
+        if (index > -1) {
+          this.selectedRows.splice(index, 1);
+        }
+      }
+
+      if (angular.isFunction(this.onChange)) {
+        this.onChange({selectedItems: this.selectedRows});
+      }
+    }
+
+    /**
+     * Determines the selection class for a selectable column
+     * @this TableController
+     * @param {String} id the id of this row
+     * @returns {String} class name for the template to know whether this row is selected or not
+     */
+    function rowSelectedClass(id) {
+      if (this.selectedRowsMap[id]) {
+        return 'row-selected';
+      }
+
+      return '';
     }
 
     /**
@@ -189,6 +253,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
         this.state.sortDirection = defaultSortDirection;
       }
 
+      this.state.pageNumber = 1;
       this.applyState();
     }
 
@@ -218,6 +283,14 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       }
 
       this.filtered = newData;
+    }
+
+    /**
+     * @this TableController
+     */
+    function filterRows() {
+      this.state.pageNumber = 1;
+      this.applyState();
     }
 
     /**
@@ -335,6 +408,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       }
 
       this.pristine = data;
+      this.state.pageNumber = 1;
       this.applyState();
       return data;
     }

@@ -3,9 +3,9 @@
   <div class="toolbar">
     <span class="filter">
       <input type="search" ng-model="table.state.filter" ng-disabled="table.loading"
-             ng-change="table.applyState()" placeholder="{{ table.filterPlaceholder }}"> <i
+             ng-change="table.filterRows()" placeholder="{{ table.filterPlaceholder }}"> <i
       class="luna-close clear-filter icon-states util-clickable" ng-if="table.state.filter"
-      ng-click="table.state.filter = ''; table.applyState()"></i>
+      ng-click="table.state.filter = ''; table.filterRows()"></i>
     </span>
 
     <akam-table-toolbar-placeholder></akam-table-toolbar-placeholder>
@@ -22,8 +22,8 @@
   </div>
 
   <akam-pagination total-items="table.totalItems"
-                   current-page="::table.state.pageNumber"
-                   page-size="::table.state.pageSize"
+                   current-page="table.state.pageNumber"
+                   page-size="table.state.pageSize"
                    onchangepage="table.pageChanged(page)"
                    onchangesize="table.pageSizeChanged(size)">
   </akam-pagination>
