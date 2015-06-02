@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+var moment = require('moment');
 
 var timepickerConfig = {
   MERIDIAN_ON: 'hh:mm a',
@@ -17,7 +18,8 @@ module.exports = function($filter, $timeout, $parse) {
     restrict: 'A',
     require: 'ngModel',
     scope: {
-      showMeridian: '='
+      showMeridian: '=',
+      minuteStep: '=?'
     },
     link: link
   };
@@ -44,11 +46,11 @@ module.exports = function($filter, $timeout, $parse) {
       var value = ngModel.$modelValue;
 
       if (value) {
-        element.val(displayTime(value));
+        element.val(displayTime(value, true));
       }
     });
 
-    function parseTime(value) {
+    function parseTime(value, fromMeridian) {
 
       var timeRegex = timepickerConfig.TIME_MERIDIAN_REGEX,
         date = new Date(),
@@ -68,6 +70,10 @@ module.exports = function($filter, $timeout, $parse) {
       //date type is always valid, and need to check minutes to do rounding to nearest
       if (angular.isDate(value) && !isNaN(value)) {
         setTimepickerValidState(true);
+        if (initialized && !fromMeridian) {
+          sp = roundingMinutes(value);
+          value.setHours(sp[0], sp[1]);
+        }
         return value;
       }
 
@@ -91,11 +97,11 @@ module.exports = function($filter, $timeout, $parse) {
       return date;
     }
 
-    function displayTime(value) {
+    function displayTime(value, fromMeridian) {
       var timeFormat = !scope.showMeridian ?
         timepickerConfig.MERIDIAN_OFF : timepickerConfig.MERIDIAN_ON;
 
-      parseTime(value);
+      parseTime(value, fromMeridian);
       return $filter('date')(value, timeFormat);
     }
 
@@ -113,6 +119,16 @@ module.exports = function($filter, $timeout, $parse) {
           sp[0] = sp[0] + 12;
         }
       }
+      return sp;
+    }
+
+    function roundingMinutes(date) {
+      var ROUNDING = scope.minuteStep * 60 * 1000,
+        roundedDate = moment(Math.ceil(+date / ROUNDING) * ROUNDING),
+        sp = [];
+
+      sp[0] = roundedDate.get('hour');
+      sp[1] = roundedDate.get('minute');
       return sp;
     }
   }
