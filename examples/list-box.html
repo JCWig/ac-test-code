@@ -5,7 +5,7 @@
         <title>Akamai Component Examples - List Box</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container">
             <h1>List Box Component Example</h1>
             <br/>
@@ -20,7 +20,7 @@
                 execute in the component when the data is displayed and you hover over the column data.</p>
                 </div>
             </form>
-            <akam-list-box data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="noDataMessage"></akam-list-box>
+            <akam-list-box data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
         </div>
         <br />
         <div>
@@ -40,14 +40,19 @@
                     </td>
                 </tr>
             </table>
+            <div class="label-group">
+                    <label class="label" for="noDataMessage">No Data Message Text:</label><br>
+                    <input id="noDataMessage" type="text" ng-model="noDataMessage" size="50"/>
+            </div>
+            <br />
             <akam-list-box data="obj[status]" schema="columns" on-change="rowChange(value)"
-                           filter-placeholder="Filter Employees" no-data-message="noDataMessage"></akam-list-box>
+                           filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
         </div>
         <br />
         <div class="container">
             <h2>List Box Example with Checkboxes and Pre-Selected Rows</h2>
             <akam-list-box data="basedata" schema="columns" show-checkboxes="true" filter-placeholder="Filter Employees"
-                           selected-items="selectedItems2" no-data-message="noDataMessage"></akam-list-box>
+                           selected-items="selectedItems2" no-data-message="{{noDataMessage}}"></akam-list-box>
             <span>Selected Items:<br /> {{selectedItems2}}</span>
         </div>
         <br />
@@ -136,18 +141,8 @@
                 {"id":9,"first_name":"Jeffrey","last_name":"Webb","email":"jwebb8@cloudflare.com","country":"China","ip_address":"216.7.198.28","boolean":false,"color":"Yellow"},
                 {"id":10,"first_name":"Andrea","last_name":"Wagner","email":"awagner9@wisc.edu","country":"Sweden","ip_address":"20.158.247.82","boolean":false,"color":"Yellow"}
             ];
-            
-            angular.module('example', ['akamai.components.list-box', 'akamai.components.i18n'])
-            
-            .config(function($translateProvider) {
-                $translateProvider.useMissingTranslationHandler('noop');
-            })
-            
-            .factory('noop', function() {
-                return function() { }
-            })
-            
-            .controller('ExampleController', ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce", function($scope, $http, $filter, $q, $timeout, $log, $sce) {
+
+            var controllerFunction = function($scope, $http, $filter, $q, $timeout, $log, $sce) {
                 
                 var deferred = $q.defer();
                 var failedDeferred = $q.defer();
@@ -178,7 +173,7 @@
                 
                 $timeout(function(){
                     failedDeferred.reject();
-                }, 2000)
+                }, 2000);
 
                 $timeout(function(){
                     var newDeferred = $q.defer();
@@ -263,7 +258,7 @@
                     },
                     {
                         content : 'ip_address',
-                        header : 'IP Address',
+                        header : 'Internet Protocol Address',
                         className : 'column-ipaddress',
                         sort:true
                     },
@@ -319,7 +314,22 @@
                 $timeout(function() {
                     deferredRejection.reject();
                 }, 5000);
-            }]);
+            };
+            var configFunction = function($translateProvider) {
+                $translateProvider.useMissingTranslationHandler('noop');
+            };
+            configFunction.$inject = ['$translateProvider'];
+            controllerFunction.$inject = ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce"];
+            
+            angular.module('example', ['akamai.components.list-box', 'akamai.components.i18n'])
+            
+            .config(configFunction)
+            
+            .factory('noop', function() {
+                return function() { }
+            })
+            
+            .controller('ExampleController', controllerFunction);
         </script>
     </body>
 </html>

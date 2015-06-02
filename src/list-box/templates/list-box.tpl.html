@@ -21,12 +21,10 @@
                 <thead>
                     <tr>
                         <th class="column-checkbox header first">
-                            <div class="th-inner">
                                 <span><input type="checkbox"
                                              ng-model="state.allSelected"
                                              ng-change="selectAll()"
                                              id="{{::(tableId + 'allSelected')}}"><label for="{{::(tableId + 'allSelected')}}"></label></span>
-                            </div>
                         </th>
 
                         <th ng-repeat="column in ::columns"
@@ -34,10 +32,8 @@
                             ng-click="sortColumn(column)"
                             title="{{ column.header | akamTranslate }}"
                             class="header">
-                            <div class="th-inner">
                                 <span>{{column.header | akamTranslate}}</span>
                                 <i></i>
-                            </div>
                         </th>
                     </tr>
                 </thead>
@@ -72,7 +68,7 @@
 
     <div ng-if="totalCount === 0 && !loading"
          class="empty-table-message">
-      <i class="luna-alert"></i> <span>{{::messages.noDataMessage}}</span>
+      <i class="luna-alert"></i> <span>{{noDataMessage}}</span>
     </div>
   </div>
 
@@ -84,6 +80,7 @@
       <input type="checkbox"
              ng-model="state.viewSelectedOnly"
              ng-change="updateSearchFilter();"
+             ng-disabled="!hasSelectedItems()"
              id="{{::(tableId + 'viewSelectedOnly')}}"><label
       for="{{::(tableId + 'viewSelectedOnly')}}"
       akam-translate="components.list-box.text.viewSelected"></label>

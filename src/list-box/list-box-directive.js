@@ -12,13 +12,14 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       schema: '=',
       filterPlaceholder: '@',
       noFilterResultsMessage: '@',
-      noDataMessage: '=?',
+      noDataMessage: '@',
       noneSelectedMessage: '@',
       // the ? marks the property as optional.
       selectedItems: '=?',
       onChange: '&?'
     },
 
+    /* @ngInject */
     controller: function($scope) {
       this.loadMoreData = function() {
         var current = $scope.page * 10;
@@ -40,10 +41,9 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
     link: function(scope) {
       var orderBy = $filter('orderBy'),
         filter = $filter('filter'),
-        messages = {
+        staticMessages = {
           filterPlaceholder: scope.filterPlaceholder,
           noFilterResultsMessage: scope.noFilterResultsMessage,
-          noDataMessage: scope.noDataMessage,
           noneSelectedMessage: scope.noneSelectedMessage
         },
         fullDataSet;
@@ -79,13 +79,13 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         translate.async('components.list-box.text.viewSelectedOnly')
       ]).then(function(values) {
 
-        messages.filterPlaceholder = messages.filterPlaceholder || values[0];
-        messages.selectedText = values[1];
-        messages.noFilterResultsMessage = messages.noFilterResultsMessage || values[2];
-        messages.noDataMessage = messages.noDataMessage || values[3];
-        messages.noneSelectedMessage = messages.noneSelectedMessage || values[4];
+        staticMessages.filterPlaceholder = staticMessages.filterPlaceholder || values[0];
+        staticMessages.selectedText = values[1];
+        staticMessages.noFilterResultsMessage = staticMessages.noFilterResultsMessage || values[2];
+        staticMessages.noneSelectedMessage = staticMessages.noneSelectedMessage || values[4];
+        scope.noDataMessage = scope.noDataMessage || values[3];
 
-        scope.messages = messages;
+        scope.messages = staticMessages;
       });
 
       /**
@@ -107,6 +107,10 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         }
 
         scope.dataTable = filter(fullDataSet, scope.state.search);
+        scope.dataTable = orderBy(scope.dataTable,
+          scope.state.sortInfo.predicate,
+          scope.state.sortInfo.reverseSort);
+        manageStates(scope);
       };
 
       scope.processDataTable = function() {
@@ -168,6 +172,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           scope.sortColumn(autoSortableColumns[0]);
         }
         scope.loading = false;
+        manageStates(scope);
       };
 
       scope.$watch('data', function() {
@@ -192,7 +197,6 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           $timeout(function() {
             scope.processDataTable();
           }, 0);
-
         }).catch(function() {
           scope.failed = true;
         });
@@ -226,6 +230,11 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           scope.updateChanged(currentValue);
         });
 
+        if (!scope.state.allSelected && scope.state.viewSelectedOnly) {
+          scope.state.viewSelectedOnly = false;
+          scope.updateSearchFilter();
+        }
+
       };
 
       scope.updateChanged = function(item) {
@@ -237,13 +246,16 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           }
         } else {
           scope.selectedItems.splice(i, 1);
+          if (scope.state.allSelected) {
+            scope.state.allSelected = false;
+          }
           if (scope.state.viewSelectedOnly) {
             scope.dataTable = scope.dataTable.filter(function(rowItem) {
               return rowItem !== item;
             });
           }
         }
-
+        manageStates(scope);
         scope.onChange({value: scope.selectedItems});
       };
 
@@ -291,6 +303,19 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         angular.forEach(scope.dataTable, function(dataObj) {
           scope.internalData.push(dataObj.item);
         });
+      };
+      scope.getSelectedItems = function() {
+        var selectedItems = [];
+
+        if (scope.dataTable) {
+          selectedItems = scope.dataTable.filter(function(item) {
+            return item.selected;
+          });
+        }
+        return selectedItems;
+      };
+      scope.hasSelectedItems = function() {
+        return scope.getSelectedItems().length > 0;
       };
     }
 
@@ -412,4 +437,18 @@ function getColumnSortClass(column, sortedColumn, reverseSort) {
   }
 
   return 'column-sortable column-sorted ' + (reverseSort ? 'desc' : 'asc');
+}
+
+function manageStates(scope) {
+  var selectedItems = [];
+
+  if (scope.dataTable) {
+    selectedItems = scope.getSelectedItems();
+    scope.state.allSelected =
+      scope.dataTable.length && selectedItems.length === scope.dataTable.length;
+    if (!selectedItems.length && scope.state.viewSelectedOnly) {
+      scope.state.viewSelectedOnly = false;
+      scope.updateSearchFilter();
+    }
+  }
 }

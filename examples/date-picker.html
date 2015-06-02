@@ -5,13 +5,13 @@
         <title>Akamai Component Examples - Date Picker</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body ng-app="example" ng-controller="ExampleController" class="common-css luna">
+    <body ng-app="example" ng-controller="ExampleController" ng-strict-di class="common-css luna">
         <div class="container">
             <div class="page-header">
                 <h1>Date Picker Component Example</h1>
                 <h5>A minimum date (current year, current month, 1st day) and maximum date (current year + 1, current month, 1st day)
                 are assigned to the Date Picker component.</h5>
-            </div>       
+            </div>
             <br />
             <div class="container">
                 <label class="label">Specify Day Format:</label>
@@ -53,14 +53,13 @@
             </div>
             <div class="container">
                 <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}"
-                                  mode="month" placeholder="month picker" ng-change="monthChange()" format="{{formatMonth}}"></akam-date-picker>
+                                  mode="month" placeholder="month picker" ng-change="monthChange()" format="{{formatMonth}}" no-clear></akam-date-picker>
             </div>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            angular.module('example', ['akamai.components.date-picker'])
-            
-            .controller('ExampleController', function($scope, $log) {
+
+            var controllerFunction = function($scope, $log) {
                 var d = new Date();
                 $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
                 $log.log('Date Picker min: ', $scope.min);
@@ -75,7 +74,12 @@
                 $scope.monthChange = function(){
                     $log.log('Month Picker value selected: ', $scope.month);
                 };
-            });
+            };
+            controllerFunction.$inject = ['$scope', '$log'];
+
+            angular.module('example', ['akamai.components.date-picker'])
+            
+            .controller('ExampleController', controllerFunction);
         </script>
     </body>
 </html>

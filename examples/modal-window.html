@@ -5,7 +5,7 @@
         <title>Akamai Components Examples - Modal Window</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container">
              <div class="page-header">
                 <h1>Modal Window Component Example</h1>
@@ -46,11 +46,9 @@
                 </div>
             </form>
         </div>
-        <script type="text/javascript" src="../dist/akamai-core.js"></script>
+        <script src="../dist/akamai-core.js"></script>
         <script>
-            angular.module('example', ['akamai.components.modal-window'])
-
-            .controller('ExampleController', function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
+            var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
                 var modalScope = $rootScope.$new();
                 var times = 0;
 
@@ -61,38 +59,54 @@
                     title: 'Regarding Your Subscription Information',
                     cancelLabel: 'Cancel',
                     submitLabel: 'OK',
-                    hideSubmit: false,
-                    successMessage: 'Success!',
-                    errorMessage: 'Error!'
+                    hideSubmit: false
                 };
 
+                var aController = function($scope) {
+                    $scope.setOnSubmit(function(){
+                        var deferral = $q.defer();
+                        $timeout(function() {
+                            if (times % 2 === 0) {
+                                deferral.reject({enableSubmit : true });
+                            }else{
+                                deferral.resolve( { status: $scope.deferredValue } );
+                            }
+
+                            times++;
+                        }, 1000);
+                        return deferral.promise;
+                    });
+
+
+                    $log.log($scope.deferredValue);
+                    $log.log(modalScope.deferredValue);
+
+                    $scope.deferredValue = "Deferred Value returned";
+                    modalScope.customValue = 'Custom Value returned';
+                };
+
+                aController.$inject = ['$scope'];
+
                 $scope.open = function() {
+
                     // Create a new modal window instance with supplied options
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
                         template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
-                                    '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!',
-                        controller: function($scope) {
-                            $scope.setOnSubmit(function(){
-                                var deferral = $q.defer();
-                                $timeout(function() {
-                                    if (times % 2 === 0) {
-                                        deferral.reject({enableSubmit : true });
-                                    }else{
-                                        deferral.resolve( { status: $scope.deferredValue } );
-                                    }
-
-                                    times++;
-                                }, 1000);
-                                return deferral.promise;
-                            });
-                            
-                            $log.log($scope.deferredValue);
-                            $log.log(modalScope.deferredValue);
-
-                            $scope.deferredValue = "Deferred Value returned";
-                            modalScope.customValue = 'Custom Value returned';
-                        }
+                                    '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!' +
+                                    '<div class="label-group"><label class="label" for="description">Description:</label><br>' +
+                                    '<textarea id="description" type="text" rows="4" cols="75"></textarea>' +
+                                    '</div><br />' +
+                                    '<div class="label-group"><label class="label" for="reason">Reason:</label><br>' +
+                                    '<textarea id="reason" type="text" rows="4" cols="75"></textarea>' +
+                                    '</div><br />' +
+                                    '<div class="label-group"><label class="label" for="exemption">Exemption:</label><br>' +
+                                    '<textarea id="exemption" type="text" rows="4" cols="75"></textarea>' +
+                                    '</div><br />' +
+                                    '<div class="label-group"><label class="label" for="other">Other:</label><br>' +
+                                    '<textarea id="other" type="text" rows="4" cols="75"></textarea>' +
+                                    '</div><br />' ,
+                        controller: aController
                     }));
 
                     // Listen for the result returned by the modal window
@@ -124,9 +138,9 @@
                             $log.log('openWithTemplateUrl: Modal Window was cancelled.');
                         });
                 };
-            })
+            };
 
-            .controller('ModalController', function($scope, $q, $timeout) {
+            var modalController = function($scope, $q, $timeout) {
                 var times = 0;
 
                 $scope.setOnSubmit(function(){
@@ -156,7 +170,16 @@
                         $scope.disableSubmit();
                     }
                 };
-            });
+            };
+
+            exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
+            modalController.$inject = ['$scope', '$q', '$timeout']; 
+
+            angular.module('example', ['akamai.components.modal-window'])
+
+            .controller('ExampleController', exampleController)
+
+            .controller('ModalController', modalController);
         </script>
     </body>
 </html>

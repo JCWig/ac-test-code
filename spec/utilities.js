@@ -11,6 +11,13 @@ module.exports = {
 
     return el;
   },
+  scroll: function(obj, distance){
+    var domEle = this.find(obj);
+
+    domEle.scrollTop = distance;
+    var element = angular.element(domEle);
+    element.triggerHandler('scroll');
+  },
   click: function(obj) {
     var el = this.find(obj);
     var ev = document.createEvent('MouseEvent');

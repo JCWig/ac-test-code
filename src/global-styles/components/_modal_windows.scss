@@ -224,6 +224,9 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
 
     &.error + .modal-body {
       margin-top: $dialog-header-error-height;
+      @include for("IE10+") {
+        height: calc(100% - #{$dialog-header-height} - #{$dialog-footer-top-padding + $dialog-footer-bottom-padding + $button-height-large} - #{$dialog-header-error-height});
+      }
     }
   }
 
@@ -236,8 +239,7 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
     position: relative;
 
     .backwash {
-
-    position: absolute;
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
@@ -300,7 +302,6 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
   @include for("IE10+") {
     height: calc(100% - #{$dialog-header-height} - #{$dialog-footer-top-padding + $dialog-footer-bottom-padding + $button-height-large});
   }
-
 }
 
 &, &.luna {
