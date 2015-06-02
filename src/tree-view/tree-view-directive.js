@@ -51,7 +51,9 @@ module.exports = function($q, $compile, $log, $timeout) {
           }
         }, 300);
         scope.failed = false;
-        $q.when(scope.contextData).then(function(data) {
+        $q.when(scope.contextData).then(function(resp) {
+          var data = resp.data ? resp.data : resp;
+
           if (data.parent && !haveDataFlag) {
             maintainParentTree(data.parent);
           }
