@@ -18,7 +18,7 @@
         },
         "modal-window": {
             "successMessage": "The action has been completed.",
-            "errorMessage": "The action can''t be completed.",
+            "errorMessage": "The action can't be completed.",
             "title": "強制回應視窗",
             "label": {
                 "cancel": "取消",

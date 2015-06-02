@@ -18,7 +18,7 @@
         },
         "modal-window": {
             "successMessage": "The action has been completed.",
-            "errorMessage": "The action can''t be completed.",
+            "errorMessage": "The action can't be completed.",
             "title": "Modal Window",
             "label": {
                 "cancel": "Cancel",
