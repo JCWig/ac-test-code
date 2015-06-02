@@ -46,15 +46,15 @@ module.exports = function($interval, uuid, spinnerService) {
     };
 
     scope.isDisabled = function() {
-      return scope.$eval(scope.disabled) === true;
+      return scope.disabled === true || scope.$eval(scope.disabled) === true;
     };
 
     scope.isUnderMin = function(offset) {
-      return spinnerService.isOutOfBound(scope.inputValue, scope.min, false, offset);
+      return spinnerService.isOutOfBounds(scope.inputValue, scope.min, false, offset);
     };
 
     scope.isOverMax = function(offset) {
-      return spinnerService.isOutOfBound(scope.inputValue, scope.max, true, offset);
+      return spinnerService.isOutOfBounds(scope.inputValue, scope.max, true, offset);
     };
 
     scope.startStepUp = function(event) {
@@ -138,13 +138,13 @@ module.exports = function($interval, uuid, spinnerService) {
       scope.$watch('inputValue', function(newValue, oldValue) {
         var isValueUnderMin, isValueOverMax;
 
-        isValueUnderMin = spinnerService.isOutOfBound(scope.inputValue, scope.min, false, 1);
+        isValueUnderMin = spinnerService.isOutOfBounds(scope.inputValue, scope.min, false, 1);
         if (isValueUnderMin) {
           scope.inputValue = oldValue;
           return;
         }
 
-        isValueOverMax = spinnerService.isOutOfBound(scope.inputValue, scope.max, true, 1);
+        isValueOverMax = spinnerService.isOutOfBounds(scope.inputValue, scope.max, true, 1);
         if (isValueOverMax) {
           scope.inputValue = oldValue;
         }

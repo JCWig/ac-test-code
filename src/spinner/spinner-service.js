@@ -46,7 +46,7 @@ module.exports = function($log) {
 
   };
 
-  NumericValidator.prototype.isOutOfBound =
+  NumericValidator.prototype.isOutOfBounds =
     function(value, minOrMax, isUpperBound, offset) {
     var num = parseInt(value, 10);
 
@@ -61,8 +61,8 @@ module.exports = function($log) {
   };
 
   return {
-    isOutOfBound: function(value, minOrMax, isUpperBound, offset) {
-      return getInstance().isOutOfBound(value, minOrMax, isUpperBound, offset);
+    isOutOfBounds: function(value, minOrMax, isUpperBound, offset) {
+      return getInstance().isOutOfBounds(value, minOrMax, isUpperBound, offset);
     },
     isNumeric: function(value) {
       return getInstance().isNumeric(value);
