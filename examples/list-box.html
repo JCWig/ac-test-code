@@ -20,7 +20,7 @@
                 execute in the component when the data is displayed and you hover over the column data.</p>
                 </div>
             </form>
-            <akam-list-box data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
+            <akam-list-box akam-standalone data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
         </div>
         <br />
         <div>
@@ -45,32 +45,32 @@
                     <input id="noDataMessage" type="text" ng-model="noDataMessage" size="50"/>
             </div>
             <br />
-            <akam-list-box data="obj[status]" schema="columns" on-change="rowChange(value)"
+            <akam-list-box akam-standalone data="obj[status]" schema="columns" on-change="rowChange(value)"
                            filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
         </div>
         <br />
         <div class="container">
             <h2>List Box Example with Checkboxes and Pre-Selected Rows</h2>
-            <akam-list-box data="basedata" schema="columns" show-checkboxes="true" filter-placeholder="Filter Employees"
+            <akam-list-box akam-standalone data="basedata" schema="columns" show-checkboxes="true" filter-placeholder="Filter Employees"
                            selected-items="selectedItems2" no-data-message="{{noDataMessage}}"></akam-list-box>
             <span>Selected Items:<br /> {{selectedItems2}}</span>
         </div>
         <br />
         <div class="container">
             <h2>List Box Example loaded from HTTP GET</h2>
-            <akam-list-box data="jsonFromHttpGet" schema="columns" on-change="rowChange(value)"
+            <akam-list-box akam-standalone data="jsonFromHttpGet" schema="columns" on-change="rowChange(value)"
                            filter-placeholder="Filter Employees" show-checkboxes="true" selected-items="selectedItems3"></akam-list-box>
             <span>Selected Items: <br /> {{selectedItems3}}</span>
         </div>
         <br />
         <div class="container">
             <h3>List Box Example with Rejection Testing</h3>
-            <akam-list-box data="deferredRejection" schema="columns"></akam-list-box>
+            <akam-list-box akam-standalone data="deferredRejection" schema="columns"></akam-list-box>
         </div> 
         <br />
         <div class="container">
             <h2>Data Table Example that fails loading data then successfully loads data</h2>
-            <akam-list-box data="failThenLoadData" schema="columns" selected-items="selectedItems4">
+            <akam-list-box akam-standalone data="failThenLoadData" schema="columns" selected-items="selectedItems4">
             </akam-list-box>
         </div>
         <script src="../dist/akamai-core.js"></script>

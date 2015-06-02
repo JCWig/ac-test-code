@@ -111,8 +111,7 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
     .indeterminate-progress-label {
       width: 100%;
       position: absolute;
-      color: #fff;
-      text-shadow: 1px 1px 1px #000;
+      color: black;
       font: $progress-label-font;
       text-align: center;
       @include opacity(1);

@@ -26,6 +26,7 @@ input[type="search"],
 input[type="email"],
 input[type="date"],
 input[type="month"],
+input[type="number"],
 textarea {
   background-color: $input-background-color;
   border: solid 1px $input-border-color;
@@ -63,8 +64,8 @@ textarea {
 
 /* Search Inputs
 
-A search box provides secondary navigation for users, and allows them to find specific information. 
-Note: Applying this style will turn off browser default settings. 
+A search box provides secondary navigation for users, and allows them to find specific information.
+Note: Applying this style will turn off browser default settings.
 
 Markup:
 <div class="label-group {$modifiers}">
@@ -133,7 +134,7 @@ input[type="month"] {
 
 /* Textareas
 
-Text areas support data that spans multiple lines. 
+Text areas support data that spans multiple lines.
 
 Markup:
 <div class="label-group {$modifiers}">

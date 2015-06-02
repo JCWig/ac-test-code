@@ -1,0 +1,92 @@
+/* Numeric Spinner
+
+Users input a number by spinning up and down in input field and up|down buttons, by enter a new number, by prepopulate a number..
+
+Markup:
+
+Styleguide 8.0
+
+*/
+
+$spinner-input-height: 28px;
+$spinner-border-color: #cccccc;
+$spinner-button-hover-gradient-bottom: #e6e6e6;
+$spinner-button-hover-gradient-top: #ffffff;
+$spinner-border-color-hover: #999999;
+$spinner-button-hover-gradient-bottom-hover: #c8c8c8;
+$spinner-button-hover-gradient-top-hover: #f4f4f4;
+
+.akam-spinner {
+  position: relative;
+  font-size: 0px;
+
+  input[type=number] {
+    @include border-right-radius(0);
+    @include appearance(textfield);
+
+    &:disabled {
+      color: $spinner-border-color;
+      cursor: default;
+    }
+
+    &::-ms-clear {
+      display: none;
+    }
+
+    &[max]:not([max=""]) {
+      width: 0;
+    }
+  }
+
+  input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+
+  .btn-group-vertical.number-input {
+    text-align: left;
+    font-size: 0px;
+    height: $spinner-input-height;
+
+    .btn {
+      min-width: 20px;
+      height: $spinner-input-height/2;
+      width: auto;
+      border-left-width: 0;
+      display: block;
+      @include border-left-radius(0);
+      @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
+      border-color: $spinner-border-color;
+
+      &[disabled] {
+        opacity: 1;
+      }
+
+      & + .btn {
+        margin-top: 0;
+      }
+
+      &:first-child {
+        border-bottom-width: 0;
+        &:hover {
+          & + .btn {
+            border-top-color: $spinner-border-color-hover;
+          }
+        }
+      }
+
+      i {
+        &.luna-arrow_extra_smDown {
+          background-position:sprite-position($luna-sprites, arrow_extra_smDown, 0, -1);
+          &[disabled] {
+            background-position:sprite-position($luna-sprites, arrow_extra_smDown_disabled, 0, -1) !important;
+          }
+        }
+      }
+
+      &:hover {
+        @include background-image(linear-gradient($spinner-button-hover-gradient-top-hover, $spinner-button-hover-gradient-bottom-hover));
+        border-color: $spinner-border-color-hover;
+      }
+    }
+  }
+}

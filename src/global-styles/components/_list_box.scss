@@ -39,7 +39,7 @@ Markup:
                     <td class="column-action">
                         <span class="akam-menu-button dropdown right" data-dropdown="" position="right">
                             <i class="luna-gear icon-states" data-dropdown-toggle="" aria-haspopup="true" aria-expanded="false"></i>
-                            
+
                             <ul class="dropdown-menu" role="menu">
                                 <li text="PDF" ><a href="javascript:void(0);" >PDF</a></li>
                                 <li text="HTML" ><a href="javascript:void(0);" >HTML</a></li>
@@ -51,7 +51,7 @@ Markup:
                     <td class="column-action">
                         <span class="akam-menu-button dropdown right" data-dropdown="" position="right">
                             <i class="luna-gear icon-states" data-dropdown-toggle="" aria-haspopup="true" aria-expanded="false"></i>
-                            
+
                             <ul class="dropdown-menu" role="menu">
                                 <li text="PDF" ><a href="javascript:void(0);" >PDF</a></li>
                                 <li text="HTML" ><a href="javascript:void(0);" >HTML</a></li>
@@ -150,7 +150,7 @@ Markup:
         <li >
             <a href="javascript:void(0)">1</a>
         </li>
-        <li ><span>…</span></li>
+        <li ><span></span></li>
         <li >
             <a href="javascript:void(0)" >3</a>
         </li><li >
@@ -162,14 +162,14 @@ Markup:
         </li><li >
             <a href="javascript:void(0)" >7</a>
         </li>
-        <li ><span>…</span></li>
+        <li ><span></span></li>
         <li >
             <a href="javascript:void(0)" >100</a>
         </li>
         <li >
             <a href="javascript:void(0)">
                 <i class="luna-arrow_smRight"></i>
-            </a>    
+            </a>
         </li>
     </ul>
     <div class="page-size">
@@ -344,7 +344,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 .akam-list-box, .akam-data-table {
   margin: 16px 0;
   border: $list-box-border;
-  @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, 0.15));
+  @include box-shadow($global-box-shadow);
   font-size: $body-font-size;
   color: $body-font-color;
   background: #fff;

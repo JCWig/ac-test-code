@@ -20,7 +20,7 @@
                 execute in the component when the data is displayed and you hover over the column data.</p>
                 </div>
             </form>
-            <akam-data-table data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="noDataMessage">
+            <akam-data-table akam-standalone data="basedata10" schema="columns10" filter-placeholder="Filter Employees" no-data-message="noDataMessage">
                 <akam-menu-button position="right">
                     <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
                     <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
@@ -45,7 +45,7 @@
                     </td>
                 </tr>
             </table>
-            <akam-data-table data="obj[status]" schema="columns" on-change="rowChange(value)" filter-placeholder="Filter Employees" no-data-message="noDataMessage">
+            <akam-data-table akam-standalone data="obj[status]" schema="columns" on-change="rowChange(value)" filter-placeholder="Filter Employees" no-data-message="noDataMessage">
                 <akam-menu-button position="right">
                     <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
                     <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
@@ -55,7 +55,7 @@
         <br />
         <div class="container">
             <h2>Data Table Example with Checkboxes and Pre-Selected Rows</h2>
-            <akam-data-table data="basedata" schema="columns" show-checkboxes="true" filter-placeholder="Filter Employees" selected-items="selectedItems2" no-data-message="noDataMessage">
+            <akam-data-table akam-standalone data="basedata" schema="columns" show-checkboxes="true" filter-placeholder="Filter Employees" selected-items="selectedItems2" no-data-message="noDataMessage">
                 <akam-menu-button position="right">
                     <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
                     <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
@@ -66,7 +66,7 @@
         <br />
         <div class="container">
             <h2>Data Table Example loaded from HTTP GET</h2>
-            <akam-data-table data="jsonFromHttpGet" schema="columns" on-change="rowChange(value)" filter-placeholder="Filter Employees" show-checkboxes="true" selected-items="selectedItems3">
+            <akam-data-table akam-standalone data="jsonFromHttpGet" schema="columns" on-change="rowChange(value)" filter-placeholder="Filter Employees" show-checkboxes="true" selected-items="selectedItems3">
                 <akam-menu-button position="right">
                     <akam-menu-button-item text="PDF" ng-click="process($event, 'PDF', $parent.$parent.$parent.item)"></akam-menu-button-item>
                     <akam-menu-button-item text="HTML" ng-click="process($event, 'HTML', $parent.$parent.$parent.item)"></akam-menu-button-item>
@@ -77,7 +77,7 @@
         <br />
         <div class="container">
             <h2>Data Table Example that fails loading data then successfully loads data</h2>
-            <akam-data-table data="failThenLoadData" schema="columns" filter-placeholder="Filter Employees" selected-items="selectedItems4" no-data-message="noDataMessage">
+            <akam-data-table akam-standalone data="failThenLoadData" schema="columns" filter-placeholder="Filter Employees" selected-items="selectedItems4" no-data-message="noDataMessage">
             </akam-data-table>
         </div>
         <script src="../dist/akamai-core.js"></script>

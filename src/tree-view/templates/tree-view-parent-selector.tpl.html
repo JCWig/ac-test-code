@@ -1,0 +1,12 @@
+<div  ng-class="{fade: isOpen()}" class="tooltip bottom" ng-style="{top:parentSelectorTop, left:parentSelectorLeft}" 
+style="display:block">
+	<div class="tooltip-arrow" ng-style="{'top': arrowTop, 'left':arrowLeft}"></div>
+	<div class="tooltip-contents">
+	 	<div ng-repeat="parent in parentTree.slice().reverse()">
+	 		<div class="tree-view-contents util-clickable" ng-click="triggerParentChange(parent, true)">
+	 			<i ng-class="{'luna-child_group_folder':!parent.root, 'luna-home':parent.root}"></i> 
+	 			<span ng-class="{'parent-selector-root':parent.root}"> {{parent.title}} </span>
+	 		</div>
+	 	</div>
+	</div>
+</div>

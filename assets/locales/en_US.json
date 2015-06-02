@@ -97,6 +97,10 @@
         },
         "tooltip": {
 
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         }
     }
 }

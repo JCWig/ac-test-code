@@ -10,15 +10,13 @@ describe('akam-content-panel', function() {
   var compile = null;
   var scope = null;
   var self = this;
-  var timeout = null;
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/content-panel').name);
-    inject(function($compile, $rootScope, $timeout) {
+    inject(function($compile, $rootScope) {
       compile = $compile;
       scope = $rootScope.$new();
-      timeout = $timeout;
     });
   });
   afterEach(function() {
@@ -170,7 +168,7 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerIcon);
       scope.$digest();
-      timeout.flush();
+
       expect(scope.process.calls.count()).toEqual(1);
       expect(headerIcon.classList.contains('luna-expand')).toBe(true);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
@@ -178,7 +176,7 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerDiv);
       scope.$digest();
-      timeout.flush();
+
       expect(scope.process.calls.count()).toEqual(2);
       expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
       expect(headerIcon.classList.contains('luna-expand')).toBe(false);
@@ -200,7 +198,6 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerIcon);
       scope.$digest();
-      timeout.flush();
 
       expect(headerIcon.classList.contains('luna-expand')).toBe(true);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
@@ -208,7 +205,6 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerDiv);
       scope.$digest();
-      timeout.flush();
 
       expect(headerIcon.classList.contains('luna-expand')).toBe(false);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
@@ -228,7 +224,6 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerIcon);
       scope.$digest();
-      timeout.flush();
 
       expect(headerIcon.classList.contains('luna-expand')).toBe(true);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
@@ -236,7 +231,6 @@ describe('akam-content-panel', function() {
 
       utilities.click(headerDiv);
       scope.$digest();
-      timeout.flush();
 
       expect(headerIcon.classList.contains('luna-expand')).toBe(false);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(true);

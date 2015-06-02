@@ -148,6 +148,7 @@ Styleguide 6.10
 $datepicker-padding: 10px;
 $datepicker-cell-size: 27px;
 $monthpicker-cell-size: 60px;
+$datepicker-text-color-disabled: #e6e6e6;
 
 .akam-date-picker {
   position: relative;
@@ -233,7 +234,7 @@ $monthpicker-cell-size: 60px;
     margin-top: 0;
     top: 100%;
     min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
-    @include box-shadow(2px 2px 2px 0px rgba(0, 0, 0, 0.10));
+    @include box-shadow($global-box-shadow);
 
     // Override TWBS
     .btn,
@@ -282,7 +283,7 @@ $monthpicker-cell-size: 60px;
       &:disabled {
         span {
           background: #fff;
-          color: #c8c8c8;
+          color: $datepicker-text-color-disabled;
         }
       }
 

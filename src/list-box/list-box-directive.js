@@ -255,8 +255,11 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
             });
           }
         }
+
         manageStates(scope);
-        scope.onChange({value: scope.selectedItems});
+        if (typeof scope.onChange === 'function') {
+          scope.onChange({value: scope.selectedItems});
+        }
       };
 
       scope.sortColumn = function(column) {
