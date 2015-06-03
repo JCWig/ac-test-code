@@ -10,6 +10,8 @@ Styleguide 8.0
 
 $spinner-input-height: 28px;
 $spinner-border-color: #cccccc;
+$spinner-button-color-focus: #0099cc;
+$spinner-disable-color: #e6e6e6;
 $spinner-button-hover-gradient-bottom: #e6e6e6;
 $spinner-button-hover-gradient-top: #ffffff;
 $spinner-border-color-hover: #999999;
@@ -25,7 +27,8 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
     @include appearance(textfield);
 
     &:disabled {
-      color: $spinner-border-color;
+      color: $spinner-disable-color;
+      border-color: $spinner-disable-color;
       cursor: default;
     }
 
@@ -46,6 +49,7 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
     text-align: left;
     font-size: 0px;
     height: $spinner-input-height;
+    width: 32px;
 
     .btn {
       min-width: 20px;
@@ -59,6 +63,7 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
 
       &[disabled] {
         opacity: 1;
+        background-color: $spinner-button-hover-gradient-top;
       }
 
       & + .btn {
@@ -86,6 +91,10 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
       &:hover {
         @include background-image(linear-gradient($spinner-button-hover-gradient-top-hover, $spinner-button-hover-gradient-bottom-hover));
         border-color: $spinner-border-color-hover;
+      }
+      &:active {
+        border-color: $spinner-button-color-focus;
+        border-width: 1px;
       }
     }
   }
