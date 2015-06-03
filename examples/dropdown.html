@@ -19,21 +19,23 @@
 
     <h1>Dropdown Component Example</h1>
 
+<!--
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <akam-dropdown ng-model="vm.ex1.selectedState" options="vm.strings">
-            <akam-dropdown-option>
+            <akam-dropdown-option ng-non-bindable>
                 <span>{{option}} - custom</span>
             </akam-dropdown-option>
         </akam-dropdown>
     </div>
     <br/>
+-->
 
     <div>
         <h2>Default dropdown with a list of objects</h2>
         <akam-dropdown ng-model="vm.ex2.selectedState" option-property="name"
-                       options="vm.stateObjects">
-            <akam-dropdown-selected>
+                       options="vm.stateObjects" test-prop="Miguel">
+            <akam-dropdown-selected ng-non-bindable>
                 <span class="selected-option">
                     <span ng-if="selectedOption">{{selectedOption[optionProperty]}} - custom</span>
                 </span>

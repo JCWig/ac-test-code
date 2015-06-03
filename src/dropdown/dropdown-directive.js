@@ -3,7 +3,14 @@
 /* @ngInject */
 module.exports = function($log, $compile, dropdownTransformer) {
 
-  var dropdownTemplate = require('./templates/dropdown-directive.tpl.html');
+  function updateTemplate(tElem, dropdownTemplate, tagName) {
+    var customTemplate;
+    if (tElem.find(tagName).length) {
+      customTemplate = tElem.find(tagName);
+      dropdownTemplate = angular.element(dropdownTemplate).append(customTemplate)[0].outerHTML;
+    }
+    return dropdownTemplate;
+  }
 
   function getCustomMarkup(tElem, tagName) {
     if (tElem.find(tagName).length) {
@@ -18,63 +25,72 @@ module.exports = function($log, $compile, dropdownTransformer) {
       selectedOption: '=ngModel',
       options: '=',
       optionProperty: '@?',
-      onChange: '&?'
+      onChange: '&?',
+      testProp: '@?'
     },
 
-    compile: function(tElem) {
-      var selectedTemplate = getCustomMarkup(tElem, 'akam-dropdown-selected');
-      var optionTemplate = getCustomMarkup(tElem, 'akam-dropdown-option');
+    template: function(tElem, attrs) {
+      var selectedTemplate;
+      var dropdownTemplate = require('./templates/dropdown-directive.tpl.html');
 
-      tElem.append(dropdownTemplate);
+      dropdownTemplate = updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-selected');
+      dropdownTemplate = updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-option');
 
-      return function(scope, elem) {
-        var selectedScope, selectedContentTemplate, selectedElem,
-          menuScope, menuTemplate, menuElem;
+      return dropdownTemplate;
+    },
 
-        scope.setSelectedOption = function(option) {
-          scope.selectedOption = option;
-        };
+    link: function(scope, elem) {
+      $log.log('elem', elem);
+      var selectedScope, selectedContentTemplate, selectedElem,
+        menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate;
 
-        scope.clearSelectedOption = function($event) {
-          $event.stopPropagation();
-          scope.selectedOption = undefined;
-        };
+      selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected');
+      optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option');
 
-        scope.$watch('selectedOption', function(selectedOption) {
-          if (typeof selectedScope !== 'undefined') {
-            selectedScope.selectedOption = selectedOption;
-          }
-
-          if (typeof scope.onChange === 'function') {
-            scope.onChange();
-          }
-        });
-
-        selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);
-        if (typeof selectedTemplate !== 'undefined') {
-          selectedScope = scope.$parent.$new();
-          selectedScope.selectedOption = scope.selectedOption;
-          selectedScope.optionProperty = scope.optionProperty;
-          selectedScope.clearSelectedOption = scope.clearSelectedOption;
-
-          selectedElem = $compile(selectedContentTemplate)(selectedScope);
-        } else {
-          selectedElem = $compile(selectedContentTemplate)(scope);
-        }
-        elem.children(0).children(0).append(selectedElem);
-
-        menuTemplate = dropdownTransformer.getMenu(optionTemplate);
-        if (typeof optionTemplate !== 'undefined') {
-          menuScope = scope.$parent.$new();
-          menuScope.options = scope.options;
-          menuScope.setSelectedOption = scope.setSelectedOption;
-          
-          menuElem = $compile(menuTemplate)(menuScope);
-        } else {
-          menuElem = $compile(menuTemplate)(scope);
-        }
-        elem.children(0).append(menuElem);
+      scope.setSelectedOption = function(option) {
+        scope.selectedOption = option;
       };
+
+      scope.clearSelectedOption = function($event) {
+        $event.stopPropagation();
+        scope.selectedOption = undefined;
+      };
+
+      scope.$watch('selectedOption', function(selectedOption) {
+        if (typeof selectedScope !== 'undefined') {
+          selectedScope.selectedOption = selectedOption;
+        }
+
+        if (typeof scope.onChange === 'function') {
+          scope.onChange();
+        }
+      });
+
+      selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);
+      if (typeof selectedTemplate !== 'undefined') {
+        selectedScope = scope.$parent.$new();
+        selectedScope.selectedOption = scope.selectedOption;
+        selectedScope.optionProperty = scope.optionProperty;
+        selectedScope.clearSelectedOption = scope.clearSelectedOption;
+
+        selectedElem = $compile(selectedContentTemplate)(selectedScope);
+      } else {
+        selectedElem = $compile(selectedContentTemplate)(scope);
+      }
+      elem.children(0).children(0).append(selectedElem);
+
+      menuTemplate = dropdownTransformer.getMenu(optionTemplate);
+      if (typeof optionTemplate !== 'undefined') {
+        menuScope = scope.$parent.$new();
+        menuScope.options = scope.options;
+        menuScope.setSelectedOption = scope.setSelectedOption;
+
+        menuElem = $compile(menuTemplate)(menuScope);
+      } else {
+        menuElem = $compile(menuTemplate)(scope);
+      }
+      elem.children(0).append(menuElem);
+
     }
   };
 };
