@@ -7,30 +7,30 @@
             "title": "정보"
         },
         "determinate-progress": {},
-        "name": "Akamai Common Components",
+        "name": "Akamai 공통 구성 요소",
         "indeterminate-progress": {},
         "date-picker": {
             "placeholder": {
-                "date": "Date Picker",
-                "year": "Year Picker",
-                "month": "Month Picker"
+                "date": "날짜 선택기",
+                "year": "연도 선택기",
+                "month": "월 선택기"
             }
         },
         "modal-window": {
-            "title": "Modal Window",
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
+            "title": "모달 창",
             "label": {
                 "cancel": "취소",
                 "save": "저장"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+            }
         },
         "pagination": {
             "label": {
-                "show-entries": "Show Entries:",
-                "results": "Results:",
-                "total-items": "Total Items",
-                "current-page": "Current Page"
+                "show-entries": "항목 표시",
+                "results": "결과",
+                "total-items": "총 항목 수",
+                "current-page": "현재 페이지"
             }
         },
         "tooltip": {},
@@ -48,21 +48,25 @@
             "no": "아니오"
         },
         "warning": {
-            "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+            "browser-button": "Mac에 설치된 Safari와 FireFox에서는 BUTTON 요소의 포커스 이벤트를 지원하지 않습니다. A 앵커 태그를 대신 사용하십시오."
+        },
+        "switch-button": {
+            "onLabel": "켜기",
+            "offLabel": "Off"
         },
         "dialog": {},
         "error": {
             "validation": {},
-            "data": "There was a problem loading the data."
+            "data": "데이터를 로드하는 데 문제가 발생했습니다."
         },
         "list-box": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "viewSelectedOnly": "You have no items selected.",
-                "selected": "Selected:",
-                "viewSelected": "View Selected Only",
-                "noItem": "No Item Found",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "지정한 필터에 따라 검색된 결과가 없습니다.",
+                "viewSelectedOnly": "선택한 항목이 없습니다.",
+                "selected": "선택한 항목",
+                "viewSelected": "선택한 항목만 보기",
+                "noItem": "항목을 찾을 수 없습니다.",
+                "noDataMessage": "지정한 기준에 따라 검색된 데이터가 없습니다."
             },
             "placeholder": {
                 "filter": "필터"
@@ -70,8 +74,8 @@
         },
         "data-table": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "지정한 필터에 따라 검색된 결과가 없습니다.",
+                "noDataMessage": "지정한 기준에 따라 검색된 데이터가 없습니다."
             },
             "placeholder": {
                 "filter": "필터"
@@ -81,14 +85,10 @@
             }
         },
         "notifications": {
-            "information": "INFORMATION",
+            "information": "정보",
             "warning": "경고",
             "success": "성공",
             "error": "오류"
-        },
-        "switch-button": {
-            "onLabel": "On",
-            "offLabel": "Off"
         }
     }
 }
