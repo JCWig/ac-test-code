@@ -1,7 +1,6 @@
 'use strict';
 
 var angular = require('angular');
-var moment = require('moment');
 
 var timepickerConfig = {
   MERIDIAN_ON: 'hh:mm a',
@@ -12,14 +11,13 @@ var timepickerConfig = {
 };
 
 /* @ngInject */
-module.exports = function($filter, $timeout, $parse) {
+module.exports = function($filter) {
 
   var directive = {
     restrict: 'A',
     require: 'ngModel',
     scope: {
-      showMeridian: '=',
-      minuteStep: '=?'
+      showMeridian: '='
     },
     link: link
   };
@@ -28,19 +26,8 @@ module.exports = function($filter, $timeout, $parse) {
 
   function link(scope, element, attrs, ngModel) {
 
-    var initialized = false;
-
-    scope.minuteStep = 15;
-    $parse(attrs.minuteStep, function(value) {
-      scope.minuteStep = parseInt(value, 10);
-    });
-
     ngModel.$parsers.push(parseTime);
     ngModel.$formatters.push(displayTime);
-
-    $timeout(function() {
-      initialized = true;
-    });
 
     scope.$watch('showMeridian', function() {
       var value = ngModel.$modelValue;
@@ -50,7 +37,7 @@ module.exports = function($filter, $timeout, $parse) {
       }
     });
 
-    function parseTime(value, fromMeridian) {
+    function parseTime(value) {
 
       var timeRegex = timepickerConfig.TIME_MERIDIAN_REGEX,
         date = new Date(),
@@ -67,13 +54,9 @@ module.exports = function($filter, $timeout, $parse) {
         return null;
       }
 
-      //date type is always valid, and need to check minutes to do rounding to nearest
+      //date is always valid
       if (angular.isDate(value) && !isNaN(value)) {
         setTimepickerValidState(true);
-        if (initialized && !fromMeridian) {
-          sp = roundingMinutes(value);
-          value.setHours(sp[0], sp[1]);
-        }
         return value;
       }
 
@@ -97,11 +80,11 @@ module.exports = function($filter, $timeout, $parse) {
       return date;
     }
 
-    function displayTime(value, fromMeridian) {
+    function displayTime(value) {
       var timeFormat = !scope.showMeridian ?
         timepickerConfig.MERIDIAN_OFF : timepickerConfig.MERIDIAN_ON;
 
-      parseTime(value, fromMeridian);
+      parseTime(value);
       return $filter('date')(value, timeFormat);
     }
 
@@ -119,16 +102,6 @@ module.exports = function($filter, $timeout, $parse) {
           sp[0] = sp[0] + 12;
         }
       }
-      return sp;
-    }
-
-    function roundingMinutes(date) {
-      var ROUNDING = scope.minuteStep * 60 * 1000,
-        roundedDate = moment(Math.ceil(+date / ROUNDING) * ROUNDING),
-        sp = [];
-
-      sp[0] = roundedDate.get('hour');
-      sp[1] = roundedDate.get('minute');
       return sp;
     }
   }
