@@ -294,6 +294,7 @@ describe('locale cookie set to cookie without translation file', function() {
       expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
       expect(translation.sync("components.name")).toEqual("Akamai Common Components");
       expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
+      expect(translation.sync('contractselector.filter.products')).toEqual('Filter Products');
     });
   });
 });
