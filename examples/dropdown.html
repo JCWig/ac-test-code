@@ -23,7 +23,7 @@
         <h2>Default dropdown with a list of strings</h2>
         <akam-dropdown ng-model="vm.ex1.selectedState" options="vm.strings">
             <akam-dropdown-option>
-                <b>{{option}}</b>
+                <span>{{option}} - custom template</span>
             </akam-dropdown-option>
         </akam-dropdown>
     </div>
@@ -33,9 +33,9 @@
         <h2>Default dropdown with a list of objects</h2>
         <akam-dropdown ng-model="vm.ex2.selectedState" option-property="name"
                        options="vm.stateObjects">
-            <akam-dropdown-selected ng-non-bindable>
+            <akam-dropdown-selected>
                 <span class="selected-option">
-                    <span ng-if="selectedOption">{{selectedOption[optionProperty]}} - worked</span>
+                    <span ng-if="selectedOption">{{selectedOption[optionProperty]}} - custom template</span>
                 </span>
             </akam-dropdown-selected>
         </akam-dropdown>
@@ -84,7 +84,6 @@
             };
 
             vm.ex2 = {
-//                selectedState: {name: 'New York'}
                 selectedState: undefined
             };
 
