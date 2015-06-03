@@ -14,7 +14,12 @@
     "month.9": "9 月",
     "month.8": "8 月",
     "notification.definition.date": "定義日",
-    "contractselector.filter.products": "製品のフィルタリング",
+    "contractselector": {
+        "filter":
+        {
+            "products": "製品のフィルタリング"
+        }
+    },
     "notification.create.error.contractsnotselected": "契約を選択してください",
     "internal-tools.recurring-report.event.eventStatus": "ステータス",
     "internal-tools.menu.title": "Internal Tools",
