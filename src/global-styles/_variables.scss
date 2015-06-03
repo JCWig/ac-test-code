@@ -234,6 +234,7 @@ $context-and-account-selector-width: 35%;
 // Bootstrap overrides
 $font-family-base: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $font-size-base: 12px;
+$border-radius-base: 3px;
 
 $line-height-base: 1.4;
 
@@ -281,3 +282,5 @@ $code-bg: #ebf6ff;
 $kbd-color: #FFFFFF;
 $kbd-bg: #0099cc;
 
+$well-bg: #f4f4f4;
+$well-border: #e6e6e6;
