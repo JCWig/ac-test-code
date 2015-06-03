@@ -50,7 +50,7 @@ module.exports = function($log, $compile, dropdownTransformer) {
           }
         });
 
-        selectedContentTemplate = dropdownTransformer.getSelected(scope, selectedTemplate);
+        selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);
         if (typeof selectedTemplate !== 'undefined') {
           selectedScope = scope.$parent.$new();
           selectedScope.selectedOption = scope.selectedOption;
@@ -63,10 +63,12 @@ module.exports = function($log, $compile, dropdownTransformer) {
         }
         elem.children(0).children(0).append(selectedElem);
 
-        menuTemplate = dropdownTransformer.getMenu(scope, optionTemplate);
+        menuTemplate = dropdownTransformer.getMenu(optionTemplate);
         if (typeof optionTemplate !== 'undefined') {
           menuScope = scope.$parent.$new();
           menuScope.options = scope.options;
+          menuScope.setSelectedOption = scope.setSelectedOption;
+          
           menuElem = $compile(menuTemplate)(menuScope);
         } else {
           menuElem = $compile(menuTemplate)(scope);

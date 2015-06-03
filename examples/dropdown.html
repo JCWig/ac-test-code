@@ -23,7 +23,7 @@
         <h2>Default dropdown with a list of strings</h2>
         <akam-dropdown ng-model="vm.ex1.selectedState" options="vm.strings">
             <akam-dropdown-option>
-                <span>{{option}} - custom template</span>
+                <span>{{option}} - custom</span>
             </akam-dropdown-option>
         </akam-dropdown>
     </div>
@@ -35,17 +35,67 @@
                        options="vm.stateObjects">
             <akam-dropdown-selected>
                 <span class="selected-option">
-                    <span ng-if="selectedOption">{{selectedOption[optionProperty]}} - custom template</span>
+                    <span ng-if="selectedOption">{{selectedOption[optionProperty]}} - custom</span>
                 </span>
             </akam-dropdown-selected>
         </akam-dropdown>
     </div>
     <br/>
 
+
+
+<!--
+    <div class="container">
+        <akam-menu-button label="Choose an application">
+            <akam-menu-button-item
+                    ng-repeat="item in vm.items track by item.id"
+                    text="{{item.appName}}"
+                    ng-click="vm.process(item)">
+            </akam-menu-button-item>
+        </akam-menu-button>
+
+        <br />
+
+        <akam-menu-button icon="luna-gear" position="right">
+            <akam-menu-button-item
+                    ng-repeat="item in vm.items track by item.id"
+                    text="{{item.appName}}"
+                    ng-click="vm.process(item)">
+            </akam-menu-button-item>
+        </akam-menu-button>
+    </div>
+-->
+
+
+<!--    <div>
+        <h2>static search</h2>
+        <div dropdown class="dropdown akam-dropdown">
+            <div class="dropdown-toggle" dropdown-toggle>
+                <span class="selected-option">
+                    <span>Pick one</span>
+                </span>
+                <i style="display:none;" class="luna-close util-clickable clear-dropdown"></i>
+                <span></span>
+            </div>
+            <div class="dropdown-menu">
+                <div class="fixed-header"><input type="text"/></div>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>-->
+
+
+
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('dropdownApp', ['akamai.components.dropdown'])
+        angular.module('dropdownApp', ['akamai.components.dropdown', 'akamai.components.menu-button'])
                 .controller('DropdownAppController', DropdownAppController);
 
         DropdownAppController.$inject = ['$log'];
@@ -84,12 +134,24 @@
             };
 
             vm.ex2 = {
+//                selectedState: {name: 'Washington DC'}
                 selectedState: undefined
             };
 
             vm.doChange = function() {
                 $log.log('option changed');
             };
+
+            vm.items = [
+                { appName : 'Tranquility', id : 'tranq' },
+                { appName : 'Billing Center', id : 'bc' },
+                { appName : 'Property Manager', id : 'pm' }
+            ];
+
+            vm.process = function(item) {
+                console.log('You clicked on the the app: ', item);
+            };
+
         }
 
     </script>
