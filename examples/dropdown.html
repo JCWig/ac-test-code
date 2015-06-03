@@ -21,25 +21,26 @@
 
     <div>
         <h2>Default dropdown with a list of strings</h2>
-        <akam-dropdown ng-model="vm.ex1.selectedState" options="vm.strings"></akam-dropdown>
+        <akam-dropdown ng-model="vm.ex1.selectedState" options="vm.strings">
+            <akam-dropdown-option>
+                <b>{{option}}</b>
+            </akam-dropdown-option>
+        </akam-dropdown>
     </div>
     <br/>
 
     <div>
         <h2>Default dropdown with a list of objects</h2>
-        <akam-dropdown ng-model="vm.ex2.selectedState" option-property="name" options="vm.stateObjects"></akam-dropdown>
+        <akam-dropdown ng-model="vm.ex2.selectedState" option-property="name"
+                       options="vm.stateObjects">
+            <akam-dropdown-selected ng-non-bindable>
+                <span class="selected-option">
+                    <span ng-if="selectedOption">{{selectedOption[optionProperty]}} - worked</span>
+                </span>
+            </akam-dropdown-selected>
+        </akam-dropdown>
     </div>
     <br/>
-
-
-
-<!--
-    <akam-dropdown option-property="name" options="vm.options">
-        <akam-dropdown-option>
-            <a href><b>{{option.name}}</b></a>
-        </akam-dropdown-option>
-    </akam-dropdown>
--->
 
     <script src="../dist/akamai-core.js"></script>
 
@@ -83,6 +84,7 @@
             };
 
             vm.ex2 = {
+//                selectedState: {name: 'New York'}
                 selectedState: undefined
             };
 

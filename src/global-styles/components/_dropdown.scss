@@ -15,7 +15,7 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
       vertical-align: middle;
     }
 
-    & span:first-child {
+    & > span.selected-option {
       width: 200px;
       margin-right: -4px;
       line-height: 28px;
@@ -35,14 +35,14 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
       background: $arrow-background,
       linear-gradient(to bottom, #fff, #e6e6e6);
     }
-    & i.clear-dropdown {
+    & > i.clear-dropdown {
       position: absolute;
       right: 33px;
       top: 6px;
     }
 
     &:hover {
-      & span:last-child {
+      & > span:last-child {
         border-color: #999;
         background: $arrow-background,
         linear-gradient(to bottom, #f4f4f4, #c8c8c8);
@@ -51,7 +51,7 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
     }
 
     &:active {
-      & span:last-child {
+      & > span:last-child {
         border-color: #999;
         background: $arrow-background,
         linear-gradient(to bottom, #c8c8c8, #f4f4f4);
@@ -59,22 +59,10 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
     }
   }
 
-  & > .dropdown-menu {
+  & > ul.dropdown-menu {
     max-height: 267px;
     overflow-x: hidden;
     overflow-y: scroll;
-
-
-
-    /*
-    & > li:first-child {
-      padding: 10px 10px 0;
-
-      & input.dropdown-filter {
-        width: 100%;
-      }
-    }
-    */
 
   }
 }
