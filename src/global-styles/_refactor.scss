@@ -11,13 +11,6 @@ legend {
   color: inherit;
 }
 
-a.list-group-item {
-
-  &:hover, &:focus {
-    background-color: #e2f3fc;
-  }
-}
-
 a:focus {
   text-decoration: none;
   outline: none;
