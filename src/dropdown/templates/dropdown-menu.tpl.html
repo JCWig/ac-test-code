@@ -6,8 +6,10 @@
     <ul class="dropdown-menu">
         <li ng-repeat="option in options | filter:dropdownFilter">
             <a href ng-click="setSelectedOption(option)">
-                <span ng-if="optionProperty">{{option[optionProperty]}}</span>
-                <span ng-if="!optionProperty">{{option}}</span>
+                <span ng-if="optionProperty"
+                      ng-bind-html="option[optionProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                <span ng-if="!optionProperty"
+                      ng-bind-html="option | highlight:dropdownFilter"></span>
             </a>
         </li>
     </ul>
