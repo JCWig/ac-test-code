@@ -1,10 +1,15 @@
 'use strict';
 
+var angular = require('angular');
+
+require('angular-sanitize');
+
 /* @ngInject */
 module.exports = function($log, $compile, dropdownTransformer) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
     var customTemplate;
+
     if (tElem.find(tagName).length) {
       customTemplate = tElem.find(tagName);
       dropdownTemplate = angular.element(dropdownTemplate).append(customTemplate)[0].outerHTML;
@@ -25,11 +30,10 @@ module.exports = function($log, $compile, dropdownTransformer) {
       selectedOption: '=ngModel',
       options: '=',
       optionProperty: '@?',
-      onChange: '&?',
+      onChange: '&?'
     },
 
     template: function(tElem) {
-      var selectedTemplate;
       var dropdownTemplate = require('./templates/dropdown-directive.tpl.html');
 
       dropdownTemplate = updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-selected');
@@ -45,7 +49,7 @@ module.exports = function($log, $compile, dropdownTransformer) {
       selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected');
       optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option');
 
-      scope.hasFilter = (typeof attrs.filterable !== 'undefined') ? true : false;
+      scope.hasFilter = typeof attrs.filterable !== 'undefined' ? true : false;
       scope.filterProperty = attrs.filterable;
 
       scope.isOpen = false;

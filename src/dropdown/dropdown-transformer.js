@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function($compile) {
+module.exports = function() {
 
   return {
     getSelected: function(selectedTemplate) {

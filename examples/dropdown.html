@@ -30,9 +30,6 @@
         <h2>Default dropdown with a list of objects and custom markup</h2>
         <akam-dropdown ng-model="vm.ex2.selectedState" option-property="name"
                        options="vm.stateObjects">
-            <akam-dropdown-option ng-non-bindable>
-                <span style="font-weight:bold;">custom: {{option[optionProperty]}}</span>
-            </akam-dropdown-option>
 
             <akam-dropdown-selected ng-non-bindable>
                 <span class="selected-option">
@@ -41,6 +38,11 @@
                     </span>
                 </span>
             </akam-dropdown-selected>
+
+            <akam-dropdown-option ng-non-bindable>
+                <span style="font-weight:bold;">custom: {{option[optionProperty]}}</span>
+            </akam-dropdown-option>
+
         </akam-dropdown>
     </div>
     <br/>
@@ -72,7 +74,7 @@
             </akam-dropdown-selected>
 
             <akam-dropdown-option ng-non-bindable>
-                <span style="font-weight:bold;">custom: 
+                <span style="font-weight:bold;">custom:
                     <span ng-bind-html="option[optionProperty] | highlight:dropdownFilter[filterProperty]"></span>
                 </span>
 
@@ -121,26 +123,11 @@
                 'Washington DC'
             ];
 
-            vm.ex1 = {
-                selectedState: 'Massachusetts'
-            };
-
-            vm.ex2 = {
-                selectedState: undefined
-            };
-
-            vm.ex3 = {
-                selectedState: 'Vermont'
-            };
-
-            vm.ex4 = {
-                selectedState: {name: 'Colorado'}
-            };
-
-            vm.ex5 = {
-                selectedState: undefined
-            };
-
+            vm.ex1 = { selectedState: 'Massachusetts' };
+            vm.ex2 = { selectedState: undefined };
+            vm.ex3 = { selectedState: 'Vermont' };
+            vm.ex4 = { selectedState: {name: 'Colorado'} };
+            vm.ex5 = { selectedState: undefined };
 
             vm.doChange = function() {
                 $log.log('option changed');
@@ -151,11 +138,6 @@
                 { appName : 'Billing Center', id : 'bc' },
                 { appName : 'Property Manager', id : 'pm' }
             ];
-
-            vm.process = function(item) {
-                console.log('You clicked on the the app: ', item);
-            };
-
         }
 
     </script>
