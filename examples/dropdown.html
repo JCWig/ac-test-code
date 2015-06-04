@@ -45,10 +45,19 @@
     <br/>-->
 
     <div>
-        <h2>Dropdown with a filter</h2>
-        <akam-dropdown ng-model="vm.ex3.selectedState" options="vm.strings" has-filter></akam-dropdown>
+        <h2>Dropdown with a list of strings and a filter</h2>
+        <akam-dropdown ng-model="vm.ex3.selectedState" options="vm.strings" filterable></akam-dropdown>
     </div>
     <br/>
+
+    <div>
+        <h2>Default dropdown with a list of objects and a filter</h2>
+        <akam-dropdown ng-model="vm.ex4.selectedState" option-property="name"
+                       options="vm.stateObjects" filterable="name">
+        </akam-dropdown>
+    </div>
+    <br/>
+
 
 
     <script src="../dist/akamai-core.js"></script>
@@ -98,6 +107,10 @@
 
             vm.ex3 = {
                 selectedState: 'Vermont'
+            };
+
+            vm.ex4 = {
+                selectedState: {name: 'Colorado'}
             };
 
             vm.doChange = function() {

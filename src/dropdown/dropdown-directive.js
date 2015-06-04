@@ -45,7 +45,8 @@ module.exports = function($log, $compile, dropdownTransformer) {
       selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected');
       optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option');
 
-      scope.hasFilter = (typeof attrs.hasFilter !== 'undefined') ? true : false;
+      scope.hasFilter = (typeof attrs.filterable !== 'undefined') ? true : false;
+      scope.filterProperty = attrs.filterable;
 
       scope.isOpen = false;
 
