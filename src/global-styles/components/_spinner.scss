@@ -97,7 +97,6 @@ $spinner-button-active-gradient-top: #c8c8c8;
         @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
       }
       &:active {
-        border-width: 5px;
         border-color: $spinner-button-color-active;
         @include background-image(linear-gradient($spinner-button-active-gradient-top, $spinner-button-active-gradient-bottom));
       }
