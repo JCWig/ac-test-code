@@ -71,6 +71,12 @@ label.required {
   }
 }
 
+@media (min-width: $screen-sm-min) {
+  .navbar-form .form-group {
+    margin-bottom: 0;
+  }
+}
+
 .form-inline {
 
   .form-group {

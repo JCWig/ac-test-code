@@ -5,7 +5,7 @@
 // Reset and dependencies
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/print";
-// @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";
+/* We will never use glyphicons: @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons"; */
 
 // Core CSS
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
@@ -22,10 +22,10 @@
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/button-groups";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/input-groups";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navs";
-// @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navbar";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navbar";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/breadcrumbs";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/pagination";
-// @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/pager";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/pager";
 // @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/labels";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/badges";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/jumbotron";

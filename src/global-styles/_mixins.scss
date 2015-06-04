@@ -153,6 +153,7 @@ $ie-ver: '' !default;
 @mixin ellipsis() {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @mixin list-type($type, $gutter: 2px) {
