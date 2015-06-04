@@ -1,7 +1,9 @@
 <div class="dropdown-menu">
-    <div class="fixed-header" ng-if="hasFilter"><input type="text"/></div>
+    <div class="fixed-header" ng-show="hasFilter">
+        <input type="text" ng-model="filterText" />
+    </div>
     <ul class="dropdown-menu">
-        <li ng-repeat="option in options">
+        <li ng-repeat="option in options | filter:filterText">
             <a href ng-click="setSelectedOption(option)">
                 <span ng-if="optionProperty">{{option[optionProperty]}}</span>
                 <span ng-if="!optionProperty">{{option}}</span>
