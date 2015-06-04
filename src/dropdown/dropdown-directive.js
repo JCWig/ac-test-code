@@ -26,10 +26,9 @@ module.exports = function($log, $compile, dropdownTransformer) {
       options: '=',
       optionProperty: '@?',
       onChange: '&?',
-      testProp: '@?'
     },
 
-    template: function(tElem, attrs) {
+    template: function(tElem) {
       var selectedTemplate;
       var dropdownTemplate = require('./templates/dropdown-directive.tpl.html');
 
@@ -39,13 +38,16 @@ module.exports = function($log, $compile, dropdownTransformer) {
       return dropdownTemplate;
     },
 
-    link: function(scope, elem) {
-      $log.log('elem', elem);
+    link: function(scope, elem, attrs) {
       var selectedScope, selectedContentTemplate, selectedElem,
         menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate;
 
       selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected');
       optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option');
+
+      scope.hasFilter = (typeof attrs.hasFilter !== 'undefined') ? true : false;
+
+      scope.isOpen = false;
 
       scope.setSelectedOption = function(option) {
         scope.selectedOption = option;
@@ -60,6 +62,8 @@ module.exports = function($log, $compile, dropdownTransformer) {
         if (typeof selectedScope !== 'undefined') {
           selectedScope.selectedOption = selectedOption;
         }
+
+        scope.isOpen = false;
 
         if (typeof scope.onChange === 'function') {
           scope.onChange();
@@ -83,6 +87,7 @@ module.exports = function($log, $compile, dropdownTransformer) {
       if (typeof optionTemplate !== 'undefined') {
         menuScope = scope.$parent.$new();
         menuScope.options = scope.options;
+        menuScope.optionProperty = scope.optionProperty;
         menuScope.setSelectedOption = scope.setSelectedOption;
 
         menuElem = $compile(menuTemplate)(menuScope);

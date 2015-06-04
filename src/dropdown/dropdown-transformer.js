@@ -6,7 +6,6 @@ var angular = require('angular');
 module.exports = function($compile) {
 
   return {
-
     getSelected: function(selectedTemplate) {
       var selectedElem = angular.element(require('./templates/dropdown-selected.tpl.html'));
 
@@ -20,7 +19,7 @@ module.exports = function($compile) {
       var menuElem = angular.element(require('./templates/dropdown-menu.tpl.html'));
 
       if (typeof optionTemplate !== 'undefined') {
-        menuElem.children(0).children(0).html(optionTemplate);
+        menuElem.children(0).children(0).children(0).html(optionTemplate);
       }
       return menuElem;
     }
