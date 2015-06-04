@@ -5,6 +5,7 @@ var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.js
 var CONFIG_PREFIX = 'prefix';
 var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
 var enUsResponse = require("./i18n_responses/en_US.json");
+
 describe('i18nTokenProvider', function() {
 
   var provider, config, cook, i18nConfig, location, i18nToken;
@@ -86,10 +87,6 @@ describe('i18nToken service', function() {
     angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
       provider = i18nTokenProvider;
       $translateProvider.useLoader('i18nCustomLoader');
-      $provide.decorator('$cookies', function($delegate) {
-        $delegate = {AKALOCALE: "ZW5fVVN+TWJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
-        return $delegate;
-      });
     });
     inject(function(i18nToken, _$cookies_, _$rootScope_, $httpBackend, i18nConfig, $location, $log) {
       service = i18nToken;
@@ -183,57 +180,90 @@ describe('i18nToken service', function() {
       expect(urls[1]).toEqual(newUrl);
     });
   });
-  describe('when locale cookie set to "en_US', function() {
-
-    it("should cookie 'AKALOCALE' value exists", function() {
-      var locale = cookies.AKALOCALE;
-      expect(locale).not.toBe(undefined);
+});
+describe('locale cookie set to zn_CN will not properly encode', function() {
+    var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log, cookie;
+    var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+    var enUsResponse = require ("./i18n_responses/en_US.json");
+    beforeEach(function(){
+        angular.mock.module(require('../../src/i18n').name);
+        angular.mock.module(function(i18nTokenProvider) {
+            provider = i18nTokenProvider;
+        });
+        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log, _$cookies_) {
+            _$cookies_.put('AKALOCALE', "emhfQ04=");
+            $translate = _$translate_;
+            loader = i18nCustomLoader;
+            config = i18nConfig;
+            translation = translate;
+            timeout = $timeout;
+            httpBackend = $httpBackend;
+            scope = $rootScope;
+            log = $log;            
+            cookie = _$cookies_;
+        });
+        httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
+        httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
+        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
+        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
     });
-
-    it("should cookie locale value be 'en_US' after decoded", function() {
-      var locale = cookies["AKALOCALE"];
-      expect(atob(locale.split("+")[0])).toEqual(service.getCurrentLocale());
+    describe('when using custom loader service bad cookie', function(){
+      it("should cookie 'AKALOCALE' value exists", function() {
+        var locale = cookie.get('AKALOCALE');
+        expect(locale).not.toBe(undefined);
+      });
+      it('should ignore gracefully and continue to english cookie', function(){
+        httpBackend.flush();
+        expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+        expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+        expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
+      });
     });
-  });
 });
 describe('locale cookie set to "de_DE', function() {
 
-  var service, cookies, rootScope;
+  var service, cookies, rootScope, translation, httpBackend, cookies;
 
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
-      $provide.decorator('$cookies', function($delegate) {
-        $delegate = {AKALOCALE: "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
-        return $delegate;
-      });
-      $translateProvider.useLoader('i18nCustomLoader');
-    });
-    inject(function(i18nToken, _$cookies_, _$rootScope_) {
+    inject(function(i18nToken, _$cookies_, _$rootScope_, $httpBackend, translate, $timeout) {
       service = i18nToken;
       cookies = _$cookies_;
+      cookies.put('AKALOCALE', "ZGVfREU=");
       rootScope = _$rootScope_.$new();
+      $httpBackend.when('GET', '/apps/appname/locales/de_DE.json').respond({
+        'billing-center': {
+          'no-access': 'de_DE no access'
+        }
+      });
+      $httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond({
+        'components':{
+          'name':'(de_DE) Akamai Common Components'
+        }
+      });
+      httpBackend = $httpBackend;
+      translation = translate;
     });
   });
-
-  afterEach(function() {
-    // clean up
-    cookies.AKALOCALE = undefined;
-  });
   it("should cookie 'AKALOCALE' value exists", function() {
-    var locale = cookies.AKALOCALE;
+    var locale = cookies.get('AKALOCALE');
     expect(locale).not.toBe(undefined);
   });
 
   it('should locale value be "de_DE" after decoded', function() {
-    var locale = cookies.AKALOCALE;
+    var locale = cookies.get('AKALOCALE');
     expect(atob(locale.split("+")[0])).toEqual("de_DE");
+  });
+  it('should translate values into de_DE', function(){
+    httpBackend.flush();
+    expect(translation.sync("billing-center.no-access")).toEqual("de_DE no access");
+    expect(translation.sync("components.name")).toEqual("(de_DE) Akamai Common Components");
   });
 });
 
 describe('locale cookie set to cookie without translation file', function() {
-  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log, cookies;
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
@@ -242,14 +272,7 @@ describe('locale cookie set to cookie without translation file', function() {
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
-      $provide.decorator('$cookies', function($delegate) {
-        $delegate = {AKALOCALE: "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"};
-        return $delegate;
-      });
-    });
-    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
+    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log, _$cookies_) {
       $translate = _$translate_;
       loader = i18nCustomLoader;
       config = i18nConfig;
@@ -258,6 +281,7 @@ describe('locale cookie set to cookie without translation file', function() {
       httpBackend = $httpBackend;
       scope = $rootScope;
       log = $log;
+      _$cookies_.put('AKALOCALE', "ZGVfREU=");
     });
     httpBackend.when('GET', '/apps/appname/locales/de_DE.json').respond(404, "BAD PATH");
     httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond(404, "BAD PATH");
@@ -275,7 +299,7 @@ describe('locale cookie set to cookie without translation file', function() {
 });
 
 describe('locale cookie set to invalid cookie', function() {
-  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log, cookie;
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
@@ -284,22 +308,16 @@ describe('locale cookie set to invalid cookie', function() {
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
-      $provide.decorator('$cookies', function($delegate) {
-        $delegate = {AKALOCALE: "TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
-        return $delegate;
-      });
-    });
-    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
+    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log, _$cookies_) {
+      _$cookies_.put('AKALOCALE', "TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89");
+      cookie = _$cookies_;
       $translate = _$translate_;
       loader = i18nCustomLoader;
       config = i18nConfig;
       translation = translate;
-      timeout = $timeout;
       httpBackend = $httpBackend;
       scope = $rootScope;
-      log = $log;
+      log = $log;      
     });
     httpBackend.when('GET', '/apps/appname/locales/MQjIBMmtQk.json').respond(404, "BAD PATH");
     httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/MQjIBMmtQk.json/).respond(404, "BAD PATH");
@@ -307,54 +325,10 @@ describe('locale cookie set to invalid cookie', function() {
     httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
   });
   describe('when using custom loader service bad cookie', function() {
-    it('should ignore gracefully and continue to english cookie', function() {
-      httpBackend.flush();
-      expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
-      expect(translation.sync("components.name")).toEqual("Akamai Common Components");
-      expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
+    it("should cookie 'AKALOCALE' value exists", function() {
+      var locale = cookie.get('AKALOCALE');
+      expect(locale).not.toBe(undefined);
     });
-  });
-});
-describe('locale cookie set to zn_CN will not properly encode', function() {
-  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
-  var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
-  var enUsResponse = require("./i18n_responses/en_US.json");
-  beforeEach(function() {
-    angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(function(i18nTokenProvider) {
-      provider = i18nTokenProvider;
-    });
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
-      $provide.decorator('$cookies', function($delegate) {
-        $delegate = {AKALOCALE: "emhfQ04=+TVFqSUJNbXRRay9VODJ5WjhJeEtCdkUxYmZRV1V0REE4cnpNcFJIMzhQVDRhcXArc2N4THdUMTJxVitnR3hkNWZZR2JuZm89"};
-        return $delegate;
-      });
-    });
-    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
-      $translate = _$translate_;
-      loader = i18nCustomLoader;
-      config = i18nConfig;
-      translation = translate;
-      timeout = $timeout;
-      httpBackend = $httpBackend;
-      scope = $rootScope;
-      log = $log;
-    });
-    httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
-    httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
-    httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
-    httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
-  });
-  describe('when using custom loader service bad cookie', function() {
-    it('should ignore gracefully and continue to english cookie', function() {
-      httpBackend.flush();
-      expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
-      expect(translation.sync("components.name")).toEqual("Akamai Common Components");
-      expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
-    });
-  });
-  describe('when using custom loader service bad cookie', function() {
     it('should ignore gracefully and continue to english cookie', function() {
       httpBackend.flush();
       expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
@@ -364,7 +338,7 @@ describe('locale cookie set to zn_CN will not properly encode', function() {
   });
 });
 describe('locale cookie already decoded', function() {
-  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log;
+  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log, cookie;
   var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
   var enUsResponse = require("./i18n_responses/en_US.json");
   beforeEach(function() {
@@ -372,14 +346,9 @@ describe('locale cookie already decoded', function() {
     angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
-      $provide.decorator('$cookies', function($delegate) {
-        $delegate = {AKALOCALE: "zh_CN>MQjIBMmtQk/U82yZ8IxKBvE1bfQWUtDA8rzMpRH38PT4aqp+scxLwT12qV+gGxd5fYGbnfo="};
-        return $delegate;
-      });
-    });
-    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log) {
+    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log, _$cookies_) {
+      _$cookies_.put('AKALOCALE', "zh_CN>MQjIBMmtQk/U82yZ8IxKBvE1bfQWUtDA8rzMpRH38PT4aqp+scxLwT12qV+gGxd5fYGbnfo=");
+      cookie = _$cookies_;
       $translate = _$translate_;
       loader = i18nCustomLoader;
       config = i18nConfig;
@@ -388,11 +357,16 @@ describe('locale cookie already decoded', function() {
       httpBackend = $httpBackend;
       scope = $rootScope;
       log = $log;
+
     });
     httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
     httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
   });
   describe('when using custom loader service bad cookie', function() {
+    it("should cookie 'AKALOCALE' value exists", function() {
+      var locale = cookie.get('AKALOCALE');
+      expect(locale).not.toBe(undefined);
+    });
     it('should ignore gracefully and continue to english cookie', function() {
       httpBackend.flush();
       expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
