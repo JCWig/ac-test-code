@@ -90,6 +90,8 @@ module.exports = function($log, $compile, dropdownTransformer) {
         menuScope.options = scope.options;
         menuScope.optionProperty = scope.optionProperty;
         menuScope.setSelectedOption = scope.setSelectedOption;
+        menuScope.hasFilter = scope.hasFilter;
+        menuScope.filterProperty = scope.filterProperty;
 
         menuElem = $compile(menuTemplate)(menuScope);
       } else {

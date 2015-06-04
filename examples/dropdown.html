@@ -20,7 +20,7 @@
 
     <h1>Dropdown Component Example</h1>
 
-<!--    <div>
+    <div>
         <h2>Default dropdown with a list of strings</h2>
         <akam-dropdown ng-model="vm.ex1.selectedState" options="vm.strings"></akam-dropdown>
     </div>
@@ -43,7 +43,7 @@
             </akam-dropdown-selected>
         </akam-dropdown>
     </div>
-    <br/>-->
+    <br/>
 
     <div>
         <h2>Dropdown with a list of strings and a filter</h2>
@@ -55,6 +55,29 @@
         <h2>Default dropdown with a list of objects and a filter</h2>
         <akam-dropdown ng-model="vm.ex4.selectedState" option-property="name"
                        options="vm.stateObjects" filterable="name">
+        </akam-dropdown>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Default dropdown with a list of objects, custom markup and a filter</h2>
+        <akam-dropdown ng-model="vm.ex5.selectedState" option-property="name"
+                       options="vm.stateObjects" filterable="name">
+            <akam-dropdown-selected ng-non-bindable>
+                <span class="selected-option">
+                    <span ng-if="selectedOption" style="font-weight:bold; font-style: normal">
+                        custom: {{selectedOption[optionProperty]}}
+                    </span>
+                </span>
+            </akam-dropdown-selected>
+
+            <akam-dropdown-option ng-non-bindable>
+                <span style="font-weight:bold;">custom: 
+                    <span ng-bind-html="option[optionProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                </span>
+
+            </akam-dropdown-option>
+
         </akam-dropdown>
     </div>
     <br/>
@@ -113,6 +136,11 @@
             vm.ex4 = {
                 selectedState: {name: 'Colorado'}
             };
+
+            vm.ex5 = {
+                selectedState: undefined
+            };
+
 
             vm.doChange = function() {
                 $log.log('option changed');
