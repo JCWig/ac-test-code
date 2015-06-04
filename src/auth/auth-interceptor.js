@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function($q, $injector, $location) {
+module.exports = function($q, $injector, $location, akamAuth, akamHttpBuffer, akamTokenService) {
   var redirectToLoginProblemTypes =
     [
       'http://control.akamai.com/problems/no-akasession',
@@ -22,16 +22,14 @@ module.exports = function($q, $injector, $location) {
     $location.url('/login.jsp');
   }
 
-  function requestAuthGrantAndRetry(response) {
-    var $http = $injector.get('$http');
-    $http.post('request_auth.jsp');
-
-    return $http(response.config);
-  }
-
   return {
     responseError: function(response) {
       var problemType;
+      var deferred;
+
+      if (!akamAuth.isUsingPulsarAuth()) {
+        return $q.reject(response);
+      }
 
       // if content type does not contain problem+json, can not be intercepted
       if (response.headers('content-type').indexOf('application/problem+json') === -1) {
@@ -59,7 +57,10 @@ module.exports = function($q, $injector, $location) {
           }
 
           if (authGrantProblemTypes.indexOf(problemType) > -1) {
-            requestAuthGrantAndRetry(response);
+            deferred = $q.defer();
+            akamHttpBuffer.append(response.config, deferred);
+            akamTokenService.create();
+            return deferred;
           }
           break;
         case 403:

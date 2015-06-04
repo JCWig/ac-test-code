@@ -66,9 +66,27 @@ describe('Auth', function() {
   });
   describe('given a valid AKASESSION cookie with no JWT cookie', function() {
     it('should request an authorization grant', function() {
+      var calls = 0;
+      var errorResponse = [401, {
+        type: 'http://control.akamai.com/problems/no-token'
+      }, {'content-type': 'application/problem+json'}];
+      var successResponse = [200, {success: true}];
+
+      httpBackend.expectGET('/request_auth.jsp').respond('');
+      httpBackend.when('GET', '/no/jwt/token').respond(
+        function(method, url, data, headers){
+          if (calls === 0) {
+            calls++;
+            return errorResponse;
+          } else {
+            return successResponse;
+          }
+        });
+      http.get('/no/jwt/token');
+      httpBackend.flush();
 
     });
-    it('should retry the API request with the valid JWT cookie', function(){
+    it('should retry the API request with the valid JWT cookie', function() {
 
     });
   });
@@ -76,7 +94,7 @@ describe('Auth', function() {
     it('should request an authorization grant', function() {
 
     });
-    it('should retry the API request with the valid JWT cookie', function(){
+    it('should retry the API request with the valid JWT cookie', function() {
 
     });
   });
