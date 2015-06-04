@@ -19,7 +19,7 @@ describe('akam-modal-window-body directive', function() {
       });
       $translateProvider.useLoader('i18nCustomLoader');
     });
-    inject(function($compile, $rootScope, $httpBackend, $http, $templateCache, $q, $modal, translate, statusMessage, i18nConfig ) {
+    inject(function($compile, $rootScope, $httpBackend, $http, $templateCache, $q, $modal, translate, statusMessage, i18nConfig) {
       self.$httpBackend = $httpBackend;
       self.scope = $rootScope.$new();
       self.scope.modalWindow = {};

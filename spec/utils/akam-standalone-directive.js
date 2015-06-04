@@ -45,7 +45,7 @@ describe('akamai.components.akam-standalone', function() {
       };
       scope.triggerChange = function() {};
       markup = '<div style="max-width:150px"><akam-tree-view akam-standalone ' +
-        'context-data="contextData" on-context-change="triggerChange"> </akam-tree-view></div>';
+      'context-data="contextData" on-context-change="triggerChange"> </akam-tree-view></div>';
       addElement(markup);
       treeContents = document.querySelector(TREE_VIEW_WRAPPER);
       expect(treeContents.classList.contains('standalone')).toBe(true);

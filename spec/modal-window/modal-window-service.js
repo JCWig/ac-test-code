@@ -294,13 +294,13 @@ describe('modalWindow service', function() {
           scope: this.scope,
           template: '<p></p>',
           controller: /*@ngInject*/
-          function($scope, $q) {
-            $scope.setOnSubmit(
-              function() {
-                return deferral.promise;
-              }
-            );
-          }
+            function($scope, $q) {
+              $scope.setOnSubmit(
+                function() {
+                  return deferral.promise;
+                }
+              );
+            }
         });
         this.scope.$digest();
         submitButton = document.querySelector(SUBMIT_BUTTON);
@@ -376,7 +376,7 @@ describe('modalWindow service', function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller:/*@ngInject*/function($scope, $q) {
+          controller: /*@ngInject*/function($scope, $q) {
             $scope.setOnSubmit(
               'hello'
             );
