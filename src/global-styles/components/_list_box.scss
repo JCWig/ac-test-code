@@ -374,6 +374,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   table {
     width: 100%;
     table-layout: fixed;
+    margin-bottom: 0;
   }
 
   tbody {
@@ -433,11 +434,11 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 
   tbody tr td {
     border: 0 solid $list-box-cell-border-color;
-    border-bottom: $list-box-cell-border;
+    border-top: $list-box-cell-border;
   }
 
-  tbody tr:last-child td {
-    border-bottom: none;
+  tbody tr:first-child td {
+    border-top: none;
   }
 
   .column-checkbox {
