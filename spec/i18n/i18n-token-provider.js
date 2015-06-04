@@ -182,43 +182,43 @@ describe('i18nToken service', function() {
   });
 });
 describe('locale cookie set to zn_CN will not properly encode', function() {
-    var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log, cookie;
-    var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
-    var enUsResponse = require ("./i18n_responses/en_US.json");
-    beforeEach(function(){
-        angular.mock.module(require('../../src/i18n').name);
-        angular.mock.module(function(i18nTokenProvider) {
-            provider = i18nTokenProvider;
-        });
-        inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log, _$cookies_) {
-            _$cookies_.put('AKALOCALE', "emhfQ04=");
-            $translate = _$translate_;
-            loader = i18nCustomLoader;
-            config = i18nConfig;
-            translation = translate;
-            timeout = $timeout;
-            httpBackend = $httpBackend;
-            scope = $rootScope;
-            log = $log;            
-            cookie = _$cookies_;
-        });
-        httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
-        httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
-        httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
-        httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+  var loader, config, translation, $translate, httpBackend, timeout, scope, provider, log, cookie;
+  var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
+  var enUsResponse = require("./i18n_responses/en_US.json");
+  beforeEach(function() {
+    angular.mock.module(require('../../src/i18n').name);
+    angular.mock.module(function(i18nTokenProvider) {
+      provider = i18nTokenProvider;
     });
-    describe('when using custom loader service bad cookie', function(){
-      it("should cookie 'AKALOCALE' value exists", function() {
-        var locale = cookie.get('AKALOCALE');
-        expect(locale).not.toBe(undefined);
-      });
-      it('should ignore gracefully and continue to english cookie', function(){
-        httpBackend.flush();
-        expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
-        expect(translation.sync("components.name")).toEqual("Akamai Common Components");
-        expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
-      });
+    inject(function(_$translate_, $timeout, i18nCustomLoader, $rootScope, i18nConfig, translate, $httpBackend, $log, _$cookies_) {
+      _$cookies_.put('AKALOCALE', "emhfQ04=");
+      $translate = _$translate_;
+      loader = i18nCustomLoader;
+      config = i18nConfig;
+      translation = translate;
+      timeout = $timeout;
+      httpBackend = $httpBackend;
+      scope = $rootScope;
+      log = $log;
+      cookie = _$cookies_;
     });
+    httpBackend.when('GET', '/apps/appname/locales/zh_CN.json').respond(404, "BAD PATH");
+    httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/zh_CN.json/).respond(404, "BAD PATH");
+    httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsResponse);
+    httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+  });
+  describe('when using custom loader service bad cookie', function() {
+    it("should cookie 'AKALOCALE' value exists", function() {
+      var locale = cookie.get('AKALOCALE');
+      expect(locale).not.toBe(undefined);
+    });
+    it('should ignore gracefully and continue to english cookie', function() {
+      httpBackend.flush();
+      expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+      expect(translation.sync("components.name")).toEqual("Akamai Common Components");
+      expect(translation.sync("askjdfh.name")).toEqual("askjdfh.name");
+    });
+  });
 });
 describe('locale cookie set to "de_DE', function() {
 
@@ -238,8 +238,8 @@ describe('locale cookie set to "de_DE', function() {
         }
       });
       $httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/de_DE.json/).respond({
-        'components':{
-          'name':'(de_DE) Akamai Common Components'
+        'components': {
+          'name': '(de_DE) Akamai Common Components'
         }
       });
       httpBackend = $httpBackend;
@@ -255,7 +255,7 @@ describe('locale cookie set to "de_DE', function() {
     var locale = cookies.get('AKALOCALE');
     expect(atob(locale.split("+")[0])).toEqual("de_DE");
   });
-  it('should translate values into de_DE', function(){
+  it('should translate values into de_DE', function() {
     httpBackend.flush();
     expect(translation.sync("billing-center.no-access")).toEqual("de_DE no access");
     expect(translation.sync("components.name")).toEqual("(de_DE) Akamai Common Components");
@@ -317,7 +317,7 @@ describe('locale cookie set to invalid cookie', function() {
       translation = translate;
       httpBackend = $httpBackend;
       scope = $rootScope;
-      log = $log;      
+      log = $log;
     });
     httpBackend.when('GET', '/apps/appname/locales/MQjIBMmtQk.json').respond(404, "BAD PATH");
     httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/MQjIBMmtQk.json/).respond(404, "BAD PATH");
