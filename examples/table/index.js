@@ -7,7 +7,7 @@ angular.module('akamai.components.examples.table', [
 ])
   .controller('ExampleController', ExampleController);
 
-function ExampleController($http, $log) {
+function ExampleController($http, $q, $log) {
   var vm = this;
 
   // Example 1
@@ -25,6 +25,10 @@ function ExampleController($http, $log) {
   // custom callback to handle whenever any item changes
   this.myRowSelectionCallback = function(selectedRows) {
     $log.log(selectedRows);
+  };
+
+  this.rowsChanged = function(rows) {
+    $log.log(rows);
   };
 
   // custom bound markup to appear in a row template
@@ -58,8 +62,8 @@ function ExampleController($http, $log) {
     {id: 7, firstName: 'Sarah', lastName: 'West', email: 'swest6@shop-pro.jp', country: 'China', ipAddress: '55.80.171.169', boolean: false, color: 'Green'},
     {id: 8, firstName: 'Amy', lastName: 'Stone', email: 'astone7@buzzfeed.com', country: 'China', ipAddress: '183.243.240.125', boolean: true, color: 'Blue'},
     {id: 9, firstName: 'Jeffrey', lastName: 'Webb', email: 'jwebb8@cloudflare.com', country: 'China', ipAddress: '216.7.198.28', boolean: false, color: 'Yellow'},
-    {id:10, firstName: 'Andrea', lastName: 'Wagner', email: 'awagner9@wisc.edu', country: 'Sweden', ipAddress: '20.158.247.82', boolean: false, color: 'Yellow'}
+    {id: 10, firstName: 'Andrea', lastName: 'Wagner', email: 'awagner9@wisc.edu', country: 'Sweden', ipAddress: '20.158.247.82', boolean: false, color: 'Yellow'}
   ];
 
 }
-ExampleController.$inject = ['$http', '$log'];
+ExampleController.$inject = ['$http', '$q', '$log'];

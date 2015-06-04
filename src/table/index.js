@@ -41,6 +41,11 @@ module.exports = angular.module('akamai.components.table', [
  * @param {Function} [on-change] Optional callback that will be called whenever an item is selected.
  * Passes in the entire array of selected items.
  *
+ * @param {Function} [on-rows-change] Optional callback that will be called whenever the list of
+ * visible rows changes. Passes in the array of rows. This is especially useful if a user needs
+ * to make a second, more expensive, AJAX request in order to fetch some more data about the list
+ * of visible rows.
+ *
  * @param {Array} [selected-rows] Optional array of pre-selected rows. Will be two-way data bound so
  * only this or the `on-change` callback is necessary in order to have selectable rows.
  *

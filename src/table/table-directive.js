@@ -25,7 +25,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       noFilterResultsMessage: '@',
       noDataMessage: '=?',
       selectedRows: '=?', // selected items from the outside
-      onChange: '&?'
+      onChange: '&?',
+      onRowsChange: '&?'
     },
     controller: TableController,
     controllerAs: 'table',
@@ -138,6 +139,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     // used to handle filter, sorting and paginating. Can be passed to the resource model
     // to allow them to fetch a new page of data from the server
     this.state = {
+      totalItems: 0,
       filter: '',
       filterableColumns: [],
       sortColumn: '',
@@ -287,12 +289,16 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       newData = orderByFilter(newData, this.state.sortColumn,
         this.state.sortDirection === SORT_DIRECTIONS.desc);
 
-      this.totalItems = newData.length;
+      this.state.totalItems = newData.length;
 
       // only apply pagination if it is enabled
       if (this.state.pageNumber && this.state.pageSize) {
         newData = limitToFilter(newData, this.state.pageSize,
           (this.state.pageNumber - 1) * this.state.pageSize);
+      }
+
+      if (angular.isFunction(this.onRowsChange)) {
+        this.onRowsChange({rows: newData});
       }
 
       this.filtered = newData;

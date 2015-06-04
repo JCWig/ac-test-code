@@ -42,6 +42,7 @@
   </p>
 
   <akam-table rows="vm.rows" akam-standalone
+              on-rows-change="vm.rowsChanged(rows)"
               on-change="vm.myRowSelectionCallback(selectedItems)"
               selected-rows="vm.selectedItems">
 
