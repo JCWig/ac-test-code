@@ -1,5 +1,6 @@
 'use strict';
 var angular = require('angular'),
+  messages = require('angular-messages'),
   sanitize = require('angular-sanitize');
 
 /**
@@ -16,6 +17,7 @@ var angular = require('angular'),
  */
 module.exports = angular.module('akamai.components.table', [
   sanitize,
+  messages,
   require('../uuid').name,
   require('../indeterminate-progress').name,
   require('../pagination').name,
@@ -79,6 +81,7 @@ module.exports = angular.module('akamai.components.table', [
   .directive('akamTable', require('./table-directive'))
 
 /**
+ * @private
  * @ngdoc service
  * @name akamai.components.table.service:akamTableTemplate
  *

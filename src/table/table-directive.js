@@ -10,8 +10,7 @@ var toolbarSelector = 'akam-table-toolbar',
     asc: 'asc',
     desc: 'desc'
   },
-  defaultSortDirection = SORT_DIRECTIONS.asc,
-  toolbarElem, tableRowElem;
+  defaultSortDirection = SORT_DIRECTIONS.asc;
 
 /* @ngInject */
 module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, translate,
@@ -36,18 +35,27 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     // passed in
     template: function(element, attributes) {
       var tpl = angular.element(tableDirectiveTemplate),
-        selector;
+        selector, toolbarElem, tableRowElem;
 
       toolbarElem = element.find(toolbarSelector);
       tableRowElem = element.find(rowSelector);
 
+      if (toolbarElem.length) {
+        tpl.find(toolbarSelector + '-placeholder').html(toolbarElem[0].outerHTML);
+      }
+
+      if (tableRowElem.length) {
+        tpl.find(rowSelector + '-placeholder').html(tableRowElem[0].outerHTML);
+      } else {
+        $log.debug('No', rowSelector, 'tag found. Nothing will render.');
+      }
+
       // remove filter (and possibly the entire toolbar) if necessary
       if (angular.isDefined(attributes.noFilter)) {
-
-        if (tpl.find(toolbarSelector + '-placeholder').length) {
-          selector = '.toolbar';
-        } else {
+        if (tpl.find(toolbarSelector).length) {
           selector = 'span.filter';
+        } else {
+          selector = '.toolbar';
         }
         angular.element(tpl[0].querySelector(selector)).remove();
       }
@@ -70,6 +78,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
         table = element.find(rowSelector + '-placeholder'),
         toolbar = element.find(toolbarSelector + '-placeholder'),
         selectable = !!element.attr('selected-rows') || !!element.attr('on-change'),
+        tableRowElem = element.find(rowSelector),
+        toolbarElem = element.find(toolbarSelector),
         template = akamTableTemplate.template(tableRowElem, attributes, selectable);
 
       // set scope variables for our <table> element and compile
@@ -77,7 +87,9 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       table.replaceWith($compile(template)(tableScope));
 
       // compile the toolbar as well, with a new scope
-      toolbar.replaceWith($compile(toolbarElem)(toolbarScope));
+      if (toolbarElem.length) {
+        toolbar.replaceWith($compile(toolbarElem[0].outerHTML)(toolbarScope));
+      }
 
       // handle setting sorting and filtering state based on the 'no-sort' and 'no-filter' attrs
       // this will potentially modify the scope.table.state object
@@ -151,6 +163,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
 
     this.toggleSelected = toggleSelected;
 
+    this.messages = messages;
     translateMessages.call(this);
 
     $scope.$watch('table.rows', angular.bind(this, loadingFn));
@@ -166,8 +179,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       this.loading = true;
       $q.when(this.rows)
         .then(angular.bind(this, updateRowData))
-        .catch(angular.bind(this, failedLoading))
-        .finally(angular.bind(this, doneLoading));
+        .then(angular.bind(this, doneLoading))
+        .catch(angular.bind(this, failedLoading));
     }
 
     /**
@@ -309,7 +322,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
         return angular.isFunction(obj.toString) && obj.toString !== Object.prototype.toString;
       }
 
-      return this.state.filterableColumns.some(function(column) {
+      return !this.state.filterableColumns.length ||
+        this.state.filterableColumns.some(function(column) {
         var actual = $parse(column)(value),
           expected = this.state.filter.toLowerCase();
 
@@ -318,6 +332,17 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
           (!angular.isObject(actual) || angular.isObject(actual) && hasCustomToString(actual)) &&
           actual.toString().toLowerCase().indexOf(expected) !== -1;
       }, this);
+    }
+
+    /**
+     * Sets an object that can be used in `ng-messages` depending on table state
+     * @returns {Object} messages to be used in the data table
+     */
+    function messages() {
+      return {
+        noData: this.pristine && this.pristine.length === 0 && !this.loading,
+        noFiltered: this.filtered && this.filtered.length === 0 && !this.loading
+      };
     }
 
     /**
@@ -336,7 +361,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       }
 
       if (!angular.isDefined(this.noDataMessage)) {
-        translate.async('components.data-table.placeholder.noDataMessage')
+        translate.async('components.data-table.text.noDataMessage')
           .then(angular.bind(this, setTranslatedValue, 'noDataMessage'));
       }
     }

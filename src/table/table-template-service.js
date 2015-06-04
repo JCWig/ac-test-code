@@ -122,7 +122,7 @@ module.exports = function($log) {
       tpl = elem.outerHTML.replace('<akam-table-column', '<td');
       tpl = tpl.replace('akam-table-column>', 'td>');
 
-      if (elem.innerHTML) {
+      if (elem.innerHTML.trim()) {
         content = elem.innerHTML;
       } else {
         content = '{{ row.' + elem.getAttribute('row-property') + '}}';

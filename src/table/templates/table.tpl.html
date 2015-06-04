@@ -8,7 +8,7 @@
       ng-click="table.state.filter = ''; table.filterRows()"></i>
     </span>
 
-    <akam-table-toolbar-placeholder></akam-table-toolbar-placeholder>
+    <akam-table-toolbar-placeholder ng-non-bindable></akam-table-toolbar-placeholder>
   </div>
 
   <akam-indeterminate-progress class="loading-data-table"
@@ -18,7 +18,12 @@
   </akam-indeterminate-progress>
 
   <div class="data">
-    <akam-table-row-placeholder></akam-table-row-placeholder>
+    <akam-table-row-placeholder ng-non-bindable></akam-table-row-placeholder>
+    <div class="empty-table-message" ng-messages="table.messages()">
+      <i class="luna-alert"></i>
+      <span ng-message="noData">{{ table.noDataMessage }}</span>
+      <span ng-message="noFiltered">{{ table.noFilterResultsMessage }}</span>
+    </div>
   </div>
 
   <akam-pagination total-items="table.totalItems"
