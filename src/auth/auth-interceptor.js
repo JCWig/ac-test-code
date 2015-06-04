@@ -11,9 +11,22 @@ module.exports = function($q, $injector, $location) {
       'http://control.akamai.com/problems/expired-akasession'
     ];
 
+  var authGrantProblemTypes =
+    [
+      'http://control.akamai.com/problems/no-token',
+      'http://control.akamai.com/problems/expired-token'
+    ];
+
   function redirectToLogin() {
     //redirect to login
     $location.url('/login.jsp');
+  }
+
+  function requestAuthGrantAndRetry(response) {
+    var $http = $injector.get('$http');
+    $http.post('request_auth.jsp');
+
+    return $http(response.config);
   }
 
   return {
@@ -39,19 +52,29 @@ module.exports = function($q, $injector, $location) {
 
       switch (response.status) {
         case 401:
+          // check if the problem type is one that should cause a login redirect
           if (redirectToLoginProblemTypes.indexOf(problemType) > -1) {
             redirectToLogin();
+            return $q.reject(response);
+          }
+
+          if (authGrantProblemTypes.indexOf(problemType) > -1) {
+            requestAuthGrantAndRetry(response);
           }
           break;
         case 403:
-          break;
+          // 403 Forbidden gets returned to the application to handle
+          return $q.reject(response);
         case 409:
+          if (problemType !== 'http://control.akamai.com/problems/account-mismatch') {
+            return $q.reject(response);
+          }
+
+          // show message and redirect after
           break;
         default:
-          break;
+          return $q.reject(response);
       }
-
-      return $q.reject(response);
     }
   };
 };

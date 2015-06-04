@@ -7,13 +7,13 @@ var angular = require('angular');
  *
  * @name akamai.components.auth
  *
- * @description Provides a provider for intercepting requests for auth purposes
+ * @description Provides an interceptor for failed requests for auth purposes
  *
  */
 module.exports = angular.module('akamai.components.auth', [
   require('../utils').name
 ])
-  .factory('akamAuthInterceptor', require('./auth-provider'))
+  .factory('akamAuthInterceptor', require('./auth-interceptor'))
   .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('akamAuthInterceptor');
   }]);
