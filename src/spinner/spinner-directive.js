@@ -24,21 +24,12 @@ module.exports = function($interval, uuid, spinnerService) {
 
   return directive;
 
-  function stopInternalEvents(event) {
-    if (event) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  }
-
   function link(scope, element, attrs, ngModel) {
     var upMouseDownPromise, downMouseDownPromise;
 
     initialize();
 
     scope.changed = function() {
-
-      stopInternalEvents(event);
 
       if (angular.isUndefined(scope.inputValue)) {
         scope.inputValue = ngModel.$viewValue;
@@ -58,13 +49,13 @@ module.exports = function($interval, uuid, spinnerService) {
     };
 
     scope.startStepUp = function(event) {
-      stopInternalEvents(event);
+      event.stopPropagation();
       if (angular.isDefined(upMouseDownPromise)) {
         return;
       }
       upMouseDownPromise = $interval(function() {
         if (scope.isOverMax()) {
-          scope.stopStepUp();
+          scope.stopStepUp(event);
         } else {
           updateInput(+defaults.STEP);
         }
@@ -72,7 +63,7 @@ module.exports = function($interval, uuid, spinnerService) {
     };
 
     scope.stopStepUp = function(event) {
-      stopInternalEvents(event);
+      event.stopPropagation();
       if (angular.isDefined(upMouseDownPromise)) {
         $interval.cancel(upMouseDownPromise);
         upMouseDownPromise = undefined;
@@ -80,14 +71,14 @@ module.exports = function($interval, uuid, spinnerService) {
     };
 
     scope.startStepDown = function(event) {
-      stopInternalEvents(event);
+      event.stopPropagation();
       if (angular.isDefined(downMouseDownPromise)) {
         return;
       }
 
       downMouseDownPromise = $interval(function() {
         if (scope.isUnderMin()) {
-          scope.stopStepDown();
+          scope.stopStepDown(event);
         } else {
           updateInput(-defaults.STEP);
         }
@@ -95,7 +86,7 @@ module.exports = function($interval, uuid, spinnerService) {
     };
 
     scope.stopStepDown = function(event) {
-      stopInternalEvents(event);
+      event.stopPropagation();
       if (angular.isDefined(downMouseDownPromise)) {
         $interval.cancel(downMouseDownPromise);
         downMouseDownPromise = undefined;
