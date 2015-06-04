@@ -110,7 +110,6 @@ describe('messageBox service', function() {
         this.$timeout.flush();
       }
 
-
       this.messageBox.show({
         headline: 'headline',
         text: 'Message',
