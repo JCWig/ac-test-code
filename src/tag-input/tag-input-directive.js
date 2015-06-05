@@ -45,6 +45,7 @@ module.exports = function(translate) {
       ngModel.$validators.invalidTagInput = function(modelValue, viewValue) {
         var flag = true;
         var i;
+
         for (i = 0; i < viewValue.length; i++) {
           if (!scope.validate(viewValue[i])) {
             flag = false;
