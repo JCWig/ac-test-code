@@ -10,11 +10,15 @@ Styleguide 8.0
 
 $spinner-input-height: 28px;
 $spinner-border-color: #cccccc;
+$spinner-button-color-active: #0099cc;
+$spinner-disable-color: #e6e6e6;
 $spinner-button-hover-gradient-bottom: #e6e6e6;
 $spinner-button-hover-gradient-top: #ffffff;
 $spinner-border-color-hover: #999999;
-$spinner-button-hover-gradient-bottom-hover: #c8c8c8;
-$spinner-button-hover-gradient-top-hover: #f4f4f4;
+$spinner-button-hover-gradient-bottom: #c8c8c8;
+$spinner-button-hover-gradient-top: #f4f4f4;
+$spinner-button-active-gradient-bottom: #f4f4f4;
+$spinner-button-active-gradient-top: #c8c8c8;
 
 .akam-spinner {
   position: relative;
@@ -25,7 +29,8 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
     @include appearance(textfield);
 
     &:disabled {
-      color: $spinner-border-color;
+      color: $spinner-disable-color;
+      border-color: $spinner-disable-color;
       cursor: default;
     }
 
@@ -46,6 +51,7 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
     text-align: left;
     font-size: 0px;
     height: $spinner-input-height;
+    width: 32px;
 
     .btn {
       min-width: 20px;
@@ -54,11 +60,12 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
       border-left-width: 0;
       display: block;
       @include border-left-radius(0);
-      @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
       border-color: $spinner-border-color;
 
       &[disabled] {
         opacity: 1;
+        @include background-image(none);
+        border-color: $spinner-disable-color;
       }
 
       & + .btn {
@@ -72,20 +79,29 @@ $spinner-button-hover-gradient-top-hover: #f4f4f4;
             border-top-color: $spinner-border-color-hover;
           }
         }
-      }
-
-      i {
-        &.luna-arrow_extra_smDown {
-          background-position:sprite-position($luna-sprites, arrow_extra_smDown, 0, -1);
-          &[disabled] {
-            background-position:sprite-position($luna-sprites, arrow_extra_smDown_disabled, 0, -1) !important;
+        &:active {
+          & + .btn {
+            border-top-color: $spinner-button-color-active;
           }
         }
       }
 
+      i {
+        display: block;
+      }
+
       &:hover {
-        @include background-image(linear-gradient($spinner-button-hover-gradient-top-hover, $spinner-button-hover-gradient-bottom-hover));
+        margin-left: -1px;
+        border-left-width: 1px;
         border-color: $spinner-border-color-hover;
+        @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
+      }
+
+      &:active {
+        margin-left: -1px;
+        border-left-width: 1px;
+        border-color: $spinner-button-color-active;
+        @include background-image(linear-gradient($spinner-button-active-gradient-top, $spinner-button-active-gradient-bottom));
       }
     }
   }

@@ -15,7 +15,7 @@ module.exports = function($q, $compile, $log, $timeout) {
       var haveDataFlag;
 
       scope.loading = true;
-      scope.contextData = scope.contextData || {dataNotSet: true};
+      scope.contextData = scope.contextData;
       scope.parentTree = [];
       scope.children = [];
       scope.contextChangeNew = function(clickedObj, up) {
@@ -53,25 +53,27 @@ module.exports = function($q, $compile, $log, $timeout) {
           }
         }, 300);
         scope.failed = false;
-        $q.when(scope.contextData).then(function(resp) {
-          var data = resp.data ? resp.data : resp;
+        if (scope.contextData) {
+          $q.when(scope.contextData).then(function(resp) {
+            var data = resp.data ? resp.data : resp;
 
-          if (data.parent && !haveDataFlag) {
-            maintainParentTree(data.parent);
-          }
+            if (data.parent && !haveDataFlag) {
+              maintainParentTree(data.parent);
+            }
 
-          if (!scope.current) {
-            scope.current = data.current;
-          }
+            if (!scope.current) {
+              scope.current = data.current;
+            }
 
-          scope.children = data.children || [];
-          if (!data.dataNotSet) {
-            scope.loading = false;
-          }
-          scope.retrievedData = true;
-        }).catch(function() {
-          scope.failed = true;
-        });
+            scope.children = data.children || [];
+            if (!data.dataNotSet) {
+              scope.loading = false;
+            }
+            scope.retrievedData = true;
+          }).catch(function() {
+            scope.failed = true;
+          });
+        }
       });
       scope.hasParents = function() {
         return !!scope.parentTree.length;
