@@ -24,8 +24,8 @@ module.exports = function($log) {
 
     template = '<table><thead><tr>' +
     getHeaderTemplate(element[0], attributes, selectable) +
-    '</tr></thead><tbody><tr ng-repeat="row in table.filtered track by table.idProperty(row)" ' +
-    'ng-class="table.rowSelectedClass(table.idProperty(row))">' +
+    '</tr></thead><tbody><tr ng-repeat="row in table.filtered track by table.idPropertyFn(row)" ' +
+    'ng-class="table.rowSelectedClass(table.idPropertyFn(row))">' +
     getRowTemplate(element[0], attributes, selectable) +
     '</tr></tbody></table>';
 
@@ -95,7 +95,7 @@ module.exports = function($log) {
 
     if (selectable) {
       template += '<td class="column-checkbox">' +
-      '<input type="checkbox" ng-model="table.selectedRowsMap[table.idProperty(row)]" ' +
+      '<input type="checkbox" ng-model="table.selectedRowsMap[table.idPropertyFn(row)]" ' +
       'ng-change="table.toggleSelected(row)" id="{{ table.id + \'-item-\' + $index }}">' +
       '<label for="{{ table.id + \'-item-\' + $index }}"></label></td>';
     }
