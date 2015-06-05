@@ -24,7 +24,7 @@
             </span>
             <br />
             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>
+                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
             <h2>Tree View Example - JSON Data</h2>
@@ -133,7 +133,7 @@
                     ]
                 }
             };
-            exampleController.$inject = ['$scope', '$log', '$q', '$timeout', '$http'];
+            exampleController.$inject = ['$scope', '$log', '$q', '$timeout', '$http', '$httpBackend'];
             angular.module('example', ['akamai.components.tree-view'])
             
 

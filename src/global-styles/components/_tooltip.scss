@@ -16,9 +16,11 @@ $tooltip-contents-padding: $tooltip-contents-padding-top $tooltip-contents-paddi
     z-index: -1;
     background-color: transparent;
     position:absolute;
+    visibility: hidden;
     &.in{
         z-index: $tooltip-zindex;
         opacity: 1;
+        visibility: visible;
     }
     .tooltip-contents{
         overflow:hidden;
