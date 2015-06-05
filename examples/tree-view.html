@@ -17,16 +17,16 @@
                 All Others Have No Children At All. <br>
             </span>
             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>
+                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange(item)"> </akam-tree-view>
             </div>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            var exampleController = function($scope, $log, $q, $timeout, $http) {
-                scope = $scope;
-                timeout = $timeout;
-                q = $q;
-                log = $log;
+            var exampleController = function($scope, $log, $q, $timeout, $http, $httpBackend) {
+                var scope = $scope;
+                var timeout = $timeout;
+                var q = $q;
+                var log = $log;
                 scope.contextData = {
                     "parent":[{"title":"Justice League"}],
                     "current":{"title": "Bruce Wayneliewhrliurpoewuripweyrpiuwqeyiruewyoiuryoi"},
@@ -139,7 +139,7 @@
                     }
                 };
             };
-            exampleController.$inject = ['$scope', '$log', '$q', '$timeout', '$http'];
+            exampleController.$inject = ['$scope', '$log', '$q', '$timeout', '$http', '$httpBackend'];
             angular.module('example', ['akamai.components.tree-view'])
             
 

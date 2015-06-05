@@ -8,7 +8,7 @@ module.exports = function($q, $compile, $log, $timeout) {
     restrict: 'E',
     scope: {
       contextData: '=',
-      onContextChange: '='
+      onContextChange: '&'
     },
     template: treeViewTemplate,
     link: function(scope) {
@@ -37,7 +37,7 @@ module.exports = function($q, $compile, $log, $timeout) {
           }
         }, 300);
         scope.failed = false;
-        $q.when(scope.onContextChange(clickedObj, up)).then(function(children) {
+        $q.when(scope.onContextChange({item: clickedObj})).then(function(children) {
           scope.children = children ? children.children || [] : [];
           scope.loading = false;
           scope.retrievedData = true;
