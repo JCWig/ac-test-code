@@ -57,7 +57,11 @@
 
                 $scope.options = {
                     title: 'Regarding Your Subscription Information',
-                    hideSubmit: false
+                    cancelLabel: 'Cancel',
+                    submitLabel: 'OK',
+                    hideSubmit: false,
+                    successMessage: 'Success!',
+                    errorMessage: 'Error!'
                 };
 
                 var aController = function($scope) {
@@ -91,7 +95,19 @@
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
                         template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
-                                    '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!',
+                                    '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!' +
+                                    '<div class="label-group"><label class="label" for="description">Description:</label><br>' +
+                                    '<textarea id="description" type="text" rows="4" cols="75"></textarea>' +
+                                    '</div><br />' +
+                                    '<div class="label-group"><label class="label" for="reason">Reason:</label><br>' +
+                                    '<textarea id="reason" type="text" rows="4" cols="75"></textarea>' +
+                                    '</div><br />' +
+                                    '<div class="label-group"><label class="label" for="exemption">Exemption:</label><br>' +
+                                    '<textarea id="exemption" type="text" rows="4" cols="75"></textarea>' +
+                                    '</div><br />' +
+                                    '<div class="label-group"><label class="label" for="other">Other:</label><br>' +
+                                    '<textarea id="other" type="text" rows="4" cols="75"></textarea>' +
+                                    '</div><br />' ,
                         controller: aController
                     }));
 
@@ -140,7 +156,8 @@
 
                         }, 3000);
 
-                    return deferral.promise;
+                    return 'HI';
+                    //return deferral.promise;
                 });
 
                 // Disable the save button by default

@@ -236,5 +236,9 @@
     "components.list-box.text.viewSelectedOnly":"You have no data selected",
     "components.list-box.text.nofilterResults":"There are no results based upon your filter",
     "components.list-box.text.noDataMessage":"There is no data based upon your criteria",
-    "examples.full-name" : "Full Name"
+    "examples.full-name" : "Full Name",
+    "examples.id": "ID",
+    "examples.name": "Name",
+    "examples.email": "Email",
+    "examples.actions": "Actions"
 }
