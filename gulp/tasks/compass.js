@@ -3,11 +3,7 @@ var config = require('../config').production;
 var compass = require('gulp-compass');
 var sourcemaps = require('gulp-sourcemaps');
 var minifyCSS = require('gulp-minify-css');
-var size = require('gulp-filesize');
 var rename = require('gulp-rename');
-var gulpif = require('gulp-if');
-var del = require('del');
-var path = require('path');
 
 gulp.task('compass', function() {
   gulp.src('./src/**/*.scss')

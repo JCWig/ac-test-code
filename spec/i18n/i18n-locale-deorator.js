@@ -78,9 +78,6 @@ describe("$locale service used as filter", function() {
     angular.mock.module(require('../../src/i18n').name);
     angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
       $provide.decorator('$cookies', function($delegate) {
-        $delegate = {
-          AKALOCALE: "ZGVfREU=+TWRLSm1QZGEwNTBKNUZEZzFLZVQyNW9kTExYY1l6T3lHSVg3SjM1SjNJaXBaZ2JUaFRJVGZCWXROSjNmdFIzdXMzL0pJbms9; expires=Wed, 17 Mar 2083 13:04:59 GMT; path=/; domain=172.25.46.158; Secure"
-        };
         return $delegate;
       });
       $translateProvider.useLoader('i18nCustomLoader');

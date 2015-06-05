@@ -343,13 +343,11 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 
 .akam-list-box, .akam-data-table {
   margin: 16px 0;
-  border: $list-box-border;
-  @include box-shadow($global-box-shadow);
   font-size: $body-font-size;
   color: $body-font-color;
   background: #fff;
 
-  .filter {
+  .filter, .toolbar {
     height: 36px;
     padding: 4px;
 
@@ -479,6 +477,10 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     left: 0;
     right: 0;
 
+    &.ng-inactive {
+      display: none;
+    }
+
     i {
       position: absolute;
       left: 10px;
@@ -487,6 +489,18 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     }
   }
 }
+
+.akam-data-table {
+
+  .toolbar {
+    border-bottom: $list-box-border;
+  }
+
+  .data {
+    border-top: 0 none;
+  }
+}
+
 
 /* List Box
 

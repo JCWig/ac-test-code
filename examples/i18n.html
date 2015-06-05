@@ -106,8 +106,8 @@
                     $scope.selected = 'en_US';
 
                     // Check to see if the AKALOCALE cookie is used
-                    if($cookies.AKALOCALE) {
-                        $scope.selected = atob($cookies.AKALOCALE);
+                    if($cookies.get('AKALOCALE')) {
+                        $scope.selected = atob($cookies.get('AKALOCALE'));
                     }
 
                     $scope.changeLocale = changeLocale;
@@ -126,11 +126,11 @@
                     window.location.reload();
                 }
             };
-            var configFunction = function(i18nTokenProvider) {
-                i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
+            var configFunction = function(i18nTokenProvider, VERSION) {
+                i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/"+VERSION+"/locales/");
                 i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
             };
-            configFunction.$inject = ['i18nTokenProvider'];
+            configFunction.$inject = ['i18nTokenProvider', 'VERSION'];
             controllerFunction.$inject = ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log'];
             
             angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);

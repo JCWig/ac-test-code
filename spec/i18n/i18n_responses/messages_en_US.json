@@ -234,9 +234,8 @@
   "components.data-table.text.noFilterResults": "There are no results based upon your filter",
   "components.data-table.text.noDataMessage": "There is no data based upon your criteria",
   "components": {
-    "list-box" :
-    {
-      "placeholder":{
+    "list-box": {
+      "placeholder": {
         "filter": "Filter This"
       }
     }

@@ -168,7 +168,6 @@ describe('akamai.components.spinner', function() {
       expect(inputElem.classList.contains("ng-invalid-max")).toBeTruthy();
     });
 
-
     it("should verify correct max value and form $valid", function() {
       addElement();
       expect(self.isoScope.isOverMax()).toBeFalsy();
