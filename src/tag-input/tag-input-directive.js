@@ -42,10 +42,9 @@ module.exports = function(translate) {
       ngModel.$isEmpty = function(value) {
         return value.length === 0;
       };
-      ngModel.$validators.validInputs = function(modelValue, viewValue) {
+      ngModel.$validators.invalidTagInput = function(modelValue, viewValue) {
         var flag = true;
         var i;
-
         for (i = 0; i < viewValue.length; i++) {
           if (!scope.validate(viewValue[i])) {
             flag = false;
@@ -108,10 +107,13 @@ module.exports = function(translate) {
 
         scope.invalidInputs = [];
         scope.setValues(sortedItems);
+        ngModel.$validate();
       });
       scope.$on('uiSelectSort:change', function(e, model) {
-        removeClasses();
         scope.setValues(model.array);
+      });
+      scope.$on('uiSelectSort:failed', function() {
+        removeClasses();
       });
     }
   };

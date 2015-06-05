@@ -1,5 +1,5 @@
-$tag-input-drop-down-padding-top : 20px;
-$tag-input-drop-down-padding-left : 3px;
+$tag-input-drop-down-padding-left : 13px;
+$tag-input-drop-down-padding-top : 3px;
 $tag-input-drag-drop-indicator-border: 1px solid #428bca;  
 $tag-indicator-hover-color: #ebf6ff;
 $tag-indicator-active-color: #CEE7FF;
@@ -10,7 +10,15 @@ $tag-input-selected-padding : 5px;
 $tag-input-height-of-selected-tags: 22px;
 $tag-input-max-height-of-dropdown: 200px;
 $tag-input-width-from-text-to-icon: 7px;
+$tag-input-invalid-border-color: #a32d2d;
 
+akam-tag-input {
+	&.ng-invalid {
+		.ui-select-container {
+			border-color: $tag-input-invalid-border-color;
+		}
+	}
+}
 .akam-tag-input {
 	.ui-select-container {
 		min-height: 30px;
@@ -52,8 +60,7 @@ $tag-input-width-from-text-to-icon: 7px;
 	  height: auto;
 	  max-height: $tag-input-max-height-of-dropdown;
 	  overflow-x: hidden;
-	  margin-top: 1px;
-	  border-color : $input-border-color-focus;
+	  margin-top: 1px;     
 	  border-top: none;
 	}
 
@@ -81,51 +88,66 @@ $tag-input-width-from-text-to-icon: 7px;
 
 	.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
 	  outline: 0;
-	  margin: 0 3px 3px 0;
+	  margin: 0 5px 3px 0;
 	  height: $tag-input-height-of-selected-tags;
 	  min-width: 0px;
 	  padding-right: $tag-input-selected-padding;
 	  &.invalid-tag {
-	  	background: #FFF4F6;
+	  	border-color: $tag-input-invalid-border-color
 	  }
 	  position: relative;
 	  &.btn-primary {
-	  	background: $tag-indicator-hover-color;
+	  	border-color: $input-border-color-focus;
+	  }
+	  &.grabbable {
+	  	cursor : grab;
 	  }
 	}
-	.ui-select-multiple .ui-select-match-item.dropping-after {
-	  &:after, &:before {
-	      content: "";
-	  	  position: absolute;
-	  	  top: 0;
-	  	  left: 100%;
-	  	  height: 100%;
-	  	  margin-left: 2px;
-	  	  border-right: $tag-input-drag-drop-indicator-border;
-	    }
+	.ui-select-multiple .ui-select-match-item.dropping-before:before {
+	  content: "";
+	  position: absolute;
+	  top: 0;
+	  right: 100%;
+	  height: 100%;
+	  margin-right: 3px;
+	  border-left: 1px solid #0099cc;
 	}
 
+	.ui-select-multiple .ui-select-match-item.dropping-after:after {
+	  content: "";
+	  position: absolute;
+	  top: 0;
+	  left: 100%;
+	  height: 100%;
+	  margin-left: 3px;
+	  border-right: 1px solid #0099cc;
+	}
 	.ui-select-bootstrap .ui-select-choices-row>a {
-	    display: block;
-	    clear: both;
-	    line-height: 1.5;
-	    color: $text-color;
-	    white-space: nowrap;
-      &:hover, :active {
-        text-decoration: none;
-      }
+    display: block;
+    clear: both;
+    line-height: 1.5;
+    color: $text-color;
+    white-space: nowrap;
+    &:hover, :active {
+      text-decoration: none;
+    }
 	}
 	.ui-select-choices-row {
-    padding: $tag-input-drop-down-padding-left $tag-input-drop-down-padding-top;
-    &:hover{
-	    border:$list-box-cell-border;
-	    padding: ($tag-input-drop-down-padding-left - 1px) ($tag-input-drop-down-padding-top - 1px);
-	    background-color: $tag-indicator-hover-color;
-	  }
-	  &:active, &.active{
-	    border:$list-box-cell-border;
-	    padding: ($tag-input-drop-down-padding-left - 1px) ($tag-input-drop-down-padding-top - 1px);
-	    background-color: $tag-indicator-active-color;
-	  }
+	  	padding: $tag-input-drop-down-padding-top $tag-input-drop-down-padding-left;
+	    &.active{
+	      border:$list-box-cell-border;
+	      padding: ($tag-input-drop-down-padding-top) ($tag-input-drop-down-padding-left );
+	      background-color: $tag-indicator-active-color;
+	    }
+	    &:hover{
+	      border:$list-box-cell-border;
+	      padding: ($tag-input-drop-down-padding-top ) ($tag-input-drop-down-padding-left );
+	      background-color: $tag-indicator-hover-color;
+	    }
+	    &:active{
+	      border:$list-box-cell-border;
+	      padding: ($tag-input-drop-down-padding-top) ($tag-input-drop-down-padding-left );
+	      background-color: $tag-indicator-active-color;
+	    }
 	}
 }

@@ -20,22 +20,24 @@
                 <akam-tag-input ng-model="items2" available-items="availableItems" tagging-label="(add new item)" restricted="true" placeholder="Select Items" sort-function="sortFunction"> 
                 </akam-tag-input>
             </div> <br/><br/><br/><br/>
-            <div style="width:500px;">
-                <span> Contains Same data, does not allow string less than 2 characters </span>
-                <akam-tag-input ng-model="items3" available-items="availableItems" tagging-label="(add new item)" drag-dropable="true" validate-function="validateFunction"> 
-                </akam-tag-input>
-            </div>
+            <form name="tagInputform">
+                <div style="width:500px;">
+                    <span> Contains Same data, does not allow string less than 2 characters </span>
+                    <akam-tag-input name="tagInput" ng-model="items3" available-items="availableItems" tagging-label="(add new item)" drag-dropable="true" validate-function="validateFunction"> 
+                    </akam-tag-input>
+                </div>
+                <div ng-messages="tagInputform.tagInput.$error">
+                  <div ng-message="invalidTagInput">
+                    You have some invalid input selected
+                  </div>
+                </div>
+            </form>
             
             <button ng-click="displayData(items)">Click here to log first tag-input data</button>
             <button ng-click="displayData(items2)">Click here to log second tag-input data</button>
             <button ng-click="displayData(items3)">Click here to log third tag-input data</button>
         </div>
         <script src="../dist/akamai-core.js"></script>
-        <script type="text/ng-template" id="/availableTemplate.tpl.html">
-            <span style="font-color:blue">
-                {{item.title}}
-            </span>
-        </script>
         <script>
             var exampleController = function($scope) {
                 $scope.items = ["Connor Kent","Bart Allen", "Cassandra Sandsmark"];
@@ -82,7 +84,7 @@
             };
             exampleController.$inject = ['$scope'];
             
-            angular.module('example', ['akamai.components.tag-input'])
+            angular.module('example', ['akamai.components.tag-input', 'ngMessages'])
             .controller('ExampleController', exampleController);
         </script>
     </body>
