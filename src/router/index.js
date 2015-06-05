@@ -1,7 +1,8 @@
 'use strict';
 
 var angular = require('angular');
-var router = require('angular-new-router');
+
+require('angular-new-router');
 
 function dashCase(str) {
   return str.replace(/([A-Z])/g, function($1) {
