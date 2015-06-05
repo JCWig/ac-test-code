@@ -2,7 +2,7 @@
 
 var angular = require('angular');
 
-var timepickerConfig = {
+var formatterConfig = {
   MERIDIAN_ON: 'hh:mm a',
   MERIDIAN_OFF: 'HH:mm',
   TIME_MERIDIAN_REGEX: /^(0?[0-9]|1[0-2]):[0-5][0-9] ?[a|p]m$/i,
@@ -26,6 +26,8 @@ module.exports = function($filter) {
 
   function link(scope, element, attrs, ngModel) {
 
+    ngModel = ngModel ? ngModel : { $setViewValue: angular.noop };
+
     ngModel.$parsers.push(parseTime);
     ngModel.$formatters.push(displayTime);
 
@@ -39,7 +41,7 @@ module.exports = function($filter) {
 
     function parseTime(value) {
 
-      var timeRegex = timepickerConfig.TIME_MERIDIAN_REGEX,
+      var timeRegex = formatterConfig.TIME_MERIDIAN_REGEX,
         date = new Date(),
         sp;
 
@@ -66,7 +68,7 @@ module.exports = function($filter) {
       }
 
       if (!scope.showMeridian) {
-        timeRegex = timepickerConfig.TIME_REGEX;
+        timeRegex = formatterConfig.TIME_REGEX;
       }
 
       if (!timeRegex.test(value)) {
@@ -82,7 +84,7 @@ module.exports = function($filter) {
 
     function displayTime(value) {
       var timeFormat = !scope.showMeridian ?
-        timepickerConfig.MERIDIAN_OFF : timepickerConfig.MERIDIAN_ON;
+        formatterConfig.MERIDIAN_OFF : formatterConfig.MERIDIAN_ON;
 
       parseTime(value);
       return $filter('date')(value, timeFormat);
@@ -94,10 +96,10 @@ module.exports = function($filter) {
 
     function parse(value) {
       var sp = value.split(':'),
-        apm = sp[1].match(timepickerConfig.APM_REGEX);
+        apm = sp[1].match(formatterConfig.APM_REGEX);
 
       if (apm) {
-        sp[1] = sp[1].replace(timepickerConfig.APM_REGEX, '');
+        sp[1] = sp[1].replace(formatterConfig.APM_REGEX, '');
         if (apm[0].toLowerCase() === 'pm') {
           sp[0] = sp[0] + 12;
         }

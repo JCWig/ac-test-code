@@ -20,17 +20,16 @@ var timepikerConfig = {
 var defaultScopeTime = new Date();
 var defaultMarkup = '<akam-time-picker ng-model="inputTime"></akam-time-picker>';
 
-describe('akam-time-picker', function() {
+describe('akamTimepicker directive', function() {
 
-  var scope, timeout, compile, self;
+  var scope, compile, self;
 
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/time-picker').name);
-    inject(function($compile, $rootScope, $timeout) {
+    inject(function($compile, $rootScope) {
       scope = $rootScope.$new();
-      timeout = $timeout;
       compile = $compile;
     });
 
@@ -86,7 +85,7 @@ describe('akam-time-picker', function() {
 
       expect(timepickerInputElem.value).not.toBe("");
       expect(timepickerInputElem.value).toContain(":");
-      expect(timepickerInputElem.value.match(/[a|p]m/i).length > 0).toBe(true);
+      expect(timepickerInputElem.value.match(/[a|p]m/i).length > 0).toBeTruthy();
 
     });
 
@@ -108,7 +107,7 @@ describe('akam-time-picker', function() {
 
       var timepickerDropdown = self.element.querySelector(selectors.DROPDOWN_MENU);
 
-      expect(timepickerDropdown.classList[1]).toBe("ng-hide");
+      expect(timepickerDropdown.classList.contains("ng-hide")).toBeTruthy();
     })
 
     it('should downdown menu has ui bootstrap timepicker element', function() {
@@ -143,7 +142,7 @@ describe('akam-time-picker', function() {
 
     });
 
-    it('should render time without meridian in the value display', function() {
+    it('should render time in disabled state', function() {
       scope.inputTime = defaultScopeTime;
       scope.disabled = true;
       var markup = '<akam-time-picker ng-model="inputTime" disabled="disabled"></akam-time-picker>';
@@ -159,7 +158,6 @@ describe('akam-time-picker', function() {
       addElement();
 
       var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
-
       expect(timepickerInputElem.getAttribute("placeholder")).toBe(timepikerConfig.MERIDIAN_ON);
 
     });
@@ -171,44 +169,33 @@ describe('akam-time-picker', function() {
       addElement(markup);
 
       var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
-
       expect(timepickerInputElem.getAttribute("placeholder")).toBe(timepikerConfig.MERIDIAN_OFF);
 
     });
-
-    /*
-        it('should render time hour step of 2', function() {
-          scope.inputTime = defaultScopeTime;
-          scope.hourStep = 2;
-          var markup = '<akam-time-picker ng-model="inputTime" hour-step="hourStep"></akam-time-picker>';
-          addElement(markup);
-
-
-
-          var timepickerTable = self.element.querySelector(selectors.DROPDOWN_MENU+" table");
-
-    console.log(timepickerTable)
-
-          expect(timepickerTable.getAttribute("hour-step")).toEqual(2);
-
-        });
-
-        it('should render time minute step of 20', function() {
-          scope.inputTime = defaultScopeTime;
-          scope.minuteStep = 20;
-          var markup = '<akam-time-picker ng-model="inputTime" minute-step="minuteStep"></akam-time-picker>';
-          addElement(markup);
-
-          var timepickerTable = self.element.querySelector(selectors.DROPDOWN_MENU+" table");
-          expect(timepickerTable.getAttribute("minute-step")).toEqual(20);
-
-        });
-
-    */
   });
 
   describe('when rendered', function() {
     it('should button click display correct hours and minutes input values', function() {
+      var date = new Date();
+      date.setHours("02", "15");
+      scope.inputTime = date;
+      addElement();
+
+      var timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
+      utilities.click(timepickerBtnElem);
+      scope.$digest();
+
+      var inputs = self.element.querySelectorAll(selectors.DROPDOWN_MENU + " table input[type=text]");
+
+      expect(inputs.length).toEqual(2);
+      expect(inputs[0].value.length).toEqual(2);
+      expect(inputs[0].value).toBe("02");
+      expect(inputs[1].value.length).toEqual(2);
+      expect(inputs[1].value).toBe("15");
+
+    });
+
+    it('should button click have open classes and click again no open classes', function() {
       scope.inputTime = defaultScopeTime;
       addElement();
 
@@ -216,19 +203,171 @@ describe('akam-time-picker', function() {
       utilities.click(timepickerBtnElem);
       scope.$digest();
 
-      var timepickerTable = self.element.querySelector(selectors.DROPDOWN_MENU+" table");
-      var inputs = self.element.querySelectorAll(selectors.DROPDOWN_MENU+" table input[type=text]");
+      var timepickerElem = self.element.querySelector(selectors.TIMEPICKER);
+      expect(timepickerElem.classList.contains("open")).toBeTruthy();
+      expect(self.isoScope.isOpen).toBeTruthy();
 
-      expect(inputs.length).toEqual(2);
-      expect(inputs[0].value.length).toEqual(2);
-      expect(inputs[1].value.length).toEqual(2);
+      var dropdownElem = self.element.querySelector(selectors.DROPDOWN_MENU);
+      expect(dropdownElem.classList.contains("open")).toBeTruthy();
+
+      utilities.click(timepickerBtnElem);
+      scope.$digest();
+
+      var timepickerElem = self.element.querySelector(selectors.TIMEPICKER);
+      expect(timepickerElem.classList[1]).toBe(null);
+      expect(self.isoScope.isOpen).toBeFalsy();
+
+      var dropdownElem = self.element.querySelector(selectors.DROPDOWN_MENU);
+      expect(dropdownElem.classList.contains("open")).toBeFalsy();
+
+    });
+
+    it('should button click have open classes and click outside region again no open classes', function() {
+      scope.inputTime = defaultScopeTime;
+      addElement();
+
+      var timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
+      utilities.click(timepickerBtnElem);
+      scope.$digest();
+
+      var timepickerElem = self.element.querySelector(selectors.TIMEPICKER);
+      expect(timepickerElem.classList.contains("open")).toBeTruthy();
+
+      var dropdownElem = self.element.querySelector(selectors.DROPDOWN_MENU);
+      expect(dropdownElem.classList.contains("open")).toBeTruthy();
+
+      utilities.clickAwayCreationAndClick('div');
+      scope.$digest();
+
+      var timepickerElem = self.element.querySelector(selectors.TIMEPICKER);
+      expect(timepickerElem.classList[1]).toBe(null);
+
+      var dropdownElem = self.element.querySelector(selectors.DROPDOWN_MENU);
+      expect(dropdownElem.classList.contains("ng-hide")).toBeTruthy();
+
+    });
+
+    it("should display correct value from increment hour and  minute region click", function() {
+      var date = new Date();
+      date.setHours("02", "15");
+      scope.inputTime = date;
+      addElement();
+
+      var timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
+      utilities.click(timepickerBtnElem);
+      scope.$digest();
+
+      var dropdownLinks = self.element.querySelectorAll(selectors.DROPDOWN_MENU + " .time-increment-row td a");
+      utilities.click(dropdownLinks[0]);
+      scope.$digest();
+
+      var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+      expect(timepickerInputElem.value).toContain("03");
+
+      utilities.click(dropdownLinks[1]);
+      scope.$digest();
+
+      var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+      expect(timepickerInputElem.value).toContain("30");
+    });
+
+    it("should display correct value from decrement hour and  minute region click", function() {
+      var date = new Date();
+      date.setHours("02", "15");
+      scope.inputTime = date;
+      addElement();
+
+      var timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
+      utilities.click(timepickerBtnElem);
+      scope.$digest();
+
+      var dropdownLinks = self.element.querySelectorAll(selectors.DROPDOWN_MENU + " .time-decrement-row td a");
+      utilities.click(dropdownLinks[0]);
+      scope.$digest();
+
+      var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+      expect(timepickerInputElem.value).toContain("01");
+
+      utilities.click(dropdownLinks[1]);
+      scope.$digest();
+
+      var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+      expect(timepickerInputElem.value).toContain("00");
     });
 
     it("should display meridian button on open", function() {
+      scope.inputTime = defaultScopeTime;
+      addElement();
+
+      var timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
+      utilities.click(timepickerBtnElem);
+      scope.$digest();
+
+      var meridianBtnElem = self.element.querySelector(selectors.DROPDOWN_MENU + " .meridian input");
+      expect(meridianBtnElem).not.toBe(undefined);
+      expect(meridianBtnElem.value.match(/[a|p]m/i)).toBeDefined();
 
     });
 
     it("should not display meridian button when showMeridian vlaue is false", function() {
+      scope.inputTime = defaultScopeTime;
+      scope.showMeridian = false;
+      var markup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+      addElement(markup);
+
+      var timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
+      utilities.click(timepickerBtnElem);
+      scope.$digest();
+
+      var meridianElem = self.element.querySelector(selectors.DROPDOWN_MENU + " .meridian");
+      expect(meridianElem.classList.contains("ng-hide")).toBeTruthy();
+    });
+
+  });
+
+  describe("directive isolated scope", function() {
+
+    it("should verify scope variables initial values", function() {
+      scope.inputTime = defaultScopeTime;
+      addElement();
+
+      expect(self.isoScope.inputTime).toBeDefined();
+      expect(angular.isDate(self.isoScope.inputTime)).toBeTruthy();
+      expect(self.isoScope.isOpen).toBeFalsy();
+      expect(self.isoScope.disabled).toBeFalsy();
+      expect(self.isoScope.hourStep).toBe(timepikerConfig.HOUR_STEP);
+      expect(self.isoScope.minuteStep).toBe(timepikerConfig.MINUTE_STEP);
+      expect(self.isoScope.placeholder).toBe(timepikerConfig.MERIDIAN_ON);
+      expect(self.isoScope.showMeridian).toBeTruthy();
+
+    });
+
+    it("should verify scope values when passing in", function() {
+      var date = new Date();
+      date.setHours("12", "20");
+      scope.inputTime = date;
+      scope.disabled = true;
+      var markup = '<akam-time-picker ng-model="inputTime" disabled="disabled"></akam-time-picker>';
+      addElement(markup);
+
+      expect(self.isoScope.inputTime.getHours()).toBe(12);
+      expect(self.isoScope.inputTime.getMinutes()).toBe(20);
+      expect(self.isoScope.disabled).toBeTruthy();
+      expect(self.isoScope.isDisabled()).toBeTruthy();
+    });
+
+    it("should isDisabled function call with correct value", function() {
+      scope.inputTime = defaultScopeTime;
+      scope.disabledd = false;
+      var markup = '<akam-time-picker ng-model="inputTime" disabled="disabledd"></akam-time-picker>';
+      addElement(markup);
+
+      expect(self.isoScope.isDisabled()).toBeFalsy();
+
+      scope.disabledd = true;
+      scope.$digest();
+
+       expect(self.isoScope.isDisabled()).toBeTruthy();
 
     });
 
