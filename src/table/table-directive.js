@@ -134,7 +134,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     this.id = uuid.uid();
 
     // this ID is used as a 'track by' clause as well as to keep track of selected rows
-    this.idProperty = $parse(this.idProperty || 'id');
+    this.idPropertyFn = $parse(this.idProperty || 'id');
 
     // used to handle filter, sorting and paginating. Can be passed to the resource model
     // to allow them to fetch a new page of data from the server
@@ -194,7 +194,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       this.selectedRowsMap = {};
 
       angular.forEach(items, function(item) {
-        this.selectedRowsMap[this.idProperty(item)] = true;
+        this.selectedRowsMap[this.idPropertyFn(item)] = true;
       }, this);
     }
 
@@ -206,7 +206,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     function toggleSelected(row) {
       var index;
 
-      if (this.selectedRowsMap[this.idProperty(row)]) {
+      if (this.selectedRowsMap[this.idPropertyFn(row)]) {
         this.selectedRows.push(row);
       } else {
         index = this.selectedRows.indexOf(row);
