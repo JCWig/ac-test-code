@@ -14,6 +14,8 @@ module.exports = function($q, $compile, $log, $timeout) {
     link: function(scope) {
       var haveDataFlag;
 
+      scope.loading = true;
+      scope.contextData = scope.contextData || {dataNotSet: true};
       scope.parentTree = [];
       scope.children = [];
       scope.contextChangeNew = function(clickedObj, up) {
@@ -63,8 +65,9 @@ module.exports = function($q, $compile, $log, $timeout) {
           }
 
           scope.children = data.children || [];
-
-          scope.loading = false;
+          if (!data.dataNotSet) {
+            scope.loading = false;
+          }
           scope.retrievedData = true;
         }).catch(function() {
           scope.failed = true;
