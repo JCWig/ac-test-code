@@ -1,5 +1,5 @@
 <div class="akam-tree-view">
-    <div class="tree-view-current">
+    <div akam-text-overflow text="{{current.title}}" should-watch="true" class="tree-view-current">
     	<i akam-tree-view-parent-selector parent-tree="parentTree" change-parent="contextChangeNew" 
     	ng-class="{'luna-parent_group_folder':hasParents(), 'luna-home':!hasParents(), 'icon-states': hasParents(), 'util-clickable': hasParents()}"></i>
     	<span class="parents-indicator" ng-if="hasParents()"> &gt; </span> <span class="tree-view-current-title">{{current.title}} </span>

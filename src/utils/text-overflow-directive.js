@@ -7,7 +7,8 @@ module.exports = function($timeout) {
   return {
     restrict: 'A',
     scope: {
-      text: '@'
+      text: '@',
+      shouldWatch: '@'
     },
     link: function(scope, element) {
       function giveTitles() {
@@ -23,6 +24,11 @@ module.exports = function($timeout) {
         }, 0);
       }
       angular.element(window).on('resize', debounce(giveTitles, 200));
+      if (scope.shouldWatch) {
+        scope.$watch('text', function() {
+          giveTitles();
+        });
+      }
       giveTitles();
     }
   };
