@@ -342,7 +342,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 }
 
 .akam-list-box, .akam-data-table {
-  margin: 16px 0;
+  border: $list-box-border;
+  @include box-shadow($global-box-shadow);
   font-size: $body-font-size;
   color: $body-font-color;
   background: #fff;
@@ -372,6 +373,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   table {
     width: 100%;
     table-layout: fixed;
+    margin-bottom: 0;
   }
 
   tbody {
@@ -431,11 +433,11 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 
   tbody tr td {
     border: 0 solid $list-box-cell-border-color;
-    border-bottom: $list-box-cell-border;
+    border-top: $list-box-cell-border;
   }
 
-  tbody tr:last-child td {
-    border-bottom: none;
+  tbody tr:first-child td {
+    border-top: none;
   }
 
   .column-checkbox {
