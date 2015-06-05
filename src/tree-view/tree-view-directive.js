@@ -66,9 +66,8 @@ module.exports = function($q, $compile, $log, $timeout) {
             }
 
             scope.children = data.children || [];
-            if (!data.dataNotSet) {
-              scope.loading = false;
-            }
+            
+            scope.loading = false;
             scope.retrievedData = true;
           }).catch(function() {
             scope.failed = true;
