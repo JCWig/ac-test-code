@@ -195,30 +195,30 @@ describe('akamai.components.tree-view', function() {
       scope.$digest();
       expect(parentSelector.classList.contains('in')).toBe(false);
     });
-    it('should wait til some data is set if initial set to nothig', function() {
-        httpBackend.when('GET', 'json/tree-view-data.json').respond({
-          "parent":[{"title":"Justice League"}],
-          "current":{"title": "Bruce Wayne"},
-          "children":[{"title":"Dick Grayson"}]
-        });
-        http.get('json/tree-view-data.json').then(function(resp){
-          timeout(function(){
-            scope.contextData = resp; 
-          }, 2000)
-        });
-        var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
-        addElement(markup);
+    it('should wait until some data is set if initial set to nothing', function() {
+      httpBackend.when('GET', 'json/tree-view-data.json').respond({
+        "parent":[{"title":"Justice League"}],
+        "current":{"title": "Bruce Wayne"},
+        "children":[{"title":"Dick Grayson"}]
+      });
+      http.get('json/tree-view-data.json').then(function(resp){
+        timeout(function(){
+          scope.contextData = resp; 
+        }, 2000)
+      });
+      var markup = '<akam-tree-view context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>';
+      addElement(markup);
 
-        httpBackend.flush();
-        timeout.flush();
-        var treeContents = document.querySelectorAll(CHILD_CONTENTS);
-        var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
-        var currentContextIcon = document.querySelector(PARENT_ICON);
+      httpBackend.flush();
+      timeout.flush();
+      var treeContents = document.querySelectorAll(CHILD_CONTENTS);
+      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
+      var currentContextIcon = document.querySelector(PARENT_ICON);
 
-        expect(treeContents.length).toEqual(1);
-        expect(treeContents[0].textContent).toContain('Dick Grayson');
-        expect(currentContext.textContent).toContain('Bruce Wayne');
-        expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
+      expect(treeContents.length).toEqual(1);
+      expect(treeContents[0].textContent).toContain('Dick Grayson');
+      expect(currentContext.textContent).toContain('Bruce Wayne');
+      expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
     });
     it('should wait til some data is set if initial set to nothig', function() {
         httpBackend.when('GET', 'json/tree-view-data.json').respond({
