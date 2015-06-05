@@ -234,6 +234,7 @@ $context-and-account-selector-width: 35%;
 // Bootstrap overrides
 $font-family-base: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $font-size-base: 12px;
+$border-radius-base: 3px;
 
 $line-height-base: 1.4;
 
@@ -276,4 +277,37 @@ $panel-default-text: #666;
 $panel-default-border: #cccccc;
 $panel-default-heading-bg: #f8f8f8;
 
+$code-color: #0099cc;
+$code-bg: #ebf6ff;
+$kbd-color: #FFFFFF;
+$kbd-bg: #0099cc;
 
+$well-bg: #f4f4f4;
+$well-border: #e6e6e6;
+
+$list-group-bg: #FFFFFF;
+$list-group-border: #CCCCCC;
+$list-group-hover-bg: #EBF6FF;
+$list-group-active-color: #666666;
+$list-group-active-bg: #CEE7FF;
+$list-group-active-border: $list-group-border;
+$list-group-disabled-color: #E6E6E6;
+$list-group-disabled-bg: #F8F8F8;
+$list-group-link-color: #666;
+
+$state-success-bg: #70B36E;
+$state-success-text: #FFFFFF;
+$state-success-border: #388E35;
+$state-info-bg: #59B5DC;
+$state-info-text: #FFFFFF;
+$state-info-border: #2F79C9;
+$state-danger-bg: #DE6056;
+$state-danger-text: #FFFFFF;
+$state-danger-border: #AB2213;
+$state-warning-bg: #E9A751;
+$state-warning-text: #FFFFFF;
+$state-warning-border: #C97820;
+
+$breadcrumb-active-color: #666666;
+
+$pagination-active-color: inherit;
