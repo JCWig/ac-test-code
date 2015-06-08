@@ -14,7 +14,12 @@
     "month.9": "9월",
     "month.8": "8월",
     "notification.definition.date": "정의 날짜",
-    "contractselector.filter.products": "제품 필터링",
+    "contractselector": {
+        "filter":
+        {
+            "products": "제품 필터링"
+        }
+    },
     "notification.create.error.contractsnotselected": "계약을 선택하십시오.",
     "internal-tools.recurring-report.event.eventStatus": "상태",
     "internal-tools.menu.title": "Internal Tools",
