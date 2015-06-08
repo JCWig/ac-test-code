@@ -1,0 +1,14 @@
+<div  ng-class="{fade: isOpen()}" class="popover {{::position}}" ng-style="{top: popoverTop, left:popoverLeft}" 
+style="display:block">
+	<div class="popover-arrow" ng-style="{'top': arrowTop, 'left':arrowLeft}"></div>
+	<div class="popover-contents">
+		<i ng-if="::isTriggerClick()" class="luna-small_close icon-states util-clickable pull-right" ng-click="toggle()"></i>
+		<div ng-if="::!useCustomContent()">
+			<h3 ng-if="::hasHeader()" class="popover-header">{{::header}}</h3>
+			<div class="popover-middle-content">{{::popoverContent}}</div>  
+			<div ng-if="::(hasLink() && isTriggerClick())" class="popover-link-content"><a href="{{::linkUrl}}" target="_blank">{{::linkText}}</a></div>  
+			<div ng-if="::(hasButton() && isTriggerClick())" class="popover-button-content"><button ng-click="buttonFunction()">{{::buttonText}}</button></div>
+		</div>
+		<div ng-if="::useCustomContent()" ng-include="::customContent"></div>
+	</div>
+</div>

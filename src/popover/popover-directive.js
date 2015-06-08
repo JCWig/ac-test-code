@@ -14,15 +14,15 @@ module.exports = function($log, $position, $compile, $timeout) {
       position: '@',
       header: '@',
       trigger: '@',
-      tooltipContent: '@',
-      customContent: '=',
+      popoverContent: '@',
+      customContent: '@',
       linkText: '@',
       linkUrl: '@',
       buttonText: '@',
       buttonFunction: '='
     },
     link: function(scope, element) {
-      var template, toolTip, triggerElement;
+      var template, popover, triggerElement;
 
       scope.useCustomContent = function() {
         return !!scope.customContent;
@@ -33,7 +33,7 @@ module.exports = function($log, $position, $compile, $timeout) {
       scope.toggle = function() {
         $timeout(function() {
           scope.opened = !scope.opened;
-          toolTip.toggleClass('in', scope.opened);
+          popover.toggleClass('in', scope.opened);
         });
       };
       scope.hasHeader = function() {
@@ -54,46 +54,46 @@ module.exports = function($log, $position, $compile, $timeout) {
         var triggerElementOffsetLeft = triggerElement[0].offsetLeft;
         var isOnLeftSide = triggerElementOffsetLeft < pageMidCoords;
         var elementOffsetTop = triggerElement[0].offsetTop;
-        var toolTipWidth = toolTip[0].offsetWidth;
-        var toolTipHeight = toolTip[0].offsetHeight;
+        var popoverWidth = popover[0].offsetWidth;
+        var popoverHeight = popover[0].offsetHeight;
         var triggerElementWidth = triggerElement[0].offsetWidth;
         var triggerElementHeight = triggerElement[0].offsetHeight;
         var arrowWidth = 16;
         var arrowHeight = 10;
-        var toolTipArrowOffset = 21;
+        var popoverArrowOffset = 21;
 
         if (scope.position === 'right') {
-          scope.toolTipLeft = triggerElementOffsetLeft + arrowHeight + triggerElementWidth;
-          scope.toolTipTop = elementOffsetTop - toolTipArrowOffset;
-          scope.arrowTop = toolTipArrowOffset;
+          scope.popoverLeft = triggerElementOffsetLeft + arrowHeight + triggerElementWidth;
+          scope.popoverTop = elementOffsetTop - popoverArrowOffset;
+          scope.arrowTop = popoverArrowOffset;
           scope.arrowLeft = -arrowHeight;
         } else if (scope.position === 'left') {
-          scope.toolTipLeft = triggerElementOffsetLeft - toolTipWidth - arrowHeight;
-          scope.toolTipTop = elementOffsetTop - toolTipArrowOffset;
-          scope.arrowTop = toolTipArrowOffset;
-          scope.arrowLeft = toolTipWidth - 1;
+          scope.popoverLeft = triggerElementOffsetLeft - popoverWidth - arrowHeight;
+          scope.popoverTop = elementOffsetTop - popoverArrowOffset;
+          scope.arrowTop = popoverArrowOffset;
+          scope.arrowLeft = popoverWidth - 1;
         } else if (scope.position === 'bottom') {
-          scope.toolTipLeft = isOnLeftSide ?
-            triggerElementOffsetLeft - toolTipArrowOffset :
-            triggerElementOffsetLeft - toolTipWidth + triggerElementWidth + toolTipArrowOffset;
-          scope.toolTipTop = elementOffsetTop + arrowHeight + triggerElementHeight;
+          scope.popoverLeft = isOnLeftSide ?
+            triggerElementOffsetLeft - popoverArrowOffset :
+            triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
+          scope.popoverTop = elementOffsetTop + arrowHeight + triggerElementHeight;
           scope.arrowLeft = isOnLeftSide ?
-            toolTipArrowOffset :
-            toolTipWidth - toolTipArrowOffset - arrowWidth;
+            popoverArrowOffset :
+            popoverWidth - popoverArrowOffset - arrowWidth;
           scope.arrowTop = -arrowHeight;
         } else {
-          scope.toolTipLeft = isOnLeftSide ?
-            triggerElementOffsetLeft - toolTipArrowOffset :
-            triggerElementOffsetLeft - toolTipWidth + triggerElementWidth + toolTipArrowOffset;
-          scope.toolTipTop = elementOffsetTop - toolTipHeight - arrowHeight;
-          scope.arrowTop = toolTipHeight;
+          scope.popoverLeft = isOnLeftSide ?
+            triggerElementOffsetLeft - popoverArrowOffset :
+            triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
+          scope.popoverTop = elementOffsetTop - popoverHeight - arrowHeight;
+          scope.arrowTop = popoverHeight;
           scope.arrowLeft = isOnLeftSide ?
-            toolTipArrowOffset :
-            toolTipWidth - arrowWidth - toolTipArrowOffset;
+            popoverArrowOffset :
+            popoverWidth - arrowWidth - popoverArrowOffset;
         }
 
-        scope.toolTipTop = scope.toolTipTop + 'px';
-        scope.toolTipLeft = scope.toolTipLeft + 'px';
+        scope.popoverTop = scope.popoverTop + 'px';
+        scope.popoverLeft = scope.popoverLeft + 'px';
         scope.arrowTop = scope.arrowTop + 'px';
         scope.arrowLeft = scope.arrowLeft + 'px';
       }
@@ -107,9 +107,9 @@ module.exports = function($log, $position, $compile, $timeout) {
       }
       if (validParameters()) {
         scope.opened = false;
-        template = require('./templates/tooltip.tpl.html');
-        toolTip = $compile(template)(scope, function(toolTipEle) {
-          element.after(toolTipEle);
+        template = require('./templates/popover.tpl.html');
+        popover = $compile(template)(scope, function(popoverEle) {
+          element.after(popoverEle);
         });
         triggerElement = element;
         if (scope.trigger === 'click') {

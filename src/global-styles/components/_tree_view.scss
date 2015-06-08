@@ -1,4 +1,3 @@
-$tooltip-arrow-border: 8px solid transparent;
 .akam-tree-view {
     background-color:white;
     span {
@@ -31,7 +30,7 @@ $tooltip-arrow-border: 8px solid transparent;
         padding-left: 20px;
         &:hover{
             border:$list-box-cell-border;
-            background-color: $tooltip-background-color;
+            background-color: $popover-background-color;
             padding-left: 19px;
             padding-right: 19px;
             span {
@@ -50,16 +49,16 @@ $tooltip-arrow-border: 8px solid transparent;
             font-weight:normal;
         }
     }
-    .tooltip {
+    .popover {
         font-size: 12px;
         z-index: -1;
         visibility: hidden;
         &.in{
-            z-index: $tooltip-zindex;
+            z-index: $popover-zindex;
             opacity: 1;
             visibility: visible;
         }
-        .tooltip-contents{
+        .popover-contents{
             padding: 10px 0px 10px 0px;
             background-color: #f8f8f8;
             i {
@@ -77,8 +76,9 @@ $tooltip-arrow-border: 8px solid transparent;
                 }
             }
         }
-        &.bottom{
-            > .tooltip-arrow:after {
+        &.bottom{    
+            margin-top: 5px;
+            > .popover-arrow:after {
                 border-bottom:10.5px solid #f8f8f8; 
             }   
         }

@@ -3,7 +3,7 @@
 var angular = require('angular');
 var sanitize = require('angular-sanitize');
 
-module.exports = angular.module('akamai.components.tooltip', [
+module.exports = angular.module('akamai.components.popover', [
   sanitize,
   require('angular-bootstrap-npm')
 ])
@@ -42,4 +42,4 @@ module.exports = angular.module('akamai.components.tooltip', [
  * @param {String} button-function What function should
  * fire when button is pressed
  */
-.directive('akamTooltip', require('./tooltip-directive'));
+.directive('akamPopover', require('./popover-directive'));

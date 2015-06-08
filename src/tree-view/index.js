@@ -4,7 +4,6 @@ var angular = require('angular');
 
 module.exports = angular.module('akamai.components.tree-view', [
 	require('../indeterminate-progress').name,
-	require('../tool-tip').name,
 	require('../utils').name
 ])
 
