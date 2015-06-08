@@ -1,5 +1,8 @@
 $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
-
+$selected-option-background-color: #f4f4f4;
+$dropdown-button-gradient: linear-gradient(to bottom, #fff, #e6e6e6);
+$dropdown-button-gradient-hover: linear-gradient(to bottom, #f4f4f4, #c8c8c8);
+$dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
 
 .dropdown.akam-dropdown {
 
@@ -19,12 +22,10 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
       width: 200px;
       margin-right: -4px;
       line-height: 28px;
-      padding: 0 10px;
+      padding: 0 20px 0 10px;
       background-color: #f4f4f4;
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
-      font-style: italic;
-      color: #ccc;
       @include box-shadow($input-box-shadow);
     }
 
@@ -32,8 +33,7 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
       width: 28px;
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
-      background: $arrow-background,
-      linear-gradient(to bottom, #fff, #e6e6e6);
+      background: $arrow-background, $dropdown-button-gradient;
     }
     & > i.clear-dropdown {
       position: absolute;
@@ -44,8 +44,7 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
     &:hover {
       & > span:last-child {
         border-color: #999;
-        background: $arrow-background,
-        linear-gradient(to bottom, #f4f4f4, #c8c8c8);
+        background: $arrow-background, $dropdown-button-gradient-hover;
       }
 
     }
@@ -53,18 +52,15 @@ $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
     &:active {
       & > span:last-child {
         border-color: #999;
-        background: $arrow-background,
-        linear-gradient(to bottom, #c8c8c8, #f4f4f4);
+        background: $arrow-background, $dropdown-button-gradient-active;
       }
     }
   }
 
-  & > ul.dropdown-menu {
+  & ul.dropdown-menu {
     max-height: 267px;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 
   }
 }
-
-
