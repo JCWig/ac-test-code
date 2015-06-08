@@ -20,7 +20,7 @@ module.exports = function(translate) {
     template: tagInputTemplate,
     link: function(scope, element, attrs, ngModel) {
       scope.invalidInputs = [];
-      scope.data = { items: scope.items };
+      scope.data = {items: scope.items};
       if (!scope.taggingLabel) {
         translate.async('components.tag-input.taggingLabel').then(function(value) {
           scope.taggingLabel = value;
