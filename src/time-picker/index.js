@@ -27,13 +27,15 @@ module.exports = angular.module('akamai.components.time-picker', [
  *
  * @restrict E
  *
- * @param {string} inputTime - the time value.
+ * @param {String} inputTime - the time value.
  *
- * @param {boolean} show-meridian - Whether to display 12H or 24H mode.
- * default is 12H, param optional.
+ * @param {boolean} [showMeridian=true] - Whether to display 12H or 24H mode.
  *
- * @param {string} disabled - whether to disable the picker input and button or not.
- * Default is enabled. param optional.
+ * @param {String} [disabled=false] - whether to disable the picker input and button or not.
+ *
+ * @param {Number} [hourStep=1] - increment or decrement the hour value.
+ *
+ * @param {Number} disabled - [minuteStep=15] - increment or decrement the minute value.
  *
  */
 .directive('akamTimePicker', require('./time-picker-directive'))
@@ -43,15 +45,11 @@ module.exports = angular.module('akamai.components.time-picker', [
  *
  * @name akamai.components.time-picker.directive:timeFormatter
  *
- * @description format the correct disaply value in input field. it is using:
- *
- * ngModel.$parsers.push(func);
- * ngModel.$formatters.push(func);.
+ * @description validate and format the correct display value in input field.
  *
  * @restrict A
  *
- * @param {boolean} show-meridian - bind this value and listen to its change,
- * reformat display value once it is changed.
+ * @param {boolean} showMeridian - bind this value and update view accordingly
  *
  */
 .directive('timeFormatter', require('./time-formatter-directive'));

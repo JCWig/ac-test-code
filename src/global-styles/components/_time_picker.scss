@@ -36,7 +36,7 @@ $timepicker-input-disabled-color: #cccccc;
     margin-left: -9px;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
-    &:hover > i {
+    &:hover > i, &:focus > i {
       @include luna-sprite(time_hover);
     }
   }

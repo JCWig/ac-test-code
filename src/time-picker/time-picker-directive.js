@@ -1,6 +1,6 @@
 'use strict';
 
-var timepikerConfig = {
+var timepickerConfig = {
   MINUTE_STEP: 15,
   HOUR_STEP: 1,
   MERIDIAN_ON: 'hh:mm a',
@@ -32,12 +32,12 @@ module.exports = function($document, $parse) {
 
     scope.disabled = scope.disabled === true || attrs.disabled === 'disabled';
 
-    scope.minuteStep = timepikerConfig.MINUTE_STEP;
+    scope.minuteStep = timepickerConfig.MINUTE_STEP;
     $parse(attrs.minuteStep, function(value) {
       scope.minuteStep = parseInt(value, 10);
     });
 
-    scope.hourStep = timepikerConfig.HOUR_STEP;
+    scope.hourStep = timepickerConfig.HOUR_STEP;
     $parse(attrs.hourStep, function(value) {
       scope.hourStep = parseInt(value, 10);
     });
@@ -47,7 +47,7 @@ module.exports = function($document, $parse) {
     scope.showMeridian = !notShowMeridian;
 
     defaultPlaceholder = scope.showMeridian ?
-      timepikerConfig.MERIDIAN_ON : timepikerConfig.MERIDIAN_OFF;
+      timepickerConfig.MERIDIAN_ON : timepickerConfig.MERIDIAN_OFF;
     scope.placeholder = attrs.placeholder ? attrs.placeholder : defaultPlaceholder;
 
     scope.isOpen = false;

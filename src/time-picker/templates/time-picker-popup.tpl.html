@@ -8,14 +8,14 @@
     </tr>
     <tr>
       <td class="form-group" ng-class="{'has-error': invalidHours}">
-        <input type="text" ng-model="hours" ng-change="updateHours()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2">
+        <input type="text" ng-model="hours" ng-change="updateHours()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="-1">
       </td>
       <td>:</td>
       <td class="form-group" ng-class="{'has-error': invalidMinutes}">
-        <input type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2">
+        <input type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="-1">
       </td>
       <td ng-show="showMeridian" class="meridian">
-        <input type="button" class="util-text-center" ng-click="toggleMeridian()" value='{{meridian}}'>
+        <input type="button" class="util-text-center" ng-click="toggleMeridian()" value='{{meridian}}' tabindex="-1">
       </td>
     </tr>
     <tr class="util-text-center time-decrement-row">
