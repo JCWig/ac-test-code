@@ -19,7 +19,7 @@ module.exports = function() {
       var menuElem = angular.element(require('./templates/dropdown-menu.tpl.html'));
 
       if (typeof optionTemplate !== 'undefined') {
-        menuElem.children(0).children(0).children(0).html(optionTemplate);
+        angular.element(menuElem[0].querySelector('a')).html(optionTemplate);
       }
       return menuElem;
     }
