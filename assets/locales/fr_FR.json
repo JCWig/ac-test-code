@@ -12,7 +12,7 @@
         "date-picker": {
             "placeholder": {
                 "date": "Sélecteur de date",
-                "year": "Sélecteur dapos;année",
+                "year": "Sélecteur d&apos;année",
                 "month": "Sélecteur de mois"
             }
         },
@@ -48,7 +48,7 @@
             "no": "Non"
         },
         "warning": {
-            "browser-button": "Les navigateurs Safari et Firefox exécutés sous Mac ne permettent pas de placer la cible de saisie sur un élément BUTTON. À la place, utilisez la balise dapos;ancrage A."
+            "browser-button": "Les navigateurs Safari et Firefox exécutés sous Mac ne permettent pas de placer la cible de saisie sur un élément BUTTON. À la place, utilisez la balise d&apos;ancrage A."
         },
         "switch-button": {
             "onLabel": "On",
@@ -57,12 +57,12 @@
         "dialog": {},
         "error": {
             "validation": {},
-            "data": "Un problème sapos;est produit lors du chargement des données."
+            "data": "Un problème s&apos;est produit lors du chargement des données."
         },
         "list-box": {
             "text": {
                 "noFilterResults": "Aucun résultat ne correspond au filtre sélectionné.",
-                "viewSelectedOnly": "Aucun élément napos;est sélectionné.",
+                "viewSelectedOnly": "Aucun élément n&apos;est sélectionné.",
                 "selected": "Sélectionné",
                 "viewSelected": "Afficher les éléments sélectionnés uniquement",
                 "noItem": "Aucun élément trouvé",

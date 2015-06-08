@@ -48,7 +48,7 @@
             "no": "No"
         },
         "warning": {
-            "browser-button": "Safari e FireFox su Mac non supportano lapos;evento focus negli elementi PULSANTE. Utilizzare in sostituzione il tag di ancoraggio: A"
+            "browser-button": "Safari e FireFox su Mac non supportano l&apos;evento focus negli elementi PULSANTE. Utilizzare in sostituzione il tag di ancoraggio: A"
         },
         "switch-button": {
             "onLabel": "Attivo",
