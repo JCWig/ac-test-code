@@ -1,4 +1,4 @@
-$tag-input-drop-down-padding-left : 13px;
+$tag-input-drop-down-padding-left : 9px;
 $tag-input-drop-down-padding-top : 3px;
 $tag-input-drag-drop-indicator-border: 1px solid #428bca;  
 $tag-indicator-hover-color: #ebf6ff;
@@ -11,12 +11,14 @@ $tag-input-height-of-selected-tags: 22px;
 $tag-input-max-height-of-dropdown: 200px;
 $tag-input-width-from-text-to-icon: 7px;
 $tag-input-invalid-border-color: #a32d2d;
+$tag-input-invalid-border-width: 2px;
 $tag-input-drag-drop-border-color: #0099cc;
 
 akam-tag-input {
 	&.ng-invalid {
 		.ui-select-container {
 			border-color: $tag-input-invalid-border-color;
+			border-width: $tag-input-invalid-border-width;
 		}
 	}
 }
@@ -136,18 +138,12 @@ akam-tag-input {
 	.ui-select-choices-row {
 	  	padding: $tag-input-drop-down-padding-top $tag-input-drop-down-padding-left;
 	    &.active{
-	      border:$list-box-cell-border;
-	      padding: ($tag-input-drop-down-padding-top) ($tag-input-drop-down-padding-left );
 	      background-color: $tag-indicator-active-color;
 	    }
 	    &:hover{
-	      border:$list-box-cell-border;
-	      padding: ($tag-input-drop-down-padding-top ) ($tag-input-drop-down-padding-left );
 	      background-color: $tag-indicator-hover-color;
 	    }
 	    &:active{
-	      border:$list-box-cell-border;
-	      padding: ($tag-input-drop-down-padding-top) ($tag-input-drop-down-padding-left );
 	      background-color: $tag-indicator-active-color;
 	    }
 	}
