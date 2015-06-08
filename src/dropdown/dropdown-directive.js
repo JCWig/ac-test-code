@@ -8,19 +8,17 @@ require('angular-sanitize');
 module.exports = function($compile, dropdownTransformer) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
-    var customTemplate;
+    var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
 
     if (tElem.find(tagName).length) {
       customTemplate = tElem.find(tagName);
-      dropdownTemplate = angular.element(dropdownTemplate).append(customTemplate)[0].outerHTML;
+      dropdownTemplateElem.find(tagName + '-placeholder').html(customTemplate.html());
     }
-    return dropdownTemplate;
+    return dropdownTemplateElem[0].outerHTML;
   }
 
   function getCustomMarkup(tElem, tagName) {
-    if (tElem.find(tagName).length) {
-      return tElem.find(tagName).remove().html();
-    }
+    return tElem.find(tagName).remove().html() || undefined;
   }
 
   return {
@@ -46,8 +44,8 @@ module.exports = function($compile, dropdownTransformer) {
       var selectedScope, selectedContentTemplate, selectedElem,
         menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate;
 
-      selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected');
-      optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option');
+      selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
+      optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option-placeholder');
 
       scope.hasFilter = typeof attrs.filterable !== 'undefined';
       scope.filterProperty = attrs.filterable;
