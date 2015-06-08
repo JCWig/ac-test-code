@@ -11,6 +11,7 @@ $tag-input-height-of-selected-tags: 22px;
 $tag-input-max-height-of-dropdown: 200px;
 $tag-input-width-from-text-to-icon: 7px;
 $tag-input-invalid-border-color: #a32d2d;
+$tag-input-drag-drop-border-color: #0099cc;
 
 akam-tag-input {
 	&.ng-invalid {
@@ -110,7 +111,7 @@ akam-tag-input {
 	  right: 100%;
 	  height: 100%;
 	  margin-right: 3px;
-	  border-left: 1px solid #0099cc;
+	  border-left: 1px solid $tag-input-drag-drop-border-color;
 	}
 
 	.ui-select-multiple .ui-select-match-item.dropping-after:after {
@@ -120,17 +121,17 @@ akam-tag-input {
 	  left: 100%;
 	  height: 100%;
 	  margin-left: 3px;
-	  border-right: 1px solid #0099cc;
+	  border-right: 1px solid $tag-input-drag-drop-border-color;
 	}
 	.ui-select-bootstrap .ui-select-choices-row>a {
-    display: block;
-    clear: both;
-    line-height: 1.5;
-    color: $text-color;
-    white-space: nowrap;
-    &:hover, :active {
-      text-decoration: none;
-    }
+	    display: block;
+	    clear: both;
+	    line-height: 1.5;
+	    color: $text-color;
+	    white-space: nowrap;
+	    &:hover, :active {
+	      text-decoration: none;
+	    }
 	}
 	.ui-select-choices-row {
 	  	padding: $tag-input-drop-down-padding-top $tag-input-drop-down-padding-left;
