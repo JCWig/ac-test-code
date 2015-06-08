@@ -26,7 +26,9 @@ module.exports = function($filter) {
 
   function link(scope, element, attrs, ngModel) {
 
-    ngModel = ngModel ? ngModel : { $setViewValue: angular.noop };
+    ngModel = ngModel ? ngModel : {
+      $setViewValue: angular.noop
+    };
 
     ngModel.$parsers.push(parseTime);
     ngModel.$formatters.push(displayTime);
@@ -96,16 +98,17 @@ module.exports = function($filter) {
 
     function parse(value) {
       var sp = value.split(':'),
-        apm = sp[1].match(formatterConfig.APM_REGEX);
+        apm = sp[1].match(formatterConfig.APM_REGEX),
+        hr;
 
       if (apm) {
-        sp[0] = parseInt(sp[0], 10);
-        if (sp[0] === 12) {
-          sp[0] = 0;
+        hr = parseInt(sp[0], 10);
+        if (hr === 12) {
+          hr = 0;
         }
         sp[1] = sp[1].replace(formatterConfig.APM_REGEX, '');
         if (apm[0].toLowerCase() === 'pm') {
-          sp[0] = sp[0]  + 12;
+          sp[0] = hr + 12;
         }
       }
       return sp;
