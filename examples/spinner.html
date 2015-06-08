@@ -4,7 +4,7 @@
       <meta charset="UTF-8">
       <title>Akamai Components Examples - Spinner</title>
       <link rel="stylesheet" href="../dist/akamai-core.css">
-    </head>  
+    </head>
     <body class="common-css luna" ng-app="spinner" ng-strict-di ng-controller="SpinnerController as vm">
       <div class="container">
         <h1>Spinner Component Example</h1>
@@ -27,7 +27,10 @@
               <p>Max Value : {{ vm.max }} </p>
             </li>
             <li>
-              <p>Spinner Value : {{ vm.value2 }} </p>
+              <p>Spinner1 Value : {{ vm.value1 }} </p>
+            </li>
+            <li>
+              <p>Spinner2 Value : {{ vm.value2 }} </p>
             </li>
           </ul>
           <br>
@@ -35,22 +38,14 @@
           <br>
           <h4>Spinner Input Value (no min or max):</h4>
           <div class="container">
-            <akam-spinner ng-model="vm.value2" ng-change="vm.inputChanged()"></akam-spinner>
+            <akam-spinner ng-model="vm.value1"></akam-spinner>
           </div>
           <br>
           <br>
           <h2>Example 2 - Setting Min, Max and Input Values</h2>
-          <br>
-          Set Min Value here:
-          <input type="text" size="3" ng-model="vm.min">    
-          <br />
-          <br />
-          Set Max Value here:
-          <input type="text" size="3" ng-model="vm.max">    
-          <br />
           <br />
           Set Input Value here:
-          <input type="text" size="3" ng-change="vm.inputChanged()" ng-model="vm.value2">    
+          <input type="text" size="3" ng-change="vm.inputChanged()" ng-model="vm.value2">
           <br>
           <br>
           <h2>Example 3 - Enable/Disable Spinner</h2>
@@ -63,18 +58,21 @@
             </akam-spinner>
           </div>
         </form>
+          <br>
+          <br>
     </div>
       <script src="../dist/akamai-core.js"></script>
       <script>
       angular.module('spinner', ['akamai.components.spinner']);
-    
+
       angular
         .module('spinner')
         .controller('SpinnerController', SpinnerController);
-    
+
       function SpinnerController() {
         var vm = this;
         vm.input = 0;
+        vm.value1 = 0;
         vm.value2 = 0;
         vm.minValue = 0;
         vm.maxValue = 0;
@@ -83,20 +81,16 @@
         vm.disabled = false;//true or false
         vm.buttonClick = toggleButton;
         vm.inputChanged = inputChanged;
-    
+
         var disabledText = 'Disable Spinner';
         var enabledText = 'Enable Spinner';
         vm.buttonName = disabledText;
 
         function toggleButton() {
           vm.buttonName = vm.buttonName === disabledText ? enabledText : disabledText;
-          if (vm.buttonName === enabledText) {
-            vm.disabled = true;
-          } else {
-            vm.disabled = false;
-          }
+          vm.disabled = vm.buttonName === enabledText;
         }
-    
+
         function inputChanged() {
           vm.value2 = parseInt(vm.value2, 10);
         }

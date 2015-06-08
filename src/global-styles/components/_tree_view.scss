@@ -52,6 +52,13 @@ $tooltip-arrow-border: 8px solid transparent;
     }
     .tooltip {
         font-size: 12px;
+        z-index: -1;
+        visibility: hidden;
+        &.in{
+            z-index: $tooltip-zindex;
+            opacity: 1;
+            visibility: visible;
+        }
         .tooltip-contents{
             padding: 10px 0px 10px 0px;
             background-color: #f8f8f8;

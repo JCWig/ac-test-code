@@ -33,4 +33,15 @@ module.exports = angular.module('akamai.components.spinner', [require('../uuid')
  * Default is other than String of "disabled". Two way bind
  *
  */
-.directive('akamSpinner', require('./spinner-directive'));
+.directive('akamSpinner', require('./spinner-directive'))
+
+/**
+ * @ngdoc service
+ *
+ * @name akamai.components.spinner.service:spinnerService
+ *
+ * @description a factory service implements the logic of validation of inputs
+ * and max | min checking for akamSpinner directive
+ *
+ */
+.factory('spinnerService', require('./spinner-service'));
