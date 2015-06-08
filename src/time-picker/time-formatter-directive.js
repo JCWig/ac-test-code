@@ -99,9 +99,13 @@ module.exports = function($filter) {
         apm = sp[1].match(formatterConfig.APM_REGEX);
 
       if (apm) {
+        sp[0] = parseInt(sp[0], 10);
+        if (sp[0] === 12) {
+          sp[0] = 0;
+        }
         sp[1] = sp[1].replace(formatterConfig.APM_REGEX, '');
         if (apm[0].toLowerCase() === 'pm') {
-          sp[0] = sp[0] + 12;
+          sp[0] = sp[0]  + 12;
         }
       }
       return sp;
