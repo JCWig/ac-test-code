@@ -14,7 +14,12 @@
     "month.9": "Septembre",
     "month.8": "Août",
     "notification.definition.date": "Date de définition",
-    "contractselector.filter.products": "Filtrer les produits",
+    "contractselector": {
+        "filter":
+        {
+            "products": "Filtrer les produits"
+        }
+    },
     "notification.create.error.contractsnotselected": "Sélectionnez des contrats",
     "internal-tools.recurring-report.event.eventStatus": "État",
     "internal-tools.menu.title": "Internal Tools",

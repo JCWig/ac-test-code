@@ -14,7 +14,12 @@
     "month.9": "九月",
     "month.8": "八月",
     "notification.definition.date": "定义日期",
-    "contractselector.filter.products": "筛选产品",
+    "contractselector": {
+        "filter":
+        {
+            "products": "筛选产品"
+        }
+    },
     "notification.create.error.contractsnotselected": "请选择合约",
     "internal-tools.recurring-report.event.eventStatus": "状态",
     "internal-tools.menu.title": "内部工具",
