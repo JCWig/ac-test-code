@@ -20,11 +20,11 @@ module.exports = angular.module('akamai.components.utils', [])
  *
  * @restrict A
  *
- * @param {String} text The string that will be displayed to the user
- *
- * @param {boolean} shouldWatch should be present and set to true if it is neccessary
- * to watch the string for changes, tooltip will be rendered when needed. should
- * not be provided if watching is not needed.
+ * @param {String} akamTextOverflow Should be set to the value that
+ * should be presented in a tooltip if needed. It default watches
+ * this value so that if it changes we will update it. To avoid this
+ * we recommend one time binding any text that does not change to prevent
+ * additional watches.
  *
  */
   .directive('akamTextOverflow', require('./text-overflow-directive.js'))

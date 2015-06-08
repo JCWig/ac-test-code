@@ -7,7 +7,7 @@ module.exports = function($timeout) {
   return {
     restrict: 'A',
     scope: {
-      text: '@'
+      akamTextOverflow: '='
     },
     link: function(scope, element) {
       function giveTitles() {
@@ -16,18 +16,16 @@ module.exports = function($timeout) {
           var width = element[0].offsetWidth;
 
           if (scrollWidth > width) {
-            element.prop('title', scope.text);
+            element.prop('title', scope.akamTextOverflow.trim());
           } else {
             element.removeAttr('title');
           }
         }, 0);
       }
       angular.element(window).on('resize', debounce(giveTitles, 200));
-      if (element.attr('should-watch-text') !== undefined) {
-        scope.$watch('text', function() {
-          giveTitles();
-        });
-      }
+      scope.$watch('akamTextOverflow', function() {
+        giveTitles();
+      });
       giveTitles();
     }
   };
