@@ -2,91 +2,115 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Akamai Components Examples - Content Panel</title>
+        <title>Akamai Components Examples - Tree View</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container" >
             <div class="page-header">
-                <h1>Content Panel Component Example</h1>
+                <h1>Tree View Component Examples</h1>
             </div>
-            <h3>Tree View Examples</h3>
-            <span>What Has Data? <br>
-                Justice League >> Bruce Wayne (timedelay 2 sec) >> Barbara Gordon >> Dinah Lance (timedelay 5 sec) <br>
-                Jason Todd = Failed to get data; <br>
-                All Others Have No Children At All. <br>
+            <h2>Tree View Example - Hardcoded Data</h2>
+            <br />
+            <span>Example Data Layout:<br />
+                Expand Development to see a list of tree items (time delay of 2 seconds)
+                <br />
+                Under Development choose Hallie Jordan
+                <br />
+                Under Hallie Jordan choose Dinah Short (time delay of 5 seconds)
+                <br />
+                Sam Curry = Failed to get data<br />
+                All other items do not have child items<br />
             </span>
+            <br />
             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange"> </akam-tree-view>
+                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange(item)"> </akam-tree-view>
+            </div>
+            <br />
+            <h2>Tree View Example - JSON Data</h2>
+             <div style="max-width:225px;">
+                <akam-tree-view akam-standalone context-data="jsonFromHttpGet" on-context-change="triggerChange2"> </akam-tree-view>
             </div>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            var exampleController = function($scope, $log, $q, $timeout) {
+            var exampleController = function($scope, $log, $q, $timeout, $http) {
+                
+                // Load data from a json file to test out HTTP GET functionality
+                $scope.jsonFromHttpGet = $http.get('json/tree-view-data.json');
+                
+                $scope.triggerChange2 = function(clickedObj){
+                    $log.log("clicked object " + clickedObj.title);
+                };
+                
                 $scope.triggerChange = function(clickedObj){
-                    if(clickedObj.title === 'Barbara Gordon'){
+                    if(clickedObj.title === 'Hallie Jordan'){
                         $scope.contextData = {
-                            parent:{title:"Bruce Wayne"},
+                            parent:{title:"Development"},
                             children : [
-                                {title:"Dinah Lance"},
-                                {title:"Helena Bertinelli"},
-                                {title:"Selina Kyle"}
+                                {title:"Dinah Short"},
+                                {title:"Helena Sky"},
+                                {title:"Selina Crow"}
                             ]
                         }
-                    } else if (clickedObj.title === 'Dinah Lance') {
+                    } else if (clickedObj.title === 'Dinah Short') {
                         var def = $q.defer();
                         $timeout(function(){
                             def.resolve({
-                                parent:{title:"Barbara Gordon"},
+                                parent:{title:"Hallie Jordan"},
                                 children : [
-                                    {title:"Oliver Queen"},
-                                    {title:"Mia Dearden"},
-                                    {title:"Roy Harper"}
+                                    {title:"Speedy McQueen"},
+                                    {title:"Mia Deardenton"},
+                                    {title:"Royce Brown"},
+                                    {title:"Shane McDowell"}
                             ]});
                         }, 5000);
                         return def.promise;
-                    } else if (clickedObj.title === 'Jason Todd') {
+                    } else if (clickedObj.title === 'Sam Curry') {
                         var def = $q.defer();
                         $scope.contextData = def.promise;
                         $timeout(function(){
                             def.reject();
                         }, 200);
-                    } else if (clickedObj.title === 'Dick Grayson') {
+                    } else if (clickedObj.title === 'Kent Clarkson') {
                         return {
-                            parent:{title:"Bruce Wayne"},
+                            parent:{title:"Development"},
                             children : null
                         };
-                    }  else if (clickedObj.title === 'Tim Drake') {
+                    }  else if (clickedObj.title === 'Bruce Hopper') {
                         var def = $q.defer();
                         $scope.contextData = {
-                            parent:{title:"Bruce Wayne"},
+                            parent:{title:"Development"},
                             children : []
                         }
-                    } else if (clickedObj.title === 'Bruce Wayne') {
+                    } else if (clickedObj.title === 'Development') {
                         var def = $q.defer();
                         $scope.contextData = def.promise;
                         $timeout(function(){
                             def.resolve({
-                                parent:{title:"Jusice League"},
+                                parent:{title:"Employees"},
                                 children:[
-                                    {title:"Dick Grayson"},
-                                    {title:"Jason Todd"},
-                                    {title:"Tim Drake"},
-                                    {title:"Barbara Gordon"},
-                                    {title:"Damian Wayne"}
+                                    {"title": "Bruce Hopper"},
+                                    {title: "Kent Clarkson"},
+                                    {title: "Hallie Jordan"},
+                                    {title: "Barry Jones"},
+                                    {title: "Sam Curry"},
+                                    {title: "Michael Prince"},
+                                    {title: "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" }
                                 ]
                             });
                         }, 2000);
-                    } else if (clickedObj.title === 'Justice League') {
+                    } else if (clickedObj.title === 'Employees') {
                         $scope.contextData = {
                             parent : null,
                             children: [
-                                {title: "Bruce Wayne"},
-                                {title: "Clark Kent"},
-                                {title: "Hal Jordan"},
-                                {title: "Barry Allen"},
-                                {title: "Arthur Curry"},
-                                {title: "Diana Prince"}
+                                {title: "Development"},
+                                {title: "Quality Assurance"},
+                                {title: "Dev. Ops"},
+                                {title: "UXD"},
+                                {title: "Sales"},
+                                {title: "Help Desk"},
+                                {title: "Network Operations Command Center"}
                             ]
                         }
                     } else {
@@ -96,19 +120,20 @@
                     }
                 }
                 $scope.contextData = {
-                    parent:[{title:"Justice League"}],
-                    current:{title: "Bruce Wayne"},
+                    parent:[{title:"Employees"}],
+                    current:{title: "Development"},
                     children:[
-                        {title:"Dick Grayson"},
-                        {title:"Jason Todd"},
-                        {title:"Tim Drake"},
-                        {title:"Barbara Gordon"},
-                        {title:"Damian Wayne"},
-                        {title:"Damian Waynealsdjkfhalksjdfhlkasd jhflkajsdhfjdshfla"},
+                        {"title": "Bruce Hopper"},
+                        {"title": "Kent Clarkson"},
+                        {"title": "Hallie Jordan"},
+                        {"title": "Barry Jones"},
+                        {"title": "Sam Curry"},
+                        {"title": "Michael Prince"},
+                        {"title": "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" },
                     ]
                 }
             };
-            exampleController.$inject = ['$scope', '$log', '$q', '$timeout'];
+            exampleController.$inject = ['$scope', '$log', '$q', '$timeout', '$http', '$httpBackend'];
             angular.module('example', ['akamai.components.tree-view'])
             
 

@@ -7,30 +7,30 @@
             "title": "Informationen"
         },
         "determinate-progress": {},
-        "name": "Akamai Common Components",
+        "name": "Allgemeine Akamai-Komponenten",
         "indeterminate-progress": {},
         "date-picker": {
             "placeholder": {
-                "date": "Date Picker",
-                "year": "Year Picker",
-                "month": "Month Picker"
+                "date": "Datumsauswahl",
+                "year": "Jahresauswahl",
+                "month": "Monatsauswahl"
             }
         },
         "modal-window": {
-            "title": "Modal Window",
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
+            "title": "Modales Fenster",
             "label": {
                 "cancel": "Abbrechen",
                 "save": "Speichern"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+            }
         },
         "pagination": {
             "label": {
-                "show-entries": "Show Entries:",
-                "results": "Results:",
-                "total-items": "Total Items",
-                "current-page": "Current Page"
+                "show-entries": "Einträge anzeigen",
+                "results": "Ergebnisse",
+                "total-items": "Elemente gesamt",
+                "current-page": "Aktuelle Seite"
             }
         },
         "tooltip": {},
@@ -48,21 +48,25 @@
             "no": "Nein"
         },
         "warning": {
-            "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+            "browser-button": "Safari und FireFox unter Mac unterstützen nicht das Fokusereignis in SCHALTFLÄCHE-Elementen. Verwenden Sie stattdessen das Anker-Tag: A"
+        },
+        "switch-button": {
+            "onLabel": "An",
+            "offLabel": "Aus"
         },
         "dialog": {},
         "error": {
             "validation": {},
-            "data": "There was a problem loading the data."
+            "data": "Beim Laden der Daten ist ein Problem aufgetreten."
         },
         "list-box": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "viewSelectedOnly": "You have no items selected.",
-                "selected": "Selected:",
-                "viewSelected": "View Selected Only",
-                "noItem": "No Item Found",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "Ihr Filter hat keine Ergebnisse geliefert.",
+                "viewSelectedOnly": "Sie haben keine Elemente ausgewählt.",
+                "selected": "Ausgewählt",
+                "viewSelected": "Nur Ausgewählte anzeigen",
+                "noItem": "Keine Elemente gefunden",
+                "noDataMessage": "Es sind keine Daten vorhanden, die Ihren Kriterien entsprechen."
             },
             "placeholder": {
                 "filter": "Filter"
@@ -70,8 +74,8 @@
         },
         "data-table": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "Ihr Filter hat keine Ergebnisse geliefert.",
+                "noDataMessage": "Es sind keine Daten vorhanden, die Ihren Kriterien entsprechen."
             },
             "placeholder": {
                 "filter": "Filter"
@@ -85,11 +89,6 @@
             "warning": "WARNUNG",
             "success": "ERFOLG",
             "error": "FEHLER"
-        },
-        "switch-button": {
-            "onLabel": "On",
-            "offLabel": "Off"
         }
-
     }
 }

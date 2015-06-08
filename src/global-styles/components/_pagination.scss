@@ -95,6 +95,12 @@ $pagination-ellipsis-width: 20px;
       a, span {
         display: inline-block;
         color: $pagination-item-font-color;
+        float: none;
+        padding: 0;
+        margin: 0;
+        line-height: inherit;
+        border: 0 none;
+        background-color: transparent;
       }
 
       a {
@@ -108,14 +114,14 @@ $pagination-ellipsis-width: 20px;
           vertical-align: middle;
           margin-top: -1px;
         }
+        
+        &:hover {
+          text-decoration: none;
+        }
       }
 
       span {
         width: $pagination-ellipsis-width;
-      }
-
-      a:hover {
-        text-decoration: none;
       }
 
       &.active a, &:hover a {

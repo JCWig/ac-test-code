@@ -1,0 +1,35 @@
+<div class="akam-data-table common-table">
+
+  <div class="toolbar">
+    <span class="filter">
+      <input type="search" ng-model="table.state.filter" ng-disabled="table.loading"
+             ng-change="table.filterRows()" placeholder="{{ table.filterPlaceholder }}"> <i
+      class="luna-close clear-filter icon-states util-clickable" ng-if="table.state.filter"
+      ng-click="table.state.filter = ''; table.filterRows()"></i>
+    </span>
+
+    <akam-table-toolbar-placeholder ng-non-bindable></akam-table-toolbar-placeholder>
+  </div>
+
+  <akam-indeterminate-progress class="loading-data-table"
+                               ng-if="table.loading"
+                               completed="{{ !table.loading }}"
+                               failed="{{ table.failed }}">
+  </akam-indeterminate-progress>
+
+  <div class="data">
+    <akam-table-row-placeholder ng-non-bindable></akam-table-row-placeholder>
+    <div class="empty-table-message" ng-messages="table.messages()">
+      <i class="luna-alert"></i>
+      <span ng-message="noData">{{ table.noDataMessage }}</span>
+      <span ng-message="noFiltered">{{ table.noFilterResultsMessage }}</span>
+    </div>
+  </div>
+
+  <akam-pagination total-items="table.state.totalItems"
+                   current-page="table.state.pageNumber"
+                   page-size="table.state.pageSize"
+                   onchangepage="table.pageChanged(page)"
+                   onchangesize="table.pageSizeChanged(size)">
+  </akam-pagination>
+</div>
