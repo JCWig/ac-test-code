@@ -52,7 +52,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5",
-    "istanbul": "git://github.com/gotwarlost/istanbul.git#9c98c51e4db33c67984c75758d16c0c30af1da8b",
+    "istanbul": "^0.3.15",
     "jasmine-core": "^2.3.4",
     "jsonstream": "^1.0.3",
     "karma": "^0.12.36",
@@ -89,7 +89,7 @@
     "reports"
   ],
   "scripts": {
-    "gulp" : "gulp",
+    "gulp": "gulp",
     "compass": "npm run gulp -- compass --no-color",
     "clean": "npm run gulp -- clean --no-color",
     "test": "npm run clean && npm run compass && npm run gulp -- test --no-color",
