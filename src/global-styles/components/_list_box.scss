@@ -342,8 +342,6 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
 }
 
 .akam-list-box, .akam-data-table {
-  border: $list-box-border;
-  @include box-shadow($global-box-shadow);
   font-size: $body-font-size;
   color: $body-font-color;
   background: #fff;
