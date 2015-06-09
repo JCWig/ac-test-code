@@ -120,7 +120,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
 
   /* @ngInject */
   this.$get = function i18nTokenFactory($cookies, $location, $log) {
-    var cookieLocale = $cookies[i18nConfig.localeCookie],
+    var cookieLocale = $cookies.get(i18nConfig.localeCookie),
       locale = i18nConfig.defaultLocale,
       localeUrls = [],
       appName, matchResults,
