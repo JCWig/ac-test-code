@@ -25,9 +25,9 @@ module.exports = function($compile, dropdownTransformer) {
     restrict: 'E',
     require: '^ngModel',
     scope: {
-      selectedOption: '=ngModel',
-      options: '=',
-      optionProperty: '@?',
+      selectedItem: '=ngModel',
+      items: '=',
+      textProperty: '@?',
       onChange: '&?'
     },
 
@@ -53,18 +53,18 @@ module.exports = function($compile, dropdownTransformer) {
 
       scope.isOpen = false;
 
-      scope.setSelectedOption = function(option) {
-        ngModel.$setViewValue(option);
+      scope.setSelectedItem = function(item) {
+        ngModel.$setViewValue(item);
       };
 
-      scope.clearSelectedOption = function($event) {
+      scope.clearSelectedItem = function($event) {
         $event.stopPropagation();
         ngModel.$setViewValue(undefined);
       };
 
-      scope.$watch('selectedOption', function(selectedOption) {
+      scope.$watch('selectedItem', function(selectedItem) {
         if (typeof selectedScope !== 'undefined') {
-          selectedScope.selectedOption = selectedOption;
+          selectedScope.selectedItem = selectedItem;
         }
 
         scope.isOpen = false;
@@ -77,9 +77,9 @@ module.exports = function($compile, dropdownTransformer) {
       selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);
       if (typeof selectedTemplate !== 'undefined') {
         selectedScope = scope.$parent.$new();
-        selectedScope.selectedOption = scope.selectedOption;
-        selectedScope.optionProperty = scope.optionProperty;
-        selectedScope.clearSelectedOption = scope.clearSelectedOption;
+        selectedScope.selectedItem = scope.selectedItem;
+        selectedScope.textProperty = scope.textProperty;
+        selectedScope.clearSelectedItem = scope.clearSelectedItem;
 
         selectedElem = $compile(selectedContentTemplate)(selectedScope);
       } else {
@@ -90,9 +90,9 @@ module.exports = function($compile, dropdownTransformer) {
       menuTemplate = dropdownTransformer.getMenu(optionTemplate);
       if (typeof optionTemplate !== 'undefined') {
         menuScope = scope.$parent.$new();
-        menuScope.options = scope.options;
-        menuScope.optionProperty = scope.optionProperty;
-        menuScope.setSelectedOption = scope.setSelectedOption;
+        menuScope.items = scope.items;
+        menuScope.textProperty = scope.textProperty;
+        menuScope.setSelectedItem = scope.setSelectedItem;
         menuScope.hasFilter = scope.hasFilter;
         menuScope.filterProperty = scope.filterProperty;
 

@@ -21,25 +21,25 @@
 
     <div>
         <h2>Default dropdown with a list of strings</h2>
-        <akam-dropdown ng-model="vm.ex1.selectedState" options="vm.strings"></akam-dropdown>
+        <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings"></akam-dropdown>
     </div>
     <br/>
 
     <div>
         <h2>Default dropdown with a list of objects and custom markup</h2>
-        <akam-dropdown ng-model="vm.ex2.selectedState" option-property="name"
-                       options="vm.stateObjects">
+        <akam-dropdown ng-model="vm.ex2.selectedState" text-property="name"
+                       items="vm.stateObjects">
 
-            <akam-dropdown-selected ng-non-bindable>
+            <akam-dropdown-selected>
                 <span class="selected-option">
-                    <span ng-if="selectedOption" style="font-weight:bold; font-style: normal">
-                        custom: {{selectedOption[optionProperty]}}
+                    <span ng-if="selectedItem" style="font-weight:bold; font-style: normal">
+                        custom: {{selectedItem[textProperty]}}
                     </span>
                 </span>
             </akam-dropdown-selected>
 
-            <akam-dropdown-option ng-non-bindable>
-                <span style="font-weight:bold;">custom: {{option[optionProperty]}}</span>
+            <akam-dropdown-option>
+                <span style="font-weight:bold;">custom: {{item[textProperty]}}</span>
             </akam-dropdown-option>
 
         </akam-dropdown>
@@ -48,36 +48,35 @@
 
     <div>
         <h2>Dropdown with a list of strings and a filter</h2>
-        <akam-dropdown ng-model="vm.ex3.selectedState" options="vm.strings" filterable></akam-dropdown>
+        <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
     </div>
     <br/>
 
     <div>
         <h2>Default dropdown with a list of objects and a filter</h2>
-        <akam-dropdown ng-model="vm.ex4.selectedState" option-property="name"
-                       options="vm.stateObjects" filterable="name">
+        <akam-dropdown ng-model="vm.ex4.selectedState" text-property="name"
+                       items="vm.stateObjects" filterable="name">
         </akam-dropdown>
     </div>
     <br/>
 
     <div>
         <h2>Default dropdown with a list of objects, custom markup and a filter</h2>
-        <akam-dropdown ng-model="vm.ex5.selectedState" option-property="name"
-                       options="vm.stateObjects" filterable="name">
+        <akam-dropdown ng-model="vm.ex5.selectedState" text-property="name"
+                       items="vm.stateObjects" filterable="name">
             <akam-dropdown-selected>
                 <span class="selected-option">
-                    <span ng-if="selectedOption" style="font-weight:bold; font-style: normal">
-                        custom: {{selectedOption[optionProperty]}}
+                    <span ng-if="selectedItem" style="font-weight:bold; font-style: normal">
+                        custom: {{selectedItem[textProperty]}}
                     </span>
                 </span>
             </akam-dropdown-selected>
 
             <akam-dropdown-option>
                 <span style="font-weight:bold;">custom:
-                    <span ng-bind-html="option[optionProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                    <span ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
                 </span>
             </akam-dropdown-option>
-
         </akam-dropdown>
     </div>
     <br/>
@@ -131,11 +130,6 @@
                 $log.log('option changed');
             };
 
-            vm.items = [
-                { appName : 'Tranquility', id : 'tranq' },
-                { appName : 'Billing Center', id : 'bc' },
-                { appName : 'Property Manager', id : 'pm' }
-            ];
         }
 
     </script>

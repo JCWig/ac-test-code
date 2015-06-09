@@ -29,10 +29,10 @@ module.exports = angular.module('akamai.components.dropdown', [
  *
  * @param {Boolean} ngModel The dropdown's state
  *
- * @param {Object[]|String[]} options Option objects for the options displayed
+ * @param {Object[]|String[]} items Option objects for the options displayed
  * in the dropdown's menu box
  *
- * @param {String} [optionProperty] If the options param is an array of Objects,
+ * @param {String} [textProperty] If the options param is an array of Objects,
  * this is the property of those objects used in the dropdown menu
  *
  * @param {Function} [onChange] A callback function that is executed when the

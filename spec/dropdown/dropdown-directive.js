@@ -57,7 +57,7 @@ describe('akamai.components.dropdown', function() {
 
     it('should render correctly without customization', function() {
       var dropdownTemplate =
-        '<akam-dropdown ng-model="selectedState" options="stateStrings"></akam-dropdown>';
+        '<akam-dropdown ng-model="selectedState" items="stateStrings"></akam-dropdown>';
 
       $scope.selectedState = undefined;
       $scope.stateStrings = stateStrings;
@@ -83,7 +83,7 @@ describe('akamai.components.dropdown', function() {
 
     it('should render correctly without customization - with objects', function() {
       var dropdownTemplate =
-        '<akam-dropdown ng-model="selectedState" options="stateObjects" option-property="name"></akam-dropdown>';
+        '<akam-dropdown ng-model="selectedState" items="stateObjects" text-property="name"></akam-dropdown>';
 
       $scope.selectedState = {name: 'New York'};
       $scope.stateObjects = stateObjects;

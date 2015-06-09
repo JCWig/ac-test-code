@@ -4,12 +4,12 @@
         <input ng-show="filterProperty" type="text" ng-model="dropdownFilter[filterProperty]" />
     </div>
     <ul class="dropdown-menu">
-        <li ng-repeat="option in options | filter:dropdownFilter">
-            <a href ng-click="setSelectedOption(option)">
-                <span ng-if="optionProperty"
-                      ng-bind-html="option[optionProperty] | highlight:dropdownFilter[filterProperty]"></span>
-                <span ng-if="!optionProperty"
-                      ng-bind-html="option | highlight:dropdownFilter"></span>
+        <li ng-repeat="item in items | filter:dropdownFilter">
+            <a href ng-click="setSelectedItem(item)">
+                <span ng-if="textProperty"
+                      ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                <span ng-if="!textProperty"
+                      ng-bind-html="item | highlight:dropdownFilter"></span>
             </a>
         </li>
     </ul>
