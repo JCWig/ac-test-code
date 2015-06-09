@@ -132,18 +132,27 @@ describe('akamai.components.popover', function() {
       expect(popoverCloseIcon).toBe(null);
     });
     it('should be able to render custom html', function() {
+      scope.customData = {
+        text : 'Here is some text',
+        btnFunction: function(){}
+      };
+      spyOn(scope.customData,"btnFunction");
       var markup = '<span class="pull-right" akam-popover position="bottom" trigger="click"' +
         'custom-content="templateId.html">Clicky for Bottom Right Side</span>'+
         '<script type="text/ng-template" id="templateId.html">'+
-          '<div><span id="random-span1">Here is a little bit of text</span>' +
+          '<div><span id="random-span1">{{custom.customData.text}}</span>' +
           '<button id="random-button1">Click this to do something</button><br>' +
-          '<button id="random-button2" ng-click="btnFunction()">Click this to do something else </button>';
+          '<button id="random-button2" ng-click="custom.customData.btnFunction()">Click this to do something else </button>';
         '</script>';
       addElement(markup);
       timeout.flush();
+      utilities.click(document.querySelector('#random-button2'));
+      scope.$digest();
+      expect(scope.customData.btnFunction).toHaveBeenCalled();
       expect(document.querySelector('#random-span1')).not.toBe(null);
       expect(document.querySelector('#random-button1')).not.toBe(null);
       expect(document.querySelector('#random-button2')).not.toBe(null);
+      expect(document.querySelector('#random-span1').textContent).toContain(scope.customData.text);
     });
     it('should be able to render on the top', function() {
       var markup = '<span class="pull-right" akam-popover position="top" ' +

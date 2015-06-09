@@ -52,6 +52,7 @@
     .popover {
         font-size: 12px;
         z-index: -1;
+        display:block;
         visibility: hidden;
         &.in{
             z-index: $popover-zindex;
