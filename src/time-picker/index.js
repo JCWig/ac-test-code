@@ -51,5 +51,7 @@ module.exports = angular.module('akamai.components.time-picker', [
  *
  * @param {boolean} showMeridian - bind this value and update view accordingly
  *
+ * @private
+ *
  */
 .directive('timeFormatter', require('./time-formatter-directive'));

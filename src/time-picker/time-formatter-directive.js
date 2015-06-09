@@ -15,7 +15,7 @@ module.exports = function($filter) {
 
   var directive = {
     restrict: 'A',
-    require: 'ngModel',
+    require: '?ngModel',
     scope: {
       showMeridian: '='
     },
@@ -34,10 +34,14 @@ module.exports = function($filter) {
     ngModel.$formatters.push(displayTime);
 
     scope.$watch('showMeridian', function() {
-      var value = ngModel.$modelValue;
+      var value = ngModel.$modelValue,
+        timeFormat = !scope.showMeridian ?
+        formatterConfig.MERIDIAN_OFF : formatterConfig.MERIDIAN_ON;
 
       if (value) {
         element.val(displayTime(value, true));
+      } else {
+        element.attr('placeholder', timeFormat);
       }
     });
 

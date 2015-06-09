@@ -15,7 +15,7 @@
     <br />
     <form name='time-picker' role='form'>
       <div class="container">
-        <akam-time-picker ng-model="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" disabled="vm.disabled" show-meridian="vm.showMeridian">
+        <akam-time-picker input-time="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" disabled="vm.disabled" show-meridian="vm.showMeridian">
         </akam-time-picker>
       </div>
       <br />
@@ -27,14 +27,12 @@
         <input id="disableTimepicker" type="checkbox" name='disableTimepicker' ng-model='vm.disabled' />
         <label class="label" for="disableTimepicker">To disabled timepicker: </label>
       </div>
-
       <div class="form-group">
         <p>to change hour increment or decrement step value: </p>
         <input id="hourStep" type="number" min="1" max="12" ng-model='vm.hourStep' />
       </div>
-
       <div class="form-group">
-      <p>to change minute increment or decrement step value: </p>
+        <p>to change minute increment or decrement step value: </p>
         <input id="minuteStep" type="number" min="1" max="30" ng-model='vm.minuteStep' />
       </div>
       <div>
@@ -48,20 +46,17 @@
   </div>
   <script src="../dist/akamai-core.js"></script>
   <script>
-  angular.module('example', ['akamai.components.time-picker']);
-  angular
-    .module('example')
-    .controller('ExampleController', ControllerFunction);
-
-  function ControllerFunction() {
+  var ControllerFunction = function() {
     var vm = this;
     vm.disabled = false;
     vm.showMeridian = true;
-    vm.minuteStep = 15; //this is default value
-    vm.hourStep = 1; //this is default value
+    vm.minuteStep = 15;
+    vm.hourStep = 1;
     vm.time = new Date();
   };
 
+  angular.module('example', ['akamai.components.time-picker'])
+    .controller('ExampleController', ControllerFunction);
   </script>
 </body>
 

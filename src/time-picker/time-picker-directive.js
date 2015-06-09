@@ -12,65 +12,73 @@ module.exports = function($document, $parse) {
   var directive = {
     restrict: 'E',
     transclude: false,
-    template: require('./templates/time-picker.tpl.html'),
-    link: link,
-    scope: {
-      inputTime: '=ngModel',
+    scope: {},
+    bindToController: {
+      inputTime: '=',
       showMeridian: '=?',
       disabled: '=?',
       hourStep: '=?',
       minuteStep: '=?'
-    }
+    },
+    controller: TimePickerController,
+    controllerAs: 'timepicker',
+    template: require('./templates/time-picker.tpl.html'),
+    link: linkFn
   };
 
   return directive;
 
-  function link(scope, element, attrs) {
+    /* @ngInject */
+  function TimePickerController($scope) {
+
+    this.isOpen = false;
+    this.isDisabled = isDisabled;
+
+    $document.on('click', clickHandler);
+
+    $scope.$on('$destroy', function() {
+      $document.off('click', clickHandler);
+    });
+
+    function clickHandler() {
+      $scope.$apply('timepicker.isOpen=false');
+    }
+
+    function isDisabled() {
+      return this.disabled === true || $scope.$eval(this.disabled) === true;
+    }
+  }
+
+  /* @ngInject */
+  function linkFn(scope, element, attrs) {
 
     var notShowMeridian = false,
-      defaultPlaceholder = '';
+      defaultPlaceholder = '',
+      ctrl = scope.timepicker;
 
-    scope.disabled = scope.disabled === true || attrs.disabled === 'disabled';
+    ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';
 
-    scope.minuteStep = timepickerConfig.MINUTE_STEP;
+    ctrl.minuteStep = timepickerConfig.MINUTE_STEP;
     $parse(attrs.minuteStep, function(value) {
-      scope.minuteStep = parseInt(value, 10);
+      ctrl.minuteStep = parseInt(value, 10);
     });
 
-    scope.hourStep = timepickerConfig.HOUR_STEP;
+    ctrl.hourStep = timepickerConfig.HOUR_STEP;
     $parse(attrs.hourStep, function(value) {
-      scope.hourStep = parseInt(value, 10);
+      ctrl.hourStep = parseInt(value, 10);
     });
 
-    notShowMeridian = scope.showMeridian === false ||
+    notShowMeridian = ctrl.showMeridian === false ||
       scope.$eval(attrs.showMeridian) === false;
-    scope.showMeridian = !notShowMeridian;
+    ctrl.showMeridian = !notShowMeridian;
 
-    defaultPlaceholder = scope.showMeridian ?
+    defaultPlaceholder = ctrl.showMeridian ?
       timepickerConfig.MERIDIAN_ON : timepickerConfig.MERIDIAN_OFF;
-    scope.placeholder = attrs.placeholder ? attrs.placeholder : defaultPlaceholder;
-
-    scope.isOpen = false;
-
-    scope.isDisabled = function() {
-      return scope.disabled === true || scope.$eval(scope.disabled) === true;
-    };
+    ctrl.placeholder = attrs.placeholder ? attrs.placeholder : defaultPlaceholder;
 
     element.bind('click', function(event) {
       event.preventDefault();
       event.stopPropagation();
     });
-
-    $document.on('click', clickHandler);
-
-    scope.$on('$destroy', function() {
-      $document.off('click', clickHandler);
-    });
-
-    function clickHandler() {
-      scope.$apply(function() {
-        scope.isOpen = false;
-      });
-    }
   }
 };

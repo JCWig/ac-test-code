@@ -19,7 +19,7 @@ var formatterConfig = {
 };
 
 var defaultScopeTime = new Date();
-var defaultMarkup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+var defaultMarkup = '<akam-time-picker input-time="inputTime" show-meridian="showMeridian"></akam-time-picker>';
 
 describe('timeFormatter directive', function() {
 
@@ -53,7 +53,7 @@ describe('timeFormatter directive', function() {
     tpl = '<div><form name="form">' + tpl + '</form></div>';
     self.el = compile(tpl)(scope);
     self.timepickerElem = self.el.find("akam-time-picker");
-    self.isoScope = self.timepickerElem.isolateScope();
+    self.isoScope = self.timepickerElem.isolateScope().timepicker;
     scope.$digest();
 
     self.element = document.body.appendChild(self.el[0]);
@@ -73,6 +73,7 @@ describe('timeFormatter directive', function() {
       var date = new Date();
       date.setHours("13", "20");
       scope.inputTime = date;
+      scope.showMeridian = true;
       addElement();
 
       var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
@@ -108,6 +109,7 @@ describe('timeFormatter directive', function() {
 
       it("any character should make input validation state invaid", function() {
         scope.inputTime = "abc";
+
         addElement();
         var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
 
@@ -115,6 +117,7 @@ describe('timeFormatter directive', function() {
         expect(timepickerInputElem.classList.contains("ng-invalid-time")).toBeTruthy();
 
         scope.inputTime = "12:20 PM";
+        scope.showMeridian = true;
         scope.$digest();
 
         expect(timepickerInputElem.classList.contains("ng-valid")).toBeTruthy();
@@ -150,6 +153,7 @@ describe('timeFormatter directive', function() {
         expect(timepickerInputElem.classList.contains("ng-invalid-time")).toEqual(matched === null);
 
         scope.inputTime = "11:20 am";
+        scope.showMeridian = true;
         matched = scope.inputTime.match(formatterConfig.TIME_MERIDIAN_REGEX);
         scope.$digest();
 
@@ -174,44 +178,5 @@ describe('timeFormatter directive', function() {
 
       });
     });
-
-    describe("ngModel", function() {
-
-      it('should ngModel $viewValue and $viewModel same', function() {
-
-        scope.inputTime = new Date('Mon Mar 23 2015 14:40:11 GMT-0700 (PDT)');
-        addElement();
-
-        var ngModel = self.timepickerElem.controller("ngModel");
-        expect(ngModel.$viewValue).toBe(scope.inputTime);
-        expect(ngModel.$modelValue).toBe(scope.inputTime);
-      });
-
-      it('should ngModel value changes when call $setViewValue function', function() {
-
-        scope.inputTime = defaultScopeTime;
-        var myTime = new Date('Mon Mar 23 2015 14:40:11 GMT-0700 (PDT)');
-        addElement();
-
-        var ngModel = self.timepickerElem.controller("ngModel");
-        ngModel.$setViewValue(myTime);
-
-        expect(ngModel.$viewValue).toBe(scope.inputTime);
-        expect(ngModel.$modelValue).toBe(scope.inputTime);
-
-      });
-
-      it('should ngModel value changes when call $render function', function() {
-
-        scope.inputTime = defaultScopeTime;
-        var myTime = new Date('Mon Mar 23 2015 14:40:11 GMT-0700 (PDT)');
-        addElement();
-
-        var ngModel = self.timepickerElem.controller("ngModel");
-        expect(typeof ngModel.$render).toBe("function");
-
-      });
-
-    })
   });
 });
