@@ -6,48 +6,45 @@ var debounce = require('lodash/function/debounce');
 var POPUP_DELAY = 200;
 
 /* @ngInject */
-module.exports = function($log, $position, $compile, $timeout) {
+module.exports = function($log, $position, $compile, $timeout, $templateCache, $parse) {
   return {
     restrict: 'A',
-    replace: true,
-    scope: {
-      position: '@',
-      header: '@',
-      trigger: '@',
-      popoverContent: '@',
-      customContent: '@',
-      linkText: '@',
-      linkUrl: '@',
-      buttonText: '@',
-      buttonFunction: '='
-    },
-    link: function(scope, element) {
-      var template, popover, triggerElement;
+    link: function(scope, element, attrs) {
+      var template, popover, triggerElement, customTemplate;
+      var newScope = scope.$new();
 
-      scope.useCustomContent = function() {
-        return !!scope.customContent;
+      newScope.position = attrs.position;
+      newScope.header = attrs.header;
+      newScope.popoverContent = attrs.popoverContent;
+      newScope.linkText = attrs.linkText;
+      newScope.linkUrl = attrs.linkUrl;
+      newScope.buttonText = attrs.buttonText;
+      newScope.buttonFunction = $parse(attrs.buttonFunction);
+
+      newScope.useCustomContent = function() {
+        return !!attrs.customContent;
       };
-      scope.isOpen = function() {
-        return scope.opened;
+      newScope.isOpen = function() {
+        return newScope.opened;
       };
-      scope.toggle = function() {
+      newScope.toggle = function() {
         $timeout(function() {
-          scope.opened = !scope.opened;
-          popover.toggleClass('in', scope.opened);
+          newScope.opened = !newScope.opened;
+          popover.toggleClass('in', newScope.opened);
         });
       };
-      scope.hasHeader = function() {
-        return scope.header && scope.header.length > 0;
+      newScope.hasHeader = function() {
+        return newScope.header && newScope.header.length > 0;
       };
-      scope.hasButton = function() {
-        return scope.buttonText && scope.buttonText.length > 0;
+      newScope.hasButton = function() {
+        return newScope.buttonText && newScope.buttonText.length > 0;
       };
-      scope.hasLink = function() {
-        return scope.linkText && scope.linkText.length > 0 &&
-          scope.linkUrl && scope.linkUrl.length > 0;
+      newScope.hasLink = function() {
+        return newScope.linkText && newScope.linkText.length > 0 &&
+          newScope.linkUrl && newScope.linkUrl.length > 0;
       };
-      scope.isTriggerClick = function() {
-        return scope.trigger === 'click';
+      newScope.isTriggerClick = function() {
+        return attrs.trigger === 'click';
       };
       function setCoords() {
         var pageMidCoords = document.body.clientWidth / 2;
@@ -62,68 +59,78 @@ module.exports = function($log, $position, $compile, $timeout) {
         var arrowHeight = 10;
         var popoverArrowOffset = 21;
 
-        if (scope.position === 'right') {
-          scope.popoverLeft = triggerElementOffsetLeft + arrowHeight + triggerElementWidth;
-          scope.popoverTop = elementOffsetTop - popoverArrowOffset;
-          scope.arrowTop = popoverArrowOffset;
-          scope.arrowLeft = -arrowHeight;
-        } else if (scope.position === 'left') {
-          scope.popoverLeft = triggerElementOffsetLeft - popoverWidth - arrowHeight;
-          scope.popoverTop = elementOffsetTop - popoverArrowOffset;
-          scope.arrowTop = popoverArrowOffset;
-          scope.arrowLeft = popoverWidth - 1;
-        } else if (scope.position === 'bottom') {
-          scope.popoverLeft = isOnLeftSide ?
+        if (newScope.position === 'right') {
+          newScope.popoverLeft = triggerElementOffsetLeft + arrowHeight + triggerElementWidth;
+          newScope.popoverTop = elementOffsetTop - popoverArrowOffset;
+          newScope.arrowTop = popoverArrowOffset;
+          newScope.arrowLeft = -arrowHeight;
+        } else if (newScope.position === 'left') {
+          newScope.popoverLeft = triggerElementOffsetLeft - popoverWidth - arrowHeight;
+          newScope.popoverTop = elementOffsetTop - popoverArrowOffset;
+          newScope.arrowTop = popoverArrowOffset;
+          newScope.arrowLeft = popoverWidth - 1;
+        } else if (newScope.position === 'bottom') {
+          newScope.popoverLeft = isOnLeftSide ?
             triggerElementOffsetLeft - popoverArrowOffset :
             triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
-          scope.popoverTop = elementOffsetTop + arrowHeight + triggerElementHeight;
-          scope.arrowLeft = isOnLeftSide ?
+          newScope.popoverTop = elementOffsetTop + arrowHeight + triggerElementHeight;
+          newScope.arrowLeft = isOnLeftSide ?
             popoverArrowOffset :
             popoverWidth - popoverArrowOffset - arrowWidth;
-          scope.arrowTop = -arrowHeight;
+          newScope.arrowTop = -arrowHeight;
         } else {
-          scope.popoverLeft = isOnLeftSide ?
+          newScope.popoverLeft = isOnLeftSide ?
             triggerElementOffsetLeft - popoverArrowOffset :
             triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
-          scope.popoverTop = elementOffsetTop - popoverHeight - arrowHeight;
-          scope.arrowTop = popoverHeight;
-          scope.arrowLeft = isOnLeftSide ?
+          newScope.popoverTop = elementOffsetTop - popoverHeight - arrowHeight;
+          newScope.arrowTop = popoverHeight;
+          newScope.arrowLeft = isOnLeftSide ?
             popoverArrowOffset :
             popoverWidth - arrowWidth - popoverArrowOffset;
         }
 
-        scope.popoverTop = scope.popoverTop + 'px';
-        scope.popoverLeft = scope.popoverLeft + 'px';
-        scope.arrowTop = scope.arrowTop + 'px';
-        scope.arrowLeft = scope.arrowLeft + 'px';
+        newScope.popoverTop = newScope.popoverTop + 'px';
+        newScope.popoverLeft = newScope.popoverLeft + 'px';
+        newScope.arrowTop = newScope.arrowTop + 'px';
+        newScope.arrowLeft = newScope.arrowLeft + 'px';
       }
       function validParameters() {
         var validPositions = ['right', 'left', 'top', 'bottom'];
 
-        if (!scope.position || !includes(validPositions, scope.position)) {
+        if (!newScope.position || !includes(validPositions, newScope.position)) {
           return false;
         }
         return true;
       }
       if (validParameters()) {
-        scope.opened = false;
+        newScope.opened = false;
         template = require('./templates/popover.tpl.html');
-        popover = $compile(template)(scope, function(popoverEle) {
-          element.after(popoverEle);
+        popover = $compile(template)(newScope, function(popoverEle) {
+          if (newScope.useCustomContent()) {
+            customTemplate = $templateCache.get(attrs.customContent);
+            $timeout(function() {
+              $compile(customTemplate)(newScope, function(customEle) {
+                popoverEle.querySelectorAll('.popover-custom-content').append(customEle);
+                element.after(popoverEle);
+              });
+            }, 0);
+          } else {
+            element.after(popoverEle);
+          }
         });
         triggerElement = element;
-        if (scope.trigger === 'click') {
+        if (attrs.trigger === 'click') {
           triggerElement.on('click', function() {
-            scope.toggle();
+            newScope.toggle();
           });
         } else {
           triggerElement.on('mouseover', function() {
             $timeout(function() {
-              scope.toggle();
+              newScope.toggle();
             }, POPUP_DELAY);
           });
           triggerElement.on('mouseleave', function() {
-            scope.toggle();
+            newScope.toggle();
           });
         }
         angular.element(window).on('resize', debounce(setCoords, 200));

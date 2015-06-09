@@ -8,6 +8,6 @@
 			<div ng-if="::(hasLink() && isTriggerClick())" class="popover-link-content"><a href="{{::linkUrl}}" target="_blank">{{::linkText}}</a></div>  
 			<div ng-if="::(hasButton() && isTriggerClick())" class="popover-button-content"><button ng-click="buttonFunction()">{{::buttonText}}</button></div>
 		</div>
-		<div ng-if="::useCustomContent()" ng-include="::customContent" onload="custom=$parent.$parent"></div>
+		<div ng-if="::useCustomContent()" class="popover-custom-content"></div>
 	</div>
 </div>

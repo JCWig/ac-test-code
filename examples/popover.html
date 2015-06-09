@@ -35,16 +35,16 @@
         <div class="container">
             <h2>popover Click Example : Content with Header, Link and Button - All Positions</h2>
             <span akam-popover position="top" header="Header Title" popover-content="{{testText}}" trigger="click" link-text="Link Text" 
-                    link-url="pagination.html" button-text="Click Here" button-function="btnFunction">Click Here - Top</span>
+                    link-url="pagination.html" button-text="Click Here" button-function="btnFunction()">Click Here - Top</span>
             <br />
             <span akam-popover position="bottom" header="Header Title" popover-content="{{testTextShort}}" trigger="click" link-text="Link Text" 
-                    link-url="http://google.com" button-text="Click Here" button-function="btnFunction">Click Here - Bottom</span>
+                    link-url="http://google.com" button-text="Click Here" button-function="btnFunction()">Click Here - Bottom</span>
             <br />
             <span akam-popover position="left" header="Header Title" popover-content="{{testTextShort}}" trigger="click" link-text="Link Text" 
-                    link-url="pagination.html" button-text="Click Here" button-function="btnFunction">Click Here - Left</span>
+                    link-url="pagination.html" button-text="Click Here" button-function="btnFunction()">Click Here - Left</span>
             <br />
             <span akam-popover position="right" header="Header Title" popover-content="{{testTextShort}}" trigger="click" link-text="Link Text" 
-                    link-url="pagination.html" button-text="Click Here" button-function="btnFunction">Click Here - Right</span>            
+                    link-url="pagination.html" button-text="Click Here" button-function="btnFunction()">Click Here - Right</span>            
         </div>
         <br />
         <div class="container">
@@ -60,13 +60,13 @@
         <br />
         <div class="container">
             <h2>popover Click Example : Content with Text and Buttons - All Positions</h2>
-            <button akam-popover position="top" custom-content="{{customData}}" custom-data="include" trigger="click">Trusted Content - Top</button>
+            <button akam-popover position="top" custom-content="{{customData}}"  trigger="click">Trusted Content - Top</button>
             <br />
-            <button akam-popover position="bottom" custom-content="{{customData}}" custom-data="include" trigger="click">Trusted Content - Bottom</button>
+            <button akam-popover position="bottom" custom-content="{{customData}}"  trigger="click">Trusted Content - Bottom</button>
             <br />
-            <button akam-popover position="left" custom-content="{{customData}}" custom-data="include" trigger="click">Trusted Content - Left</button>
+            <button akam-popover position="left" custom-content="{{customData}}"  trigger="click">Trusted Content - Left</button>
             <br />
-            <button akam-popover position="right" custom-content="{{customData}}" custom-data="include" trigger="click">Trusted Content - Right</button>
+            <button akam-popover position="right" custom-content="{{customData}}"  trigger="click">Trusted Content - Right</button>
         </div>
         <br/>
         <div class="container">
@@ -112,37 +112,37 @@
         <br />
         <div class="container">
             <h2>popover Example : Click Text Field - popover with Custom Trusted Content Text - All Positions</h2>
-            <input placeholder="click top" type="text" akam-popover position="top" custom-content="{{customData}}" custom-data="include"trigger="click">
+            <input placeholder="click top" type="text" akam-popover position="top" custom-content="{{customData}}" trigger="click">
             <br />
             <input placeholder="click bottom" type="text" akam-popover position="bottom" custom-content="{{customData}}" 
-            custom-data="include"trigger="click">
+           trigger="click">
             <br />
-            <input placeholder="click left" type="text" akam-popover position="left" custom-content="{{customData}}" custom-data="include"trigger="click">
+            <input placeholder="click left" type="text" akam-popover position="left" custom-content="{{customData}}"trigger="click">
             <br />
             <input placeholder="click right" type="text" akam-popover position="right" custom-content="{{customData}}" 
-            custom-data="include"trigger="click">
+           trigger="click">
         </div>
         <br/>
         <div style="">
             <h2>popover Example : Hover over Text Field - popover with Custom Trusted Content Text - All Positions</h2>
-            <h3 akam-popover position="top" custom-content="{{styledText}}" custom-data="include" trigger="hover">Hover Here - Top</h3>
+            <h3 akam-popover position="top" custom-content="{{styledText}}"  trigger="fhover">Hover Here - Top</h3>
             <br />
-            <h3 akam-popover position="bottom" custom-content="{{styledText}}" custom-data="include" trigger="hover">Hover Here - Bottom</h3>
+            <h3 akam-popover position="bottom" custom-content="{{styledText}}"  trigger="hover">Hover Here - Bottom</h3>
             <br />
-            <h3 akam-popover position="left" custom-content="{{styledText}}" custom-data="include" trigger="hover">Hover Here - Left</h3>
+            <h3 akam-popover position="left" custom-content="{{styledText}}"  trigger="hover">Hover Here - Left</h3>
             <br />
-            <h3 akam-popover position="right" style="display:block" custom-content="{{styledText}}" custom-data="include" trigger="hover">Hover Here - Right (Example of what happens if you don't manage width correctly)</h3>
+            <h3 akam-popover position="right" style="display:block" custom-content="{{styledText}}"  trigger="hover">Hover Here - Right (Example of what happens if you don't manage width correctly)</h3>
             <br />
         </div>
         <div class="container">
                 <h2>popover Example : Click Styled Fields - popover with Custom Trusted Content Text (Left Position)</h2>
              <div> This is test text
-             <span style="color:blue" akam-popover trigger="click" position="right" custom-content="{{flashContent}}" custom-data="include">forensic scientist</span>
+             <span style="color:blue" akam-popover trigger="click" position="right" custom-content="{{flashContent}}" >forensic scientist</span>
              but secretly I use my speed to fight crime and find others like me. And one day I will find killed my mother and get justice for my father.
              <span style="color:red" akam-popover header="Header Text" position="left" trigger="hover" popover-content="{{testTextShort}}">Hover over here</span> </div>
         </div>
         <script type="text/ng-template" id="templateId1.html">
-            <h3 class="popover-header" style="color:blue"> {{custom.include.text}}</h3>
+            <h3 class="popover-header" style="color:blue"> {{include.text}}</h3>
             <div class="popover-middle-content"> <span style="color:red"> Red : Hover</span></div>
         </script>
         <script type="text/ng-template" id="templateId2.html">
@@ -157,7 +157,7 @@
             <div class="popover-middle-content"><span style="color:green">Here is a little bit of text</span> 
                 <div class="popover-button-content"> <button>Click this button to do something</button></div>
                 <div class="popover-button-content">
-                    <button ng-click="custom.include.btnFunction()">Click this button to do something else </button>
+                    <button ng-click="btnFunction()">Click this button to do something else </button>
                 </div>
             </div>
         </script>
