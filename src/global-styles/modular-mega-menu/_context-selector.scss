@@ -31,7 +31,7 @@ $context-item-line-height: 35px;
     // the portal context menu doesn't have a border between the search box and the scrollable pane but that's
     // not something we should replicate. Adding a border to more cleanly separate the scrollable part from the static one
     .header {
-      padding: $popup-padding $popup-padding 5px $popup-padding;
+      padding: $context-popup-padding $context-popup-padding 5px $context-popup-padding;
       border-bottom: $popup-border-style;
 
       header {
@@ -52,7 +52,7 @@ $context-item-line-height: 35px;
       min-width: 300px;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 0 $popup-padding $popup-padding $popup-padding;
+      padding: 0 $context-popup-padding $context-popup-padding $context-popup-padding;
 
       // no results
       p {

@@ -182,7 +182,11 @@ $dropdown-item-left-padding: 10px;
 $dropdown-item-right-padding: 15px;
 $dropdown-item-line-height: 32px;
 
+// Popups
+$popup-padding: 22px;
+
 // Modular Mega Menu
+// NOTE: Please do not use these variables in other components. The mega menu is a one-off
 $orange-caret-position: -214px;
 $caret-width: 5px;
 $caret-height: 16px;
@@ -196,7 +200,7 @@ $user-popup-padding: 2px 10px;
 $row-hover-color: #E1F3FF;
 
 $tab-row-width: 200px;
-$popup-padding: 22px;
+$context-popup-padding: 10px;
 
 $hoverable-border-size: 1px;
 $hoverable-vertical-padding: 8px;
