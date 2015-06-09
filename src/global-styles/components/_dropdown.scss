@@ -60,6 +60,7 @@ $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
   & ul.dropdown-menu {
     overflow-x: hidden;
     overflow-y: auto;
+    -ms-overflow-y: scroll;
 
     // fix for weird rendering issue when filtering in chrome
     a {
