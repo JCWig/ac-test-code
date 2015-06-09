@@ -25,7 +25,6 @@ module.exports = function($compile, dropdownTransformer) {
     restrict: 'E',
     require: '^ngModel',
     scope: {
-      selectedItem: '=ngModel',
       items: '=',
       textProperty: '@?',
       onChange: '&?'
@@ -59,16 +58,17 @@ module.exports = function($compile, dropdownTransformer) {
 
       scope.clearSelectedItem = function($event) {
         $event.stopPropagation();
-        ngModel.$setViewValue(undefined);
+        ngModel.$setViewValue();
       };
 
-      scope.$watch('selectedItem', function(selectedItem) {
+      scope.$watch(function() {
+        return ngModel.$viewValue;
+      }, function(modelValue) {
+        scope.selectedItem = modelValue;
         if (typeof selectedScope !== 'undefined') {
-          selectedScope.selectedItem = selectedItem;
+          selectedScope.selectedItem = modelValue;
         }
-
         scope.isOpen = false;
-
         if (typeof scope.onChange === 'function') {
           scope.onChange();
         }
