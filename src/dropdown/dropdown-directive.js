@@ -23,7 +23,7 @@ module.exports = function($compile, dropdownTransformer) {
 
   return {
     restrict: 'E',
-    require: 'ngModel',
+    require: '^ngModel',
     scope: {
       selectedOption: '=ngModel',
       options: '=',
@@ -40,7 +40,7 @@ module.exports = function($compile, dropdownTransformer) {
       return dropdownTemplate;
     },
 
-    link: function(scope, elem, attrs) {
+    link: function(scope, elem, attrs, ngModel) {
       var selectedScope, selectedContentTemplate, selectedElem,
         menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate;
 
@@ -49,16 +49,17 @@ module.exports = function($compile, dropdownTransformer) {
 
       scope.hasFilter = typeof attrs.filterable !== 'undefined';
       scope.filterProperty = attrs.filterable;
+      scope.dropdownFilter = undefined;
 
       scope.isOpen = false;
 
       scope.setSelectedOption = function(option) {
-        scope.selectedOption = option;
+        ngModel.$setViewValue(option);
       };
 
       scope.clearSelectedOption = function($event) {
         $event.stopPropagation();
-        scope.selectedOption = undefined;
+        ngModel.$setViewValue(undefined);
       };
 
       scope.$watch('selectedOption', function(selectedOption) {
