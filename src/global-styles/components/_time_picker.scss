@@ -9,28 +9,9 @@ Styleguide 8.0
 $button-background-hover-color: #e6e6e6;
 $button-border-color: #666666;
 $button-border-color-hover: #999999;
-$dropdown-menu-height: 120px;
-$dropdown-menu-width: 182px;
-$dropdown-menu-data-row-height: 30px;
-$dropdown-menu-data-input-width: 40px;
-$dropdown-menu-padding: 15px;
-$dropdown-menu-arrow-row-padding-bottom: 10px;
-$dropdown-menu-table-spacing: 3px;
+$dropdown-menu-padding: 16px 15px 12px;
+$dropdown-menu-arrow-padding: 11px;
 $timepicker-input-disabled-color: #cccccc;
-%arrow-row {
-  //height: 20px;
-  //min-height: 20px;
-  a {
-    display: block;
-    cursor: pointer;
-    i {
-      vertical-align: middle;
-    }
-  }
-  td {
-    height: 25px;//($dropdown-menu-height - $dropdown-menu-data-row-height - $dropdown-menu-padding * 2 - $dropdown-menu-arrow-row-padding-bottom * 2)/2;
-  }
-}
 
 .akam-time-picker {
   position: relative;
@@ -43,7 +24,8 @@ $timepicker-input-disabled-color: #cccccc;
     > i {
       margin-left: -3px;
     }
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       border-color: $button-border-color-hover;
       > i {
         @include luna-sprite(time);
@@ -69,66 +51,59 @@ $timepicker-input-disabled-color: #cccccc;
       border-width: 1px;
       ~ .btn {
         border-left-color: $border-color-invalid;
-        border-width: 1px;
+        border-width: 2px;
       }
     }
   }
   .dropdown-menu.open {
     margin-top: 1px;
-    width: $dropdown-menu-width;
-    height: $dropdown-menu-height;
-    //max-width: $dropdown-menu-width;
-    //max-height: $dropdown-menu-height;
-    padding: $dropdown-menu-padding;//$dropdown-menu-padding-topbottom $dropdown-menu-padding-leftright;
+    padding: $dropdown-menu-padding;
     input[type='text'] {
       box-shadow: none;
-      padding-right: $input-padding;
-      width: 2em;
-      @include box-sizing(content-box);
+      padding: 0;
+      width: 40px;
     }
     table {
-      border-collapse: separate;
-      //border-spacing: $dropdown-menu-table-spacing;
+      td {
+        min-width: 15px;
+      }
+      a {
+        display: block;
+        cursor: pointer;
+        i {
+          vertical-align: middle;
+        }
+      }
+      tr.time-decrement-row {
+        a {
+          padding-top: $dropdown-menu-arrow-padding;
+        }
+        td:hover i {
+          @include luna-sprite(arrow_smDown_hover);
+        }
+      }
+      tr.time-increment-row {
+        a {
+          padding-bottom: $dropdown-menu-arrow-padding;
+        }
+        td:hover i {
+          @include luna-sprite(arrow_smUp_hover);
+        }
+      }
+
       td.meridian input[type='button'] {
         background-color: $input-background-color;
         border: solid 1px $input-border-color;
         outline: none;
         box-shadow: none;
-        //margin-left: 3px;
+        width: 40px;
+        padding: 0;
+
         @include border-radius($input-border-radius);
 
         &:hover, &:focus {
           border-color: $input-border-color-focus;
         }
-      }
-    }
-    tr.time-decrement-row {
-      padding-top: $dropdown-menu-arrow-row-padding-bottom;
-      @extend %arrow-row;
-      td:hover i {
-        @include luna-sprite(arrow_smDown_hover);
-      }
-    }
-    tr.time-increment-row {
-      padding-bottom: $dropdown-menu-arrow-row-padding-bottom;
-      //margin-bottom: 10px;
-      @extend %arrow-row;
-      td:hover i {
-        @include luna-sprite(arrow_smUp_hover);
-      }
-    }
-    tr.time-data-row {
-      height: $dropdown-menu-data-row-height;
-
-      td:nth-child(odd) {
-        width: $dropdown-menu-data-input-width;
-        min-width: $dropdown-menu-data-input-width;
-        input[type='text'], input[type='button'] {
-          padding: 0px 10px;
-        }
-      }
-      td:nth-child(even) {
-        width: 15px;
       }
     }
   }
