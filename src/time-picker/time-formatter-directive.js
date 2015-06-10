@@ -4,7 +4,7 @@ var angular = require('angular');
 
 var formatterConfig = {
   MERIDIAN_ON: 'hh:mm a',
-  MERIDIAN_OFF: 'HH:mm',
+  MERIDIAN_OFF: 'hh:mm',
   TIME_MERIDIAN_REGEX: /^(0?[0-9]|1[0-2]):[0-5][0-9] ?[a|p]m$/i,
   TIME_REGEX: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
   APM_REGEX: /[a|p]m/i

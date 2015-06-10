@@ -59,6 +59,7 @@ $timepicker-input-disabled-color: #cccccc;
       width: $dropdown-menu-input-width;
     }
     table {
+      @include user-select(none);
       td {
         min-width: 15px;
       }
