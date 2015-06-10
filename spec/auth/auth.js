@@ -34,7 +34,7 @@ describe('Auth', function() {
         }, {'content-type': 'application/problem+json'});
         http.get('/no/akasession/cookie');
         httpBackend.flush();
-        expect(urlSpy).toHaveBeenCalledWith('/login.jsp');
+        expect(urlSpy).toHaveBeenCalledWith('/EdgeAuth/login.jsp');
       });
     });
   });
@@ -47,7 +47,7 @@ describe('Auth', function() {
         }, {'content-type': 'application/problem+json'});
         http.get('/invalid/akasession/cookie');
         httpBackend.flush();
-        expect(urlSpy).toHaveBeenCalledWith('/login.jsp');
+        expect(urlSpy).toHaveBeenCalledWith('/EdgeAuth/login.jsp');
       });
     });
   });
@@ -60,21 +60,21 @@ describe('Auth', function() {
         }, {'content-type': 'application/problem+json'});
         http.get('/expired/akasession/cookie');
         httpBackend.flush();
-        expect(urlSpy).toHaveBeenCalledWith('/login.jsp');
+        expect(urlSpy).toHaveBeenCalledWith('/EdgeAuth/login.jsp');
       });
     });
   });
   describe('given a valid AKASESSION cookie with no JWT cookie', function() {
-    it('should request an authorization grant', function() {
+    it('should request an authorization grant', function(done) {
       var calls = 0;
       var errorResponse = [401, {
         type: 'http://control.akamai.com/problems/no-token'
       }, {'content-type': 'application/problem+json'}];
-      var successResponse = [200, {success: true}];
+      var successResponse = [200, {success: true}, {}];
 
-      httpBackend.expectGET('/request_auth.jsp').respond('');
+      httpBackend.when('GET', '/request_auth.jsp').respond('');
       httpBackend.when('GET', '/no/jwt/token').respond(
-        function(method, url, data, headers){
+        function(method, url, data, headers) {
           if (calls === 0) {
             calls++;
             return errorResponse;
@@ -82,9 +82,15 @@ describe('Auth', function() {
             return successResponse;
           }
         });
-      http.get('/no/jwt/token');
-      httpBackend.flush();
+      http.get('/no/jwt/token').success(function(data, status, headers, config) {
+        expect(data.success).toBe(true);
+        done();
+      }).error(function(error) {
+        expect(error).toBeUndefined();
+        done();
+      });
 
+      httpBackend.flush();
     });
     it('should retry the API request with the valid JWT cookie', function() {
 
