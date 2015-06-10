@@ -19,7 +19,7 @@ module.exports = function($q, $injector, $location, akamAuth, akamHttpBuffer, ak
 
   function redirectToLogin() {
     //redirect to login
-    $location.url('/login.jsp');
+    $location.url('/EdgeAuth/login.jsp');
   }
 
   return {
@@ -60,7 +60,7 @@ module.exports = function($q, $injector, $location, akamAuth, akamHttpBuffer, ak
             deferred = $q.defer();
             akamHttpBuffer.append(response.config, deferred);
             akamTokenService.create();
-            return deferred;
+            return deferred.promise;
           }
           break;
         case 403:

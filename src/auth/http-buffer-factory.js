@@ -64,14 +64,9 @@ module.exports = function($injector) {
      *  requests that are retried after having logged in.  This can be used for example
      *  to add an authentication token.  It must return the request.
      */
-    retryAll: function(updater) {
-      updater = updater ||
-        function(config) {
-          return config;
-        };
-
+    retryAll: function() {
       angular.forEach(buffer, function(value) {
-        retryHttpRequest(updater(value.config), value.deferred);
+        retryHttpRequest(value.config, value.deferred);
       });
 
       buffer = [];
