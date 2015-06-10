@@ -28,7 +28,7 @@ module.exports = function($document, $parse) {
 
   return directive;
 
-    /* @ngInject */
+  /* @ngInject */
   function TimePickerController($scope) {
 
     this.isOpen = false;

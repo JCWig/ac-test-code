@@ -52,6 +52,7 @@ $timepicker-input-disabled-color: #cccccc;
   .dropdown-menu.open {
     margin-top: 1px;
     padding: $dropdown-menu-padding;
+    min-width: 0;
     input[type='text'] {
       box-shadow: none;
       padding: 0;
