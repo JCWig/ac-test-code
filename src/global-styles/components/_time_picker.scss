@@ -6,13 +6,11 @@ Styleguide 8.0
 
 */
 
-$button-background-hover-color: #e6e6e6;
-$button-border-color: #666666;
 $button-border-color-hover: #999999;
 $dropdown-menu-padding: 16px 15px 12px;
 $dropdown-menu-arrow-padding: 11px;
+$dropdown-menu-input-width: 40px;
 $timepicker-input-disabled-color: #cccccc;
-
 .akam-time-picker {
   position: relative;
   & > .btn {
@@ -47,12 +45,8 @@ $timepicker-input-disabled-color: #cccccc;
       color: $timepicker-input-disabled-color;
       cursor: default;
     }
-    &.ng-invalid.ng-touched {
-      border-width: 1px;
-      ~ .btn {
-        border-left-color: $border-color-invalid;
-        border-width: 2px;
-      }
+    &.ng-invalid.ng-touched ~ .btn {
+      border-left-color: $border-color-invalid;
     }
   }
   .dropdown-menu.open {
@@ -61,7 +55,7 @@ $timepicker-input-disabled-color: #cccccc;
     input[type='text'] {
       box-shadow: none;
       padding: 0;
-      width: 40px;
+      width: $dropdown-menu-input-width;
     }
     table {
       td {
@@ -90,17 +84,14 @@ $timepicker-input-disabled-color: #cccccc;
           @include luna-sprite(arrow_smUp_hover);
         }
       }
-
       td.meridian input[type='button'] {
         background-color: $input-background-color;
         border: solid 1px $input-border-color;
         outline: none;
         box-shadow: none;
-        width: 40px;
+        width: $dropdown-menu-input-width;
         padding: 0;
-
         @include border-radius($input-border-radius);
-
         &:hover, &:focus {
           border-color: $input-border-color-focus;
         }
