@@ -73,7 +73,7 @@ module.exports = function($document, $parse) {
     ctrl.showMeridian = !notShowMeridian;
 
     defaultPlaceholder = ctrl.showMeridian ?
-      timepickerConfig.MERIDIAN_ON : timepickerConfig.MERIDIAN_OFF;
+      timepickerConfig.MERIDIAN_ON : timepickerConfig.MERIDIAN_OFF.toLowerCase();
     ctrl.placeholder = attrs.placeholder ? attrs.placeholder : defaultPlaceholder;
 
     element.bind('click', function(event) {
