@@ -6,16 +6,17 @@
       <td><a ng-click="incrementMinutes()" class="btn-link"><i class="luna-arrow_smUp icon-states"></i></a></td>
       <td ng-show="showMeridian"></td>
     </tr>
-    <tr>
+    <tr class="util-text-center time-data-row">
       <td class="form-group" ng-class="{'has-error': invalidHours}">
-        <input type="text" ng-model="hours" ng-change="updateHours()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="-1">
+        <input type="text" ng-model="hours" ng-change="updateHours()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
       </td>
       <td>:</td>
       <td class="form-group" ng-class="{'has-error': invalidMinutes}">
-        <input type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="-1">
+        <input type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
       </td>
+      <td></td>
       <td ng-show="showMeridian" class="meridian">
-        <input type="button" class="util-text-center" ng-click="toggleMeridian()" value='{{meridian}}' tabindex="-1">
+        <input type="button" class="util-text-center form-control" ng-click="toggleMeridian()" value='{{meridian}}' tabindex="0">
       </td>
     </tr>
     <tr class="util-text-center time-decrement-row">
