@@ -3,6 +3,8 @@ $selected-option-background-color: #f4f4f4;
 $dropdown-button-gradient: linear-gradient(to bottom, #fff, #e6e6e6);
 $dropdown-button-gradient-hover: linear-gradient(to bottom, #f4f4f4, #c8c8c8);
 $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
+$dropdown-selected-option-background-color: #f4f4f4;
+$dropdown-button-active-hover-border-color: #999;
 
 .dropdown.akam-dropdown {
 
@@ -13,7 +15,7 @@ $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
 
     & > span {
       display: inline-block;
-      border: 1px solid #ccc;
+      border: 1px solid $border-color;
       height: 100%;
       vertical-align: middle;
     }
@@ -23,7 +25,7 @@ $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
       margin-right: -4px;
       line-height: 28px;
       padding: 0 20px 0 10px;
-      background-color: #f4f4f4;
+      background-color: $dropdown-selected-option-background-color;
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
       @include box-shadow($input-box-shadow);
@@ -43,7 +45,7 @@ $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
 
     &:hover {
       & > span:last-child {
-        border-color: #999;
+        border-color: $dropdown-button-active-hover-border-color;
         background: $arrow-background, $dropdown-button-gradient-hover;
       }
 
@@ -51,7 +53,7 @@ $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
 
     &:active {
       & > span:last-child {
-        border-color: #999;
+        border-color: $dropdown-button-active-hover-border-color;
         background: $arrow-background, $dropdown-button-gradient-active;
       }
     }
