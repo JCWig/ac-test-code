@@ -5,9 +5,9 @@ var CURRENT = '.tree-view-current';
 var CHILDREN = '.tree-view-children';
 var CHILD_CONTENTS = '.tree-view-children .tree-view-contents';
 var PARENT_ICON = '.tree-view-current i';
-var PARENT_SELECTOR = '.tree-view-current .tooltip';
+var PARENT_SELECTOR = '.tree-view-current .popover';
 var CURRENT_CONTEXT_TITLE = '.tree-view-current-title';
-var PARENT_SELECTOR_ROWS = '.tree-view-current .tooltip .tree-view-contents';
+var PARENT_SELECTOR_ROWS = '.tree-view-current .popover .tree-view-contents';
 var INDETERMINATE_PROGRESS = 'akam-indeterminate-progress';
 
 describe('akamai.components.tree-view', function() {

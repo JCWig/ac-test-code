@@ -127,12 +127,12 @@ $bubble-help-arrow-size-inner-spread: 2px;
 $bubble-help-arrow-gutter: 5px;
 $bubble-help-arrow-position: $bubble-help-arrow-size + $bubble-help-arrow-gutter;
 
-//Tool Tip :
-$tooltip-background-color: #ebf6ff;
-$tooltip-max-width: 290px;
-$tooltip-min-width: 130px;
-$tooltip-max-height: 256;
-$tooltip-min-height: 72px;
+//Popover :
+$popover-background-color: #ebf6ff;
+$popover-max-width: 290px;
+$popover-min-width: 130px;
+$popover-max-height: 256;
+$popover-min-height: 72px;
 
 // svg icons
 $svg-icon-width: 16px;
@@ -145,7 +145,7 @@ $modal-window-zindex: 1050;
 $modal-window-backdrop-zindex: $modal-window-zindex - 10;
 $message-box-zindex: 1100;
 $message-box-backdrop-zindex: $message-box-zindex - 10;
-$tooltip-zindex: 900;
+$popover-zindex: 900;
 
 // Inputs
 
@@ -182,7 +182,11 @@ $dropdown-item-left-padding: 10px;
 $dropdown-item-right-padding: 15px;
 $dropdown-item-line-height: 32px;
 
+// Popups
+$popup-padding: 22px;
+
 // Modular Mega Menu
+// NOTE: Please do not use these variables in other components. The mega menu is a one-off
 $orange-caret-position: -214px;
 $caret-width: 5px;
 $caret-height: 16px;
@@ -196,7 +200,7 @@ $user-popup-padding: 2px 10px;
 $row-hover-color: #E1F3FF;
 
 $tab-row-width: 200px;
-$popup-padding: 22px;
+$context-popup-padding: 10px;
 
 $hoverable-border-size: 1px;
 $hoverable-vertical-padding: 8px;
