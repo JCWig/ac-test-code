@@ -14,7 +14,7 @@ module.exports = angular.module('akamai.components.utils', [])
 /**
  * @ngdoc directive
  *
- * @name akamai.components.tooltip.directive:akamTextOverflow
+ * @name akamai.components.utils.directive:akamTextOverflow
  *
  * @description will add a html tooltip if needed to some text
  *
@@ -31,7 +31,7 @@ module.exports = angular.module('akamai.components.utils', [])
  /**
  * @ngdoc directive
  *
- * @name akamai.components.tooltip.directive:akamStandalone
+ * @name akamai.components.utils.directive:akamStandalone
  *
  * @description adds an css class (standalone) to the element
  *
