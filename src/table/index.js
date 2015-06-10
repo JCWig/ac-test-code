@@ -65,10 +65,10 @@ module.exports = angular.module('akamai.components.table', [
  *    id-property="custom-id-field"
  *    on-change="myRowSelectionCallback(selectedItems)"
  *    selected-rows="selectedItems">
- *    <akam-toolbar>
+ *    <akam-table-toolbar>
  *      <span>Custom toolbar markup here</span>
  *      <i class="my-awesome-icon"></i>
- *    </akam-toolbar>
+ *    </akam-table-toolbar>
  *    <akam-table-row>
  *      <akam-table-column row-property="id" header-name="my.id">
  *        <span>CUSTOM MARKUP</span>{{ row.id }}
