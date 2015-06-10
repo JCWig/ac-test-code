@@ -21,9 +21,14 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
       newScope.buttonText = attrs.buttonText;
       newScope.buttonFunction = $parse(attrs.buttonFunction);
 
-      newScope.useCustomContent = function() {
-        return !!attrs.customContent;
-      };
+      newScope.useCustomContent = !!attrs.customContent;
+      newScope.hasHeader = newScope.header && newScope.header.length > 0;
+      newScope.hasButton = newScope.buttonText && newScope.buttonText.length > 0;
+      newScope.hasLink = 
+          newScope.linkText && newScope.linkText.length > 0 &&
+          newScope.linkUrl && newScope.linkUrl.length > 0;
+      newScope.isTriggerClick = attrs.trigger === 'click';
+
       newScope.isOpen = function() {
         return newScope.opened;
       };
@@ -33,18 +38,8 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           popover.toggleClass('in', newScope.opened);
         });
       };
-      newScope.hasHeader = function() {
-        return newScope.header && newScope.header.length > 0;
-      };
-      newScope.hasButton = function() {
-        return newScope.buttonText && newScope.buttonText.length > 0;
-      };
-      newScope.hasLink = function() {
-        return newScope.linkText && newScope.linkText.length > 0 &&
-          newScope.linkUrl && newScope.linkUrl.length > 0;
-      };
-      newScope.isTriggerClick = function() {
-        return attrs.trigger === 'click';
+      newScope.buttonFunctionNew = function() {
+        newScope.buttonFunction(newScope);
       };
       function setCoords() {
         var pageMidCoords = document.body.clientWidth / 2;
@@ -106,11 +101,11 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
         newScope.opened = false;
         template = require('./templates/popover.tpl.html');
         popover = $compile(template)(newScope, function(popoverEle) {
-          if (newScope.useCustomContent()) {
+          if (newScope.useCustomContent) {
             customTemplate = $templateCache.get(attrs.customContent);
             $timeout(function() {
               $compile(customTemplate)(newScope, function(customEle) {
-                popoverEle.querySelectorAll('.popover-custom-content').append(customEle);
+                popoverEle[0].querySelector('.popover-custom-content').appendChild(customEle[0]);
                 element.after(popoverEle);
               });
             }, 0);
@@ -119,7 +114,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           }
         });
         triggerElement = element;
-        if (attrs.trigger === 'click') {
+        if (newScope.isTriggerClick) {
           triggerElement.on('click', function() {
             newScope.toggle();
           });
