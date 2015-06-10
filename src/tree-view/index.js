@@ -4,14 +4,13 @@ var angular = require('angular');
 
 module.exports = angular.module('akamai.components.tree-view', [
 	require('../indeterminate-progress').name,
-	require('../tool-tip').name,
 	require('../utils').name
 ])
 
 /**
  * @ngdoc directive
  *
- * @name akamai.components.tooltip.directive:akamTreeView
+ * @name akamai.components.tree-voew.directive:akamTreeView
  *
  * @description Creates a naviagatable tree view
  *
@@ -41,9 +40,9 @@ module.exports = angular.module('akamai.components.tree-view', [
 /**
  * @ngdoc directive
  *
- * @name akamai.components.tooltip.directive:akamTreeViewParentSelector
+ * @name akamai.components.tree-view.directive:akamTreeViewParentSelector
  *
- * @description Creates a tooltip like drop down to navigate up a tree view
+ * @description Creates a popover like drop down to navigate up a tree view
  *
  * @restrict A
  *
