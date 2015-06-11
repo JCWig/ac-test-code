@@ -1,0 +1,103 @@
+/* Time Picker
+
+Users select a time from a popup time picker.
+
+Styleguide 8.0
+
+*/
+
+$button-border-color-hover: #999999;
+$dropdown-menu-padding: 16px 15px 12px;
+$dropdown-menu-arrow-padding: 11px;
+$dropdown-menu-input-width: 40px;
+$timepicker-input-disabled-color: #cccccc;
+.akam-time-picker {
+  position: relative;
+  & > .btn {
+    min-width: 0;
+    margin-left: -4px;
+    width: 32px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    > i {
+      margin-left: -3px;
+    }
+    &:hover,
+    &:focus {
+      border-color: $button-border-color-hover;
+      > i {
+        @include luna-sprite(time);
+      }
+    }
+    &:active {
+      border-color: $button-border-color-hover;
+    }
+  }
+  & > input[type='text'] {
+    padding-right: 6px;
+    width: 125px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    &:focus ~ .btn {
+      border-left-color: $input-border-color-focus;
+    }
+    &:disabled {
+      color: $timepicker-input-disabled-color;
+      cursor: default;
+    }
+    &.ng-invalid.ng-touched ~ .btn {
+      border-left-color: $border-color-invalid;
+    }
+  }
+  .dropdown-menu.open {
+    margin-top: 1px;
+    padding: $dropdown-menu-padding;
+    min-width: 0;
+    input[type='text'] {
+      box-shadow: none;
+      padding: 0;
+      width: $dropdown-menu-input-width;
+    }
+    table {
+      @include user-select(none);
+      td {
+        min-width: 15px;
+      }
+      a {
+        display: block;
+        cursor: pointer;
+        i {
+          vertical-align: middle;
+        }
+      }
+      tr.time-decrement-row {
+        a {
+          padding-top: $dropdown-menu-arrow-padding;
+        }
+        td:hover i {
+          @include luna-sprite(arrow_smDown_hover);
+        }
+      }
+      tr.time-increment-row {
+        a {
+          padding-bottom: $dropdown-menu-arrow-padding;
+        }
+        td:hover i {
+          @include luna-sprite(arrow_smUp_hover);
+        }
+      }
+      td.meridian input[type='button'] {
+        background-color: $input-background-color;
+        border: solid 1px $input-border-color;
+        outline: none;
+        box-shadow: none;
+        width: $dropdown-menu-input-width;
+        padding: 0;
+        @include border-radius($input-border-radius);
+        &:hover, &:focus {
+          border-color: $input-border-color-focus;
+        }
+      }
+    }
+  }
+}
