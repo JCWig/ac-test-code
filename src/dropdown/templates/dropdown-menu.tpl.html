@@ -1,0 +1,16 @@
+<div class="dropdown-menu">
+    <div class="fixed-header" ng-show="hasFilter">
+        <input ng-show="!filterProperty" type="text" ng-model="dropdownFilter" />
+        <input ng-show="filterProperty" type="text" ng-model="dropdownFilter[filterProperty]" />
+    </div>
+    <ul class="dropdown-menu">
+        <li ng-repeat="item in items | filter:dropdownFilter">
+            <a href ng-click="setSelectedItem(item)">
+                <span ng-if="textProperty"
+                      ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                <span ng-if="!textProperty"
+                      ng-bind-html="item | highlight:dropdownFilter"></span>
+            </a>
+        </li>
+    </ul>
+</div>

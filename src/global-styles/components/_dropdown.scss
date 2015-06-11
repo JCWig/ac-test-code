@@ -1,0 +1,73 @@
+$arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
+$selected-option-background-color: #f4f4f4;
+$dropdown-button-gradient: linear-gradient(to bottom, #fff, #e6e6e6);
+$dropdown-button-gradient-hover: linear-gradient(to bottom, #f4f4f4, #c8c8c8);
+$dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
+$dropdown-selected-option-background-color: #f4f4f4;
+$dropdown-button-active-hover-border-color: #999;
+
+.dropdown.akam-dropdown {
+
+  & > .dropdown-toggle {
+    display: inline-block;
+    cursor: pointer;
+    height: 28px;
+
+    & > span {
+      display: inline-block;
+      border: 1px solid $border-color;
+      height: 100%;
+      vertical-align: middle;
+    }
+
+    & > span.selected-option {
+      width: 200px;
+      margin-right: -4px;
+      line-height: 28px;
+      padding: 0 20px 0 10px;
+      background-color: $dropdown-selected-option-background-color;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      @include box-shadow($input-box-shadow);
+    }
+
+    & > span:last-child {
+      width: 28px;
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+      background: $arrow-background, $dropdown-button-gradient;
+    }
+    & > i.clear-dropdown {
+      position: absolute;
+      right: 33px;
+      top: 9px;
+    }
+
+    &:hover {
+      & > span:last-child {
+        border-color: $dropdown-button-active-hover-border-color;
+        background: $arrow-background, $dropdown-button-gradient-hover;
+      }
+
+    }
+
+    &:active {
+      & > span:last-child {
+        border-color: $dropdown-button-active-hover-border-color;
+        background: $arrow-background, $dropdown-button-gradient-active;
+      }
+    }
+  }
+
+  & ul.dropdown-menu {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -ms-overflow-y: scroll;
+
+    // fix for weird rendering issue when filtering in chrome
+    a {
+      -webkit-transform: translate3d(0, 0, 0);
+      cursor: pointer;
+    }
+  }
+}

@@ -31,7 +31,7 @@ a:hover {
   border: 1px solid $input-border-color;
   border-radius : $border-radius;
   @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, 0.15));
-  
+
   &.akam-list-box,
   &.akam-data-table {
     margin: 16px 0;
@@ -40,4 +40,8 @@ a:hover {
 
 .well {
   @include box-shadow($global-inset-box-shadow);
+}
+
+.ui-match {
+  background: #ffff00;
 }

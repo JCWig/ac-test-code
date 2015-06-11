@@ -1,0 +1,8 @@
+<span class="selected-option util-ellipsis">
+    <span ng-if="!textProperty">{{selectedItem}}</span>
+    <span ng-if="textProperty">{{selectedItem[textProperty]}}</span>
+</span>
+<i class="luna-close_sm util-clickable clear-dropdown"
+   ng-click="clearSelectedItem($event)"
+   ng-if="selectedItem"></i>
+<span></span>
