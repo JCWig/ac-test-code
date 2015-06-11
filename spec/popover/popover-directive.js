@@ -142,7 +142,7 @@ describe('akamai.components.popover', function() {
         '<script type="text/ng-template" id="templateId.html">'+
           '<div><span id="random-span1">{{customData.text}}</span>' +
           '<button id="random-button1">Click this to do something</button><br>' +
-          '<button id="random-button2" ng-click="customData.btnFunction()">Click this to do something else </button>';
+          '<button id="random-button2" ng-click="customData.btnFunction()">Click this to do something else </button></div>';
         '</script>';
       addElement(markup);
       scope.$digest();
