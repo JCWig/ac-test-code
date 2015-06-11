@@ -6,9 +6,7 @@ var angular = require('angular');
 module.exports = function($q, $injector, $location, akamAuth, akamHttpBuffer, akamTokenService) {
   var redirectToLoginProblemTypes =
     [
-      'http://control.akamai.com/problems/no-akasession',
-      'http://control.akamai.com/problems/invalid-akasession',
-      'http://control.akamai.com/problems/expired-akasession'
+      'http://control.akamai.com/problems/invalid-request'
     ];
 
   var authGrantProblemTypes =

@@ -4,9 +4,14 @@
 module.exports = function() {
   var usePulsarAuth = true;
 
-  this.usePulsarAuth = function(value) {
-    usePulsarAuth = !!value;
-  };
+  Object.defineProperty(this, 'usePulsarAuth', {
+    get: function() {
+      return usePulsarAuth;
+    },
+    set: function(value) {
+      usePulsarAuth = !!value;
+    }
+  });
 
   this.$get = function() {
     return {

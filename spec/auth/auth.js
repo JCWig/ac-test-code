@@ -30,7 +30,7 @@ describe('Auth', function() {
       it('should redirect to login page', function() {
         var urlSpy = spyOn(location, 'url');
         httpBackend.when('GET', '/no/akasession/cookie').respond(401, {
-          type: 'http://control.akamai.com/problems/no-akasession'
+          type: 'http://control.akamai.com/problems/invalid-request'
         }, {'content-type': 'application/problem+json'});
         http.get('/no/akasession/cookie');
         httpBackend.flush();
@@ -38,34 +38,8 @@ describe('Auth', function() {
       });
     });
   });
-  describe('given an invalid AKASESSION cookie', function() {
-    describe('when an API request is sent', function() {
-      it('should redirect to login page', function() {
-        var urlSpy = spyOn(location, 'url');
-        httpBackend.when('GET', '/invalid/akasession/cookie').respond(401, {
-          type: 'http://control.akamai.com/problems/invalid-akasession'
-        }, {'content-type': 'application/problem+json'});
-        http.get('/invalid/akasession/cookie');
-        httpBackend.flush();
-        expect(urlSpy).toHaveBeenCalledWith('/EdgeAuth/login.jsp');
-      });
-    });
-  });
-  describe('given an expired AKASESSION cookie', function() {
-    describe('when an API request is sent', function() {
-      it('should redirect to login page', function() {
-        var urlSpy = spyOn(location, 'url');
-        httpBackend.when('GET', '/expired/akasession/cookie').respond(401, {
-          type: 'http://control.akamai.com/problems/expired-akasession'
-        }, {'content-type': 'application/problem+json'});
-        http.get('/expired/akasession/cookie');
-        httpBackend.flush();
-        expect(urlSpy).toHaveBeenCalledWith('/EdgeAuth/login.jsp');
-      });
-    });
-  });
   describe('given a valid AKASESSION cookie with no JWT cookie', function() {
-    it('should request an authorization grant', function(done) {
+    it('should request an authorization grant and retry', function(done) {
       var calls = 0;
       var errorResponse = [401, {
         type: 'http://control.akamai.com/problems/no-token'
@@ -86,13 +60,40 @@ describe('Auth', function() {
         expect(data.success).toBe(true);
         done();
       }).error(function(error) {
-        expect(error).toBeUndefined();
+        // force a failure
+        expect(false).toBe(true);
         done();
       });
 
       httpBackend.flush();
     });
-    it('should retry the API request with the valid JWT cookie', function() {
+    it('should request an authorization grant and redirect to login when the auth grant fails', function(done) {
+      var calls = 0;
+      var errorResponse = [401, {
+        type: 'http://control.akamai.com/problems/no-token'
+      }, {'content-type': 'application/problem+json'}];
+      var successResponse = [200, {success: true}, {}];
+
+      httpBackend.when('GET', '/request_auth.jsp').respond([400]);
+      httpBackend.when('GET', '/no/jwt/token').respond(
+        function(method, url, data, headers) {
+          if (calls === 0) {
+            calls++;
+            return errorResponse;
+          } else {
+            return successResponse;
+          }
+        });
+      http.get('/no/jwt/token').success(function(data, status, headers, config) {
+        expect(data.success).toBe(true);
+        done();
+      }).error(function(error) {
+        // force a failure
+        expect(false).toBe(true);
+        done();
+      });
+
+      httpBackend.flush();
 
     });
   });
