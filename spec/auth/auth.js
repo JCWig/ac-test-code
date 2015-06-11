@@ -7,18 +7,19 @@ describe('Auth', function() {
       httpBackend,
       buffer,
       tokenService,
-      location;
+      location,
+      config;
 
   beforeEach(function before() {
-    var self = this;
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
-    angular.mock.inject(function inject($http, $httpBackend, $location, httpBuffer, token) {
+    angular.mock.inject(function inject($http, $httpBackend, $location, httpBuffer, token, configuration) {
       http = $http;
       httpBackend = $httpBackend;
       location = $location;
       buffer = httpBuffer;
       tokenService = token;
+      config = configuration;
     });
   });
 
@@ -26,7 +27,7 @@ describe('Auth', function() {
     it('the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
       httpBackend.when('GET', '/unauthorized/request').respond(401);
-      httpBackend.expectGET('/request_auth.jsp').respond(200);
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
       expect(buffer.appendResponse).toHaveBeenCalled();
@@ -54,7 +55,15 @@ describe('Auth', function() {
 
   describe('Scenario: Request a token', function() {
     it('the token request should be well formed', function() {
-      httpBackend.expectGET('/request_auth.jsp').respond(200);
+      httpBackend.expectPOST(config.tokenUrl,
+        // 
+        'client_id=' + config.clientId + '&grant_type=password_assertion', function(headers) {
+        // check if the correct header was sent, if it wasn't the expectation won't
+        // match the request and the test will fail
+        var allHeadersValid = (headers['Akamai-Accept'] === 'akamai/cookie') &&
+          (headers['Content-Type'] === 'application/x-www-form-urlencoded');
+        return allHeadersValid;
+      }).respond(200);
       tokenService.create();
       httpBackend.flush();
     });

@@ -1,10 +1,7 @@
 'use strict';
 
-var REQUEST_AUTH_URL = '/request_auth.jsp',
-    LOGIN_PAGE_URL = '/EdgeAuth/login.jsp';
-
 /* @ngInject */
-module.exports = function(httpBuffer, $injector, $location) {
+module.exports = function(httpBuffer, $injector, $location, configuration) {
   var pendingRequest = false;
   var $http;
 
@@ -23,7 +20,15 @@ module.exports = function(httpBuffer, $injector, $location) {
       pendingRequest = true;
       $http = $http || $injector.get('$http');
 
-      $http.get(REQUEST_AUTH_URL).success(
+      $http({
+        url: configuration.tokenUrl,
+        data: 'client_id=' + configuration.clientId + '&grant_type=password_assertion',
+        method: 'POST',
+        headers: {
+          'Akamai-Accept': 'akamai/cookie',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).success(
         function() {
           pendingRequest = false;
           httpBuffer.retryAll();
@@ -32,7 +37,7 @@ module.exports = function(httpBuffer, $injector, $location) {
         function() {
           pendingRequest = false;
           httpBuffer.clear();
-          $location.url(LOGIN_PAGE_URL);
+          $location.url(configuration.lunaLogoutUrl);
         }
       );
     },
