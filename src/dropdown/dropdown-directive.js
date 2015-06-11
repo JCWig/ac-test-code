@@ -40,7 +40,7 @@ module.exports = function($compile, dropdownTransformer) {
     },
 
     link: function(scope, elem, attrs, ngModel) {
-      var selectedScope, selectedContentTemplate, selectedElem,
+      var selectedScope, selectedContentTemplate, selectedElem, filterObj,
         menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate;
 
       selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');

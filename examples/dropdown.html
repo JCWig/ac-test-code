@@ -32,14 +32,14 @@
 
             <akam-dropdown-selected>
                 <span class="selected-option">
-                    <span ng-if="selectedItem" style="font-weight:bold; font-style: normal">
+                    <span ng-if="selectedItem">
                         custom: {{selectedItem[textProperty]}}
                     </span>
                 </span>
             </akam-dropdown-selected>
 
             <akam-dropdown-option>
-                <span style="font-weight:bold;">custom: {{item[textProperty]}}</span>
+                <span>custom: {{item[textProperty]}}</span>
             </akam-dropdown-option>
 
         </akam-dropdown>
@@ -66,22 +66,20 @@
                        items="vm.stateObjects" filterable="name">
             <akam-dropdown-selected>
                 <span class="selected-option">
-                    <span ng-if="selectedItem" style="font-weight:bold; font-style: normal">
+                    <span ng-if="selectedItem">
                         custom: {{selectedItem[textProperty]}}
                     </span>
                 </span>
             </akam-dropdown-selected>
 
             <akam-dropdown-option>
-                <span style="font-weight:bold;">custom:
+                <span>custom:
                     <span ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
                 </span>
             </akam-dropdown-option>
         </akam-dropdown>
     </div>
     <br/>
-
-
 
     <script src="../dist/akamai-core.js"></script>
 

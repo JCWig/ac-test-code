@@ -7,11 +7,15 @@ $dropdown-selected-option-background-color: #f4f4f4;
 $dropdown-button-active-hover-border-color: #999;
 
 .dropdown.akam-dropdown {
+  min-width: 180px;
+  max-width: 600px;
+
 
   & > .dropdown-toggle {
     display: inline-block;
     cursor: pointer;
     height: 28px;
+    width: 100%;
 
     & > span {
       display: inline-block;
@@ -21,14 +25,15 @@ $dropdown-button-active-hover-border-color: #999;
     }
 
     & > span.selected-option {
-      width: 200px;
       margin-right: -4px;
       line-height: 28px;
       padding: 0 20px 0 10px;
+      width: calc(100% - 28px);
       background-color: $dropdown-selected-option-background-color;
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
       @include box-shadow($input-box-shadow);
+      @include ellipsis();
     }
 
     & > span:last-child {
@@ -59,15 +64,39 @@ $dropdown-button-active-hover-border-color: #999;
     }
   }
 
-  & ul.dropdown-menu {
-    overflow-x: hidden;
-    overflow-y: auto;
-    -ms-overflow-y: scroll;
+  & div.dropdown-menu {
+    width: calc(100% - 1px);
 
-    // fix for weird rendering issue when filtering in chrome
-    a {
-      -webkit-transform: translate3d(0, 0, 0);
-      cursor: pointer;
+    & div.fixed-header {
+      padding: 4px 5px;
+
+      & input {
+        width: 100%;
+        padding-right: 23px;
+
+        &:focus {
+          //@extend .luna-small_close_light_gray;
+        }
+      }
+
+      & i.clear-filter {
+        position: absolute;
+        top: 12px;
+        right: 10px;
+      }
+    }
+
+    & ul.dropdown-menu {
+      overflow-x: hidden;
+      overflow-y: auto;
+      -ms-overflow-y: scroll;
+
+      // fix for weird rendering issue when filtering in chrome
+      a {
+        -webkit-transform: translate3d(0, 0, 0);
+        cursor: pointer;
+      }
     }
   }
+
 }
