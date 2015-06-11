@@ -1,35 +1,48 @@
 'use strict';
 
+var REQUEST_AUTH_URL = '/request_auth.jsp',
+    LOGIN_PAGE_URL = '/EdgeAuth/login.jsp';
+
 /* @ngInject */
-module.exports = function(akamHttpBuffer, $injector) {
+module.exports = function(httpBuffer, $injector, $location) {
   var pendingRequest = false;
   var $http;
 
   return {
     /**
-     * Call this function to attempt to create a new token. When this is called, only one
-     *  request will be made.
+     * @name create
+     * @description attempt to create a new token if no token request is pending.
      *  If successful: trigger a retry of all deferred requests.
-     *  Otherwise reject all pending requests.
+     *  Otherwise clear all pending requests and redirect to login page.
      */
     create: function() {
-      if ( pendingRequest ) {
+      if ( this.isPending() ) {
         return;
       }
+
       pendingRequest = true;
       $http = $http || $injector.get('$http');
 
-      $http.get('/request_auth.jsp').success(
+      $http.get(REQUEST_AUTH_URL).success(
         function() {
           pendingRequest = false;
-          akamHttpBuffer.retryAll();
+          httpBuffer.retryAll();
         }
       ).error(
         function() {
           pendingRequest = false;
-          akamHttpBuffer.rejectAll('rejection reason');
+          httpBuffer.clear();
+          $location.url(LOGIN_PAGE_URL);
         }
       );
+    },
+    /**
+     * @name isPending
+     * @description Determines if the token service is making a pending auth token request
+     * @return {boolean} true if the token service is making a pending auth token request
+     */
+    isPending: function() {
+      return pendingRequest;
     }
   };
 };
