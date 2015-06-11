@@ -18,9 +18,10 @@ angular.module('akamai.components', [
   require('./spinner').name,
   require('./utils').name,
   require('./switch-button').name,
-  require('./tool-tip').name,
+  require('./popover').name,
   require('./router').name,
   require('./tree-view').name,
+  require('./time-picker').name,
   require('./tag-input').name,
   require('./dropdown').name
 ]);
