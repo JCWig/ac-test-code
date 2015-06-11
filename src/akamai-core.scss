@@ -1,37 +1,17 @@
-/* Prerequisites
 
-This section is responsible for setting up the foundation of the project.
+@import "compass";
 
-Styleguide 1.0
-*/
-@import "global-styles/_prerequisites";
-/* Sprites
+@import "global-styles/_fonts";
+@import "global-styles/_variables";
+@import "global-styles/_global";
+@import "global-styles/_mixins";
+@import "global-styles/_extenders";
+@import "global-styles/_bootstrap-custom";
 
-All the sprites
-
-Styleguide 2.0
-
-*/
 @import "global-styles/_sprites";
 @import "global-styles/_svg";
-/* Utility Classes
 
-Classes to make your life easier. Please see common-css/scss/_utilities.scss for a full list of utility classes
-
-Styleguide 3.0
-
-*/
 @import "global-styles/_utilities";
-
-/* Elements
-
-This section describes basic HTML elements that have a branded display.
-These elements require minimal class markup, with some elements requiring no special markup.
-Simply include the markup pattern (and possible classes) to receive the visual treatment.
-
-Styleguide 4.0
-
-*/
 
 .common-css {
   @import "global-styles/elements/_buttons";
@@ -43,14 +23,6 @@ Styleguide 4.0
   @import "global-styles/elements/_dropdowns";
 }
 
-/* Components
-
-This section describes components that have a branded display.
-Simply include the markup pattern and classes to receive the visual treatment.
-
-Styleguide 5.0
-
-*/
 
 .common-css {
   @import "global-styles/components/_determinate_progress";
@@ -66,13 +38,6 @@ Styleguide 5.0
   @import "global-styles/components/_dropdown";
 }
 
-/* Advanced Components
-
-This section describes complex components with a branded display.
-
-Styleguide 6.0
-
-*/
 
 .common-css {
   @import "global-styles/components/_modal_windows";
@@ -81,13 +46,6 @@ Styleguide 6.0
   @import "global-styles/components/_pagination";
 }
 
-/* Angular
-
-A section for Angular CSS
-
-Styleguide 8.0
-
-*/
 
 .common-css {
   @import "global-styles/components/_spinner";
@@ -98,19 +56,9 @@ Styleguide 8.0
   @import "global-styles/angular/_form_validation";
 }
 
-/* Modular Mega Menu
-
-This section describes the modular mega menu that adds a page header & footer for all pages.
-
-*/
 
 @import "global-styles/modular-mega-menu/_modular-mega-menu";
 
-/* Refactor
-
-A placeholder for CSS without a home
-
-*/
 .common-css {
   @import "global-styles/_refactor";
 }
