@@ -3,12 +3,13 @@
 var angular = require('angular');
 
 /**
- * AkamHttpBuffer
+ * httpBuffer
  * Heavily based on the HTTP Auth Interceptor Module for Angular by Witold Szczerba
  * https://github.com/witoldsz/angular-http-auth
  */
+
 /* @ngInject */
-module.exports = function($injector) {
+module.exports = function($injector, $q) {
   // Holds all the requests, so they can be re-requested in future.
   var buffer = [];
 
@@ -27,6 +28,22 @@ module.exports = function($injector) {
   }
 
   return {
+
+    /**
+     * @name appendResponse
+     * @description Appends HTTP response's request configuration object with deferred
+     *  response attached to buffer and returns the promise of the deferred.
+     * @param {object} response The response for which the config for the request will
+     *  be queued to allow for the same request to be retried later
+     * @return {promise} The promise to use to for the retried request
+     */
+    appendResponse: function(response) {
+      var deferred = $q.defer();
+
+      this.append(response.config, deferred);
+      return deferred.promise;
+    },
+
     /**
      * @name append
      * @description Appends HTTP request configuration object with deferred response
@@ -54,7 +71,7 @@ module.exports = function($injector) {
         value.deferred.reject(reason);
       });
 
-      buffer = [];
+      this.clear();
     },
 
     /**
@@ -69,7 +86,24 @@ module.exports = function($injector) {
         retryHttpRequest(value.config, value.deferred);
       });
 
+      this.clear();
+    },
+
+    /**
+     * @name clear
+     * @description Clears the buffer.
+     */
+    clear: function() {
       buffer = [];
+    },
+
+    /**
+     * @name size
+     * @description returns the size of the buffer.
+     * @return {Number} the size of the buffer
+     */
+    size: function() {
+      return buffer.length;
     }
   };
 };

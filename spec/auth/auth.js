@@ -3,106 +3,68 @@
 var utilities = require('../utilities');
 
 describe('Auth', function() {
-  var scope,
-      timeout,
-      compile,
-      q,
-      http,
+  var http,
       httpBackend,
+      buffer,
+      tokenService,
       location;
 
   beforeEach(function before() {
     var self = this;
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
-    angular.mock.inject(function inject($compile, $rootScope, $timeout, $q, $log, $http, $httpBackend, $location) {
-      scope = $rootScope.$new();
-      timeout = $timeout;
-      compile = $compile;
-      q = $q;
+    angular.mock.inject(function inject($http, $httpBackend, $location, httpBuffer, token) {
       http = $http;
       httpBackend = $httpBackend;
       location = $location;
+      buffer = httpBuffer;
+      tokenService = token;
     });
   });
-  describe('given: no AKASESSION cookie', function() {
-    describe('when an API request is sent', function() {
-      it('should redirect to login page', function() {
-        var urlSpy = spyOn(location, 'url');
-        httpBackend.when('GET', '/no/akasession/cookie').respond(401, {
-          type: 'http://control.akamai.com/problems/invalid-request'
-        }, {'content-type': 'application/problem+json'});
-        http.get('/no/akasession/cookie');
-        httpBackend.flush();
-        expect(urlSpy).toHaveBeenCalledWith('/EdgeAuth/login.jsp');
-      });
+
+  describe('Scenario: Receive unauthorized API response', function() {
+    it('the component should queue the API request for re-submission', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401);
+      httpBackend.expectGET('/request_auth.jsp').respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      buffer.appendResponse.calls.reset();
     });
   });
-  describe('given a valid AKASESSION cookie with no JWT cookie', function() {
-    it('should request an authorization grant and retry', function(done) {
-      var calls = 0;
-      var errorResponse = [401, {
-        type: 'http://control.akamai.com/problems/no-token'
-      }, {'content-type': 'application/problem+json'}];
-      var successResponse = [200, {success: true}, {}];
 
-      httpBackend.when('GET', '/request_auth.jsp').respond('');
-      httpBackend.when('GET', '/no/jwt/token').respond(
-        function(method, url, data, headers) {
-          if (calls === 0) {
-            calls++;
-            return errorResponse;
-          } else {
-            return successResponse;
-          }
-        });
-      http.get('/no/jwt/token').success(function(data, status, headers, config) {
-        expect(data.success).toBe(true);
-        done();
-      }).error(function(error) {
-        // force a failure
-        expect(false).toBe(true);
-        done();
-      });
+  describe('Scenario: Receive authorized API response', function() {
+    it('the component should pass through the response to the app', function() {
+      spyOn(buffer, 'appendResponse');
+      spyOn(tokenService, 'create');
+      httpBackend.when('GET', '/authorized/request1').respond(200);
+      httpBackend.when('GET', '/authorized/request2').respond(302);
+      httpBackend.when('GET', '/authorized/request3').respond(500);
+      http.get('/authorized/request1');
+      http.get('/authorized/request2');
+      http.get('/authorized/request3');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.create).not.toHaveBeenCalled();
+      buffer.appendResponse.calls.reset();
+      tokenService.create.calls.reset();
+    });
+  });
 
+  describe('Scenario: Request a token', function() {
+    it('the token request should be well formed', function() {
+      httpBackend.expectGET('/request_auth.jsp').respond(200);
+      tokenService.create();
       httpBackend.flush();
     });
-    it('should request an authorization grant and redirect to login when the auth grant fails', function(done) {
-      var calls = 0;
-      var errorResponse = [401, {
-        type: 'http://control.akamai.com/problems/no-token'
-      }, {'content-type': 'application/problem+json'}];
-      var successResponse = [200, {success: true}, {}];
-
-      httpBackend.when('GET', '/request_auth.jsp').respond([400]);
-      httpBackend.when('GET', '/no/jwt/token').respond(
-        function(method, url, data, headers) {
-          if (calls === 0) {
-            calls++;
-            return errorResponse;
-          } else {
-            return successResponse;
-          }
-        });
-      http.get('/no/jwt/token').success(function(data, status, headers, config) {
-        expect(data.success).toBe(true);
-        done();
-      }).error(function(error) {
-        // force a failure
-        expect(false).toBe(true);
-        done();
-      });
-
-      httpBackend.flush();
-
-    });
   });
-  describe('given a valid AKASESSION cookie with expired JWT cookie', function() {
-    it('should request an authorization grant', function() {
 
-    });
-    it('should retry the API request with the valid JWT cookie', function() {
-
-    });
-  });
+  /*
+  when the component requests a token
+  then the request body should include the client_id parameter
+  and the request body should include grant_type=password_assertion parameter
+  and the request header should include 'Akamai-Accept': 'akamai/cookie'
+  and the request header should include 'Content-Type': 'application/x-www-form-urlencoded'
+  */
 });
