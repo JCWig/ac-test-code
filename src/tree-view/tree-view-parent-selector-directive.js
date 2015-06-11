@@ -24,9 +24,9 @@ module.exports = function($timeout, $compile, $document) {
           $document.bind('click', documentClickBind);
         }
       };
-      scope.triggerParentChange = function(parent) {
+      scope.triggerParentChange = function(index) {
         scope.toggle();
-        scope.changeParent(parent, true);
+        scope.changeParent(index, true);
       };
       scope.isOpen = function() {
         return scope.opened;

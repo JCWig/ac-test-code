@@ -1,13 +1,13 @@
 {
-    "parent" : {"title" : "Employees"},
-    "current": {"title" : "Development"},
-                    "children": [
-                        {"title": "Bruce Hopper"},
-                        {"title": "Kent Clarkson"},
-                        {"title": "Hallie Jordan"},
-                        {"title": "Barry Jones"},
-                        {"title": "Sam Curry"},
-                        {"title": "Michael Prince"},
-                        {"title": "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" }
-                    ]
+    "parents" : {"titles" : "Employees"},
+    "currents": {"titles" : "Development"},
+    "childs": [
+        {"titles": "Bruce Hopper"},
+        {"titles": "Kent Clarkson"},
+        {"titles": "Hallie Jordan"},
+        {"titles": "Barry Jones"},
+        {"titles": "Sam Curry"},
+        {"titles": "Michael Prince"},
+        {"titles": "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" }
+    ]
 }

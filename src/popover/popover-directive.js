@@ -24,7 +24,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
       newScope.useCustomContent = !!attrs.customContent;
       newScope.hasHeader = newScope.header && newScope.header.length > 0;
       newScope.hasButton = newScope.buttonText && newScope.buttonText.length > 0;
-      newScope.hasLink = 
+      newScope.hasLink =
           newScope.linkText && newScope.linkText.length > 0 &&
           newScope.linkUrl && newScope.linkUrl.length > 0;
       newScope.isTriggerClick = attrs.trigger === 'click';

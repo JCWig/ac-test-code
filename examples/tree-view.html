@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Akamai Components Examples - Tree View</title>
+        <titles>Akamai Components Examples - Tree View</titles>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
@@ -24,7 +24,7 @@
             </span>
             <br />
             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="contextData" parent-property="parents" children-property="childs" current-property="currents" text-property="titles" on-change="triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
             <br />
@@ -32,107 +32,105 @@
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
              <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="jsonFromHttpGet" on-context-change="triggerChange2"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="jsonFromHttpGet" parent-property="parents" children-property="childs" current-property="currents" text-property="titles" on-change="triggerChange2(item)"> </akam-tree-view>
             </div>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
             var exampleController = function($scope, $log, $q, $timeout, $http) {
                 
+                
                 // Load data from a json file to test out HTTP GET functionality
                 $scope.jsonFromHttpGet = $http.get('json/tree-view-data.json');
                 
                 $scope.triggerChange2 = function(clickedObj){
-                    $log.log("clicked object " + clickedObj.title);
+                    $log.log("clicked object " + clickedObj.titles);
                 };
                 
                 $scope.triggerChange = function(clickedObj){
-                    if(clickedObj.title === 'Hallie Jordan'){
+                    if(clickedObj.titles === 'Hallie Jordan'){
                         $scope.contextData = {
-                            parent:{title:"Development"},
-                            children : [
-                                {title:"Dinah Short"},
-                                {title:"Helena Sky"},
-                                {title:"Selina Crow"}
+                            parents:{titles:"Development"},
+                            childs : [
+                                {titles:"Dinah Short"},
+                                {titles:"Helena Sky"},
+                                {titles:"Selina Crow"}
                             ]
                         }
-                    } else if (clickedObj.title === 'Dinah Short') {
+                    } else if (clickedObj.titles === 'Dinah Short') {
                         var def = $q.defer();
                         $timeout(function(){
                             def.resolve({
-                                parent:{title:"Hallie Jordan"},
-                                children : [
-                                    {title:"Speedy McQueen"},
-                                    {title:"Mia Deardenton"},
-                                    {title:"Royce Brown"},
-                                    {title:"Shane McDowell"}
+                                parents:{titles:"Hallie Jordan"},
+                                childs : [
+                                    {titles:"Speedy McQueen"},
+                                    {titles:"Mia Deardenton"},
+                                    {titles:"Royce Brown"},
+                                    {titles:"Shane McDowell"}
                             ]});
                         }, 5000);
                         return def.promise;
-                    } else if (clickedObj.title === 'Sam Curry') {
+                    } else if (clickedObj.titles === 'Sam Curry') {
                         var def = $q.defer();
                         $scope.contextData = def.promise;
                         $timeout(function(){
                             def.reject();
                         }, 200);
-                    } else if (clickedObj.title === 'Kent Clarkson') {
-                        return {
-                            parent:{title:"Development"},
-                            children : null
-                        };
-                    }  else if (clickedObj.title === 'Bruce Hopper') {
+                    } else if (clickedObj.titles === 'Kent Clarkson') {
+                        return $http.get('json/small-tree-view-data.json');
+                    }  else if (clickedObj.titles === 'Bruce Hopper') {
                         var def = $q.defer();
                         $scope.contextData = {
-                            parent:{title:"Development"},
-                            children : []
+                            parents:{titles:"Development"},
+                            childs : []
                         }
-                    } else if (clickedObj.title === 'Development') {
+                    } else if (clickedObj.titles === 'Development') {
                         var def = $q.defer();
                         $scope.contextData = def.promise;
                         $timeout(function(){
                             def.resolve({
-                                parent:{title:"Employees"},
-                                children:[
-                                    {"title": "Bruce Hopper"},
-                                    {title: "Kent Clarkson"},
-                                    {title: "Hallie Jordan"},
-                                    {title: "Barry Jones"},
-                                    {title: "Sam Curry"},
-                                    {title: "Michael Prince"},
-                                    {title: "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" }
+                                parents:{titles:"Employees"},
+                                childs:[
+                                    {"titles": "Bruce Hopper"},
+                                    {titles: "Kent Clarkson"},
+                                    {titles: "Hallie Jordan"},
+                                    {titles: "Barry Jones"},
+                                    {titles: "Sam Curry"},
+                                    {titles: "Michael Prince"},
+                                    {titles: "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" }
                                 ]
                             });
                         }, 2000);
-                    } else if (clickedObj.title === 'Employees') {
+                    } else if (clickedObj.titles === 'Employees') {
                         $scope.contextData = {
-                            parent : null,
-                            children: [
-                                {title: "Development"},
-                                {title: "Quality Assurance"},
-                                {title: "Dev. Ops"},
-                                {title: "UXD"},
-                                {title: "Sales"},
-                                {title: "Help Desk"},
-                                {title: "Network Operations Command Center"}
+                            parents : null,
+                            childs: [
+                                {titles: "Development"},
+                                {titles: "Quality Assurance"},
+                                {titles: "Dev. Ops"},
+                                {titles: "UXD"},
+                                {titles: "Sales"},
+                                {titles: "Help Desk"},
+                                {titles: "Network Operations Command Center"}
                             ]
                         }
                     } else {
                         $scope.contextData = {
-                            children: null
+                            childs: null
                         }
                     }
                 }
                 $scope.contextData = {
-                    parent:[{title:"Employees"}],
-                    current:{title: "Development"},
-                    children:[
-                        {"title": "Bruce Hopper"},
-                        {"title": "Kent Clarkson"},
-                        {"title": "Hallie Jordan"},
-                        {"title": "Barry Jones"},
-                        {"title": "Sam Curry"},
-                        {"title": "Michael Prince"},
-                        {"title": "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" },
+                    parents:{titles: "Employees"},
+                    currents:{titles: "Development"},
+                    childs:[
+                        {"titles": "Bruce Hopper"},
+                        {"titles": "Kent Clarkson"},
+                        {"titles": "Hallie Jordan"},
+                        {"titles": "Barry Jones"},
+                        {"titles": "Sam Curry"},
+                        {"titles": "Michael Prince"},
+                        {"titles": "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" },
                     ]
                 }
             };

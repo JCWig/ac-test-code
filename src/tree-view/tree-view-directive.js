@@ -3,33 +3,55 @@ var angular = require('angular');
 var treeViewTemplate = require('./templates/tree-view.tpl.html');
 
 /* @ngInject */
-module.exports = function($q, $compile, $log, $timeout) {
+module.exports = function($q, $compile, $log, $timeout, $parse) {
   return {
     restrict: 'E',
     scope: {
-      contextData: '=',
-      onContextChange: '&'
+      items: '=',
+      currentProperty: '@',
+      parentProperty: '@',
+      childrenProperty: '@',
+      textProperty: '@',
+      onChange: '&'
     },
     template: treeViewTemplate,
     link: function(scope) {
-      var haveDataFlag;
+      var haveParentsFlag, currentGetter, childrenGetter, parentGetter,
+          rootGetter, inputParents, inputChildren, inputCurrent;
+      scope.rootProperty = scope.rootProperty || 'root';
+      scope.parentProperty = scope.parentProperty || 'parent';
+      scope.currentProperty = scope.currentProperty || 'current';
+      scope.childrenProperty = scope.childrenProperty || 'children';
+      scope.textProperty = scope.textProperty || 'title';
+
+      currentGetter = $parse(scope.currentProperty);
+      childrenGetter = $parse(scope.childrenProperty);
+      parentGetter = $parse(scope.parentProperty);
+      rootGetter = $parse(scope.rootProperty);
 
       scope.loading = true;
-      scope.contextData = scope.contextData;
+      scope.items = scope.items;
       scope.parentTree = [];
       scope.children = [];
-      scope.contextChangeNew = function(clickedObj, up) {
-        haveDataFlag = true;
-        if (up) {
-          maintainParentTree(clickedObj, up);
-        } else {
-          maintainParentTree(scope.current, up);
-        }
-        if (scope.parentTree.length === 0) {
-          clickedObj.root = true;
-        }
-        scope.current = clickedObj;
 
+      scope.contextChangeNew = function(index, up) {
+        var spliceIndex = inputParents.length - 1 - index;
+
+        haveParentsFlag = true;
+        if (up) {
+          inputCurrent = inputParents[spliceIndex];
+          scope.current = scope.parentTree[spliceIndex];
+          inputParents.splice(spliceIndex, inputParents.length);
+          scope.parentTree.splice(spliceIndex, scope.parentTree.length);
+          if (scope.parentTree.length === 0) {
+            haveParentsFlag = false;
+          }
+        } else {
+          inputParents.push(inputCurrent);
+          scope.parentTree.push(scope.current);
+          scope.current = scope.children[index];
+          inputCurrent = inputChildren[index];
+        }
         scope.retrievedData = false;
         $timeout(function() {
           if (!scope.retrievedData) {
@@ -37,15 +59,19 @@ module.exports = function($q, $compile, $log, $timeout) {
           }
         }, 300);
         scope.failed = false;
-        $q.when(scope.onContextChange({item: clickedObj})).then(function(children) {
-          scope.children = children ? children.children || [] : [];
-          scope.loading = false;
-          scope.retrievedData = true;
+        $q.when(scope.onChange({item: inputCurrent})).then(function(resp) {
+          var data;
+
+          if (resp) {
+            data = resp.data ? resp.data : resp;
+            scope.retrieveAndHandleNewChildrenAndParents(data);
+          }
         }).catch(function() {
           scope.failed = true;
         });
       };
-      scope.$watch('contextData', function() {
+
+      scope.$watch('items', function() {
         scope.retrievedData = false;
         $timeout(function() {
           if (!scope.retrievedData) {
@@ -53,22 +79,15 @@ module.exports = function($q, $compile, $log, $timeout) {
           }
         }, 300);
         scope.failed = false;
-        if (scope.contextData) {
-          $q.when(scope.contextData).then(function(resp) {
+        if (scope.items) {
+          $q.when(scope.items).then(function(resp) {
             var data = resp.data ? resp.data : resp;
 
-            if (data.parent && !haveDataFlag) {
-              maintainParentTree(data.parent);
-            }
-
             if (!scope.current) {
-              scope.current = data.current;
+              inputCurrent = currentGetter(data);
+              scope.current = convertData(inputCurrent, scope, scope.currentProperty, data)[0];
             }
-
-            scope.children = data.children || [];
-
-            scope.loading = false;
-            scope.retrievedData = true;
+            scope.retrieveAndHandleNewChildrenAndParents(data);
           }).catch(function() {
             scope.failed = true;
           });
@@ -77,6 +96,51 @@ module.exports = function($q, $compile, $log, $timeout) {
       scope.hasParents = function() {
         return !!scope.parentTree.length;
       };
+      scope.retrieveAndHandleNewChildrenAndParents = function(data) {
+        var value;
+
+        inputChildren = childrenGetter(data);
+
+        if (!haveParentsFlag) {
+          inputParents = parentGetter(data);
+          maintainParentTree(convertData(inputParents, scope, scope.parentProperty, data));
+          if (inputParents && !angular.isArray(inputParents)) {
+            value = inputParents;
+            inputParents = [value];
+          }
+          if (scope.parentTree.length === 0) {
+            inputParents = [];
+            scope.current.root = true;
+          }
+        }
+
+        if (inputChildren) {
+          scope.children = convertData(inputChildren, scope, scope.childrenProperty, data);
+        } else {
+          scope.children = [];
+        }
+        scope.loading = false;
+        scope.retrievedData = true;
+      };
+      function convertData(data, scopeParam, prop, convertFrom) {
+        var converted, i;
+
+        if (angular.isArray(data)) {
+          converted = [];
+          for (i = 0; i < data.length; i++) {
+            converted.push({
+              title: $parse(prop + '[' + i + '].' + scopeParam.textProperty)(convertFrom),
+              root:$parse(prop + '[' + i + '].' + scopeParam.rootProperty)(convertFrom)
+            });
+          }
+          return converted;
+        } else if (data) {
+          return [{title: $parse(prop + '.' + scopeParam.textProperty)(convertFrom), 
+            root:$parse(prop + '.' + scopeParam.rootProperty)(convertFrom)}];
+        } else {
+          return [];
+        }
+      }
       function maintainParentTree(obj, toRemove) {
         if (toRemove) {
           scope.parentTree.splice(scope.parentTree.indexOf(obj), scope.parentTree.length);
