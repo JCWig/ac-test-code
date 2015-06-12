@@ -13,7 +13,7 @@ module.exports = function($document, $parse) {
     restrict: 'E',
     transclude: false,
     scope: {},
-    require: "ngModel",
+    require: 'ngModel',
     bindToController: {
       showMeridian: '=?',
       disabled: '=?',
@@ -63,7 +63,7 @@ module.exports = function($document, $parse) {
     ctrl.changed = function() {
       ngModel.$setViewValue(ctrl.inputTime);
       ngModel.$setTouched();
-      ngModel.setDirty();
+      ngModel.$setDirty();
     };
 
     ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';
