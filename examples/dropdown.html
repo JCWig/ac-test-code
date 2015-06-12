@@ -104,7 +104,8 @@
 
     <script>
         angular.module('dropdownApp', ['akamai.components.dropdown', 'akamai.components.menu-button'])
-                .controller('DropdownAppController', DropdownAppController);
+                .controller('DropdownAppController', DropdownAppController)
+                .config(configFunction);
 
         DropdownAppController.$inject = ['$log'];
         function DropdownAppController($log) {
@@ -146,8 +147,17 @@
             vm.doChange = function() {
                 $log.log('option changed');
             };
-
         }
+
+        configFunction.$inject = ['i18nTokenProvider'];
+        function configFunction (i18nTokenProvider) {
+            // need to overwrite locales path on fee.akamai.com
+            if(window.location.host == 'fee.akamai.com') {
+                i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+                i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            }
+        }
+
 
     </script>
 </body>
