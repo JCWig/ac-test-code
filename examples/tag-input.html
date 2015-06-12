@@ -4,6 +4,9 @@
         <meta charset="UTF-8">
         <title>Akamai Components Examples - Tag Input</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
+        <style>
+            div.container-div { width: 500px; }
+        </style>            
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container" >
@@ -11,26 +14,26 @@
                 <h1>Tag Input Component Example</h1>
             </div>
             <h2>Drag/Drop Tag Order Example</h2>
-            <div style="width:500px;">
+            <div class="container-div"; >
                 <akam-tag-input ng-model="items1" available-items="availableItems" drag-dropable="true"> 
                 </akam-tag-input>
             </div>
             <br/><br/><br/>
-            <div style="width:500px;">
+            <div class="container-div";>
                 <h2>Sorted Selected Tag Example</h2>
                 <akam-tag-input ng-model="items2" available-items="availableItems" restricted="false"
                                 sort-function="sortFunction"> 
                 </akam-tag-input>
             </div>
             <br/><br/><br/>
-            <div style="width:500px;">
+            <div class="container-div";>
                 <h2>Adding New Items Disallowed Example</h2>
                 <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true"> 
                 </akam-tag-input>
             </div>
             <br/><br/><br/>
             <form name="tagInputform">
-                <div style="width:500px;">
+                <div class="container-div";>
                     <h2>Tag Character Limit Validation Example</h2>
                     <akam-tag-input name="tagInput" ng-model="items4" available-items="availableItems"
                                     tagging-label="(add new item)" placeholder="Select Items"
@@ -42,7 +45,7 @@
             <div ng-message="invalidTagInput">Invalid Tag Input</div>
             </div>
             <br/><br/><br/>
-            <div style="width:500px;">
+            <div class="container-div";>
                 <h2>Large Available Items List Example</h2>
                 <akam-tag-input ng-model="items5" available-items="availableItemsLarge"> 
                 </akam-tag-input>
