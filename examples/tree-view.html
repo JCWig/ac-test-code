@@ -5,7 +5,7 @@
         <titles>Akamai Components Examples - Tree View</titles>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController as vm">
         <div class="container" >
             <div class="page-header">
                 <h1>Tree View Component Examples</h1>
@@ -24,7 +24,8 @@
             </span>
             <br />
             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone items="contextData" parent-property="parents" children-property="childs" current-property="currents" text-property="titles" on-change="triggerChange(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="vm.contextData" parent-property="parents" children-property="childs" current-property="currents" text-property="titles" 
+                on-change="vm.triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
             <br />
@@ -32,24 +33,28 @@
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
              <div style="max-width:225px;">
-                <akam-tree-view akam-standalone items="jsonFromHttpGet" parent-property="parents" children-property="childs" current-property="currents" text-property="titles" on-change="triggerChange2(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="vm.jsonFromHttpGet" parent-property="parents" children-property="childs" current-property="currents" text-property="titles" 
+                on-change="vm.triggerChange2(item)"> </akam-tree-view>
             </div>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
             var exampleController = function($scope, $log, $q, $timeout, $http) {
                 
+                var vm = this;
                 
                 // Load data from a json file to test out HTTP GET functionality
-                $scope.jsonFromHttpGet = $http.get('json/tree-view-data.json');
+                vm.jsonFromHttpGet = $http.get('json/tree-view-data.json');
                 
-                $scope.triggerChange2 = function(clickedObj){
+                vm.triggerChange2 = function(clickedObj){
                     $log.log("clicked object " + clickedObj.titles);
                 };
                 
-                $scope.triggerChange = function(clickedObj){
+                vm.triggerChange = function(clickedObj){
+                    console.log("HEY I MADE IT HERE");
+                    console.log(clickedObj);
                     if(clickedObj.titles === 'Hallie Jordan'){
-                        $scope.contextData = {
+                        vm.contextData = {
                             parents:{titles:"Development"},
                             childs : [
                                 {titles:"Dinah Short"},
@@ -72,7 +77,7 @@
                         return def.promise;
                     } else if (clickedObj.titles === 'Sam Curry') {
                         var def = $q.defer();
-                        $scope.contextData = def.promise;
+                        vm.contextData = def.promise;
                         $timeout(function(){
                             def.reject();
                         }, 200);
@@ -80,13 +85,13 @@
                         return $http.get('json/small-tree-view-data.json');
                     }  else if (clickedObj.titles === 'Bruce Hopper') {
                         var def = $q.defer();
-                        $scope.contextData = {
+                        vm.contextData = {
                             parents:{titles:"Development"},
                             childs : []
                         }
                     } else if (clickedObj.titles === 'Development') {
                         var def = $q.defer();
-                        $scope.contextData = def.promise;
+                        vm.contextData = def.promise;
                         $timeout(function(){
                             def.resolve({
                                 parents:{titles:"Employees"},
@@ -102,7 +107,7 @@
                             });
                         }, 2000);
                     } else if (clickedObj.titles === 'Employees') {
-                        $scope.contextData = {
+                        vm.contextData = {
                             parents : null,
                             childs: [
                                 {titles: "Development"},
@@ -115,12 +120,12 @@
                             ]
                         }
                     } else {
-                        $scope.contextData = {
+                        vm.contextData = {
                             childs: null
                         }
                     }
                 }
-                $scope.contextData = {
+                vm.contextData = {
                     parents:{titles: "Employees"},
                     currents:{titles: "Development"},
                     childs:[
