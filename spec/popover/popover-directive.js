@@ -155,6 +155,22 @@ describe('akamai.components.popover', function() {
       expect(document.querySelector('#random-button2')).not.toBe(null);
       expect(document.querySelector('#random-span1').textContent).toContain(scope.customData.text);
     });
+    it('should be able to render custom html', function() {
+      scope.customData = {
+        text : 'Here is some text',
+        btnFunction: function(){}
+      };
+      spyOn(scope.customData,"btnFunction");
+      var markup = '<span class="pull-right" akam-popover position="bottom" trigger="click"' +
+        'custom-content="templateId.html">Clicky for Bottom Right Side</span>'+
+        '<script type="text/ng-template" id="templateId.html">'+
+          '{{customData.text}}'+
+        '</script>';
+      addElement(markup);
+      scope.$digest();
+      timeout.flush();
+      expect(document.querySelector('.popover-custom-content span').textContent).toContain(scope.customData.text);
+    });
     it('should be able to render on the top', function() {
       var markup = '<span class="pull-right" akam-popover position="top" ' +
         'header="Simple Header" popover-content="tool tip content" ' +
@@ -257,26 +273,6 @@ describe('akamai.components.popover', function() {
 
       expect(popover.classList).not.toContain("fade");
     });
-    it('should be able to toggle (hover)', function() {
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.mouseHover('#trigger-element');
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain("fade");
-
-      utilities.mouseLeave('#trigger-element');
-      timeout.flush();
-
-      expect(popover.classList).not.toContain("fade");
-    });
   });
   describe('when rendering on left side of page', function() {
     it('should render bottom arrow and popover in different format', function() {
@@ -351,6 +347,118 @@ describe('akamai.components.popover', function() {
 
       var popover = document.querySelector(POPOVER);
       expect(popover).toBe(null);
+    });
+  });
+  describe('when interacting with hovering popover', function(){
+    it('should be able to toggle (hover)', function() {
+      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
+        'popover-content="tool tip content" trigger="hover"' +
+        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
+        '</span><button id="butttton"></button>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.mouseHover('#trigger-element');
+      timeout.flush();
+
+      var popover = document.querySelector(POPOVER);
+
+      expect(popover.classList).toContain("fade");
+
+      utilities.mouseLeave('#trigger-element');
+      timeout.flush();
+
+      expect(popover.classList).not.toContain("fade");
+    });
+    it('should remain if hover continues into popover', function(){
+      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
+        'popover-content="tool tip content" trigger="hover"' +
+        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
+        '</span><button id="butttton"></button>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.mouseHover('#trigger-element');
+      timeout.flush();
+
+      var popover = document.querySelector(POPOVER);
+
+      expect(popover.classList).toContain("fade");
+      utilities.mouseLeave('#trigger-element');
+
+      utilities.mouseHover('.popover');
+      timeout.verifyNoPendingTasks();
+      popover = document.querySelector(POPOVER);
+      expect(popover).not.toBe(null);
+    });
+    it('should dissapear if hover out of popover', function(){
+      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
+        'popover-content="tool tip content" trigger="hover"' +
+        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
+        '</span><button id="butttton"></button>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.mouseHover('#trigger-element');
+      timeout.flush();
+
+      var popover = document.querySelector(POPOVER);
+
+      expect(popover.classList).toContain("fade");
+      utilities.mouseLeave('#trigger-element');
+
+      utilities.mouseHover('.popover');
+      utilities.mouseLeave('.popover');
+      timeout.flush();
+      popover = document.querySelector(POPOVER);
+      expect(popover.classList).not.toContain("fade");
+    });
+    it('should stay if hover out of popover back onto trigger element', function(){
+      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
+        'popover-content="tool tip content" trigger="hover"' +
+        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
+        '</span><button id="butttton"></button>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.mouseHover('#trigger-element');
+      timeout.flush();
+
+      var popover = document.querySelector(POPOVER);
+
+      expect(popover.classList).toContain("fade");
+      utilities.mouseLeave('#trigger-element');
+
+      utilities.mouseHover('.popover');
+      utilities.mouseLeave('.popover');
+      utilities.mouseHover('#trigger-element');
+      timeout.verifyNoPendingTasks();
+      popover = document.querySelector(POPOVER);
+      expect(popover.classList).toContain("fade");
+    });
+    it('should hide if hover out of popover back onto trigger element then off everything', function(){
+      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
+        'popover-content="tool tip content" trigger="hover"' +
+        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
+        '</span><button id="butttton"></button>';
+      addElement(markup);
+      timeout.flush();
+
+      utilities.mouseHover('#trigger-element');
+      timeout.flush();
+
+      var popover = document.querySelector(POPOVER);
+
+      expect(popover.classList).toContain("fade");
+      utilities.mouseLeave('#trigger-element');
+
+      utilities.mouseHover('.popover');
+      utilities.mouseLeave('.popover');
+      utilities.mouseHover('#trigger-element');
+      utilities.mouseLeave('#trigger-element');
+      timeout.flush();
+      popover = document.querySelector(POPOVER);
+      expect(popover.classList).not.toContain("fade");
     });
   });
 });
