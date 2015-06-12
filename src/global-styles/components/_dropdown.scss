@@ -53,7 +53,6 @@ $dropdown-button-active-hover-border-color: #999;
         border-color: $dropdown-button-active-hover-border-color;
         background: $arrow-background, $dropdown-button-gradient-hover;
       }
-
     }
 
     &:active {
@@ -61,6 +60,11 @@ $dropdown-button-active-hover-border-color: #999;
         border-color: $dropdown-button-active-hover-border-color;
         background: $arrow-background, $dropdown-button-gradient-active;
       }
+    }
+
+    & .dropdown-placeholder {
+      color: #ccc;
+      font-style: italic;
     }
   }
 

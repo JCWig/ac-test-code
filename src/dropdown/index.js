@@ -14,7 +14,8 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 module.exports = angular.module('akamai.components.dropdown', [
   require('angular-bootstrap-npm'),
   'ngSanitize',
-  'ui.highlight'
+  'ui.highlight',
+  require('../i18n').name
 ])
   .service('dropdownTransformer', require('./dropdown-transformer'))
 

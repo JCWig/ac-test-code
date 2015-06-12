@@ -5,7 +5,7 @@ var angular = require('angular');
 require('angular-sanitize');
 
 /* @ngInject */
-module.exports = function($compile, dropdownTransformer) {
+module.exports = function($compile, dropdownTransformer, translate, $log) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
     var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
@@ -27,7 +27,9 @@ module.exports = function($compile, dropdownTransformer) {
     scope: {
       items: '=',
       textProperty: '@?',
-      onChange: '&?'
+      onChange: '&?',
+      placeholder: "@?",
+      filterPlaceholder: '@?'
     },
 
     template: function(tElem) {
@@ -40,7 +42,7 @@ module.exports = function($compile, dropdownTransformer) {
     },
 
     link: function(scope, elem, attrs, ngModel) {
-      var selectedScope, selectedContentTemplate, selectedElem, filterObj,
+      var selectedScope, selectedContentTemplate, selectedElem,
         menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate;
 
       selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
@@ -48,7 +50,6 @@ module.exports = function($compile, dropdownTransformer) {
 
       scope.hasFilter = typeof attrs.filterable !== 'undefined';
       scope.filterProperty = attrs.filterable;
-      scope.dropdownFilter = undefined;
 
       scope.isOpen = false;
 
@@ -60,6 +61,18 @@ module.exports = function($compile, dropdownTransformer) {
         $event.stopPropagation();
         ngModel.$setViewValue();
       };
+
+      scope.setOpen = function(isOpen) {
+        scope.isOpen = isOpen;
+      };
+
+      if (typeof scope.placeholder !== 'string') {
+        translate.async('components.dropdown.placeholder.noSelection')
+          .then(function(value) {
+            $log.log(value);
+            scope.placeholder = value;
+          });
+      }
 
       scope.$watch(function() {
         return ngModel.$viewValue;
@@ -80,6 +93,11 @@ module.exports = function($compile, dropdownTransformer) {
         selectedScope.selectedItem = scope.selectedItem;
         selectedScope.textProperty = scope.textProperty;
         selectedScope.clearSelectedItem = scope.clearSelectedItem;
+        selectedScope.setOpen = scope.setOpen;
+        selectedScope.placeholder = scope.placeholder;
+        //scope.placeholder = 'shoes';
+
+
 
         selectedElem = $compile(selectedContentTemplate)(selectedScope);
       } else {
@@ -95,6 +113,7 @@ module.exports = function($compile, dropdownTransformer) {
         menuScope.setSelectedItem = scope.setSelectedItem;
         menuScope.hasFilter = scope.hasFilter;
         menuScope.filterProperty = scope.filterProperty;
+        menuScope.setOpen = scope.setOpen;
 
         menuElem = $compile(menuTemplate)(menuScope);
       } else {
