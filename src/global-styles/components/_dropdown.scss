@@ -71,6 +71,7 @@ $dropdown-button-active-hover-border-color: #999;
 
   & div.dropdown-menu {
     width: calc(100% - 1px);
+    border-top: none;
 
     & div.fixed-header {
       padding: 4px 5px;
