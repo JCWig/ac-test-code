@@ -4,7 +4,7 @@ var angular = require('angular');
 
 /**
  * httpBuffer
- * Heavily based on the HTTP Auth Interceptor Module for Angular by Witold Szczerba
+ * Based on the HTTP Auth Interceptor Module for Angular by Witold Szczerba
  * https://github.com/witoldsz/angular-http-auth
  */
 
@@ -28,6 +28,20 @@ module.exports = function($injector, $q) {
   }
 
   return {
+    /**
+     * @name appendRequest
+     * @description Appends HTTP request's configuration object to the buffer and
+     * returns the promise of the deferred.
+     * @param {object} requestConfig The config for the request not yet deployed
+     *  to be queued to allow for the same request to be retried later
+     * @return {promise} The promise to use to for the deferred request
+     */
+    appendRequest: function(requestConfig) {
+      var deferred = $q.defer();
+
+      this.append(requestConfig, deferred);
+      return deferred.promise;
+    },
 
     /**
      * @name appendResponse
@@ -57,21 +71,6 @@ module.exports = function($injector, $q) {
         config: config,
         deferred: deferred
       });
-    },
-
-    /**
-     * @name rejectAll
-     * @description Reject all the buffered requests.
-     * @param {string} reason the reason for rejection
-     */
-    rejectAll: function(reason) {
-      reason = reason || 'rejected';
-
-      angular.forEach(buffer, function(value) {
-        value.deferred.reject(reason);
-      });
-
-      this.clear();
     },
 
     /**
