@@ -27,16 +27,16 @@
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings"></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" clearable></akam-dropdown>
         </span>
     </div>
     <br/>
 
     <div>
-        <h2>Default dropdown with a list of objects and custom markup</h2>
+        <h2>Default dropdown with a list of objects, custom markup.</h2>
         <span>
             <akam-dropdown ng-model="vm.ex2.selectedState" text-property="name"
-                           items="vm.stateObjects">
+                           items="vm.stateObjects" clearable>
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis">
@@ -57,7 +57,7 @@
     <br/>
 
     <div>
-        <h2>Dropdown with a list of strings and a filter</h2>
+        <h2>Dropdown that is not clearable with a list of strings and a filter</h2>
         <span>
             <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
         </span>
@@ -68,14 +68,14 @@
         <h2>Default dropdown with a list of objects and a filter</h2>
         <span>
             <akam-dropdown ng-model="vm.ex4.selectedState" text-property="name"
-                           items="vm.stateObjects" filterable="name">
+                           items="vm.stateObjects" filterable="name" clearable>
             </akam-dropdown>
         </span>
     </div>
     <br/>
 
     <div>
-        <h2>Default dropdown with a list of objects, custom markup and a filter</h2>
+        <h2>Dropdown that is not clearable with a list of objects, custom markup and a filter</h2>
         <span>
             <akam-dropdown ng-model="vm.ex5.selectedState" text-property="name"
                            items="vm.stateObjects" filterable="name">

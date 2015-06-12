@@ -64,6 +64,8 @@ module.exports = function($compile, dropdownTransformer, translate) {
       }
 
       scope.hasFilter = typeof attrs.filterable !== 'undefined';
+      scope.isClearable = typeof attrs.clearable !== 'undefined';
+
       scope.filterProperty = attrs.filterable;
 
       scope.isOpen = false;
