@@ -105,7 +105,8 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
             customTemplate = $templateCache.get(attrs.customContent);
             $timeout(function() {
               $compile(customTemplate)(newScope, function(customEle) {
-                popoverEle[0].querySelector('.popover-custom-content').appendChild(customEle[0]);
+                angular.element(popoverEle[0].querySelector('.popover-custom-content'))
+                  .append(customEle);
                 element.after(popoverEle);
               });
             }, 0);
