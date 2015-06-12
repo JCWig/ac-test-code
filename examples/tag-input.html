@@ -2,87 +2,281 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Akamai Components Examples - Content Panel</title>
+        <title>Akamai Components Examples - Tag Input</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
+        <style>
+            div.container-div { width: 500px; }
+        </style>            
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container" >
             <div class="page-header">
-                <h1>Content Panel Component Example</h1>
+                <h1>Tag Input Component Example</h1>
             </div>
-            <h3>Tag Input Example</h3>
-            <div style="width:500px;">
-                <akam-tag-input ng-model="items" available-items="availableItems" tagging-label="(add new item)" drag-dropable="true"> 
+            <h2>Drag/Drop Tag Order Example</h2>
+            <div class="container-div"; >
+                <akam-tag-input ng-model="items1" available-items="availableItems" drag-dropable="true"> 
                 </akam-tag-input>
-            </div> <br/><br/><br/><br/>
-            <div style="width:500px;">
-                <span> Contains Same data, is alphabetically sortable </span>
-                <akam-tag-input ng-model="items2" available-items="availableItems" tagging-label="(add new item)" restricted="true" placeholder="Select Items" sort-function="sortFunction"> 
+            </div>
+            <br/><br/><br/>
+            <div class="container-div";>
+                <h2>Sorted Selected Tag Example</h2>
+                <akam-tag-input ng-model="items2" available-items="availableItems" restricted="false"
+                                sort-function="sortFunction"> 
                 </akam-tag-input>
-            </div> <br/><br/><br/><br/>
+            </div>
+            <br/><br/><br/>
+            <div class="container-div";>
+                <h2>Adding New Items Disallowed Example</h2>
+                <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true"> 
+                </akam-tag-input>
+            </div>
+            <br/><br/><br/>
             <form name="tagInputform">
-                <div style="width:500px;">
-                    <span> Contains Same data, does not allow string less than 2 characters </span>
-                    <akam-tag-input name="tagInput" ng-model="items3" available-items="availableItems" tagging-label="(add new item)" drag-dropable="true" validate-function="validateFunction"> 
+                <div class="container-div";>
+                    <h2>Tag Character Limit Validation Example</h2>
+                    <akam-tag-input name="tagInput" ng-model="items4" available-items="availableItems"
+                                    tagging-label="(add new item)" placeholder="Select Items"
+                                    drag-dropable="true" validate-function="validateFunction"> 
                     </akam-tag-input>
                 </div>
-                <div ng-messages="tagInputform.tagInput.$error">
-                  <div ng-message="invalidTagInput">
-                    You have some invalid input selected
-                  </div>
-                </div>
             </form>
-            
-            <button ng-click="displayData(items)">Click here to log first tag-input data</button>
-            <button ng-click="displayData(items2)">Click here to log second tag-input data</button>
-            <button ng-click="displayData(items3)">Click here to log third tag-input data</button>
+            <div ng-messages="tagInputform.tagInput.$error">
+            <div ng-message="invalidTagInput">Invalid Tag Input</div>
+            </div>
+            <br/><br/><br/>
+            <div class="container-div";>
+                <h2>Large Available Items List Example</h2>
+                <akam-tag-input ng-model="items5" available-items="availableItemsLarge"> 
+                </akam-tag-input>
+                <button ng-click="logTagInputData(items5)">Send tag input data to browser log</button>
+            </div>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            var exampleController = function($scope) {
-                $scope.items = ["Connor Kent","Bart Allen", "Cassandra Sandsmark"];
-                $scope.items2 = ["Garfield Logan","Oliver Queen", "Bruce Wayne"];
-                $scope.items3 = ["Dick Grayson", "33", "Hal Jordan"];
+            var exampleController = function($scope, $log) {
+                
+                // Data for the Drag/Drop Tag Order Example
+                $scope.items1 = [".png",".jpg", ".svg"];
+                
+                // Data for the Sorted Selected Tag Example
+                $scope.items2 = [".xls",".log", ".gif"];
+                
+                // Data for the Adding New Items Disallowed Example
+                $scope.items3 = [".txt",".jpg", ".csv", ".tiff"];
+                
+                // Data for the tag component with validation
+                $scope.items4 = [".png",".jpg", ".svg", ".pdf", ".xls", ".exe", ".app"];
+                
+                // Data for the Large Available Items List Example
+                $scope.items5 = [".exe",".doc", ".rtf"];
+                
+                // List of all possible tag items
                 $scope.availableItems = [
-                    "Dick Grayson",
-                    "Jason Todd",
-                    "Tim Drake",
-                    "Barbara Gordon",
-                    "Damian Wayne",
-                    "Oliver Queen",
-                    "Bruce Wayne",
-                    "Dinah Lance",
-                    "Diana Prince",
-                    "Barry Allen",
-                    "Hal Jordan",
-                    "John Stewart",
-                    "Wally West",
-                    "Connor Kent",
-                    "Bart Allen",
-                    "Cassandra Sandsmark",
-                    "Victor Stone",
-                    "Garfield Logan"
+                    ".exe",
+                    ".xls",
+                    ".txt",
+                    ".tiff",
+                    ".doc",
+                    ".pdf",
+                    ".odt",
+                    ".app",
+                    ".rtf",
+                    ".mov",
+                    ".old",
+                    ".java",
+                    ".ini",
+                    ".js",
+                    ".lib",
+                    ".log",
+                    ".gif",
+                    ".csv"
                 ];
-                $scope.triggerChange = function(){
-                    $scope.items = ["Diana Prince",
-                        "Barry Allen",
-                        "Hal Jordan"
-                    ];
-                }
+                
+                $scope.availableItemsLarge = [
+                    ".a",
+                    ".asm",
+                    ".asp",
+                    ".awk",
+                    ".bat",
+                    ".bmp",
+                    ".btm",
+                    ".BTM",
+                    ".c",
+                    ".class",
+                    ".cmd",
+                    ".CPP",
+                    ".csv",
+                    ".cur",
+                    ".cxx",
+                    ".CXX",
+                    ".db",
+                    ".def",
+                    ".DES",
+                    ".dlg",
+                    ".dll",
+                    ".don",
+                    ".dpc",
+                    ".dpj",
+                    ".dtd",
+                    ".dump",
+                    ".dxp",
+                    ".eng",
+                    ".exe",
+                    ".flt",
+                    ".fmt",
+                    ".font",
+                    ".fp",
+                    ".ft",
+                    ".gif",
+                    ".h",
+                    ".H",
+                    ".hdb",
+                    ".hdl",
+                    ".hid",
+                    ".hpp",
+                    ".hrc",
+                    ".HRC",
+                    ".html",
+                    ".hxx",
+                    ".Hxx",
+                    ".HXX",
+                    ".ico",
+                    ".idl",
+                    ".IDL",
+                    ".ih",
+                    ".ilb",
+                    ".inc",
+                    ".inf",
+                    ".ini",
+                    ".inl",
+                    ".ins",
+                    ".java",
+                    ".jar",
+                    ".jnl",
+                    ".jpg",
+                    ".js",
+                    ".jsp",
+                    ".kdelnk",
+                    ".l",
+                    ".lgt",
+                    ".lib",
+                    ".lin",
+                    ".ll",
+                    ".LN3",
+                    ".lng",
+                    ".lnk",
+                    ".lnx",
+                    ".LOG",
+                    ".lst",
+                    ".mac",
+                    ".MacOS",
+                    ".map",
+                    ".mk",
+                    ".MK",
+                    ".mod",
+                    ".NT2",
+                    ".o",
+                    ".obj",
+                    ".par",
+                    ".pfa",
+                    ".pfb",
+                    ".pl",
+                    ".PL",
+                    ".plc",
+                    ".pld",
+                    ".PLD",
+                    ".plf",
+                    ".pm",
+                    ".pmk",
+                    ".pre",
+                    ".PRJ",
+                    ".prt",
+                    ".PS",
+                    ".ptr",
+                    ".r",
+                    ".rc",
+                    ".rdb",
+                    ".res",
+                    ".s",
+                    ".S",
+                    ".sbl",
+                    ".scp",
+                    ".scr",
+                    ".sda",
+                    ".sdb",
+                    ".sdc",
+                    ".sdd",
+                    ".sdg",
+                    ".sdm",
+                    ".sds",
+                    ".sdv",
+                    ".sdw",
+                    ".sdi",
+                    ".seg",
+                    ".SEG",
+                    ".Set",
+                    ".sgl",
+                    ".sh",
+                    ".sid",
+                    ".smf",
+                    ".sms",
+                    ".so",
+                    ".sob",
+                    ".soc",
+                    ".sod",
+                    ".soe",
+                    ".sog",
+                    ".soh",
+                    ".src",
+                    ".srs",
+                    ".SSLeay",
+                    ".Static",
+                    ".tab",
+                    ".TFM",
+                    ".thm",
+                    ".tpt",
+                    ".tsc",
+                    ".ttf",
+                    ".TTF",
+                    ".txt",
+                    ".TXT",
+                    ".unx",
+                    ".UNX",
+                    ".urd",
+                    ".url",
+                    ".VMS",
+                    ".vor",
+                    ".W32",
+                    ".wav",
+                    ".wmf",
+                    ".xml",
+                    ".xpm",
+                    ".xrb",
+                    ".y",
+                    ".yxx",
+                    ".zip" ];
+                
+                // Sort the tag data
                 $scope.sortFunction = function(input){
                     return input.sort();
-                }
-                $scope.displayData = function(data){
-                    console.log(data);
-                }
+                };
+                
+                // Write the items from the tag input component to the browser log
+                $scope.logTagInputData = function(data){
+                    $log.log(data);
+                };
+                
+                // Validate that the tag is at least two characters
                 $scope.validateFunction = function(item) {
                     if(!item || item.type === 'string' || item.length > 1){
                         return true;
                     }
                     return false;
-                }
+                };
             };
-            exampleController.$inject = ['$scope'];
+            
+            exampleController.$inject = ['$scope', '$log'];
             
             angular.module('example', ['akamai.components.tag-input', 'ngMessages'])
             .controller('ExampleController', exampleController);

@@ -89,6 +89,12 @@
             "warning": "警告",
             "success": "成功",
             "error": "エラー"
+        },
+        "dropdown": {
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
+            }
         }
     }
 }

@@ -23,5 +23,6 @@ angular.module('akamai.components', [
   require('./tree-view').name,
   require('./time-picker').name,
   require('./tag-input').name,
+  require('./dropdown').name,
   require('./auth').name
 ]);
