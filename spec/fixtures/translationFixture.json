@@ -7,6 +7,12 @@
     "tag-input": {
     	"placeholder":"Select Items",
     	"taggingLabel":"(new item)"
+    },
+    "dropdown": {
+      "placeholder": {
+        "noSelection": "Select one",
+        "filter": "Filter"
+      }
     }
   }
 }

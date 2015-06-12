@@ -107,10 +107,10 @@
             "taggingLabel":"(new item)"
         },
         "dropdown": {
-          "placeholder": {
-            "noSelection": "Select one",
-            "filter": "Filter"
-          }
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
+            }
         }
     }
 }

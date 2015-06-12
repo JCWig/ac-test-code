@@ -5,7 +5,7 @@ var angular = require('angular');
 require('angular-sanitize');
 
 /* @ngInject */
-module.exports = function($compile, dropdownTransformer, translate, $log) {
+module.exports = function($compile, dropdownTransformer, translate) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
     var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
@@ -21,6 +21,13 @@ module.exports = function($compile, dropdownTransformer, translate, $log) {
     return tElem.find(tagName).remove().html() || undefined;
   }
 
+  function setPlaceholder(placeholderProp, scope, customMarkupScope, value) {
+    scope[placeholderProp] = value;
+    if (typeof customMarkupScope !== 'undefined') {
+      customMarkupScope[placeholderProp] = scope[placeholderProp];
+    }
+  }
+
   return {
     restrict: 'E',
     require: '^ngModel',
@@ -28,7 +35,7 @@ module.exports = function($compile, dropdownTransformer, translate, $log) {
       items: '=',
       textProperty: '@?',
       onChange: '&?',
-      placeholder: "@?",
+      placeholder: '@?',
       filterPlaceholder: '@?'
     },
 
@@ -47,6 +54,14 @@ module.exports = function($compile, dropdownTransformer, translate, $log) {
 
       selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
       optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option-placeholder');
+
+      if (typeof selectedTemplate !== 'undefined') {
+        selectedScope = scope.$parent.$new();
+      }
+
+      if (typeof optionTemplate !== 'undefined') {
+        menuScope = scope.$parent.$new();
+      }
 
       scope.hasFilter = typeof attrs.filterable !== 'undefined';
       scope.filterProperty = attrs.filterable;
@@ -69,9 +84,19 @@ module.exports = function($compile, dropdownTransformer, translate, $log) {
       if (typeof scope.placeholder !== 'string') {
         translate.async('components.dropdown.placeholder.noSelection')
           .then(function(value) {
-            $log.log(value);
-            scope.placeholder = value;
+            setPlaceholder('placeholder', scope, selectedScope, value);
           });
+      } else {
+        setPlaceholder('placeholder', scope, selectedScope, scope.placeholder);
+      }
+
+      if (typeof scope.filterPlaceholder !== 'string') {
+        translate.async('components.dropdown.placeholder.filter')
+          .then(function(value) {
+            setPlaceholder('filterPlaceholder', scope, menuScope, value);
+          });
+      } else {
+        setPlaceholder('filterPlaceholder', scope, menuScope, scope.filterPlaceholder);
       }
 
       scope.$watch(function() {
@@ -89,15 +114,10 @@ module.exports = function($compile, dropdownTransformer, translate, $log) {
 
       selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);
       if (typeof selectedTemplate !== 'undefined') {
-        selectedScope = scope.$parent.$new();
         selectedScope.selectedItem = scope.selectedItem;
         selectedScope.textProperty = scope.textProperty;
         selectedScope.clearSelectedItem = scope.clearSelectedItem;
         selectedScope.setOpen = scope.setOpen;
-        selectedScope.placeholder = scope.placeholder;
-        //scope.placeholder = 'shoes';
-
-
 
         selectedElem = $compile(selectedContentTemplate)(selectedScope);
       } else {
@@ -107,7 +127,6 @@ module.exports = function($compile, dropdownTransformer, translate, $log) {
 
       menuTemplate = dropdownTransformer.getMenu(optionTemplate);
       if (typeof optionTemplate !== 'undefined') {
-        menuScope = scope.$parent.$new();
         menuScope.items = scope.items;
         menuScope.textProperty = scope.textProperty;
         menuScope.setSelectedItem = scope.setSelectedItem;

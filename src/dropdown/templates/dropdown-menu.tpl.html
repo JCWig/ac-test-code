@@ -1,7 +1,7 @@
 <div class="dropdown-menu">
     <div class="fixed-header" ng-show="hasFilter">
-        <input ng-show="!filterProperty" type="text" ng-model="dropdownFilter" />
-        <input ng-show="filterProperty" type="text" ng-model="dropdownFilter[filterProperty]" />
+        <input ng-show="!filterProperty" type="text" ng-model="dropdownFilter" placeholder="{{::filterPlaceholder}}" />
+        <input ng-show="filterProperty" type="text" ng-model="dropdownFilter[filterProperty]" placeholder="{{::filterPlaceholder}}" />
         <i ng-show="dropdownFilter" class="luna-small_close_light_gray util-clickable clear-filter"
            ng-click="dropdownFilter = undefined"></i>
     </div>
