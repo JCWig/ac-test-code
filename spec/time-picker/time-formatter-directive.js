@@ -19,7 +19,7 @@ var formatterConfig = {
 };
 
 var defaultScopeTime = new Date();
-var defaultMarkup = '<akam-time-picker input-time="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+var defaultMarkup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
 
 describe('timeFormatter directive', function() {
 

@@ -14,7 +14,7 @@ module.exports = function($document, $parse) {
     transclude: false,
     scope: {},
     bindToController: {
-      inputTime: '=',
+      inputTime: '=ngModel',
       showMeridian: '=?',
       disabled: '=?',
       hourStep: '=?',
