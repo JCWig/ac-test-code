@@ -80,8 +80,8 @@ $dropdown-button-active-hover-border-color: #999;
         width: 100%;
         padding-right: 23px;
 
-        &:focus {
-          //@extend .luna-small_close_light_gray;
+        &::-ms-clear {
+          display: none;
         }
       }
 
