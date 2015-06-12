@@ -94,7 +94,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
 
           if (!self.current) {
             inputCurrent = currentGetter(data);
-            self.current = self.convertData(inputCurrent, self.currentProperty, data)[0];
+            self.current = self.convertData(inputCurrent, self.currentProperty, data)[0] || {};
           }
           self.retrieveAndHandleNewChildrenAndParents(data);
         }).catch(function() {
