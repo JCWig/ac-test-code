@@ -13,8 +13,8 @@ module.exports = function($document, $parse) {
     restrict: 'E',
     transclude: false,
     scope: {},
+    require: "ngModel",
     bindToController: {
-      inputTime: '=ngModel',
       showMeridian: '=?',
       disabled: '=?',
       hourStep: '=?',
@@ -50,11 +50,21 @@ module.exports = function($document, $parse) {
   }
 
   /* @ngInject */
-  function linkFn(scope, element, attrs) {
+  function linkFn(scope, element, attrs, ngModel) {
 
     var notShowMeridian = false,
       defaultPlaceholder = '',
       ctrl = scope.timepicker;
+
+    ngModel.$render = function() {
+      ctrl.inputTime = ngModel.$modelValue;
+    };
+
+    ctrl.changed = function() {
+      ngModel.$setViewValue(ctrl.inputTime);
+      ngModel.$setTouched();
+      ngModel.setDirty();
+    };
 
     ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';
 
