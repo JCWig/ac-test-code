@@ -128,7 +128,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           });
         } else {
           triggerElement.on('mouseover', function() {
-            if(!leavePopover) {
+            if (!leavePopover) {
               triggerHovering = true;
               enterTimeout = $timeout(function() {
                 triggerHovering = false;
@@ -150,15 +150,15 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
             }
             triggerHovering = false;
           });
-          popover.on('mouseover', function(){
+          popover.on('mouseover', function() {
             if (leaveHovering) {
               popoverHover = true;
               $timeout.cancel(leaveTimeout);
             }
           });
-          popover.on('mouseleave', function(){
+          popover.on('mouseleave', function() {
             if (popoverHover) {
-              leavePopover = true
+              leavePopover = true;
               leavePopoverTimeout = $timeout(function() {
                 newScope.toggle();
                 leavePopover = false;
