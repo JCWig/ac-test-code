@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function(httpBuffer, $injector, $location, configuration) {
+module.exports = function(httpBuffer, $injector, $location, authConfig) {
   var pendingRequest = false;
   var $http;
 
@@ -21,8 +21,8 @@ module.exports = function(httpBuffer, $injector, $location, configuration) {
       $http = $http || $injector.get('$http');
 
       $http({
-        url: configuration.tokenUrl,
-        data: 'client_id=' + configuration.clientId + '&grant_type=password_assertion',
+        url: authConfig.tokenUrl,
+        data: 'client_id=' + authConfig.clientId + '&grant_type=password_assertion',
         method: 'POST',
         headers: {
           'Akamai-Accept': 'akamai/cookie',
@@ -37,7 +37,7 @@ module.exports = function(httpBuffer, $injector, $location, configuration) {
         function() {
           pendingRequest = false;
           httpBuffer.clear();
-          $location.url(configuration.lunaLogoutUrl);
+          $location.url(authConfig.lunaLogoutUrl);
         }
       );
     },

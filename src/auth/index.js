@@ -10,10 +10,8 @@ var angular = require('angular');
  * @description Provides an interceptor for failed requests for auth purposes
  *
  */
-module.exports = angular.module('akamai.components.auth', [
-  require('../utils').name
-])
-  .constant('configuration', {
+module.exports = angular.module('akamai.components.auth', [])
+  .constant('authConfig', {
     //client id we are using in authN
     clientId: '0ad3c5bc-fb66-4fa0-b94a-1bf712eae628',
     //token endpoint

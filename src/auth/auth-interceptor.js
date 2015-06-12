@@ -1,17 +1,20 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($q, httpBuffer, token) {
+module.exports = function($q, httpBuffer, token, authConfig) {
+  var whiteListUrls = [authConfig.introspectionUrl, authConfig.tokenUrl];
+
   return {
-    /*
-    request: function(request) {
-      if (token.isPending()) {
-        return httpBuffer.appendResponse(request);
+    request: function(requestConfig) {
+      // if the new token request pending flag is set,
+      // and that request is not the token request itself,
+      // then add it to the queue
+      if (token.isPending() && whiteListUrls.indexOf( requestConfig.url ) === -1) {
+        return httpBuffer.appendRequest(requestConfig);
       }
 
-      return request;
+      return requestConfig;
     },
-    */
     responseError: function(response) {
       if (response.status === 401) {
 

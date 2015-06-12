@@ -8,18 +8,20 @@ describe('Auth', function() {
       buffer,
       tokenService,
       location,
-      config;
+      config,
+      interceptor;
 
   beforeEach(function before() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
-    angular.mock.inject(function inject($http, $httpBackend, $location, httpBuffer, token, configuration) {
+    angular.mock.inject(function inject($http, $httpBackend, $location, httpBuffer, token, authConfig, authInterceptor) {
       http = $http;
       httpBackend = $httpBackend;
       location = $location;
       buffer = httpBuffer;
       tokenService = token;
-      config = configuration;
+      config = authConfig;
+      interceptor = authInterceptor;
     });
   });
 
@@ -31,7 +33,28 @@ describe('Auth', function() {
       http.get('/unauthorized/request');
       httpBackend.flush();
       expect(buffer.appendResponse).toHaveBeenCalled();
-      buffer.appendResponse.calls.reset();
+    });
+
+    it('should queue intermediate error responses re-submission', function() {
+      spyOn(buffer, 'appendResponse').and.callThrough();
+      spyOn(tokenService, 'isPending').and.returnValue(true);
+      spyOn(tokenService, 'create');
+      interceptor.responseError({ status: 401, config: {method: 'POST', url: '/should/be/deferred/for/token/auth1', data: '', headers: { Accept: 'application/json, text/plain, */*'}} });
+      interceptor.responseError({ status: 401, config: {method: 'GET', url: '/should/be/deferred/for/token/auth2', headers: { Accept: 'application/json, text/plain, */*'}}});
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.isPending).toHaveBeenCalled();
+      expect(tokenService.create).not.toHaveBeenCalled();
+      expect(buffer.size()).toBe(2);
+    });
+
+    it('should queue intermediate error responses re-submission', function() {
+      spyOn(tokenService, 'create').and.callThrough();
+      tokenService.create();
+      tokenService.create();
+      //note that this expectation is for one request and not two
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+
+      expect(tokenService.create).toHaveBeenCalled();
     });
   });
 
@@ -48,32 +71,72 @@ describe('Auth', function() {
       httpBackend.flush();
       expect(buffer.appendResponse).not.toHaveBeenCalled();
       expect(tokenService.create).not.toHaveBeenCalled();
-      buffer.appendResponse.calls.reset();
-      tokenService.create.calls.reset();
     });
   });
 
   describe('Scenario: Request a token', function() {
     it('the token request should be well formed', function() {
-      httpBackend.expectPOST(config.tokenUrl,
-        // 
-        'client_id=' + config.clientId + '&grant_type=password_assertion', function(headers) {
-        // check if the correct header was sent, if it wasn't the expectation won't
-        // match the request and the test will fail
-        var allHeadersValid = (headers['Akamai-Accept'] === 'akamai/cookie') &&
-          (headers['Content-Type'] === 'application/x-www-form-urlencoded');
-        return allHeadersValid;
-      }).respond(200);
+      httpBackend.expectPOST(
+        config.tokenUrl,
+
+        // check if the correct body was sent.
+        'client_id=' + config.clientId + '&grant_type=password_assertion',
+
+        function(headers) {
+          // check if the correct header was sent
+          var allHeadersValid = (headers['Akamai-Accept'] === 'akamai/cookie') &&
+            (headers['Content-Type'] === 'application/x-www-form-urlencoded');
+          return allHeadersValid;
+        }
+      ).respond(200);
       tokenService.create();
       httpBackend.flush();
     });
   });
 
-  /*
-  when the component requests a token
-  then the request body should include the client_id parameter
-  and the request body should include grant_type=password_assertion parameter
-  and the request header should include 'Akamai-Accept': 'akamai/cookie'
-  and the request header should include 'Content-Type': 'application/x-www-form-urlencoded'
-  */
+  describe('Scenario: Wait for token response', function() {
+    it('the component should queue the API request for submission', function() {
+      spyOn(buffer, 'appendRequest').and.callThrough();
+      spyOn(tokenService, 'isPending').and.returnValue(true);
+      interceptor.request({method: 'POST', url: '/should/be/deferred/for/token/auth1', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      interceptor.request({method: 'GET', url: '/should/be/deferred/for/token/auth2', headers: { Accept: 'application/json, text/plain, */*'}});
+      expect(buffer.appendRequest).toHaveBeenCalled();
+      expect(tokenService.isPending).toHaveBeenCalled();
+      expect(buffer.size()).toBe(2);
+    });
+  });
+
+  describe('Scenario: Receive valid token', function() {
+    it('should submit queued API requests', function() {
+      spyOn(buffer, 'retryAll').and.callThrough();
+      buffer.appendRequest({method: 'GET', url: '/deferred/for/token/auth1', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      buffer.appendRequest({method: 'GET', url: '/deferred/for/token/auth2', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      httpBackend.when('GET', '/deferred/for/token/auth1').respond(400);
+      httpBackend.when('GET', '/deferred/for/token/auth2').respond(200);
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      tokenService.create();
+      httpBackend.flush();
+      expect(buffer.retryAll).toHaveBeenCalled();
+    });
+  });
+
+  describe('Scenario: Receive token error', function() {
+    it('should clear the API request queue', function() {
+      spyOn(buffer, 'clear').and.callThrough();
+      buffer.appendRequest({method: 'GET', url: '/deferred/for/token/auth', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      httpBackend.expectPOST(config.tokenUrl).respond(400);
+      tokenService.create();
+      httpBackend.flush();
+      expect(buffer.clear).toHaveBeenCalled();
+      expect(buffer.size()).toBe(0);
+    });
+
+    it('should redirect to the login view', function() {
+      spyOn(location, 'url');
+      httpBackend.expectPOST(config.tokenUrl).respond(400);
+      tokenService.create();
+      httpBackend.flush();
+      expect(location.url).toHaveBeenCalledWith(config.lunaLogoutUrl);
+    });
+  });
 });
