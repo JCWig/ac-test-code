@@ -16,7 +16,7 @@ gulp.task('deploy', function() {
 
   matches = symbolicName.match(regex);
 
-  if (matches.length > 1) {
+  if (matches && matches.length > 1) {
     branchName = matches[1];
   } else {
     branchName = 'develop';
