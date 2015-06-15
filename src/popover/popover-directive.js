@@ -102,25 +102,21 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
       if (validParameters()) {
         newScope.opened = false;
         template = require('./templates/popover.tpl.html');
-        popover = $compile(template)(newScope, function(popoverEle) {
-          if (newScope.useCustomContent) {
-            customTemplate = $templateCache.get(attrs.customContent);
-            try {
-              angular.element(customTemplate);
-            } catch(e) {
-              customTemplate = '<span>' + customTemplate + '</span>';
-            }
-            $timeout(function() {
-              $compile(customTemplate)(newScope, function(customEle) {
-                angular.element(popoverEle[0].querySelector('.popover-custom-content'))
-                  .append(customEle);
-                element.after(popoverEle);
-              });
-            }, 0);
-          } else {
-            element.after(popoverEle);
+        popover = $compile(template)(newScope);
+        if (newScope.useCustomContent) {
+          customTemplate = $templateCache.get(attrs.customContent);
+          try {
+            angular.element(customTemplate);
+          } catch(e) {
+            customTemplate = '<span>' + customTemplate + '</span>';
           }
-        });
+          $timeout(function() {
+            var customEle = $compile(customTemplate)(newScope);
+            angular.element(popover[0].querySelector('.popover-custom-content')).append(customEle);
+          }, 0);
+        }
+        element.after(popover);
+
         triggerElement = element;
         if (newScope.isTriggerClick) {
           triggerElement.on('click', function() {
