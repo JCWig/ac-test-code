@@ -27,7 +27,7 @@
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" clearable></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
         </span>
     </div>
     <br/>
@@ -36,7 +36,7 @@
         <h2>Default dropdown with a list of objects, custom markup.</h2>
         <span>
             <akam-dropdown ng-model="vm.ex2.selectedState" text-property="name"
-                           items="vm.stateObjects" clearable>
+                           items="vm.stateObjects" clearable on-change="vm.doChange(item)">
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis">
@@ -144,8 +144,8 @@
             vm.ex4 = { selectedState: {name: 'Colorado'} };
             vm.ex5 = { selectedState: undefined };
 
-            vm.doChange = function() {
-                $log.log('option changed');
+            vm.doChange = function(item) {
+                $log.log('selected item changed', item);
             };
         }
 
