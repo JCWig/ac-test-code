@@ -25,6 +25,7 @@ module.exports = function($filter) {
   return directive;
 
   function link(scope, element, attrs, ngModel) {
+    var initialized = false;
 
     ngModel = ngModel ? ngModel : {
       $setViewValue: angular.noop
@@ -51,8 +52,14 @@ module.exports = function($filter) {
         sp;
 
       if (angular.isUndefined(value)) {
-        setTimepickerValidState(false);
-        return undefined;
+        if (!initialized) {
+          initialized = true;
+          setTimepickerValidState(true);
+          return null;
+        } else {
+          setTimepickerValidState(false);
+          return undefined;
+        }
       }
 
       if (!value) {
