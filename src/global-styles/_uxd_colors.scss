@@ -1,79 +1,62 @@
 // COLOR PALETTE
 
 // Bluegrays
-$uxd-bluegray-1: #5D6D7D; // main page title
+$colors__bluegray1: #5D6D7D; // main page title
 
 
 // Grays
-$uxd-gray-1:  #333333; // prominent titles, tour bubble background
-$uxd-gray-2:  #666666; // default for titles, text and icons
-$uxd-gray-3:  #999999; // components
-$uxd-gray-4:  #C3C3C3; // components
-$uxd-gray-5:  #C8C8C8; // components
-$uxd-gray-6:  #CCCCCC; // borders, disabled icons
-$uxd-gray-7:  #E6E6E6; // components
-$uxd-gray-8:  #EDEDED; // components
-$uxd-gray-9:  #F4F4F4; // components
-$uxd-gray-10: #F8F8F8; // components
+$colors__gray1:  #333333; // prominent titles, tour bubble background
+$colors__gray2:  #666666; // default for titles, text and icons
+$colors__gray3:  #999999; // components
+$colors__gray4:  #C3C3C3; // components
+$colors__gray5:  #C8C8C8; // components
+$colors__gray6:  #CCCCCC; // borders, disabled icons
+$colors__gray7:  #E6E6E6; // components
+$colors__gray8:  #EDEDED; // components
+$colors__gray9:  #F4F4F4; // components
+$colors__gray10: #F8F8F8; // components
 
 
-// Blues
-$uxd-blue-1: #0099CC; // link color, hover icons
-$uxd-blue-2: #CEE7FF; // selected row
-$uxd-blue-3: #EBF6FF; // hover row
-$uxd-blue-4: #2F79C9; // alerts/warnings, notification bar border, icons
-  $uxd-blue-darker: $uxd-blue-4;
-$uxd-blue-5: #58B5DC; // notification bar
-  $uxd-blue-lighter: $uxd-blue-5;
-$uxd-blue-6: #6C86A0; // graph top gradient
-  $uxd-steelblue: $uxd-blue-6;
-$uxd-blue-7: #4F667D; // graph bottom gradient
-  $uxd-steelblue-darker: $uxd-blue-7;
+// Blues (we have darker and lighter but no default)
+$colors__blue1: #0099CC; // link color, hover icons
+$colors__blue2: #CEE7FF; // selected row
+$colors__blue3: #EBF6FF; // hover row
+$colors__blue4: #2F79C9; // alerts/warnings, notification bar border, icons
+$colors__blue5: #58B5DC; // notification bar
+$colors__blue6: #6C86A0; // graph top gradient
+$colors__blue7: #4F667D; // graph bottom gradient
 
 
 // Browns
-$uxd-brown-1: #AF8749; // tooltip text color
+$colors__brown1: #AF8749; // tooltip text color
 
 
 // Yellows
-$uxd-yellow-1: #FFFFB4; // tooltip background
-$uxd-yellow-2: #C97820; // alerts/warnings, notification bar, icons
-  $uxd-yellow-darker: $uxd-yellow-2;
-$uxd-yellow-3: #E9A751; // notification bar
-  $uxd-yellow-lighter: $uxd-yellow-3;
+$colors__yellow1: #FFFFB4; // tooltip background
+$colors__yellow2: #C97820; // alerts/warnings, notification bar, icons
+$colors__yellow3: #E9A751; // notification bar
 
 
 // Golds
-$uxd-gold-1: #ECDE77; // tooltip border
+$colors__gold1: #ECDE77; // tooltip border
 
 
 // Oranges
-$uxd-orange-1: #F8981D; // alerts/warnings, icons
-$uxd-orange-2: #AB4D09; // primary button border color
-  $uxd-orange-darker: $uxd-orange-2;
-$uxd-orange-3: #F46B29; // primary button bottom gradient
-  $uxd-orange-medium: $uxd-orange-3;
-$uxd-orange-4: #F8971D; // primary button top gradient
-  $uxd-orange-lighter: $uxd-orange-4;
-$uxd-orange-5: #FAB99A; // primary button disabled background
-  $uxd-peach: $uxd-orange-5;
-$uxd-orange-6: #D7AC8B; // primary button disabled border color
-  $uxd-taupe: $uxd-orange-6;
-// $uxd-orange-7: #; // graph top gradient
-//   $uxd-: $uxd-orange-7;
-$uxd-orange-8: #DB4818; // graph bottom gradient
-  $uxd-blood-orange: $uxd-orange-8;
+$colors__orange1: #F8981D; // alerts/warnings, icons
+$colors__orange2: #AB4D09; // primary button border color
+$colors__orange3: #F46B29; // primary button bottom gradient
+$colors__orange4: #F8971D; // primary button top gradient
+$colors__orange5: #FAB99A; // primary button disabled background
+$colors__orange6: #D7AC8B; // primary button disabled border color
+$colors__orange7: #6C86A0; // graph top gradient
+$colors__orange8: #DB4818; // graph bottom gradient
 
 
 // Reds
-$uxd-red-1: #A32D2D; // alerts/warnings, notification bar border, icons
-  $uxd-red-darker: $uxd-red-1;
-$uxd-red-2: #DE6056; // notification bar
-  $uxd-red-lighter: $uxd-red-2;
+$colors__red1: #A32D2D; // alerts/warnings, notification bar border, icons
+$colors__red2: #DE6056; // notification bar
 
 
 // Greens
-$uxd-green-1: #388E35; // notification bar border, icons
-  $uxd-green-darker: $uxd-green-1;
-$uxd-green-2: #7AAA60; // notification bar
-  $uxd-green-lighter: $uxd-green-2;
+$colors__green1: #388E35; // notification bar border, icons
+$colors__green2: #7AAA60; // notification bar

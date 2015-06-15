@@ -3,11 +3,11 @@
 // Global
 $uxd-font-family: Arial, sans-serif;
 $uxd-font-size: 12px;
-$uxd-font-color: $uxd-gray-2;
+$uxd-font-color: $colors__gray2;
 
 // Headlines
 $uxd-h1-font-size: 28px;
-$uxd-h1-font-color: $uxd-bluegray-1;
+$uxd-h1-font-color: $colors__bluegray1;
 $uxd-h2-font-size: 18px;
 $uxd-h3-font-size: 16px;
 
@@ -16,9 +16,9 @@ $uxd-anchor-font-size: $uxd-font-size;
 
 // Icons
 $uxd-icon-size: 16px;
-$uxd-icon-color: $uxd-gray-2;
-$uxd-icon-color_hover: $uxd-blue-1;
-$uxd-icon-color_disabled: $uxd-gray-7;
+$uxd-icon-color: $colors__gray2;
+$uxd-icon-color_hover: $colors__blue1;
+$uxd-icon-color_disabled: $colors__gray7;
 $uxd-icon-color_inverse: white;
 // Some icons have unique size and color specifications. See individual spec for guidance
 
