@@ -7,22 +7,21 @@ describe('Auth', function() {
       httpBackend,
       buffer,
       tokenService,
-      location,
       config,
       interceptor;
 
   beforeEach(function before() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
-    angular.mock.inject(function inject($http, $httpBackend, $location, httpBuffer, token, authConfig, authInterceptor) {
+    angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor) {
       http = $http;
       httpBackend = $httpBackend;
-      location = $location;
       buffer = httpBuffer;
       tokenService = token;
       config = authConfig;
       interceptor = authInterceptor;
     });
+    spyOn(tokenService, 'logout');
   });
 
   describe('Scenario: Receive unauthorized API response', function() {
@@ -131,12 +130,11 @@ describe('Auth', function() {
       expect(buffer.size()).toBe(0);
     });
 
-    it('should redirect to the login view', function() {
-      spyOn(location, 'url');
+    it('should redirect to the logout page', function() {
       httpBackend.expectPOST(config.tokenUrl).respond(400);
       tokenService.create();
       httpBackend.flush();
-      expect(location.url).toHaveBeenCalledWith(config.lunaLogoutUrl);
+      expect(tokenService.logout).toHaveBeenCalled();
     });
   });
 });
