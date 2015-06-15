@@ -35,14 +35,13 @@ module.exports = function($filter) {
 
     scope.$watch('showMeridian', function() {
       var value = ngModel.$modelValue,
-        timeFormat = !scope.showMeridian ?
-        formatterConfig.MERIDIAN_OFF.toLowerCase() : formatterConfig.MERIDIAN_ON;
+        timeFormat = scope.showMeridian ?
+        formatterConfig.MERIDIAN_ON : formatterConfig.MERIDIAN_OFF.toLowerCase();
 
       if (value) {
         element.val(displayTime(value, true));
-      } else {
-        element.attr('placeholder', timeFormat);
       }
+      element.attr('placeholder', timeFormat);
     });
 
     function parseTime(value) {
@@ -56,10 +55,9 @@ module.exports = function($filter) {
         return undefined;
       }
 
-      //empty or null value is valid
       if (!value) {
-        setTimepickerValidState(true);
-        return null;
+        setTimepickerValidState(false);
+        return undefined;
       }
 
       //date is always valid
