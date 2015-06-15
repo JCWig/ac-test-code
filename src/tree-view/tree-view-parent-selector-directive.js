@@ -7,33 +7,35 @@ module.exports = function($timeout, $compile, $document) {
   return {
     restrict: 'A',
     replace: true,
-    link: function(scope, element) {
-      var newScope = scope.$new();
+    scope: {},
+    require: '^akamTreeView',
+    link: function(scope, element, attrs, ctrl) {
       var template, parentSelector, triggerElement, windowElement;
 
-      newScope.toggle = function() {
-        newScope.opened = !newScope.opened;
-        parentSelector.toggleClass('in', newScope.opened);
-        triggerElement.toggleClass('opened', newScope.opened);
-        if (!newScope.opened) {
+      scope.treeview = ctrl;
+      scope.toggle = function() {
+        scope.opened = !scope.opened;
+        parentSelector.toggleClass('in', scope.opened);
+        triggerElement.toggleClass('opened', scope.opened);
+        if (!scope.opened) {
           $document.unbind('click', documentClickBind);
         } else {
           $document.bind('click', documentClickBind);
         }
       };
-      newScope.triggerParentChange = function(index) {
-        newScope.toggle();
+      scope.triggerParentChange = function(index) {
+        scope.toggle();
         scope.treeview.contextChangeNew(index, true);
       };
-      newScope.isOpen = function() {
-        return newScope.opened;
+      scope.isOpen = function() {
+        return scope.opened;
       };
       function hasParents() {
         return scope.treeview.parentTree.length > 0;
       }
       function documentClickBind(e) {
-        if (newScope.opened && e.currentTarget !== parentSelector[0]) {
-          newScope.toggle();
+        if (scope.opened && e.currentTarget !== parentSelector[0]) {
+          scope.toggle();
         }
       }
       function setCoords() {
@@ -43,22 +45,22 @@ module.exports = function($timeout, $compile, $document) {
         var arrowHeight = 10;
         var parentSelectorArrowOffset = 21;
 
-        newScope.parentSelectorLeft = triggerElementOffsetLeft - parentSelectorArrowOffset + 'px';
-        newScope.parentSelectorTop = elementOffsetTop + arrowHeight + triggerElementHeight + 'px';
-        newScope.arrowLeft = parentSelectorArrowOffset + 'px';
-        newScope.arrowTop = -arrowHeight + 'px';
+        scope.parentSelectorLeft = triggerElementOffsetLeft - parentSelectorArrowOffset + 'px';
+        scope.parentSelectorTop = elementOffsetTop + arrowHeight + triggerElementHeight + 'px';
+        scope.arrowLeft = parentSelectorArrowOffset + 'px';
+        scope.arrowTop = -arrowHeight + 'px';
       }
 
-      newScope.opened = false;
+      scope.opened = false;
       template = require('./templates/tree-view-parent-selector.tpl.html');
-      parentSelector = $compile(template)(newScope, function(parentSelectorEle) {
+      parentSelector = $compile(template)(scope, function(parentSelectorEle) {
         element.after(parentSelectorEle);
       });
       triggerElement = element;
       triggerElement.on('click', function(e) {
         if (hasParents()) {
           e.stopPropagation();
-          newScope.toggle();
+          scope.toggle();
           parentSelector.on('click', function(ev) {
             ev.stopPropagation();
           });
