@@ -16,7 +16,11 @@ gulp.task('deploy', function() {
 
   matches = symbolicName.match(regex);
 
-  branchName = matches[1];
+  if (matches && matches.length > 1) {
+    branchName = matches[1];
+  } else {
+    branchName = 'develop';
+  }
 
   //clean up branch name:
   cleanBranchName = branchName.replace(' ', '_');
