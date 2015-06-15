@@ -1,11 +1,10 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function(httpBuffer, $injector, $location, authConfig) {
+module.exports = function(httpBuffer, $injector, $window, authConfig) {
   var pendingRequest = false;
   var $http;
-
-  return {
+  var service = {
     /**
      * @name create
      * @description attempt to create a new token if no token request is pending.
@@ -37,7 +36,7 @@ module.exports = function(httpBuffer, $injector, $location, authConfig) {
         function() {
           pendingRequest = false;
           httpBuffer.clear();
-          $location.url(authConfig.lunaLogoutUrl);
+          service.logout();
         }
       );
     },
@@ -48,6 +47,11 @@ module.exports = function(httpBuffer, $injector, $location, authConfig) {
      */
     isPending: function() {
       return pendingRequest;
+    },
+    logout: function() {
+      $window.location.href = authConfig.lunaLogoutUrl;
     }
   };
+
+  return service;
 };
