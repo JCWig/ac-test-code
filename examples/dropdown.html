@@ -40,7 +40,7 @@
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis">
-                        <span ng-if="selectedItem">
+                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
                             custom: {{selectedItem[textProperty]}}
                         </span>
                         <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
@@ -48,7 +48,7 @@
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
-                    <span>custom: {{item[textProperty]}}</span>
+                    <span title="{{item[textProperty]}}">custom: {{item[textProperty]}}</span>
                 </akam-dropdown-option>
 
             </akam-dropdown>
@@ -82,7 +82,7 @@
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis">
-                        <span ng-if="selectedItem">
+                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
                             custom: {{selectedItem[textProperty]}}
                         </span>
                         <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
@@ -91,7 +91,7 @@
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
-                    <span>custom:
+                    <span title="{{item[textProperty]}}">custom:
                         <span ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
                     </span>
                 </akam-dropdown-option>
