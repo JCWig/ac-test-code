@@ -171,22 +171,6 @@ describe('akamai.components.popover', function() {
       timeout.flush();
       expect(document.querySelector('.popover-custom-content span').textContent).toContain(scope.customData.text);
     });
-    it('should be able to render custom html', function() {
-      scope.customData = {
-        text : 'Here is some text',
-        btnFunction: function(){}
-      };
-      spyOn(scope.customData,"btnFunction");
-      var markup = '<span class="pull-right" akam-popover position="bottom" trigger="click"' +
-        'custom-content="templateId.html">Clicky for Bottom Right Side</span>'+
-        '<script type="text/ng-template" id="templateId.html">'+
-          '{{customData.text}}'+
-        '</script>';
-      addElement(markup);
-      scope.$digest();
-      timeout.flush();
-      expect(document.querySelector('.popover-custom-content span').textContent).toContain(scope.customData.text);
-    });
     it('should be able to render on the top', function() {
       var markup = '<span class="pull-right" akam-popover position="top" ' +
         'header="Simple Header" popover-content="tool tip content" ' +
