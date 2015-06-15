@@ -11,7 +11,7 @@ var formatterConfig = {
 };
 
 /* @ngInject */
-module.exports = function($filter) {
+module.exports = function($filter, $timeout) {
 
   var directive = {
     restrict: 'A',
@@ -51,9 +51,12 @@ module.exports = function($filter) {
         date = new Date(),
         sp;
 
+      if (initialized) {
+        ngModel.$setDirty();
+      }
+
       if (angular.isUndefined(value)) {
         if (!initialized) {
-          initialized = true;
           setTimepickerValidState(true);
           return null;
         } else {
@@ -122,5 +125,11 @@ module.exports = function($filter) {
       }
       return sp;
     }
+
+    $timeout(function() {
+      if (!initialized) {
+        initialized = true;
+      }
+    });
   }
 };
