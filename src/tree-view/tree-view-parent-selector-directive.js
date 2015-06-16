@@ -7,13 +7,12 @@ module.exports = function($timeout, $compile, $document) {
   return {
     restrict: 'A',
     replace: true,
-    scope: {
-      parentTree: '=',
-      changeParent: '='
-    },
-    link: function(scope, element) {
+    scope: {},
+    require: '^akamTreeView',
+    link: function(scope, element, attrs, ctrl) {
       var template, parentSelector, triggerElement, windowElement;
 
+      scope.treeview = ctrl;
       scope.toggle = function() {
         scope.opened = !scope.opened;
         parentSelector.toggleClass('in', scope.opened);
@@ -24,15 +23,15 @@ module.exports = function($timeout, $compile, $document) {
           $document.bind('click', documentClickBind);
         }
       };
-      scope.triggerParentChange = function(parent) {
+      scope.triggerParentChange = function(index) {
         scope.toggle();
-        scope.changeParent(parent, true);
+        scope.treeview.contextChangeNew(index, true);
       };
       scope.isOpen = function() {
         return scope.opened;
       };
       function hasParents() {
-        return scope.parentTree.length > 0;
+        return scope.treeview.parentTree.length > 0;
       }
       function documentClickBind(e) {
         if (scope.opened && e.currentTarget !== parentSelector[0]) {
