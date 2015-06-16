@@ -1,5 +1,13 @@
 // COLOR PALETTE
 
+
+// Black and White
+$colors__white: #FFFFFF;
+$white: $colors__white;
+$colors__black: #000000;
+$black: $colors__black;
+
+
 // Bluegrays
 $colors__bluegray1: #5D6D7D; // main page title
 
@@ -17,7 +25,7 @@ $colors__gray9:  #F4F4F4; // components
 $colors__gray10: #F8F8F8; // components
 
 
-// Blues (we have darker and lighter but no default)
+// Blues
 $colors__blue1: #0099CC; // link color, hover icons
 $colors__blue2: #CEE7FF; // selected row
 $colors__blue3: #EBF6FF; // hover row

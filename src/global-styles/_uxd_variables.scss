@@ -1,27 +1,61 @@
-// TYPOGRAPHY
+// BASE VALUES
 
-// Global
-$uxd-font-family: Arial, sans-serif;
-$uxd-font-size: 12px;
-$uxd-font-color: $colors__gray2;
+// These values dont belong to any one component or element. These are the defaults for all other CSS
+$base__font-family: Arial, sans-serif;
+$base__font-size: 12px;
+$base__font: $base__font-size $base__font-family;
+$base__color: $colors__gray2;
+$base__border-radius: 3px;
+$base__border-width: 1px;
+$base__border-style: solid;
+$base__border-color: $colors__gray6;
+$base__border-color--focus: $colors__blue1;
+$base__border-color--disabled: $colors__gray7;
+$base__border: $base__border-style $base__border-width $base__border-color;
+$base__border--focus: $base__border-style $base__border-width $base__border-color--focus;
+$base__border--disabled: $base__border-style $base__border-width $base__border-color--disabled;
+$base__background-color: $colors__white;
+$base__box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15);
+$base__box-shadow--inset: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
 
-// Headlines
-$uxd-h1-font-size: 28px;
-$uxd-h1-font-color: $colors__bluegray1;
-$uxd-h2-font-size: 18px;
-$uxd-h3-font-size: 16px;
 
-// Links
-$uxd-anchor-font-size: $uxd-font-size;
+// HEADLINES
+$h1__font-size: 28px;
+$h1__color: $colors__bluegray1;
+$h2__font-size: 18px;
+$h3__font-size: 16px;
 
-// Icons
-$uxd-icon-size: 16px;
-$uxd-icon-color: $colors__gray2;
-$uxd-icon-color_hover: $colors__blue1;
-$uxd-icon-color_disabled: $colors__gray7;
-$uxd-icon-color_inverse: white;
-// Some icons have unique size and color specifications. See individual spec for guidance
 
+// ANCHORS
+$anchor__font-size: $base__font-size;
+
+
+// ICONS
+$icon__width: 16px;
+$icon__height: 16px;
+$icon__color: $colors__gray2;
+$icon__color--hover: $colors__blue1;
+$icon__color--disabled: $colors__gray7;
+$icon__color--inverse: $colors__white;
+
+
+//  todo: nleon@akamai.com
+//  Specific icon tweak variables... should they be defined here? or in their component?
+//  Can we consolidate these different close icons?
+//  Close icon
+//    - 12x12, except on tabs (8x8)
+//    - Colors change based on where the close icon is used
+
+
+// Inputs
+$input__background-color: $colors__gray9;
+$input__background-color--focus: $colors__white;
+$input__background-color--disabled: $colors__white;
+$input__box-shadow: $base__box-shadow--inset;
+$input__font-style: italic;
+$input__font: $input__font-style $base__font;
+$input__color: $colors__gray2;
+$input__color--placeholder: $colors__gray6;
 
 
 // Misc (refactor into additional sections if Misc becomes large)
