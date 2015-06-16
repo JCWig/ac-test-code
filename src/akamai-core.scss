@@ -1,43 +1,46 @@
 
+/* Import any CSS dependencies */
 @import "compass";
-
 @import "global-styles/_fonts";
-
 @import "global-styles/_variables";
 @import "global-styles/_uxd_colors";
 @import "global-styles/_uxd_variables";
-@import "global-styles/_bootstrap_variables";
+@import "global-styles/_bootstrap-variables";
 
+
+/* Import foundational CSS (import order is important here) */
 @import "global-styles/_global";
 @import "global-styles/_mixins";
 @import "global-styles/_extenders";
 @import "global-styles/_bootstrap-custom";
-
 @import "global-styles/_sprites";
 @import "global-styles/_svg";
-
 @import "global-styles/_utilities";
+@import "global-styles/_form_validation";
 
+
+/* These styles have no angular directive. They style an expected markup pattern */
 .common-css {
-  @import "global-styles/elements/_buttons";
-  @import "global-styles/elements/_checkboxes";
-  @import "global-styles/elements/_radios";
-  @import "global-styles/elements/_text_elements";
-  @import "global-styles/elements/_text_inputs";
-  @import "global-styles/elements/_forms";
-  @import "global-styles/elements/_dropdowns";
+  @import "global-styles/standalone/_buttons";
+  @import "global-styles/standalone/_checkboxes";
+  @import "global-styles/standalone/_dropdowns";
+  @import "global-styles/standalone/_forms";
+  @import "global-styles/standalone/_radios";
+  @import "global-styles/standalone/_tabs";
+  @import "global-styles/standalone/_text_elements";
+  @import "global-styles/standalone/_text_inputs";
 }
 
+
+/* These styles have an angular directive */
 .common-css {
   @import "content-panel/_content-panel";
   @import "date-picker/_date-picker";
   @import "dropdown/_dropdown";
   @import "indeterminate-progress/_indeterminate-progress";
   @import "list-box/_list-box";
-  
-  @import "modal-window/_modal-window"; // Variables used in message box are defined in modal window
+  @import "modal-window/_modal-window"; // TODO, nleon@akamai.com: variables used in message box are defined in modal window
   @import "message-box/_message-box";
-  
   @import "pagination/_pagination";
   @import "popover/_popover";
   @import "spinner/_spinner";
@@ -49,41 +52,18 @@
   @import "tree-view/_tree-view";
 }
 
+
+/* These styles should have an angular directive, but it doesnt exist yet */
 .common-css {
-  @import "global-styles/components/_determinate_progress";
-  // @import "global-styles/components/_indeterminate_progress";
-  // @import "global-styles/components/_status_messages";
-  // @import "global-styles/components/_date_picker";
-  // @import "global-styles/components/_list_box";
-  // @import "global-styles/components/_panels";
-  // @import "global-styles/components/_popover";
-  // @import "global-styles/components/_tag_input";
-  // @import "global-styles/components/_tree_view";
-  // @import "global-styles/components/_switch_button";
-  // @import "global-styles/components/_dropdown";
+  @import "global-styles/orphans/_determinate_progress";
 }
 
 
-.common-css {
-  // @import "global-styles/components/_modal_windows";
-  // @import "global-styles/components/_message_box";
-  @import "global-styles/components/_tabs";
-  // @import "global-styles/components/_pagination";
-}
-
-
-.common-css {
-  // @import "global-styles/components/_spinner";
-  // @import "global-styles/components/_time_picker";
-}
-
-.common-css {
-  @import "global-styles/angular/_form_validation";
-}
-
-
+/* Megamenu code */
 @import "global-styles/modular-mega-menu/_modular-mega-menu";
 
+
+/* Finally, import the hotfix CSS, and refactor it later */
 .common-css {
   @import "global-styles/_refactor";
 }
