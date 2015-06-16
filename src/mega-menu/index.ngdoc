@@ -1,0 +1,93 @@
+@ngdoc overview
+
+@version 0.1.0
+
+@description
+# Modular Mega Menu library
+
+A high level design can be found on the [wiki page](https://gsd.akamai.com/wiki/display/FEE/Modular+Mega+Menu).
+Bugs can be reported on our [Jira component](https://gsd.akamai.com/jira/browse/FEE/component/18768). The modular
+mega menu is designed to be easy to integrate into your project. And the best part is that the developer has full
+control over their page markup. The mega menu will insert the header as the first child of the `<body>` tag and
+append the footer as the last child of the `<body>` tag. Therefore, developers must take care about script ordering
+if their app isn't contained in a single div.
+
+# Example Usage for Globals
+<pre>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Pulsar App</title>
+
+  <!-- potentially required by all apps -->
+  <link href="path/to/common.min.css" rel="stylesheet">
+
+  <!-- My app CSS -->
+  <link href="resources/myapp.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <!-- My app markup here -->
+    <div id="myApp"></div>
+
+    <!-- Mega Menu include here -->
+    <script src="path/to/megamenu.min.js">
+
+  </body>
+</html>
+</pre>
+
+In the above example, the Mega Menu will be exposed as a global variable called `Akamai.Megamenu`.
+
+# Example Usage for Module Loaders
+
+If you are using a module loader, such as RequireJS, you might include the mega menu as follows:
+
+<pre>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Pulsar App</title>
+
+    <!-- potentially required by all apps -->
+    <link href="path/to/common.min.css" rel="stylesheet">
+
+    <!-- My app CSS -->
+    <link href="resources/myapp.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <!-- My app markup here -->
+    <div id="myApp"></div>
+
+    <!-- My app JS -->
+    <script src="resources/require.js" data-main='resources/app.js'></script>
+  </body>
+</html>
+</pre>
+
+Then, in `resources/app.js`, you will have an include that looks like the following:
+
+<pre>
+'use strict';
+
+require.config({
+    paths : {
+        megamenu : 'path/to/megamenu.min.js'
+        // other paths that you may need
+    },
+
+    // your app requirejs configuration here
+});
+
+require(['myApp', 'megamenu'], function(app, MegaMenu) {
+    // now you can use the mega menu API here
+});
+</pre>

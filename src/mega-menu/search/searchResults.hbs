@@ -1,0 +1,33 @@
+{{#if count}}
+  <header data-category="{{category.id}}">{{i18n category.displayKey}} ({{count}})</header>
+  {{#each results.hits}}
+    <section class="result util-clearfix" data-category="{{../category.category}}"
+             data-target="{{destination}}">
+      <i class="lunasearch-icon {{classes}} {{type}} util-pull-left"></i>
+
+      <div class="actions util-pull-right">
+        {{#each actions}}
+          {{#unless briefingHtml}}
+            <a class="util-pull-right"
+               href="{{destination}}"{{#searchTargetBlank ../category.category}}
+               target="_blank"{{/searchTargetBlank}}><i class="lunasearch-icon {{type}}"
+                                                        title="{{title}}"></i></a>
+          {{/unless}}
+        {{/each}}
+      </div>
+      <div class="info">
+        <p class="title util-ellipsis-block {{classes}}">{{highlightText ../query title}}</p>
+        {{#each description}}
+          <p class="util-ellipsis-block {{../classes}}">{{highlightText ../../query this}}</p>
+        {{/each}}
+      </div>
+    </section>
+  {{/each}}
+  {{#if showAll}}
+    <div class="more-results">
+      <i class="lunasearch-icon icon-search" title="{{i18n 'search.allResults'}}"></i> <a
+      href="/search/#q={{results.query}}&category={{category.category}}">{{seeAll}}</a>
+    </div>
+  {{/if}}
+{{/if}}
+

@@ -14,9 +14,21 @@ module.exports = function(config) {
       'dist/akamai-core.min.css',
       {pattern: 'dist/images/*', included: false, served: true},
       'node_modules/moment/moment.js',
-      'spec/**/*.js'
+      {
+        pattern: 'spec/mega-menu/phantom-shims.js',
+        served: true,
+        included: true,
+        watched: false
+
+      },
+      'spec/!(mega-menu)/**/*.js',
+
+      // load the mega menu tests last because they seem to not clean up the environment
+      // properly and several message-box and modal-window tests end up failing
+      'spec/mega-menu/**/*.js'
     ],
-    frameworks: ['browserify', 'jasmine'],
+    logLevel: config.LOG_ERROR,
+    frameworks: ['browserify', 'jasmine', 'jquery-2.1.0', 'sinon'],
     preprocessors: {
       'spec/**/*.js': ['browserify']
     },
@@ -27,7 +39,7 @@ module.exports = function(config) {
       transform: [
         ngannotate,
         istanbul({
-          ignore: ['**/*.html', '**/spec/**']
+          ignore: ['**/*.html', '**/spec/**', '**/*.hbs']
         })
       ]
     },

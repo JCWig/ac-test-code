@@ -2,6 +2,8 @@
 
 var angular = require('angular');
 
+require('./mega-menu/megamenu');
+
 angular.module('akamai.components', [
   require('./uuid').name,
   require('./i18n').name,

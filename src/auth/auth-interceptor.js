@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($q, httpBuffer, token, authConfig, auth) {
+module.exports = function($q, httpBuffer, token, authConfig, auth, context) {
   var megaMenuUriPatterns = [
     /^\/ui\/services\/nav\/megamenu\/.*$/i,
     /^\/core\/services\/session\/.*$/i,
@@ -24,7 +24,7 @@ module.exports = function($q, httpBuffer, token, authConfig, auth) {
     };
 
     return knownUriPatterns.some(foundPatternInArray) ||
-      auth.getBlacklistedUris().some( foundPatternInArray );
+      auth.getBlacklistedUris().some(foundPatternInArray);
   };
 
   return {
@@ -35,11 +35,19 @@ module.exports = function($q, httpBuffer, token, authConfig, auth) {
       if (token.isPending() && !isUriBlacklisted(requestConfig.url) ) {
         return httpBuffer.appendRequest(requestConfig);
       }
+      if (context.getApplicationContext() !== 'account') {
+        if (!requestConfig.params) {
+          requestConfig.params = {};
+        }
+
+        requestConfig.params.gid = context.getGroupId();
+        requestConfig.params.aid = context.getAssetId();
+      }
 
       return requestConfig;
     },
     responseError: function(response) {
-      if (response.status === 401 && !isUriBlacklisted(response.config.url )) {
+      if (response.status === 401 && !isUriBlacklisted(response.config.url)) {
 
         // send a request to create a token (if one needs to be created)
         if (!token.isPending()) {
