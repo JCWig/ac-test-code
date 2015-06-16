@@ -1,29 +1,3 @@
-/* Buttons
-
-Buttons respond to events such as clicks and hovers, and execute various actions through event handlers. Luna interfaces include button types in several sizes that accommodate many useful interactions.
-
-Button styles are built from the same base class and support 3 different markup patterns: &lt;a&gt;, &lt;button&gt;, and &lt;input type="button"&gt;. Additionally, you may add modifier classes for different button layouts or styles as seen in the examples below.
-
-Markup:
-<a class="btn {$modifiers}" href="#">Link Button</a>
-<button class="btn {$modifiers}">Button Element</button>
-<input class="btn {$modifiers}" type="button" value="input[type='button']"/>
-
-:hover - A hovered button.
-:focus - A focused button.
-:active - An active button.
-:disabled - A disabled button.
-.small - A small button.
-.large - A large button.
-.primary - A primary button
-.primary:hover - A hovered button.
-.primary:focus - A focused button.
-.primary:active - An active button.
-.primary:disabled - A disabled button.
-
-Styleguide 4.1
-
-*/
 
 .btn,
 .button {
@@ -142,27 +116,7 @@ Styleguide 4.1
   // Pulsar tweaks here
 }
 
-/* Menu Buttons
 
-Menu buttons
-
-Markup:
-<a class="btn {$modifiers}" href="#">Link Button</a>
-<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-    <i class="luna-arrow_smDown"></i>
-</button>
-<button class="btn {$modifiers}">Button Element</button>
-<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-    <i class="luna-arrow_smDown"></i>
-</button>
-<input class="btn {$modifiers}" type="button" value="input[type='button']"/>
-<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-    <i class="luna-arrow_smDown"></i>
-</button>
-
-Styleguide 4.7
-
-*/
 
 .btn.dropdown-toggle,
 .button.dropdown-toggle {
