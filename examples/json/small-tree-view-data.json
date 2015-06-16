@@ -1,0 +1,21 @@
+{
+    "department" : {"name" : "Departments", "boss":true},
+    "section": {"name" : "Development"},
+    "employees": [
+        {"name":"Paula Phillips"},
+        {"name":"Louise Palmer"},
+        {"name":"Donna Hicks"},
+        {"name":"Martin Hicks"},
+        {"name":"Scott Schmidt"},
+        {"name":"Joseph Hunt"},
+        {"name":"Jack Kim"},
+        {"name":"Annie Vasquez"},
+        {"name":"Anthony Rice"},
+        {"name":"Tina Gibson"},
+        {"name":"Helen Myers"},
+        {"name":"Bruce Hudson"},
+        {"name":"Earl Fields"},
+        {"name":"Sarah Wagner"},
+        {"name":"Rebecca Brown"}
+    ]
+}

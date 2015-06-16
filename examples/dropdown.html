@@ -27,20 +27,20 @@
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" clearable></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
         </span>
     </div>
     <br/>
 
     <div>
-        <h2>Default dropdown with a list of objects, custom markup.</h2>
+        <h2>Default dropdown with a list of objects and custom markup, not clearable</h2>
         <span>
             <akam-dropdown ng-model="vm.ex2.selectedState" text-property="name"
-                           items="vm.stateObjects" clearable>
+                           items="vm.stateObjects" clearable on-change="vm.doChange(item)">
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis">
-                        <span ng-if="selectedItem">
+                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
                             custom: {{selectedItem[textProperty]}}
                         </span>
                         <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
@@ -48,7 +48,7 @@
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
-                    <span>custom: {{item[textProperty]}}</span>
+                    <span title="{{item[textProperty]}}">custom: {{item[textProperty]}}</span>
                 </akam-dropdown-option>
 
             </akam-dropdown>
@@ -57,7 +57,7 @@
     <br/>
 
     <div>
-        <h2>Dropdown that is not clearable with a list of strings and a filter</h2>
+        <h2>Dropdown with a list of strings and a filter, not clearable</h2>
         <span>
             <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
         </span>
@@ -75,14 +75,14 @@
     <br/>
 
     <div>
-        <h2>Dropdown that is not clearable with a list of objects, custom markup and a filter</h2>
+        <h2>Dropdown with a list of objects, a filter and custom markup, not clearable</h2>
         <span>
             <akam-dropdown ng-model="vm.ex5.selectedState" text-property="name"
                            items="vm.stateObjects" filterable="name">
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis">
-                        <span ng-if="selectedItem">
+                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
                             custom: {{selectedItem[textProperty]}}
                         </span>
                         <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
@@ -91,7 +91,7 @@
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
-                    <span>custom:
+                    <span title="{{item[textProperty]}}">custom:
                         <span ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
                     </span>
                 </akam-dropdown-option>
@@ -122,7 +122,7 @@
                 {name: 'New York'},
                 {name: 'Vermont'},
                 {name: 'Virginia'},
-                {name: 'Washington DC'},
+                {name: 'Washington, District of Columbia'},
             ];
 
             vm.strings = [
@@ -135,7 +135,7 @@
                 'New York',
                 'Vermont',
                 'Virginia',
-                'Washington DC'
+                'Washington, District of Columbia'
             ];
 
             vm.ex1 = { selectedState: 'Massachusetts' };
@@ -144,8 +144,8 @@
             vm.ex4 = { selectedState: {name: 'Colorado'} };
             vm.ex5 = { selectedState: undefined };
 
-            vm.doChange = function() {
-                $log.log('option changed');
+            vm.doChange = function(item) {
+                $log.log('selected item changed', item);
             };
         }
 
@@ -157,8 +157,6 @@
                 i18nTokenProvider.setAppLocalePath("locales/json/messages/");
             }
         }
-
-
     </script>
 </body>
 </html>

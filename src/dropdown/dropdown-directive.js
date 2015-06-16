@@ -104,13 +104,14 @@ module.exports = function($compile, dropdownTransformer, translate) {
       scope.$watch(function() {
         return ngModel.$viewValue;
       }, function(modelValue) {
+
         scope.selectedItem = modelValue;
         if (typeof selectedScope !== 'undefined') {
           selectedScope.selectedItem = modelValue;
         }
         scope.isOpen = false;
         if (typeof scope.onChange === 'function') {
-          scope.onChange();
+          scope.onChange({item: modelValue});
         }
       });
 

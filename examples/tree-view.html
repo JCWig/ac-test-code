@@ -24,7 +24,7 @@
             </span>
             <br />
             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="contextData" on-change="triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
             <br />
@@ -32,14 +32,23 @@
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
              <div style="max-width:225px; max-height: 225px; overflow: auto">
-                <akam-tree-view akam-standalone context-data="jsonFromHttpGet" on-context-change="triggerChangeJSON(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="jsonFromHttpGet" on-change="triggerChangeJSON(item)"> </akam-tree-view>
+            </div>
+            <br />
+            <br />
+            <h2>JSON Data Example Custom Properties</h2>
+             <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
+            </span>
+             <div style="max-width:225px; max-height: 225px; overflow: auto">
+                <akam-tree-view akam-standalone items="jsonFromHttpGetSmall" on-change="triggerChangeJSON(item)" current-property="section" 
+                parent-property="department" children-property="employees" root-property="boss" text-property="name"> </akam-tree-view>
             </div>
             <br />
             <br />
             <h2>No Data Example</h2>
             <span>NOTE: No data nodes exist<br /></span>
             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="contextDataEmpty" on-context-change="triggerChange(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="contextDataEmpty" on-change="triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
             <br />   
@@ -50,6 +59,7 @@
                 
                 // Load data from a json file to test out HTTP GET functionality
                 $scope.jsonFromHttpGet = $http.get('json/tree-view-data.json');
+                $scope.jsonFromHttpGetSmall = $http.get('json/small-tree-view-data.json');
                 
                 $scope.triggerChangeJSON = function(clickedObj){
                     $log.log("clicked object " + clickedObj.title);
