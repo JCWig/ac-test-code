@@ -8,20 +8,23 @@ describe('Auth', function() {
       buffer,
       tokenService,
       config,
-      interceptor;
+      interceptor,
+      win;
 
   beforeEach(function before() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
-    angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor) {
+    angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor, $window) {
       http = $http;
       httpBackend = $httpBackend;
       buffer = httpBuffer;
       tokenService = token;
       config = authConfig;
       interceptor = authInterceptor;
+      win = $window;
     });
-    spyOn(tokenService, 'logout');
+    spyOn(tokenService, 'logout').and.callThrough();
+    spyOn(win.location, 'assign');
   });
 
   describe('Scenario: Receive unauthorized API response', function() {
@@ -135,6 +138,32 @@ describe('Auth', function() {
       tokenService.create();
       httpBackend.flush();
       expect(tokenService.logout).toHaveBeenCalled();
+    });
+  });
+
+  describe('Scenario: Blacklisted API requests', function() {
+    it('should pass through the response', function() {
+      spyOn(buffer, 'appendResponse').and.callThrough();
+      spyOn(tokenService, 'create').and.callThrough();
+      httpBackend.when('GET', '/ui/services/nav/megamenu/someUser/grp.json').respond(401);
+      httpBackend.when('GET', '/core/services/session/another_user/extend').respond(401);
+      httpBackend.when('GET', '/svcs/messagecenter/yet_SOME_other_USER/message/12345.json').respond(401);
+      http.get('/ui/services/nav/megamenu/someUser/grp.json');
+      http.get('/core/services/session/another_user/extend');
+      http.get('/svcs/messagecenter/yet_SOME_other_USER/message/12345.json');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.create).not.toHaveBeenCalled();
+    });
+    it('should process any blacklisted request without queing', function(){
+      spyOn(buffer, 'appendRequest').and.callThrough();
+      spyOn(tokenService, 'isPending').and.returnValue(true);
+      interceptor.request({method: 'GET', url: '/ui/services/nav/megamenu/someUser/grp.json', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      interceptor.request({method: 'POST', url: '/core/services/session/another_user/extend', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      interceptor.request({method: 'DELETE', url: '/svcs/messagecenter/yet_SOME_other_USER/message/12345.json', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      expect(buffer.appendRequest).not.toHaveBeenCalled();
+      expect(tokenService.isPending).toHaveBeenCalled();
+      expect(buffer.size()).toBe(0);
     });
   });
 });
