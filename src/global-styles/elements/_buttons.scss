@@ -88,7 +88,7 @@ Styleguide 4.1
     border-color: #999999;
   }
 
-  &.primary {
+  &.primary, &.btn-primary {
     color: $button-primary-text-color;
     background-color: $button-primary-background-color;
     border-color: $button-primary-border-color;

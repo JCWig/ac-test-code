@@ -1,6 +1,6 @@
 <span class="selected-option util-ellipsis">
-    <span ng-if="!textProperty && selectedItem">{{selectedItem}}</span>
-    <span ng-if="textProperty && selectedItem">{{selectedItem[textProperty]}}</span>
+    <span ng-if="!textProperty && selectedItem" title="{{selectedItem}}">{{selectedItem}}</span>
+    <span ng-if="textProperty && selectedItem" title="{{selectedItem[textProperty]}}">{{selectedItem[textProperty]}}</span>
     <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
 </span>
 <i class="luna-small_close_dark_gray util-clickable clear-dropdown"
