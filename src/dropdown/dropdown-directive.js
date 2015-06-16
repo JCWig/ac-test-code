@@ -5,7 +5,7 @@ var angular = require('angular');
 require('angular-sanitize');
 
 /* @ngInject */
-module.exports = function($compile, dropdownTransformer) {
+module.exports = function($compile, dropdownTransformer, translate) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
     var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
@@ -21,13 +21,22 @@ module.exports = function($compile, dropdownTransformer) {
     return tElem.find(tagName).remove().html() || undefined;
   }
 
+  function setPlaceholder(placeholderProp, scope, customMarkupScope, value) {
+    scope[placeholderProp] = value;
+    if (typeof customMarkupScope !== 'undefined') {
+      customMarkupScope[placeholderProp] = scope[placeholderProp];
+    }
+  }
+
   return {
     restrict: 'E',
     require: '^ngModel',
     scope: {
       items: '=',
       textProperty: '@?',
-      onChange: '&?'
+      onChange: '&?',
+      placeholder: '@?',
+      filterPlaceholder: '@?'
     },
 
     template: function(tElem) {
@@ -46,9 +55,18 @@ module.exports = function($compile, dropdownTransformer) {
       selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
       optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option-placeholder');
 
+      if (typeof selectedTemplate !== 'undefined') {
+        selectedScope = scope.$parent.$new();
+      }
+
+      if (typeof optionTemplate !== 'undefined') {
+        menuScope = scope.$parent.$new();
+      }
+
       scope.hasFilter = typeof attrs.filterable !== 'undefined';
+      scope.isClearable = typeof attrs.clearable !== 'undefined';
+
       scope.filterProperty = attrs.filterable;
-      scope.dropdownFilter = undefined;
 
       scope.isOpen = false;
 
@@ -61,25 +79,48 @@ module.exports = function($compile, dropdownTransformer) {
         ngModel.$setViewValue();
       };
 
+      scope.setOpen = function(isOpen) {
+        scope.isOpen = isOpen;
+      };
+
+      if (typeof scope.placeholder !== 'string') {
+        translate.async('components.dropdown.placeholder.noSelection')
+          .then(function(value) {
+            setPlaceholder('placeholder', scope, selectedScope, value);
+          });
+      } else {
+        setPlaceholder('placeholder', scope, selectedScope, scope.placeholder);
+      }
+
+      if (typeof scope.filterPlaceholder !== 'string') {
+        translate.async('components.dropdown.placeholder.filter')
+          .then(function(value) {
+            setPlaceholder('filterPlaceholder', scope, menuScope, value);
+          });
+      } else {
+        setPlaceholder('filterPlaceholder', scope, menuScope, scope.filterPlaceholder);
+      }
+
       scope.$watch(function() {
         return ngModel.$viewValue;
       }, function(modelValue) {
+
         scope.selectedItem = modelValue;
         if (typeof selectedScope !== 'undefined') {
           selectedScope.selectedItem = modelValue;
         }
         scope.isOpen = false;
         if (typeof scope.onChange === 'function') {
-          scope.onChange();
+          scope.onChange({item: modelValue});
         }
       });
 
       selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);
       if (typeof selectedTemplate !== 'undefined') {
-        selectedScope = scope.$parent.$new();
         selectedScope.selectedItem = scope.selectedItem;
         selectedScope.textProperty = scope.textProperty;
         selectedScope.clearSelectedItem = scope.clearSelectedItem;
+        selectedScope.setOpen = scope.setOpen;
 
         selectedElem = $compile(selectedContentTemplate)(selectedScope);
       } else {
@@ -89,12 +130,12 @@ module.exports = function($compile, dropdownTransformer) {
 
       menuTemplate = dropdownTransformer.getMenu(optionTemplate);
       if (typeof optionTemplate !== 'undefined') {
-        menuScope = scope.$parent.$new();
         menuScope.items = scope.items;
         menuScope.textProperty = scope.textProperty;
         menuScope.setSelectedItem = scope.setSelectedItem;
         menuScope.hasFilter = scope.hasFilter;
         menuScope.filterProperty = scope.filterProperty;
+        menuScope.setOpen = scope.setOpen;
 
         menuElem = $compile(menuTemplate)(menuScope);
       } else {

@@ -89,6 +89,12 @@
             "warning": "ALERTA:",
             "success": "SUCESSO",
             "error": "ERRO"
+        },
+        "dropdown": {
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
+            }
         }
     }
 }

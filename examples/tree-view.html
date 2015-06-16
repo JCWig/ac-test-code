@@ -10,7 +10,7 @@
             <div class="page-header">
                 <h1>Tree View Component Examples</h1>
             </div>
-            <h2>Tree View Example - Hardcoded Data</h2>
+            <h2>Hardcoded Data Example</h2>
             <br />
             <span>Example Data Layout:<br />
                 Expand Development to see a list of tree items (time delay of 2 seconds)
@@ -24,16 +24,34 @@
             </span>
             <br />
             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="contextData" on-context-change="triggerChange(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="contextData" on-change="triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
             <br />
-            <h2>Tree View Example - JSON Data</h2>
+            <h2>JSON Data Example</h2>
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
-             <div style="max-width:225px;">
-                <akam-tree-view akam-standalone context-data="jsonFromHttpGet" on-context-change="triggerChange2"> </akam-tree-view>
+             <div style="max-width:225px; max-height: 225px; overflow: auto">
+                <akam-tree-view akam-standalone items="jsonFromHttpGet" on-change="triggerChangeJSON(item)"> </akam-tree-view>
             </div>
+            <br />
+            <br />
+            <h2>JSON Data Example Custom Properties</h2>
+             <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
+            </span>
+             <div style="max-width:225px; max-height: 225px; overflow: auto">
+                <akam-tree-view akam-standalone items="jsonFromHttpGetSmall" on-change="triggerChangeJSON(item)" current-property="section" 
+                parent-property="department" children-property="employees" root-property="boss" text-property="name"> </akam-tree-view>
+            </div>
+            <br />
+            <br />
+            <h2>No Data Example</h2>
+            <span>NOTE: No data nodes exist<br /></span>
+            <div style="max-width:225px;">
+                <akam-tree-view akam-standalone items="contextDataEmpty" on-change="triggerChange(item)"> </akam-tree-view>
+            </div>
+            <br />
+            <br />   
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
@@ -41,8 +59,9 @@
                 
                 // Load data from a json file to test out HTTP GET functionality
                 $scope.jsonFromHttpGet = $http.get('json/tree-view-data.json');
+                $scope.jsonFromHttpGetSmall = $http.get('json/small-tree-view-data.json');
                 
-                $scope.triggerChange2 = function(clickedObj){
+                $scope.triggerChangeJSON = function(clickedObj){
                     $log.log("clicked object " + clickedObj.title);
                 };
                 
@@ -121,7 +140,8 @@
                             children: null
                         }
                     }
-                }
+                };
+                
                 $scope.contextData = {
                     parent:[{title:"Employees"}],
                     current:{title: "Development"},
@@ -134,7 +154,13 @@
                         {"title": "Michael Prince"},
                         {"title": "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" },
                     ]
-                }
+                };
+                
+                $scope.contextDataEmpty = {
+                        parent: null,
+                        current: null,
+                        children: null
+                };
             };
             exampleController.$inject = ['$scope', '$log', '$q', '$timeout', '$http', '$httpBackend'];
             angular.module('example', ['akamai.components.tree-view'])

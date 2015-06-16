@@ -3,14 +3,16 @@
 var angular = require('angular');
 var includes = require('lodash/collection/includes');
 var debounce = require('lodash/function/debounce');
-var POPUP_DELAY = 200;
+var POPUP_DELAY = 300;
 
 /* @ngInject */
 module.exports = function($log, $position, $compile, $timeout, $templateCache, $parse) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      var template, popover, triggerElement, customTemplate;
+      var template, popover, triggerElement, customTemplate, triggerHovering,
+          leaveHovering, popoverHover, enterTimeout, leaveTimeout, leavePopover,
+          leavePopoverTimeout;
       var newScope = scope.$new();
 
       newScope.position = attrs.position;
@@ -100,19 +102,21 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
       if (validParameters()) {
         newScope.opened = false;
         template = require('./templates/popover.tpl.html');
-        popover = $compile(template)(newScope, function(popoverEle) {
-          if (newScope.useCustomContent) {
-            customTemplate = $templateCache.get(attrs.customContent);
-            $timeout(function() {
-              $compile(customTemplate)(newScope, function(customEle) {
-                popoverEle[0].querySelector('.popover-custom-content').appendChild(customEle[0]);
-                element.after(popoverEle);
-              });
-            }, 0);
-          } else {
-            element.after(popoverEle);
+        popover = $compile(template)(newScope);
+        if (newScope.useCustomContent) {
+          customTemplate = $templateCache.get(attrs.customContent);
+          try {
+            angular.element(customTemplate);
+          } catch(e) {
+            customTemplate = '<span>' + customTemplate + '</span>';
           }
-        });
+          $timeout(function() {
+            var customEle = $compile(customTemplate)(newScope);
+            angular.element(popover[0].querySelector('.popover-custom-content')).append(customEle);
+          }, 0);
+        }
+        element.after(popover);
+
         triggerElement = element;
         if (newScope.isTriggerClick) {
           triggerElement.on('click', function() {
@@ -120,12 +124,42 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           });
         } else {
           triggerElement.on('mouseover', function() {
-            $timeout(function() {
-              newScope.toggle();
-            }, POPUP_DELAY);
+            if (!leavePopover) {
+              triggerHovering = true;
+              enterTimeout = $timeout(function() {
+                triggerHovering = false;
+                newScope.toggle();
+              }, POPUP_DELAY);
+            } else {
+              $timeout.cancel(leavePopoverTimeout);
+            }
+            leavePopover = false;
           });
           triggerElement.on('mouseleave', function() {
-            newScope.toggle();
+            if (triggerHovering) {
+              $timeout.cancel(enterTimeout);
+            } else {
+              leaveHovering = true;
+              leaveTimeout = $timeout(function() {
+                newScope.toggle();
+              }, POPUP_DELAY);
+            }
+            triggerHovering = false;
+          });
+          popover.on('mouseover', function() {
+            if (leaveHovering) {
+              popoverHover = true;
+              $timeout.cancel(leaveTimeout);
+            }
+          });
+          popover.on('mouseleave', function() {
+            if (popoverHover) {
+              leavePopover = true;
+              leavePopoverTimeout = $timeout(function() {
+                newScope.toggle();
+                leavePopover = false;
+              }, POPUP_DELAY);
+            }
           });
         }
         angular.element(window).on('resize', debounce(setCoords, 200));

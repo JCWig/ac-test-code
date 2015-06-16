@@ -89,6 +89,12 @@
             "warning": "AVERTISSEMENT",
             "success": "TERMINÉ",
             "error": "ERREUR"
+        },
+        "dropdown": {
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
+            }
         }
     }
 }

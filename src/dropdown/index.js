@@ -14,7 +14,8 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 module.exports = angular.module('akamai.components.dropdown', [
   require('angular-bootstrap-npm'),
   'ngSanitize',
-  'ui.highlight'
+  'ui.highlight',
+  require('../i18n').name
 ])
   .service('dropdownTransformer', require('./dropdown-transformer'))
 
@@ -34,6 +35,10 @@ module.exports = angular.module('akamai.components.dropdown', [
  *
  * @param {String} [textProperty] If the options param is an array of Objects,
  * this is the property of those objects used in the dropdown menu
+ *
+ * @param {String} [placeholder=Select one] The placeholder text for the dropdown
+ *
+ * @param {String} [filterPlaceholder=Filter] The placeholder text for the filter field
  *
  * @param {Function} [onChange] A callback function that is executed when the
  * state of the dopdown changes

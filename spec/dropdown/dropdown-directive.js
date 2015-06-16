@@ -1,6 +1,7 @@
 /*global angular, inject*/
 'use strict';
 var util = require('../utilities');
+var translationMock = require('../fixtures/translationFixture.json');
 
 describe('akamai.components.dropdown', function() {
   var $scope, $compile, stateStrings, stateObjects;
@@ -34,9 +35,16 @@ describe('akamai.components.dropdown', function() {
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/dropdown').name);
+    angular.mock.module(function($provide, $translateProvider) {
+      $translateProvider.useLoader('i18nCustomLoader');
+    });
     inject(function($rootScope, _$compile_, $httpBackend) {
       $scope = $rootScope;
       $compile = _$compile_;
+
+      $httpBackend.when('GET', util.LIBRARY_PATH).respond(translationMock);
+      $httpBackend.when('GET', util.CONFIG_PATH).respond({});
+      $httpBackend.flush();
     });
   });
 
@@ -69,10 +77,9 @@ describe('akamai.components.dropdown', function() {
       var dropdownMenu = util.find('.dropdown-menu');
       var selected = util.find('span.selected-option');
 
-
       expect(dropdown.classList.contains('open')).toBe(false);
       expect(selected.children.length).toBe(1);
-      expect(selected.children[0].innerHTML).toBe('');
+      expect(selected.children[0].innerHTML).toBe('Select one');
 
       util.click(dropdownToggle);
       expect(dropdown.classList.contains('open')).toBe(true);
