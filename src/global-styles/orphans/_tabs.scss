@@ -1,0 +1,92 @@
+
+
+$tab-height: 36px;
+$tab-gutter: 5px;
+$tabs-right-gutter: 10px;
+$tab-border-radius: 3px;
+
+$tab-border-color: #cccccc;
+$tab-border-color-disabled: #e6e6e6;
+
+$tab-background-color: #f4f4f4;
+$tab-background-color-active: #ffffff;
+$tab-background-color-hover: linear-gradient(#f4f4f4, #e6e6e6);
+$tab-background-color-mousedown: linear-gradient(#e6e6e6, #f4f4f4);
+$tab-background-color-disabled: #ffffff;
+
+$tab-label-padding: 30px;
+$tab-label-color: #666666;
+$tab-label-color-disabled: #e6e6e6;
+
+.nav-tabs {
+  padding-right: $tabs-right-gutter;
+
+  & + .tab-content {
+    border: solid 1px $tab-border-color;
+    border-top-width: 0px;
+    border-radius: 0 0 $tab-border-radius $tab-border-radius;
+    padding: 1em;
+    background-color: $tab-background-color-active;
+  }
+
+  & > li {
+
+    & + li {
+      margin-left: $tab-gutter;
+    }
+
+    & > a {
+      margin: 0;
+      padding: 0;
+      padding-left: $tab-label-padding;
+      padding-right: $tab-label-padding;
+
+      color: $tab-label-color;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+
+      display: inline-block;
+      box-sizing: border-box;
+      outline: 0;
+      height: $tab-height;
+      line-height: $tab-height;
+
+      white-space: nowrap;
+
+      border: solid 1px $tab-border-color;
+      border-radius: $tab-border-radius $tab-border-radius 0 0;
+
+      background: $tab-background-color;
+
+      &:hover {
+        @include background-image(linear-gradient(#f4f4f4, #cbcbcb));
+      }
+
+      &:active,
+      &:focus {
+        @include background-image(linear-gradient(#f2f2f2, #bfbfbf));
+      }
+    }
+
+    &.active {
+
+      & > a {
+        border-bottom-color: $tab-background-color-active;
+        background: $tab-background-color-active;
+      }
+
+    }
+
+    &.disabled {
+
+      & > a {
+        color: $tab-label-color-disabled;
+        border-color: $tab-border-color-disabled;
+        border-bottom-color: $tab-border-color;
+        background: $tab-background-color-disabled;
+      }
+
+    }
+  }
+}

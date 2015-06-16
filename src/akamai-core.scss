@@ -28,33 +28,53 @@
   @import "global-styles/elements/_dropdowns";
 }
 
+.common-css {
+  @import "content-panel/_content-panel";
+  @import "date-picker/_date-picker";
+  @import "dropdown/_dropdown";
+  @import "indeterminate-progress/_indeterminate-progress";
+  @import "list-box/_list-box";
+  
+  @import "modal-window/_modal-window"; // Variables used in message box are defined in modal window
+  @import "message-box/_message-box";
+  
+  @import "pagination/_pagination";
+  @import "popover/_popover";
+  @import "spinner/_spinner";
+  @import "status-message/_status-message";
+  @import "switch-button/_switch-button";
+  @import "table/_table";
+  @import "tag-input/_tag-input";
+  @import "time-picker/_time-picker";
+  @import "tree-view/_tree-view";
+}
 
 .common-css {
   @import "global-styles/components/_determinate_progress";
-  @import "global-styles/components/_indeterminate_progress";
-  @import "global-styles/components/_status_messages";
-  @import "global-styles/components/_date_picker";
-  @import "global-styles/components/_list_box";
-  @import "global-styles/components/_panels";
-  @import "global-styles/components/_popover";
-  @import "global-styles/components/_tag_input";
-  @import "global-styles/components/_tree_view";
-  @import "global-styles/components/_switch_button";
-  @import "global-styles/components/_dropdown";
+  // @import "global-styles/components/_indeterminate_progress";
+  // @import "global-styles/components/_status_messages";
+  // @import "global-styles/components/_date_picker";
+  // @import "global-styles/components/_list_box";
+  // @import "global-styles/components/_panels";
+  // @import "global-styles/components/_popover";
+  // @import "global-styles/components/_tag_input";
+  // @import "global-styles/components/_tree_view";
+  // @import "global-styles/components/_switch_button";
+  // @import "global-styles/components/_dropdown";
 }
 
 
 .common-css {
-  @import "global-styles/components/_modal_windows";
-  @import "global-styles/components/_message_box";
+  // @import "global-styles/components/_modal_windows";
+  // @import "global-styles/components/_message_box";
   @import "global-styles/components/_tabs";
-  @import "global-styles/components/_pagination";
+  // @import "global-styles/components/_pagination";
 }
 
 
 .common-css {
-  @import "global-styles/components/_spinner";
-  @import "global-styles/components/_time_picker";
+  // @import "global-styles/components/_spinner";
+  // @import "global-styles/components/_time_picker";
 }
 
 .common-css {
