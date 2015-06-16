@@ -1,49 +1,4 @@
 
-
-// Modal Dialogs
-$dialog-background-color: #ffffff;
-$dialog-header-background-color: $global-light-gray-gradient;
-
-$dialog-width: auto;
-$dialog-min-width: 400px;
-$dialog-max-width: 75%;
-
-$dialog-height: auto;
-$dialog-min-height: 0;
-$dialog-max-height: 75%;
-
-$dialog-left-padding: 15px;
-$dialog-right-padding: 15px;
-
-$dialog-text-color: #666666;
-$dialog-text-color-info: #2f79c9;
-$dialog-text-color-alert: #a32d2d;
-
-$dialog-content-top-padding: 30px;
-$dialog-content-bottom-padding: 30px;
-
-$dialog-footer-button-gutter: 10px;
-$dialog-footer-top-padding: 15px;
-$dialog-footer-bottom-padding: 15px;
-
-$dialog-header-icon-gutter: 10px;
-$dialog-header-height: 36px;
-$dialog-header-error-height: 54px;
-$dialog-gradient-top: #ffffff;
-$dialog-gradient-bottom: #f7f7f7;
-
-$dialog-border-color: #666666;
-$dialog-border-radius: 3px;
-
-$dialog-separator-color_pulsar: #cccccc;
-$dialog-separator-color_luna: #cccccc;
-
-$dialog-mask-color_pulsar: rgba(255, 255, 255, 0.85);
-$dialog-mask-color_luna: rgba(34, 43, 53, 0.85);
-
-$dialog-indeterminate-spinner-dimensions: 50px;
-$dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
-
 .modal {
   position: fixed;
   top: 0;

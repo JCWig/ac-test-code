@@ -39,8 +39,8 @@
   @import "dropdown/_dropdown";
   @import "indeterminate-progress/_indeterminate-progress";
   @import "list-box/_list-box";
-  @import "modal-window/_modal-window"; // TODO, nleon@akamai.com: variables used in message box are defined in modal window
   @import "message-box/_message-box";
+  @import "modal-window/_modal-window"; // $dialog variables are in _message-box
   @import "pagination/_pagination";
   @import "popover/_popover";
   @import "spinner/_spinner";

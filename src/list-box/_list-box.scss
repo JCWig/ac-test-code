@@ -51,11 +51,18 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
       width: 7px;
       background: transparent;
     }
+    
     &::-webkit-scrollbar-thumb {
       border-radius: 4px;
       background-color: rgba(0, 0, 0, .5);
       -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
       border-right: 1px solid white;
+    }
+    
+    // Addresses an issue in firefox trying to calculate the correct height
+    @include for("Firefox") {
+      max-height: calc(#{$list-box-body-height - $list-box-row-count}); 
+      min-height: calc(#{$list-box-body-height - $list-box-row-count}); 
     }
   }
 
@@ -74,76 +81,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   }
 }
 
-.akam-data-table .data {
-  min-height: 353px;
-}
 
-.akam-list-box .fixed-table-container-inner {
-  // Addresses an issue in firefox trying to calculate the correct height
-  @include for("Firefox") {
-    max-height: calc(#{$list-box-body-height - $list-box-row-count}); 
-    min-height: calc(#{$list-box-body-height - $list-box-row-count}); 
-  }
-}
-
-.akam-data-table {
-
-  .data {
-    position: relative;
-    min-height: $data-table-body-height + $list-box-header-height + ($list-box-border-width * 2);
-  }
-
-  .akam-pagination {
-    border: 0 none;
-  }
-
-  th {
-    text-align: left;
-    border-bottom: $list-box-border;
-    @include ellipsis();
-    white-space: nowrap;
-    padding: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: $list-box-header-height;
-    line-height: $list-box-cell-height;
-    position: relative;
-    background-clip: padding-box; // bugzilla.mozilla.org/show_bug.cgi?id=688556
-    height: 31px;
-    line-height: 31px;
-
-    @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
-    & + th {
-      border-left: $list-box-border;
-    }
-  }
-
-  th.column-sortable {
-    @extend .util-clickable;
-    padding-right: 20px;
-    
-    &.column-sorted {
-      @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
-    }
-    
-    & > i {
-      position: absolute;
-      right: floor(luna-sprite-width(arrow-up) / 2);
-      top: 50%;
-      @include translateY(-50.01%);
-    }
-  }
-
-  .column-checkbox {
-    width: 30px;
-  }
-
-  td {
-    padding: 0 10px;
-  }
-}
-
-.akam-list-box, .akam-data-table {
+.akam-list-box {
   font-size: $body-font-size;
   color: $body-font-color;
   background: #fff;
@@ -292,16 +231,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   }
 }
 
-.akam-data-table {
 
-  .toolbar {
-    border-bottom: $list-box-border;
-  }
-
-  .data {
-    border-top: 0 none;
-  }
-}
 
 
 

@@ -30,61 +30,11 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
 $data-table-row-count: 10;
 $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $data-table-row-count);
 
-.akam-list-box {
-  .list-box-data {
-    overflow-y: auto;
-    height: 298px;
-    border-top: $list-box-border;
-    border-bottom: $list-box-border;
-    position: relative; // Addresses a scrollbar issue in Firefox 36.0.4
-  }
-
-  .fixed-table-container-inner {
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 100%;
-    max-height: $list-box-body-height; //Note that this should be reset by a user to whatever the more appropriate value is
-    min-height: $list-box-body-height;
-
-    &::-webkit-scrollbar {
-      -webkit-appearance: none;
-      width: 7px;
-      background: transparent;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 4px;
-      background-color: rgba(0, 0, 0, .5);
-      -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-      border-right: 1px solid white;
-    }
-  }
-
-  .list-box-footer {
-    height: $list-box-footer-height;
-    line-height: $list-box-footer-height;
-    padding: 0px 10px;
-    label {
-      font-weight: normal;
-      font-size: 12px;
-
-      &:before {
-        margin-right: 5px;
-      }
-    }
-  }
-}
 
 .akam-data-table .data {
   min-height: 353px;
 }
 
-.akam-list-box .fixed-table-container-inner {
-  // Addresses an issue in firefox trying to calculate the correct height
-  @include for("Firefox") {
-    max-height: calc(#{$list-box-body-height - $list-box-row-count}); 
-    min-height: calc(#{$list-box-body-height - $list-box-row-count}); 
-  }
-}
 
 .akam-data-table {
 
@@ -143,7 +93,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   }
 }
 
-.akam-list-box, .akam-data-table {
+.akam-data-table {
   font-size: $body-font-size;
   color: $body-font-color;
   background: #fff;
