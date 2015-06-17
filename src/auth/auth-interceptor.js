@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($q, httpBuffer, token, authConfig) {
+module.exports = function($q, httpBuffer, token, authConfig, auth) {
   var megaMenuUriPatterns = [
     /^\/ui\/services\/nav\/megamenu\/.*$/i,
     /^\/core\/services\/session\/.*$/i,
@@ -16,14 +16,15 @@ module.exports = function($q, httpBuffer, token, authConfig) {
     authConfig.tokenUrl
   ];
 
-  var allUris = [].concat(authUrls, megaMenuUriPatterns);
+  var knownUriPatterns = [].concat(authUrls, megaMenuUriPatterns);
 
   var isUriBlacklisted = function(uri) {
-    return allUris.some(
-      function(pattern) {
-        return uri.search(pattern) !== -1;
-      }
-    );
+    var foundPatternInArray = function(pattern) {
+      return uri.search(pattern) !== -1;
+    };
+
+    return knownUriPatterns.some(foundPatternInArray) ||
+      auth.getBlacklistedUris().some( foundPatternInArray );
   };
 
   return {
