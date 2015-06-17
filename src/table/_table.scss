@@ -1,41 +1,31 @@
 
 
-$list-box-border-color: #ccc;
-$list-box-border-width: 1px;
-$list-box-border: $list-box-border-width solid $list-box-border-color;
-$list-box-data-row-even-background: #f8f8f8;
-$list-box-data-row-odd-background: #fff;
-$list-box-data-row-hover-background: #ebf6ff;
-$list-box-data-row-selected-background: #cee7ff;
+$table__border: $base__border-style $base__border-width $colors__gray6;
 
-$list-box-header-gradient-bottom: #f8f8f8;
-$list-box-header-gradient-top: #fff;
+$table__tr-background--even: $colors__gray10;
+$table__tr-background--odd: $colors__white;
+$table__tr-background--hover: $colors__blue3;
+$table__tr-background--selected: $colors__blue2;
+$table__tr-height: 30px;
 
-$list-box-header-gradient-bottom-hover: #f4f4f4;
-$list-box-header-gradient-top-hover: #e6e6e6;
+$table__th-background: linear-gradient($colors__white, $colors__gray10);
+$table__th-background--hover: linear-gradient($colors__gray10, $colors__white);
+$table__th-height: $table__tr-height + $base__border-width;
 
-$list-box-cell-border-color : #ededed;
-$list-box-cell-border : $list-box-border-width solid $list-box-cell-border-color;
+$table__td-border: $base__border-style $base__border-width $colors__gray8;
 
-$list-box-filter-icon: luna-sprite-width(close);
-$list-box-filter-icon-margin-left: -($list-box-filter-icon + 6px);
-$list-box-filter-padding-right: $list-box-filter-icon + 8px;
+$table__filter-icon-width: luna-sprite-width(close);
+$table__filter-icon-margin-left: -($table__filter-icon-width + 6px);
+$table__filter-padding-right: $table__filter-icon-width + 8px;
 
-$list-box-cell-height: 30px;
-$list-box-footer-height: 28px;
-$list-box-header-height: $list-box-cell-height + $list-box-border-width;
-$list-box-row-count: 8;
-$list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) * $list-box-row-count);
-
-$data-table-row-count: 10;
-$data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $data-table-row-count);
+$table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
 
 
 
 .akam-data-table {
   font-size: $body-font-size;
   color: $body-font-color;
-  background: #fff;
+  background: $colors__white;
   
   table {
     width: 100%;
@@ -45,22 +35,21 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   
   th {
     text-align: left;
-    border-bottom: $list-box-border;
+    border-bottom: $table__border;
     white-space: nowrap;
     padding: 0;
     padding-left: 10px;
     padding-right: 10px;
-    height: $list-box-header-height;
-    line-height: $list-box-cell-height;
+    height: $table__th-height;
+    line-height: $table__th-height;
     position: relative;
     background-clip: padding-box; // bugzilla.mozilla.org/show_bug.cgi?id=688556
-    height: 31px;
-    line-height: 31px;
+
     @include ellipsis();
-    @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
+    @include background-image($table__th-background);
     
     & + th {
-      border-left: $list-box-border;
+      border-left: $table__border;
     }
     
     &.column-sortable {
@@ -68,7 +57,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
       padding-right: 20px;
       
       &.column-sorted {
-        @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+        @include background-image($table__th-background--hover);
       }
       
       & > i {
@@ -82,7 +71,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     &.column-sortable:hover, 
     &.column-sorted {
       position: relative;
-      @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+      @include background-image($table__th-background--hover);
   
       i {
         @extend .luna-arrow-up;
@@ -108,20 +97,20 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   
   tbody {
     tr:nth-child(even) {
-      background-color: $list-box-data-row-even-background;
+      background-color: $table__tr-background--even;
     }
     tr:nth-child(odd) {
-      background-color: $list-box-data-row-odd-background;
+      background-color: $table__tr-background--odd;
     }
     tr:hover {
-      background-color: $list-box-data-row-hover-background;
+      background-color: $table__tr-background--hover;
       
       td.column-action > * {
         visibility: visible;
       }
     }
     tr.row-selected {
-      background-color: $list-box-data-row-selected-background;
+      background-color: $table__tr-background--selected;
     }
     tr:first-child td {
       border-top: none;
@@ -129,8 +118,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   }
   
   td {
-    border: 0 solid $list-box-cell-border-color;
-    border-top: $list-box-cell-border;
+    border-width: 0;
+    border-top: $table__td-border;
     
     &.column-action {
       overflow: visible;
@@ -141,7 +130,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     }
     
     span.highlighted {
-      color: #0099cc;
+      color: $colors__blue1;
     }
   }
 
@@ -157,9 +146,9 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   .data {
     position: relative;
     min-height: 353px;
-    min-height: $data-table-body-height + $list-box-header-height + ($list-box-border-width * 2);
-    border-top: $list-box-border;
-    border-bottom: $list-box-border;
+    min-height: $table__tbody-height + $table__th-height + ($base__border-width * 2);
+    border-top: $table__border;
+    border-bottom: $table__border;
     border-top: 0 none;
   }
 
@@ -175,17 +164,17 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     input {
       width: 100%;
       max-width: 298px;
-      padding-right: $list-box-filter-padding-right;
+      padding-right: $table__filter-padding-right;
     }
 
     input + i {
       vertical-align: middle;
-      margin-left: $list-box-filter-icon-margin-left;
+      margin-left: $table__filter-icon-margin-left;
     }
   }
   
   .toolbar {
-    border-bottom: $list-box-border;
+    border-bottom: $table__border;
   }
   
   .dropdown {
@@ -197,7 +186,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   .empty-table-message {
     position: absolute;
     padding: 10px 10px 10px 36px;
-    top: $list-box-header-height;
+    top: $table__th-height;
     left: 0;
     right: 0;
 
