@@ -8,16 +8,16 @@ var ALL_PANEL_CONTENT = 'div.panel-body div.content-wrapper div.ng-scope';
 var PANEL_HEADER_WRAPPER = '.panel-heading';
 
 describe('akam-content-panel', function() {
-  var compile = null;
-  var scope = null;
+  var compile, scope, log;
   var self = this;
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/content-panel').name);
-    inject(function($compile, $rootScope) {
+    inject(function($compile, $rootScope, $log) {
       compile = $compile;
       scope = $rootScope.$new();
+      log = $log;
     });
   });
   afterEach(function() {
@@ -70,24 +70,17 @@ describe('akam-content-panel', function() {
       expect(content[1].textContent).toMatch(/Gandalf the Grey/);
       expect(content[2].textContent).toMatch(/Gandalf the White/);
     });
-    /*it('should be able to render without a header', function() {
+    it('should be able to render without a header', function() {
       scope.isCollapsed = true;
+      spyOn(log,"error");
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()">' +
         '<div>Gandalf the Grey</div><div>Gandalf the White</div>' +
         '</akam-content-panel>'
       addElement(markup);
 
-      var headerDiv = document.querySelector(PANEL_HEADER);
-      var content = document.querySelectorAll(ALL_PANEL_CONTENT);
-      var headerIcon = document.querySelector(PANEL_HEADER_ICON);
-
-      console.log(headerDiv);
-      expect(headerDiv.textContent).toMatch(/ /);
-      expect(headerIcon).not.toBe(null);
-      expect(content.length).toEqual(3);
-      expect(content[1].textContent).toMatch(/Gandalf the Grey/);
-      expect(content[2].textContent).toMatch(/Gandalf the White/);
-    });*/
+      
+      expect(log.error).toHaveBeenCalled();
+    });
     it('should be able to render without content', function() {
       scope.isCollapsed = true;
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">' +
@@ -102,20 +95,15 @@ describe('akam-content-panel', function() {
       expect(headerIcon).not.toBe(null);
       expect(content.length).toEqual(1); //header
     });
-    /*it('should be able to render without content or header', function() {
+    it('should be able to render without content or header', function() {
       scope.isCollapsed = true;
+      spyOn(log,"error");
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()">' +
         '</akam-content-panel>'
       addElement(markup);
 
-      var headerDiv = document.querySelector(PANEL_HEADER);
-      var content = document.querySelectorAll(ALL_PANEL_CONTENT);
-      var headerIcon = document.querySelector(PANEL_HEADER_ICON);
-
-      expect(headerDiv.textContent).toMatch(/ /);
-      expect(headerIcon).not.toBe(null);
-      expect(content.length).toEqual(1);
-    });*/
+      expect(log.error).toHaveBeenCalled();
+    });
     it('should be able to render multiple content panels', function() {
       scope.panels = [
         {header: 'Header 1', collapsed: false},

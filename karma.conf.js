@@ -14,7 +14,7 @@ module.exports = function(config) {
       'dist/akamai-core.min.css',
       {pattern: 'dist/images/*', included: false, served: true},
       'node_modules/moment/moment.js',
-      'spec/**/content-panel-directive.js'
+      'spec/**/*.js'
     ],
     frameworks: ['browserify', 'jasmine'],
     preprocessors: {
