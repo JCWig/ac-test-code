@@ -11,7 +11,7 @@
         </div>
         <br/>
         <div class="container">
-            <h2>popover Click Example : All Positions</h2>
+            <h2>Click Example : All Positions</h2>
             <span akam-popover position="top" popover-content="Text Content Only." trigger="click">Click Here - Top</span>
             <br />
             <span akam-popover position="bottom" popover-content="Text Content Only." trigger="click">Click Here - Bottom</span>
@@ -22,7 +22,7 @@
         </div>
         <br />
         <div class="container">
-            <h2>popover Hover Example : All Positions</h2>
+            <h2>Hover Example : All Positions</h2>
             <span akam-popover position="top" popover-content="Text Content Only." trigger="hover">Hover Here - Top</span>
             <br />
             <span akam-popover position="bottom" popover-content="Text Content Only." trigger="hover">Hover Here - Bottom</span>
@@ -33,7 +33,7 @@
         </div>
         <br />
         <div class="container">
-            <h2>popover Click Example : Content with Header, Link and Button - All Positions</h2>
+            <h2>Click Example : Content with Header, Link and Button - All Positions</h2>
             <span akam-popover position="top" header="Header Title" popover-content="{{testText}}" trigger="click" link-text="Link Text" 
                     link-url="pagination.html" button-text="Click Here" button-function="btnFunction()">Click Here - Top</span>
             <br />
@@ -48,7 +48,7 @@
         </div>
         <br />
         <div class="container">
-            <h2>popover Hover Example : Content with Header - All Positions</h2>
+            <h2>Hover Example : Content with Header - All Positions</h2>
             <span akam-popover position="top" header="Header Title" popover-content="{{testTextShort}}" trigger="hover">Hover Here - Top</span>
             <br />
             <span akam-popover position="bottom" header="Header Title" popover-content="{{testTextShort}}" trigger="hover">Hover Here - Bottom</span>
@@ -59,7 +59,7 @@
         </div>
         <br />
         <div class="container">
-            <h2>popover Click Example : Content with Text and Buttons - All Positions</h2>
+            <h2>Click Example : Custom Content with Text and Buttons - All Positions</h2>
             <button akam-popover position="top" custom-content="{{customData}}"  trigger="click">Trusted Content - Top</button>
             <br />
             <button akam-popover position="bottom" custom-content="{{customData}}"  trigger="click">Trusted Content - Bottom</button>
@@ -70,7 +70,7 @@
         </div>
         <br/>
         <div class="container">
-            <h2>popover Click Example : Close Button Opening popover with Text and Link - All Positions (Left Side)</h2>
+            <h2>Click Example : Close Button Opening Popover with Text and Link - All Positions (Left Side)</h2>
             <i class="luna-close" akam-popover popover-content="{{testTextShort}}" header="Header Text"
                trigger="click" position="top" link-text="Go to ..." link-url="pagination.html"></i>
             <br />
@@ -84,9 +84,10 @@
                trigger="click" position="right" link-text="Go to ..." link-url="pagination.html"></i>
         </div><br/>
         <div class="container">
-            <h2 class="pull-right">popover Click Example : Close Button Opening popover with Text and Link - All Positions (Right Side)</h2>
+            <h2 class="pull-right">Click Example : Close Button Opening Popover with Text and Link - All Positions (Right Side)</h2>
             <br><br>
-            <i class="luna-close pull-right" akam-popover popover-content="{{testTextShort}}" header="Header Text"
+            <i class="luna-close pull-right" akam-popover popover-content="{{testTextShort}}"
+               header="Header Text 01234567890 01234567890 01234567890 01234567890 01234567890 01234567890"
                trigger="click" position="top" link-text="Go to ..." link-url="pagination.html"></i>
             <br />
             <i class="luna-close pull-right" akam-popover popover-content="{{testTextShort}}" header="Header Text"
@@ -100,7 +101,7 @@
         </div>
         <br />
         <div class="container">
-            <h2>popover Example : Hover over Text Field - popover with Custom Trusted Content Text - All Positions</h2>    
+            <h2>Hover Example : Hover over Text Field - Custom Trusted Content Text - All Positions</h2>    
             <input type="text" akam-popover placeholder="hover top" position="top" popover-content="{{testTextShort}}" trigger="hover">
             <br />
             <input type="text" akam-popover placeholder="hover bottom" position="bottom" popover-content="{{testTextShort}}" trigger="hover">
@@ -111,7 +112,7 @@
         </div>
         <br />
         <div class="container">
-            <h2>popover Example : Click Text Field - popover with Custom Trusted Content Text - All Positions</h2>
+            <h2>Click Example : Text Field - Custom Trusted Content Text - All Positions</h2>
             <input placeholder="click top" type="text" akam-popover position="top" custom-content="{{customData}}" trigger="click">
             <br />
             <input placeholder="click bottom" type="text" akam-popover position="bottom" custom-content="{{customData}}" 
@@ -124,40 +125,41 @@
         </div>
         <br/>
         <div style="">
-            <h2>popover Example : Hover over Text Field - popover with Custom Trusted Content Text - All Positions</h2>
-            <h3 akam-popover position="top" custom-content="{{styledText}}"  trigger="fhover">Hover Here - Top</h3>
+            <h2>Hover Example : Text Field - Custom Trusted Content Text - All Positions</h2>
+            <h3 akam-popover position="top" custom-content="{{styledText}}"  trigger="hover">Hover Here - Top</h3>
             <br />
             <h3 akam-popover position="bottom" custom-content="{{styledText}}"  trigger="hover">Hover Here - Bottom</h3>
             <br />
             <h3 akam-popover position="left" custom-content="{{styledText}}"  trigger="hover">Hover Here - Left</h3>
             <br />
-            <h3 akam-popover position="right" style="display:block" custom-content="{{styledText}}"  trigger="hover">Hover Here - Right (Example of what happens if you don't manage width correctly)</h3>
+            <h3 akam-popover position="right" style="display:block" custom-content="{{styledText}}"
+                trigger="hover">Hover Here - Right (Example of what happens if you don't manage width correctly)</h3>
             <br />
         </div>
         <div class="container">
-                <h2>popover Example : Click Styled Fields - popover with Custom Trusted Content Text (Left Position)</h2>
-             <div> This is test text
-             <span style="color:blue" akam-popover trigger="click" position="right" custom-content="{{flashContent}}" >forensic scientist</span>
-             but secretly I use my speed to fight crime and find others like me. And one day I will find killed my mother and get justice for my father.
-             <span style="color:red" akam-popover header="Header Text" position="left" trigger="hover" popover-content="{{testTextShort}}">Hover over here</span> </div>
+                <h2>Click Example : Styled Fields - Custom Trusted Content Text (Left Position)</h2>
+             <div> This is an example of
+             <span style="color:blue" akam-popover trigger="click" position="right" custom-content="{{customContent}}" >Trusted Custom Content</span>
+             that you can click or 
+             <span style="color:red" akam-popover header="Header Text" position="left" trigger="hover"
+                   popover-content="{{testTextShort}}">hover here for another example.</span>
+             </div>
         </div>
         <script type="text/ng-template" id="templateId1.html">
             <h3 class="popover-header" style="color:blue"> {{include.text}}</h3>
-            <div class="popover-middle-content"> <span style="color:red"> Red : Hover</span></div>
+            <div class="popover-middle-content"> <span style="color:red"> Red : Means Hover</span></div>
         </script>
         <script type="text/ng-template" id="templateId2.html">
-            <div><h1>His Job</h1> <br>
-                <span style="color:red"> Barry </span> <br>
-                <span> works </span> <br>
-                <span> for </span> <br>
-                <span> the </span> <br>
-                <span> CCPD (Central City Police Department) </span></div>
+            <div><h1>Custom Content</h1> <br>
+                <span style="color:red"> This </span> <br>
+                <span> is an example </span> <br>
+                <span> of custom content defined in a script tag</span></div>
         </script>
         <script type="text/ng-template" id="templateId3.html">
-            <div class="popover-middle-content"><span style="color:green">Here is a little bit of text</span> 
+            <div class="popover-middle-content"><span style="color:green">Custom Content Example Text</span> 
                 <div class="popover-button-content"> <button>Click this button to do something</button></div>
                 <div class="popover-button-content">
-                    <button ng-click="btnFunction()">Click this button to do something else </button>
+                    <button ng-click="include.btnFunctionInclude()">Click this button and see message in browser log</button>
                 </div>
             </div>
         </script>
@@ -165,19 +167,18 @@
         
         <script src="../dist/akamai-core.js"></script>
         <script>
-        var ctrlFunction = function($scope, $sce) {
+        var ctrlFunction = function($scope, $sce, $log) {
             
             $scope.btnFunction = function(){
-                console.log("Content Button was clicked");
+                $log.log("Content Button was clicked");
             };
-            btnFunction = function(){
-                console.log("Button Function was executed");
+            
+            $scope.include = {};
+            $scope.include.text = 'Blue: Means Click';
+            $scope.include.btnFunctionInclude = function() {
+                $log.log('The button was clicked from the template');
             };
-            $scope.include = {}
-            $scope.include.text = 'Blue: Click'
-            $scope.include.btnFunction = function() {
-                console.log('hello');
-            } 
+            
             $scope.testText = "Lorem ipsum dolor sit amet, vestibulum et, ipsum vivamus ut vulputate quisque condimentum, lectus laoreet justo risus enim montes." +
             "Magna mi mus euismod, aliquam scelerisque nihil et dictum, volutpat sodales felis at. Ultricies non consectetuer.  " +
             "Elementum quisque. Mauris lorem mauris quisque, dapibus mauris dolor vitae turpis augue cursus. Aptent rutrum dui," +
@@ -188,10 +189,12 @@
             $scope.testTextShort ="Lorem ipsum dolor sit amet, vestibulum et, ipsum vivamus ut vulputate quisque condimentum, lectus laoreet justo risus enim montes.";
 
             $scope.styledText = 'templateId1.html';
-            $scope.flashContent = 'templateId2.html';
+            $scope.customContent = 'templateId2.html';
             $scope.customData = 'templateId3.html';
+            
         };
-        ctrlFunction.$inject = ["$scope", "$sce"];
+        
+        ctrlFunction.$inject = ["$scope", "$sce", "$log"];
         angular.module("popoverDemo", ["akamai.components.popover"])
         .controller("Ctrl",ctrlFunction);
     </script>
