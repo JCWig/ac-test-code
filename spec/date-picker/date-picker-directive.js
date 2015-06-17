@@ -319,7 +319,7 @@ describe('akam-date-picker', function() {
       utilities.click(januaryMonthButton);
       scope.$digest();
 
-      var firstMonthOfThisYearString = "Jan " + utilities.getTodaysYear();
+      var firstMonthOfThisYearString = utilities.getTodaysYear() + "-01-01";
       var inputDateField = document.querySelector('input.ng-valid-date');
       var datePicker = document.querySelector(DATE_PICKER);
 
@@ -338,7 +338,7 @@ describe('akam-date-picker', function() {
       utilities.click(februaryMonthButton);
       scope.$digest();
 
-      var secondMonthOfThisYearString = "Feb " + utilities.getTodaysYear();
+      var secondMonthOfThisYearString = utilities.getTodaysYear() + "-02-01";
       var inputDateField = document.querySelector('input.ng-valid-date');
       var datePicker = document.querySelector(DATE_PICKER);
 

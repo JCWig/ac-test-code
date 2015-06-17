@@ -64,7 +64,6 @@ module.exports = function(translate) {
       scope.$watch('disabled', function(disabled) {
         scope.disabled = filterDisabled(disabled);
         element.toggleClass(c.DISABLED, scope.disabled === 'true');
-
         if (scope.disabled === 'false') {
           elem.on('click', switchClick);
         } else {

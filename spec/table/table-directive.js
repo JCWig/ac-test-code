@@ -144,7 +144,7 @@ describe('akam-table', function() {
     });
     it('should render toolbar menu', function(){
       var akamToolbar = document.querySelector('akam-table-toolbar');
-      var icon = akamToolbar.querySelector('.luna-gear');
+      var icon = akamToolbar.querySelector('.luna-bar_chart');
       var dropdownMenu = akamToolbar.querySelector('ul.dropdown-menu');
       var dropMenuOption = dropdownMenu.querySelector('li');
       utilities.click(dropMenuOption);
@@ -724,7 +724,6 @@ describe('akam-table', function() {
       expect(spy).toHaveBeenCalled();   
     });
     it('should warn user if no akam-table-row provided', function(){
-      console.log("TEST START-------------------------");
       var spy = spyOn(log, "debug");
       var markup = '<akam-table rows="mydata" no-sort akam-standalone on-rows-change="changeRows(rows)" no-sort>'+
         '</akam-table>';

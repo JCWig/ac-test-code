@@ -70,7 +70,7 @@ module.exports = {
   },
   getFormattedDate: function(dateString) {
     var dateObject = moment(dateString);
-    return dateObject.format("ddd, MMM DD, YYYY");
+    return dateObject.format("YYYY-MM-DD");
   },
   getTodaysDay: function() {
     var date = new Date();
