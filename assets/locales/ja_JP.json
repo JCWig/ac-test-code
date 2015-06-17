@@ -7,30 +7,30 @@
             "title": "情報"
         },
         "determinate-progress": {},
-        "name": "Akamai Common Components",
+        "name": "Akamai 共通コンポーネント",
         "indeterminate-progress": {},
         "date-picker": {
             "placeholder": {
-                "date": "Date Picker",
-                "year": "Year Picker",
-                "month": "Month Picker"
+                "date": "日付ピッカー",
+                "year": "年ピッカー",
+                "month": "月ピッカー"
             }
         },
         "modal-window": {
-            "title": "Modal Window",
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
+            "title": "モーダルウィンドウ",
             "label": {
                 "cancel": "キャンセル",
                 "save": "保存"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+            }
         },
         "pagination": {
             "label": {
-                "show-entries": "Show Entries:",
-                "results": "Results:",
-                "total-items": "Total Items",
-                "current-page": "Current Page"
+                "show-entries": "エントリを表示",
+                "results": "結果",
+                "total-items": "合計アイテム数",
+                "current-page": "現在のページ"
             }
         },
         "tooltip": {},
@@ -48,21 +48,25 @@
             "no": "いいえ"
         },
         "warning": {
-            "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+            "browser-button": "Mac 版の Safari と FireFox は、BUTTON エレメントのフォーカスイベントをサポートしていません。代わりにアンカータグ A を使用してください"
+        },
+        "switch-button": {
+            "onLabel": "オン",
+            "offLabel": "オフ"
         },
         "dialog": {},
         "error": {
             "validation": {},
-            "data": "There was a problem loading the data."
+            "data": "データの読み込み時に問題が発生しました。"
         },
         "list-box": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "viewSelectedOnly": "You have no items selected.",
-                "selected": "Selected:",
-                "viewSelected": "View Selected Only",
-                "noItem": "No Item Found",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "フィルタに基づいた結果はありません。",
+                "viewSelectedOnly": "アイテムが選択されていません。",
+                "selected": "選択済み",
+                "viewSelected": "選択項目のみを表示",
+                "noItem": "アイテムが見つかりませんでした",
+                "noDataMessage": "条件に基づいたデータはありません。"
             },
             "placeholder": {
                 "filter": "フィルタ"
@@ -70,8 +74,8 @@
         },
         "data-table": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "フィルタに基づいた結果はありません。",
+                "noDataMessage": "条件に基づいたデータはありません。"
             },
             "placeholder": {
                 "filter": "フィルタ"
@@ -81,14 +85,16 @@
             }
         },
         "notifications": {
-            "information": "INFORMATION",
+            "information": "情報",
             "warning": "警告",
             "success": "成功",
             "error": "エラー"
         },
-        "switch-button": {
-            "onLabel": "On",
-            "offLabel": "Off"
+        "dropdown": {
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
+            }
         }
     }
 }

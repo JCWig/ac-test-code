@@ -16,7 +16,7 @@ module.exports = {
 
     return el;
   },
-  triggerMouseEvent: function(obj, eventType){
+  triggerMouseEvent: function(obj, eventType) {
     var el = this.find(obj);
     var ev = document.createEvent('MouseEvent');
     ev.initMouseEvent(eventType, true);
@@ -24,6 +24,9 @@ module.exports = {
   },
   click: function(obj) {
     this.triggerMouseEvent(obj, 'click');
+  },
+  dblClick: function(obj) {
+    this.triggerMouseEvent(obj, 'dblclick');
   },
   mouseHover: function(obj) {
     this.triggerMouseEvent(obj, 'mouseover');
@@ -39,7 +42,7 @@ module.exports = {
     this.click(clickAwayButton);
     document.body.removeChild(clickAwayArea);
   },
-  scroll: function(obj, distance){
+  scroll: function(obj, distance) {
     var domEle = this.find(obj);
 
     domEle.scrollTop = distance;

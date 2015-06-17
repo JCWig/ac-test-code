@@ -96,7 +96,7 @@ describe('translate service', function() {
 
     describe('when using async funtion', function() {
       it('should return translated value from valid key', function() {
-        inject(function(){
+        inject(function() {
           var key = "TRANSLATION_ID";
           var response = akTranslate.async(key);
           $timeout.flush();
@@ -106,14 +106,14 @@ describe('translate service', function() {
 
       it('should return translated value from valid key with variable replacement', function() {
         var key = "TRANSLATION_ID";
-        var response = akTranslate.async(key, {value : 'sean' });
+        var response = akTranslate.async(key, {value: 'sean'});
         $timeout.flush();
         expect(response.$$state.value).toEqual('Lorem Ipsum sean');
       });
 
       it('should return translated value with adding integer values from valid key with variable replacement', function() {
         var key = "TRANSLATION_ID_3";
-        var response = akTranslate.async(key, {value : '2'});
+        var response = akTranslate.async(key, {value: '2'});
         $timeout.flush();
         expect(response.$$state.value).toEqual('Lorem Ipsum 22');
       });

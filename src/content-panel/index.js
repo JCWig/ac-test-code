@@ -12,7 +12,8 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.content-panel', [
-  require('angular-bootstrap-npm')
+  require('angular-bootstrap-npm'),
+  require('../utils').name
 ])
 
 /**

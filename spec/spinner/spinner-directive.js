@@ -121,8 +121,8 @@ describe('akamai.components.spinner', function() {
   describe('when instantiating directive, the isolated scope...', function() {
     it("should functions to be defined", function() {
       addElement();
-      expect(self.isoScope.isUpArrowDisabled).toBeDefined();
-      expect(self.isoScope.isDownArrowDisabled).toBeDefined();
+      expect(self.isoScope.isDisabled).toBeDefined();
+      expect(self.isoScope.changed).toBeDefined();
       expect(self.isoScope.isUnderMin).toBeDefined();
       expect(self.isoScope.isOverMax).toBeDefined();
       expect(self.isoScope.startStepUp).toBeDefined();
@@ -167,7 +167,6 @@ describe('akamai.components.spinner', function() {
       expect(inputElem.classList.contains("ng-invalid")).toBeTruthy();
       expect(inputElem.classList.contains("ng-invalid-max")).toBeTruthy();
     });
-
 
     it("should verify correct max value and form $valid", function() {
       addElement();

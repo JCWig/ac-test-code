@@ -27,6 +27,7 @@ private
 end
 
 Encoding.default_external = "utf-8"
+color_output = false
 
 ##### Require any additional compass plugins here.
 # require 'sassy-math'

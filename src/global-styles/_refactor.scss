@@ -11,13 +11,6 @@ legend {
   color: inherit;
 }
 
-a.list-group-item {
-
-  &:hover, &:focus {
-    background-color: #e2f3fc;
-  }
-}
-
 a:focus {
   text-decoration: none;
   outline: none;
@@ -32,4 +25,23 @@ a:hover {
   &.open > i.luna-gear {
     @extend .luna-gear:hover;
   }
+}
+
+.standalone {
+  border: 1px solid $input-border-color;
+  border-radius : $border-radius;
+  @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, 0.15));
+
+  &.akam-list-box,
+  &.akam-data-table {
+    margin: 16px 0;
+  }
+}
+
+.well {
+  @include box-shadow($global-inset-box-shadow);
+}
+
+.ui-match {
+  color: #0099cc;
 }

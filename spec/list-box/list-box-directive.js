@@ -14,7 +14,6 @@ var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json")
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 var MAX_INITIALLY_DISPLAYED = 10;
 
-
 describe('akam-list-box', function() {
   var compile = null;
   var scope = null;
@@ -146,16 +145,18 @@ describe('akam-list-box', function() {
       expect(columnSixHeaderObject.textContent).toMatch(/Generic Sorting/);
 
     });
-    it('should not have anything selected', function() {
+    it('should not have anything selected and view select only should be diabled', function() {
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       httpBackend.flush();
 
       var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
       var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
+      var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
 
       expect(allCheckedCheckboxes.length).toEqual(0);
       expect(numberSelectedSpan.textContent).toMatch(/Selected: 0/);
+      expect(viewSelectOnlyCheckbox.disabled).toBe(true);
     });
     it('should load default values if none are given', function() {
       scope.mydata = [{name: "hello"}, {date: "02/07/1993"}];
@@ -310,29 +311,29 @@ describe('akam-list-box', function() {
     });
   });
   /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED
-  describe('when data exceeds 10 items', function(){
-    it('should display more items as scrolling takes place', function() {
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
-        },
-        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
-      ];
-      scope.jsonData = require('./http-data/list-box-data.json');
-      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
-      addElement(markup);
-      timeout.flush();
-      var totalRows = document.querySelectorAll(TABLE_ROW);
-      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+   describe('when data exceeds 10 items', function(){
+   it('should display more items as scrolling takes place', function() {
+   scope.jsonColumns = [
+   {
+   content: function() {return this.first + ' ' + this.last;},
+   header: 'Full Name',
+   className: 'column-full-name'
+   },
+   {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+   ];
+   scope.jsonData = require('./http-data/list-box-data.json');
+   var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+   addElement(markup);
+   timeout.flush();
+   var totalRows = document.querySelectorAll(TABLE_ROW);
+   expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
 
-      document.querySelector('div.fixed-table-container-inner').scrollTop = 100;
-      scope.$digest();
+   document.querySelector('div.fixed-table-container-inner').scrollTop = 100;
+   scope.$digest();
 
-      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
-    });
-  });*/
+   expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+   });
+   });*/
   describe('when given selectedItems', function() {
     it('should not delete selectedItems on load', function() {
       scope.selectedItems = [{
@@ -603,6 +604,49 @@ describe('akam-list-box', function() {
       var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
 
       expect(allCheckedCheckboxes.length).toEqual(0);
+    });
+    it('should auto uncheck de/select all when not everything is selected', function() {
+      var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
+      utilities.click(selectAllCheckbox);
+      var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+      var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+      utilities.click(firstRowCheckbox);
+      selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input:checked');
+      expect(selectAllCheckbox).toBe(null);
+    });
+    it('should auto check de/select all when everything is selected', function() {
+      var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      scope.$$childHead.state.filter = "K-Slice";
+      scope.$$childHead.updateSearchFilter();
+      scope.$digest();
+      expect(document.querySelectorAll(TABLE_ROW).length).toEqual(1);
+      var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+      utilities.click(firstRowCheckbox);
+      var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input:checked');
+      expect(selectAllCheckbox).not.toBe(null);
+    });
+    it('should unchecked after select all pressed and item is unselected', function() {
+      var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
+      addElement(markup);
+      timeout.flush();
+      var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
+      utilities.click(selectAllCheckbox);
+      var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+      expect(allCheckedCheckboxes.length).toEqual(scope.mydata.length + 1); //Additional One for the overall checkbox
+
+      var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+      utilities.click(firstRowCheckbox);
+
+      allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+      expect(allCheckedCheckboxes.length).toEqual(scope.mydata.length - 1); //Additional One for the overall checkbox
+
+      selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input:checked');
+      expect(selectAllCheckbox).toBe(null);
     });
     it('should not break when no items exist and select all is pressed', function() {
       scope.nodata = [];
@@ -992,8 +1036,8 @@ describe('akam-list-box', function() {
 
       expect(allVisibleRows.length).toEqual(1);
     });
-    it('should remove item from view if deselected', function() {
-
+    it('should uncheck view select all if nothing is selected', function() {
+      var spy = spyOn(scope.$$childTail, "updateSearchFilter").and.callThrough();
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
       scope.$digest();
@@ -1003,10 +1047,9 @@ describe('akam-list-box', function() {
       firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
       scope.$digest();
-
       var allVisibleRows = document.querySelectorAll(TABLE_ROW);
-
-      expect(allVisibleRows.length).toEqual(0);
+      expect(allVisibleRows.length).toEqual(3);
+      expect(spy.calls.count()).toEqual(2);
     });
     it('should show unselected items when "view selected only" re-pressed', function() {
       var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
@@ -1032,6 +1075,20 @@ describe('akam-list-box', function() {
       var viewSelectedOnlyCheckboxIfItsChecked = document.querySelectorAll(VIEW_SELECTED_ONLY_CHECKBOX + ":checked");
 
       expect(viewSelectedOnlyCheckboxIfItsChecked.length).toEqual(0);
+    });
+    it('should be automatically unchecked if deselect all is applied', function() {
+      var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
+      var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
+      var selectAllCheckbox = document.querySelectorAll(TABLE_COLUMN_HEADER)[0].querySelector('input');
+      utilities.click(firstRowCheckbox);
+      utilities.click(viewSelectOnlyCheckbox);
+      utilities.click(selectAllCheckbox);
+      utilities.click(selectAllCheckbox);
+
+      var viewSelectedOnlyCheckboxIfItsChecked = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX + ":checked");
+      var rows = document.querySelectorAll(TABLE_ROW);
+      expect(viewSelectedOnlyCheckboxIfItsChecked).toBe(null);
+      expect(rows.length).toEqual(3);
     });
   });
   describe('when interacting with filter bar', function() {
@@ -1100,9 +1157,9 @@ describe('akam-list-box', function() {
           header: 'Name'
         }
       ];
-      httpBackend.flush();
       var markup = '<akam-list-box data="baddata" schema="badcolumns"></akam-list-box>';
       addElement(markup);
+      httpBackend.flush();
       timeout.flush();
     });
     it('should present message when no data is available and no filters that can be provided', function() {
@@ -1113,7 +1170,7 @@ describe('akam-list-box', function() {
           header: 'Name'
         }
       ];
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
       expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
     });
     it('should present the "no data" message when no data is available and filtered', function() {
@@ -1121,7 +1178,7 @@ describe('akam-list-box', function() {
       scope.$$childHead.updateSearchFilter();
       scope.$digest();
 
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
 
       expect(dataTableRow.textContent).toContain('There is no data based upon your criteria');
     });
@@ -1130,7 +1187,7 @@ describe('akam-list-box', function() {
       utilities.click(viewSelectOnlyCheckbox);
       scope.$digest();
 
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
 
       expect(dataTableRow.textContent).toContain('There is no data based upon your criteria');
     });
@@ -1151,7 +1208,7 @@ describe('akam-list-box', function() {
       scope.myNoDataMessage = NO_DATA_MESSAGE;
       scope.myNoneSelectedMessage = NONE_SELECTED_MESSAGE;
       scope.myNoFilterResultsMessage = NO_FILTER_RESULTS_MESSAGE;
-      var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="myNoDataMessage" no-filter-results-message="zero filter results"' +
+      var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="{{myNoDataMessage}}" no-filter-results-message="zero filter results"' +
         'none-selected-message="none selected!!!!!!"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1164,16 +1221,31 @@ describe('akam-list-box', function() {
           header: 'Name'
         }
       ];
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
+      expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
+    });
+    it('should be able to change the no data messages', function() {
+      scope.baddata = [];
+      scope.columns = [
+        {
+          content: "name",
+          header: 'Name'
+        }
+      ];
+      var dataTableRow = document.querySelector('.empty-table-message span');
+      var NEW_MESSAGE = 'new message';
 
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
+      scope.myNoDataMessage = NEW_MESSAGE;
+      scope.$digest();
+      expect(dataTableRow.textContent).toContain(NEW_MESSAGE);
     });
     it('should present the "no data" message when no data is available and filtered', function() {
       scope.$$childHead.state.filter = "Oliver";
       scope.$$childHead.updateSearchFilter();
       scope.$digest();
 
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
 
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
     });
@@ -1182,7 +1254,7 @@ describe('akam-list-box', function() {
       utilities.click(viewSelectOnlyCheckbox);
       scope.$digest();
 
-      var dataTableRow = document.querySelector('.empty-table-message');
+      var dataTableRow = document.querySelector('.empty-table-message span');
 
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
     });
@@ -1385,8 +1457,8 @@ describe('akam-list-box', function() {
       expect(rowOneColumnTwo.textContent).toContain('pwn3d');
     });
   });
-  describe('when scrolling ', function(){
-    it('should load more data', function(){
+  describe('when scrolling ', function() {
+    it('should load more data', function() {
       scope.jsonColumns = [
         {
           content: function() {return this.first + ' ' + this.last;},
@@ -1395,11 +1467,11 @@ describe('akam-list-box', function() {
         },
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
-      scope.jsonData = require('./http-data/list-box-data.json').slice(0,30);
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0, 30);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
-      
+
       var totalRows = document.querySelectorAll(TABLE_ROW);
       expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
 
@@ -1410,7 +1482,7 @@ describe('akam-list-box', function() {
       expect(scope.$$childTail.dataSource.length).toEqual(20);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
-    it('should stop loading data if end is reached', function(){
+    it('should stop loading data if end is reached', function() {
       scope.jsonColumns = [
         {
           content: function() {return this.first + ' ' + this.last;},
@@ -1419,7 +1491,7 @@ describe('akam-list-box', function() {
         },
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
-      scope.jsonData = require('./http-data/list-box-data.json').slice(0,25);
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0, 25);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1437,7 +1509,7 @@ describe('akam-list-box', function() {
       expect(scope.$$childTail.dataSource.length).toEqual(25);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
-    it('should leave data if rescrolled to top.', function(){
+    it('should leave data if rescrolled to top.', function() {
       scope.jsonColumns = [
         {
           content: function() {return this.first + ' ' + this.last;},
@@ -1446,7 +1518,7 @@ describe('akam-list-box', function() {
         },
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
-      scope.jsonData = require('./http-data/list-box-data.json').slice(0,25);
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0, 25);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1459,7 +1531,7 @@ describe('akam-list-box', function() {
       expect(scope.$$childTail.dataSource.length).toEqual(20);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
-    it('should not scroll past max-height', function(){
+    it('should not scroll past max-height', function() {
       scope.jsonColumns = [
         {
           content: function() {return this.first + ' ' + this.last;},
@@ -1472,13 +1544,13 @@ describe('akam-list-box', function() {
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
-      
+
       var totalRows = document.querySelectorAll(TABLE_ROW);
       expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
 
       var element = angular.element(document.querySelector('div.fixed-table-container-inner'));
 
-      element.css({"max-height":'150px'})
+      element.css({"max-height": '150px'})
 
       element.scrollTop = 10000;
       element.triggerHandler('scroll');

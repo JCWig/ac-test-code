@@ -1,6 +1,6 @@
 /* Pagination
 
-Pagination separates conceptual pages that appear within an interface pane and allows users to navigate these panes in or out of a numerical sequence. 
+Pagination separates conceptual pages that appear within an interface pane and allows users to navigate these panes in or out of a numerical sequence.
 
 Markup:
 <div class="akam-pagination">
@@ -53,6 +53,9 @@ $pagination-gradient-top: #ffffff;
 $pagination-gradient-bottom: #f4f4f4;
 $pagination-border-color: #cccccc;
 
+$pagination-active-gradient-top: #e6e6e6;
+$pagination-active-gradient-bottom: #f4f4f4;
+
 $pagination-item-font-size: 12px;
 $pagination-item-font-color: #666666;
 $pagination-item-font-color-active: #0099cc;
@@ -92,6 +95,12 @@ $pagination-ellipsis-width: 20px;
       a, span {
         display: inline-block;
         color: $pagination-item-font-color;
+        float: none;
+        padding: 0;
+        margin: 0;
+        line-height: inherit;
+        border: 0 none;
+        background-color: transparent;
       }
 
       a {
@@ -105,19 +114,25 @@ $pagination-ellipsis-width: 20px;
           vertical-align: middle;
           margin-top: -1px;
         }
+        
+        &:hover {
+          text-decoration: none;
+        }
       }
 
       span {
         width: $pagination-ellipsis-width;
       }
 
-      a:hover {
-        text-decoration: none;
+      &.active a, &:hover a {
+        font-weight: bold;
+        @include background-image(linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom));
+        border: solid 1px $pagination-border-color;
+        border-width: 0 1px;
       }
 
-      &.active a, &:hover a {
+      &:hover a {
         color: $pagination-item-font-color-active;
-        font-weight: bold;
       }
 
       &.disabled a {

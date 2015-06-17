@@ -14,10 +14,15 @@ angular.module('akamai.components', [
   require('./date-picker').name,
   require('./pagination').name,
   require('./list-box').name,
-  require('./data-table').name,
+  require('./table').name,
   require('./spinner').name,
   require('./utils').name,
   require('./switch-button').name,
-  require('./tool-tip').name,
-  require('./router').name
+  require('./popover').name,
+  require('./router').name,
+  require('./tree-view').name,
+  require('./time-picker').name,
+  require('./tag-input').name,
+  require('./dropdown').name,
+  require('./auth').name
 ]);

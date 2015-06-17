@@ -2,7 +2,7 @@
 
 Buttons respond to events such as clicks and hovers, and execute various actions through event handlers. Luna interfaces include button types in several sizes that accommodate many useful interactions.
 
-Button styles are built from the same base class and support 3 different markup patterns: &lt;a&gt;, &lt;button&gt;, and &lt;input type="button"&gt;. Additionally, you may add modifier classes for different button layouts or styles as seen in the examples below. 
+Button styles are built from the same base class and support 3 different markup patterns: &lt;a&gt;, &lt;button&gt;, and &lt;input type="button"&gt;. Additionally, you may add modifier classes for different button layouts or styles as seen in the examples below.
 
 Markup:
 <a class="btn {$modifiers}" href="#">Link Button</a>
@@ -64,6 +64,7 @@ Styleguide 4.1
   &:disabled,
   &.disabled {
     cursor: default;
+    opacity: 1;
     background: $button-background-color-disabled;
     border-color: $button-border-color-disabled;
     color: $button-text-color-disabled;
@@ -81,13 +82,13 @@ Styleguide 4.1
     font-size: $button-text-size-large;
     // font-weight: bold;
   }
-  
+
   &.has-spinner {
     background: #e6e6e6;
     border-color: #999999;
   }
 
-  &.primary {
+  &.primary, &.btn-primary {
     color: $button-primary-text-color;
     background-color: $button-primary-background-color;
     border-color: $button-primary-border-color;
@@ -111,7 +112,7 @@ Styleguide 4.1
       border-color: $button-primary-border-color-disabled;
       color: $button-primary-text-color-disabled;
     }
-    
+
     &.has-spinner {
       background: #f46b29;
       border-color: #ab4d09;

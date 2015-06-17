@@ -2,9 +2,11 @@
 
 var istanbul = require('browserify-istanbul');
 var ngannotate = require('browserify-ngannotate');
+var jenkins = !!require('yargs').argv.jenkins;
 
 module.exports = function(config) {
   config.set({
+    colors: !jenkins,
     browserNoActivityTimeout: 60000,
     files: [
       'node_modules/angular/angular.min.js',
@@ -35,7 +37,7 @@ module.exports = function(config) {
     coverageReporter: {
       dir: 'reports/coverage/',
       reporters: [
-        //{ type: 'html' },
+        { type: 'html' },
         { type: 'cobertura' },
         { type: 'text-summary' }
       ]

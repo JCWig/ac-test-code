@@ -1,7 +1,8 @@
 'use strict';
 
 var angular = require('angular');
-var router = require('angular-new-router');
+
+require('angular-new-router');
 
 function dashCase(str) {
   return str.replace(/([A-Z])/g, function($1) {
@@ -11,7 +12,7 @@ function dashCase(str) {
 
 /** @ngAnnotate */
 module.exports = angular.module('akamai.components.router', [
-  router
+  'ngNewRouter'
 ])
   .config(function($componentLoaderProvider) {
     $componentLoaderProvider.setTemplateMapping(function(name) {

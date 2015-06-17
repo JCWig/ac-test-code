@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Dropdown</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+
+    <style>
+        div h2:first-child {
+            margin-bottom:10px;
+        }
+        body.luna > h1 {
+            margin-bottom:20px;
+        }
+
+        body.luna > div > span {
+            display: inline-block;
+            width: 180px;
+        }
+    </style>
+</head>
+
+<body class="common-css luna" ng-app="dropdownApp" ng-strict-di ng-controller="DropdownAppController as vm">
+
+    <h1>Dropdown Component Example</h1>
+
+    <div>
+        <h2>Default dropdown with a list of strings</h2>
+        <span>
+            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+        </span>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Default dropdown with a list of objects and custom markup, not clearable</h2>
+        <span>
+            <akam-dropdown ng-model="vm.ex2.selectedState" text-property="name"
+                           items="vm.stateObjects" clearable on-change="vm.doChange(item)">
+
+                <akam-dropdown-selected>
+                    <span class="selected-option util-ellipsis">
+                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
+                            custom: {{selectedItem[textProperty]}}
+                        </span>
+                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
+                    </span>
+                </akam-dropdown-selected>
+
+                <akam-dropdown-option>
+                    <span title="{{item[textProperty]}}">custom: {{item[textProperty]}}</span>
+                </akam-dropdown-option>
+
+            </akam-dropdown>
+        </span>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Dropdown with a list of strings and a filter, not clearable</h2>
+        <span>
+            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
+        </span>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Default dropdown with a list of objects and a filter</h2>
+        <span>
+            <akam-dropdown ng-model="vm.ex4.selectedState" text-property="name"
+                           items="vm.stateObjects" filterable="name" clearable>
+            </akam-dropdown>
+        </span>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Dropdown with a list of objects, a filter and custom markup, not clearable</h2>
+        <span>
+            <akam-dropdown ng-model="vm.ex5.selectedState" text-property="name"
+                           items="vm.stateObjects" filterable="name">
+
+                <akam-dropdown-selected>
+                    <span class="selected-option util-ellipsis">
+                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
+                            custom: {{selectedItem[textProperty]}}
+                        </span>
+                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
+                    </span>
+
+                </akam-dropdown-selected>
+
+                <akam-dropdown-option>
+                    <span title="{{item[textProperty]}}">custom:
+                        <span ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                    </span>
+                </akam-dropdown-option>
+            </akam-dropdown>
+        </span>
+    </div>
+    <br/>
+
+    <script src="../dist/akamai-core.js"></script>
+
+    <script>
+        angular.module('dropdownApp', ['akamai.components.dropdown', 'akamai.components.menu-button'])
+                .controller('DropdownAppController', DropdownAppController)
+                .config(configFunction);
+
+        DropdownAppController.$inject = ['$log'];
+        function DropdownAppController($log) {
+            var vm = this;
+            vm.test = 'test';
+
+            vm.stateObjects = [
+                {name: 'Colorado'},
+                {name: 'Connecticut'},
+                {name: 'Maryland'},
+                {name: 'Massachusetts'},
+                {name: 'New Hampshire'},
+                {name: 'New Jersey'},
+                {name: 'New York'},
+                {name: 'Vermont'},
+                {name: 'Virginia'},
+                {name: 'Washington, District of Columbia'},
+            ];
+
+            vm.strings = [
+                'Colorado',
+                'Connecticut',
+                'Maryland',
+                'Massachusetts',
+                'New Hampshire',
+                'New Jersey',
+                'New York',
+                'Vermont',
+                'Virginia',
+                'Washington, District of Columbia'
+            ];
+
+            vm.ex1 = { selectedState: 'Massachusetts' };
+            vm.ex2 = { selectedState: undefined };
+            vm.ex3 = { selectedState: 'Vermont' };
+            vm.ex4 = { selectedState: {name: 'Colorado'} };
+            vm.ex5 = { selectedState: undefined };
+
+            vm.doChange = function(item) {
+                $log.log('selected item changed', item);
+            };
+        }
+
+        configFunction.$inject = ['i18nTokenProvider'];
+        function configFunction (i18nTokenProvider) {
+            // need to overwrite locales path on fee.akamai.com
+            if(window.location.host == 'fee.akamai.com') {
+                i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+                i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            }
+        }
+    </script>
+</body>
+</html>

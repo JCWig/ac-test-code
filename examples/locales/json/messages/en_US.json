@@ -75,7 +75,12 @@
     "action.view": "View Details",
     "instant-reports.section.legend.day-of-month": "day of month",
     "report.title.short": "Title",
-    "contractselector.filter.products": "Filter Products",
+    "contractselector": {
+        "filter":
+        {
+            "products": "Filter Products"
+        }
+    },    
     "report.emails": "Emails",
     "instant-reports.criteria.title": "Report Criteria",
     "recurring-report.create.menu.title": "Create Recurring Report",
@@ -230,11 +235,13 @@
     "month.11": "November",
     "report.edit.subtitle": "Configure recurring reports",
     "month.10": "October",
-    "notification.edit.view.title": "EDIT NOTIFICATION",
-    "components.data-table.text.noFilterResults":"There are no results based upon your filter",
-    "components.data-table.text.noDataMessage":"There is no data based upon your criteria",
+    "notification.edit.view.title": "EDIT NOTIFICATION",       
     "components.list-box.text.viewSelectedOnly":"You have no data selected",
     "components.list-box.text.nofilterResults":"There are no results based upon your filter",
     "components.list-box.text.noDataMessage":"There is no data based upon your criteria",
-    "examples.full-name" : "Full Name"
+    "examples.full-name" : "Full Name",
+    "examples.id": "ID",
+    "examples.name": "Name",
+    "examples.email": "Email",
+    "examples.actions": "Actions"
 }

@@ -7,30 +7,30 @@
             "title": "信息"
         },
         "determinate-progress": {},
-        "name": "Akamai Common Components",
+        "name": "Akamai 一般组件",
         "indeterminate-progress": {},
         "date-picker": {
             "placeholder": {
-                "date": "Date Picker",
-                "year": "Year Picker",
-                "month": "Month Picker"
+                "date": "日期选择器",
+                "year": "年份选择器",
+                "month": "月份选择器"
             }
         },
         "modal-window": {
-            "title": "Modal Window",
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
+            "title": "模式窗口",
             "label": {
                 "cancel": "取消",
                 "save": "保存"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+            }
         },
         "pagination": {
             "label": {
-                "show-entries": "Show Entries:",
-                "results": "Results:",
-                "total-items": "Total Items",
-                "current-page": "Current Page"
+                "show-entries": "显示条目",
+                "results": "结果",
+                "total-items": "项目总计",
+                "current-page": "当前页面"
             }
         },
         "tooltip": {},
@@ -48,21 +48,25 @@
             "no": "否"
         },
         "warning": {
-            "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+            "browser-button": "Mac 上的 Safari 和 FireFox 不支持“按钮”元素中的焦点事件。因此，请使用锚标记: A"
+        },
+        "switch-button": {
+            "onLabel": "开启",
+            "offLabel": "关闭"
         },
         "dialog": {},
         "error": {
             "validation": {},
-            "data": "There was a problem loading the data."
+            "data": "加载数据时出现问题。"
         },
         "list-box": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "viewSelectedOnly": "You have no items selected.",
-                "selected": "Selected:",
-                "viewSelected": "View Selected Only",
-                "noItem": "No Item Found",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "没有符合您的过滤条件的结果。",
+                "viewSelectedOnly": "您未选择任何项目。",
+                "selected": "已选择",
+                "viewSelected": "仅查看已选择内容",
+                "noItem": "未找到项目",
+                "noDataMessage": "没有符合您的条件的数据。"
             },
             "placeholder": {
                 "filter": "筛选器"
@@ -70,8 +74,8 @@
         },
         "data-table": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "没有符合您的过滤条件的结果。",
+                "noDataMessage": "没有符合您的条件的数据。"
             },
             "placeholder": {
                 "filter": "筛选器"
@@ -81,14 +85,16 @@
             }
         },
         "notifications": {
-            "information": "INFORMATION",
+            "information": "信息",
             "warning": "警告！",
             "success": "成功",
             "error": "错误"
         },
-        "switch-button": {
-            "onLabel": "On",
-            "offLabel": "Off"
+        "dropdown": {
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
+            }
         }
     }
 }

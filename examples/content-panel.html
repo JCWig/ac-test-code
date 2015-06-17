@@ -11,19 +11,19 @@
                 <h1>Content Panel Component Example</h1>
             </div>
             <h3>Panel Initially Expanded:</h3>
-            <akam-content-panel is-collapsed="isCollapsed1" on-toggle="process(value)" header="Header Text Goes Here 1">
+            <akam-content-panel akam-standalone  is-collapsed="isCollapsed1" on-toggle="process(value)" header="Header Text Goes Here 1">
                 <div>Panel Content</div>
                 <div>More Panel Content</div>
             </akam-content-panel>
             <br />
             <h3>Panel Initially Collapsed:</h3>
-            <akam-content-panel is-collapsed="isCollapsed2" on-toggle="process(value)" header="Content Panel Header Text - Example of a Longer Header Title">
+            <akam-content-panel akam-standalone  is-collapsed="isCollapsed2" on-toggle="process(value)" header="Content Panel Header Text - Example of a Longer Header Title">
                 <div>Second Panel Content</div>
                 <div>More Panel Content</div>
             </akam-content-panel>
             <br />
             <h3>Panel Group:</h3>
-            <akam-content-panel ng-repeat="panel in panels" on-toggle="process(value)" header="{{panel.header}}" is-collapsed="panel.collapsed">
+            <akam-content-panel akam-standalone ng-repeat="panel in panels" on-toggle="process(value)" header="{{panel.header}}" is-collapsed="panel.collapsed">
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
                 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
                 Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
