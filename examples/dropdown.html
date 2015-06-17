@@ -33,7 +33,7 @@
     <br/>
 
     <div>
-        <h2>Default dropdown with a list of objects, custom markup.</h2>
+        <h2>Default dropdown with a list of objects and custom markup, not clearable</h2>
         <span>
             <akam-dropdown ng-model="vm.ex2.selectedState" text-property="name"
                            items="vm.stateObjects" clearable on-change="vm.doChange(item)">
@@ -57,7 +57,7 @@
     <br/>
 
     <div>
-        <h2>Dropdown that is not clearable with a list of strings and a filter</h2>
+        <h2>Dropdown with a list of strings and a filter, not clearable</h2>
         <span>
             <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
         </span>
@@ -75,7 +75,7 @@
     <br/>
 
     <div>
-        <h2>Dropdown that is not clearable with a list of objects, custom markup and a filter</h2>
+        <h2>Dropdown with a list of objects, a filter and custom markup, not clearable</h2>
         <span>
             <akam-dropdown ng-model="vm.ex5.selectedState" text-property="name"
                            items="vm.stateObjects" filterable="name">
@@ -122,7 +122,7 @@
                 {name: 'New York'},
                 {name: 'Vermont'},
                 {name: 'Virginia'},
-                {name: 'Washington DC'},
+                {name: 'Washington, District of Columbia'},
             ];
 
             vm.strings = [
@@ -135,7 +135,7 @@
                 'New York',
                 'Vermont',
                 'Virginia',
-                'Washington DC'
+                'Washington, District of Columbia'
             ];
 
             vm.ex1 = { selectedState: 'Massachusetts' };
@@ -157,8 +157,6 @@
                 i18nTokenProvider.setAppLocalePath("locales/json/messages/");
             }
         }
-
-
     </script>
 </body>
 </html>

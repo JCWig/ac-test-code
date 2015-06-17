@@ -19,7 +19,7 @@ var formatterConfig = {
 };
 
 var defaultScopeTime = new Date();
-var defaultMarkup = '<akam-time-picker input-time="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+var defaultMarkup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
 
 describe('timeFormatter directive', function() {
 
@@ -97,13 +97,13 @@ describe('timeFormatter directive', function() {
 
     describe("validate input state...", function() {
 
-      it("empty field should be valid state", function() {
+      it("empty field should not be valid state", function() {
         scope.inputTime = "";
         addElement();
         var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
 
-        expect(timepickerInputElem.classList.contains("ng-valid")).toBeTruthy();
-        expect(timepickerInputElem.classList.contains("ng-valid-time")).toBeTruthy();
+        expect(timepickerInputElem.classList.contains("ng-invalid")).toBeTruthy();
+        expect(timepickerInputElem.classList.contains("ng-invalid-time")).toBeTruthy();
 
       });
 
