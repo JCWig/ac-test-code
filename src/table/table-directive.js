@@ -23,7 +23,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       idProperty: '@',
       filterPlaceholder: '@',
       noFilterResultsMessage: '@',
-      noDataMessage: '=?',
+      noItemsMessage: '=?',
       selectedItems: '=?', // selected items from the outside
       onSelect: '&?',
       onChange: '&?'
@@ -367,9 +367,9 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
           .then(angular.bind(this, setTranslatedValue, 'noFilterResultsMessage'));
       }
 
-      if (!angular.isDefined(this.noDataMessage)) {
-        translate.async('components.data-table.text.noDataMessage')
-          .then(angular.bind(this, setTranslatedValue, 'noDataMessage'));
+      if (!angular.isDefined(this.noItemsMessage)) {
+        translate.async('components.data-table.text.noItemsMessage')
+          .then(angular.bind(this, setTranslatedValue, 'noItemsMessage'));
       }
     }
 

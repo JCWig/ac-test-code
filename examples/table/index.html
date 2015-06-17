@@ -77,7 +77,7 @@
 <div class="container">
   <h2>Empty row data</h2>
   <label>Change the no data message</label><input ng-model="vm.noData" placeholder="No data message"/>
-  <akam-table items="vm.emptyRows" no-data-message="vm.noData" akam-standalone>
+  <akam-table items="vm.emptyRows" no-items-message="vm.noData" akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
     </akam-table-row>

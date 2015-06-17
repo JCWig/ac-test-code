@@ -612,7 +612,7 @@ describe('akam-table', function() {
     beforeEach(function(){
       scope.nodata = [];
       scope.noDataMessage = "no data available"
-      var markup = '<akam-table items="nodata" akam-standalone on-change="changeRows(items)" no-data-message="noDataMessage">'+
+      var markup = '<akam-table items="nodata" akam-standalone on-change="changeRows(items)" no-items-message="noDataMessage">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+

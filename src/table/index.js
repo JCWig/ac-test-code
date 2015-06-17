@@ -61,6 +61,12 @@ module.exports = angular.module('akamai.components.table', [
  * column. If this is set on the entire table, it will have the effect of hiding the filter
  * input box.
  *
+ * @param {String} [no-items-message] Optional string which is the message that will be displayed
+ * when there is no data to display
+ *
+ * @param {String} [no-filter-results-message] Optional string which is the message that will be
+ * displayed when there is no data displayed based upon some filter
+ *
  * @example
  *  <akam-table items="rows"
  *    id-property="custom-id-field"

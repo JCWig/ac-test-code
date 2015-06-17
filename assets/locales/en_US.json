@@ -65,7 +65,7 @@
             },
             "text":{
                 "noFilterResults":"There are no results based upon your filter.",
-                "noDataMessage" : "There is no data based upon your criteria."
+                "noItemsMessage" : "There are no items based upon your criteria."
             }
         },
         "menu-button": {
