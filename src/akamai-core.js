@@ -19,7 +19,6 @@ angular.module('akamai.components', [
   require('./utils').name,
   require('./switch-button').name,
   require('./popover').name,
-  require('./router').name,
   require('./tree-view').name,
   require('./time-picker').name,
   require('./tag-input').name,
