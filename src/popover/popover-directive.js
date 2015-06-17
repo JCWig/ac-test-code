@@ -112,6 +112,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           }
           $timeout(function() {
             var customEle = $compile(customTemplate)(newScope);
+
             angular.element(popover[0].querySelector('.popover-custom-content')).append(customEle);
           }, 0);
         }
