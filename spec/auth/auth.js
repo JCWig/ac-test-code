@@ -9,12 +9,17 @@ describe('Auth', function() {
       tokenService,
       config,
       interceptor,
-      win;
+      win,
+      provider,
+      authPro;
 
   beforeEach(function before() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
-    angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor, $window) {
+    angular.mock.module(function(authProvider) {
+      provider = authProvider;
+    });
+    angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor, $window, auth) {
       http = $http;
       httpBackend = $httpBackend;
       buffer = httpBuffer;
@@ -22,9 +27,11 @@ describe('Auth', function() {
       config = authConfig;
       interceptor = authInterceptor;
       win = $window;
+      authPro = auth;
     });
     spyOn(tokenService, 'logout').and.callThrough();
     spyOn(win.location, 'assign');
+    spyOn(authPro, 'getBlacklistedUris').and.returnValue(['/a/page/to/ignore.json', /^\/another\/page\/.*$/i]);
   });
 
   describe('Scenario: Receive unauthorized API response', function() {
@@ -155,9 +162,13 @@ describe('Auth', function() {
       expect(buffer.appendResponse).not.toHaveBeenCalled();
       expect(tokenService.create).not.toHaveBeenCalled();
     });
-    it('should process any blacklisted request without queing', function(){
+    it('should process any blacklisted request without queing', function() {
       spyOn(buffer, 'appendRequest').and.callThrough();
       spyOn(tokenService, 'isPending').and.returnValue(true);
+      // test custom blacklisted pages
+      interceptor.request({method: 'GET', url: '/a/page/to/ignore.json', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      interceptor.request({method: 'GET', url: '/another/page/to/ignore/12345.json', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      // test mega menu urls
       interceptor.request({method: 'GET', url: '/ui/services/nav/megamenu/someUser/grp.json', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
       interceptor.request({method: 'POST', url: '/core/services/session/another_user/extend', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
       interceptor.request({method: 'DELETE', url: '/svcs/messagecenter/yet_SOME_other_USER/message/12345.json', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
@@ -165,5 +176,40 @@ describe('Auth', function() {
       expect(tokenService.isPending).toHaveBeenCalled();
       expect(buffer.size()).toBe(0);
     });
+  });
+  describe('Config Provider', function() {
+    describe('When setting blacklisted URI as a string', function() {
+      beforeEach(function() {
+        provider.setBlacklistedUris('/abc.json');
+      });
+      it('should return an array with a single string value', function() {
+        expect(provider.$get().getBlacklistedUris()).toEqual(['/abc.json']);
+      });
+    });
+    describe('When setting blacklisted URI as a regexp', function() {
+      beforeEach(function() {
+        provider.setBlacklistedUris(/^\/a\/page\/.*$/i);
+      });
+      it('should return array of one regexp value', function() {
+        expect(provider.$get().getBlacklistedUris()).toEqual([/^\/a\/page\/.*$/i]);
+      });
+    });
+    describe('When setting blacklisted URIs as an array', function() {
+      beforeEach(function() {
+        provider.setBlacklistedUris(['/abc/123.json', /^\/a\/page\/.*$/i]);
+      });
+      it('should return given array', function() {
+        expect(provider.$get().getBlacklistedUris()).toEqual(['/abc/123.json', /^\/a\/page\/.*$/i]);
+      });
+    });
+    describe('When setting blacklisted URIs as anything other than a string/regexp/array', function() {
+      beforeEach(function() {
+        provider.setBlacklistedUris(12345);
+      });
+      it('should return an empty array', function() {
+        expect(provider.$get().getBlacklistedUris()).toEqual([]);
+      });
+    });
+
   });
 });
