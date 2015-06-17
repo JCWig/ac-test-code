@@ -101,7 +101,7 @@ describe('akam-table', function() {
   describe('when rendering data table', function() {
     beforeEach(function(){
       scope.pdfClicked = jasmine.createSpy('spy');
-      var markup = '<akam-table rows="mydata" akam-standalone filter-placeholder="placeholder" on-rows-change="changeRows(rows)">'+
+      var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
           '<akam-table-toolbar class="toolbar-class util-pull-right">'+
             '<span>Icons</span>'+
             '<i class="luna-bar_chart"></i>'+
@@ -203,8 +203,8 @@ describe('akam-table', function() {
       timeout(function(){
         def.resolve(scope.mydata);
       }, 2000);
-      var markup = '<akam-table rows="delayedData" akam-standalone no-filter on-rows-change="changeRows(rows)"'+
-           'on-change="selectionCallback(selectedItems)" selected-rows="selectedItems">'+
+      var markup = '<akam-table items="delayedData" akam-standalone not-filterable on-change="changeRows(items)"'+
+           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
           '<akam-table-row>'+
           '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
@@ -225,8 +225,8 @@ describe('akam-table', function() {
       timeout(function(){
         def.reject();
       }, 2000);
-      var markup = '<akam-table rows="delayedData" akam-standalone on-rows-change="changeRows(rows)"'+
-           'on-change="selectionCallback(selectedItems)" selected-rows="selectedItems">'+
+      var markup = '<akam-table items="delayedData" akam-standalone on-change="changeRows(items)"'+
+           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
           '<akam-table-row>'+
           '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
@@ -245,8 +245,8 @@ describe('akam-table', function() {
     it('should render indeterminate progress while loading (http)', function(){
       httpBackend.when('GET', '/randomurl').respond(scope.mydata);
       scope.httpData = http.get('/randomurl');
-      var markup = '<akam-table rows="httpData" akam-standalone on-rows-change="changeRows(rows)"'+
-           'on-change="selectionCallback(selectedItems)" selected-rows="selectedItems">'+
+      var markup = '<akam-table items="httpData" akam-standalone on-change="changeRows(items)"'+
+           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
           '<akam-table-row>'+
           '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
@@ -264,8 +264,8 @@ describe('akam-table', function() {
     it('should render failure indeterminate progress when failed', function(){
       httpBackend.when('GET', '/randomurl').respond(404, "data not found");
       scope.httpData = http.get('/randomurl');
-      var markup = '<akam-table rows="httpData" akam-standalone on-rows-change="changeRows(rows)"'+
-           'on-change="selectionCallback(selectedItems)" selected-rows="selectedItems">'+
+      var markup = '<akam-table items="httpData" akam-standalone on-change="changeRows(items)"'+
+           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
           '<akam-table-row>'+
           '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
@@ -286,8 +286,8 @@ describe('akam-table', function() {
     beforeEach(function(){
       scope.selectionCallback = jasmine.createSpy('spy');
       scope.selectedItems = [scope.mydata[1]];
-      var markup = '<akam-table rows="mydata" akam-standalone on-rows-change="changeRows(rows)"'+
-           'on-change="selectionCallback(selectedItems)" selected-rows="selectedItems">'+
+      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)"'+
+           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
           '<akam-table-row>'+
           '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
@@ -332,7 +332,7 @@ describe('akam-table', function() {
   });
   describe('when using data table sort option', function() {
     beforeEach(function() {
-      var markup = '<akam-table rows="mydata" akam-standalone on-rows-change="changeRows(rows)">'+
+      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
           '<akam-table-row>'+
           '<akam-table-column class="name" default-sort row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
@@ -340,7 +340,7 @@ describe('akam-table', function() {
           '</akam-table-column>'+
           '<akam-table-column class="generic" row-property="generic" header-name="{{columns.generic}}">'+
           '</akam-table-column>'+
-          '<akam-table-column class="color" row-property="color" no-sort header-name="{{columns.color}}">'+
+          '<akam-table-column class="color" row-property="color" not-sortable header-name="{{columns.color}}">'+
           '</akam-table-column>'+
         '</akam-table-row>'+
       '</akam-table>'
@@ -404,7 +404,7 @@ describe('akam-table', function() {
       expect(rowOneColumnThree.textContent).toContain('["speedy"]');
       expect(rowThreeColumnThree.textContent).toContain('["AAAAAAAAAAAAAAAAAAA"]');
     });
-    it('should not sort columns with no-sort enabled', function(){
+    it('should not sort columns with not-sortable enabled', function(){
       var columnFourHeader = document.querySelector('.color');
       utilities.click(columnFourHeader);
       utilities.click(columnFourHeader);
@@ -427,7 +427,7 @@ describe('akam-table', function() {
   });
   describe('when working with big data', function(){
     beforeEach(function(){
-      var markup = '<akam-table rows="bigData" akam-standalone on-rows-change="changeRows(rows)">'+
+      var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
@@ -492,15 +492,15 @@ describe('akam-table', function() {
   describe('when interacting with filter bar', function(){
     beforeEach(function(){
       scope.onRowsChange = jasmine.createSpy('spy');
-      var markup = '<akam-table no-filter-results-message="no filter results" rows="mydata" '+
-          'akam-standalone on-rows-change="onRowsChange(rows)"'+
-           'on-change="selectionCallback(selectedItems)" selected-rows="selectedItems">'+
+      var markup = '<akam-table no-filter-results-message="no filter results" items="mydata" '+
+          'akam-standalone on-change="onRowsChange(items)"'+
+           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
           '<akam-table-row>'+
           '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
-          '<akam-table-column class="name" no-filter row-property="bu" header-name="{{columns.bu}}">'+
+          '<akam-table-column class="name" not-filterable row-property="bu" header-name="{{columns.bu}}">'+
           '</akam-table-column>'+
-          '<akam-table-column class="name" no-filter row-property="color" header-name="{{columns.color}}">'+
+          '<akam-table-column class="name" not-filterable row-property="color" header-name="{{columns.color}}">'+
             '<span class="custom-content">{{row.color}}</span>'+
           '</akam-table-column>'+
         '</akam-table-row>'+
@@ -557,7 +557,7 @@ describe('akam-table', function() {
   });
   describe('when filtering large data', function(){
     beforeEach(function(){
-      var markup = '<akam-table rows="bigData" akam-standalone on-rows-change="changeRows(rows)">'+
+      var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
@@ -583,13 +583,13 @@ describe('akam-table', function() {
   describe('when giving menu buttons', function(){
     beforeEach(function(){
       scope.pdfClicked = jasmine.createSpy('spy');
-      var markup = '<akam-table rows="bigData" akam-standalone on-rows-change="changeRows(rows)">'+
+      var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
             '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
             '</akam-table-column>'+
-            '<akam-table-column no-filter no-sort class="column-action" header-name="examples.actions">'+
+            '<akam-table-column not-filterable not-sortable class="column-action" header-name="examples.actions">'+
               '<akam-menu-button>'+
                 '<akam-menu-button-item text="PDF" ng-click="pdfClicked(row)"></akam-menu-button-item>'+
               '</akam-menu-button>'+
@@ -612,7 +612,7 @@ describe('akam-table', function() {
     beforeEach(function(){
       scope.nodata = [];
       scope.noDataMessage = "no data available"
-      var markup = '<akam-table rows="nodata" akam-standalone on-rows-change="changeRows(rows)" no-data-message="noDataMessage">'+
+      var markup = '<akam-table items="nodata" akam-standalone on-change="changeRows(items)" no-data-message="noDataMessage">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
@@ -634,7 +634,7 @@ describe('akam-table', function() {
   });
   describe('when no columns are filterable', function(){
     beforeEach(function(){
-      var markup = '<akam-table rows="mydata" akam-standalone no-filter on-rows-change="changeRows(rows)">'+
+      var markup = '<akam-table items="mydata" akam-standalone not-filterable on-change="changeRows(items)">'+
           '<akam-table-toolbar class="toolbar-class util-pull-right">'+
             '<span>Icons</span>'+
             '<i class="luna-bar_chart"></i>'+
@@ -644,7 +644,7 @@ describe('akam-table', function() {
             '</akam-menu-button>'+
             '</akam-table-toolbar>'+
             '<akam-table-row>'+
-            '<akam-table-column class="name" no-filter row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+            '<akam-table-column class="name" not-filterable row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
           '</akam-table-row>'+
         '</akam-table>';
@@ -657,9 +657,9 @@ describe('akam-table', function() {
   });
   describe('when no pagination is requested', function(){
     beforeEach(function(){
-      var markup = '<akam-table rows="mydata" akam-standalone on-rows-change="changeRows(rows)" no-page>'+
+      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" no-paging>'+
             '<akam-table-row>'+
-            '<akam-table-column class="name" no-filter row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+            '<akam-table-column class="name" not-filterable row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
           '</akam-table-row>'+
         '</akam-table>';
@@ -672,7 +672,7 @@ describe('akam-table', function() {
   });
   describe('when no sorting is requested', function(){
     beforeEach(function(){
-      var markup = '<akam-table rows="mydata" akam-standalone on-rows-change="changeRows(rows)" no-sort>'+
+      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" not-sortable>'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
@@ -692,7 +692,7 @@ describe('akam-table', function() {
   describe('when reaching error cases', function(){
     it('should not show data when it doesnt have a string format', function(){
       scope.brokenData = [{id:{}},{id:{}},{id:{}}];
-      var markup = '<akam-table rows="brokenData" akam-standalone on-rows-change="changeRows(rows)">'+
+      var markup = '<akam-table items="brokenData" akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
           '</akam-table-column>'+
@@ -704,7 +704,7 @@ describe('akam-table', function() {
     });
     it('should not sort default sort if no sort is requested', function(){
       var spy = spyOn(log, "debug");
-      var markup = '<akam-table rows="mydata" no-sort akam-standalone on-rows-change="changeRows(rows)" no-sort>'+
+      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" not-sortable>'+
             '<akam-table-row>'+
             '<akam-table-column class="name" default-sort row-property="fullname" header-name="{{columns.fullname}}">'+
           '</akam-table-column>'+
@@ -715,7 +715,7 @@ describe('akam-table', function() {
     });
     it('should not render anything and warn if columns not provided', function(){
       var spy = spyOn(log, "warn");
-      var markup = '<akam-table rows="mydata" no-sort akam-standalone on-rows-change="changeRows(rows)" no-sort>'+
+      var markup = '<akam-table items="mydata" not-sortable akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-fake-name></akam-fake-name>'+
           '</akam-table-row>'+
@@ -724,16 +724,15 @@ describe('akam-table', function() {
       expect(spy).toHaveBeenCalled();   
     });
     it('should warn user if no akam-table-row provided', function(){
-      console.log("TEST START-------------------------");
       var spy = spyOn(log, "debug");
-      var markup = '<akam-table rows="mydata" no-sort akam-standalone on-rows-change="changeRows(rows)" no-sort>'+
+      var markup = '<akam-table items="mydata" not-sortable akam-standalone on-change="changeRows(items)">'+
         '</akam-table>';
       addElement(markup);
       expect(spy).toHaveBeenCalled();   
     });
     it('should warn user if no columns provided', function(){
       var spy = spyOn(log, "warn");
-      var markup = '<akam-table rows="mydata" no-sort akam-standalone on-rows-change="changeRows(rows)" no-sort>'+
+      var markup = '<akam-table items="mydata" not-sortable akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
           '</akam-table-row>'+
         '</akam-table>';
@@ -742,7 +741,7 @@ describe('akam-table', function() {
     });
     it('should not render anything and log error no row property given', function(){
       var spy = spyOn(log, "debug");
-      var markup = '<akam-table rows="mydata" akam-standalone on-rows-change="changeRows(rows)">'+
+      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" header-name="{{columns.fullname}}">'+
             '</akam-table-column>'+
