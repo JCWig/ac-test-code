@@ -1,34 +1,25 @@
 
+$listbox__border: $base__border-style $base__border-width $colors__gray6;
 
-$list-box-border-color: #ccc;
-$list-box-border-width: 1px;
-$list-box-border: $list-box-border-width solid $list-box-border-color;
-$list-box-data-row-even-background: #f8f8f8;
-$list-box-data-row-odd-background: #fff;
-$list-box-data-row-hover-background: #ebf6ff;
-$list-box-data-row-selected-background: #cee7ff;
+$listbox__tr-background--even: $colors__gray10;
+$listbox__tr-background--odd: $colors__white;
+$listbox__tr-background--hover: $colors__blue3;
+$listbox__tr-background--selected: $colors__blue2;
+$listbox__tr-height: 30px;
 
-$list-box-header-gradient-bottom: #f8f8f8;
-$list-box-header-gradient-top: #fff;
+$listbox__th-background: linear-gradient($colors__white, $colors__gray10);
+$listbox__th-background--hover: linear-gradient($colors__gray10, $colors__white);
+$listbox__th-height: $listbox__tr-height + $base__border-width;
 
-$list-box-header-gradient-bottom-hover: #f4f4f4;
-$list-box-header-gradient-top-hover: #e6e6e6;
+$listbox__td-border: $base__border-style $base__border-width $colors__gray8;
 
-$list-box-cell-border-color : #ededed;
-$list-box-cell-border : $list-box-border-width solid $list-box-cell-border-color;
+$listbox__filter-icon-width: luna-sprite-width(close);
+$listbox__filter-icon-margin-left: -($listbox__filter-icon-width + 6px);
+$listbox__filter-padding-right: $listbox__filter-icon-width + 8px;
 
-$list-box-filter-icon: luna-sprite-width(close);
-$list-box-filter-icon-margin-left: -($list-box-filter-icon + 6px);
-$list-box-filter-padding-right: $list-box-filter-icon + 8px;
+$listbox__tbody-height: (($listbox__tr-height + ($base__border-width)) * 8);
 
-$list-box-cell-height: 30px;
-$list-box-footer-height: 28px;
-$list-box-header-height: $list-box-cell-height + $list-box-border-width;
-$list-box-row-count: 8;
-$list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) * $list-box-row-count);
-
-$data-table-row-count: 10;
-$data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $data-table-row-count);
+$listbox__footer-height: 28px;
 
 
 
@@ -45,11 +36,11 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   
   th {
     text-align: left;
-    border-bottom: $list-box-border;
-    @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
+    border-bottom: $listbox__border;
+    @include background-image($listbox__th-background);
     
     & + th {
-      border-left: $list-box-border;
+      border-left: $listbox__border;
     }
     
     &.column-sortable {
@@ -60,7 +51,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     &.column-sortable:hover,
     &.column-sorted {
       position: relative;
-      @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+      @include background-image($listbox__th-background--hover);
   
       i {
         @extend .luna-arrow-up;
@@ -77,15 +68,15 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   
   tbody {
     tr:nth-child(even) {
-      background-color: $list-box-data-row-even-background;
+      background-color: $listbox__tr-background--even;
     }
     
     tr:nth-child(odd) {
-      background-color: $list-box-data-row-odd-background;
+      background-color: $listbox__tr-background--odd;
     }
     
     tr:hover {
-      background-color: $list-box-data-row-hover-background;
+      background-color: $listbox__tr-background--hover;
       
       td.column-action > * {
         visibility: visible;
@@ -93,7 +84,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     }
     
     tr.row-selected {
-      background-color: $list-box-data-row-selected-background;
+      background-color: $listbox__tr-background--selected;
     }
     
     tr:first-child td {
@@ -101,8 +92,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     }
     
     td {
-      border: 0 solid $list-box-cell-border-color;
-      border-top: $list-box-cell-border;
+      border-width: 0;
+      border-top: $listbox__td-border;
     }
   }
   
@@ -148,7 +139,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   .empty-table-message {
     position: absolute;
     padding: 10px 10px 10px 36px;
-    top: $list-box-header-height;
+    top: $listbox__th-height;
     left: 0;
     right: 0;
 
@@ -167,8 +158,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
   .list-box-data {
     overflow-y: auto;
     height: 298px;
-    border-top: $list-box-border;
-    border-bottom: $list-box-border;
+    border-top: $listbox__border;
+    border-bottom: $listbox__border;
     position: relative; // Addresses a scrollbar issue in Firefox 36.0.4
   }
   
@@ -176,8 +167,8 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     overflow-x: hidden;
     overflow-y: auto;
     height: 100%;
-    max-height: $list-box-body-height; //Note that this should be reset by a user to whatever the more appropriate value is
-    min-height: $list-box-body-height;
+    max-height: $listbox__tbody-height; //Note that this should be reset by a user to whatever the more appropriate value is
+    min-height: $listbox__tbody-height;
 
     &::-webkit-scrollbar {
       -webkit-appearance: none;
@@ -194,14 +185,14 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     
     // Addresses an issue in firefox trying to calculate the correct height
     @include for("Firefox") {
-      max-height: calc(#{$list-box-body-height - $list-box-row-count}); 
-      min-height: calc(#{$list-box-body-height - $list-box-row-count}); 
+      max-height: calc(#{$listbox__tbody-height - 8}); 
+      min-height: calc(#{$listbox__tbody-height - 8}); 
     }
   }
   
   .list-box-footer {
-    height: $list-box-footer-height;
-    line-height: $list-box-footer-height;
+    height: $listbox__footer-height;
+    line-height: $listbox__footer-height;
     padding: 0px 10px;
     label {
       font-weight: normal;
@@ -221,19 +212,19 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     input {
       width: 100%;
       max-width: 298px;
-      padding-right: $list-box-filter-padding-right;
+      padding-right: $listbox__filter-padding-right;
     }
 
     input + i {
       vertical-align: middle;
-      margin-left: $list-box-filter-icon-margin-left;
+      margin-left: $listbox__filter-icon-margin-left;
     }
   }
 
   .data {
     position: relative;
-    border-top: $list-box-border;
-    border-bottom: $list-box-border;
+    border-top: $listbox__border;
+    border-bottom: $listbox__border;
   }
 }
 
