@@ -30,7 +30,7 @@ describe('Auth', function() {
       authPro = auth;
     });
     spyOn(tokenService, 'logout').and.callThrough();
-    spyOn(win.location, 'assign');
+    spyOn(win.location, 'replace');
     spyOn(authPro, 'getBlacklistedUris').and.returnValue(['/a/page/to/ignore.json', /^\/another\/page\/.*$/i]);
   });
 
@@ -145,6 +145,7 @@ describe('Auth', function() {
       tokenService.create();
       httpBackend.flush();
       expect(tokenService.logout).toHaveBeenCalled();
+      expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl);
     });
   });
 
