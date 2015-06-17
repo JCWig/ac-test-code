@@ -1,7 +1,9 @@
 'use strict';
 
 var angular = require('angular');
-var isRegExp = require('lodash/lang/isregexp');
+var isRegExp = function(re) {
+  return Object.prototype.toString.call(re) === '[object RegExp]';
+};
 
 /* @ngInject */
 module.exports = function() {
