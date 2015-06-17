@@ -65,6 +65,10 @@ describe('akam-pagination directive', function() {
       document.body.removeChild(self.element);
       self.element = null;
     }
+    var unremoved = document.querySelector('akam-pagination')
+    if (unremoved) {
+      document.body.removeChild(unremoved);
+    }
   });
   describe('when rendering', function() {
     it('should display the total item count', function() {

@@ -11,7 +11,7 @@ var formatterConfig = {
 };
 
 /* @ngInject */
-module.exports = function($filter) {
+module.exports = function($filter, $timeout) {
 
   var directive = {
     restrict: 'A',
@@ -25,6 +25,7 @@ module.exports = function($filter) {
   return directive;
 
   function link(scope, element, attrs, ngModel) {
+    var initialized = false;
 
     ngModel = ngModel ? ngModel : {
       $setViewValue: angular.noop
@@ -35,14 +36,13 @@ module.exports = function($filter) {
 
     scope.$watch('showMeridian', function() {
       var value = ngModel.$modelValue,
-        timeFormat = !scope.showMeridian ?
-        formatterConfig.MERIDIAN_OFF.toLowerCase() : formatterConfig.MERIDIAN_ON;
+        timeFormat = scope.showMeridian ?
+        formatterConfig.MERIDIAN_ON : formatterConfig.MERIDIAN_OFF.toLowerCase();
 
       if (value) {
         element.val(displayTime(value, true));
-      } else {
-        element.attr('placeholder', timeFormat);
       }
+      element.attr('placeholder', timeFormat);
     });
 
     function parseTime(value) {
@@ -51,15 +51,23 @@ module.exports = function($filter) {
         date = new Date(),
         sp;
 
-      if (angular.isUndefined(value)) {
-        setTimepickerValidState(false);
-        return undefined;
+      if (initialized) {
+        ngModel.$setDirty();
       }
 
-      //empty or null value is valid
+      if (angular.isUndefined(value)) {
+        if (!initialized) {
+          setTimepickerValidState(true);
+          return null;
+        } else {
+          setTimepickerValidState(false);
+          return undefined;
+        }
+      }
+
       if (!value) {
-        setTimepickerValidState(true);
-        return null;
+        setTimepickerValidState(false);
+        return undefined;
       }
 
       //date is always valid
@@ -117,5 +125,11 @@ module.exports = function($filter) {
       }
       return sp;
     }
+
+    $timeout(function() {
+      if (!initialized) {
+        initialized = true;
+      }
+    });
   }
 };

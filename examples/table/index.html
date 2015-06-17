@@ -118,7 +118,19 @@
   </akam-table>
 </div>
 
+<div class="container">
+  <h2>Failure Table no akam-table-row defined</h2>
+  <akam-table rows="vm.arrayData" no-filter no-page no-sort akam-standalone>
+  </akam-table>
+</div>
 
+<div class="container">
+  <h2>Failure Table no akam-table-columns defined</h2>
+  <akam-table rows="vm.arrayData" no-filter no-page no-sort akam-standalone>
+    <akam-table-row>
+    </akam-table-row>
+  </akam-table>
+</div>
 
 <script src="../../dist/akamai-core.js"></script>
 <script src="index.js"></script>

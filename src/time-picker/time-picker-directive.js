@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 var timepickerConfig = {
   MINUTE_STEP: 15,
   HOUR_STEP: 1,
@@ -13,8 +15,8 @@ module.exports = function($document, $parse) {
     restrict: 'E',
     transclude: false,
     scope: {},
+    require: 'ngModel',
     bindToController: {
-      inputTime: '=',
       showMeridian: '=?',
       disabled: '=?',
       hourStep: '=?',
@@ -50,11 +52,27 @@ module.exports = function($document, $parse) {
   }
 
   /* @ngInject */
-  function linkFn(scope, element, attrs) {
+  function linkFn(scope, element, attrs, ngModel) {
 
     var notShowMeridian = false,
       defaultPlaceholder = '',
       ctrl = scope.timepicker;
+
+    //only the first time rendering, $render gets called
+    ngModel.$render = function() {
+      ctrl.inputTime = ngModel.$modelValue;
+    };
+
+    element.on('input', function() {
+      scope.$apply('timepicker.changed()');
+    });
+
+    ctrl.changed = function() {
+      ngModel.$setViewValue(ctrl.inputTime);
+      ngModel.$setDirty();
+      ngModel.$setValidity('time',
+        !(angular.isUndefined(ctrl.inputTime) || ctrl.inputTime === null));
+    };
 
     ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';
 
