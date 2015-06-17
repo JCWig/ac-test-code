@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h3 class="modal-title">Wizard Title - {{steps[stepIndex].name}}</h3>
+</div>
+<akam-wizard-content>
+</akam-wizard-content>
+
+<div class="modal-body">
+    <div ng-bind-html="steps[stepIndex].template"></div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="button large" ng-click="previousStep()">
+        Previous
+    </button>
+    <button type="button" class="button large primary" ng-click="nextStep(validate)">
+        Next
+    </button>
+</div>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Wizard</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+
+    <style>
+        div h2:first-child {
+            margin-bottom:10px;
+        }
+        body.luna > h1 {
+            margin-bottom:20px;
+        }
+
+        body.luna > div > span {
+            display: inline-block;
+            width: 180px;
+        }
+    </style>
+</head>
+
+<body class="common-css luna" ng-app="wizardApp" ng-strict-di ng-controller="WizardAppController as vm">
+
+    <script type="text/ng-template" id="step1">
+        <div>step 1 content</div>
+    </script>
+    <script type="text/ng-template" id="step2">
+        <div>step 2 content</div>
+    </script>
+    <script type="text/ng-template" id="step3">
+        <div>step 3 content</div>
+    </script>
+    <script type="text/ng-template" id="step4">
+        <div>step 4 content</div>
+    </script>
+
+    <h1>Wizard Component examples</h1>
+
+    <div ng-click="vm.launchWizard()">
+        Wizard stuff
+    </div>
+    <br/>
+
+    <script src="../dist/akamai-core.js"></script>
+
+    <script>
+        angular.module('wizardApp', ['akamai.components.wizard'])
+                .controller('WizardAppController', WizardAppController);
+
+        WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope'];
+        function WizardAppController($log, $modal, wizard, $rootScope) {
+            var vm = this;
+            var wizardScope = $rootScope.$new();
+
+            $log.log('WizardAppController is initialized');
+            $log.log('$modal is', $modal);
+
+
+            WizardController.$inject = ['$scope', '$log'];
+            function WizardController($scope, $log) {
+
+                $scope.validate = function(stepIndex) {
+                    switch(stepIndex) {
+                        case 0:
+                            validateStep1();
+                            break;
+                        case 1:
+                            validateStep2();
+                            break;
+                        case 2:
+                            validateStep3();
+                            break;
+                        case 3:
+                            validateStep4();
+                            break;
+                        default:
+                            break;
+
+                    }
+                };
+
+                function validateStep1() {
+                    $log.log('Step 1 validated');
+                }
+                function validateStep2() {
+                    $log.log('Step 2 validated');
+                }
+                function validateStep3() {
+                    $log.log('Step 3 validated');
+                }
+                function validateStep4() {
+                    $log.log('Step 4 validated');
+                }
+
+
+            };
+
+
+            vm.launchWizard = function() {
+                wizard.open({
+                    scope: wizardScope,
+                    controller: WizardController
+                });
+            };
+
+
+        }
+
+
+    </script>
+
+</body>
+</html>
