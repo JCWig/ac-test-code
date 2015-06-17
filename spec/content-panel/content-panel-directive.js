@@ -2,9 +2,10 @@
 var utilities = require('../utilities');
 
 var PANEL_HEADER = 'h3.panel-title';
-var PANEL_HEADER_ICON = 'h3.panel-title i.toggle-icon';
+var PANEL_HEADER_ICON = 'i.toggle-icon';
 var PANEL_CONTENT_WRAPPER = 'div.panel-collapse';
 var ALL_PANEL_CONTENT = 'div.panel-body div.content-wrapper div.ng-scope';
+var PANEL_HEADER_WRAPPER = '.panel-heading';
 
 describe('akam-content-panel', function() {
   var compile = null;
@@ -46,9 +47,9 @@ describe('akam-content-panel', function() {
       expect(headerIcon).not.toBe(null);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
       expect(headerIcon.classList.contains('luna-expand')).toBe(false);
-      expect(content.length).toEqual(2);
-      expect(content[0].textContent).toMatch(/Gandalf the Grey/);
-      expect(content[1].textContent).toMatch(/Gandalf the White/);
+      expect(content.length).toEqual(3);
+      expect(content[1].textContent).toMatch(/Gandalf the Grey/);
+      expect(content[2].textContent).toMatch(/Gandalf the White/);
     });
     it('should be able to render collpased', function() {
       scope.isCollapsed = true;
@@ -65,11 +66,11 @@ describe('akam-content-panel', function() {
       expect(headerIcon).not.toBe(null);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
       expect(headerIcon.classList.contains('luna-expand')).toBe(true);
-      expect(content.length).toEqual(2);
-      expect(content[0].textContent).toMatch(/Gandalf the Grey/);
-      expect(content[1].textContent).toMatch(/Gandalf the White/);
+      expect(content.length).toEqual(3);
+      expect(content[1].textContent).toMatch(/Gandalf the Grey/);
+      expect(content[2].textContent).toMatch(/Gandalf the White/);
     });
-    it('should be able to render without a header', function() {
+    /*it('should be able to render without a header', function() {
       scope.isCollapsed = true;
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()">' +
         '<div>Gandalf the Grey</div><div>Gandalf the White</div>' +
@@ -80,12 +81,13 @@ describe('akam-content-panel', function() {
       var content = document.querySelectorAll(ALL_PANEL_CONTENT);
       var headerIcon = document.querySelector(PANEL_HEADER_ICON);
 
+      console.log(headerDiv);
       expect(headerDiv.textContent).toMatch(/ /);
       expect(headerIcon).not.toBe(null);
-      expect(content.length).toEqual(2);
-      expect(content[0].textContent).toMatch(/Gandalf the Grey/);
-      expect(content[1].textContent).toMatch(/Gandalf the White/);
-    });
+      expect(content.length).toEqual(3);
+      expect(content[1].textContent).toMatch(/Gandalf the Grey/);
+      expect(content[2].textContent).toMatch(/Gandalf the White/);
+    });*/
     it('should be able to render without content', function() {
       scope.isCollapsed = true;
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">' +
@@ -98,9 +100,9 @@ describe('akam-content-panel', function() {
 
       expect(headerDiv.textContent).toMatch(/Header 1/);
       expect(headerIcon).not.toBe(null);
-      expect(content.length).toEqual(0);
+      expect(content.length).toEqual(1); //header
     });
-    it('should be able to render without content or header', function() {
+    /*it('should be able to render without content or header', function() {
       scope.isCollapsed = true;
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()">' +
         '</akam-content-panel>'
@@ -112,8 +114,8 @@ describe('akam-content-panel', function() {
 
       expect(headerDiv.textContent).toMatch(/ /);
       expect(headerIcon).not.toBe(null);
-      expect(content.length).toEqual(0);
-    });
+      expect(content.length).toEqual(1);
+    });*/
     it('should be able to render multiple content panels', function() {
       scope.panels = [
         {header: 'Header 1', collapsed: false},
@@ -139,7 +141,7 @@ describe('akam-content-panel', function() {
       var header3 = headerDivs[2].textContent;
 
       expect(headerDivs.length).toEqual(3);
-      expect(contents.length).toEqual(6);//2 divs in each content-panel
+      expect(contents.length).toEqual(9);//2 divs in each content-panel + headers
       expect(contentWrappers.length).toEqual(3);
       expect(headerIcons.length).toEqual(3);
 
@@ -150,6 +152,128 @@ describe('akam-content-panel', function() {
       expect(header1).toMatch(/Header 1/);
       expect(header2).toMatch(/Header 2/);
       expect(header3).toMatch(/Header 3/);
+    });
+    it('should be able to render with custom content with only text node (content)', function(){
+      scope.randomText = "Here is some random text"
+      var markup = '<akam-content-panel>'+
+                '<akam-content-panel-header>'+
+                    '<i class="luna-world_map"></i> Custom Header'+
+                '</akam-content-panel-header>'+
+                '<akam-content-panel-body>'+
+                    '{{randomText}}'+
+                '</akam-content-panel-body>'+
+            '</akam-content-panel>';
+      addElement(markup);
+
+      var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
+      var uniqueIcon = document.querySelector('.luna-world_map');
+      var content = document.querySelector('.content-wrapper');
+      
+      expect(headerDiv).not.toBe(null);
+      expect(uniqueIcon).not.toBe(null);
+      expect(content.textContent).toContain(scope.randomText);
+    });
+    it('should be able to render with custom content  (content)', function(){
+      var markup = '<akam-content-panel>'+
+                '<akam-content-panel-header>'+
+                    '<i class="luna-world_map"></i> Custom Header'+
+                '</akam-content-panel-header>'+
+                '<akam-content-panel-body>'+
+                    '<span class="uniqueContent" Panel content </span>'+
+                '</akam-content-panel-body>'+
+            '</akam-content-panel>';
+      addElement(markup);
+
+      var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
+      var uniqueIcon = document.querySelector('.luna-world_map');
+      var uniqueContent = document.querySelector('.uniqueContent');
+
+      expect(headerDiv).not.toBe(null);
+      expect(uniqueIcon).not.toBe(null);
+      expect(uniqueContent).not.toBe(null);
+    });
+    it('should be able to render with custom content with multiple root nodes (content)' , function(){
+      var markup = '<akam-content-panel>'+
+                '<akam-content-panel-header>'+
+                    '<i class="luna-world_map"></i> Custom Header'+
+                '</akam-content-panel-header>'+
+                '<akam-content-panel-body>'+
+                    '<span class="uniqueContent" Panel content </span>'+
+                    '<span class="uniqueContent2" Panel content 2 </span>'+
+                '</akam-content-panel-body>'+
+            '</akam-content-panel>';
+      addElement(markup);
+
+      var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
+      var uniqueIcon = document.querySelector('.luna-world_map');
+      var uniqueContent1 = document.querySelector('.uniqueContent');
+      var uniqueContent2 = document.querySelector('.uniqueContent2');
+
+      expect(headerDiv).not.toBe(null);
+      expect(uniqueIcon).not.toBe(null);
+      expect(uniqueContent1).not.toBe(null);
+      expect(uniqueContent2).not.toBe(null);
+    });
+    it('should be able to render with custom content with only text node (header)', function(){
+      scope.randomText = "Here is some random text"
+      var markup = '<akam-content-panel>'+
+                '<akam-content-panel-header>'+
+                    '{{randomText}}'+
+                '</akam-content-panel-header>'+
+                '<akam-content-panel-body>'+
+                    '<i class="luna-world_map"></i> Custom Header'+
+                '</akam-content-panel-body>'+
+            '</akam-content-panel>';
+      addElement(markup);
+
+      var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
+      var uniqueIcon = document.querySelector('.luna-world_map');
+      var contents = document.querySelectorAll(ALL_PANEL_CONTENT);;
+
+      expect(headerDiv).not.toBe(null);
+      expect(headerDiv.textContent).toContain(scope.randomText);
+      expect(uniqueIcon).not.toBe(null);
+    });
+    it('should be able to render with custom content  (header)', function(){
+      var markup = '<akam-content-panel>'+
+                '<akam-content-panel-header>'+
+                    '<span class="uniqueContent" Panel content </span>'+
+                '</akam-content-panel-header>'+
+                '<akam-content-panel-body>'+
+                    '<i class="luna-world_map"></i> Custom Header'+
+                '</akam-content-panel-body>'+
+            '</akam-content-panel>';
+      addElement(markup);
+
+      var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
+      var uniqueIcon = document.querySelector('.luna-world_map');
+      var uniqueContent = document.querySelector('.uniqueContent');
+
+      expect(headerDiv).not.toBe(null);
+      expect(uniqueIcon).not.toBe(null);
+      expect(uniqueContent).not.toBe(null);
+    });
+    it('should be able to render with custom content with multiple root nodes (header)' , function(){
+      var markup = '<akam-content-panel>'+
+                '<akam-content-panel-header>'+
+                    '<span class="uniqueContent" Panel content </span>'+
+                    '<span class="uniqueContent2" Panel content 2 </span>'+
+                '</akam-content-panel-header>'+
+                '<akam-content-panel-body>'+
+                    '<i class="luna-world_map"></i> Custom Header'+
+                '</akam-content-panel-body>'+
+            '</akam-content-panel>';
+      addElement(markup);
+
+      var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
+      var uniqueIcon = document.querySelector('.luna-world_map');
+      var uniqueContent1 = document.querySelector('.uniqueContent');
+      var uniqueContent2 = document.querySelector('.uniqueContent2');
+
+      expect(headerDiv).not.toBe(null);
+      expect(uniqueIcon).not.toBe(null);
+      expect(uniqueContent1).not.toBe(null);
+      expect(uniqueContent2).not.toBe(null);
     });
   });
   describe('when rendered', function() {
@@ -251,9 +375,9 @@ describe('akam-content-panel', function() {
       expect(headerIcon).not.toBe(null);
       expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
       expect(headerIcon.classList.contains('luna-expand')).toBe(false);
-      expect(content.length).toEqual(2);
-      expect(content[0].textContent).toMatch(/Gandalf the Grey/);
-      expect(content[1].textContent).toMatch(/Gandalf the White/);
+      expect(content.length).toEqual(3);
+      expect(content[1].textContent).toMatch(/Gandalf the Grey/);
+      expect(content[2].textContent).toMatch(/Gandalf the White/);
     });
   });
 });
