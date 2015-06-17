@@ -30,7 +30,140 @@ $list-box-body-height: (($list-box-cell-height + ($list-box-border-width * 2)) *
 $data-table-row-count: 10;
 $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $data-table-row-count);
 
+
+
 .akam-list-box {
+  font-size: $body-font-size;
+  color: $body-font-color;
+  background: #fff;
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 0;
+  }
+  
+  th {
+    text-align: left;
+    border-bottom: $list-box-border;
+    @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
+    
+    & + th {
+      border-left: $list-box-border;
+    }
+    
+    &.column-sortable {
+      @extend .util-clickable;
+      padding-right: 20px;
+    }
+    
+    &.column-sortable:hover,
+    &.column-sorted {
+      position: relative;
+      @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+  
+      i {
+        @extend .luna-arrow-up;
+        position: absolute;
+        right: 9px;
+        top: 38%;
+      }
+  
+      &.desc i {
+        @extend .luna-arrow-down;
+      }
+    }
+  }
+  
+  tbody {
+    tr:nth-child(even) {
+      background-color: $list-box-data-row-even-background;
+    }
+    
+    tr:nth-child(odd) {
+      background-color: $list-box-data-row-odd-background;
+    }
+    
+    tr:hover {
+      background-color: $list-box-data-row-hover-background;
+      
+      td.column-action > * {
+        visibility: visible;
+      }
+    }
+    
+    tr.row-selected {
+      background-color: $list-box-data-row-selected-background;
+    }
+    
+    tr:first-child td {
+      border-top: none;
+    }
+    
+    td {
+      border: 0 solid $list-box-cell-border-color;
+      border-top: $list-box-cell-border;
+    }
+  }
+  
+  td {
+    &.column-action {
+      overflow: visible;
+      
+      & > * {
+        visibility: hidden;
+      }
+    }
+    
+    span.highlighted {
+      color: #0099cc;
+    }
+  }
+  
+  th, td {
+    @include ellipsis();
+    white-space: nowrap;
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 31px;
+    line-height: 31px;
+  }
+
+  .column-checkbox {
+    width: 30px;
+  }
+
+  .column-action {
+    width: 80px;
+    text-align: center;
+  }
+  
+  .dropdown {
+    i + .dropdown-menu {
+      margin-top: 3px;
+    }
+  }
+
+  .empty-table-message {
+    position: absolute;
+    padding: 10px 10px 10px 36px;
+    top: $list-box-header-height;
+    left: 0;
+    right: 0;
+
+    &.ng-inactive {
+      display: none;
+    }
+
+    i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      margin-top: -8px;
+    }
+  }
+  
   .list-box-data {
     overflow-y: auto;
     height: 298px;
@@ -38,7 +171,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     border-bottom: $list-box-border;
     position: relative; // Addresses a scrollbar issue in Firefox 36.0.4
   }
-
+  
   .fixed-table-container-inner {
     overflow-x: hidden;
     overflow-y: auto;
@@ -65,7 +198,7 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
       min-height: calc(#{$list-box-body-height - $list-box-row-count}); 
     }
   }
-
+  
   .list-box-footer {
     height: $list-box-footer-height;
     line-height: $list-box-footer-height;
@@ -79,15 +212,9 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
       }
     }
   }
-}
 
-
-.akam-list-box {
-  font-size: $body-font-size;
-  color: $body-font-color;
-  background: #fff;
-
-  .filter, .toolbar {
+  .filter,
+  .toolbar {
     height: 36px;
     padding: 4px;
 
@@ -107,127 +234,6 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     position: relative;
     border-top: $list-box-border;
     border-bottom: $list-box-border;
-  }
-
-  table {
-    width: 100%;
-    table-layout: fixed;
-    margin-bottom: 0;
-  }
-
-  tbody {
-    tr:nth-child(even) {
-      background-color: $list-box-data-row-even-background;
-    }
-    tr:nth-child(odd) {
-      background-color: $list-box-data-row-odd-background;
-    }
-    tr:hover {
-      background-color: $list-box-data-row-hover-background;
-    }
-    tr.row-selected {
-      background-color: $list-box-data-row-selected-background;
-    }
-  }
-
-  th {
-    text-align: left;
-    border-bottom: $list-box-border;
-    @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
-    & + th {
-      border-left: $list-box-border;
-    }
-  }
-
-  th.column-sortable {
-    @extend .util-clickable;
-    padding-right: 20px;
-  }
-
-  th.column-sortable:hover, th.column-sorted {
-    position: relative;
-    @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
-
-    i {
-      @extend .luna-arrow-up;
-      position: absolute;
-      right: 9px;
-      top: 38%;
-    }
-
-    &.desc i {
-      @extend .luna-arrow-down;
-    }
-  }
-
-  th, td {
-    @include ellipsis();
-    white-space: nowrap;
-    padding: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: 31px;
-    line-height: 31px;
-  }
-
-  tbody tr td {
-    border: 0 solid $list-box-cell-border-color;
-    border-top: $list-box-cell-border;
-  }
-
-  tbody tr:first-child td {
-    border-top: none;
-  }
-
-  .column-checkbox {
-    width: 30px;
-  }
-
-  .column-action {
-    width: 80px;
-    text-align: center;
-  }
-
-  td.column-action {
-    overflow: visible;
-  }
-
-  tr td.column-action > * {
-    visibility: hidden;
-  }
-
-  tr:hover td.column-action > * {
-    visibility: visible;
-  }
-
-  td span.highlighted {
-    color: #0099cc;
-  }
-
-  .dropdown {
-
-    i + .dropdown-menu {
-      margin-top: 3px;
-    }
-  }
-
-  .empty-table-message {
-    position: absolute;
-    padding: 10px 10px 10px 36px;
-    top: $list-box-header-height;
-    left: 0;
-    right: 0;
-
-    &.ng-inactive {
-      display: none;
-    }
-
-    i {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      margin-top: -8px;
-    }
   }
 }
 

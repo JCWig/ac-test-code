@@ -31,26 +31,21 @@ $data-table-row-count: 10;
 $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $data-table-row-count);
 
 
-.akam-data-table .data {
-  min-height: 353px;
-}
-
 
 .akam-data-table {
-
-  .data {
-    position: relative;
-    min-height: $data-table-body-height + $list-box-header-height + ($list-box-border-width * 2);
+  font-size: $body-font-size;
+  color: $body-font-color;
+  background: #fff;
+  
+  table {
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 0;
   }
-
-  .akam-pagination {
-    border: 0 none;
-  }
-
+  
   th {
     text-align: left;
     border-bottom: $list-box-border;
-    @include ellipsis();
     white-space: nowrap;
     padding: 0;
     padding-left: 10px;
@@ -61,44 +56,119 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     background-clip: padding-box; // bugzilla.mozilla.org/show_bug.cgi?id=688556
     height: 31px;
     line-height: 31px;
-
+    @include ellipsis();
     @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
+    
     & + th {
       border-left: $list-box-border;
     }
-  }
-
-  th.column-sortable {
-    @extend .util-clickable;
-    padding-right: 20px;
     
-    &.column-sorted {
-      @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+    &.column-sortable {
+      @extend .util-clickable;
+      padding-right: 20px;
+      
+      &.column-sorted {
+        @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+      }
+      
+      & > i {
+        position: absolute;
+        right: floor(luna-sprite-width(arrow-up) / 2);
+        top: 50%;
+        @include translateY(-50.01%);
+      }
     }
     
-    & > i {
-      position: absolute;
-      right: floor(luna-sprite-width(arrow-up) / 2);
-      top: 50%;
-      @include translateY(-50.01%);
+    &.column-sortable:hover, 
+    &.column-sorted {
+      position: relative;
+      @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
+  
+      i {
+        @extend .luna-arrow-up;
+        position: absolute;
+        right: 9px;
+        top: 38%;
+      }
+  
+      &.desc i {
+        @extend .luna-arrow-down;
+      }
+    }
+  }
+  
+  th, td {
+    @include ellipsis();
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 31px;
+    line-height: 31px;
+  }
+  
+  tbody {
+    tr:nth-child(even) {
+      background-color: $list-box-data-row-even-background;
+    }
+    tr:nth-child(odd) {
+      background-color: $list-box-data-row-odd-background;
+    }
+    tr:hover {
+      background-color: $list-box-data-row-hover-background;
+      
+      td.column-action > * {
+        visibility: visible;
+      }
+    }
+    tr.row-selected {
+      background-color: $list-box-data-row-selected-background;
+    }
+    tr:first-child td {
+      border-top: none;
+    }
+  }
+  
+  td {
+    border: 0 solid $list-box-cell-border-color;
+    border-top: $list-box-cell-border;
+    
+    &.column-action {
+      overflow: visible;
+      
+      & > * {
+        visibility: hidden;
+      }
+    }
+    
+    span.highlighted {
+      color: #0099cc;
     }
   }
 
   .column-checkbox {
     width: 30px;
   }
-
-  td {
-    padding: 0 10px;
+  
+  .column-action {
+    width: 80px;
+    text-align: center;
   }
-}
+  
+  .data {
+    position: relative;
+    min-height: 353px;
+    min-height: $data-table-body-height + $list-box-header-height + ($list-box-border-width * 2);
+    border-top: $list-box-border;
+    border-bottom: $list-box-border;
+    border-top: 0 none;
+  }
 
-.akam-data-table {
-  font-size: $body-font-size;
-  color: $body-font-color;
-  background: #fff;
-
-  .filter, .toolbar {
+  .akam-pagination {
+    border: 0 none;
+  }
+  
+  .filter,
+  .toolbar {
     height: 36px;
     padding: 4px;
 
@@ -113,115 +183,17 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
       margin-left: $list-box-filter-icon-margin-left;
     }
   }
-
-  .data {
-    position: relative;
-    border-top: $list-box-border;
+  
+  .toolbar {
     border-bottom: $list-box-border;
   }
-
-  table {
-    width: 100%;
-    table-layout: fixed;
-    margin-bottom: 0;
-  }
-
-  tbody {
-    tr:nth-child(even) {
-      background-color: $list-box-data-row-even-background;
-    }
-    tr:nth-child(odd) {
-      background-color: $list-box-data-row-odd-background;
-    }
-    tr:hover {
-      background-color: $list-box-data-row-hover-background;
-    }
-    tr.row-selected {
-      background-color: $list-box-data-row-selected-background;
-    }
-  }
-
-  th {
-    text-align: left;
-    border-bottom: $list-box-border;
-    @include background-image(linear-gradient($list-box-header-gradient-top, $list-box-header-gradient-bottom));
-    & + th {
-      border-left: $list-box-border;
-    }
-  }
-
-  th.column-sortable {
-    @extend .util-clickable;
-    padding-right: 20px;
-  }
-
-  th.column-sortable:hover, th.column-sorted {
-    position: relative;
-    @include background-image(linear-gradient($list-box-header-gradient-top-hover, $list-box-header-gradient-bottom-hover));
-
-    i {
-      @extend .luna-arrow-up;
-      position: absolute;
-      right: 9px;
-      top: 38%;
-    }
-
-    &.desc i {
-      @extend .luna-arrow-down;
-    }
-  }
-
-  th, td {
-    @include ellipsis();
-    white-space: nowrap;
-    padding: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: 31px;
-    line-height: 31px;
-  }
-
-  tbody tr td {
-    border: 0 solid $list-box-cell-border-color;
-    border-top: $list-box-cell-border;
-  }
-
-  tbody tr:first-child td {
-    border-top: none;
-  }
-
-  .column-checkbox {
-    width: 30px;
-  }
-
-  .column-action {
-    width: 80px;
-    text-align: center;
-  }
-
-  td.column-action {
-    overflow: visible;
-  }
-
-  tr td.column-action > * {
-    visibility: hidden;
-  }
-
-  tr:hover td.column-action > * {
-    visibility: visible;
-  }
-
-  td span.highlighted {
-    color: #0099cc;
-  }
-
+  
   .dropdown {
-
     i + .dropdown-menu {
       margin-top: 3px;
     }
   }
-
+  
   .empty-table-message {
     position: absolute;
     padding: 10px 10px 10px 36px;
@@ -241,17 +213,5 @@ $data-table-body-height: (($list-box-cell-height + ($list-box-border-width)) * $
     }
   }
 }
-
-.akam-data-table {
-
-  .toolbar {
-    border-bottom: $list-box-border;
-  }
-
-  .data {
-    border-top: 0 none;
-  }
-}
-
 
 
