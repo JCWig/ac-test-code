@@ -51,6 +51,7 @@ module.exports = function(translate) {
       var size = attrs.size !== c.SMALL && attrs.size !== c.MEDIUM ? c.SMALL : attrs.size;
       var theme = attrs.theme === c.GRAYSCALE ? attrs.theme : c.COLOR;
       var element = elem.children(0);
+      var clickBound = false;
 
       function switchClick() {
         ngModel.$setViewValue(!ngModel.$viewValue);
@@ -64,9 +65,12 @@ module.exports = function(translate) {
       scope.$watch('disabled', function(disabled) {
         scope.disabled = filterDisabled(disabled);
         element.toggleClass(c.DISABLED, scope.disabled === 'true');
-        if (scope.disabled === 'false') {
+
+        if (scope.disabled === 'false' && !clickBound) {
+          clickBound = true;
           elem.on('click', switchClick);
-        } else {
+        } else if (scope.disabled === 'true') {
+          clickBound = false;
           elem.off('click', switchClick);
         }
       });
