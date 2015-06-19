@@ -30,7 +30,7 @@
     element. We also define 3 rows. The first one is an example of using custom markup in the table
     cell. Note that the <code>row-property</code> is used for sorting and filtering so we will
     never match on any of the custom markup. The 2nd row isn't sortable nor filterable, as
-    defined by the presence of the <code>no-sort</code> and <code>no-filter</code> attributes. It
+    defined by the presence of the <code>not-sortable</code> and <code>not-filterable</code> attributes. It
     doesn't define any custom markup so it can simply define its <code>row-property</code> and
     that's all.In all cases, the <code>header-name</code> field is a key into the i18n object and
     it is automatically translated for us. Also, any standard HTML attributes (such as class names)
@@ -41,10 +41,10 @@
     the API is completely declarative so there is no need for a schema object anymore.
   </p>
 
-  <akam-table rows="vm.rows" akam-standalone
-              on-rows-change="vm.rowsChanged(rows)"
-              on-change="vm.myRowSelectionCallback(selectedItems)"
-              selected-rows="vm.selectedItems">
+  <akam-table items="vm.rows" akam-standalone
+              on-change="vm.rowsChanged(items)"
+              on-select="vm.myRowSelectionCallback(selectedItems)"
+              selected-items="vm.selectedItems">
 
     <akam-table-toolbar class="toolbar-class util-pull-right">
       <span>Graphs of stuff</span> {{ vm.testText }}
@@ -60,7 +60,7 @@
         <span>CUSTOM MARKUP {{ ::vm.testText }} </span>{{ ::row.id }}
       </akam-table-column>
       <akam-table-column row-property="email" header-name="examples.email"></akam-table-column>
-      <akam-table-column no-filter no-sort class="column-action" header-name="examples.actions">
+      <akam-table-column not-filterable not-sortable class="column-action" header-name="examples.actions">
           <akam-menu-button>
             <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked(row)"></akam-menu-button-item>
           </akam-menu-button>
@@ -77,7 +77,7 @@
 <div class="container">
   <h2>Empty row data</h2>
   <label>Change the no data message</label><input ng-model="vm.noData" placeholder="No data message"/>
-  <akam-table rows="vm.emptyRows" no-data-message="vm.noData" akam-standalone>
+  <akam-table items="vm.emptyRows" no-items-message="vm.noData" akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
     </akam-table-row>
@@ -87,7 +87,7 @@
 <div class="container">
   <h2>Rejected row data</h2>
 
-  <akam-table rows="vm.rejectedPromise" akam-standalone>
+  <akam-table items="vm.rejectedPromise" akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
     </akam-table-row>
@@ -96,7 +96,7 @@
 
 <div class="container">
   <h2>Disabling row selection and default sort of Last Name</h2>
-  <akam-table rows="vm.arrayData" akam-standalone>
+  <akam-table items="vm.arrayData" akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
       <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
@@ -108,7 +108,7 @@
 
 <div class="container">
   <h2>Basic Table (no filtering, no sorting, no pagination)</h2>
-  <akam-table rows="vm.arrayData" no-filter no-page no-sort akam-standalone>
+  <akam-table items="vm.arrayData" not-filterable not-pageable not-sortable akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
       <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
@@ -120,13 +120,13 @@
 
 <div class="container">
   <h2>Failure Table no akam-table-row defined</h2>
-  <akam-table rows="vm.arrayData" no-filter no-page no-sort akam-standalone>
+  <akam-table items="vm.arrayData" not-filterable not-pageable not-sortable akam-standalone>
   </akam-table>
 </div>
 
 <div class="container">
   <h2>Failure Table no akam-table-columns defined</h2>
-  <akam-table rows="vm.arrayData" no-filter no-page no-sort akam-standalone>
+  <akam-table items="vm.arrayData" not-filterable not-pageable not-sortable akam-standalone>
     <akam-table-row>
     </akam-table-row>
   </akam-table>
