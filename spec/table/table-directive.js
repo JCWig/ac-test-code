@@ -657,7 +657,7 @@ describe('akam-table', function() {
   });
   describe('when no pagination is requested', function(){
     beforeEach(function(){
-      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" no-paging>'+
+      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" not-pageable>'+
             '<akam-table-row>'+
             '<akam-table-column class="name" not-filterable row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+

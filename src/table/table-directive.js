@@ -62,7 +62,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       }
 
       // remove pagination if necessary
-      if (angular.isDefined(attributes.noPaging)) {
+      if (angular.isDefined(attributes.notPageable)) {
         tpl.find('akam-pagination').remove();
       }
 
@@ -368,7 +368,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       }
 
       if (!angular.isDefined(this.noItemsMessage)) {
-        translate.async('components.data-table.text.noItemsMessage')
+        translate.async('components.data-table.text.noDataMessage')
           .then(angular.bind(this, setTranslatedValue, 'noItemsMessage'));
       }
     }

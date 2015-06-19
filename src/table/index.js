@@ -49,7 +49,7 @@ module.exports = angular.module('akamai.components.table', [
  * @param {Array} [selected-items] Optional array of pre-selected rows. Will be two-way data bound
  * so only this or the `on-change` callback is necessary in order to have selectable rows.
  *
- * @param {*} [no-paging] The presence of this attribute will disable pagination. If it isn't set
+ * @param {*} [not-pageable] The presence of this attribute will disable pagination. If it isn't set
  * then pagination is assumed to be on.
  *
  * @param {*} [not-sortable] The presence of this attribute will disable sorting for the entire
