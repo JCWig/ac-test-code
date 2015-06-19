@@ -144,7 +144,7 @@ describe('akam-table', function() {
     });
     it('should render toolbar menu', function(){
       var akamToolbar = document.querySelector('akam-table-toolbar');
-      var icon = akamToolbar.querySelector('.luna-gear');
+      var icon = akamToolbar.querySelector('.luna-bar_chart');
       var dropdownMenu = akamToolbar.querySelector('ul.dropdown-menu');
       var dropMenuOption = dropdownMenu.querySelector('li');
       utilities.click(dropMenuOption);
