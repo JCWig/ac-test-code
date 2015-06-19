@@ -1,11 +1,12 @@
 'use strict';
 
 var angular = require('angular');
+var debounce = require('lodash/function/debounce');
 
 require('angular-sanitize');
 
 /* @ngInject */
-module.exports = function($compile, dropdownTransformer, translate) {
+module.exports = function($compile, dropdownTransformer, translate, $document, $timeout) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
     var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
@@ -50,7 +51,10 @@ module.exports = function($compile, dropdownTransformer, translate) {
 
     link: function(scope, elem, attrs, ngModel) {
       var selectedScope, selectedContentTemplate, selectedElem,
-        menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate;
+        menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate, windowElement,
+        inputClick;
+
+      var appendToBody = typeof attrs.appendToBody !== 'undefined';
 
       selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
       optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option-placeholder');
@@ -73,7 +77,6 @@ module.exports = function($compile, dropdownTransformer, translate) {
       scope.setSelectedItem = function(item) {
         ngModel.$setViewValue(item);
       };
-
       scope.clearSelectedItem = function($event) {
         $event.stopPropagation();
         ngModel.$setViewValue();
@@ -82,7 +85,17 @@ module.exports = function($compile, dropdownTransformer, translate) {
       scope.setOpen = function(isOpen) {
         scope.isOpen = isOpen;
       };
+      scope.setInputClick = function() {
+        inputClick = true;
+      };
+      function setAppendToBodyCoords() {
+        var menu = elem.children(0)[0];
 
+        menuElem.css({
+          left: menu.offsetLeft + 'px',
+          top: menu.offsetTop + menu.offsetHeight + 'px'
+        });
+      }
       if (typeof scope.placeholder !== 'string') {
         translate.async('components.dropdown.placeholder.noSelection')
           .then(function(value) {
@@ -100,7 +113,6 @@ module.exports = function($compile, dropdownTransformer, translate) {
       } else {
         setPlaceholder('filterPlaceholder', scope, menuScope, scope.filterPlaceholder);
       }
-
       scope.$watch(function() {
         return ngModel.$viewValue;
       }, function(modelValue) {
@@ -110,6 +122,7 @@ module.exports = function($compile, dropdownTransformer, translate) {
           selectedScope.selectedItem = modelValue;
         }
         scope.isOpen = false;
+
         if (typeof scope.onChange === 'function') {
           scope.onChange({item: modelValue});
         }
@@ -136,13 +149,36 @@ module.exports = function($compile, dropdownTransformer, translate) {
         menuScope.hasFilter = scope.hasFilter;
         menuScope.filterProperty = scope.filterProperty;
         menuScope.setOpen = scope.setOpen;
-
+        menuScope.reshow = scope.reshow;
         menuElem = $compile(menuTemplate)(menuScope);
       } else {
         menuElem = $compile(menuTemplate)(scope);
       }
-      elem.children(0).append(menuElem);
-
+      if (appendToBody) {
+        $timeout(function() {
+          menuElem.addClass('append-body');
+          menuElem.css({
+            display: 'none',
+            width: elem.children(0)[0].offsetWidth + 'px'
+          });
+          setAppendToBodyCoords();
+          angular.element($document.find('body')).append(menuElem);
+          windowElement = angular.element(window);
+          windowElement.on('resize', debounce(setAppendToBodyCoords, 200));
+          elem.on('$destroy', function() {
+            windowElement.off('resize');
+          });
+          scope.$watch('isOpen', function(isOpen) {
+            menuElem.css({display: isOpen ? 'block' : 'none'});
+            if (inputClick) {
+              scope.isOpen = true;
+              inputClick = false;
+            }
+          });
+        }, 0);
+      } else {
+        elem.children(0).append(menuElem);
+      }
     }
   };
 };

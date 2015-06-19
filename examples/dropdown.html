@@ -17,23 +17,22 @@
             display: inline-block;
             width: 180px;
         }
+
+        body.hide-overflow {
+            overflow: hidden;
+        }
     </style>
 </head>
 
-<body class="common-css luna" ng-app="dropdownApp" ng-strict-di ng-controller="DropdownAppController as vm">
+<body class="common-css luna" ng-app="dropdownApp"ng-strict-di ng-controller="DropdownAppController as vm">
 
     <h1>Dropdown Component Example</h1>
 
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex1.selectedState" dropdown-append-to-body  items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
         </span>
-    </div>
-    <br/>
-
-    <div>
-        <h2>Default dropdown with a list of objects and custom markup, not clearable</h2>
         <span>
             <akam-dropdown ng-model="vm.ex2.selectedState" text-property="name"
                            items="vm.stateObjects" clearable on-change="vm.doChange(item)">
@@ -97,6 +96,39 @@
                 </akam-dropdown-option>
             </akam-dropdown>
         </span>
+
+    </div>
+    <div>
+     <h2>Default dropdown with a list of strings appended to body</h2>
+        <span class="hide-overflow">
+            <akam-dropdown ng-model="vm.ex6.selectedState" append-to-body items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+        </span>
+    </div>
+    <br/>
+    <div>
+        <h2>Dropdown with a list of objects, a filter and custom markup, not clearable append to body</h2>
+        <span class="hide-overflow">
+            <akam-dropdown append-to-body ng-model="vm.ex7.selectedState" text-property="name"
+                           items="vm.stateObjects" filterable="name">
+
+                <akam-dropdown-selected>
+                    <span class="selected-option util-ellipsis">
+                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
+                            custom: {{selectedItem[textProperty]}}
+                        </span>
+                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
+                    </span>
+
+                </akam-dropdown-selected>
+
+                <akam-dropdown-option>
+                    <span title="{{item[textProperty]}}">custom:
+                        <span ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                    </span>
+                </akam-dropdown-option>
+            </akam-dropdown>
+        </span>
+
     </div>
     <br/>
 
@@ -143,6 +175,8 @@
             vm.ex3 = { selectedState: 'Vermont' };
             vm.ex4 = { selectedState: {name: 'Colorado'} };
             vm.ex5 = { selectedState: undefined };
+            vm.ex6 = { selectedState: undefined };
+            vm.ex7 = { selectedState: undefined };
 
             vm.doChange = function(item) {
                 $log.log('selected item changed', item);
