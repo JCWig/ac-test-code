@@ -53,46 +53,11 @@
             var vm = this;
             var wizardScope = $rootScope.$new();
 
-            $log.log('WizardAppController is initialized');
-            $log.log('$modal is', $modal);
-
 
             WizardController.$inject = ['$scope', '$log'];
             function WizardController($scope, $log) {
-
-                $scope.validate = function(stepIndex) {
-                    switch(stepIndex) {
-                        case 0:
-                            validateStep1();
-                            break;
-                        case 1:
-                            validateStep2();
-                            break;
-                        case 2:
-                            validateStep3();
-                            break;
-                        case 3:
-                            validateStep4();
-                            break;
-                        default:
-                            break;
-
-                    }
-                };
-
-                function validateStep1() {
-                    $log.log('Step 1 validated');
-                }
-                function validateStep2() {
-                    $log.log('Step 2 validated');
-                }
-                function validateStep3() {
-                    $log.log('Step 3 validated');
-                }
-                function validateStep4() {
-                    $log.log('Step 4 validated');
-                }
-
+                $log.log('instantiated WizardController');
+                $scope.fishsticks = 'indeed';
 
             };
 
