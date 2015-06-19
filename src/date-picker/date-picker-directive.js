@@ -23,12 +23,15 @@ module.exports = function($filter, translate) {
     template: require('./templates/date-picker.tpl.html'),
     link: {
       pre: function(scope) {
+        var format;
+
         scope.opened = false;
         scope.mode = scope.mode in PICKER_TYPES ?
           scope.mode : PICKER_TYPES.day;
 
         if (scope.mode === PICKER_TYPES.day) {
-          scope.format = scope.format || 'EEE, MMM dd, yyyy';
+          format = scope.format || 'EEE, MMM dd, yyyy';
+          scope.newFormat = format;
           if (!scope.placeholder) {
             translate.async('components.date-picker.placeholder.date').then(function(value) {
               scope.placeholder = value;
@@ -42,7 +45,8 @@ module.exports = function($filter, translate) {
             maxMode: 'day'
           };
         } else {
-          scope.format = scope.format || 'MMM yyyy';
+          format = scope.format || 'MMM yyyy';
+          scope.newFormat = format;
           if (!scope.placeholder) {
             translate.async('components.date-picker.placeholder.month').then(function(value) {
               scope.placeholder = value;

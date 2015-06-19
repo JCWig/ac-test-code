@@ -27,8 +27,8 @@ function ExampleController($http, $q, $log) {
     $log.log(selectedRows);
   };
 
-  this.rowsChanged = function(rows) {
-    $log.log(rows);
+  this.rowsChanged = function(items) {
+    $log.log(items);
   };
 
   // custom bound markup to appear in a row template

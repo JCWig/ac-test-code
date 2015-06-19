@@ -38,7 +38,7 @@ describe('akamai.components.switch-button', function() {
 
   describe('when rendering the default switch', function() {
     var ON_CLASS = 'switch-button-on', OFF_CLASS = 'switch-button-off';
-    var basicTemplate = '<akam-switch-button ng-model="val"></akam-switch-button>';
+    var basicTemplate = '<akam-switch-button ng-model="val" disabled="false"></akam-switch-button>';
 
     it('should render correctly without customization', function() {
       var elementScope, onLabelElem, offLabelElem;

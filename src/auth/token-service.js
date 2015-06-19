@@ -49,7 +49,7 @@ module.exports = function(httpBuffer, $injector, $window, authConfig) {
       return pendingRequest;
     },
     logout: function() {
-      $window.location.href = authConfig.lunaLogoutUrl;
+      $window.location.replace( authConfig.lunaLogoutUrl );
     }
   };
 

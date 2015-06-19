@@ -25,15 +25,15 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
     var haveParentsFlag, currentGetter, childrenGetter, parentGetter,
         inputParents, inputChildren, inputCurrent;
 
-    this.rootProperty = this.rootProperty || 'root';
-    this.parentProperty = this.parentProperty || 'parent';
-    this.currentProperty = this.currentProperty || 'current';
-    this.childrenProperty = this.childrenProperty || 'children';
-    this.textProperty = this.textProperty || 'title';
+    var rootProperty = this.rootProperty || 'root';
+    var parentProperty = this.parentProperty || 'parent';
+    var currentProperty = this.currentProperty || 'current';
+    var childrenProperty = this.childrenProperty || 'children';
+    var textProperty = this.textProperty || 'title';
 
-    currentGetter = $parse(this.currentProperty);
-    childrenGetter = $parse(this.childrenProperty);
-    parentGetter = $parse(this.parentProperty);
+    currentGetter = $parse(currentProperty);
+    childrenGetter = $parse(childrenProperty);
+    parentGetter = $parse(parentProperty);
 
     this.loading = true;
     this.items = this.items;
@@ -94,7 +94,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
 
           if (!self.current) {
             inputCurrent = currentGetter(data);
-            self.current = self.convertData(inputCurrent, self.currentProperty, data)[0] || {};
+            self.current = self.convertData(inputCurrent, currentProperty, data)[0] || {};
           }
           self.retrieveAndHandleNewChildrenAndParents(data);
         }).catch(function() {
@@ -112,7 +112,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
 
       if (!haveParentsFlag) {
         inputParents = parentGetter(data);
-        this.maintainParentTree(this.convertData(inputParents, this.parentProperty, data));
+        this.maintainParentTree(this.convertData(inputParents, parentProperty, data));
         if (inputParents && !angular.isArray(inputParents)) {
           value = inputParents;
           inputParents = [value];
@@ -124,7 +124,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
       }
 
       if (inputChildren) {
-        this.children = this.convertData(inputChildren, this.childrenProperty, data);
+        this.children = this.convertData(inputChildren, childrenProperty, data);
       } else {
         this.children = [];
       }
@@ -139,14 +139,14 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         converted = [];
         for (i = 0; i < data.length; i++) {
           converted.push({
-            title: $parse(prop + '[' + i + '].' + this.textProperty)(convertFrom),
-            root: $parse(prop + '[' + i + '].' + this.rootProperty)(convertFrom)
+            title: $parse(prop + '[' + i + '].' + textProperty)(convertFrom),
+            root: $parse(prop + '[' + i + '].' + rootProperty)(convertFrom)
           });
         }
         return converted;
       } else if (data) {
-        return [{title: $parse(prop + '.' + this.textProperty)(convertFrom),
-          root: $parse(prop + '.' + this.rootProperty)(convertFrom)}];
+        return [{title: $parse(prop + '.' + textProperty)(convertFrom),
+          root: $parse(prop + '.' + rootProperty)(convertFrom)}];
       } else {
         return [];
       }

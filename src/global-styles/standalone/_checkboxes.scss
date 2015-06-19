@@ -1,24 +1,4 @@
-/* Checkboxes
 
-Checkboxes provide a simple interface for users to set a binary option. 
-Use them singly for simple binary choices or in groups for related options 
-where users may select more than one option.
-
-Markup:
-<input type="checkbox" id="checkbox" class="fee {$modifiers}" value="input[type='checkbox']"/>
-<label for="checkbox">Unchecked Label</label>
-<br/>
-<input type="checkbox" id="checkedbox" class="fee {$modifiers}" value="input[type='checkbox']" checked="checked" />
-<label for="checkedbox">Checked Label</label>
-
-:focus - A focused checkbox.
-:hover - A hovered checkbox.
-:active - An active checkbox.
-:disabled - A disabled checkbox.
-
-Styleguide 4.2
-
-*/
 input[type="checkbox"] {
   // Remove the input from the document flow and hide it
   position: absolute;

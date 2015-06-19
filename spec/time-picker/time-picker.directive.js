@@ -18,7 +18,7 @@ var timepikerConfig = {
 };
 
 var defaultScopeTime = new Date();
-var defaultMarkup = '<akam-time-picker input-time="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+var defaultMarkup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
 
 describe('akamTimepicker directive', function() {
 
@@ -98,7 +98,7 @@ describe('akamTimepicker directive', function() {
       expect(timepickerInputElem.getAttribute('placeholder')).not.toBe(undefined);
       expect(timepickerInputElem.getAttribute('time-formatter')).not.toBe(undefined);
       expect(timepickerInputElem.getAttribute('show-meridian')).not.toBe(undefined);
-      expect(timepickerInputElem.getAttribute('input-time')).not.toBe(undefined);
+      expect(timepickerInputElem.getAttribute('ng-model')).not.toBe(undefined);
     });
 
     it("should hide the dropdown menu timepicker", function() {
@@ -134,7 +134,7 @@ describe('akamTimepicker directive', function() {
     it('should render time without meridian in the value display', function() {
       scope.inputTime = defaultScopeTime;
       scope.showMeridian = false;
-      var markup = '<akam-time-picker input-time="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+      var markup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
       addElement(markup);
 
       var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
@@ -145,7 +145,7 @@ describe('akamTimepicker directive', function() {
     it('should render time in disabled state', function() {
       scope.inputTime = defaultScopeTime;
       scope.disabled = true;
-      var markup = '<akam-time-picker input-time="inputTime" disabled="disabled"></akam-time-picker>';
+      var markup = '<akam-time-picker ng-model="inputTime" disabled="disabled"></akam-time-picker>';
       addElement(markup);
 
       var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
@@ -303,7 +303,7 @@ describe('akamTimepicker directive', function() {
     it("should not display meridian button when showMeridian vlaue is false", function() {
       scope.inputTime = defaultScopeTime;
       scope.showMeridian = false;
-      var markup = '<akam-time-picker input-time="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+      var markup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
       addElement(markup);
 
       var timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
@@ -338,7 +338,7 @@ describe('akamTimepicker directive', function() {
       date.setHours("12", "20");
       scope.inputTime = date;
       scope.disabled = true;
-      var markup = '<akam-time-picker input-time="inputTime" disabled="disabled"></akam-time-picker>';
+      var markup = '<akam-time-picker ng-model="inputTime" disabled="disabled"></akam-time-picker>';
       addElement(markup);
 
       expect(controller.inputTime.getHours()).toBe(12);
@@ -350,7 +350,7 @@ describe('akamTimepicker directive', function() {
     it("should isDisabled function call with correct value", function() {
       scope.inputTime = defaultScopeTime;
       scope.disabledd = false;
-      var markup = '<akam-time-picker input-time="inputTime" disabled="disabledd"></akam-time-picker>';
+      var markup = '<akam-time-picker ng-model="inputTime" disabled="disabledd"></akam-time-picker>';
       addElement(markup);
 
       expect(controller.isDisabled()).toBeFalsy();
