@@ -45,7 +45,7 @@
 
     <div>
         <h2>Grayscale: medium</h2>
-        <akam-switch-button ng-model="vm.ex5.on" theme="grayscale" size="medium"></akam-switch-button>
+        <akam-switch-button ng-model="vm.ex5.on" theme="grayscale" size="medium" disabled="{{vm.hello}}"></akam-switch-button>
     </div>
     <br/>
 
@@ -54,6 +54,10 @@
         <akam-switch-button ng-model="vm.ex6.on" disabled="true"></akam-switch-button>
     </div>
 
+    <div>
+        <h2>Disabled2</h2>
+        <button ng-click="vm.switchHello()"></button>
+    </div>
     <script src="../dist/akamai-core.js"></script>
 
     <script>
@@ -71,10 +75,14 @@
             vm.ex4 = { on: false };
             vm.ex5 = { on: true };
             vm.ex6 = { on: false };
+            vm.hello = false;
+            vm.switchHello = function () {
+                vm.hello = !vm.hello;
+            }
         }
-
-        configFunction.$inject = ['i18nTokenProvider'];
-        function configFunction (i18nTokenProvider) {
+        configFunction.$inject = ['i18nTokenProvider']; 
+        function configFunction (i18nTokenProvider, $scope) {
+            
             // need to overwrite locales path on fee.akamai.com
             if(window.location.host == 'fee.akamai.com') {
                 i18nTokenProvider.setComponentLocalePath("../dist/locales/");

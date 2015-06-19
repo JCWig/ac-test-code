@@ -32,39 +32,46 @@ module.exports = angular.module('akamai.components.table', [
  * @description Creates a data table control.
  * @restrict E
  *
- * @param {Object[]} rows Required data model for the table.
+ * @param {Object[]} items Required data model for the table.
  *
  * @param {String} [id-property='id'] Attribute to use as an ID for the row. This will be used
  * to keep track of selected items, as well as used as the `track by` clause in our ng-repeat.
  * The ID must be unique per row.
  *
- * @param {Function} [on-change] Optional callback that will be called whenever an item is selected.
+ * @param {Function} [on-select] Optional callback that will be called whenever an item is selected.
  * Passes in the entire array of selected items.
  *
- * @param {Function} [on-rows-change] Optional callback that will be called whenever the list of
+ * @param {Function} [on-change] Optional callback that will be called whenever the list of
  * visible rows changes. Passes in the array of rows. This is especially useful if a user needs
  * to make a second, more expensive, AJAX request in order to fetch some more data about the list
  * of visible rows.
  *
- * @param {Array} [selected-rows] Optional array of pre-selected rows. Will be two-way data bound so
- * only this or the `on-change` callback is necessary in order to have selectable rows.
+ * @param {Array} [selected-items] Optional array of pre-selected rows. Will be two-way data bound
+ * so only this or the `on-change` callback is necessary in order to have selectable rows.
  *
- * @param {*} [no-page] The presence of this attribute will disable pagination. If it isn't set
+ * @param {*} [not-pageable] The presence of this attribute will disable pagination. If it isn't set
  * then pagination is assumed to be on.
  *
- * @param {*} [no-sort] The presence of this attribute will disable sorting for the entire table.
- * Can also be set on an individual `akam-table-column` to disable sorting for just that column.
+ * @param {*} [not-sortable] The presence of this attribute will disable sorting for the entire
+ * table. Can also be set on an individual `akam-table-column` to disable sorting for just that
+ * column.
  *
- * @param {*} [no-filter] The presence of this attribute will disable filtering for the entire
+ * @param {*} [not-filterable] The presence of this attribute will disable filtering for the entire
  * table. Can also be set on an individual `akam-table-column` to disable filtering for just that
  * column. If this is set on the entire table, it will have the effect of hiding the filter
  * input box.
  *
+ * @param {String} [no-items-message] Optional string which is the message that will be displayed
+ * when there is no data to display
+ *
+ * @param {String} [no-filter-results-message] Optional string which is the message that will be
+ * displayed when there is no data displayed based upon some filter
+ *
  * @example
- *  <akam-table rows="rows"
+ *  <akam-table items="rows"
  *    id-property="custom-id-field"
  *    on-change="myRowSelectionCallback(selectedItems)"
- *    selected-rows="selectedItems">
+ *    selected-items="selectedItems">
  *    <akam-table-toolbar>
  *      <span>Custom toolbar markup here</span>
  *      <i class="my-awesome-icon"></i>
@@ -73,7 +80,7 @@ module.exports = angular.module('akamai.components.table', [
  *      <akam-table-column row-property="id" header-name="my.id">
  *        <span>CUSTOM MARKUP</span>{{ row.id }}
  *      </akam-table-column>
- *      <akam-table-column row-property="name" no-filter no-sort header-name="my.name">
+ *      <akam-table-column row-property="name" not-filterable not-sortable header-name="my.name">
  *        {{ row.name }} is awesome
  *      </akam-table-column>
  *      <akam-table-column row-property="street" header-name="my.street"></akam-table-column>
