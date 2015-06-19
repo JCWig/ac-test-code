@@ -1,35 +1,3 @@
-/* Determinate Progress Bars
-
-Determinate progress indicators show measurable progress toward an end state. A progress value falls along a range between 0 and a designated maximum, which defaults to 1.
-
-Markup:
-<div class="determinate-progress {$modifiers}">
-    <progress value="50" max="100"></progress>
-    <label title="X%">X%</label>
-</div>
-<div class="determinate-progress {$modifiers}">
-    <progress value="100" max="100"></progress>
-    <label class="progress-label" title="X%">X%</label>
-</div>
-<div class="common-css pulsar"><!-- this div is here to support the component in the styleguide -->
-    <div class="determinate-progress {$modifiers}">
-        <progress value="50" max="100"></progress>
-        <label title="X%">X%</label>
-    </div>
-    <div class="determinate-progress {$modifiers}">
-        <progress value="100" max="100"></progress>
-        <label class="progress-label" title="X%">X%</label>
-    </div>
-</div>
-
-.started - Progress has started.
-.completed - Progress has completed.
-.failed - Progress has failed.
-.animated - Progress is animated.
-
-Styleguide 5.1
-
-*/
 
 $progress-bar-wrapper-width: 66%;
 $progress-bar-width: 100%;

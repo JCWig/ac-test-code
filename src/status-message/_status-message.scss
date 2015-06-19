@@ -1,28 +1,4 @@
-/* Status Messages
 
-Status messages show users important information such as success messages, errors, warnings and informative text. The default state is success. 
-
-Markup:
-<div style="position: relative; width: 100%; height: 100px;"><!-- this div is here to support the component in the styleguide -->
-    <ul class="akam-status-message-wrapper" style="position: absolute">
-        <li class="akam-status-message-item-wrapper {$modifiers}" ng-class="{'util-transparent' : closing}">
-            <div class="akam-status-message-item">
-                <i class="close"></i>
-                <div class="status-message-content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                </div>
-            </div>
-        </li>
-    </ul>
-</div>
-
-.information - A status message in its informative state
-.warning - A status message in its warning state
-.error - A status message in its error state
-
-Styleguide 5.3
-
-*/
 
 $status-message-color: #fff;
 $status-message-font-size: 12px;

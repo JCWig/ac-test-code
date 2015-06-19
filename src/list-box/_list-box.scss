@@ -1,0 +1,234 @@
+
+$listbox__border: $base__border-style $base__border-width $colors__gray6;
+
+$listbox__tr-background--even: $colors__gray10;
+$listbox__tr-background--odd: $colors__white;
+$listbox__tr-background--hover: $colors__blue3;
+$listbox__tr-background--selected: $colors__blue2;
+$listbox__tr-height: 30px;
+
+$listbox__th-background: linear-gradient($colors__white, $colors__gray10);
+$listbox__th-background--hover: linear-gradient($colors__gray7, $colors__gray9);
+$listbox__th-height: $listbox__tr-height + $base__border-width;
+
+$listbox__td-border: $base__border-style $base__border-width $colors__gray8;
+
+$listbox__filter-icon-width: luna-sprite-width(close);
+$listbox__filter-icon-margin-left: -($listbox__filter-icon-width + 6px);
+$listbox__filter-padding-right: $listbox__filter-icon-width + 8px;
+
+$listbox__tbody-height: (($listbox__tr-height + ($base__border-width)) * 8);
+
+$listbox__footer-height: 28px;
+
+
+
+.akam-list-box {
+  font-size: $body-font-size;
+  color: $body-font-color;
+  background: #fff;
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 0;
+  }
+  
+  th {
+    text-align: left;
+    border-bottom: $listbox__border;
+    @include background-image($listbox__th-background);
+    
+    & + th {
+      border-left: $listbox__border;
+    }
+    
+    &.column-sortable {
+      @extend .util-clickable;
+      padding-right: 20px;
+    }
+    
+    &.column-sortable:hover,
+    &.column-sorted {
+      position: relative;
+      @include background-image($listbox__th-background--hover);
+  
+      i {
+        @extend .luna-arrow-up;
+        position: absolute;
+        right: 9px;
+        top: 38%;
+      }
+  
+      &.desc i {
+        @extend .luna-arrow-down;
+      }
+    }
+  }
+  
+  tbody {
+    tr:nth-child(even) {
+      background-color: $listbox__tr-background--even;
+    }
+    
+    tr:nth-child(odd) {
+      background-color: $listbox__tr-background--odd;
+    }
+    
+    tr:hover {
+      background-color: $listbox__tr-background--hover;
+      
+      td.column-action > * {
+        visibility: visible;
+      }
+    }
+    
+    tr.row-selected {
+      background-color: $listbox__tr-background--selected;
+    }
+    
+    tr:first-child td {
+      border-top: none;
+    }
+    
+    td {
+      border-width: 0;
+      border-top: $listbox__td-border;
+    }
+  }
+  
+  td {
+    &.column-action {
+      overflow: visible;
+      
+      & > * {
+        visibility: hidden;
+      }
+    }
+    
+    span.highlighted {
+      color: #0099cc;
+    }
+  }
+  
+  th, td {
+    @include ellipsis();
+    white-space: nowrap;
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 31px;
+    line-height: 31px;
+  }
+
+  .column-checkbox {
+    width: 30px;
+  }
+
+  .column-action {
+    width: 80px;
+    text-align: center;
+  }
+  
+  .dropdown {
+    i + .dropdown-menu {
+      margin-top: 3px;
+    }
+  }
+
+  .empty-table-message {
+    position: absolute;
+    padding: 10px 10px 10px 36px;
+    top: $listbox__th-height;
+    left: 0;
+    right: 0;
+
+    &.ng-inactive {
+      display: none;
+    }
+
+    i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      margin-top: -8px;
+    }
+  }
+  
+  .list-box-data {
+    overflow-y: auto;
+    height: 298px;
+    border-top: $listbox__border;
+    border-bottom: $listbox__border;
+    position: relative; // Addresses a scrollbar issue in Firefox 36.0.4
+  }
+  
+  .fixed-table-container-inner {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+    max-height: $listbox__tbody-height; //Note that this should be reset by a user to whatever the more appropriate value is
+    min-height: $listbox__tbody-height;
+
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px;
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, .5);
+      -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+      border-right: 1px solid white;
+    }
+    
+    // Addresses an issue in firefox trying to calculate the correct height
+    @include for("Firefox") {
+      max-height: calc(#{$listbox__tbody-height - 8}); 
+      min-height: calc(#{$listbox__tbody-height - 8}); 
+    }
+  }
+  
+  .list-box-footer {
+    height: $listbox__footer-height;
+    line-height: $listbox__footer-height;
+    padding: 0px 10px;
+    label {
+      font-weight: normal;
+      font-size: 12px;
+
+      &:before {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .filter,
+  .toolbar {
+    height: 36px;
+    padding: 4px;
+
+    input {
+      width: 100%;
+      max-width: 298px;
+      padding-right: $listbox__filter-padding-right;
+    }
+
+    input + i {
+      vertical-align: middle;
+      margin-left: $listbox__filter-icon-margin-left;
+    }
+  }
+
+  .data {
+    position: relative;
+    border-top: $listbox__border;
+    border-bottom: $listbox__border;
+  }
+}
+
+
+
+
+

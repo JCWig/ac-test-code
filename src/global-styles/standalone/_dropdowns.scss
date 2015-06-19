@@ -1,33 +1,7 @@
-/* Dropdown Menu Buttons
-
-Menu buttons with an open dropdown.
-
-Markup:
-<div style="height: 200px; display: block; text-align: center;">
-    <div class="btn-group open">
-        <button class="btn">Button Element</button>
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <i class="caret"></i>
-        </button>
-        <ul class="dropdown-menu {$modifiers}" role="menu">
-            <li><a href>List Item</a></li>
-            <li class="active"><a href>Active Item</a></li>
-            <li><a href>Lorem ipsum dolor sit amet, consectetur adipisicing elit</a></li>
-            <li class="disabled"><a href>Disabled Item</a></li>
-            <li><a href>Another List Item</a></li>
-        </ul>
-    </div>
-</div>
-
-.dropdown-menu-right - Right-aligned dropdown
-.dropdown-menu-left - Left-aligned dropdown
-
-Styleguide 4.8
-
-*/
 
 $dropdown-fixed-header-padding: 10px;
 $dropdown-max-items: 8;
+
 
 .dropdown {
   display: inline-block;
@@ -45,7 +19,12 @@ $dropdown-max-items: 8;
     cursor: pointer;
     vertical-align: middle;
   }
+  
+  &.open > i.luna-gear {
+    @extend .luna-gear:hover;
+  }
 }
+
 
 .dropdown-menu {
   padding: 0;
@@ -74,6 +53,7 @@ $dropdown-max-items: 8;
     padding: $dropdown-fixed-header-padding;
   }
 }
+
 
 div.dropdown-menu {
   max-height: #{($dropdown-item-line-height * ($dropdown-max-items - 1)) + ($dropdown-fixed-header-padding * 2) + ($input-height) + 2};
