@@ -17,7 +17,6 @@ module.exports = angular.module('akamai.components.list-box', [
   require('../uuid').name,
   require('../indeterminate-progress').name,
   require('../i18n').name,
-  require('../highlight').name,
   require('../utils').name
 ])
 
