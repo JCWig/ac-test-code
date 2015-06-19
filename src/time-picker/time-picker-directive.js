@@ -68,10 +68,14 @@ module.exports = function($document, $parse) {
     });
 
     ctrl.changed = function() {
-      ngModel.$setViewValue(ctrl.inputTime);
-      ngModel.$setDirty();
-      ngModel.$setValidity('time',
-        !(angular.isUndefined(ctrl.inputTime) || ctrl.inputTime === null));
+      var inputVal = element.find('input').val();
+
+      if (!angular.isDate(inputVal)) {
+        inputVal = undefined;
+      }
+
+      ngModel.$setViewValue(inputVal);
+      ngModel.$setValidity('time', !angular.isUndefined(inputVal));
     };
 
     ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';

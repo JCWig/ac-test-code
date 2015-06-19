@@ -53,6 +53,7 @@ $timepicker-input-disabled-color: #cccccc;
     margin-top: 1px;
     padding: $dropdown-menu-padding;
     min-width: 0;
+    overflow-x: inherit; //override value "auto" for fixing IE10 not getting focus on inputs
     input[type='text'] {
       box-shadow: none;
       padding: 0;
