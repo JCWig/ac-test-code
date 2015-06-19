@@ -24,6 +24,21 @@ describe('akamai.components.tree-view', function() {
       http = $http;
       httpBackend = $httpBackend;
     });
+    scope.contextDataCustom = {
+      parents: {titles: "Justice League", roots:'true'},
+      currents: {titles: "Bruce Wayne"},
+      childs: [
+        {titles: "Dick Grayson"},
+        {titles: "Jason Todd"},
+        {titles: "Tim Drake"},
+        {titles: "Barbara Gordon"},
+        {titles: "Damian Wayne"},
+        {titles: "Terry McGinnis"},
+        {titles: "Alfred Pennyworth"},
+        {titles: "Talia Al Ghul"}
+      ]
+    };
+
     scope.contextData = {
       parent: {title: "Justice League"},
       current: {title: "Bruce Wayne"},
@@ -178,6 +193,33 @@ describe('akamai.components.tree-view', function() {
       var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
       expect(parentSelectorRows.length).toEqual(1);
       expect(parentSelectorRows[0].querySelector('span').textContent).toContain('Justice League');
+      expect(parentSelector.classList.contains('in')).toBe(true);
+    });
+    it('should render with custom lookup content', function() {
+      var markup = '<div style="max-width:150px"><akam-tree-view items="contextDataCustom" on-change="triggerChange(item)" '+
+          'parent-property="parents" children-property="childs" root-property="roots" current-property="currents" '+
+          'text-property="titles"> </akam-tree-view>';
+      addElement(markup);
+      var treeContents = document.querySelectorAll(CHILD_CONTENTS);
+      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
+      var currentContextIcon = document.querySelector(PARENT_ICON);
+
+      expect(treeContents.length).toEqual(8);
+      expect(treeContents[0].textContent).toContain('Dick Grayson');
+      expect(currentContext.textContent).toContain('Bruce Wayne');
+      expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
+
+      var parentSelector = document.querySelector(PARENT_SELECTOR);
+      var currentContextIcon = document.querySelector(PARENT_ICON);
+      expect(parentSelector.classList.contains('in')).toBe(false);
+      utilities.click(currentContextIcon);
+      scope.$digest();
+
+      parentSelector = document.querySelector(PARENT_SELECTOR);
+      var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
+      expect(parentSelectorRows.length).toEqual(1);
+      expect(parentSelectorRows[0].querySelector('span').textContent).toContain('Justice League');
+      expect(parentSelectorRows[0].querySelector('i').classList).toContain('luna-home');
       expect(parentSelector.classList.contains('in')).toBe(true);
     });
   });
