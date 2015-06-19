@@ -80,10 +80,18 @@
                 
                 $scope.triggerChangeJSON = function(clickedObj){
                     $log.log("Clicked title " + clickedObj.title);
+                    $scope.jsonFromHttpGet = {
+                        // return null since there are no children
+                        children: null
+                    };
                 };
                 
                 $scope.triggerChangeJSONSmall = function(clickedObj){
                     $log.log("Clicked name " + clickedObj.name);
+                    $scope.jsonFromHttpGetSmall = {
+                        // return null since there are no children
+                        name: null
+                    };
                 };
                 
                 $scope.triggerChange = function(clickedObj){
