@@ -85,7 +85,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       scope.setOpen = function(isOpen) {
         scope.isOpen = isOpen;
       };
-      scope.setInputClick = function() {
+      scope.setInputAsClicked = function() {
         inputClick = true;
       };
       function setAppendToBodyCoords() {
@@ -149,7 +149,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         menuScope.hasFilter = scope.hasFilter;
         menuScope.filterProperty = scope.filterProperty;
         menuScope.setOpen = scope.setOpen;
-        menuScope.reshow = scope.reshow;
+        menuScope.setInputAsClicked = scope.setInputAsClicked;
         menuElem = $compile(menuTemplate)(menuScope);
       } else {
         menuElem = $compile(menuTemplate)(scope);
