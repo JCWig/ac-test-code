@@ -1,14 +1,21 @@
 <div class="modal-header">
-    <h3 class="modal-title">Wizard Title - {{steps[stepIndex].name}}</h3>
+    <h3 class="modal-title">Wizard Title - {{ ::title }}</h3>
 </div>
 
 <akam-wizard-content></akam-wizard-content>
 
 <div class="modal-footer">
-    <button type="button" class="button large" ng-click="previousStep()">
-        Previous
+    <button type="button" class="button large" ng-click="previousStep()" ng-disabled="stepIndex == 0">
+        {{ ::previousLabel }}
     </button>
-    <button type="button" class="button large primary" ng-click="nextStep()" ng-disabled="!isValid()">
-        Next
-    </button>
+
+    <span ng-switch on="stepIndex == steps.length - 1">
+        <button ng-switch-when="true" type="button" class="button large primary" ng-click="submit()" ng-disabled="!isValid()">
+            {{ ::submitLabel }}
+        </button>
+
+        <button ng-switch-default type="button" class="button large primary" ng-click="nextStep()" ng-disabled="!isValid()">
+            {{ ::nextLabel }}
+        </button>
+    </span>
 </div>
