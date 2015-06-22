@@ -1,38 +1,3 @@
-/* Indeterminate Progress Bars
-
-The indeterminate progress indicator displays a looping animation that indicates an operation that has no estimated completion time is in progress. The animation continues for the duration of the operation
-
-Markup:
-<div class="indeterminate-progress">
-    <div class="indeterminate-progress-wrapper {$modifiers}">
-        <div class="indeterminate-progress-spinner"><span></span></div>
-        <div class="indeterminate-progress-label">Loading</div>
-    </div>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-</div>
-<div class="common-css pulsar"><!-- this div is here to support the component in the styleguide -->
-    <div class="indeterminate-progress">
-        <div class="indeterminate-progress-wrapper {$modifiers}">
-            <div class="indeterminate-progress-spinner"><span></span></div>
-            <div class="indeterminate-progress-label">Loading</div>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-    </div>
-</div>
-
-.large - A large spinner
-.small - A small spinner
-.failed - Progress has failed.
-.failed.large - Progress has failed (large).
-.failed.small - Progress has failed (small).
-
-Styleguide 5.2
-
-*/
 
 $progress-label-color: #666666;
 $progress-label-font-size: 12px;

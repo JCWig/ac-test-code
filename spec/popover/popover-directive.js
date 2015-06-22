@@ -280,7 +280,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span style="margin-right: ' + (midPoint + 5) + 'px" id="trigger-element" class="pull-right" akam-popover position="bottom"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
       timeout.flush();
 
@@ -293,7 +293,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span style="margin-right: ' + (midPoint + 5) + 'px" id="trigger-element" class="pull-right" akam-popover position="top"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
       timeout.flush();
 
@@ -307,7 +307,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover position="nothing"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
 
       var popover = document.querySelector(POPOVER);
@@ -318,7 +318,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
 
       var popover = document.querySelector(POPOVER);
@@ -331,7 +331,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover position="nothing"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
 
       var popover = document.querySelector(POPOVER);
@@ -342,7 +342,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
 
       var popover = document.querySelector(POPOVER);
@@ -354,7 +354,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
       timeout.flush();
 
@@ -374,7 +374,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
       timeout.flush();
 
@@ -395,7 +395,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
       timeout.flush();
 
@@ -417,7 +417,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
       timeout.flush();
 
@@ -440,7 +440,7 @@ describe('akamai.components.popover', function() {
       var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
         'popover-content="tool tip content" trigger="hover"' +
         'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="butttton"></button>';
+        '</span><button id="button"></button>';
       addElement(markup);
       timeout.flush();
 

@@ -1,25 +1,3 @@
-/* Input Fields
-
-Text fields accept relatively unconstrained string data.
-
-Markup:
-<div class="label-group {$modifiers}">
-    <label for="input">Label</label>
-    <input type="text" id="input" class="{$modifiers}" placeholder="Placeholder">
-</div>
-
-:focus - A focused input
-:disabled - A disabled input
-.required - A required input
-.required:focus - A required, focused input
-.required:disabled - A required, disabled input
-.unadjacent - Unadjacent label and input
-.unadjacent:focus - Unadjacent label and input
-.unadjacent:disabled - Unadjacent label and input
-
-Styleguide 4.4
-
-*/
 
 input[type="text"],
 input[type="search"],
@@ -62,27 +40,6 @@ textarea {
   }
 }
 
-/* Search Inputs
-
-A search box provides secondary navigation for users, and allows them to find specific information.
-Note: Applying this style will turn off browser default settings.
-
-Markup:
-<div class="label-group {$modifiers}">
-    <label for="searchInput">Label</label>
-    <input type="search" class="{$modifiers}" id="searchInput" placeholder="Placeholder">
-    <button class="button"><i class="luna-search"></i></button>
-</div>
-
-:focus - A focused search input.
-:disabled - A disabled search input.
-.unadjacent - Unadjacent label and input
-.unadjacent:focus - Unadjacent label and input
-.unadjacent:disabled - Unadjacent label and input
-
-Styleguide 4.5
-
-*/
 
 input[type="search"] {
   &::-webkit-search-decoration,
@@ -132,28 +89,7 @@ input[type="month"] {
   }
 }
 
-/* Textareas
 
-Text areas support data that spans multiple lines.
-
-Markup:
-<div class="label-group {$modifiers}">
-    <label for="textarea">Label</label>
-    <textarea class="{$modifiers}" id="textarea" placeholder="Placeholder"></textarea>
-</div>
-
-:focus - A focused textarea
-:disabled - A disabled textarea
-.required - A required textarea
-.required:focus - A required, focused textarea
-.required:disabled - A required, disabled textarea
-.unadjacent - Unadjacent label and textarea
-.unadjacent:focus - Unadjacent label and textarea
-.unadjacent:disabled - Unadjacent label and textarea
-
-Styleguide 4.6
-
-*/
 textarea {
   height: auto;
   padding: $textarea-padding-top 0 0 $input-padding;
