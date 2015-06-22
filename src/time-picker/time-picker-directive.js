@@ -18,7 +18,7 @@ module.exports = function($document, $parse) {
     require: 'ngModel',
     bindToController: {
       showMeridian: '=?',
-      disabled: '=?',
+      disabled: '=isDisabled',
       hourStep: '=?',
       minuteStep: '=?'
     },
