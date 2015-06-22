@@ -69,7 +69,8 @@ module.exports = function($document, $parse) {
 
     ctrl.changed = function() {
       ngModel.$setViewValue(ctrl.inputTime);
-      ngModel.$setValidity('time', !(angular.isUndefined(ctrl.inputTime) || ctrl.inputTime === null));
+      ngModel.$setValidity('time',
+        !(angular.isUndefined(ctrl.inputTime) || ctrl.inputTime === null));
     };
 
     ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';

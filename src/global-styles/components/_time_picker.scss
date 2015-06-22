@@ -69,6 +69,11 @@ $timepicker-input-disabled-color: #cccccc;
       @include user-select(none);
       td {
         min-width: 15px;
+        &.has-error {
+          input[type='text'] {
+            border-color: $border-color-invalid;
+          }
+        }
       }
       a {
         display: block;
