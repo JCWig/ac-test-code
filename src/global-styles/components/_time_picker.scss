@@ -25,12 +25,18 @@ $timepicker-input-disabled-color: #cccccc;
     &:hover,
     &:focus {
       border-color: $button-border-color-hover;
+      &.ng-invalid ~ .btn {
+        border-left-color: $border-color-invalid;
+      }
       > i {
         @include luna-sprite(time);
       }
     }
     &:active {
       border-color: $button-border-color-hover;
+      &.ng-invalid ~ .btn {
+        border-left-color: $border-color-invalid;
+      }
     }
   }
   & > input[type='text'] {
@@ -45,7 +51,7 @@ $timepicker-input-disabled-color: #cccccc;
       color: $timepicker-input-disabled-color;
       cursor: default;
     }
-    &.ng-invalid.ng-touched ~ .btn {
+    &.ng-invalid ~ .btn {
       border-left-color: $border-color-invalid;
     }
   }
