@@ -89,13 +89,8 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         inputClick = true;
       };
       function toggleDropdown(isOpen) {
-        if (isOpen) {
-          menuElem.removeClass('util-hide');
-          menuElem.addClass('util-show');
-        } else {
-          menuElem.removeClass('util-show');
-          menuElem.addClass('util-hide');
-        }
+        menuElem.toggleClass('util-show', isOpen);
+        menuElem.toggleClass('util-hide', !isOpen);
       }
       function setAppendToBodyCoords() {
         var menu = elem.children(0)[0];
