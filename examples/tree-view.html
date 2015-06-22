@@ -39,7 +39,7 @@
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
              <div class="div-overflow-auto">
-                <akam-tree-view akam-standalone items="jsonFromHttpGet" on-change="triggerChangeJSON(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="jsonFromHttpGet"> </akam-tree-view>
             </div>
             <br />
             <br />
@@ -47,7 +47,7 @@
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
              <div class="div-overflow-auto">
-                <akam-tree-view akam-standalone items="jsonFromHttpGetSmall" on-change="triggerChangeJSON(item)" current-property="section" 
+                <akam-tree-view akam-standalone items="jsonFromHttpGetSmall" on-change="triggerChangeJSONSmall(item)" current-property="section" 
                 parent-property="department" children-property="employees" root-property="boss" text-property="name"> </akam-tree-view>
             </div>
             <br />
@@ -62,7 +62,7 @@
             <h2>Non-existant JSON Data File Example</h2>
             <span>NOTE: This is a test of when the data file does not exist.  Should generate a 404<br /></span>
             <div class="div-overflow-auto">
-                <akam-tree-view akam-standalone items="jsonFromHttpGetFAIL" on-change="triggerChangeJSON(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone items="jsonFromHttpGetFAIL"> </akam-tree-view>
             </div>
             <br />
             <br />   
@@ -78,11 +78,16 @@
                 // Attempt to load data from a json file that does not exist
                 $scope.jsonFromHttpGetFAIL = $http.get('json/tree-view-dataxx.json');
                 
-                $scope.triggerChangeJSON = function(clickedObj){
-                    $log.log("clicked object " + clickedObj.title);
+                $scope.triggerChangeJSONSmall = function(clickedObj){
+                    $log.log("Clicked name " + clickedObj.name);
+                    $scope.jsonFromHttpGetSmall = {
+                        // return null since there are no children
+                        name: null
+                    };
                 };
                 
                 $scope.triggerChange = function(clickedObj){
+                    $log.log("clicked title " + clickedObj.title);
                     if(clickedObj.title === 'Hallie Jordan'){
                         $scope.contextData = {
                             parent:{title:"Development"},
