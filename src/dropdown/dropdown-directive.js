@@ -88,6 +88,15 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       scope.setInputAsClicked = function() {
         inputClick = true;
       };
+      function toggleDropdown(isOpen) {
+        if (isOpen) {
+          menuElem.removeClass('util-hide');
+          menuElem.addClass('util-show');
+        } else {
+          menuElem.removeClass('util-show');
+          menuElem.addClass('util-hide');
+        }
+      }
       function setAppendToBodyCoords() {
         var menu = elem.children(0)[0];
 
@@ -156,9 +165,8 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       }
       if (appendToBody) {
         $timeout(function() {
-          menuElem.addClass('append-body');
+          menuElem.addClass('append-body util-hide');
           menuElem.css({
-            display: 'none',
             width: elem.children(0)[0].offsetWidth + 'px'
           });
           setAppendToBodyCoords();
@@ -169,7 +177,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
             windowElement.off('resize');
           });
           scope.$watch('isOpen', function(isOpen) {
-            menuElem.css({display: isOpen ? 'block' : 'none'});
+            toggleDropdown(isOpen);
             if (inputClick) {
               scope.isOpen = true;
               inputClick = false;

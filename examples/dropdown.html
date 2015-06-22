@@ -100,14 +100,14 @@
     </div>
     <div>
      <h2>Default dropdown with a list of strings appended to body</h2>
-        <span class="hide-overflow">
+        <span class="util-hidden-overflow">
             <akam-dropdown ng-model="vm.ex6.selectedState" append-to-body items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
         </span>
     </div>
     <br/>
     <div>
         <h2>Dropdown with a list of objects, a filter and custom markup, not clearable append to body</h2>
-        <span class="hide-overflow">
+        <span class="util-hidden-overflow">
             <akam-dropdown append-to-body ng-model="vm.ex7.selectedState" text-property="name"
                            items="vm.stateObjects" filterable="name">
 
