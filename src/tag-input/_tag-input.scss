@@ -107,6 +107,8 @@ akam-tag-input {
     position: relative;
     &.btn-primary {
       border-color: $input-border-color-focus;
+      background-image: $dropdown-button-gradient;
+      color: inherit;
     }
     &.grabbable {
       cursor : grab;
