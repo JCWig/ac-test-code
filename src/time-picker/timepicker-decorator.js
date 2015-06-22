@@ -7,7 +7,8 @@ module.exports = function($provide) {
   $provide.decorator('timepickerDirective', function($delegate, $interval) {
     var directive = $delegate[0],
       link,
-      minuteUpPromise, minuteDownPromise, hourUpPromise, hourDownPromise;
+      minuteUpPromise, minuteDownPromise, hourUpPromise, hourDownPromise,
+      DELAY = 200;
 
     // override the default template for timepicker
     directive.template = require('./templates/time-picker-popup.tpl.html');
@@ -19,13 +20,17 @@ module.exports = function($provide) {
       return function(scope) {
         link.apply(this, arguments);
 
+        function stop(e, intervalPromise) {
+          e.stopPropagation();
+          if (angular.isDefined(intervalPromise)) {
+            $interval.cancel(intervalPromise);
+          }
+        }
+
         //minute up arrow handlers
         scope.minuteUpMouseUp = function(e) {
-          e.stopPropagation();
-          if (angular.isDefined(minuteUpPromise)) {
-            $interval.cancel(minuteUpPromise);
-            minuteUpPromise = undefined;
-          }
+          stop(e, minuteUpPromise);
+          minuteUpPromise = undefined;
         };
 
         scope.minuteUpMouseDown = function(e) {
@@ -35,16 +40,13 @@ module.exports = function($provide) {
           }
           minuteUpPromise = $interval(function() {
             scope.incrementMinutes();
-          }, 200);
+          }, DELAY);
         };
 
         //minute down arrow handlers
         scope.minuteDownMouseUp = function(e) {
-          e.stopPropagation();
-          if (angular.isDefined(minuteDownPromise)) {
-            $interval.cancel(minuteDownPromise);
-            minuteDownPromise = undefined;
-          }
+          stop(e, minuteDownPromise);
+          minuteDownPromise = undefined;
         };
 
         scope.minuteDownMouseDown = function(e) {
@@ -54,16 +56,13 @@ module.exports = function($provide) {
           }
           minuteDownPromise = $interval(function() {
             scope.decrementMinutes();
-          }, 200);
+          }, DELAY);
         };
 
         //hour up arrow handlers
         scope.hourUpMouseUp = function(e) {
-          e.stopPropagation();
-          if (angular.isDefined(hourUpPromise)) {
-            $interval.cancel(hourUpPromise);
-            hourUpPromise = undefined;
-          }
+          stop(e, hourUpPromise);
+          hourUpPromise = undefined;
         };
 
         scope.hourUpMouseDown = function(e) {
@@ -73,16 +72,13 @@ module.exports = function($provide) {
           }
           hourUpPromise = $interval(function() {
             scope.incrementHours();
-          }, 200);
+          }, DELAY);
         };
 
         //hour down arrow handlers
         scope.hourDownMouseUp = function(e) {
-          e.stopPropagation();
-          if (angular.isDefined(hourDownPromise)) {
-            $interval.cancel(hourDownPromise);
-            hourDownPromise = undefined;
-          }
+          stop(e, hourDownPromise);
+          hourDownPromise = undefined;
         };
 
         scope.hourDownMouseDown = function(e) {
@@ -92,7 +88,7 @@ module.exports = function($provide) {
           }
           hourDownPromise = $interval(function() {
             scope.incrementHours();
-          }, 200);
+          }, DELAY);
         };
       };
     };
