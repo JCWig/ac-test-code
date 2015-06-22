@@ -1,22 +1,4 @@
-/* Radios
 
-Radio Buttons allow users to select a single item from a set of mutually exclusive, related options. 
-
-Markup:
-<input type="radio" id="radio" class="fee {$modifiers}" value="input[type='radio']"/>
-<label for="radio">Unselected Label</label>
-<br/>
-<input type="radio" id="checkedradio" class="fee {$modifiers}" value="input[type='radio']" checked="checked" />
-<label for="checkedradio">Selected Label</label>
-
-:focus - A focused radio.
-:hover - A hovered radio.
-:active - An active radio.
-:disabled - A disabled radio.
-
-Styleguide 4.3
-
-*/
 input[type="radio"] {
   // Remove the margin-right for browsers that get a custom input
   margin-right: 0;

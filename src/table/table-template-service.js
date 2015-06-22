@@ -98,7 +98,7 @@ module.exports = function($log) {
 
     if (selectable) {
       template += '<td class="column-checkbox">' +
-      '<input type="checkbox" ng-model="table.selectedRowsMap[table.idPropertyFn(row)]" ' +
+      '<input type="checkbox" ng-model="table.selectedItemsMap[table.idPropertyFn(row)]" ' +
       'ng-change="table.toggleSelected(row)" id="{{ table.id + \'-item-\' + $index }}">' +
       '<label for="{{ table.id + \'-item-\' + $index }}"></label></td>';
     }
@@ -117,12 +117,12 @@ module.exports = function($log) {
         // a monstrosity that is used to determine if the row is sortable or filterable and a row
         // property isn't defined.
         if (!elem.hasAttribute('row-property') &&
-          (!angular.isDefined(attributes.noSort) && !elem.hasAttribute('no-sort') ||
-          !angular.isDefined(attributes.noFilter) && !elem.hasAttribute('no-filter'))) {
+          (!angular.isDefined(attributes.notSortable) && !elem.hasAttribute('not-sortable') ||
+          !angular.isDefined(attributes.notFilterable) && !elem.hasAttribute('not-filterable'))) {
 
           $log.debug('', elem, ' has no "row-property" attribute defined. The column will' +
-          'be neither filterable nor sortable. Add "no-filter" and "no-sort" to suppress this ' +
-          'message.');
+          'be neither filterable nor sortable. Add "not-filterable" and "not-sortable"' +
+          'to suppress this message.');
         }
 
         tpl = elem.outerHTML.replace('<akam-table-column', '<td');
@@ -143,8 +143,8 @@ module.exports = function($log) {
   }
 
   function isSortable(element, attributes) {
-    return !angular.isDefined(attributes.noSort) &&
-      !element.hasAttribute('no-sort') &&
+    return !angular.isDefined(attributes.notSortable) &&
+      !element.hasAttribute('not-sortable') &&
       element.hasAttribute('row-property');
   }
 };

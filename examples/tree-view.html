@@ -4,6 +4,13 @@
         <meta charset="UTF-8">
         <title>Akamai Components Examples - Tree View</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
+        <style>
+            .div-overflow-auto {
+                max-width: 225px;
+                max-height: 225px;
+                overflow: auto;
+            }
+        </style>
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container" >
@@ -23,7 +30,7 @@
                 All other items do not have child items<br />
             </span>
             <br />
-            <div style="max-width:225px;">
+            <div class="div-overflow-auto">
                 <akam-tree-view akam-standalone items="contextData" on-change="triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
@@ -31,24 +38,31 @@
             <h2>JSON Data Example</h2>
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
-             <div style="max-width:225px; max-height: 225px; overflow: auto">
-                <akam-tree-view akam-standalone items="jsonFromHttpGet" on-change="triggerChangeJSON(item)"> </akam-tree-view>
+             <div class="div-overflow-auto">
+                <akam-tree-view akam-standalone items="jsonFromHttpGet"> </akam-tree-view>
             </div>
             <br />
             <br />
             <h2>JSON Data Example Custom Properties</h2>
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
-             <div style="max-width:225px; max-height: 225px; overflow: auto">
-                <akam-tree-view akam-standalone items="jsonFromHttpGetSmall" on-change="triggerChangeJSON(item)" current-property="section" 
+             <div class="div-overflow-auto">
+                <akam-tree-view akam-standalone items="jsonFromHttpGetSmall" on-change="triggerChangeJSONSmall(item)" current-property="section" 
                 parent-property="department" children-property="employees" root-property="boss" text-property="name"> </akam-tree-view>
             </div>
             <br />
             <br />
             <h2>No Data Example</h2>
             <span>NOTE: No data nodes exist<br /></span>
-            <div style="max-width:225px;">
+            <div class="div-overflow-auto">
                 <akam-tree-view akam-standalone items="contextDataEmpty" on-change="triggerChange(item)"> </akam-tree-view>
+            </div>
+            <br />
+            <br />
+            <h2>Non-existant JSON Data File Example</h2>
+            <span>NOTE: This is a test of when the data file does not exist.  Should generate a 404<br /></span>
+            <div class="div-overflow-auto">
+                <akam-tree-view akam-standalone items="jsonFromHttpGetFAIL"> </akam-tree-view>
             </div>
             <br />
             <br />   
@@ -61,11 +75,19 @@
                 $scope.jsonFromHttpGet = $http.get('json/tree-view-data.json');
                 $scope.jsonFromHttpGetSmall = $http.get('json/small-tree-view-data.json');
                 
-                $scope.triggerChangeJSON = function(clickedObj){
-                    $log.log("clicked object " + clickedObj.title);
+                // Attempt to load data from a json file that does not exist
+                $scope.jsonFromHttpGetFAIL = $http.get('json/tree-view-dataxx.json');
+                
+                $scope.triggerChangeJSONSmall = function(clickedObj){
+                    $log.log("Clicked name " + clickedObj.name);
+                    $scope.jsonFromHttpGetSmall = {
+                        // return null since there are no children
+                        name: null
+                    };
                 };
                 
                 $scope.triggerChange = function(clickedObj){
+                    $log.log("clicked title " + clickedObj.title);
                     if(clickedObj.title === 'Hallie Jordan'){
                         $scope.contextData = {
                             parent:{title:"Development"},

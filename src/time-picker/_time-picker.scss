@@ -1,16 +1,10 @@
-/* Time Picker
-
-Users select a time from a popup time picker.
-
-Styleguide 8.0
-
-*/
 
 $button-border-color-hover: #999999;
 $dropdown-menu-padding: 16px 15px 12px;
 $dropdown-menu-arrow-padding: 11px;
 $dropdown-menu-input-width: 40px;
 $timepicker-input-disabled-color: #cccccc;
+
 .akam-time-picker {
   position: relative;
   & > .btn {
