@@ -49,8 +49,8 @@
     <akam-table-toolbar class="toolbar-class util-pull-right">
       <span>Graphs of stuff</span> {{ vm.testText }}
       <i class="luna-bar_chart"></i>
-      <akam-menu-button>
-        <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked()">
+      <akam-menu-button icon-only="true">
+        <akam-menu-button-item text="PDF" icon-only ng-click="vm.pdfClicked()">
         </akam-menu-button-item>
       </akam-menu-button>
     </akam-table-toolbar>
@@ -61,7 +61,7 @@
       </akam-table-column>
       <akam-table-column row-property="email" header-name="examples.email"></akam-table-column>
       <akam-table-column not-filterable not-sortable class="column-action" header-name="examples.actions">
-          <akam-menu-button>
+          <akam-menu-button icon-only="true">
             <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked(row)"></akam-menu-button-item>
           </akam-menu-button>
       </akam-table-column>
@@ -131,7 +131,6 @@
     </akam-table-row>
   </akam-table>
 </div>
-
 <script src="../../dist/akamai-core.js"></script>
 <script src="index.js"></script>
 

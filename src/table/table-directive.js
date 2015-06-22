@@ -52,7 +52,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       }
 
       // remove filter (and possibly the entire toolbar) if necessary
-      if (angular.isDefined(attributes.noFilter)) {
+      if (angular.isDefined(attributes.notFilterable)) {
         if (tpl.find(toolbarSelector).length) {
           selector = 'span.filter';
         } else {
