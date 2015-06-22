@@ -4,7 +4,7 @@ var util = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
 
 describe('akamai.components.dropdown', function() {
-  var $scope, $compile, stateStrings, stateObjects;
+  var $scope, $compile, stateStrings, stateObjects, timeout;
 
   stateStrings = [
     'Colorado',
@@ -38,13 +38,14 @@ describe('akamai.components.dropdown', function() {
     angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
-    inject(function($rootScope, _$compile_, $httpBackend) {
+    inject(function($rootScope, _$compile_, $httpBackend, $timeout) {
       $scope = $rootScope;
       $compile = _$compile_;
 
       $httpBackend.when('GET', util.LIBRARY_PATH).respond(translationMock);
       $httpBackend.when('GET', util.CONFIG_PATH).respond({});
       $httpBackend.flush();
+      timeout = $timeout;
     });
   });
 
@@ -52,6 +53,10 @@ describe('akamai.components.dropdown', function() {
     if (self.element) {
       document.body.removeChild(self.element);
       self.element = null;
+    }
+    var remainingDropdown = document.querySelector('.dropdown-menu');
+    if (remainingDropdown) {
+      document.body.removeChild(remainingDropdown);
     }
   });
 
@@ -108,9 +113,75 @@ describe('akamai.components.dropdown', function() {
 
       expect(dropdownMenu.getElementsByTagName('li').length).toBe(stateObjects.length);
     });
-
   });
+  describe('when appending dropdown to the body', function(){
+    it('should render dropdown onto body', function(){
+      var dropdownTemplate =
+        '<akam-dropdown ng-model="selectedState" text-property="name"'+
+                           'items="stateObjects" append-to-body filterable="name" clearable>'+
+            '</akam-dropdown>';
 
+      $scope.selectedState = {name: 'New York'};
+      $scope.stateObjects = stateObjects;
+
+      addElement(dropdownTemplate);
+      timeout.flush();
+
+      var dropdown = util.find('.dropdown');
+      var dropdownMenu = util.find('.dropdown .dropdown-menu');
+      var dropdownMenuBody = util.find('body .dropdown-menu');
+
+      expect(dropdown).not.toBe(null);
+      expect(dropdownMenu).toBe(null);
+      expect(dropdownMenuBody).not.toBe(null);
+    });
+    it('should not auto close when filter is clicked', function(){
+      var dropdownTemplate =
+        '<akam-dropdown ng-model="selectedState" text-property="name"'+
+                           'items="stateObjects" append-to-body filterable="name" clearable>'+
+            '</akam-dropdown>';
+
+      $scope.selectedState = {name: 'New York'};
+      $scope.stateObjects = stateObjects;
+
+      addElement(dropdownTemplate);
+      timeout.flush();
+
+      var dropdown = util.find('.dropdown');
+      util.click('.dropdown-toggle');
+      $scope.$digest();
+      expect(dropdown.classList).toContain('open');
+      var dropdownMenu = util.find('body .dropdown-menu');
+      util.click(document.querySelectorAll('.dropdown-menu input')[0]);
+      $scope.$digest();
+
+      expect(dropdown.classList).toContain('open');
+    });
+    it('should still be able to select items', function(){
+      var dropdownTemplate =
+        '<akam-dropdown ng-model="selectedState" text-property="name"'+
+                           'items="stateObjects" append-to-body filterable="name" clearable>'+
+            '</akam-dropdown>';
+
+      $scope.selectedState = {name: 'New York'};
+      $scope.stateObjects = stateObjects;
+
+      addElement(dropdownTemplate);
+      timeout.flush();
+
+      var dropdown = util.find('.dropdown');
+      util.click('.dropdown-toggle');
+      $scope.$digest();
+      expect(dropdown.classList).toContain('open');
+      var dropdownMenu = util.find('body .dropdown-menu');
+      var secondDropDown = document.querySelectorAll('body .dropdown-menu')[1].querySelector('li a');
+      util.click(secondDropDown);
+      $scope.$digest();
+
+      expect($scope.selectedState.state).not.toEqual('New York');
+      expect($scope.selectedState.state).not.toEqual('Colorado');
+    });
+  });
   describe('when rendering with features', function() {
 
     var featureDropdownTemplate =
@@ -182,7 +253,5 @@ describe('akamai.components.dropdown', function() {
       util.click(clearButton);
       expect(filter.value).toBeFalsy();
     });
-
-
   });
 });
