@@ -18,7 +18,7 @@ module.exports = function($document, $parse) {
     require: 'ngModel',
     bindToController: {
       showMeridian: '=?',
-      disabled: '=?',
+      disabled: '=isDisabled',
       hourStep: '=?',
       minuteStep: '=?'
     },
@@ -69,12 +69,11 @@ module.exports = function($document, $parse) {
 
     ctrl.changed = function() {
       ngModel.$setViewValue(ctrl.inputTime);
-      ngModel.$setDirty();
       ngModel.$setValidity('time',
         !(angular.isUndefined(ctrl.inputTime) || ctrl.inputTime === null));
     };
 
-    ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';
+    ctrl.disabled = ctrl.disabled === true || attrs.isDisabled === 'disabled';
 
     ctrl.minuteStep = timepickerConfig.MINUTE_STEP;
     $parse(attrs.minuteStep, function(value) {
