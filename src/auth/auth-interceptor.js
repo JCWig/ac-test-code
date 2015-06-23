@@ -36,10 +36,7 @@ module.exports = function($q, httpBuffer, token, authConfig, auth, context) {
         return httpBuffer.appendRequest(requestConfig);
       }
       if (context.getApplicationContext() !== 'account') {
-        if (!requestConfig.params) {
-          requestConfig.params = {};
-        }
-
+        requestConfig.params = requestConfig.params || {};
         requestConfig.params.gid = context.getGroupId();
         requestConfig.params.aid = context.getAssetId();
       }

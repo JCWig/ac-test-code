@@ -16,8 +16,9 @@ describe('Auth', function() {
   beforeEach(function before() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
-    angular.mock.module(function(authProvider) {
+    angular.mock.module(function(contextProvider, authProvider) {
       provider = authProvider;
+      contextProvider.setApplicationContext('standalone');
     });
     angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor, $window, auth) {
       http = $http;

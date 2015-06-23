@@ -2,8 +2,6 @@
 
 var angular = require('angular');
 
-require('./mega-menu/megamenu');
-
 angular.module('akamai.components', [
   require('./uuid').name,
   require('./i18n').name,
@@ -25,5 +23,6 @@ angular.module('akamai.components', [
   require('./time-picker').name,
   require('./tag-input').name,
   require('./dropdown').name,
-  require('./auth').name
+  require('./auth').name,
+  require('./mega-menu').name
 ]);

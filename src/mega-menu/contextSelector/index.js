@@ -138,9 +138,7 @@ function bindEvents() {
 
   contextSelector = new Popup(nav, nav.parentElement);
 
-  el.addEventListener('click', function() {
-    contextSelector.toggle();
-  });
+  el.addEventListener('click', contextSelector.toggle.bind(contextSelector));
 
   html.addEventListener('click', function(e) {
     if (e.target !== el) {

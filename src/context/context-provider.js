@@ -23,7 +23,7 @@ var CONTEXT = {
 module.exports = function ContextProvider() {
 
   // sets the application context type. Some applications care about groups and some do not
-  var applicationType = CONTEXT.account, currentAccount, groups;
+  var applicationType = CONTEXT.account, currentAccount, groups, rawContext;
 
   /**
    * Sets the application context to be either account centric or group centric.
@@ -38,11 +38,12 @@ module.exports = function ContextProvider() {
   };
 
   /* @ngInject */
-  this.$get = function Context($injector, $window, $location, $cookies) {
+  this.$get = function Context($rootScope, $injector, $window, $location, $cookies) {
 
     return {
       getApplicationContext: getApplicationContext,
       setContextId: setContextId,
+      getContextForAccount: getContextForAccount,
       getGroupInfo: getGroupInfo,
       getGroupId: getGroupId,
       getAssetId: getAssetId,
@@ -77,6 +78,14 @@ module.exports = function ContextProvider() {
     }
 
     /**
+     * Results of calling context.json.
+     * @returns {Object} The raw JSON response from fetching context.json
+     */
+    function getContextForAccount() {
+      return rawContext;
+    }
+
+    /**
      * Sets the new group and asset IDs. Notifies the mega menu so it will update the breadcrumb.
      * Call with no arguments to unset both values.
      * @param {Number} [gid] the new group ID.
@@ -97,7 +106,8 @@ module.exports = function ContextProvider() {
 
       $window.sessionStorage.setItem(GID_STORAGE_KEY, gid);
       $window.sessionStorage.setItem(AID_STORAGE_KEY, aid);
-      angular.element(document.querySelector('body')).triggerHandler(CHANGED_EVENT, group);
+
+      $rootScope.$broadcast(CHANGED_EVENT, group);
     }
 
     /**
@@ -120,6 +130,7 @@ module.exports = function ContextProvider() {
           var gid = parseInt(qs[GID_QUERY_PARAM], 10) || undefined,
             aid = parseInt(qs[AID_QUERY_PARAM], 10) || undefined;
 
+          rawContext = data.data;
           groups = parseGroups(data.data.context.mainMenuItems);
           setContextId(gid, aid);
         });
@@ -157,7 +168,7 @@ module.exports = function ContextProvider() {
     // returns the group hierarchy for a given GID. Includes parents and children.
     function findGroupInfoById(gid, aid) {
 
-      if (!gid) {
+      if (!gid || !groups) {
         return null;
       }
 
@@ -178,7 +189,7 @@ module.exports = function ContextProvider() {
     }
 
     function notifyMegaMenu(data) {
-      angular.element(document.querySelector('body')).triggerHandler(LOADED_EVENT, data.data);
+      $rootScope.$broadcast(LOADED_EVENT, data.data);
       return data;
     }
 
