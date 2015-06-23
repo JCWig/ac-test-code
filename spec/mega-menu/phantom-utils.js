@@ -3,23 +3,26 @@
 // collection of utilities for use in phantom tests
 var fs = require('fs');
 
-// needs to be done for phantom because jQuery.click doesn't get properly called because there is no Function.prototype.bind
-// remove when we upgrade to phantom 2.0
+var translations = fs.readFileSync('assets/locales/mega-menu/en_US.json', 'utf-8');
+
+// needs to be done for phantom because jQuery.click doesn't get properly called because there
+// is no Function.prototype.bind remove when we upgrade to phantom 2.0
 function clickElement($el) {
   var el = $el.get(0);
   var ev = document.createEvent('MouseEvent');
   ev.initMouseEvent(
     'click',
-    true /* bubble */, true /* cancelable */,
+    true, true,
     window, null,
-    0, 0, 0, 0, /* coordinates */
-    false, false, false, false, /* modifier keys */
-    0 /*left*/, null
+    0, 0, 0, 0,
+    false, false, false, false,
+    0, null
   );
   el.dispatchEvent(ev);
 }
 
-// borrowed from http://stackoverflow.com/a/12522769. This uses a generic event to trigger the keyup event
+// borrowed from http://stackoverflow.com/a/12522769. This uses a generic event to
+// trigger the keyup event
 function keyup($el, code) {
   var el = $el.get(0);
   var eventObj = document.createEventObject ?
@@ -48,11 +51,24 @@ function keydown($el, code) {
   el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent('onkeydown', eventObj);
 }
 
-var translations = fs.readFileSync('assets/locales/mega-menu/en_US.json', 'utf-8');
+// sets config data in session storage so mega menu can fetch it.
+function config(data) {
+  data = data || {
+    username: 'me',
+    locale: 'en_US'
+  };
+
+  window.sessionStorage.setItem('akamai.components.mega-menu.config', JSON.stringify(data));
+  return data;
+}
 
 module.exports = {
   clickElement: clickElement,
   keyup: keyup,
   keydown: keydown,
-  translations: translations
+  translations: translations,
+  config: config,
+  CONFIG_URL: '/totem/api/pulsar/megamenu/config.json',
+  BRANDING_URL: '/totem/static/pulsar/megamenu/branding.json',
+  FOOTER_URL: '/totem/api/pulsar/megamenu/footer.json'
 };

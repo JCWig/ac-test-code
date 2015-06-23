@@ -1,75 +1,99 @@
-/* globals beforeEach, afterEach, sinon, $ */
+/* globals angular, beforeEach, afterEach, sinon, $ */
 
 'use strict';
 
 var contextSelector = require('../../src/mega-menu/contextSelector'),
   keyup = require('./phantom-utils').keyup,
-  clickElement = require('./phantom-utils').clickElement,
-  HIDE_CLASS = require('../../src/mega-menu/utils/constants').HIDE_CLASS,
-  SEARCH_DELAY = 100;
+  config = require('./phantom-utils').config,
+  CONFIG_URL = require('./phantom-utils').CONFIG_URL,
+  HIDE_CLASS = require('../../src/mega-menu/utils/constants').HIDE_CLASS;
+
+var SEARCH_DELAY = 100;
 
 var spy, clock;
 
-describe('context selector', function() {
-  beforeEach(function() {
-    this.server = sinon.fakeServer.create();
+xdescribe('context selector', function() {
 
-    this.server.respondWith('GET', /context.json/, [
-      200, {'Content-Type': 'application/json'}, JSON.stringify(
-        {
-          "context": {
-            "mainMenuItems": [
-              {
-                "itemId": 123,
-                "contextId": 0,
-                "cps": null,
-                "dps": null,
-                "url": "/ui/home",
-                "name": "Scratching Post Site",
-                "subMenuItems": [
-                  {
-                    "itemId": 0,
-                    "contextId": 1,
-                    "cps": null,
-                    "subMenuItems": null,
-                    "dps": [
-                      "more-catnip",
-                      "tiny-mouse"
-                    ],
-                    "url": "/ui/home",
-                    "name": "sisal-is-awesome"
-                  }
-                ]
-              }
-            ]
-          }
-        })
-    ]);
+  var $scope, $compile, $httpBackend;
+
+  afterEach(function() {
+    if (this.element) {
+      document.body.removeChild(this.element);
+      this.element = null;
+    }
+  });
+
+  beforeEach(function() {
+
+    angular.mock.inject.strictDi(true);
+    angular.mock.module(require('../../src/mega-menu').name);
+    angular.mock.inject(function($rootScope, _$compile_, _$httpBackend_) {
+      $scope = $rootScope;
+      $compile = _$compile_;
+      $httpBackend = _$httpBackend_;
+      $httpBackend.when('GET', CONFIG_URL).respond(config());
+      $httpBackend.when('GET', /context.json/).respond({
+        context: {
+          mainMenuItems: [
+            {
+              itemId: 123,
+              contextId: 0,
+              cps: null,
+              dps: null,
+              url: '/ui/home',
+              name: 'Scratching Post Site',
+              subMenuItems: [
+                {
+                  itemId: 0,
+                  contextId: 1,
+                  cps: null,
+                  subMenuItems: null,
+                  dps: [
+                    'more-catnip',
+                    'tiny-mouse'
+                  ],
+                  url: '/ui/home',
+                  name: 'sisal-is-awesome'
+                }
+              ]
+            }
+          ]
+        }
+      });
+    });
+
+    this.el = $compile('<akam-menu-header></akam-menu-header>' +
+    '<akam-menu-footer></akam-menu-footer>')($scope);
+    $scope.$digest();
+    $httpBackend.flush();
+    this.element = document.body.appendChild(this.el[0]);
+
+    this.server = sinon.fakeServer.create();
 
     this.server.respondWith('GET', /cpcodes.json/, [
       200, {'Content-Type': 'application/json'}, JSON.stringify(
         {
-          "context": {
-            "mainMenuItems": [
+          context: {
+            mainMenuItems: [
               {
-                "itemId": 123,
-                "contextId": 0,
-                "cps": null,
-                "dps": null,
-                "url": "/ui/home",
-                "name": "Scratching Post Site",
-                "subMenuItems": [
+                itemId: 123,
+                contextId: 0,
+                cps: null,
+                dps: null,
+                url: '/ui/home',
+                name: 'Scratching Post Site',
+                subMenuItems: [
                   {
-                    "itemId": 0,
-                    "contextId": 1,
-                    "cps": [
+                    itemId: 0,
+                    contextId: 1,
+                    cps: [
                       123,
                       456
                     ],
-                    "subMenuItems": null,
-                    "dps": null,
-                    "url": "/ui/home",
-                    "name": "sisal-is-awesome"
+                    subMenuItems: null,
+                    dps: null,
+                    url: '/ui/home',
+                    name: 'sisal-is-awesome'
                   }
                 ]
               }
@@ -79,16 +103,11 @@ describe('context selector', function() {
     ]);
   });
 
-  beforeEach(function(done) {
+  beforeEach(function() {
     clock = sinon.useFakeTimers();
     spy = jasmine.createSpy('spy');
 
-    // wait for context selector to render because it relies on two promise objects. This can be largely cleaned up
-    // if we move to having ajax (and render) calls return promises instead of calling callbacks.
-    contextSelector.render(function(err) {
-      spy(err);
-      done();
-    });
+    contextSelector.render(spy);
     this.server.respond();
   });
 
@@ -108,6 +127,7 @@ describe('context selector', function() {
 
     it('should do nothing if there is no input', function() {
       var input = $('.context input');
+
       keyup(input, 13);
       clock.tick(SEARCH_DELAY);
 
@@ -116,6 +136,7 @@ describe('context selector', function() {
 
     it('should show the search results when an input is entered', function() {
       var input = $('.context input');
+
       input.val('a search term');
       keyup(input, 13);
       clock.tick(SEARCH_DELAY);

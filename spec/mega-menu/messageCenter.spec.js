@@ -1,4 +1,4 @@
-/* globals beforeEach, afterEach, sinon, $ */
+/* globals angular, beforeEach, afterEach, sinon, $ */
 
 'use strict';
 
@@ -6,13 +6,41 @@ var messageCenter = require('../../src/mega-menu/messages/center'),
   keydown = require('./phantom-utils').keydown,
   keyup = require('./phantom-utils').keyup,
   clickElement = require('./phantom-utils').clickElement,
+  util = require('./phantom-utils'),
   SHOW_CLASS = require('../../src/mega-menu/utils/constants').SHOW_CLASS;
 
 var spy;
 
 describe('message center', function() {
 
+  var $scope, $compile;
+
+  // cleanup mega menu mocking messiness.
+  afterEach(function() {
+    if (this.element) {
+      document.body.removeChild(this.element);
+      this.element = null;
+    }
+  });
+
   beforeEach(function() {
+
+    angular.mock.inject.strictDi(true);
+    angular.mock.module(require('../../src/mega-menu').name);
+    angular.mock.module(function(contextProvider) {
+      contextProvider.setApplicationContext('standalone');
+    });
+    angular.mock.inject(function($rootScope, _$compile_, $httpBackend) {
+      $scope = $rootScope;
+      $compile = _$compile_;
+      $httpBackend.when('GET', util.CONFIG_URL).respond(util.config());
+    });
+
+    this.el = $compile('<akam-menu-header></akam-menu-header>' +
+    '<akam-menu-footer></akam-menu-footer>')($scope);
+    $scope.$digest();
+    this.element = document.body.appendChild(this.el[0]);
+
     this.server = sinon.fakeServer.create();
 
     this.server.respondWith('POST', /forward_email.jsp/, [
@@ -30,20 +58,20 @@ describe('message center', function() {
 
     this.server.respondWith('GET', /messages.json/, [
       200, {'Content-Type': 'application/json'}, JSON.stringify({
-        "messages": [{
-          "content": "No content",
-          "messageId": 1,
-          "shortContent": "Blah blah blah",
-          "createdDate": (new Date().valueOf()),
-          "status": "N",
-          "summary": "Blah"
+        messages: [{
+          content: 'No content',
+          messageId: 1,
+          shortContent: 'Blah blah blah',
+          createdDate: (new Date().valueOf()),
+          status: 'N',
+          summary: 'Blah'
         }, {
-          "content": "Dear human, we wish to be patted more. And please give us more treats. Signed: all cats",
-          "messageId": 2,
-          "shortContent": "Meow meow meow meow",
-          "createdDate": (new Date().valueOf()),
-          "status": "R",
-          "summary": "Message to humans"
+          content: 'Dear human, we wish to be patted more. And please give us more treats. Signed: all cats',
+          messageId: 2,
+          shortContent: 'Meow meow meow meow',
+          createdDate: (new Date().valueOf()),
+          status: 'R',
+          summary: 'Message to humans'
         }
         ]
       })
@@ -126,6 +154,7 @@ describe('message center', function() {
 
     it('should remove a row when a message is deleted', function() {
       var numRows = $('.message-center tbody tr').length;
+
       clickElement($('.message-center tbody tr:first .luna-trash'));
       clickElement($('.delete.modal .button.primary'));
       this.server.respond();
@@ -150,11 +179,13 @@ describe('message center', function() {
     });
 
     it('should show the main view when submitted', function() {
+      var $input;
+
       clickElement($('.message-center tbody tr:first .luna-reply'));
 
       // enter some email addresses
       clickElement($('.forward.modal .emails'));
-      var $input = $('.taggle_input');
+      $input = $('.taggle_input');
       $input.val('some@email.com');
       keydown($input, 13);
       keyup($input, 13);

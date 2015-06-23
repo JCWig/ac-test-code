@@ -1,47 +1,73 @@
-/* globals beforeEach, afterEach, sinon, $ */
+/* globals angular, beforeEach, afterEach, sinon, $ */
 
 'use strict';
 
 var timeout = require('../../src/mega-menu/timeout'),
   config = require('../../src/mega-menu/utils/config'),
   SHOW_CLASS = require('../../src/mega-menu/utils/constants').SHOW_CLASS,
-  MODAL_SELECTOR = '.timeout.modal',
+  util = require('./phantom-utils'),
   clickElement = require('./phantom-utils').clickElement;
+
+var MODAL_SELECTOR = '.timeout.modal';
 
 describe('timeout', function() {
 
   var clock;
 
+  var $scope, $compile, $httpBackend;
+
+  afterEach(function() {
+    if (this.element) {
+      document.body.removeChild(this.element);
+      this.element = null;
+    }
+  });
+
   beforeEach(function() {
+
+    angular.mock.inject.strictDi(true);
+    angular.mock.module(require('../../src/mega-menu').name);
+    angular.mock.module(function(contextProvider) {
+      contextProvider.setApplicationContext('standalone');
+    });
+    angular.mock.inject(function($rootScope, _$compile_, _$httpBackend_) {
+      $scope = $rootScope;
+      $compile = _$compile_;
+      $httpBackend = _$httpBackend_;
+      $httpBackend.when('GET', util.CONFIG_URL).respond(util.config({
+        username: 'stella',
+        timeoutDuration: 5,
+        logoutTimer: 2,
+        isAutoLogoutEnabled: true
+      }));
+    });
+
+    this.el = $compile('<akam-menu-header></akam-menu-header>' +
+    '<akam-menu-footer></akam-menu-footer>')($scope);
+    $scope.$digest();
+    this.element = document.body.appendChild(this.el[0]);
+
     // clean up DOM
     $(MODAL_SELECTOR).removeClass(SHOW_CLASS).html('');
 
     clock = sinon.useFakeTimers();
 
     this.server = sinon.fakeServer.create();
-    this.server.respondWith('GET', '/totem/api/pulsar/megamenu/config.json',
-      [200, {"Content-Type": 'application/json'},
-        JSON.stringify({
-          username: 'stella',
-          timeoutDuration: 5,
-          logoutTimer: 2,
-          isAutoLogoutEnabled: true
-        })]);
 
     this.server.respondWith('GET', /\/extend$/,
-      [200, {"Content-Type": 'application/json'},
+      [200, {'Content-Type': 'application/json'},
         JSON.stringify({
           status: 'OK'
         })]);
 
     this.server.respondWith('GET', /\/warn$/,
-      [200, {"Content-Type": 'application/json'},
+      [200, {'Content-Type': 'application/json'},
         JSON.stringify({
           status: 'OK'
         })]);
 
     this.server.respondWith('GET', /\/invalidate$/,
-      [200, {"Content-Type": 'application/json'},
+      [200, {'Content-Type': 'application/json'},
         JSON.stringify({
           status: 'OK'
         })]);
@@ -63,12 +89,10 @@ describe('timeout', function() {
   });
 
   it('should not render the modal if timeout is not enabled', function() {
-    this.server.respondWith('GET', '/totem/api/pulsar/megamenu/config.json',
-      [200, {"Content-Type": 'application/json'},
-        JSON.stringify({
-          username: 'stella',
-          isAutoLogoutEnabled: false
-        })]);
+    $httpBackend.when('GET', util.CONFIG_URL).respond(util.config({
+      username: 'stella',
+      isAutoLogoutEnabled: false
+    }));
 
     config(jasmine.createSpy('spy'), true);
     this.server.respond();

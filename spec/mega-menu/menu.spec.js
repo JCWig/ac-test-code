@@ -1,48 +1,77 @@
-/* globals beforeEach, afterEach, sinon, $ */
+/* globals angular, beforeEach, afterEach, sinon, $ */
 
 'use strict';
 
 var menu = require('../../src/mega-menu/menu'),
   clickElement = require('./phantom-utils').clickElement,
+  config = require('./phantom-utils').config,
+  CONFIG_URL = require('./phantom-utils').CONFIG_URL,
   HIDE_CLASS = require('../../src/mega-menu/utils/constants').HIDE_CLASS,
   TABS_SELECTOR = require('../../src/mega-menu/menu/tabs').selector;
 
 describe('menu', function() {
 
+  var $scope, $compile;
+
+  // cleanup mega menu mocking messiness.
+  afterEach(function() {
+    if (this.element) {
+      document.body.removeChild(this.element);
+      this.element = null;
+    }
+  });
+
   beforeEach(function() {
+
+    angular.mock.inject.strictDi(true);
+    angular.mock.module(require('../../src/mega-menu').name);
+    angular.mock.module(function(contextProvider) {
+      contextProvider.setApplicationContext('standalone');
+    });
+    angular.mock.inject(function($rootScope, _$compile_, $httpBackend) {
+      $scope = $rootScope;
+      $compile = _$compile_;
+      $httpBackend.when('GET', CONFIG_URL).respond(config());
+    });
+
+    this.el = $compile('<akam-menu-header></akam-menu-header>' +
+    '<akam-menu-footer></akam-menu-footer>')($scope);
+    $scope.$digest();
+    this.element = document.body.appendChild(this.el[0]);
+
     this.server = sinon.fakeServer.create();
 
     // minimal menu. Two tabs, one has a section with sub-sections and the other does not
     this.server.respondWith('GET', /\/ui\/services\/nav\/megamenu/, [
       200, {'Content-Type': 'application/json'}, JSON.stringify({
-        'accounts': null,
-        'hasAccounts': 'true',
-        'contextTitle': 'Select Group or Property',
-        'currentAccount': 'Crinkle Ball Inc',
-        'tabs': [
+        accounts: null,
+        hasAccounts: 'true',
+        contextTitle: 'Select Group or Property',
+        currentAccount: 'Crinkle Ball Inc',
+        tabs: [
           {
-            'active': true,
-            'tabId': 1,
-            'itemId': 1,
-            'englishName': 'MONITOR',
-            'url': null,
-            'name': 'MONITOR',
-            'columns': [
+            active: true,
+            tabId: 1,
+            itemId: 1,
+            englishName: 'MONITOR',
+            url: null,
+            name: 'MONITOR',
+            columns: [
               {
-                'mainMenuItems': [
+                mainMenuItems: [
                   {
-                    'itemId': 16640,
-                    'url': null,
-                    'name': 'Site',
-                    'subMenuItems': [
+                    itemId: 16640,
+                    url: null,
+                    name: 'Site',
+                    subMenuItems: [
                       {
-                        'itemId': 16819,
-                        'cps': null,
-                        'subMenuItems': null,
-                        'dps': null,
-                        'contextId': 0,
-                        'url': '/core-reports/views/user_traffic.do',
-                        'name': 'User Traffic'
+                        itemId: 16819,
+                        cps: null,
+                        subMenuItems: null,
+                        dps: null,
+                        contextId: 0,
+                        url: '/core-reports/views/user_traffic.do',
+                        name: 'User Traffic'
                       }
                     ]
                   }
@@ -51,40 +80,40 @@ describe('menu', function() {
             ]
           },
           {
-            'url': null,
-            'englishName': 'RESOLVE',
-            'name': 'RESOLVE',
-            'tabId': 4,
-            'itemId': 4,
-            'columns': [
+            url: null,
+            englishName: 'RESOLVE',
+            name: 'RESOLVE',
+            tabId: 4,
+            itemId: 4,
+            columns: [
               {
-                'mainMenuItems': [
+                mainMenuItems: [
                   {
-                    'url': '/resolve/diagnostic_tools',
-                    'cps': null,
-                    'subMenuItems': [],
-                    'dps': null,
-                    'itemId': 18458,
-                    'contextId': 0,
-                    'name': 'Diagnostic Tools'
+                    url: '/resolve/diagnostic_tools',
+                    cps: null,
+                    subMenuItems: [],
+                    dps: null,
+                    itemId: 18458,
+                    contextId: 0,
+                    name: 'Diagnostic Tools'
                   }
                 ]
               }
             ]
           }
         ],
-        'users': {
-          'textLoggedInAs': null,
-          'mainMenuItems': [
+        users: {
+          textLoggedInAs: null,
+          mainMenuItems: [
             {
-              'itemId': 0,
-              'contextId': 0,
-              'url': '/portal/profile/edit_profile.jsf',
-              'name': 'Settings'
+              itemId: 0,
+              contextId: 0,
+              url: '/portal/profile/edit_profile.jsf',
+              name: 'Settings'
             }
           ],
-          'current': 'Stella Cat',
-          'impersonator': null
+          current: 'Stella Cat',
+          impersonator: null
         }
       })
     ]);
@@ -95,7 +124,8 @@ describe('menu', function() {
   });
 
   it('should render on success', function() {
-    var spy = jasmine.createSpy('spy')
+    var spy = jasmine.createSpy('spy');
+
     menu.render(spy);
 
     // this may cause the config call to be done for the first time
@@ -111,11 +141,13 @@ describe('menu', function() {
   });
 
   it('should not render on error', function() {
+    var spy;
+
     this.server.respondWith('GET', /\/ui\/services\/nav\/megamenu/, [
       500, {'Content-Type': 'application/json'}, JSON.stringify({})
     ]);
 
-    var spy = jasmine.createSpy('spy')
+    spy = jasmine.createSpy('spy');
     menu.render(spy);
     this.server.respond();
 
@@ -173,6 +205,7 @@ describe('menu', function() {
 
     it('should hide all tabs when body is clicked', function() {
       var tab = getTab('MONITOR');
+
       clickElement(tab);
       clickElement($('body'));
       expect(tabsAllHidden()).toBe(true);
@@ -193,6 +226,7 @@ describe('menu', function() {
       var tab = getTab('MONITOR'),
         nav = tab.find('nav'),
         inside = tab.find('section:first');
+
       clickElement(tab);
       expect(nav.hasClass(HIDE_CLASS)).not.toBe(true);
       clickElement(inside);

@@ -36,8 +36,7 @@ function setData(newData) {
 function i18n(key, options) {
   if (!translateFn) {
     translateFn = translate.getTranslationFunction(data, {
-      //TODO: set to false before going to production. Used now to find keys that aren't translated
-      debug: true,
+      debug: false,
       namespaceSplitter: '.'
     });
   }

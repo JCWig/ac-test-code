@@ -1,5 +1,7 @@
 'use strict';
 
+var template = require('./header/header.html');
+
 var render = require('./utils/renderer').render;
 
 var helpers = require('./helpers'),
@@ -21,7 +23,7 @@ module.exports = function($rootScope, context) {
     scope: { },
     controller: MegaMenu,
     controllerAs: 'menuHeader',
-    template: require('./header/header.html')
+    template: template
   };
 
   function contextChanged(e, data) {
@@ -51,7 +53,6 @@ module.exports = function($rootScope, context) {
       breadcrumbs.render(group);
     }
 
-    // sadly, we cannot call render twice on the context selector, or else the even
     if (accountContext) {
       contextSelector.render(accountContext);
     }

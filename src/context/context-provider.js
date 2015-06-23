@@ -27,7 +27,7 @@ module.exports = function ContextProvider() {
 
   /**
    * Sets the application context to be either account centric or group centric.
-   * @param {String} newType Should be 'account' or 'group'
+   * @param {String} newType Should be 'account', 'group' or 'standalone' (for non luna apps).
    */
   this.setApplicationContext = function(newType) {
 
