@@ -19,14 +19,14 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     restrict: 'E',
     scope: {},
     bindToController: {
-      rows: '=',
+      items: '=',
       idProperty: '@',
       filterPlaceholder: '@',
       noFilterResultsMessage: '@',
-      noDataMessage: '=?',
-      selectedRows: '=?', // selected items from the outside
-      onChange: '&?',
-      onRowsChange: '&?'
+      noItemsMessage: '=?',
+      selectedItems: '=?', // selected items from the outside
+      onSelect: '&?',
+      onChange: '&?'
     },
     controller: TableController,
     controllerAs: 'table',
@@ -52,7 +52,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       }
 
       // remove filter (and possibly the entire toolbar) if necessary
-      if (angular.isDefined(attributes.noFilter)) {
+      if (angular.isDefined(attributes.notFilterable)) {
         if (tpl.find(toolbarSelector).length) {
           selector = 'span.filter';
         } else {
@@ -62,7 +62,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       }
 
       // remove pagination if necessary
-      if (angular.isDefined(attributes.noPage)) {
+      if (angular.isDefined(attributes.notPageable)) {
         tpl.find('akam-pagination').remove();
       }
 
@@ -78,7 +78,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
         toolbarScope = scope.$parent.$new(),
         table = element.find(rowSelector + '-placeholder'),
         toolbar = element.find(toolbarSelector + '-placeholder'),
-        selectable = !!element.attr('selected-rows') || !!element.attr('on-change'),
+        selectable = !!element.attr('selected-items') || !!element.attr('on-select'),
         tableRowElem = element.find(rowSelector),
         toolbarElem = element.find(toolbarSelector),
         template = akamTableTemplate.template(tableRowElem, attributes, selectable);
@@ -92,8 +92,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
         toolbar.replaceWith($compile(toolbarElem[0].outerHTML)(toolbarScope));
       }
 
-      // handle setting sorting and filtering state based on the 'no-sort' and 'no-filter' attrs
-      // this will potentially modify the scope.table.state object
+      // handle setting sorting and filtering state based on the 'not-sortable'
+      //and 'not-filterable' attrs this will potentially modify the scope.table.state object
       angular.forEach(element.find('th'), function(header) {
         addDefaultSort(scope, attributes, header);
         addFilterableColumns(scope, attributes, header);
@@ -104,7 +104,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
   // add sortable class and keep track of sortable columns
   function addDefaultSort(scope, attributes, header) {
     if (header.hasAttribute('default-sort')) {
-      if (!angular.isDefined(attributes.noSort) && !header.hasAttribute('no-sort') &&
+      if (!angular.isDefined(attributes.notSortable) &&
+        !header.hasAttribute('not-sortable') &&
         header.hasAttribute('row-property')) {
         scope.table.state.sortColumn = header.getAttribute('row-property');
       } else {
@@ -116,8 +117,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
 
   // keep track of filterable columns
   function addFilterableColumns(scope, attributes, header) {
-    if (!angular.isDefined(attributes.noFilter) &&
-      !header.hasAttribute('no-filter') &&
+    if (!angular.isDefined(attributes.notFilterable) &&
+      !header.hasAttribute('not-filterable') &&
       header.hasAttribute('row-property')) {
 
       scope.table.state.filterableColumns.push(header.getAttribute('row-property'));
@@ -150,7 +151,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
 
     // mapping between row id properties and a boolean indicating whether or not the
     // row is selected
-    this.selectedRowsMap = {};
+    this.selectedItemsMap = {};
     this.rowSelectedClass = rowSelectedClass;
 
     this.sortDirectionClass = sortDirectionClass;
@@ -168,8 +169,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     this.messages = messages;
     translateMessages.call(this);
 
-    $scope.$watch('table.rows', angular.bind(this, loadingFn));
-    $scope.$watch('table.selectedRows', angular.bind(this, setSelectedRows));
+    $scope.$watch('table.items', angular.bind(this, loadingFn));
+    $scope.$watch('table.selectedItems', angular.bind(this, setSelectedItems));
 
     // --- utility methods below ---
 
@@ -179,7 +180,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
      */
     function loadingFn() {
       this.loading = true;
-      $q.when(this.rows)
+      $q.when(this.items)
         .then(angular.bind(this, updateRowData))
         .then(angular.bind(this, doneLoading))
         .catch(angular.bind(this, failedLoading));
@@ -190,33 +191,33 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
      * @this TableController
      * @param {Object[]} items the set of selected items
      */
-    function setSelectedRows(items) {
-      this.selectedRowsMap = {};
+    function setSelectedItems(items) {
+      this.selectedItemsMap = {};
 
       angular.forEach(items, function(item) {
-        this.selectedRowsMap[this.idPropertyFn(item)] = true;
+        this.selectedItemsMap[this.idPropertyFn(item)] = true;
       }, this);
     }
 
     /**
-     * Toggles the selected row. Handles updating the selectedRows property.
+     * Toggles the selected row. Handles updating the selectedItems property.
      * @this TableController
      * @param {Object} row the row that has been selected or de-selected
      */
     function toggleSelected(row) {
       var index;
 
-      if (this.selectedRowsMap[this.idPropertyFn(row)]) {
-        this.selectedRows.push(row);
+      if (this.selectedItemsMap[this.idPropertyFn(row)]) {
+        this.selectedItems.push(row);
       } else {
-        index = this.selectedRows.indexOf(row);
+        index = this.selectedItems.indexOf(row);
         if (index > -1) {
-          this.selectedRows.splice(index, 1);
+          this.selectedItems.splice(index, 1);
         }
       }
 
-      if (angular.isFunction(this.onChange)) {
-        this.onChange({selectedItems: this.selectedRows});
+      if (angular.isFunction(this.onSelect)) {
+        this.onSelect({selectedItems: this.selectedItems});
       }
     }
 
@@ -227,7 +228,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
      * @returns {String} class name for the template to know whether this row is selected or not
      */
     function rowSelectedClass(id) {
-      if (this.selectedRowsMap[id]) {
+      if (this.selectedItemsMap[id]) {
         return 'row-selected';
       }
 
@@ -297,8 +298,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
           (this.state.pageNumber - 1) * this.state.pageSize);
       }
 
-      if (angular.isFunction(this.onRowsChange)) {
-        this.onRowsChange({rows: newData});
+      if (angular.isFunction(this.onChange)) {
+        this.onChange({items: newData});
       }
 
       this.filtered = newData;
@@ -366,9 +367,9 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
           .then(angular.bind(this, setTranslatedValue, 'noFilterResultsMessage'));
       }
 
-      if (!angular.isDefined(this.noDataMessage)) {
+      if (!angular.isDefined(this.noItemsMessage)) {
         translate.async('components.data-table.text.noDataMessage')
-          .then(angular.bind(this, setTranslatedValue, 'noDataMessage'));
+          .then(angular.bind(this, setTranslatedValue, 'noItemsMessage'));
       }
     }
 

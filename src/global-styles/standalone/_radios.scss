@@ -1,0 +1,75 @@
+
+input[type="radio"] {
+  // Remove the margin-right for browsers that get a custom input
+  margin-right: 0;
+  // Remove the input from the document flow and hide it
+  position: absolute;
+  width: 0;
+  height: 0;
+  @include opacity(0);
+
+  & + label {
+    font-size: $label-font-size;
+    // Override TWBS
+    font-weight: normal;
+    padding-left: 0;
+  }
+
+  // Adjacent labels will construct a custom input using the content property
+  & + label:before {
+    content: "";
+    display: inline-block;
+    background-color: transparent;
+    vertical-align: middle;
+    // By default, radios want space between it and its label
+    padding-right: $radio-label-margin;
+    @include luna-sprite(radio);
+    // Override TWBS
+    @include box-sizing(content-box);
+  }
+
+}
+
+input[type="radio"] {
+  // The cascade order matters here: Disabled > Active > Hover > Focus > Default
+  &:focus + label:before {
+    @include luna-sprite(radio_focus);
+  }
+  &:hover + label:before {
+    @include luna-sprite(radio_hover);
+  }
+  &:active + label:before {
+    @include luna-sprite(radio_active);
+  }
+  &:disabled + label:before {
+    @include luna-sprite(radio_disabled);
+  }
+
+  // The states for a checked radio button
+  &:checked {
+    // The cascade order matters here: Disabled > Active > Hover > Focus > Default
+    & + label:before {
+      @include luna-sprite(radio-selected);
+    }
+    &:focus + label:before {
+      @include luna-sprite(radio-selected_focus);
+    }
+    &:hover + label:before {
+      @include luna-sprite(radio-selected_hover);
+    }
+    &:active + label:before {
+      @include luna-sprite(radio-selected_active);
+    }
+    &:disabled + label:before {
+      @include luna-sprite(radio-selected_disabled);
+    }
+  }
+}
+
+&.luna input[type="radio"] {
+  // Luna tweaks here
+}
+
+&.pulsar input[type="radio"] {
+  // Pulsar tweaks here
+}

@@ -40,6 +40,8 @@ module.exports = angular.module('akamai.components.dropdown', [
  *
  * @param {String} [filterPlaceholder=Filter] The placeholder text for the filter field
  *
+ * @param {String} [appendToBody] if present will append dropdown portion to the body
+ *
  * @param {Function} [onChange] A callback function that is executed when the
  * state of the dopdown changes
  */
