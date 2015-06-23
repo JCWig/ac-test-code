@@ -27,21 +27,24 @@ module.exports = function ContextProvider() {
 
   /**
    * Sets the application context to be either account centric or group centric.
-   * @param {String} newType Should be 'account', 'group' or 'standalone' (for non luna apps).
+   * @param {String} newType Should be 'APP_CONTEXTS.account', 'APP_CONTEXTS.group'
+   * or 'APP_CONTEXTS.standalone' (for non luna apps).
    */
   this.setApplicationContext = function(newType) {
-
-    if (APP_CONTEXTS[newType]) {
-      applicationType = APP_CONTEXTS[newType];
-    }
-
+    applicationType = newType;
   };
+
+  // used to facilitate setting the context
+  this.APP_CONTEXTS = angular.copy(APP_CONTEXTS);
 
   /* @ngInject */
   this.$get = function Context($rootScope, $injector, $window, $location, $cookies) {
 
     return {
       getApplicationContext: getApplicationContext,
+      isGroupContext: angular.bind(this, isContext, APP_CONTEXTS.group),
+      isAccountContext: angular.bind(this, isContext, APP_CONTEXTS.account),
+      isStandaloneContext: angular.bind(this, isContext, APP_CONTEXTS.standalone),
       setContextId: setContextId,
       getContextForAccount: getContextForAccount,
       getGroupInfo: getGroupInfo,
@@ -50,8 +53,7 @@ module.exports = function ContextProvider() {
       accountChanged: accountChanged,
       setAccountCookie: setAccountCookie,
       setContextIdFromUrl: setContextIdFromUrl,
-      GID_QUERY_PARAM: GID_QUERY_PARAM,
-      APP_CONTEXTS: APP_CONTEXTS
+      GID_QUERY_PARAM: GID_QUERY_PARAM
     };
 
     /**
@@ -192,6 +194,10 @@ module.exports = function ContextProvider() {
     function notifyMegaMenu(data) {
       $rootScope.$broadcast(LOADED_EVENT, data.data);
       return data;
+    }
+
+    function isContext(context) {
+      return applicationType === context;
     }
 
     // converts the absolute mess that is the context.json call into a flat list with parent

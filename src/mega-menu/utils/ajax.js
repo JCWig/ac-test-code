@@ -2,7 +2,8 @@
 
 // Inspired by https://github.com/remy/libraries
 
-var querystring = require('querystring');
+var angular = require('angular'),
+  querystring = require('querystring');
 
 // regex to check for any status code with 20X or 30X.
 var SUCCESS = /^(20\d|30\d)$/;
@@ -85,7 +86,7 @@ module.exports = {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest|XMLHttpRequest}
    * @returns {XMLHttpRequest} The request object
    */
-  get: request.bind(this, 'GET'),
+  get: angular.bind(this, request, 'GET'),
 
   /**
    * @ngdoc function
@@ -100,7 +101,7 @@ module.exports = {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest|XMLHttpRequest}
    * @returns {XMLHttpRequest} The request object
    */
-  post: request.bind(this, 'POST'),
+  post: angular.bind(this, request, 'POST'),
 
   /**
    * @ngdoc function
@@ -115,7 +116,7 @@ module.exports = {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest|XMLHttpRequest}
    * @returns {XMLHttpRequest} The request object
    */
-  put: request.bind(this, 'PUT'),
+  put: angular.bind(this, request, 'PUT'),
 
   /**
    * @ngdoc function
@@ -129,7 +130,7 @@ module.exports = {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest|XMLHttpRequest}
    * @returns {XMLHttpRequest} The request object
    */
-  'delete': request.bind(this, 'DELETE'),
+  'delete': angular.bind(this, request, 'DELETE'),
 
   /**
    * @ngdoc function

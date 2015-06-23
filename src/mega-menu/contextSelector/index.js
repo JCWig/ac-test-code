@@ -12,7 +12,8 @@
  * @description
  * Module for showing the context selector dropdown
  */
-var config = require('../utils/config'),
+var angular = require('angular'),
+  config = require('../utils/config'),
   i18n = require('../helpers/i18n').i18n,
   ajax = require('../utils/ajax'),
   renderer = require('../utils/renderer'),
@@ -93,7 +94,7 @@ function getResults(search) {
     results.extraKey = 'cps';
   }
 
-  results.items = data.filter(searchMatch.bind(this, searchRegex, results.extraKey));
+  results.items = data.filter(angular.bind(this, searchMatch, searchRegex, results.extraKey));
   return results;
 }
 
@@ -138,7 +139,7 @@ function bindEvents() {
 
   contextSelector = new Popup(nav, nav.parentElement);
 
-  el.addEventListener('click', contextSelector.toggle.bind(contextSelector));
+  el.addEventListener('click', angular.bind(contextSelector, contextSelector.toggle));
 
   html.addEventListener('click', function(e) {
     if (e.target !== el) {

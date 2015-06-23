@@ -17,7 +17,7 @@ module.exports = angular.module('akamai.components.context', [
   .provider('context', contextProvider)
   .run(function($cookies, context) {
 
-    if (context.getApplicationContext() !== context.APP_CONTEXTS.standalone) {
+    if (!context.isStandaloneContext()) {
       context.setAccountCookie();
       context.setContextIdFromUrl();
     }
