@@ -242,7 +242,7 @@ describe('messageBox service', function() {
       expect(document.querySelector('.modal-content')).toBe(null);
     });
 
-    xdescribe('when view details is clicked', function() {
+    describe('when view details is clicked', function() {
       it('should toggle the visibility of the content', function() {
         this.messageBox.show({
           headline: 'Headline',
@@ -254,16 +254,11 @@ describe('messageBox service', function() {
         var messageBoxDetails = document.querySelector('.message-box-details > div');
         var messageBoxDetailsTrigger = document.querySelector('.message-box-details > span');
 
-        expect(angular.element(messageBoxDetails).css('height')).toEqual('0px');
-        console.log(messageBoxDetailsTrigger)
+        expect(messageBoxDetails.classList).not.toContain('in');
         utilities.click(messageBoxDetailsTrigger);
-        try {
-          this.$timeout.verifyNoPendingTasks();
-        } catch (e) {
-          this.$timeout.flush();
-        }
-
-        expect(angular.element(messageBoxDetails).css('height')).not.toEqual('0px');
+        this.$rootScope.$digest();
+        
+        expect(messageBoxDetails.classList).toContain('in');
       });
     });
 
