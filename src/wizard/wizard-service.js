@@ -29,20 +29,20 @@ module.exports = function($templateCache, $log, $modal, $controller) {
   return {
     open: function(options) {
 
-      var wizardScope = initializeScope(options);
+      var wizardScope = initializeScope(options), i;
 
-      for (var i = 0; i < options.steps.length; i++) {
+      for (i = 0; i < options.steps.length; i++) {
         options.steps[i].template = $templateCache.get(options.steps[i].templateId);
       }
 
       wizardScope.previousStep = function() {
-        if(wizardScope.stepIndex > 0) {
+        if (wizardScope.stepIndex > 0) {
           wizardScope.stepIndex--;
         }
       };
 
       wizardScope.nextStep = function() {
-        if(wizardScope.stepIndex < wizardScope.steps.length - 1) {
+        if (wizardScope.stepIndex < wizardScope.steps.length - 1) {
           wizardScope.stepIndex++;
         }
       };
@@ -61,7 +61,7 @@ module.exports = function($templateCache, $log, $modal, $controller) {
         wizardScope.currentStep = wizardScope.steps[stepIndex];
       });
 
-      var instance = $modal.open(angular.extend(options, {
+      $modal.open(angular.extend(options, {
         scope: wizardScope,
         template: require('./templates/wizard.tpl.html')
       }));
