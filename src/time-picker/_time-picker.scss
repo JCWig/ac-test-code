@@ -37,10 +37,10 @@ $timepicker-input-disabled-color: #cccccc;
       color: $timepicker-input-disabled-color;
       cursor: default;
     }
-    &.ng-invalid ~ .btn {
+    &.ng-invalid.ng-touched ~ .btn {
       border-left-color: $border-color-invalid;
     }
-    &.ng-invalid {
+    &.ng-invalid.ng-touched {
       border-color: $border-color-invalid;
     }
     &::-ms-clear {
