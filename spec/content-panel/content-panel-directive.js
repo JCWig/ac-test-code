@@ -45,8 +45,8 @@ describe('akam-content-panel', function() {
 
       expect(headerDiv.textContent).toMatch(/Header 1/);
       expect(headerIcon).not.toBe(null);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
-      expect(headerIcon.classList.contains('luna-expand')).toBe(false);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
       expect(content.length).toEqual(3);
       expect(content[1].textContent).toMatch(/Gandalf the Grey/);
       expect(content[2].textContent).toMatch(/Gandalf the White/);
@@ -64,8 +64,8 @@ describe('akam-content-panel', function() {
 
       expect(headerDiv.textContent).toMatch(/Header 1/);
       expect(headerIcon).not.toBe(null);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
-      expect(headerIcon.classList.contains('luna-expand')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(false);
       expect(content.length).toEqual(3);
       expect(content[1].textContent).toMatch(/Gandalf the Grey/);
       expect(content[2].textContent).toMatch(/Gandalf the White/);
@@ -133,9 +133,9 @@ describe('akam-content-panel', function() {
       expect(contentWrappers.length).toEqual(3);
       expect(headerIcons.length).toEqual(3);
 
-      expect(headerIcon1.classList.contains('luna-expand')).toBe(false);
-      expect(headerIcon2.classList.contains('luna-expand')).toBe(true);
-      expect(headerIcon3.classList.contains('luna-expand')).toBe(false);
+      expect(headerIcon1.classList.contains('luna-arrow_smDown')).toBe(true);
+      expect(headerIcon2.classList.contains('luna-arrow_smDown')).toBe(false);
+      expect(headerIcon3.classList.contains('luna-arrow_smDown')).toBe(true);
 
       expect(header1).toMatch(/Header 1/);
       expect(header2).toMatch(/Header 2/);
@@ -282,8 +282,8 @@ describe('akam-content-panel', function() {
       scope.$digest();
 
       expect(scope.process.calls.count()).toEqual(1);
-      expect(headerIcon.classList.contains('luna-expand')).toBe(true);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(false);
       expect(contentWrapper.getAttribute('style')).toContain('height: 0px');
 
       utilities.click(headerDiv);
@@ -291,8 +291,8 @@ describe('akam-content-panel', function() {
 
       expect(scope.process.calls.count()).toEqual(2);
       expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
-      expect(headerIcon.classList.contains('luna-expand')).toBe(false);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
     });
   });
   describe('when changing html inputs', function() {
@@ -311,15 +311,15 @@ describe('akam-content-panel', function() {
       utilities.click(headerIcon);
       scope.$digest();
 
-      expect(headerIcon.classList.contains('luna-expand')).toBe(true);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(false);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(true);
       expect(contentWrapper.getAttribute('style')).toContain('height: 0px');
 
       utilities.click(headerDiv);
       scope.$digest();
 
-      expect(headerIcon.classList.contains('luna-expand')).toBe(false);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
       expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
     });
     it('should be able to toggle visibility of content if no toggle or collapsed provided', function() {
@@ -337,15 +337,15 @@ describe('akam-content-panel', function() {
       utilities.click(headerIcon);
       scope.$digest();
 
-      expect(headerIcon.classList.contains('luna-expand')).toBe(true);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(false);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(false);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(true);
       expect(contentWrapper.getAttribute('style')).toContain('height: 0px');
 
       utilities.click(headerDiv);
       scope.$digest();
 
-      expect(headerIcon.classList.contains('luna-expand')).toBe(false);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
       expect(contentWrapper.getAttribute('style')).not.toContain('height: 0px');
     });
     it('should default to expanded if is-collapsed not provided', function() {
@@ -361,8 +361,8 @@ describe('akam-content-panel', function() {
 
       expect(headerDiv.textContent).toMatch(/Header 1/);
       expect(headerIcon).not.toBe(null);
-      expect(headerIcon.classList.contains('luna-collapse')).toBe(true);
-      expect(headerIcon.classList.contains('luna-expand')).toBe(false);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
       expect(content.length).toEqual(3);
       expect(content[1].textContent).toMatch(/Gandalf the Grey/);
       expect(content[2].textContent).toMatch(/Gandalf the White/);

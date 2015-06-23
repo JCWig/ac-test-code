@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <title>Akamai Components Examples - Content Panel</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
+        <style>
+        </style>
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container">
@@ -11,7 +13,7 @@
                 <h1>Content Panel Component Example</h1>
             </div>
             <h3>Panel Initially Expanded:</h3>
-            <akam-content-panel akam-standalone  is-collapsed="isCollapsed1" on-toggle="process(value)">
+            <akam-content-panel akam-standalone  is-collapsed="isCollapsed1" header="Header 1" on-toggle="process(value)">
                 <div>Panel Content</div>
                 <div>More Panel Content</div>
             </akam-content-panel>
@@ -23,19 +25,23 @@
             </akam-content-panel>
             <br />
             <h3>Panel Group:</h3>
-            <akam-content-panel akam-standalone ng-repeat="panel in panels" on-toggle="process(value)" header="{{panel.header}}" is-collapsed="panel.collapsed">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
-                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </akam-content-panel>
+            <div class="panel-group">
+                <akam-content-panel ng-repeat="panel in panels" on-toggle="process(value)" header="{{panel.header}}" is-collapsed="panel.collapsed">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                    3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                    Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                    synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </akam-content-panel>
+            </div>
             <br />
             <h3>Panel with Custom Header</h3>
             <akam-content-panel>
                 <akam-content-panel-header>
-                    <i class="luna-world_map"></i> Custom Header
+                    <div class="panel-title">
+                        <i class="luna-world_map mm"></i> Custom Header
+                    </div>
                 </akam-content-panel-header>
                 <akam-content-panel-body>
                     Panel content

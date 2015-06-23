@@ -22,14 +22,16 @@ module.exports = function($log) {
 
       return {
         pre: function preLink(scope, iElement, iAttrs, controller, transclude) {
+          var hasHeaderTranscluded;
+
           //This is essentially the same as if this directive's template had
           // ng-transclude on the root element.
           if ( !iAttrs.header ) {
-              iElement.append(transclude());
-              var hasHeaderTranscluded = !!iElement[0].querySelector('.panel-heading');
-              if (!hasHeaderTranscluded) {
-                $log.error('No "akam-content-panel-header" tag found. Header will not render.');
-              }
+            iElement.append(transclude());
+            hasHeaderTranscluded = !!iElement[0].querySelector('.panel-heading');
+            if (!hasHeaderTranscluded) {
+              $log.error('No "akam-content-panel-header" tag found. Header will not render.');
+            }
           }
         },
         post: function postLink(scope) {
