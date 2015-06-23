@@ -5,7 +5,7 @@ var querystring = require('querystring'),
 
 // static list of contexts that can  be applied to an application. It may be group or account
 // aware.
-var CONTEXT = {
+var APP_CONTEXTS = {
   account: 'account',
   group: 'group',
   standalone: 'standalone'
@@ -23,7 +23,7 @@ var CONTEXT = {
 module.exports = function ContextProvider() {
 
   // sets the application context type. Some applications care about groups and some do not
-  var applicationType = CONTEXT.account, currentAccount, groups, rawContext;
+  var applicationType = APP_CONTEXTS.account, currentAccount, groups, rawContext;
 
   /**
    * Sets the application context to be either account centric or group centric.
@@ -31,8 +31,8 @@ module.exports = function ContextProvider() {
    */
   this.setApplicationContext = function(newType) {
 
-    if (CONTEXT[newType]) {
-      applicationType = CONTEXT[newType];
+    if (APP_CONTEXTS[newType]) {
+      applicationType = APP_CONTEXTS[newType];
     }
 
   };
@@ -50,7 +50,8 @@ module.exports = function ContextProvider() {
       accountChanged: accountChanged,
       setAccountCookie: setAccountCookie,
       setContextIdFromUrl: setContextIdFromUrl,
-      GID_QUERY_PARAM: GID_QUERY_PARAM
+      GID_QUERY_PARAM: GID_QUERY_PARAM,
+      APP_CONTEXTS: APP_CONTEXTS
     };
 
     /**
@@ -118,7 +119,7 @@ module.exports = function ContextProvider() {
       var qs = $location.search();
 
       // setting the breadcrumb trail to null will cause the mega menu to hide the breadcrumbs
-      if (applicationType === CONTEXT.account) {
+      if (applicationType === APP_CONTEXTS.account) {
         setContextId();
       } else if (!qs[GID_QUERY_PARAM]) {
         setContextId();
