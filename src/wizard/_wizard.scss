@@ -1,0 +1,60 @@
+$wizard-nav-step-color: #BADCE7;
+$wizard-nav-step-color-active: #249BC8;
+$wizard-nav-step-size: 30px;
+
+.modal {
+
+  .wizard-steps {
+    width: 572px;
+
+    ul, li {
+      padding:0;
+      margin:0;
+      list-style:none;
+    }
+    ul {
+      text-align: center;
+      margin: 10px 0;
+      position:relative;
+    }
+    li {
+      display: inline-block;
+      margin: 0 39px 0 38px;
+      text-align: center;
+      color: $wizard-nav-step-color;
+
+      div {
+        width: $wizard-nav-step-size;
+        height: $wizard-nav-step-size;
+        border-radius: 50%;
+        border: 1px solid $wizard-nav-step-color;
+
+        line-height: $wizard-nav-step-size;
+        cursor: pointer;
+        margin: 0 auto;
+      }
+    }
+    li.active {
+      div {
+        background-color: $wizard-nav-step-color-active;
+        color: white;
+      }
+      span {
+        color: $wizard-nav-step-color-active;
+      }
+    }
+
+    li:after {
+      content: " ";
+      height: 1px;
+      background-color: $wizard-nav-step-color;
+      position: absolute;
+      width: 86px;
+      top: 15px;
+      margin-left: -3px;
+    }
+    li:last-child:after {
+      display:none;
+    }
+  }
+}
