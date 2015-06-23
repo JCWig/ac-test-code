@@ -4,6 +4,32 @@ var gulp = require('gulp');
 var shell = require('shelljs');
 var rsync = require('rsyncwrapper').rsync;
 var bundleLogger = require('../util/bundle-logger');
+var maxTries = 3;
+
+function doRsync(location, tries) {
+  tries = tries || 1;
+
+  //TODO: Handle scenarios where the folder needs to be generated on the server side
+  rsync({
+    ssh: true,
+    src: ['./dist', './examples'],
+    dest: 'sshacs@lunahome.upload.akamai.com:' + location,
+    recursive: true,
+    args: ['--copy-dirlinks', '--verbose', '--compress']
+    //dryRun: true
+  }, function(error, stdout, stderr, cmd) {
+    if (error != null) {
+      if ( tries >= maxTries ) {
+        bundleLogger.log('too many rsync tries failed.');
+        return;
+      }
+      bundleLogger.log('rsync attempt failed.', error, cmd);
+      doRsync(location, tries + 1);
+    }else {
+      bundleLogger.log('rsync success', stdout, cmd);
+    }
+  });
+}
 
 gulp.task('deploy', function() {
   var result, symbolicName, regex, matches, branchName, cleanBranchName, longFolderName;
@@ -29,16 +55,6 @@ gulp.task('deploy', function() {
   longFolderName = '/315289/website/branches/' + cleanBranchName;
   bundleLogger.log('rsync destination: ' + longFolderName);
 
-  //TODO: Handle scenarios where the folder needs to be generated on the server side
-  rsync({
-    ssh: true,
-    src: ['./dist', './examples'],
-    dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
-    recursive: true,
-    args: ['--copy-dirlinks', '--verbose', '--compress']
-    //dryRun: true
-  }, function(error, stdout, stderr, cmd) {
-    bundleLogger.log(error, stdout, cmd);
-  });
+  doRsync(longFolderName, 1);
 });
 
