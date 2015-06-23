@@ -63,8 +63,9 @@ akam-tag-input {
   }
 
   .ui-select-bootstrap > .ui-select-choices {
+    max-width: none;
     width: calc(100% + 2px);
-    margin-left:-1px;
+    margin-left:-1px; 
     height: auto;
     max-height: $tag-input-max-height-of-dropdown;
     overflow-x: hidden;
@@ -106,6 +107,8 @@ akam-tag-input {
     position: relative;
     &.btn-primary {
       border-color: $input-border-color-focus;
+      background-image: $dropdown-button-gradient;
+      color: inherit;
     }
     &.grabbable {
       cursor : grab;

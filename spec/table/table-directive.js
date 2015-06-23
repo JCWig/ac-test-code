@@ -580,6 +580,23 @@ describe('akam-table', function() {
       expect(paginationOne.classList).toContain('active');
     });
   });
+  describe('when table is not filterable', function(){
+    beforeEach(function(){
+      var markup = '<akam-table items="bigData" not-filterable  akam-standalone on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
+            '</akam-table-column>'+
+          '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+    });
+    it('should not render filterbox', function(){
+      var filterbox = document.querySelector('.filter input');
+      expect(filterbox).toBe(null);
+    });
+  });
   describe('when giving menu buttons', function(){
     beforeEach(function(){
       scope.pdfClicked = jasmine.createSpy('spy');
