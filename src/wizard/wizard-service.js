@@ -54,6 +54,7 @@ module.exports = function($templateCache, $log, $modal, $controller) {
           return true;
         }
       };
+      
 
       wizardScope.submit = angular.noop;
 
