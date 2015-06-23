@@ -1,0 +1,26 @@
+<div class="message">
+  <div class="header util-clearfix">
+    <div class="header-info">
+      <div>{{i18n 'messages.subject'}}:
+        <div class="subject">{{message.summary}}</div>
+      </div>
+      <div>{{i18n 'messages.posted'}}:
+        <div class="posted">{{dateFormat message.createdDate}}</div>
+      </div>
+    </div>
+    <div class="util-pull-right">
+      <i class="luna-reply icon-states" title="{{i18n 'messages.forward'}}"
+         data-id="{{message.messageId}}"></i> <i class="luna-trash icon-states"
+                                                 title="{{i18n 'messages.delete'}}"
+                                                 data-id="{{message.messageId}}"></i>
+      <button class="button prev"
+              {{#unless prev}}disabled{{/unless}}>{{i18n 'messages.previous'}}</button>
+      <button class="button next"
+              {{#unless next}}disabled{{/unless}}>{{i18n 'messages.next'}}</button>
+      <button class="button list">{{i18n 'messages.list'}}</button>
+    </div>
+  </div>
+  <div class="message-body">
+    <iframe sandbox="allow-same-origin" frameborder="0" src="about:blank"></iframe>
+  </div>
+</div>

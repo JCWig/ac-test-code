@@ -1,0 +1,144 @@
+{
+
+  "header" : {
+    "messages" : "Messages",
+    "alerts" : "Alerts",
+    "support" : "Support",
+    "store" : "Marketplace",
+    "reportIssue" : "Report Luna Issues"
+  },
+
+  "context" : {
+    "noMatches" : "No Matches Found",
+    "arl" : "Digital Property",
+    "cpcode" : "Traffic Segment"
+  },
+
+  "footer" : {
+    "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved",
+    "contact": "Contact Us",
+    "feedback": "How Can We Serve You Better?",
+    "policy": "Legal &amp; Privacy"
+  },
+
+  "footer_context": {
+    "akamai_internal": "Akamai Internal",
+    "account_team": "Account Team",
+    "review_contract": "Review Contracts",
+    "reporting_cpcode_tool": "Reporting CP Code Groups",
+    "cp_codes": "CP Codes",
+    "cp_codes_mange_users": "CP Codes - Manage CP Users",
+    "dmca": "DMCA",
+    "configure_ghost_logging": "Configure GHost Logging",
+    "message_center_publisher": "Message Center Publisher",
+    "email_notification_manager": "Email Notification Manager",
+    "netstorage_deprovisioning": "NetStorage Deprovisioning",
+    "nocc_ep_configuration": "NOCC EP Configuration",
+    "search": "Search Accounts",
+    "search_reports": "Search Reports",
+    "lambda_email_reports": "Lambda Email Reports",
+    "reports_dashboard": "Reports Dashboard",
+    "storage_admin": "Storage Admin",
+    "storage_am": "Storage AM",
+    "storage_ic": "Storage IC",
+    "stream_ic": "Stream IC",
+    "provision_siteshield": "Provision SiteShield",
+    "configure_ads": "Configure ADS",
+    "trials": "Trials",
+    "firewall_rules": "Firewall Rules",
+    "edgescape_certificates": "EdgeScape Certificates",
+    "china_dp_management": "China DP Management",
+    "gss_policy_compliance": "GSS Policy Compliance",
+    "search_configuration": "Search Configuration",
+    "on_demand_staream_configuration": "On Demand Streams Configuration",
+    "charaka_manage_questions": "Charaka Manage Questions",
+    "charaka_manager_questionnaires": "Charaka Manage Questionnaires",
+    "transcoding_workspaces": "Content Preparation Workspaces",
+    "transcoding_regions": "Content Preparation Regions"
+  },
+
+  "timeout" : {
+    "title" : "Session Timeout Imminent",
+    "contents" : "Your Luna Control Center session is about to expire. Click Extend to extend your session.",
+    "buttonText": "Extend"
+  },
+
+  "policies" : {
+    "ja_jp": "http://www.akamai.co.jp/enja/html/policies/index.html",
+    "it_it": "http://www.akamai.com/html/policies/index.html",
+    "zh_tw": "http://www.akamai.com/html/policies/index.html",
+    "zh_cn": "http://www.akamai.cn/enzs/html/policies/index.html",
+    "ko_kr": "http://www.akamai.com/html/policies/index.html",
+    "fr_fr": "http://www.akamai.fr/enfr/html/policies/index.html",
+    "es_es": "http://spanish.akamai.com/enes/html/policies/index.html",
+    "es_la": "http://spanish.akamai.com/enes/html/policies/index.html",
+    "de_de": "http://www.akamai.de/leaving.html?url=/html/policies/index.html",
+    "pt_br": "http://www.akamai.com/html/policies/index.html",
+    "en_us" : "http://www.akamai.com/html/policies/index.html",
+    "en_us_ib": "http://www.ibm.com/privacy/us/en/?lnk=flg-priv-usen",
+    "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506"
+  },
+
+  "search" : {
+    "search" : "Search",
+    "searchFor" : "Search for {category}",
+    "all" : "ALL",
+    "groups" : "groups",
+    "properties" : "properties",
+    "accounts" : "accounts",
+    "users" : "users",
+    "docs" : "docs",
+    "documentation" : "Documentation",
+    "kb" : "KB",
+    "knowledgeBase" : "Knowledge Base",
+    "applications" : "applications",
+    "allResults" : "All Results",
+    "seeAll" : "See all {category} results",
+    "loading" : "loading",
+    "noResults" : "no results found"
+  },
+
+  "messages" : {
+    "previewTitle" : "Message Center",
+    "widgetTitle" : "Message Center",
+    "assigned" : "Assigned To",
+    "messagesTitle" : "Messages",
+    "casesTitle" : "Open Support Cases",
+    "eventsTitle" : "Upcoming Events",
+    "no-messages" : "No messages found.",
+    "no-cases" : "No cases found.",
+    "no-events" : "No events found.",
+    "subject" : "Subject",
+    "header" : "{count} MESSAGES",
+    "unread" : "{count} Unread",
+    "posted" : "Posted",
+    "previous" : "Previous",
+    "next" : "Next",
+    "close" : "Close",
+    "list" : "List",
+    "forward" : "Forward Message",
+    "delete" : "Delete Message",
+    "deleteMessage" : "Are you sure you want to delete this message? This action cannot be undone.",
+    "forwardMessage" : "Forward selected message to the following email(s):",
+    "forwardComments" : "Comments (optional):",
+    "forwardEmailValidation" : "Enter valid email",
+    "forwardSend" : "Send",
+    "deleteOk" : "Delete",
+    "cancel" : "Cancel"
+  },
+
+  "shortMonths" : {
+    "0" : "Jan",
+    "1" : "Feb",
+    "2" : "Mar",
+    "3" : "Apr",
+    "4" : "May",
+    "5" : "Jun",
+    "6" : "Jul",
+    "7" : "Aug",
+    "8" : "Sept",
+    "9" : "Oct",
+    "10" : "Nov",
+    "11" : "Dec"
+  }
+}

@@ -1,0 +1,17 @@
+<nav class="popup account util-hide">
+  <div class="util-arrow-up"></div>
+  <div class="account-width">
+    {{#with accounts}}
+      <header class="util-clearfix">{{menuTitle}}
+        {{#if searchTitle}}
+          <a class="button small" href="{{searchURL}}" title="{{findTitle}}">{{searchTitle}}</a>
+        {{/if}}
+      </header>
+      {{#each mainMenuItems}}
+        <section>
+          <a href="{{url}}">{{{name}}}</a>
+        </section>
+      {{/each}}
+    {{/with}}
+  </div>
+</nav>

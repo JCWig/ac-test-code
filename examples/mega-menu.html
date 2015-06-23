@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Luna Control Center</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+
+  <!-- my app css goes here -->
+
+</head>
+<body class="luna common-css" ng-app="akamai.components.examples.mega-menu" ng-strict-di ng-controller="MegaMenu as vm">
+
+<akam-menu-header></akam-menu-header>
+<h1 class="page-title">My Application Title</h1>
+<div role="main">
+  <!-- Page content -->
+  <p>
+    <button class="btn btn-default" ng-click="vm.changeGroup()">Click to change group</button>
+    <span>Will change group to <code>aid=126619</code> and <code>gid=18783</code></span>
+  </p>
+</div>
+<akam-menu-footer></akam-menu-footer>
+
+</body>
+<script src="../dist/akamai-core.js"></script>
+<script>
+  angular.module('akamai.components.examples.mega-menu', ['akamai.components'])
+    .controller('MegaMenu', MegaMenu)
+    .config(Config);
+
+  function Config(contextProvider) {
+    contextProvider.setApplicationContext('group');
+  }
+  Config.$inject = ['contextProvider'];
+
+  function MegaMenu(context) {
+
+    this.changeGroup = function() {
+      context.setContextId(18783, 126619);
+    }
+  }
+  MegaMenu.$inject = ['context'];
+
+</script>
+</html>

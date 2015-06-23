@@ -1,0 +1,14 @@
+<div class="internal">
+  <nav>
+    <h1>{{i18n 'footer_context.akamai_internal'}}</h1>
+    {{#each internalLinks}}
+      <section>
+        {{#each this}}
+          <a href="{{this}}">{{i18n @key}}</a>
+        {{/each}}
+      </section>
+    {{/each}}
+
+    {{> footer}}
+  </nav>
+</div>

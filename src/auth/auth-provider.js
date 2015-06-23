@@ -18,9 +18,9 @@ module.exports = function() {
   };
 
   this.setBlacklistedUris = function(uris) {
-    if ( angular.isArray(uris) ) {
+    if (angular.isArray(uris)) {
       blackListedUris = uris;
-    }else if (angular.isString(uris) || isRegExp(uris) ) {
+    } else if (angular.isString(uris) || isRegExp(uris)) {
       blackListedUris = [uris];
     }
   };
