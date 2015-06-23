@@ -73,7 +73,7 @@ module.exports = function($document, $parse) {
         !(angular.isUndefined(ctrl.inputTime) || ctrl.inputTime === null));
     };
 
-    ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';
+    ctrl.disabled = ctrl.disabled === true || attrs.isDisabled === 'disabled';
 
     ctrl.minuteStep = timepickerConfig.MINUTE_STEP;
     $parse(attrs.minuteStep, function(value) {
