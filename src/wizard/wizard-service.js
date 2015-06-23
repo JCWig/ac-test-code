@@ -48,13 +48,10 @@ module.exports = function($templateCache, $log, $modal, $controller) {
       };
 
       wizardScope.isValid = function() {
-        if (angular.isFunction(wizardScope.currentStep.validate)) {
-          return wizardScope.currentStep.validate(wizardScope.contentScope);
-        } else {
-          return true;
-        }
+        if (!angular.isFunction(wizardScope.currentStep.validate)) { return true; }
+
+        return wizardScope.currentStep.validate(wizardScope.contentScope);
       };
-      
 
       wizardScope.submit = angular.noop;
 

@@ -4,11 +4,13 @@
 
 <div class="wizard-steps">
     <ul>
-        <li class="active"><div>1</div><span>Step 1</span></li>
+        <li ng-class="$index == stepIndex ? 'active' : ''" ng-repeat="step in steps"><div>{{ $index + 1 }}</div><span>{{ step.name }}</span></li>
+
+
+<!--        <li class="active"><div>1</div><span>Step 1</span></li>
         <li><div>2</div><span>Step 2</span></li>
         <li><div>3</div><span>Step 3</span></li>
-        <li><div>4</div><span>Step 4</span></li>
-        <li><div>5</div><span>Step 5</span></li>
+        <li><div>4</div><span>Step 4</span></li>-->
     </ul>
 </div>
 

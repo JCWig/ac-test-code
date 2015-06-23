@@ -1,11 +1,13 @@
-$wizard-nav-step-color: #BADCE7;
-$wizard-nav-step-color-active: #249BC8;
-$wizard-nav-step-size: 30px;
+$wizard-nav-step-color: #ccc;
+$wizard-nav-step-color-active: #0099cc;
+$wizard-nav-step-size: 28px;
+$wizard-nav-font-size: 14px;
 
 .modal {
 
   .wizard-steps {
-    width: 572px;
+    width: 574px;
+    background-color: #f3f3f3;
 
     ul, li {
       padding:0;
@@ -19,7 +21,7 @@ $wizard-nav-step-size: 30px;
     }
     li {
       display: inline-block;
-      margin: 0 39px 0 38px;
+      margin: 0 39px;
       text-align: center;
       color: $wizard-nav-step-color;
 
@@ -32,15 +34,24 @@ $wizard-nav-step-size: 30px;
         line-height: $wizard-nav-step-size;
         cursor: pointer;
         margin: 0 auto;
+        font-size: 14px;
+      }
+
+      span {
+        font-size: 12px;
       }
     }
     li.active {
       div {
         background-color: $wizard-nav-step-color-active;
+        border-color: $wizard-nav-step-color-active;
         color: white;
+        font-weight: bold;
       }
       span {
         color: $wizard-nav-step-color-active;
+        font-weight: bold;
+
       }
     }
 
@@ -51,7 +62,7 @@ $wizard-nav-step-size: 30px;
       position: absolute;
       width: 86px;
       top: 15px;
-      margin-left: -3px;
+      margin-left: -4px;
     }
     li:last-child:after {
       display:none;
