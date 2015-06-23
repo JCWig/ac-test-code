@@ -25,7 +25,7 @@ function doRsync(location, tries) {
       }
       bundleLogger.log('rsync attempt failed.', error, cmd);
       doRsync(location, tries + 1);
-    }else {
+    } else {
       bundleLogger.log('rsync success', stdout, cmd);
     }
   });
