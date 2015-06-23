@@ -2,6 +2,8 @@
 
 'use strict';
 
+var angular = require('angular');
+
 /*!
  * @author Sean Coker <sean@seancoker.com>
  * @version 1.5.1
@@ -484,7 +486,7 @@ var Taggle = function(el, options) {
     close.href = 'javascript:void(0)';
     close.innerHTML = '&times;';
     close.className = 'close';
-    close.onclick = _remove.bind(null, close);
+    close.onclick = angular.bind(null, _remove, close);
 
     _setText(span, text);
     span.className = 'taggle_text';

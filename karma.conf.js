@@ -14,13 +14,7 @@ module.exports = function(config) {
       'dist/akamai-core.min.css',
       {pattern: 'dist/images/*', included: false, served: true},
       'node_modules/moment/moment.js',
-      {
-        pattern: 'spec/mega-menu/phantom-shims.js',
-        served: true,
-        included: true,
-        watched: false
 
-      },
       'spec/!(mega-menu)/**/*.js',
 
       // load the mega menu tests last because they seem to not clean up the environment

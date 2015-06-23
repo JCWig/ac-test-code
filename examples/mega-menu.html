@@ -30,7 +30,7 @@
     .config(Config);
 
   function Config(contextProvider) {
-    contextProvider.setApplicationContext('group');
+    contextProvider.setApplicationContext(contextProvider.APP_CONTEXTS.group);
   }
   Config.$inject = ['contextProvider'];
 

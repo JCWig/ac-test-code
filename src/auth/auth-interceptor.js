@@ -35,7 +35,7 @@ module.exports = function($q, httpBuffer, token, authConfig, auth, context) {
       if (token.isPending() && !isUriBlacklisted(requestConfig.url) ) {
         return httpBuffer.appendRequest(requestConfig);
       }
-      if (context.getApplicationContext() !== context.APP_CONTEXTS.account) {
+      if (context.isGroupContext()) {
         requestConfig.params = requestConfig.params || {};
         requestConfig.params.gid = context.getGroupId();
         requestConfig.params.aid = context.getAssetId();
