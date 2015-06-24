@@ -180,6 +180,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
      */
     function loadingFn() {
       this.loading = true;
+      this.failed = false;
       $q.when(this.items)
         .then(angular.bind(this, updateRowData))
         .then(angular.bind(this, doneLoading))
