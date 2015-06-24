@@ -16,23 +16,24 @@ module.exports = angular.module('akamai.components.tree-view', [
  *
  * @restrict E
  *
- * @param {JSON} contextData The data that will be displayed to the user
- * Should be in the following format
- * {
- * parent : Array or JSON,
- * current: JSON,
- * children : Array of JSON,
- *}
- * JSON should be in the following format
- * {title: "Whatever title you want displayed"}
+ * @param {JSON} item Contains information that will be displayed to the user
  *
- * @param {function} onContextChange A function that will be triggered
- * whenever a new child/parent node is selected. With the corresponding JSON object as a parameter
- * To update our data it must either update the conxtedData parameter
- * or return the new child nodes.
+ * @param {function} on-change A callback that occurs whenever a new
+ * node, either parent or child, is clicked. Response parameter comes in
+ * item variable and is the clicked item as it was passed into the directive
  *
- * NOTE: take only one of these options:
- * (return children or update contextData) when updating children
+ * @param {String} text-property The JSON key that contains the text the user
+ * will see.
+ *
+ * @param {String} children-property The JSON key that contains the children of the
+ * current node
+ *
+ * @param {String} parent-property The JSON key that contains the parents of the
+ * parents node
+ *
+ * @param {String} root-property The JSON key that contains a boolean value
+ * representing the root node from which every other node comes from
+ *
  */
 
 .directive('akamTreeView', require('./tree-view-directive'))
@@ -46,13 +47,7 @@ module.exports = angular.module('akamai.components.tree-view', [
  *
  * @restrict A
  *
- * @param {Array} parentTree an array of the parent nodes available to
- * navigate to. JSON should be in the following format.
- * {title: "Whatever title you want displayed"}
- *
- * @param {function} changeParent A function that will be triggered
- * whenever a new parent node is selected. With the corresponding JSON object as a parameter
- *
+ * requires akamTreeView and its controller
  *
  */
 .directive('akamTreeViewParentSelector', require('./tree-view-parent-selector-directive'));
