@@ -8,9 +8,8 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
     restrict: 'E',
     scope: {},
     bindToController: {
-      items: '=',
+      item: '=',
       rootProperty: '@',
-      currentProperty: '@',
       parentProperty: '@',
       childrenProperty: '@',
       textProperty: '@',
@@ -22,16 +21,14 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
   };
   /* @ngInject */
   function TreeviewController($scope) {
-    var haveParentsFlag, currentGetter, childrenGetter, parentGetter,
+    var haveParentsFlag, childrenGetter, parentGetter,
         inputParents, inputChildren, inputCurrent;
 
     var rootProperty = this.rootProperty || 'root';
     var parentProperty = this.parentProperty || 'parent';
-    var currentProperty = this.currentProperty || 'current';
     var childrenProperty = this.childrenProperty || 'children';
     var textProperty = this.textProperty || 'title';
 
-    currentGetter = $parse(currentProperty);
     childrenGetter = $parse(childrenProperty);
     parentGetter = $parse(parentProperty);
 
@@ -77,7 +74,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         self.failed = true;
       });
     };
-    $scope.$watch('treeview.items', angular.bind(this, itemChangeFn));
+    $scope.$watch('treeview.item', angular.bind(this, itemChangeFn));
     function itemChangeFn() {
       var self = this;
 
@@ -88,13 +85,13 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         }
       }, 300);
       this.failed = false;
-      if (this.items) {
-        $q.when(this.items).then(function(resp) {
+      if (this.item) {
+        $q.when(this.item).then(function(resp) {
           var data = resp.data ? resp.data : resp;
 
           if (!self.current) {
-            inputCurrent = currentGetter(data);
-            self.current = self.convertData(inputCurrent, currentProperty, data)[0] || {};
+            inputCurrent = data;
+            self.current = {title: $parse(textProperty)(data)};
           }
           self.retrieveAndHandleNewChildrenAndParents(data);
         }).catch(function() {

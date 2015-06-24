@@ -26,7 +26,7 @@ describe('akamai.components.tree-view', function() {
     });
     scope.contextDataCustom = {
       parents: {titles: "Justice League", roots:'true'},
-      currents: {titles: "Bruce Wayne"},
+      titles: "Bruce Wayne",
       childs: [
         {titles: "Dick Grayson"},
         {titles: "Jason Todd"},
@@ -41,7 +41,7 @@ describe('akamai.components.tree-view', function() {
 
     scope.contextData = {
       parent: {title: "Justice League"},
-      current: {title: "Bruce Wayne"},
+      title: "Bruce Wayne",
       children: [
         {title: "Dick Grayson"},
         {title: "Jason Todd"},
@@ -170,7 +170,7 @@ describe('akamai.components.tree-view', function() {
   };
   describe('when rendering', function() {
     it('should render one level and current context', function() {
-      var markup = '<div style="max-width:150px"><akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var treeContents = document.querySelectorAll(CHILD_CONTENTS);
       var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
@@ -182,7 +182,7 @@ describe('akamai.components.tree-view', function() {
       expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
     });
     it('should render parent selector when prompted', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var parentSelector = document.querySelector(PARENT_SELECTOR);
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -196,8 +196,8 @@ describe('akamai.components.tree-view', function() {
       expect(parentSelector.classList.contains('in')).toBe(true);
     });
     it('should render with custom lookup content', function() {
-      var markup = '<div style="max-width:150px"><akam-tree-view items="contextDataCustom" on-change="triggerChange(item)" '+
-          'parent-property="parents" children-property="childs" root-property="roots" current-property="currents" '+
+      var markup = '<div style="max-width:150px"><akam-tree-view item="contextDataCustom" on-change="triggerChange(item)" '+
+          'parent-property="parents" children-property="childs" root-property="roots"'+
           'text-property="titles"> </akam-tree-view>';
       addElement(markup);
       var treeContents = document.querySelectorAll(CHILD_CONTENTS);
@@ -225,7 +225,7 @@ describe('akamai.components.tree-view', function() {
   });
   describe('when interacting with the tree-view', function() {
     it('should open and close parent selector when needed', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var parentSelector = document.querySelector(PARENT_SELECTOR);
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -240,7 +240,7 @@ describe('akamai.components.tree-view', function() {
     it('should wait until some data is set if initial set to nothing', function() {
       httpBackend.when('GET', 'json/tree-view-data.json').respond({
         "parent":[{"title":"Justice League"}],
-        "current":{"title": "Bruce Wayne"},
+        "title": "Bruce Wayne",
         "children":[{"title":"Dick Grayson"}]
       });
       http.get('json/tree-view-data.json').then(function(resp){
@@ -248,7 +248,7 @@ describe('akamai.components.tree-view', function() {
           scope.contextData = resp; 
         }, 2000)
       });
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
 
       httpBackend.flush();
@@ -265,7 +265,7 @@ describe('akamai.components.tree-view', function() {
     it('should wait til some data is set if initial set to nothig', function() {
         httpBackend.when('GET', 'json/tree-view-data.json').respond({
           "parent":[{"title":"Justice League"}],
-          "current":{"title": "Bruce Wayne"},
+          "title": "Bruce Wayne",
           "children":[{"title":"Dick Grayson"}]
         });
         http.get('json/tree-view-data.json').then(function(resp){
@@ -273,7 +273,7 @@ describe('akamai.components.tree-view', function() {
             scope.contextData = resp; 
           }, 2000)
         });
-        var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+        var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
         addElement(markup);
 
         httpBackend.flush();
@@ -288,7 +288,7 @@ describe('akamai.components.tree-view', function() {
         expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
     });
     it('should replace current context and update parent nodes when clicking a child', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelector(CHILD_CONTENTS);
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -306,7 +306,7 @@ describe('akamai.components.tree-view', function() {
       expect(parentSelectorRows.length).toEqual(2);
     });
     it('should render new children when needed', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[3];
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -326,7 +326,7 @@ describe('akamai.components.tree-view', function() {
       expect(firstChild.textContent).toContain('Dinah Lance');
     });
     it('should not render any data if there are no children (null)', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelector(CHILD_CONTENTS);
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -337,7 +337,7 @@ describe('akamai.components.tree-view', function() {
       expect(childSelectorRows.length).toEqual(0);
     });
     it('should not render any data if there are no children returned (null)', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[5];
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -348,7 +348,7 @@ describe('akamai.components.tree-view', function() {
       expect(childSelectorRows.length).toEqual(0);
     });
     it('should not render any data if there are no children (empty array)', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[2];
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -359,7 +359,7 @@ describe('akamai.components.tree-view', function() {
       expect(childSelectorRows.length).toEqual(0);
     });
     it('should not display indeterminate progress immediately', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[3];
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -375,7 +375,7 @@ describe('akamai.components.tree-view', function() {
       expect(indeterminateProgress).toBe(null);
     });
     it('should display rejected information when children changed', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[1].querySelector('span');
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -389,7 +389,7 @@ describe('akamai.components.tree-view', function() {
       expect(indeterminateProgress.getAttribute('failed')).toBe('true');
     });
     it('should display rejected information when children returned', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[4].querySelector('span');
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -403,7 +403,7 @@ describe('akamai.components.tree-view', function() {
       expect(indeterminateProgress.getAttribute('failed')).toBe('true');
     });
     it('should display data retrieved from http get', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[6].querySelector('span');
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -414,7 +414,7 @@ describe('akamai.components.tree-view', function() {
       expect(childSelectorRows.length).toEqual(1);
     });
     it('should display no data retrieved from failed http get ', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[7].querySelector('span');
       var currentContextIcon = document.querySelector(PARENT_ICON);
@@ -428,7 +428,7 @@ describe('akamai.components.tree-view', function() {
       expect(indeterminateProgress.getAttribute('failed')).toBe('true');
     });
     it('should change to a different parent if selected', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var currentContextIcon = document.querySelector(PARENT_ICON);
       var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
@@ -445,7 +445,7 @@ describe('akamai.components.tree-view', function() {
       expect(currentContext.textContent).toContain('Justice League');
     });
     it('should change icon if current context has no parents', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var currentContextIcon = document.querySelector(PARENT_ICON);
       var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
@@ -460,7 +460,7 @@ describe('akamai.components.tree-view', function() {
       expect(icon.classList.contains('luna-home')).toBe(true);
     });
     it('should not load parent selector if no parents', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var currentContextIcon = document.querySelector(PARENT_ICON);
       var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
@@ -477,7 +477,7 @@ describe('akamai.components.tree-view', function() {
       expect(parentSelector.classList.contains('in')).toBe(false);
     });
     it('should change icon to luna home if current is root', function() {
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var currentContextIcon = document.querySelector(PARENT_ICON);
       var childSelectorRow = document.querySelector(CHILD_CONTENTS);
@@ -494,7 +494,7 @@ describe('akamai.components.tree-view', function() {
     });
     it('should make icon root in parent selector if given root parent', function() {
       scope.contextData.parent = {"title": "Justice League", root: true};
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var currentContextIcon = document.querySelector(PARENT_ICON);
 
@@ -509,7 +509,7 @@ describe('akamai.components.tree-view', function() {
         "title": "Justice League",
         root: true
       }];
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var currentContextIcon = document.querySelector(PARENT_ICON);
 
@@ -524,7 +524,7 @@ describe('akamai.components.tree-view', function() {
         "title": "Justice League",
         root: true
       }];
-      var markup = '<akam-tree-view items="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
       addElement(markup);
       var currentContextIcon = document.querySelector(PARENT_ICON);
 
