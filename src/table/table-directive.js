@@ -441,6 +441,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
 
       this.pristine = data;
       this.state.pageNumber = 1;
+      this.state.filter = '';
+      this.state.sortColumn = '';
       this.applyState();
       return data;
     }

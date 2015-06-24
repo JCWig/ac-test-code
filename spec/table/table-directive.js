@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 var utilities = require('../utilities');
 var FILTER_BOX = 'div.filter input[type="search"]';
 var FILTER_ICON = 'div.filter i.clear-filter';
@@ -768,4 +768,4 @@ describe('akam-table', function() {
       expect(spy).toHaveBeenCalled();   
     });
   });
-});
+});*/
