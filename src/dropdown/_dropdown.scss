@@ -28,6 +28,10 @@ $dropdown-button-active-hover-border-color: #999;
       right: 13px;
     }
   }
+  a {
+    -webkit-transform: translate3d(0, 0, 0);
+    cursor: pointer;
+  }
 }
 
 .dropdown.akam-dropdown {
