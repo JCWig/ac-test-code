@@ -10,7 +10,8 @@ var toolbarSelector = 'akam-table-toolbar',
     asc: 'asc',
     desc: 'desc'
   },
-  defaultSortDirection = SORT_DIRECTIONS.asc;
+  defaultSortDirection = SORT_DIRECTIONS.asc,
+  defaultSortColumn = '';
 
 /* @ngInject */
 module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, translate,
@@ -91,7 +92,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       if (toolbarElem.length) {
         toolbar.replaceWith($compile(toolbarElem[0].outerHTML)(toolbarScope));
       }
-
+      defaultSortColumn = '';
       // handle setting sorting and filtering state based on the 'not-sortable'
       //and 'not-filterable' attrs this will potentially modify the scope.table.state object
       angular.forEach(element.find('th'), function(header) {
@@ -108,6 +109,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
         !header.hasAttribute('not-sortable') &&
         header.hasAttribute('row-property')) {
         scope.table.state.sortColumn = header.getAttribute('row-property');
+        defaultSortColumn = header.getAttribute('row-property');
       } else {
         $log.debug('Tried to set default sort column as', header.getAttribute('row-property'),
           'but it is not sortable');
@@ -438,11 +440,10 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       if (data.data) {
         data = data.data;
       }
-
       this.pristine = data;
       this.state.pageNumber = 1;
       this.state.filter = '';
-      this.state.sortColumn = '';
+      this.state.sortColumn = defaultSortColumn;
       this.applyState();
       return data;
     }
