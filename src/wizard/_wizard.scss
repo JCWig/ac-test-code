@@ -1,5 +1,6 @@
 $wizard-nav-step-color: #ccc;
 $wizard-nav-step-color-active: #0099cc;
+$wizard-nav-step-color-visited: #88cbe0;
 $wizard-nav-step-size: 28px;
 $wizard-nav-font-size: 14px;
 
@@ -19,11 +20,17 @@ $wizard-nav-font-size: 14px;
       margin: 10px 0;
       position:relative;
     }
+
     li {
       display: inline-block;
       margin: 0 39px;
       text-align: center;
       color: $wizard-nav-step-color;
+
+      // to respect whitespace
+      * {
+        display: inline-block;
+      }
 
       div {
         width: $wizard-nav-step-size;
@@ -32,7 +39,6 @@ $wizard-nav-font-size: 14px;
         border: 1px solid $wizard-nav-step-color;
 
         line-height: $wizard-nav-step-size;
-        cursor: pointer;
         margin: 0 auto;
         font-size: 14px;
       }
@@ -41,7 +47,10 @@ $wizard-nav-font-size: 14px;
         font-size: 12px;
       }
     }
+
     li.active {
+      cursor: pointer;
+
       div {
         background-color: $wizard-nav-step-color-active;
         border-color: $wizard-nav-step-color-active;
@@ -51,7 +60,21 @@ $wizard-nav-font-size: 14px;
       span {
         color: $wizard-nav-step-color-active;
         font-weight: bold;
+      }
+    }
 
+    li.visited {
+      cursor: pointer;
+
+      div {
+        border-color: $wizard-nav-step-color-visited;
+        color: $wizard-nav-step-color-visited;
+      }
+      span {
+        color: $wizard-nav-step-color-visited;
+      }
+      &:after {
+        background-color: $wizard-nav-step-color-visited;
       }
     }
 
@@ -62,7 +85,7 @@ $wizard-nav-font-size: 14px;
       position: absolute;
       width: 86px;
       top: 15px;
-      margin-left: -4px;
+      margin-left: -6px;
     }
     li:last-child:after {
       display:none;

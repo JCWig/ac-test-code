@@ -33,6 +33,7 @@ module.exports = function($templateCache, $log, $modal, $controller) {
 
       for (i = 0; i < options.steps.length; i++) {
         options.steps[i].template = $templateCache.get(options.steps[i].templateId);
+        options.steps[i].id = i;
       }
 
       wizardScope.previousStep = function() {
@@ -43,6 +44,7 @@ module.exports = function($templateCache, $log, $modal, $controller) {
 
       wizardScope.nextStep = function() {
         if (wizardScope.stepIndex < wizardScope.steps.length - 1) {
+          wizardScope.currentStep.visited = true;
           wizardScope.stepIndex++;
         }
       };
@@ -53,10 +55,24 @@ module.exports = function($templateCache, $log, $modal, $controller) {
         return wizardScope.currentStep.validate(wizardScope.contentScope);
       };
 
+      wizardScope.activateStep = function(stepNumber) {
+        $log.log('stepNumber', stepNumber);
+        wizardScope.stepIndex = stepNumber;
+      };
+
+      wizardScope.stepClass = function(stepNumber) {
+        if (stepNumber == wizardScope.stepIndex) {
+          return 'active';
+        } else if (wizardScope.steps[stepNumber].visited) {
+          return 'visited';
+        }
+      };
+
       wizardScope.submit = angular.noop;
 
       wizardScope.$watch('stepIndex', function(stepIndex) {
         wizardScope.currentStep = wizardScope.steps[stepIndex];
+        wizardScope.contentScope.currentStep = wizardScope.steps[stepIndex];
       });
 
       $modal.open(angular.extend(options, {
