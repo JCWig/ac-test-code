@@ -145,7 +145,7 @@ describe('akamTimepicker directive', function() {
     it('should render time in disabled state', function() {
       scope.inputTime = defaultScopeTime;
       scope.disabled = true;
-      var markup = '<akam-time-picker ng-model="inputTime" disabled="disabled"></akam-time-picker>';
+      var markup = '<akam-time-picker ng-model="inputTime" is-disabled="disabled"></akam-time-picker>';
       addElement(markup);
 
       var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
@@ -338,7 +338,7 @@ describe('akamTimepicker directive', function() {
       date.setHours("12", "20");
       scope.inputTime = date;
       scope.disabled = true;
-      var markup = '<akam-time-picker ng-model="inputTime" disabled="disabled"></akam-time-picker>';
+      var markup = '<akam-time-picker ng-model="inputTime" is-disabled="disabled"></akam-time-picker>';
       addElement(markup);
 
       expect(controller.inputTime.getHours()).toBe(12);
@@ -350,7 +350,7 @@ describe('akamTimepicker directive', function() {
     it("should isDisabled function call with correct value", function() {
       scope.inputTime = defaultScopeTime;
       scope.disabledd = false;
-      var markup = '<akam-time-picker ng-model="inputTime" disabled="disabledd"></akam-time-picker>';
+      var markup = '<akam-time-picker ng-model="inputTime" is-disabled="disabledd"></akam-time-picker>';
       addElement(markup);
 
       expect(controller.isDisabled()).toBeFalsy();

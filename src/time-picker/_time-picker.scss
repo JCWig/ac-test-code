@@ -1,10 +1,8 @@
-
 $button-border-color-hover: #999999;
 $dropdown-menu-padding: 16px 15px 12px;
 $dropdown-menu-arrow-padding: 11px;
 $dropdown-menu-input-width: 40px;
 $timepicker-input-disabled-color: #cccccc;
-
 .akam-time-picker {
   position: relative;
   & > .btn {
@@ -42,6 +40,12 @@ $timepicker-input-disabled-color: #cccccc;
     &.ng-invalid.ng-touched ~ .btn {
       border-left-color: $border-color-invalid;
     }
+    &.ng-invalid.ng-touched {
+      border-color: $border-color-invalid;
+    }
+    &::-ms-clear {
+      display: none;
+    }
   }
   .dropdown-menu.open {
     margin-top: 1px;
@@ -56,6 +60,11 @@ $timepicker-input-disabled-color: #cccccc;
       @include user-select(none);
       td {
         min-width: 15px;
+        &.has-error {
+          input[type='text'] {
+            border-color: $border-color-invalid;
+          }
+        }
       }
       a {
         display: block;

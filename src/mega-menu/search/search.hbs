@@ -1,0 +1,22 @@
+<div class="util-clearfix">
+  <button class="button small"><span class="selected-placeholder"></span><i
+    class="search-arrow-down"></i></button>
+  <ul class="search-categories util-hide">
+    {{#each categories}}
+      <li data-value="{{id}}">{{i18n id}}</li>
+    {{/each}}
+  </ul>
+  <input class="search util-pull-right" type="text" placeholder="{{i18n 'search.search'}}">
+  <nav class="popup search-results util-hide">
+    <div class="util-arrow-up"></div>
+    <div class="scroll-pane">
+      <div class="loading">{{i18n 'search.loading'}}</div>
+      <div class="no-results util-hide">{{i18n 'search.noResults'}}</div>
+      {{#each categories}}
+        {{#unless hideFromResults}}
+          <section data-value="{{id}}"></section>
+        {{/unless}}
+      {{/each}}
+    </div>
+  </nav>
+</div>
