@@ -123,13 +123,12 @@ describe('akam-table', function() {
 	    });
   		it('should display rows chunked by page size', function(){
 				var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-	      var numberOfColumns = document.querySelector('tbody tr').querySelectorAll('td').length;
-	      var pagination = document.querySelector('div.akam-pagination');
-
-	      expect(numberOfColumns).toEqual(6); // # rows plus header row
 	      expect(numberOfRows).toEqual(3); //# columns + checkbox 
-	      expect(pagination).not.toBe(null);
   		});
+      it('should dislay headers for each akam-row-column', function(){
+        var numberOfColumns = document.querySelector('tbody tr').querySelectorAll('td').length;
+        expect(numberOfColumns).toEqual(6); // # rows plus header row
+      });
       it('should display a page count equal to the aray size divided by page size', function(){
         var paginationIndexes = document.querySelectorAll(PAGINATION_INDEXES);
         expect(paginationIndexes.length).toEqual(3);
@@ -164,6 +163,32 @@ describe('akam-table', function() {
     });
   });
   describe('given a promise bound to the items attribute', function(){
+    describe('when a table is rendered', function(){
+      describe('and the promise resolved successfully', function(){
+        beforeEach(function(){
+          var def = q.defer();
+          scope.delayedData = def.promise;
+          timeout(function(){
+            def.resolve(scope.mydata);
+          }, 2000);
+          var markup = '<akam-table items="delayedData" akam-standalone not-filterable on-change="changeRows(items)"'+
+               'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>'
+          addElement(markup);
+          timeout.flush();
+        });
+        it('should remove the indeterminate progress indicator', function(){
+          indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+          expect(indeterminateProgress).toBe(null);
+        });
+      });
+    });
+  });
+  describe('given a promise bound to the items attribute', function(){
     describe('when the promise fails', function(){
       beforeEach(function(){
         httpBackend.when('GET', '/randomurl').respond(404, "data not found");
@@ -180,7 +205,6 @@ describe('akam-table', function() {
       it('should display failed indeterminate progress', function(){
         httpBackend.flush();
         var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-        expect(indeterminateProgress).not.toBe(null);
         expect(indeterminateProgress.classList).toContain('failed');
       });
     });
@@ -205,7 +229,6 @@ describe('akam-table', function() {
         });
         it('should re show the indeterminate progress indicator', function(){
           var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-          expect(indeterminateProgress).not.toBe(null);
           expect(indeterminateProgress.classList).toContain('failed');
         });
       });
@@ -639,7 +662,7 @@ describe('akam-table', function() {
         '</akam-table>'
         addElement(markup);
       });
-      it('should nt display the checkbox column', function(){
+      it('should not display the checkbox column', function(){
         var columnHeaders = document.querySelector('thead').querySelectorAll('th');
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         expect(columnHeaders.length).toEqual(1);
@@ -727,7 +750,7 @@ describe('akam-table', function() {
       });
     }); 
   });
-  describe('when given no custom markup for the toolbar', function(){
+  describe('given no custom markup for the toolbar', function(){
     describe('and a not-filterable attribute for the table', function(){
       describe('when a table is rendered', function(){
         beforeEach(function(){
@@ -747,7 +770,7 @@ describe('akam-table', function() {
       });
     });
   });
-  describe('when given custom markup for the toolbar', function(){
+  describe('given custom markup for the toolbar', function(){
     describe('when a table is rendered', function(){
       beforeEach(function(){
         scope.pdfClicked = jasmine.createSpy('spy');
@@ -897,6 +920,7 @@ describe('akam-table', function() {
     describe('and table has pagination', function(){
       describe('when the next arrow is clicked', function(){
         beforeEach(function(){
+          scope.changeRows = jasmine.createSpy();
           var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
                 '<akam-table-row>'+
                 '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
@@ -915,6 +939,9 @@ describe('akam-table', function() {
           rowOneColumnOne = document.querySelectorAll('.name')[1];
           expect(rowOneColumnOne.textContent).not.toEqual(firstContent);
         });
+        it('should trigger on-change callback', function(){
+          expect(scope.changeRows).toHaveBeenCalled();
+        });
       })
     });
   });
@@ -923,6 +950,7 @@ describe('akam-table', function() {
       describe('when the previous arrow is clicked', function(){
         var firstContent;
         beforeEach(function(){
+          scope.changeRows = jasmine.createSpy();
           var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
                 '<akam-table-row>'+
                 '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
@@ -944,12 +972,16 @@ describe('akam-table', function() {
           rowOneColumnOne = document.querySelectorAll('.name')[1];
           expect(rowOneColumnOne.textContent).toEqual(firstContent);
         });
+        it('should trigger on-change callback', function(){
+          expect(scope.changeRows).toHaveBeenCalled();
+        });
       })
     });
   });
   describe('given a rendered table', function(){
     describe('and table has pagination', function(){
       describe('when an indices is clicked', function(){
+        scope.changeRows = jasmine.createSpy();
         beforeEach(function(){
           var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
               '<akam-table-row>'+
@@ -968,6 +1000,9 @@ describe('akam-table', function() {
           scope.$digest();
           rowOneColumnOne = document.querySelectorAll('.name')[1];
           expect(rowOneColumnOne.textContent).not.toEqual(firstContent);
+        });
+        it('should trigger on-change callback', function(){
+          expect(scope.changeRows).toHaveBeenCalled();
         });
       })
     });
