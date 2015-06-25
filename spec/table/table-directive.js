@@ -182,7 +182,7 @@ describe('akam-table', function() {
           timeout.flush();
         });
         it('should remove the indeterminate progress indicator', function(){
-          indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+          var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
           expect(indeterminateProgress).toBe(null);
         });
       });
@@ -340,7 +340,7 @@ describe('akam-table', function() {
     describe('and the value is a valid locale key', function(){
       describe('when the table is rendered', function(){
         beforeEach(function(){
-        scope.pdfClicked = jasmine.createSpy('spy');
+          scope.pdfClicked = jasmine.createSpy('spy');
           var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
               '<akam-table-row>'+
               '<akam-table-column class="name" row-property="first_name" header-name="table.full-name">'+
@@ -920,7 +920,7 @@ describe('akam-table', function() {
     describe('and table has pagination', function(){
       describe('when the next arrow is clicked', function(){
         beforeEach(function(){
-          scope.changeRows = jasmine.createSpy();
+          scope.changeRows = jasmine.createSpy('spy');
           var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
                 '<akam-table-row>'+
                 '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
@@ -950,7 +950,7 @@ describe('akam-table', function() {
       describe('when the previous arrow is clicked', function(){
         var firstContent;
         beforeEach(function(){
-          scope.changeRows = jasmine.createSpy();
+          scope.changeRows = jasmine.createSpy('spy');
           var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
                 '<akam-table-row>'+
                 '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
@@ -981,8 +981,8 @@ describe('akam-table', function() {
   describe('given a rendered table', function(){
     describe('and table has pagination', function(){
       describe('when an indices is clicked', function(){
-        scope.changeRows = jasmine.createSpy();
         beforeEach(function(){
+          scope.changeRows = jasmine.createSpy('spy');
           var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
               '<akam-table-row>'+
               '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
