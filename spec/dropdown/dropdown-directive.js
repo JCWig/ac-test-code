@@ -26,7 +26,7 @@ describe('akamai.components.dropdown', function() {
     inject(function($rootScope, _$compile_, $httpBackend, $timeout) {
       $scope = $rootScope;
       $compile = _$compile_;
-
+ 
       $httpBackend.when('GET', util.LIBRARY_PATH).respond(translationMock);
       $httpBackend.when('GET', util.CONFIG_PATH).respond({});
       $httpBackend.flush();
