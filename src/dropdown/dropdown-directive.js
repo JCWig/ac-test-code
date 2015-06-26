@@ -81,10 +81,6 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         $event.stopPropagation();
         ngModel.$setViewValue();
       };
-
-      scope.setOpen = function(isOpen) {
-        scope.isOpen = isOpen;
-      };
       scope.setInputAsClicked = function() {
         inputClick = true;
       };
@@ -137,7 +133,6 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         selectedScope.selectedItem = scope.selectedItem;
         selectedScope.textProperty = scope.textProperty;
         selectedScope.clearSelectedItem = scope.clearSelectedItem;
-        selectedScope.setOpen = scope.setOpen;
 
         selectedElem = $compile(selectedContentTemplate)(selectedScope);
       } else {
@@ -152,7 +147,6 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         menuScope.setSelectedItem = scope.setSelectedItem;
         menuScope.hasFilter = scope.hasFilter;
         menuScope.filterProperty = scope.filterProperty;
-        menuScope.setOpen = scope.setOpen;
         menuScope.setInputAsClicked = scope.setInputAsClicked;
         menuElem = $compile(menuTemplate)(menuScope);
       } else {
