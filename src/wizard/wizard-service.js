@@ -9,6 +9,7 @@ module.exports = function($templateCache, $log, $modal, $controller, $rootScope)
     var wizardScope = $rootScope.$new();
 
     wizardScope.contentScope = options.scope ? options.scope : $rootScope.$new();
+    $controller(options.controller, {$scope: wizardScope.contentScope});
 
     wizardScope.title = options.title;
     wizardScope.previousLabel = options.previousLabel;
@@ -19,38 +20,29 @@ module.exports = function($templateCache, $log, $modal, $controller, $rootScope)
     wizardScope.stepIndex = 0;
     wizardScope.steps = options.steps;
 
-    $controller(options.controller, {$scope: wizardScope.contentScope});
+    angular.forEach(options.steps, function(step, i) {
+      step.id = i;
+      if (!step.template) {
+        if (step.templateId) {
+          step.template = $templateCache.get(step.templateId);
+        }
+      }
+      if (i === 0) {
+        step.visited = true;
+      }
+    });
+
+    wizardScope.steps = options.steps;
+    wizardScope.stepIndex = 0;
 
     return wizardScope;
   }
 
   return {
 
-    /* @ngInject */
-    WizardController: function($scope, $rootScope) {
-
-      var optionScope = $scope.options.scope;
-
-      this.contentScope = optionScope && optionScope.$new ?
-        optionScope.$new() : $rootScope.$new();
-
-    },
-
     open: function(options) {
 
-      var wizardScope = initializeScope(options), i;
-
-      for (i = 0; i < options.steps.length; i++) {
-        options.steps[i].template = $templateCache.get(options.steps[i].templateId);
-        options.steps[i].id = i;
-        if (i === 0) {
-          options.steps[i].visited = true;
-        }
-      }
-
-      wizardScope.steps = options.steps;
-      wizardScope.stepIndex = 0;
-
+      var wizardScope = initializeScope(options);
 
       wizardScope.previousStep = function() {
         if (wizardScope.stepIndex > 0) {
@@ -66,7 +58,9 @@ module.exports = function($templateCache, $log, $modal, $controller, $rootScope)
       };
 
       wizardScope.isValid = function() {
-        if (!angular.isFunction(wizardScope.steps[wizardScope.stepIndex].validate)) { return true; }
+        if (!angular.isFunction(wizardScope.steps[wizardScope.stepIndex].validate)) {
+          return true;
+        }
 
         return wizardScope.steps[wizardScope.stepIndex].validate(wizardScope.contentScope);
       };
@@ -79,16 +73,16 @@ module.exports = function($templateCache, $log, $modal, $controller, $rootScope)
 
       wizardScope.stepClasses = function(stepNumber) {
 
-        var current = true, maxStepIndex = wizardScope.steps.length-1;
+        var current = true, maxStepIndex = wizardScope.steps.length - 1;
 
         if (stepNumber > maxStepIndex) {
           return {};
         } else if (stepNumber < maxStepIndex) {
-          current = !wizardScope.steps[stepNumber+1].visited;
+          current = !wizardScope.steps[stepNumber + 1].visited;
         }
 
         return {
-          active: stepNumber == wizardScope.stepIndex,
+          active: stepNumber === wizardScope.stepIndex,
           visited: wizardScope.steps[stepNumber].visited,
           current: current
         };

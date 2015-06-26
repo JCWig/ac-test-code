@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($compile, $http, $templateCache, $q, $log) {
+module.exports = function($compile) {
 
   return {
     restrict: 'E',
