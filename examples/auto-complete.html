@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Auto Complete</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+</head>
+
+<body class="common-css luna" ng-app="autoCompleteApp" ng-strict-di ng-controller="AutoCompleteAppController as vm">
+  <h2>Auto Complete Component Example</h2>
+  <div>
+    <h4>Display Auto Complete with minimum attributes</h4>
+    <akam-auto-complete items="vm.items" ng-model="vm.selected"></akam-auto-complete>
+  </div>
+  <div>
+    <h4>Display Auto Complete with all attributes</h4>
+    <akam-auto-complete items="vm.items" ng-model="vm.selected" text-property="name" minimum-search="3" placeholder="Enter search" on-select="vm.selectCallback(item)" on-search="vm.searchMatches(term)">
+    </akam-auto-complete>
+  </div>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  angular.module('autoCompleteApp', ['akamai.components.auto-complete'])
+    .controller('AutoCompleteAppController', AutoCompleteAppController);
+
+  AutoCompleteAppController.$inject = ['$log', '$q', '$http', '$timeout'];
+
+  function AutoCompleteAppController($log, $q, $http, $timeout) {
+
+    var objItems = [{
+      name: 'Haki',
+      joined: '2 month ago',
+      email: 'Haki@email.com'
+    }, {
+      name: 'Ran',
+      joined: '2 days ago',
+      email: 'Ran123@ac.org'
+    }, {
+      name: 'John',
+      joined: 'a week ago',
+      email: 'JJ@gmail.com'
+    }, {
+      name: 'Mary',
+      joined: 'Yesterday',
+      email: 'Mary@yahoo.com'
+    }, {
+      name: 'Charlie',
+      joined: 'Just now',
+      email: 'Charlie@msn.com'
+    }, {
+      name: 'Rebecca',
+      joined: 'Yesterday',
+      email: 'Becky@mail.com'
+    }, {
+      name: 'James',
+      joined: '3 month ago',
+      email: 'James@inbox.com'
+    }];
+
+    var vm = this;
+    vm.items = [];
+    vm.selected = "";
+
+    vm.selectCallback = function(item) {
+      $log.log(item);
+    }
+
+    vm.searchMatches = function(term) {
+
+      $log.log(term);
+
+      var deferred = $q.defer();
+
+      //$http.get("domain?searchTerm="+term)
+      //.success(function(data){deferred.resolve(data)})
+      //.error(function(deferred.reject()))
+      //return deferred.promise;
+
+      $timeout(function() {
+        deferred.resolve(vm.items = objItems);
+      }, 1000);
+      return deferred.promise;
+
+    }
+  }
+  </script>
+</body>
+
+</html>
