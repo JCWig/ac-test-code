@@ -148,10 +148,8 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         return [];
       }
     };
-    this.maintainParentTree = function(obj, toRemove) {
-      if (toRemove) {
-        this.parentTree.splice(this.parentTree.indexOf(obj), this.parentTree.length);
-      } else if (angular.isArray(obj)) {
+    this.maintainParentTree = function(obj) {
+      if (angular.isArray(obj)) {
         this.parentTree = this.parentTree.concat(obj);
       } else {
         this.parentTree.push(obj);
