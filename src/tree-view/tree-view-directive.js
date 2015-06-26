@@ -109,7 +109,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
 
       if (!haveParentsFlag) {
         inputParents = parentGetter(data);
-        this.maintainParentTree(this.convertData(inputParents, parentProperty, data));
+        this.parentTree = this.parentTree.concat(this.convertData(inputParents, parentProperty, data));
         if (inputParents && !angular.isArray(inputParents)) {
           value = inputParents;
           inputParents = [value];
@@ -149,11 +149,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
       }
     };
     this.maintainParentTree = function(obj) {
-      if (angular.isArray(obj)) {
-        this.parentTree = this.parentTree.concat(obj);
-      } else {
-        this.parentTree.push(obj);
-      }
+      this.parentTree = this.parentTree.concat(obj);
     };
   }
 };
