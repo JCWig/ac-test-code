@@ -18,7 +18,6 @@ module.exports = function(translate, uuid, $q) {
     this.selected = false;
     this.selectItem = selectItem;
     this.deleteSelected = deleteSelected;
-    this.getQuery = buildQuery;
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
       this.textProperty = $attrs.textProperty;
