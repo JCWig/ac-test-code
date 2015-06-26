@@ -93,7 +93,7 @@ module.exports = function($document, $parse) {
       timepickerConfig.MERIDIAN_ON : timepickerConfig.MERIDIAN_OFF.toLowerCase();
     ctrl.placeholder = attrs.placeholder ? attrs.placeholder : defaultPlaceholder;
 
-    element.find("input").bind("keypress", function(e) {
+    element.find('input').bind('keypress', function(e) {
       var k = event.which || event.keyCode,
         isMeridian = this.getAttribute('name') === 'meridian';
 
@@ -112,7 +112,5 @@ module.exports = function($document, $parse) {
       e.preventDefault();
       e.stopPropagation();
     }
-
-
   }
 };
