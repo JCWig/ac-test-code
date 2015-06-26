@@ -1,6 +1,6 @@
 {
     "department" : {"name" : "Departments", "boss":true},
-    "section": {"name" : "Development"},
+    "name" : "Development",
     "employees": [
         {"name":"Paula Phillips"},
         {"name":"Louise Palmer"},

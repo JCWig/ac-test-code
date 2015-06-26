@@ -168,373 +168,386 @@ describe('akamai.components.tree-view', function() {
     scope.$digest();
     timeout.flush();
   };
-  describe('when rendering', function() {
-    it('should render one level and current context', function() {
-      var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var treeContents = document.querySelectorAll(CHILD_CONTENTS);
-      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-
-      expect(treeContents.length).toEqual(8);
-      expect(treeContents[0].textContent).toContain('Dick Grayson');
-      expect(currentContext.textContent).toContain('Bruce Wayne');
-      expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
-    });
-    it('should render parent selector when prompted', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var parentSelector = document.querySelector(PARENT_SELECTOR);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      expect(parentSelector.classList.contains('in')).toBe(false);
-      utilities.click(currentContextIcon);
-      scope.$digest();
-      parentSelector = document.querySelector(PARENT_SELECTOR);
-      var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
-      expect(parentSelectorRows.length).toEqual(1);
-      expect(parentSelectorRows[0].querySelector('span').textContent).toContain('Justice League');
-      expect(parentSelector.classList.contains('in')).toBe(true);
-    });
-    it('should render with custom lookup content', function() {
-      var markup = '<div style="max-width:150px"><akam-tree-view item="contextDataCustom" on-change="triggerChange(item)" '+
-          'parent-property="parents" children-property="childs" root-property="roots"'+
-          'text-property="titles"> </akam-tree-view>';
-      addElement(markup);
-      var treeContents = document.querySelectorAll(CHILD_CONTENTS);
-      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-
-      expect(treeContents.length).toEqual(8);
-      expect(treeContents[0].textContent).toContain('Dick Grayson');
-      expect(currentContext.textContent).toContain('Bruce Wayne');
-      expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
-
-      var parentSelector = document.querySelector(PARENT_SELECTOR);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      expect(parentSelector.classList.contains('in')).toBe(false);
-      utilities.click(currentContextIcon);
-      scope.$digest();
-
-      parentSelector = document.querySelector(PARENT_SELECTOR);
-      var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
-      expect(parentSelectorRows.length).toEqual(1);
-      expect(parentSelectorRows[0].querySelector('span').textContent).toContain('Justice League');
-      expect(parentSelectorRows[0].querySelector('i').classList).toContain('luna-home');
-      expect(parentSelector.classList.contains('in')).toBe(true);
-    });
-  });
-  describe('when interacting with the tree-view', function() {
-    it('should open and close parent selector when needed', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var parentSelector = document.querySelector(PARENT_SELECTOR);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      expect(parentSelector.classList.contains('in')).toBe(false);
-      utilities.click(currentContextIcon);
-      scope.$digest();
-      expect(parentSelector.classList.contains('in')).toBe(true);
-      utilities.click(currentContextIcon);
-      scope.$digest();
-      expect(parentSelector.classList.contains('in')).toBe(false);
-    });
-    it('should wait until some data is set if initial set to nothing', function() {
-      httpBackend.when('GET', 'json/tree-view-data.json').respond({
-        "parent":[{"title":"Justice League"}],
-        "title": "Bruce Wayne",
-        "children":[{"title":"Dick Grayson"}]
-      });
-      http.get('json/tree-view-data.json').then(function(resp){
-        timeout(function(){
-          scope.contextData = resp; 
-        }, 2000)
-      });
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-
-      httpBackend.flush();
-      timeout.flush();
-      var treeContents = document.querySelectorAll(CHILD_CONTENTS);
-      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-
-      expect(treeContents.length).toEqual(1);
-      expect(treeContents[0].textContent).toContain('Dick Grayson');
-      expect(currentContext.textContent).toContain('Bruce Wayne');
-      expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
-    });
-    it('should wait til some data is set if initial set to nothig', function() {
-        httpBackend.when('GET', 'json/tree-view-data.json').respond({
-          "parent":[{"title":"Justice League"}],
-          "title": "Bruce Wayne",
-          "children":[{"title":"Dick Grayson"}]
-        });
-        http.get('json/tree-view-data.json').then(function(resp){
-          timeout(function(){
-            scope.contextData = resp; 
-          }, 2000)
-        });
-        var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+  describe('given a conforming object bound to the item attribute', function(){
+    describe('when a tree view is rendered', function(){
+      beforeEach(function(){
+        var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
         addElement(markup);
-
-        httpBackend.flush();
-        timeout.flush();
-        var treeContents = document.querySelectorAll(CHILD_CONTENTS);
+      });
+      it('should display the items title', function(){
         var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
         var currentContextIcon = document.querySelector(PARENT_ICON);
-
-        expect(treeContents.length).toEqual(1);
-        expect(treeContents[0].textContent).toContain('Dick Grayson');
         expect(currentContext.textContent).toContain('Bruce Wayne');
         expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
+      });
+      it('should display the items children', function(){
+        var treeContents = document.querySelectorAll(CHILD_CONTENTS);
+        expect(treeContents.length).toEqual(8);
+        expect(treeContents[0].textContent).toContain('Dick Grayson');
+      });
+      it('should add the items parents to the selector', function(){
+        var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
+        expect(parentSelectorRows.length).toEqual(1);
+        expect(parentSelectorRows[0].querySelector('span').textContent).toContain('Justice League');
+      });
     });
-    it('should replace current context and update parent nodes when clicking a child', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelector(CHILD_CONTENTS);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      scope.$digest();
-
-      utilities.click(currentContextIcon);
-      scope.$digest();
-      timeout.flush();
-
-      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
-      expect(currentContext.textContent).toContain('Dick Grayson');
-
-      var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
-      expect(parentSelectorRows.length).toEqual(2);
+  });
+  describe('given a promise bound to the item attribute', function(){
+    describe('when the tree view is rendered', function(){
+      it('should display an indeterminate progress indicator', function(){
+        
+      });
     });
-    it('should render new children when needed', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[3];
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      scope.$digest();
-
-      utilities.click(currentContextIcon);
-      scope.$digest();
-      timeout.flush();
-
-      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
-      expect(currentContext.textContent).toContain('Barbara Gordon');
-
-      var childRows = document.querySelectorAll(CHILD_CONTENTS);
-      var firstChild = childRows[0];
-      expect(childRows.length).toEqual(3);
-      expect(firstChild.textContent).toContain('Dinah Lance');
+  });
+  describe('given an object bound to the item attribute',function(){
+    describe('and a text-property attribute', function(){
+      describe('when the treeview is rendered', function(){
+        beforeEach(function(){
+          scope.textPropertyData  = {
+            parent: {titles: "Justice League", roots:'true'},
+            titles: "Bruce Wayne",
+            children: [
+              {titles: "Dick Grayson"},
+              {titles: "Jason Todd"}
+            ]
+          };
+          var markup = '<div style="max-width:150px"><akam-tree-view item="textPropertyData" '+
+          'text-property="titles" on-change="triggerChange(item)"> </akam-tree-view>';
+          addElement(markup);
+        });
+        it('should display the items text-property value', function(){
+          var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
+          expect(currentContext.textContent).toContain('Bruce Wayne');
+        });
+        it('should display the childrens text-property value', function(){
+          var treeContents = document.querySelectorAll(CHILD_CONTENTS);
+          expect(treeContents[0].textContent).toContain('Dick Grayson');
+        });
+        it('should add the parents text-property value to the selector', function(){
+          var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
+          expect(parentSelectorRows[0].querySelector('span').textContent).toContain('Justice League');
+        });
+      })
     });
-    it('should not render any data if there are no children (null)', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelector(CHILD_CONTENTS);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      scope.$digest();
-
-      var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
-      expect(childSelectorRows.length).toEqual(0);
+  });
+  describe('given an object bound to the item attribute', function(){
+    describe('and a children-property attribute', function(){
+      describe('when the treeview is rendered', function(){
+        beforeEach(function(){
+          scope.textPropertyData  = {
+            parent: {title: "Justice League", roots:'true'},
+            title: "Bruce Wayne",
+            childs: [
+              {title: "Dick Grayson"},
+              {title: "Jason Todd"}
+            ]
+          };
+          var markup = '<div style="max-width:150px"><akam-tree-view item="textPropertyData" '+
+          'children-property="childs" on-change="triggerChange(item)"> </akam-tree-view>';
+          addElement(markup);
+        });
+        it('should the items child property',function(){
+          var treeContents = document.querySelectorAll(CHILD_CONTENTS);
+          expect(treeContents[0].textContent).toContain('Dick Grayson');
+        })
+      });
     });
-    it('should not render any data if there are no children returned (null)', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[5];
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      scope.$digest();
-
-      var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
-      expect(childSelectorRows.length).toEqual(0);
+  });
+  describe('given an object bound to the item attribute', function(){
+    describe('and a parent-property attribute', function(){
+      describe('when the treeview is rendered', function(){
+        beforeEach(function(){
+          scope.textPropertyData  = {
+            parents: {title: "Justice League", roots:'true'},
+            title: "Bruce Wayne",
+            child: [
+              {title: "Dick Grayson"},
+              {title: "Jason Todd"}
+            ]
+          };
+          var markup = '<div style="max-width:150px"><akam-tree-view item="textPropertyData" '+
+          'parent-property="parents" on-change="triggerChange(item)"> </akam-tree-view>';
+          addElement(markup);
+        });
+        it('should the items parent property to the selector',function(){
+          var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
+          expect(parentSelectorRows[0].querySelector('span').textContent).toContain('Justice League');
+        })
+      });
     });
-    it('should not render any data if there are no children (empty array)', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[2];
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      scope.$digest();
-
-      var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
-      expect(childSelectorRows.length).toEqual(0);
+  });
+  describe('given an object bound to the item attribute', function(){
+    describe('and a root-property attribute', function(){
+      describe('when the treeview is rendered', function(){
+        beforeEach(function(){
+          scope.textPropertyData  = {
+            parent: {title: "Justice League", roots:'true'},
+            title: "Bruce Wayne",
+            child: [
+              {title: "Dick Grayson"},
+              {title: "Jason Todd"}
+            ]
+          };
+          var markup = '<div style="max-width:150px"><akam-tree-view item="textPropertyData" '+
+          'root-property="roots" on-change="triggerChange(item)"> </akam-tree-view>';
+          addElement(markup);
+        });
+        it('should dislay a home icon for a parent with a root-property set to true',function(){
+          var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
+          expect(parentSelectorRows[0].querySelector('i').classList).toContain('luna-home');
+        })
+      });
     });
-    it('should not display indeterminate progress immediately', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[3];
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      scope.$digest();
-      childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[0];
-      utilities.click(childSelectorRow);
-      scope.$digest();
-
-      var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
-      expect(childSelectorRows.length).toEqual(0);
-      var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
-      expect(indeterminateProgress).toBe(null);
+  });
+  describe('given a rendered tree view', function(){
+    describe('and a callback bound to the on-change attribute',function(){
+      describe('when a node is clicked',function(){
+        beforeEach(function(){
+          scope.onChangeEvent = jasmine.createSpy('spy');
+          var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="onChangeEvent(item)"> </akam-tree-view>';
+          addElement(markup);
+          var childSelectorRow = document.querySelector(CHILD_CONTENTS);
+          utilities.click(childSelectorRow);
+          scope.$digest();
+        });
+        it('should invoke the callback with the clicked node as an argument',function(){
+          expect(scope.onChangeEvent).toHaveBeenCalledWith(scope.contextData.children[0]);
+        });
+        it('should update the display with the callback response',function(){
+          var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
+          expect(currentContext.textContent).toContain('Dick Grayson');
+        });
+      });
     });
-    it('should display rejected information when children changed', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[1].querySelector('span');
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      timeout.flush();
-      scope.$digest();
-
-      var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
-      expect(childSelectorRows.length).toEqual(0);
-      var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
-      expect(indeterminateProgress.getAttribute('failed')).toBe('true');
+  });
+  describe('given a rendered treeview', function(){
+    describe('and a node has been clicked', function(){
+      describe('and the item attribute value is changed', function(){
+        beforeEach(function(){
+          scope.onChangeEvent = jasmine.createSpy('spy');
+          var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+          addElement(markup);
+          var childSelectorRow = document.querySelector(CHILD_CONTENTS);
+          utilities.click(childSelectorRow);
+          scope.$digest();
+        });
+        it('should display the new item', function(){
+          var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
+          expect(currentContext.textContent).toContain('Dick Grayson');
+        });
+      });
     });
-    it('should display rejected information when children returned', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[4].querySelector('span');
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      timeout.flush();
-      scope.$digest();
-
-      var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
-      expect(childSelectorRows.length).toEqual(0);
-      var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
-      expect(indeterminateProgress.getAttribute('failed')).toBe('true');
+  });
+  describe('given some object bound to the item attribute', function(){
+    describe('and the object is not set to a value initially for some amount of time', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          httpBackend.when('GET', 'json/tree-view-data.json').respond({
+            "parent":{"title":"Justice League"},
+            "title": "Bruce Wayne",
+            "children":[{"title":"Dick Grayson"}]
+          });
+          http.get('json/tree-view-data.json').then(function(resp){
+            timeout(function(){
+              scope.delayedData = resp; 
+            }, 2000)
+          });
+          var markup = '<akam-tree-view item="delayedData" on-change="triggerChange(item)"> </akam-tree-view>';
+          addElement(markup);
+        });
+        it('should show indeterminate progress indicator', function(){
+          var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
+          expect(indeterminateProgress).not.toBe(null);
+        });
+      });
     });
-    it('should display data retrieved from http get', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[6].querySelector('span');
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      httpBackend.flush();
-
-      var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
-      expect(childSelectorRows.length).toEqual(1);
+  });
+  describe('given an object bound to the item attribute', function(){
+    describe('given an array on thats objects parent-property', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function() {
+          scope.parentArrayData  = {
+            parent: [{title: "Justice League"},
+              {title: "DC universe", roots:'true'}],
+            title: "Bruce Wayne",
+            child: [
+              {title: "Dick Grayson"},
+              {title: "Jason Todd"}
+            ]
+          };
+          var markup = '<akam-tree-view item="parentArrayData" on-change="triggerChange(item)"> </akam-tree-view>';
+          addElement(markup);
+        });
+        it('should add all of the parents to the selector', function(){
+          var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
+          expect(parentSelectorRows.length).toEqual(2);
+        });
+      });
     });
-    it('should display no data retrieved from failed http get ', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[7].querySelector('span');
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      utilities.click(childSelectorRow);
-      httpBackend.flush();
-      scope.$digest();
-      timeout.flush();
-      var childSelectorRows = document.querySelectorAll(CHILD_CONTENTS);
-      expect(childSelectorRows.length).toEqual(0);
-      var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
-      expect(indeterminateProgress.getAttribute('failed')).toBe('true');
+  });
+  describe('given a rendered treeview', function(){
+    describe('and a node has been clicked', function(){
+      describe('and the some item has been returned from the callback', function(){
+        beforeEach(function(){
+          var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+          addElement(markup);
+          var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[2];
+          utilities.click(childSelectorRow);
+          scope.$digest();
+        });
+        it('should display the new item', function(){
+          var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
+          expect(currentContext.textContent).toContain('Tim Drake');
+        });
+      });
     });
-    it('should change to a different parent if selected', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
-
-      utilities.click(currentContextIcon);
-      scope.$digest();
-
-      utilities.click(document.querySelector(PARENT_SELECTOR_ROWS));
-      scope.$digest();
-
-      var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
-      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
-      expect(childSelectorRow.textContent).toContain('Bruce Wayne');
-      expect(currentContext.textContent).toContain('Justice League');
+  });
+  describe('given a rendered tree', function(){
+    describe('and the item has no parent nodes', function(){
+      beforeEach(function(){
+        scope.textPropertyData  = {
+          parent: null,
+          title: "Bruce Wayne",
+          child: [
+            {title: "Dick Grayson"},
+            {title: "Jason Todd"}
+          ]
+        };
+        var markup = '<div style="max-width:150px"><akam-tree-view item="textPropertyData" '+
+        'on-change="triggerChange(item)"> </akam-tree-view>';
+        addElement(markup);
+        var currentContextIcon = document.querySelector(PARENT_ICON);
+        utilities.click(currentContextIcon);
+        scope.$digest();
+      });
+      it('should not allow access to the parent selector', function(){
+        var parentSelectorIcon = document.querySelector(PARENT_ICON);
+        expect(parentSelectorIcon.classList).not.toContain('util-clickable');
+      });
+      it('should render luna-home icon', function(){
+        var parentSelectorIcon = document.querySelector(PARENT_ICON);
+        expect(parentSelectorIcon.classList).toContain('luna-home');
+      });
     });
-    it('should change icon if current context has no parents', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
-
-      utilities.click(currentContextIcon);
-      scope.$digest();
-
-      utilities.click(PARENT_SELECTOR_ROWS);
-      scope.$digest();
-
-      var icon = document.querySelector(PARENT_ICON);
-      expect(icon.classList.contains('luna-home')).toBe(true);
+  });
+  describe('given a rendered tree', function(){
+    describe('and the item has parents', function(){
+      describe('when a parent node is clicked', function(){
+        describe('and it has parents', function(){
+          beforeEach(function(){
+            scope.onChange = function(){
+              return {
+                parent: {title: "DC Universe"},
+                children: [
+                  {title: "Bruce Wayne"},
+                  {title: "Clark Kent"}
+                ]
+              }
+            }
+            var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="onChange(item)"> </akam-tree-view>';
+            addElement(markup);
+            var currentContextIcon = document.querySelector(PARENT_ICON);
+            utilities.click(currentContextIcon);
+            scope.$digest();
+            utilities.click(PARENT_SELECTOR_ROWS);
+            scope.$digest();
+          });
+          it('should be rendered', function(){
+            var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
+            expect(currentContext.textContent).toContain('Justice League');
+          });
+          it('should render its parents in the selector', function(){
+            var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS)[0];
+            expect(parentSelectorRows.textContent).toContain('DC Universe');
+          });
+        });
+      });
     });
-    it('should not load parent selector if no parents', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
+  });
+  describe('given a rendered tree', function(){
+    describe('and the item has parents', function(){
+      describe('and the parent selector is loaded', function(){
+        describe('when the parent selector icon is clicked', function(){
+          beforeEach(function(){
+            scope.onChange = function(){
+              return {
+                parent: [{title: "DC Universe"}],
+                children: [
+                  {title: "Bruce Wayne"},
+                  {title: "Clark Kent"}
+                ]
+              }
+            }
+            var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="onChange(item)"> </akam-tree-view>';
+            addElement(markup);
+            var currentContextIcon = document.querySelector(PARENT_ICON);
 
-      utilities.click(currentContextIcon);
-      scope.$digest();
-
-      utilities.click(PARENT_SELECTOR_ROWS);
-      scope.$digest();
-
-      var icon = document.querySelector(PARENT_ICON);
-      utilities.click(icon);
-      var parentSelector = document.querySelector(PARENT_SELECTOR);
-      expect(parentSelector.classList.contains('in')).toBe(false);
+            utilities.click(currentContextIcon);
+            scope.$digest();
+            utilities.click(currentContextIcon);
+            scope.$digest();
+          });
+          it('should be hidden again', function(){
+            var parentSelector = document.querySelector(PARENT_SELECTOR);
+            expect(parentSelector.classList.contains('in')).toBe(false);
+          });
+        });
+      });
     });
-    it('should change icon to luna home if current is root', function() {
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-      var childSelectorRow = document.querySelector(CHILD_CONTENTS);
-
-      utilities.click(currentContextIcon);
-      scope.$digest();
-
-      utilities.click(document.querySelector(PARENT_SELECTOR_ROWS));
-      scope.$digest();
-
-      var childSelectorRow = document.querySelector(CHILD_CONTENTS).querySelector('span');
-      var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
-      expect(currentContextIcon.classList.contains('luna-home')).toBe(true);
+  });
+  describe('given a promise bound to the items attribute', function(){
+    describe('and the promise is rejected', function(){
+      beforeEach(function(){
+        var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
+        addElement(markup);
+        var childSelectorRow = document.querySelectorAll(CHILD_CONTENTS)[4].querySelector('span');
+        var currentContextIcon = document.querySelector(PARENT_ICON);
+        utilities.click(childSelectorRow);
+        timeout.flush();
+        scope.$digest();
+      });
+      it('should render a failed indeterminate progress', function(){
+        var indeterminateProgress = document.querySelector(INDETERMINATE_PROGRESS);
+        expect(indeterminateProgress.getAttribute('failed')).toBe('true');
+      });
     });
-    it('should make icon root in parent selector if given root parent', function() {
-      scope.contextData.parent = {"title": "Justice League", root: true};
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
+  });
+  describe('given a rendered treeview', function(){
+    describe('and the parent selector is visible', function(){
+      describe('when the user clicks away from the selector', function(){
+        beforeEach(function(){
+            scope.onChange = function(){
+              return {
+                parent: [{title: "DC Universe"}],
+                children: [
+                  {title: "Bruce Wayne"},
+                  {title: "Clark Kent"}
+                ]
+              }
+            }
+            var markup = '<div style="max-width:150px"><akam-tree-view item="contextData" on-change="onChange(item)"> </akam-tree-view>';
+            addElement(markup);
+            var currentContextIcon = document.querySelector(PARENT_ICON);
 
-      utilities.click(currentContextIcon);
-      scope.$digest();
-
-      var parentSelectorIcon = document.querySelector(PARENT_SELECTOR_ROWS).querySelector('i');
-      expect(parentSelectorIcon.classList.contains('luna-home')).toBe(true);
-    });
-    it('should be able to provide multiple parents', function() {
-      scope.contextData.parent = [{"title": "Justice League 2"}, {
-        "title": "Justice League",
-        root: true
-      }];
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-
-      utilities.click(currentContextIcon);
-      scope.$digest();
-
-      var parentSelectors = document.querySelectorAll(PARENT_SELECTOR_ROWS);
-      expect(parentSelectors.length).toEqual(2);
-    });
-    it('should close parent selector on click away', function() {
-      scope.contextData.parent = [{"title": "Justice League 2"}, {
-        "title": "Justice League",
-        root: true
-      }];
-      var markup = '<akam-tree-view item="contextData" on-change="triggerChange(item)"> </akam-tree-view>';
-      addElement(markup);
-      var currentContextIcon = document.querySelector(PARENT_ICON);
-
-      utilities.click(currentContextIcon);
-      scope.$digest();
-
-      var parentSelector = document.querySelector(PARENT_SELECTOR);
-      expect(parentSelector.classList.contains('in')).toBe(true);
-      utilities.clickAwayCreationAndClick('div');
-      expect(parentSelector.classList.contains('in')).toBe(false);
+            utilities.click(currentContextIcon);
+            scope.$digest();
+            utilities.clickAwayCreationAndClick('div');
+            scope.$digest();
+          });
+        it('should hide the selector', function(){
+          var parentSelector = document.querySelector(PARENT_SELECTOR);
+          expect(parentSelector.classList.contains('in')).toBe(false);
+        });
+      });
     });
   });
 });
+
+
+
+
+
+
+
+
+
