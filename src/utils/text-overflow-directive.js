@@ -20,7 +20,7 @@ module.exports = function($timeout) {
           } else {
             element.removeAttr('title');
           }
-        }, 0);
+        }, 100);
       }
       angular.element(window).on('resize', debounce(giveTitles, 200));
       scope.$watch('akamTextOverflow', function() {
