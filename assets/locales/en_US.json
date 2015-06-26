@@ -22,6 +22,10 @@
         "dialog": {
 
         },
+        "auto-complete": {
+            "search-tip": "Type in text (minimum 1 character) to display matching results",
+            "search-tip_plural": "Type in text (minimum {{length}} characters) to display matching results"
+        },
         "list-box": {
             "placeholder": {
                 "filter": "Filter"
