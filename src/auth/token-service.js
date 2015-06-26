@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function(httpBuffer, $injector, $window, authConfig) {
+module.exports = function(httpBuffer, $injector, $window, $location, authConfig) {
   var pendingRequest = false;
   var $http;
   var service = {
@@ -49,7 +49,10 @@ module.exports = function(httpBuffer, $injector, $window, authConfig) {
       return pendingRequest;
     },
     logout: function() {
-      $window.location.replace( authConfig.lunaLogoutUrl );
+      var currentUrl = $location.url();
+      var encodedUrl = window.btoa(currentUrl);
+
+      $window.location.replace( authConfig.lunaLogoutUrl + encodedUrl );
     }
   };
 
