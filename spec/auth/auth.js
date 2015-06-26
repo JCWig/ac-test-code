@@ -11,7 +11,8 @@ describe('Auth', function() {
       interceptor,
       win,
       provider,
-      authPro;
+      authPro,
+      location;
 
   beforeEach(function before() {
     angular.mock.inject.strictDi(true);
@@ -19,7 +20,7 @@ describe('Auth', function() {
     angular.mock.module(function(authProvider) {
       provider = authProvider;
     });
-    angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor, $window, auth) {
+    angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor, $window, $location, auth) {
       http = $http;
       httpBackend = $httpBackend;
       buffer = httpBuffer;
@@ -27,6 +28,7 @@ describe('Auth', function() {
       config = authConfig;
       interceptor = authInterceptor;
       win = $window;
+      location = $location;
       authPro = auth;
     });
     spyOn(tokenService, 'logout').and.callThrough();
@@ -146,6 +148,17 @@ describe('Auth', function() {
       httpBackend.flush();
       expect(tokenService.logout).toHaveBeenCalled();
       expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl);
+    });
+
+    it('should redirect to the logout page with current url correctly base64 encoded', function() {
+      var fakeCurrentUrl = '/some/path?foo=bar&baz=xoxo';
+      var base64EncodedCurrentUrl = win.btoa(fakeCurrentUrl);
+      spyOn(location, 'url').and.returnValue(fakeCurrentUrl);
+      httpBackend.expectPOST(config.tokenUrl).respond(400);
+      tokenService.create();
+      httpBackend.flush();
+      expect(tokenService.logout).toHaveBeenCalled();
+      expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl + base64EncodedCurrentUrl);
     });
   });
 
