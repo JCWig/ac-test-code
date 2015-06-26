@@ -1,7 +1,19 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($compile) {
+module.exports = function($compile, $templateCache, $http, $q) {
+
+  function getStepTemplate(step) {
+    if (step.template) {
+      return $q.when(step.template);
+    } else {
+      return $http.get(step.templateUrl, {cache: $templateCache})
+        .then(function(result) {
+          return result.data;
+        });
+    }
+  }
+
 
   return {
     restrict: 'E',
@@ -9,8 +21,11 @@ module.exports = function($compile) {
 
     link: function(scope, element) {
       scope.$watch('stepIndex', function(stepIndex) {
-        element.empty();
-        element.append($compile(scope.steps[stepIndex].template)(scope.contentScope));
+        getStepTemplate(scope.steps[stepIndex])
+          .then(function(content) {
+            element.empty();
+            element.append($compile(scope.steps[stepIndex].template)(scope.contentScope));
+          });
       });
 
     }
