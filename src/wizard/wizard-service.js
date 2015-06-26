@@ -3,13 +3,12 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function($templateCache, $log, $modal, $controller) {
+module.exports = function($templateCache, $log, $modal, $controller, $rootScope) {
 
   function initializeScope(options) {
-    var wizardScope = options.scope.$new();
+    var wizardScope = $rootScope.$new();
 
-    wizardScope.contentScope = options.scope;
-    delete options.scope;
+    wizardScope.contentScope = options.scope ? options.scope : $rootScope.$new();
 
     wizardScope.title = options.title;
     wizardScope.previousLabel = options.previousLabel;
@@ -21,12 +20,22 @@ module.exports = function($templateCache, $log, $modal, $controller) {
     wizardScope.steps = options.steps;
 
     $controller(options.controller, {$scope: wizardScope.contentScope});
-    delete options.controller;
 
     return wizardScope;
   }
 
   return {
+
+    /* @ngInject */
+    WizardController: function($scope, $rootScope) {
+
+      var optionScope = $scope.options.scope;
+
+      this.contentScope = optionScope && optionScope.$new ?
+        optionScope.$new() : $rootScope.$new();
+
+    },
+
     open: function(options) {
 
       var wizardScope = initializeScope(options), i;
@@ -34,7 +43,14 @@ module.exports = function($templateCache, $log, $modal, $controller) {
       for (i = 0; i < options.steps.length; i++) {
         options.steps[i].template = $templateCache.get(options.steps[i].templateId);
         options.steps[i].id = i;
+        if (i === 0) {
+          options.steps[i].visited = true;
+        }
       }
+
+      wizardScope.steps = options.steps;
+      wizardScope.stepIndex = 0;
+
 
       wizardScope.previousStep = function() {
         if (wizardScope.stepIndex > 0) {
@@ -44,36 +60,42 @@ module.exports = function($templateCache, $log, $modal, $controller) {
 
       wizardScope.nextStep = function() {
         if (wizardScope.stepIndex < wizardScope.steps.length - 1) {
-          wizardScope.currentStep.visited = true;
           wizardScope.stepIndex++;
+          wizardScope.steps[wizardScope.stepIndex].visited = true;
         }
       };
 
       wizardScope.isValid = function() {
-        if (!angular.isFunction(wizardScope.currentStep.validate)) { return true; }
+        if (!angular.isFunction(wizardScope.steps[wizardScope.stepIndex].validate)) { return true; }
 
-        return wizardScope.currentStep.validate(wizardScope.contentScope);
+        return wizardScope.steps[wizardScope.stepIndex].validate(wizardScope.contentScope);
       };
 
       wizardScope.activateStep = function(stepNumber) {
-        $log.log('stepNumber', stepNumber);
-        wizardScope.stepIndex = stepNumber;
-      };
-
-      wizardScope.stepClass = function(stepNumber) {
-        if (stepNumber == wizardScope.stepIndex) {
-          return 'active';
-        } else if (wizardScope.steps[stepNumber].visited) {
-          return 'visited';
+        if (wizardScope.steps[stepNumber].visited) {
+          wizardScope.stepIndex = stepNumber;
         }
       };
 
-      wizardScope.submit = angular.noop;
+      wizardScope.stepClasses = function(stepNumber) {
 
-      wizardScope.$watch('stepIndex', function(stepIndex) {
-        wizardScope.currentStep = wizardScope.steps[stepIndex];
-        wizardScope.contentScope.currentStep = wizardScope.steps[stepIndex];
-      });
+        var current = true, maxStepIndex = wizardScope.steps.length-1;
+
+        if (stepNumber > maxStepIndex) {
+          return {};
+        } else if (stepNumber < maxStepIndex) {
+          current = !wizardScope.steps[stepNumber+1].visited;
+        }
+
+        return {
+          active: stepNumber == wizardScope.stepIndex,
+          visited: wizardScope.steps[stepNumber].visited,
+          current: current
+        };
+
+      };
+
+      wizardScope.submit = angular.noop;
 
       $modal.open(angular.extend(options, {
         scope: wizardScope,

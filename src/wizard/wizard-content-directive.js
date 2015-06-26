@@ -8,13 +8,11 @@ module.exports = function($compile, $http, $templateCache, $q, $log) {
     template: '<div class="modal-body"><div></div></div>',
 
     link: function(scope, element) {
-      scope.contentScope.$watch('currentStep', function(currentStep) {
-        element.html(($compile(currentStep.template)(scope.contentScope))[0].outerHTML);
+      scope.$watch('stepIndex', function(stepIndex) {
+        element.empty();
+        element.append($compile(scope.steps[stepIndex].template)(scope.contentScope));
       });
 
-/*      scope.showContent = function() {
-        element.html(($compile(scope.currentStep.template)(scope.contentScope))[0].outerHTML);
-      };*/
     }
   };
 };

@@ -20,6 +20,7 @@ module.exports = function($compile, $http, $templateCache, $q) {
     link: function(scope, element) {
       getBodyTemplate(scope.modalWindow)
         .then(function(content) {
+          var elem = $compile(content)(scope);
           element.append($compile(content)(scope));
         });
     }

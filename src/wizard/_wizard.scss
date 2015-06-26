@@ -26,11 +26,7 @@ $wizard-nav-font-size: 14px;
       margin: 0 39px;
       text-align: center;
       color: $wizard-nav-step-color;
-
-      // to respect whitespace
-      * {
-        display: inline-block;
-      }
+      cursor: pointer;
 
       div {
         width: $wizard-nav-step-size;
@@ -48,23 +44,7 @@ $wizard-nav-font-size: 14px;
       }
     }
 
-    li.active {
-      cursor: pointer;
-
-      div {
-        background-color: $wizard-nav-step-color-active;
-        border-color: $wizard-nav-step-color-active;
-        color: white;
-        font-weight: bold;
-      }
-      span {
-        color: $wizard-nav-step-color-active;
-        font-weight: bold;
-      }
-    }
-
     li.visited {
-      cursor: pointer;
 
       div {
         border-color: $wizard-nav-step-color-visited;
@@ -78,6 +58,23 @@ $wizard-nav-font-size: 14px;
       }
     }
 
+    li.active {
+      div {
+        background-color: $wizard-nav-step-color-active;
+        border-color: $wizard-nav-step-color-active;
+        color: white;
+        font-weight: bold;
+      }
+      span {
+        color: $wizard-nav-step-color-active;
+        font-weight: bold;
+      }
+    }
+
+    li.current:after {
+      background-color: $wizard-nav-step-color;
+    }
+
     li:after {
       content: " ";
       height: 1px;
@@ -85,7 +82,7 @@ $wizard-nav-font-size: 14px;
       position: absolute;
       width: 86px;
       top: 15px;
-      margin-left: -6px;
+      margin-left: -4px;
     }
     li:last-child:after {
       display:none;
