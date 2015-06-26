@@ -14,7 +14,6 @@ module.exports = function($compile, $templateCache, $http, $q) {
     }
   }
 
-
   return {
     restrict: 'E',
     template: '<div class="modal-body"><div></div></div>',
@@ -24,7 +23,7 @@ module.exports = function($compile, $templateCache, $http, $q) {
         getStepTemplate(scope.steps[stepIndex])
           .then(function(content) {
             element.empty();
-            element.append($compile(scope.steps[stepIndex].template)(scope.contentScope));
+            element.append($compile(content)(scope.contentScope));
           });
       });
 

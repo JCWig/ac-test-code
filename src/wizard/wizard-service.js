@@ -49,11 +49,9 @@ module.exports = function($templateCache, $log, $modal, $controller,
   return {
 
     open: function(options) {
-
       var scope = initializeScope(options),
         onSubmit = angular.noop,
-        disabled = false,
-        processing = false,
+        processing,
         instance;
 
       scope.previousStep = function() {
@@ -85,6 +83,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
 
       scope.stepClasses = function(stepNumber) {
         var current = true, maxStepIndex = scope.steps.length - 1;
+
         if (stepNumber > maxStepIndex) {
           return {};
         } else if (stepNumber < maxStepIndex) {
@@ -102,8 +101,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
         scope: scope,
         template: require('./templates/wizard.tpl.html')
       }));
-
-
+      
       // setup promise that will resolve when submit button is clicked
       scope.setOnSubmit = function(fn) {
         onSubmit = fn;
