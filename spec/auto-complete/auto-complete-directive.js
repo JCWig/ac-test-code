@@ -2,4 +2,4 @@
 
 describe('akamAutoComplete directive', function() {
 
-}
+});

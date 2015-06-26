@@ -26,7 +26,7 @@ module.exports = function(translate, uuid, $q) {
     key = this.searchLength === 1 ?
     'components.auto-complete.search-tip' : 'components.auto-complete.search-tip_plural';
 
-    translate.async(key, {length: this.searchDefinedLength})
+    translate.async(key, {length: this.searchLength})
       .then(function(value) {
         $scope.ac.searchTip = value;
       });
