@@ -10,12 +10,18 @@ module.exports = function($templateCache, $log, $modal, $controller,
     var scope = $rootScope.$new();
 
     scope.contentScope = options.scope ? options.scope : $rootScope.$new();
-    $controller(options.controller, {$scope: scope.contentScope});
+
+    if (angular.isDefined(options.controller)) {
+      $controller(options.controller, {$scope: scope.contentScope});
+    }
 
     scope.title = options.title;
-    scope.previousLabel = options.previousLabel;
-    scope.nextLabel = options.nextLabel;
-    scope.submitLabel = options.submitLabel;
+
+    // TODO: internationalize
+    scope.previousLabel = options.previousLabel ? options.previousLabel : 'Previous';
+    scope.nextLabel = options.nextLabel ? options.nextLabel : 'Next';
+    scope.submitLabel = options.submitLabel ? options.submitLabel : 'Submit';
+
     scope.successMessage = options.successMessage;
     scope.errorMessage = options.errorMessage;
     scope.stepIndex = 0;
@@ -48,6 +54,73 @@ module.exports = function($templateCache, $log, $modal, $controller,
 
   return {
 
+    /**
+     * @ngdoc method
+     *
+     * @name wizard#open
+     *
+     * @methodOf akamai.components.wizard.service:wizard
+     *
+     * @description Opens a wizard in a modal window
+     *
+     * @param {Object} options A hash with the options specified below.
+     **
+     * @param {Function} [options.controller] A controller for the wizard *****
+     * instance that can initialize scope.
+     *
+     * @param {Scope} [options.scope=$rootScope] A scope instance to use for
+     * the wizard content body
+     *
+     * @param {String} [options.title] A title for the wizard
+     *
+     * @param {String} [options.previousLabel=Previous] A label for the
+     * wizard's previous button
+     *
+     * @param {String} [options.nextLabel=Next] A label for the wizard's next
+     * button
+     *
+     * @param {String} [options.submitLabel=Submit] A label for the wizard's
+     * submit button
+     *
+     * @param {String} [options.successMessage] A message to display after the
+     * wizard is successfully submitted
+     *
+     * @param {String} [options.errorMessage] A message to display if the wizard
+     * is unsuccessfully submitted
+     *
+     * @param {Object[]} options.steps An array of step objects with the
+     * following properties. Note: the requirements for templating are one of
+     * `template`, `templateId` or `templateUrl`
+     *
+     * - `name` {String} The name of the wizard step. Shown in the wizard step
+     *   navigation bar
+     *
+     * - `template` {String} An inline template to render within the body of
+     *   the wizard.
+     *
+     * - `templateId` {String} A templateId to retrieve the template used to
+     *    render within the body of the wizard
+     *
+     * - `templateUrl` {String} A URL referencing a template to render within
+     *   the body of the wizard
+     *
+     * - `validation` {Function} A validation function that returns true when
+     *   the step is valid. The step's next button is enabled when the function
+     *   returns true.
+     *
+     * @return {Object} An instance of the wizard with the following
+     * properties:
+     *
+     * - `close` (Function) A method to close the wizard that accepts a result
+     *    as an argument.
+     *
+     * - `dismiss` (Function) A method to dismiss the wizard, rejecting the
+     *   `result` promise.
+     *
+     * - `result` (Promise) A promise representing the result when the wizard
+     *    is closed.
+     *
+     */
     open: function(options) {
       var scope = initializeScope(options),
         onSubmit = angular.noop,
