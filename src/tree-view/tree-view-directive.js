@@ -109,7 +109,9 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
 
       if (!haveParentsFlag) {
         inputParents = parentGetter(data);
-        this.parentTree = this.parentTree.concat(this.convertData(inputParents, parentProperty, data));
+        this.parentTree = this.parentTree.concat(this.convertData(
+          inputParents, parentProperty, data)
+        );
         if (inputParents && !angular.isArray(inputParents)) {
           value = inputParents;
           inputParents = [value];

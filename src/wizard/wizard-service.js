@@ -16,6 +16,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
     }
 
     scope.title = options.title;
+    scope.icon = options.icon;
 
     // TODO: internationalize
     scope.previousLabel = options.previousLabel ? options.previousLabel : 'Previous';
@@ -27,6 +28,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
     scope.stepIndex = 0;
     scope.steps = options.steps;
     scope.showSubmitError = false;
+    scope.processing = false;
 
     angular.forEach(options.steps, function(step, i) {
       step.id = i;
@@ -72,6 +74,10 @@ module.exports = function($templateCache, $log, $modal, $controller,
      * the wizard content body
      *
      * @param {String} [options.title] A title for the wizard
+     *
+     * @param {String} options.icon A CSS class representing an
+     * icon to display to the left of the wizard title
+
      *
      * @param {String} [options.previousLabel=Previous] A label for the
      * wizard's previous button
@@ -124,7 +130,6 @@ module.exports = function($templateCache, $log, $modal, $controller,
     open: function(options) {
       var scope = initializeScope(options),
         onSubmit = angular.noop,
-        processing,
         instance;
 
       scope.previousStep = function() {
@@ -175,7 +180,11 @@ module.exports = function($templateCache, $log, $modal, $controller,
         scope: scope,
         template: require('./templates/wizard.tpl.html')
       }));
-      
+
+      scope.close = function() {
+        instance.dismiss();
+      };
+
       // setup promise that will resolve when submit button is clicked
       scope.setOnSubmit = function(fn) {
         onSubmit = fn;
@@ -194,7 +203,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
 
         // check to see if the onSubmit returns a promise
         if (result && angular.isFunction(result.then)) {
-          processing = true;
+          scope.processing = true;
         }
 
         $q.when(result).then(
@@ -204,7 +213,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
           }
         ).catch(
           function() {
-            processing = false;
+            scope.processing = false;
             scope.showSubmitError = true;
           }
         );

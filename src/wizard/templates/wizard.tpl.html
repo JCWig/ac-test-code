@@ -1,5 +1,16 @@
-<div class="modal-header">
-    <h3 class="modal-title">{{ ::title }}</h3>
+<div class="modal-header" ng-class="{'error': showSubmitError}">
+    <i ng-if="icon" class="title-icon" ng-class="icon"></i>
+
+    <h3 class="modal-title">{{ title }}</h3>
+    <i class="close-icon" ng-click="close()" ng-if="!isProcessing()"></i>
+
+    <div class="akam-status-message-wrapper" ng-if='showSubmitError'>
+        <div class="akam-status-message-item-wrapper" ng-class="{'error': showSubmitError}">
+            <div class="akam-status-message-item">
+                <div class="status-message-content">{{ errorMessage }}</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="wizard-steps">
@@ -15,9 +26,10 @@
         {{ ::previousLabel }}
     </button>
 
-    <span ng-switch on="stepIndex == steps.length - 1">
-        <button ng-switch-when="true" type="button" class="button large primary" ng-click="submit()" ng-disabled="!isValid()">
-            {{ ::submitLabel }}
+    <span ng-switch on="stepIndex == steps.length - 1" class="button-switch">
+        <button ng-switch-when="true" type="button" class="button large primary" ng-click="submit()" ng-disabled="!isValid() || processing">
+            {{ !processing ? submitLabel : '' }}
+            <div class='submit-button-spinner' ng-if='processing'></div>
         </button>
 
         <button ng-switch-default type="button" class="button large primary" ng-click="nextStep()" ng-disabled="!isValid()">

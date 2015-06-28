@@ -16,7 +16,7 @@ module.exports = function($compile, $templateCache, $http, $q) {
 
   return {
     restrict: 'E',
-    template: '<div class="modal-body"><div></div></div>',
+    template: '<div class="modal-body"><div ng-if="processing" class="backwash"></div></div>',
 
     link: function(scope, element) {
       scope.$watch('stepIndex', function(stepIndex) {

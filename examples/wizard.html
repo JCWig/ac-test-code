@@ -51,20 +51,27 @@
         angular.module('wizardApp', ['akamai.components.wizard'])
                 .controller('WizardAppController', WizardAppController);
 
-        WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope'];
-        function WizardAppController($log, $modal, wizard, $rootScope) {
+        WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope', '$q', '$timeout'];
+        function WizardAppController($log, $modal, wizard, $rootScope, $q, $timeout) {
             var vm = this;
             var wizardScope = $rootScope.$new();
             var times = 0;
 
             WizardController.$inject = ['$scope', '$log'];
             function WizardController($scope, $log) {
-                $scope.testProperty = 'indeed';
-
                 if (angular.isFunction($scope.setOnSubmit)) {
                     $scope.setOnSubmit(function(){
-                        $log.log('in onSubmit');
-                        return true;
+                        var deferral = $q.defer();
+                        $timeout(function() {
+                            if (times % 2 === 0) {
+                                deferral.reject();
+                            } else{
+                                deferral.resolve();
+                            }
+
+                            times++;
+                        }, 1000);
+                        return deferral.promise;
                     });
                 }
             };
