@@ -1,37 +1,120 @@
 'use strict';
 
 var angular = require('angular');
-var debounce = require('lodash/function/debounce');
 
 /* @ngInject */
-module.exports = function(translate, uuid, $q) {
+module.exports = function(translate, uuid, $q, $log, $templateCache) {
+
+  var consts = {
+    ITEM_TEMPLATE_URL_PARTIAL: 'template/typeahead/',
+    DEFAULT_TEMPLATE_NAME: 'akam-auto-complete.item.html',
+    CUSTOM_CONTENT_PLACEHOLDER: 'akam-auto-complete-item',
+    CONTENT_PLACEHOLDER_NAME: 'akam-auto-complete-item',
+    SEARCH_MINIMUM: 1
+  };
+
+  function setTemplate(customContent, contentUrl) {
+    var itemContentHtml;
+
+    //need to remove original content
+
+    if (customContent.length) {
+      itemContentHtml = customContent[1].innerHTML;
+    } else {
+      itemContentHtml = require('./templates/auto-complete-item.tpl.html');
+    }
+    $templateCache.put(contentUrl, itemContentHtml);
+  }
+
+  function buildStaticQuery(ctrl) {
+    var itemAsText = 'item',
+      c = ctrl;
+
+    if (c.textProperty) {
+      itemAsText = 'item[ac.textProperty]';
+    }
+    c.query = 'item as ' + itemAsText + ' for item in ac.searchMatches($viewValue)';
+    return ctrl; //for chainable
+  }
 
   /* @ngInject */
-  function AutoCompleteController($scope, $element, $attrs) {
+  function AutoCompleteController($scope, $element, $attrs, $transclude) {
 
-    var key;
+    var langKey;
 
+    //adjust values for $scope vars
     this.isOpen = false;
-    this.autoCompleteId = uuid.guid();
-    this.searchLength = this.minimumSearch || 1;
+    this.autoCompleteId = 'akam-auto-complete-' + $scope.$id + '-' + uuid.guid();
+    this.searchLength = this.minimumSearch || consts.SEARCH_MINIMUM;
     this.placeholder = this.placeholder || '';
     this.selected = false;
-    this.selectItem = selectItem;
-    this.deleteSelected = deleteSelected;
+    this.contentTemplateUrl = this.contentProperty ?
+      consts.ITEM_TEMPLATE_URL_PARTIAL + this.contentProperty + '.html' :
+      consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
       this.textProperty = $attrs.textProperty;
     }
 
-    key = this.searchLength === 1 ?
-    'components.auto-complete.search-tip' : 'components.auto-complete.search-tip_plural';
+    //translate serach tip text
+    langKey = this.searchLength === 1 ?
+      'components.auto-complete.search-tip' : 'components.auto-complete.search-tip-plural';
 
-    translate.async(key, {length: this.searchLength})
+    translate.async(langKey, {
+        length: this.searchLength
+      })
       .then(function(value) {
         $scope.ac.searchTip = value;
       });
 
-    buildStaticQuery();
+    //$scope methods names mapping
+    this.selectItem = selectItem;
+    this.deleteSelected = deleteSelected;
+    this.searchMatches = searchMatches;
+
+    setTemplate($transclude(), this.contentTemplateUrl);
+    buildStaticQuery(this);
+
+    //private functions
+    function searchMatches(term) {
+      var ctrl = $scope.ac,
+        deferred = $q.defer();
+
+      term = term || ctrl.selectedItem;
+
+      if (term.length < ctrl.searchLength) {
+        return deferred.resolve([]);
+      }
+
+      if (!angular.isFunction(ctrl.onSearch)) {
+        $log.error('onSearch function is required to make asynchronous calls.');
+        deferred.reject();
+      }
+
+      return new Promise(function(resolve, reject) {
+        var asyncSearch = ctrl.onSearch({
+          term: term
+        });
+
+        $q.when(asyncSearch)
+          .then(function(raw) {
+            resolve(normalizeData(raw));
+          })
+          .catch(function() {
+            $log.error('ajax call return error.');
+            ctrl.items = [];
+            reject([]);
+          });
+      });
+    }
+
+    //we could do something about raw data, like filtering...
+    function normalizeData(rawData) {
+      var normalized = rawData;
+
+      $scope.ac.isOpen = true;
+      return normalized;
+    }
 
     //this call from child directive to passing in the text or object
     function selectItem(item) {
@@ -59,43 +142,7 @@ module.exports = function(translate, uuid, $q) {
       this.items = [];
     }
 
-    function buildStaticQuery() {
-      var itemAsText = 'item',
-        c = $scope.ac;
-
-      if (c.textProperty) {
-        itemAsText = 'item[ac.textProperty]';
-      }
-      c.query = 'item as ' + itemAsText + ' for item in ac.items | filter:{name:$viewValue}';
-      return c.query;
-    }
-
-    function searchMatches() {
-      if (this.selectedItem.length < this.searchDefinedLength) {
-        return;
-      }
-      if (angular.isFunction(this.onSearch)) {
-        $q.when(this.onSearch({
-            term: this.selectedItem
-          }))
-          .then(angular.bind(this, setSearchData))
-          .catch(angular.bind(this, setNullData));
-      }
-    }
-
-    function setSearchData(data) {
-      this.items = data;
-      this.isOpen = true;
-    }
-
-    function setNullData() {
-      this.items = [];
-      //this.isOpen = true;
-    }
-
-    this.debounceSearch = debounce(searchMatches, 300);
-
-    $element.on('input', angular.bind(this, this.debounceSearch, this.selectedItem));
+    //$element.on('input', angular.bind(this, this.debounceSearch, this.selectedItem));
   }
 
   /* @ngInject */
@@ -112,15 +159,16 @@ module.exports = function(translate, uuid, $q) {
 
   return {
     restrict: 'E',
-    //transclude: true,
+    transclude: true,
     require: '^ngModel',
     controller: AutoCompleteController,
     controllerAs: 'ac',
     bindToController: {
       items: '=',
       onSelect: '&?',
-      onSearch: '&?',
-      textProperty: '@',
+      onSearch: '&',
+      textProperty: '@?',
+      contentProperty: '@?',
       placeholder: '@?',
       minimumSearch: '=?'
     },

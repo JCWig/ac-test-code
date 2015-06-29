@@ -6,6 +6,7 @@ var angular = require('angular');
  *
  * @name akamai.components.auto-complete
  *
+ * @requires module:ngSanitize
  * @requires module:akamai.components.i18n
  * @requires module:akamai.components.uuid
  * @requires module:ui.highlight
@@ -14,7 +15,8 @@ var angular = require('angular');
  */
 module.exports = angular.module('akamai.components.auto-complete', [
   require('angular-bootstrap-npm'),
-  'ui.highlight',
+
+  'ngSanitize',
   require('../i18n').name,
   require('../uuid').name
 ])
