@@ -26,7 +26,6 @@ $wizard-nav-font-size: 14px;
       margin: 0 39px;
       text-align: center;
       color: $wizard-nav-step-color;
-      cursor: pointer;
 
       div {
         width: $wizard-nav-step-size;
@@ -45,6 +44,7 @@ $wizard-nav-font-size: 14px;
     }
 
     li.visited {
+      cursor: pointer;
 
       div {
         border-color: $wizard-nav-step-color-visited;
