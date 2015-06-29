@@ -26,18 +26,13 @@ module.exports = function($templateCache, $log, $modal, $controller,
     scope.successMessage = options.successMessage ||
       translate.sync('components.wizard.successMessage');
     scope.errorMessage = options.errorMessage || translate.sync('components.wizard.successMessage');
-
-    scope.stepIndex = 0;
-    scope.steps = options.steps;
     scope.showSubmitError = false;
     scope.processing = false;
 
     angular.forEach(options.steps, function(step, i) {
       step.id = i;
-      if (!step.template) {
-        if (step.templateId) {
-          step.template = $templateCache.get(step.templateId);
-        }
+      if (!step.template && step.templateId) {
+        step.template = $templateCache.get(step.templateId);
       }
 
       if (!(angular.isDefined(step.template) ||
