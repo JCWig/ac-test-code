@@ -14,12 +14,6 @@ var angular = require('angular'),
 module.exports = angular.module('akamai.components.context', [
   cookies
 ])
-  .provider('context', contextProvider)
-  .run(function($cookies, context) {
-
-    if (!context.isStandaloneContext()) {
-      context.setAccountCookie();
-      context.setContextIdFromUrl();
-    }
-
-  });
+  .constant('LUNA_GROUP_QUERY_PARAM', 'gid')
+  .constant('LUNA_ASSET_QUERY_PARAM', 'aid')
+  .provider('context', contextProvider);

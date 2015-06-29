@@ -1,10 +1,8 @@
 'use strict';
 
-var template = require('./header/header.html');
-
-var render = require('./utils/renderer').render;
-
-var helpers = require('./helpers'),
+var template = require('./header/header.html'),
+  render = require('./utils/renderer').render,
+  helpers = require('./helpers'),
   menu = require('./menu'),
   i18n = require('./helpers/i18n'),
   alerts = require('./alerts'),
@@ -17,25 +15,34 @@ var helpers = require('./helpers'),
   supportTemplate = require('./header/support.hbs');
 
 /* @ngInject */
-module.exports = function($rootScope, context) {
+module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
   return {
     restrict: 'E',
-    scope: { },
+    scope: {},
     controller: MegaMenu,
     controllerAs: 'menuHeader',
     template: template
   };
 
-  function contextChanged(e, data) {
-    breadcrumbs.render(data);
+  // whenever group or property changes, update breadcrumbs
+  function contextChanged(data) {
+    $q.all(data).then(function(items) {
+      if (items[1].id) {
+        breadcrumbs.render(items[1]);
+      } else {
+        breadcrumbs.render(items[0]);
+      }
+      updateLocation(items[0].id, items[1].id);
+    });
   }
 
-  function contextLoaded(e, data) {
-    contextSelector.render(data);
+  function updateLocation(gid, aid) {
+    $location.search(LUNA_GROUP_QUERY_PARAM, gid);
+    $location.search(LUNA_ASSET_QUERY_PARAM, aid);
   }
 
   function renderAll(data) {
-    var group = context.getGroupInfo(), accountContext = context.getContextForAccount();
+    var group = context.group, accountContext = context.account.context;
 
     i18n.setData(data.i18n);
     // append locale as a class name to body -- used for some CSS hackery
@@ -46,16 +53,8 @@ module.exports = function($rootScope, context) {
       supportUrl: data.partner.supportUrl
     });
 
-    // handle the case when the mega menu renders before the context selector fetches group
-    // information. In this case, the events defined on root scope won't be triggered when
-    // this directive is initially rendered
-    if (group) {
-      breadcrumbs.render(group);
-    }
-
-    if (accountContext) {
-      contextSelector.render(accountContext);
-    }
+    group.then(breadcrumbs.render);
+    accountContext.then(contextSelector.render);
 
     menu.render();
     alerts.render();
@@ -66,9 +65,13 @@ module.exports = function($rootScope, context) {
   }
 
   /* @ngInject */
-  function MegaMenu(megaMenuData) {
-    $rootScope.$on('akamai.components.context.changed', contextChanged);
-    $rootScope.$on('akamai.components.context.loaded', contextLoaded);
+  function MegaMenu($scope, megaMenuData) {
+
+    $scope.$watchGroup([function() {
+      return context.group;
+    }, function() {
+      return context.property;
+    }], contextChanged);
 
     helpers.register();
 

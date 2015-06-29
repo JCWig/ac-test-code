@@ -25,13 +25,23 @@ module.exports = {
     var breadcrumbs = [], current = group;
 
     while (current) {
-      breadcrumbs.unshift({
-        gid: current.gid,
-        aid: current.aid,
-        title: current.title
-      });
 
-      current = current.parent;
+      // is a property
+      if (current.group) {
+        breadcrumbs.unshift({
+          gid: current.group.id,
+          aid: current.id,
+          title: current.name
+        });
+        current = current.group;
+      } else {
+        breadcrumbs.unshift({
+          gid: current.id,
+          title: current.name
+        });
+        current = current.parent;
+      }
+
     }
 
     renderer.render(selector, template, breadcrumbs);
