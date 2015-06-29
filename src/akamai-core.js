@@ -24,5 +24,5 @@ angular.module('akamai.components', [
   require('./tag-input').name,
   require('./dropdown').name,
   require('./auth').name,
-  require('./auto-complete').name
+  require('./autocomplete').name
 ]);
