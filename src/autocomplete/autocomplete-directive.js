@@ -13,10 +13,18 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
   };
 
   function setTemplate(customContent, contentUrl) {
-    var itemContentHtml;
+    var itemContentHtml, content, html;
 
     if (customContent.length) {
-      itemContentHtml = customContent[1].innerHTML;
+      content = customContent[1];
+      html = content.innerHTML;
+
+      if (angular.lowercase(content.tagName) === consts.CUSTOM_CONTENT_PLACEHOLDER
+        && html.trim().length) {
+        itemContentHtml = html;
+      } else {
+        itemContentHtml = require('./templates/autocomplete-item.tpl.html');
+      }
     } else {
       itemContentHtml = require('./templates/autocomplete-item.tpl.html');
     }
@@ -110,6 +118,7 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       var normalized = rawData;
 
       $scope.ac.isOpen = true;
+      //hide loading
       return normalized;
     }
 
