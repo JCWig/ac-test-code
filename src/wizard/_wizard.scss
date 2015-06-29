@@ -88,4 +88,23 @@ $wizard-nav-font-size: 14px;
       display:none;
     }
   }
+
+  .modal-content {
+    & > .modal-footer {
+      .button-switch > .button {
+        position: relative;
+
+        & .submit-button-spinner {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+        }
+
+        & span.loading {
+          visibility: hidden;
+        }
+      }
+    }
+  }
 }

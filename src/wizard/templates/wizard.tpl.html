@@ -26,9 +26,9 @@
         {{ ::previousLabel }}
     </button>
 
-    <span ng-switch on="stepIndex == steps.length - 1" class="button-switch">
+    <span ng-switch on="stepIndex === steps.length - 1" class="button-switch">
         <button ng-switch-when="true" type="button" class="button large primary" ng-click="submit()" ng-disabled="!isValid() || processing">
-            {{ !processing ? submitLabel : '' }}
+            <span ng-class="processing ? 'loading' : ''">{{ ::submitLabel }}</span>
             <div class='submit-button-spinner' ng-if='processing'></div>
         </button>
 
