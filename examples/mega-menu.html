@@ -17,7 +17,11 @@
   <!-- Page content -->
   <p>
     <button class="btn btn-default" ng-click="vm.changeGroup()">Click to change group</button>
-    <span>Will change group to <code>aid=126619</code> and <code>gid=18783</code></span>
+    <span>Will change group to <code>gid=18783</code></span>
+  </p>
+  <p>
+    <button class="btn btn-default" ng-click="vm.changeProperty()">Click to change property</button>
+    <span>Will change property to <code>aid=126628</code></span>
   </p>
 </div>
 <akam-menu-footer></akam-menu-footer>
@@ -30,14 +34,18 @@
     .config(Config);
 
   function Config(contextProvider) {
-    contextProvider.setApplicationContext(contextProvider.APP_CONTEXTS.group);
+    contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
   }
   Config.$inject = ['contextProvider'];
 
   function MegaMenu(context) {
 
     this.changeGroup = function() {
-      context.setContextId(18783, 126619);
+      context.group = 18783;
+    };
+
+    this.changeProperty = function() {
+      context.property = 126628;
     }
   }
   MegaMenu.$inject = ['context'];

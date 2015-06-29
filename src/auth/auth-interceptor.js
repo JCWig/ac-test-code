@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /* @ngInject */
 module.exports = function($q, httpBuffer, token, authConfig, auth, context) {
   var megaMenuUriPatterns = [
@@ -8,7 +10,8 @@ module.exports = function($q, httpBuffer, token, authConfig, auth, context) {
     /^\/svcs\/messagecenter\/.*$/i,
     /^\/search\/api\/v1\/query.*$/i,
     /^\/totem\/.*$/i,
-    /^\/portal\/pages\/messagecenter\/.*/i
+    /^\/portal\/pages\/messagecenter\/.*/i,
+    /^\/libs\/akamai-core\/.*/i
   ];
 
   var authUrls = [
@@ -35,13 +38,33 @@ module.exports = function($q, httpBuffer, token, authConfig, auth, context) {
       if (token.isPending() && !isUriBlacklisted(requestConfig.url) ) {
         return httpBuffer.appendRequest(requestConfig);
       }
-      if (context.isGroupContext()) {
-        requestConfig.params = requestConfig.params || {};
-        requestConfig.params.gid = context.getGroupId();
-        requestConfig.params.aid = context.getAssetId();
+
+      // this implies that the extend.json call, which is being used to set the gid and aid in
+      // a luna context, must have its query params set manually. This happens in the context
+      // provider. We don't modify the blacklist config because the current group and property
+      // typically require some ajax calls to be made, and this causes a deadlock of promises that
+      // cannot be resolved because we need to know the current gid and aid
+      if (isUriBlacklisted(requestConfig.url)) {
+        return requestConfig;
       }
 
-      return requestConfig;
+      // get current group and property and then set query string params
+      return $q.all([context.group, context.property]).then(function(items) {
+        var group = items[0], property = items[1];
+
+        requestConfig.params = requestConfig.params || {};
+
+        if (angular.isDefined(group)) {
+          requestConfig.params.gid = group.id || undefined;
+        }
+
+        if (angular.isDefined(property)) {
+          requestConfig.params.aid = property.id || undefined;
+        }
+
+        return requestConfig;
+      });
+
     },
     responseError: function(response) {
       if (response.status === 401 && !isUriBlacklisted(response.config.url)) {

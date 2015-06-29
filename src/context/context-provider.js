@@ -8,144 +8,100 @@ var querystring = require('querystring'),
 var APP_CONTEXTS = {
   account: 'account',
   group: 'group',
-  standalone: 'standalone'
+  other: 'other'
 },
-  ACCOUNT_COOKIE = 'AKALASTMANAGEDACCOUNT',
-  GID_STORAGE_KEY = 'akamai.components.context.groupId',
-  AID_STORAGE_KEY = 'akamai.components.context.assetId',
-  CHANGED_EVENT = 'akamai.components.context.changed',
-  LOADED_EVENT = 'akamai.components.context.loaded',
-  GROUPS_URL = '/ui/services/nav/megamenu/ccare2/context.json',
-  CHANGE_GROUP_URL = '/core/services/session/username/extend',
-  GID_QUERY_PARAM = 'gid',
-  AID_QUERY_PARAM = 'aid';
+  GROUPS_URL = '/ui/services/nav/megamenu/username/context.json',
+  CHANGE_GROUP_URL = '/core/services/session/username/extend';
 
 module.exports = function ContextProvider() {
 
-  // sets the application context type. Some applications care about groups and some do not
-  var applicationType = APP_CONTEXTS.account, currentAccount, groups, rawContext;
+  var applicationType = APP_CONTEXTS.account, initialAccount, allGroups, allProperties, rawContext;
 
   /**
    * Sets the application context to be either account centric or group centric.
-   * @param {String} newType Should be 'APP_CONTEXTS.account', 'APP_CONTEXTS.group'
-   * or 'APP_CONTEXTS.standalone' (for non luna apps).
+   * @param {String} newType Should be 'this.ACCOUNT_CONTEXT', 'this.GROUP_CONTEXT'
+   * or 'this.OTHER_CONTEXT' (for non luna apps).
    */
   this.setApplicationContext = function(newType) {
     applicationType = newType;
   };
 
-  // used to facilitate setting the context
-  this.APP_CONTEXTS = angular.copy(APP_CONTEXTS);
+  /**
+   * Value for an application that is group aware
+   * @type {String}
+   */
+  this.GROUP_CONTEXT = APP_CONTEXTS.group;
+
+  /**
+   * Value for an application that does not care about groups, but exists in Luna.
+   * @type {String}
+   */
+  this.ACCOUNT_CONTEXT = APP_CONTEXTS.account;
+
+  /**
+   * Value for an application that is outside of luna.
+   * @type {String}
+   */
+  this.OTHER_CONTEXT = APP_CONTEXTS.other;
 
   /* @ngInject */
-  this.$get = function Context($rootScope, $injector, $window, $location, $cookies) {
+  this.$get = function Context($rootScope, $injector, $q,
+                               $window, $location, LUNA_ASSET_QUERY_PARAM) {
+    var $http;
 
-    return {
-      getApplicationContext: getApplicationContext,
+    var currentAccount = {
+      id: null,
+      name: null
+    };
+    var currentGroup = $q.when({
+      id: null,
+      name: null,
+      properties: [],
+      parent: {},
+      children: []
+    });
+    var initialProperty = $q.when({
+      id: null,
+      name: null,
+      group: {}
+    }), currentProperty = initialProperty;
+
+    var descriptor = {
       isGroupContext: angular.bind(this, isContext, APP_CONTEXTS.group),
       isAccountContext: angular.bind(this, isContext, APP_CONTEXTS.account),
-      isStandaloneContext: angular.bind(this, isContext, APP_CONTEXTS.standalone),
-      setContextId: setContextId,
-      getContextForAccount: getContextForAccount,
-      getGroupInfo: getGroupInfo,
-      getGroupId: getGroupId,
-      getAssetId: getAssetId,
-      accountChanged: accountChanged,
-      setAccountCookie: setAccountCookie,
-      setContextIdFromUrl: setContextIdFromUrl,
-      GID_QUERY_PARAM: GID_QUERY_PARAM
+      isOtherContext: angular.bind(this, isContext, APP_CONTEXTS.other),
+      accountChanged: accountChanged
     };
 
-    /**
-     * Returns the current group with parent and children info attached.
-     * @returns {GroupInfo} The current group with `title`, `id`, `parents`, and `children` keys.
-     */
-    function getGroupInfo() {
-      return findGroupInfoById(getGroupId(), getAssetId());
-    }
+    // for now we can only set the current account, but not do much else
+    Object.defineProperty(descriptor, 'account', {
 
-    /**
-     * Fetches the current group ID
-     * @returns {Number} the current group ID. Returns undefined if it doesn't exist.
-     */
-    function getGroupId() {
-      return parseInt($window.sessionStorage.getItem(GID_STORAGE_KEY), 10) || undefined;
-    }
+      get: function() {
+        return currentAccount;
+      },
+      set: setAccount,
+      enumerable: true
+    });
 
-    /**
-     * Fetches the current asset ID
-     * @returns {Number} the current asset ID or undefined if it doesn't exist.
-     */
-    function getAssetId() {
-      return parseInt($window.sessionStorage.getItem(AID_STORAGE_KEY), 10) || undefined;
-    }
+    // current group
+    Object.defineProperty(descriptor, 'group', {
+      get: function() {
+        return currentGroup;
+      },
+      set: setGroup,
+      enumerable: true
+    });
 
-    /**
-     * Results of calling context.json.
-     * @returns {Object} The raw JSON response from fetching context.json
-     */
-    function getContextForAccount() {
-      return rawContext;
-    }
+    // current property
+    Object.defineProperty(descriptor, 'property', {
+      get: function() {
+        return currentProperty;
+      },
+      set: setProperty,
+      enumerable: true
+    });
 
-    /**
-     * Sets the new group and asset IDs. Notifies the mega menu so it will update the breadcrumb.
-     * Call with no arguments to unset both values.
-     * @param {Number} [gid] the new group ID.
-     * @param {Number} [aid] the new asset ID
-     */
-    function setContextId(gid, aid) {
-      var group = findGroupInfoById(gid, aid),
-        gidChanged = angular.isDefined(gid) && gid !== getGroupId(),
-        aidChanged = angular.isDefined(aid) && aid !== getAssetId(),
-        $http = $injector.get('$http');
-
-      if (gidChanged || aidChanged) {
-        $http.get(CHANGE_GROUP_URL);
-      }
-
-      $location.search(GID_QUERY_PARAM, gid);
-      $location.search(AID_QUERY_PARAM, aid);
-
-      $window.sessionStorage.setItem(GID_STORAGE_KEY, gid);
-      $window.sessionStorage.setItem(AID_STORAGE_KEY, aid);
-
-      $rootScope.$broadcast(CHANGED_EVENT, group);
-    }
-
-    /**
-     * Meant to be called as an init method. Shouldn't be used directly by consumers of this
-     * module.
-     */
-    function setContextIdFromUrl() {
-      var qs = $location.search();
-
-      // setting the breadcrumb trail to null will cause the mega menu to hide the breadcrumbs
-      if (applicationType === APP_CONTEXTS.account) {
-        setContextId();
-      } else if (!qs[GID_QUERY_PARAM]) {
-        setContextId();
-        throw Error('Required query param "' + GID_QUERY_PARAM + '" missing from URL');
-      }
-
-      fetchGroupContext()
-        .then(function(data) {
-          var gid = parseInt(qs[GID_QUERY_PARAM], 10) || undefined,
-            aid = parseInt(qs[AID_QUERY_PARAM], 10) || undefined;
-
-          rawContext = data.data;
-          groups = parseGroups(data.data.context.mainMenuItems);
-          setContextId(gid, aid);
-        });
-    }
-
-    /**
-     * Gets the application context type
-     * @returns {string} Usually either 'account' or 'group'
-     */
-    function getApplicationContext() {
-      return applicationType;
-    }
+    return descriptor;
 
     /**
      * Determines if we have switched accounts
@@ -153,82 +109,232 @@ module.exports = function ContextProvider() {
      * last called.
      */
     function accountChanged() {
-      return $cookies.get(ACCOUNT_COOKIE) !== currentAccount;
-    }
-
-    /**
-     * Sets the initial account from the AKALASTMANAGEDACCOUNT cookie. This includes the account
-     * name and the account ID separated by a double tilde "~~". The whole string is base64
-     * encoded. This will also fetch the group context tree since it is possible that the
-     * account has been changed.
-     */
-    function setAccountCookie() {
-      currentAccount = $cookies.get(ACCOUNT_COOKIE);
+      return initialAccount !== currentAccount;
     }
 
     // ------------ utility methods below ------------
-
-    // returns the group hierarchy for a given GID. Includes parents and children.
-    function findGroupInfoById(gid, aid) {
-
-      if (!gid || !groups) {
-        return null;
-      }
-
-      return groups.filter(function(group) {
-        if (angular.isDefined(aid)) {
-          return group.gid === gid && group.aid === aid;
-        }
-        return group.gid === gid && angular.isUndefined(group.aid);
-      })[0];
-    }
-
-    function fetchGroupContext() {
-      // prevent a circular reference in the auth component
-      var $http = $injector.get('$http');
-
-      return $http.get(GROUPS_URL)
-        .then(notifyMegaMenu);
-    }
-
-    function notifyMegaMenu(data) {
-      $rootScope.$broadcast(LOADED_EVENT, data.data);
-      return data;
-    }
 
     function isContext(context) {
       return applicationType === context;
     }
 
+    function fetchGroupContext() {
+      // prevent a circular reference in the auth component
+      $http = $http || $injector.get('$http');
+
+      return $http.get(GROUPS_URL, {cache: true})
+        .then(function(data) {
+          var parsed;
+
+          if (!rawContext) {
+            rawContext = data.data;
+          }
+          if (!allGroups || !allProperties) {
+            parsed = parseGroupsAndProperties(data.data.context.mainMenuItems);
+            allGroups = parsed.groups;
+            allProperties = parsed.properties;
+          }
+
+          return rawContext;
+        });
+    }
+
+    function setAccount(newAccount) {
+      if (newAccount.id && newAccount.name) {
+        currentAccount = angular.copy(newAccount);
+
+        // used to detect if account changed
+        if (!initialAccount) {
+          initialAccount = currentAccount;
+        }
+
+        // set other pointers as well
+        currentAccount.context = getAccountContext();
+      }
+    }
+
+    // gets the contents of context.json
+    function getAccountContext() {
+      var contextCopy;
+
+      if (rawContext) {
+        contextCopy = angular.copy(rawContext);
+        return $q.when(contextCopy);
+      }
+
+      return fetchGroupContext();
+    }
+
+    /**
+     * Changes the group to have the new group id. Does not perform. Sets the current group to
+     * a promise that may resolve as the previous group if any of the requests in the promise
+     * chain throw an exception.
+     * @param {Number} groupId the new group ID
+     */
+    function setGroup(groupId) {
+      var oldGroup = currentGroup;
+
+      currentGroup = getAccountContext()
+        .then(function() {
+          return findGroupById(groupId);
+        })
+        .catch(function() {
+          return oldGroup;
+        });
+
+      // potentially reset property
+      currentProperty.then(function(property) {
+        if (property.group.id !== groupId) {
+          currentProperty = initialProperty;
+        }
+        changeGroupOrPropertyForLuna(groupId);
+      });
+    }
+
+    /**
+     * Sets the new property based on an asset id
+     * @param {Number} propertyId the id for the property
+     */
+    function setProperty(propertyId) {
+      var oldProperty = currentProperty;
+
+      currentProperty = getAccountContext()
+        .then(function() {
+          return findPropertyById(propertyId);
+        })
+        .catch(function() {
+          return oldProperty;
+        });
+
+      // set current group to either be the parent of the current property, or leave it
+      // unchanged
+      currentGroup = $q.all([currentGroup, currentProperty])
+        .then(function(items) {
+          var group = items[0], property = items[1], match = false, current = property.group;
+
+          // determine if the current property is contained within the current group
+          while (current.parent) {
+            if (group.id === current.id) {
+              match = true;
+              break;
+            }
+            current = current.parent;
+          }
+
+          // change group to be the direct parent of the current property
+          if (!match) {
+            return findGroupById(property.group.id);
+          }
+
+          // leave group unchanged
+          return group;
+        })
+        .then(function(group) {
+          changeGroupOrPropertyForLuna(group.id, propertyId);
+          return group;
+        });
+
+    }
+
+    // backwards compatibility method to set group and property cookies for luna applications
+    function changeGroupOrPropertyForLuna(gid, aid) {
+      var url = CHANGE_GROUP_URL + '?gid=' + gid;
+
+      $http = $http || $injector.get('$http');
+
+      if (aid) {
+        url += '&aid=' + aid;
+      }
+
+      return $http.get(url);
+    }
+
+    // returns the group hierarchy for a given GID. Includes parents and children.
+    function findGroupById(id) {
+      return findGenericById(allGroups, id);
+    }
+
+    function findPropertyById(id) {
+      return findGenericById(allProperties, id);
+    }
+
+    function findGenericById(list, id) {
+      if (!id || !list) {
+        return null;
+      }
+
+      return list.filter(function(item) {
+        return item.id === id;
+      })[0];
+    }
+
+    // simple factory method to make a group from the context.json schema
+    function makeGroup(parentGroup, data) {
+      var id = data.itemId;
+
+      return {
+        id: id,
+        name: data.name,
+        parent: parentGroup,
+        properties: [],
+        children: []
+      };
+    }
+
+    // factory method to make a property from the context.json schema
+    function makeProperty(parentGroup, data) {
+      var qs = querystring.parse(data.url.split('?')[1]),
+        id = parseInt(qs[LUNA_ASSET_QUERY_PARAM], 10) || undefined;
+
+      return {
+        id: id,
+        name: data.name,
+        group: parentGroup
+      };
+    }
+
+    // helper methods
+    function isGroup(item) {
+      return item.itemId !== 0;
+    }
+
+    function isProperty(item) {
+      return item.itemId === 0;
+    }
+
     // converts the absolute mess that is the context.json call into a flat list with parent
     // and child pointers so we can search it much more easily
-    function parseGroups(items, parent) {
-      var i, item, group, children, makeGroup, totalItems = [];
+    function parseGroupsAndProperties(items, parent) {
+      var i, item, group, childItems;
 
-      // simple factory method to create a group
-      makeGroup = function(parentGroup, data) {
-        var gid = data.itemId, qs, aid;
-
-        if (data.itemId === 0) {
-          qs = querystring.parse(data.url.split('?')[1]);
-          aid = parseInt(qs[AID_QUERY_PARAM], 10) || undefined;
-          gid = parseInt(qs[GID_QUERY_PARAM], 10) || undefined;
-        }
-        return new GroupInfo(gid, aid, data.contextId, data.name, parentGroup, null, data.dps);
+      var totalItems = {
+        groups: [],
+        properties: []
       };
 
       for (i = 0; i < items.length; i++) {
         item = items[i];
-        group = makeGroup(parent, item);
 
-        children = (item.subMenuItems || [])
-          .map(angular.bind(this, makeGroup, group));
+        if (isProperty(item)) {
+          totalItems.properties.push(makeProperty(parent, item));
+        } else {
+          group = makeGroup(parent, item);
 
-        group.children = children;
-        totalItems.push(group);
+          group.children = (item.subMenuItems || [])
+            .filter(isGroup)
+            .map(angular.bind(this, makeGroup, group));
+
+          group.properties = (item.subMenuItems || [])
+            .filter(isProperty)
+            .map(angular.bind(this, makeProperty, group));
+
+          totalItems.groups.push(group);
+        }
 
         if (item.subMenuItems && item.subMenuItems.length) {
-          totalItems = totalItems.concat(parseGroups(item.subMenuItems, group));
+          childItems = parseGroupsAndProperties(item.subMenuItems, group);
+          totalItems.groups = totalItems.groups.concat(childItems.groups);
+          totalItems.properties = totalItems.properties.concat(childItems.properties);
         }
       }
       return totalItems;
@@ -237,28 +343,3 @@ module.exports = function ContextProvider() {
   };
 
 };
-
-/**
- * Object to hold group info. Could be a group or a property.
- * @param {Number} gid the group id. Should always exist.
- * @param {Number|undefined} aid the asset id. Will be undefined if this really is a group.
- * @param {Number} contextId Identifier for this item. 0 for group, anything else for property
- * @param {String} title the name of this group
- * @param {GroupInfo} parent pointer to the parent. Null if the top level group.
- * @param {GroupInfo[]} children array of children groups
- * @param {String[]} properties list of digital properties
- * @constructor
- */
-function GroupInfo(gid, aid, contextId, title, parent, children, properties) {
-  this.gid = gid;
-  this.aid = aid;
-  this.contextId = contextId;
-  this.title = title;
-  this.parent = parent;
-  this.children = children;
-  this.properties = properties;
-
-  this.isProperty = function() {
-    return this.contextId !== 0;
-  };
-}
