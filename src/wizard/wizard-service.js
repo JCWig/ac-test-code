@@ -4,7 +4,7 @@ var angular = require('angular');
 
 /* @ngInject */
 module.exports = function($templateCache, $log, $modal, $controller,
-                          $rootScope, $q, statusMessage) {
+                          $rootScope, $q, statusMessage, translate) {
 
   function initializeScope(options) {
     var scope = $rootScope.$new();
@@ -19,12 +19,14 @@ module.exports = function($templateCache, $log, $modal, $controller,
     scope.icon = options.icon;
 
     // TODO: internationalize
-    scope.previousLabel = options.previousLabel ? options.previousLabel : 'Previous';
-    scope.nextLabel = options.nextLabel ? options.nextLabel : 'Next';
-    scope.submitLabel = options.submitLabel ? options.submitLabel : 'Submit';
+    scope.previousLabel = options.previousLabel ||
+      translate.sync('components.wizard.label.previous');
+    scope.nextLabel = options.nextLabel || translate.sync('components.wizard.label.next');
+    scope.submitLabel = options.submitLabel || translate.sync('components.wizard.label.submit');
+    scope.successMessage = options.successMessage ||
+      translate.sync('components.wizard.successMessage');
+    scope.errorMessage = options.errorMessage || translate.sync('components.wizard.successMessage');
 
-    scope.successMessage = options.successMessage;
-    scope.errorMessage = options.errorMessage;
     scope.stepIndex = 0;
     scope.steps = options.steps;
     scope.showSubmitError = false;
@@ -75,9 +77,8 @@ module.exports = function($templateCache, $log, $modal, $controller,
      *
      * @param {String} [options.title] A title for the wizard
      *
-     * @param {String} options.icon A CSS class representing an
+     * @param {String} [options.icon] A CSS class representing an
      * icon to display to the left of the wizard title
-
      *
      * @param {String} [options.previousLabel=Previous] A label for the
      * wizard's previous button

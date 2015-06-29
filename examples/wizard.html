@@ -49,7 +49,9 @@
 
     <script>
         angular.module('wizardApp', ['akamai.components.wizard'])
-                .controller('WizardAppController', WizardAppController);
+                .controller('WizardAppController', WizardAppController)
+                .config(configFunction);
+
 
         WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope', '$q', '$timeout'];
         function WizardAppController($log, $modal, wizard, $rootScope, $q, $timeout) {
@@ -81,9 +83,6 @@
                     scope: wizardScope,
                     controller: WizardController,
                     title: 'Wizard Example',
-                    previousLabel: 'Previous',
-                    nextLabel: 'Next',
-                    submitLabel: 'Submit',
                     successMessage: 'Success Message',
                     errorMessage: 'Error Message',
                     steps: [
@@ -122,6 +121,14 @@
             };
         }
 
+        configFunction.$inject = ['i18nTokenProvider'];
+        function configFunction (i18nTokenProvider) {
+            // need to overwrite locales path on fee.akamai.com
+            if(window.location.host == 'fee.akamai.com') {
+                i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+                i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            }
+        }
 
     </script>
 
