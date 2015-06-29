@@ -128,6 +128,10 @@ module.exports = function($templateCache, $log, $modal, $controller,
         onSubmit = angular.noop,
         instance;
 
+      scope.currentStep = function() {
+        return scope.steps[scope.stepIndex];
+      };
+
       scope.previousStep = function() {
         if (scope.stepIndex > 0) {
           scope.stepIndex--;
@@ -137,16 +141,16 @@ module.exports = function($templateCache, $log, $modal, $controller,
       scope.nextStep = function() {
         if (scope.stepIndex < scope.steps.length - 1) {
           scope.stepIndex++;
-          scope.steps[scope.stepIndex].visited = true;
+          scope.currentStep().visited = true;
         }
       };
 
       scope.isValid = function() {
-        if (!angular.isFunction(scope.steps[scope.stepIndex].validate)) {
+        if (!angular.isFunction(scope.currentStep().validate)) {
           return true;
         }
 
-        return scope.steps[scope.stepIndex].validate(scope.contentScope);
+        return scope.currentStep().validate(scope.contentScope);
       };
 
       scope.activateStep = function(stepNumber) {
