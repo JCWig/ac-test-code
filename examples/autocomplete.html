@@ -8,11 +8,14 @@
 </head>
 
 <body class="common-css luna" ng-app="autocompleteApp" ng-strict-di ng-controller="AutocompleteAppController as vm">
+  <br/>
   <h2>Auto Complete Component Example</h2>
+  <hr>
   <div>
     <h4>Display Auto Complete with minimum attributes and string list</h4>
     <akam-autocomplete items="vm.states" ng-model="vm.selectedState" placeholder="Enter state" on-search="vm.asyncSearchMatchesWithString(term)"></akam-autocomplete>
   </div>
+    <br/>
   <div>
     <h4>Display Auto Complete with customizabe content - 1</h4>
     <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name" content-property="stateFlags" minimum-search="2" placeholder="Search state with flag" on-search="vm.asyncSearchMatches1(term)">
@@ -24,6 +27,7 @@
       </akam-autocomplete-item>
     </akam-autocomplete>
   </div>
+    <br/>
   <div>
     <h4>Display Auto Complete with customizabe content - 2</h4>
     <akam-autocomplete items="vm.items" ng-model="vm.selectedName" text-property="name" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item)" on-search="vm.asyncSearchMatches2(term)">

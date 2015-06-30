@@ -8,26 +8,27 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
   var consts = {
     ITEM_TEMPLATE_URL_PARTIAL: 'template/typeahead/',
     DEFAULT_TEMPLATE_NAME: 'akam-autocomplete.item.html',
-    CUSTOM_CONTENT_PLACEHOLDER: 'akam-autocomplete-item',
+    CUSTOM_CONTENT: 'akam-autocomplete-item',
     SEARCH_MINIMUM: 1
   };
 
-  function setTemplate(customContent, contentUrl) {
-    var itemContentHtml, content, html;
+  function setTemplate(transcludeFn, contentUrl) {
+    var itemContentHtml, itemContent, html;
 
-    if (customContent.length) {
-      content = customContent[1];
-      html = content.innerHTML;
+    transcludeFn(function(clone) {
+      if (clone.length && clone[1]) {
+        itemContent = clone[1];
+        html = itemContent.innerHTML.trim();
 
-      if (angular.lowercase(content.tagName) === consts.CUSTOM_CONTENT_PLACEHOLDER
-        && html.trim().length) {
-        itemContentHtml = html;
+        if (angular.lowercase(itemContent.tagName) === consts.CUSTOM_CONTENT && html.length) {
+          itemContentHtml = html;
+        } else {
+          itemContentHtml = require('./templates/autocomplete-item.tpl.html');
+        }
       } else {
         itemContentHtml = require('./templates/autocomplete-item.tpl.html');
       }
-    } else {
-      itemContentHtml = require('./templates/autocomplete-item.tpl.html');
-    }
+    });
     $templateCache.put(contentUrl, itemContentHtml);
   }
 
@@ -45,8 +46,6 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
   /* @ngInject */
   function AutocompleteController($scope, $element, $attrs, $transclude) {
 
-    var langKey;
-
     //adjust values for $scope vars
     this.isOpen = false;
     this.autocompleteId = 'akam-autocomplete-' + $scope.$id + '-' + uuid.guid();
@@ -61,23 +60,17 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       this.textProperty = $attrs.textProperty;
     }
 
-    //translate serach tip text
-    langKey = this.searchLength === 1 ?
-      'components.autocomplete.search-tip' : 'components.autocomplete.search-tip-plural';
-
-    translate.async(langKey, {
-        length: this.searchLength
-      })
+    translate.async('components.autocomplete.search-tip')
       .then(function(value) {
         $scope.ac.searchTip = value;
       });
 
     //$scope methods names mapping
     this.selectItem = selectItem;
-    this.deleteSelected = deleteSelected;
+    this.clearSelected = clearSelected;
     this.searchMatches = searchMatches;
 
-    setTemplate($transclude(), this.contentTemplateUrl);
+    setTemplate($transclude, this.contentTemplateUrl);
     buildStaticQuery(this);
 
     //private functions
@@ -86,6 +79,7 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
         deferred = $q.defer();
 
       term = term || ctrl.selectedItem;
+      ctrl.selected = false;
 
       if (term.length < ctrl.searchLength) {
         return deferred.resolve([]);
@@ -113,13 +107,21 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       });
     }
 
-    //we could do something about raw data, like filtering...
+    //we could do something about raw data,
+    //like filtering, update pen class, turn off loading...
     function normalizeData(rawData) {
-      var normalized = rawData;
+      var data = rawData,
+        hasData = false;
 
-      $scope.ac.isOpen = true;
+      if (angular.isArray(data) && data.length) {
+        hasData = true;
+      } else if (angular.isObject(data) || angular.isString(data)) {
+        hasData = true;
+        data = [data];
+      }
+      $scope.ac.isOpen = hasData;
       //hide loading
-      return normalized;
+      return data;
     }
 
     //this call from child directive to passing in the text or object
@@ -142,7 +144,7 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       }
     }
 
-    function deleteSelected() {
+    function clearSelected() {
       this.selectedItem = '';
       this.selected = false;
       this.items = [];

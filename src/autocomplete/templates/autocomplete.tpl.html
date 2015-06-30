@@ -1,5 +1,5 @@
-<div class="akam-autocomplete" ng-class="{open: ac.isOpen}">
+<div class="akam-autocomplete dropdown akam-dropdown" ng-class="{open: ac.isOpen}">
   <input id="{{::ac.autocompleteId}}" type="text" ng-model="ac.selectedItem" placeholder="{{::ac.placeholder}}" typeahead="{{ac.query}}" typeahead-on-select="ac.selectItem(ac.selectedItem)" typeahead-min-length="{{::ac.searchLength}}" typeahead-template-url="{{::ac.contentTemplateUrl}}" class="form-control">
-  <div class="search-tip"><span>{{::ac.searchTip}}</span></div>
-  <i ng-show="ac.selected" class="luna-small_close_light_gray util-clickable clear-filter" ng-click="ac.deleteSelected()"></i>
+  <span class="search-tip">{{::ac.searchTip}}</span>
+  <i ng-show="ac.selected" class="luna-small_close clear-selected util-clickable" ng-click="ac.clearSelected()"></i>
 </div>

@@ -51,4 +51,3 @@ module.exports = angular.module('akamai.components.autocomplete', [
  *
  */
   .directive('akamAutocomplete', require('./autocomplete-directive'));
-

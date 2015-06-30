@@ -1,5 +1,31 @@
+.akam-autocomplete {
 
-.akam-auto-complete {
+  position: relative;
 
+  & > input[type='text'] {
+    padding-right: 6px;
+    width: 125px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+  }
+
+  & > ul.dropdown-menu {
+    //margin-top: 1px;
+    //padding: $dropdown-menu-padding;
+    min-width: 0;
+  }
+
+  & > span.search-tip {
+
+  }
+  & > i.clear-selected {
+    //margin-left: -30px;
+    margin-top: 6px;
+    position: relative;
+    opacity: .28;
+    &:hover {
+      opacity: .64;
+    }
+  }
 }
-
