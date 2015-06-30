@@ -3,11 +3,13 @@ $wizard-nav-step-color-active: #0099cc;
 $wizard-nav-step-color-visited: #88cbe0;
 $wizard-nav-step-size: 28px;
 $wizard-nav-font-size: 14px;
+$wizard-step-width: 114px;
+$wizard-step-count-max: 5;
 
 .modal {
 
   .wizard-steps {
-    width: 574px;
+    width: $wizard-step-width * $wizard-step-count-max;
     background-color: #f3f3f3;
 
     ul, li {
@@ -88,6 +90,7 @@ $wizard-nav-font-size: 14px;
       display:none;
     }
   }
+
 
   .modal-content {
     & > .modal-footer {
