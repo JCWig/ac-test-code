@@ -16,7 +16,7 @@ var selector = '#modular-mega-menu-header .mega-menu-breadcrumb';
  * @ngdoc function
  * @methodOf breadcrumbs
  * @name breadcrumbs.render
- * @param {GroupInfo} group Object representing the current group.
+ * @param {Object} group Object representing the current group, or property
  * @description
  * Renders the message count
  */

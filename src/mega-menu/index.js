@@ -17,6 +17,8 @@ require('./utils/ga');
 /**
  * @ngdoc overview
  * @name akamai.components.mega-menu
+ * @requires ngCookies
+ * @requires akamai.components.context
  * @description a module for the old mega menu.
  */
 /* @ngInject */
@@ -24,23 +26,51 @@ module.exports = angular.module('akamai.components.mega-menu', [
   cookies,
   contextModule.name
 ])
+  /**
+   * @ngdoc service
+   * @name akamai.components.mega-menu.service:megaMenuData
+   * @description Private service. Used to fetch data needed to render the mega menu
+   * @private
+   */
   .service('megaMenuData', dataService)
+
+  /**
+   * @ngdoc directive
+   * @name akamai.components.mega-menu.directive:akamMenuHeader
+   * @restrict E
+   * @description Renders the mega menu header
+   */
   .directive('akamMenuHeader', header)
+
+  /**
+   * @ngdoc directive
+   * @name akamai.components.mega-menu.directive:akamMenuFooter
+   * @restrict E
+   * @description Renders the mega menu footer
+   */
   .directive('akamMenuFooter', footer)
+
+  /**
+   * Tries to read the AKALASTMANAGEDACCOUNT cookie and set it as the current account. Also throws
+   * an error if this application is group aware but doesn't provide a GID in the route params.
+   */
   .run(function($window, $location, $cookies, context, LUNA_GROUP_QUERY_PARAM) {
     var cookie = $cookies.get(ACCOUNT_COOKIE),
       qs = $location.search(),
-      base64EncodedCookie;
+      base64EncodedCookie, id = null, name = '';
 
+    // splits out the contract identifier from the account name. Uses substring because we want
+    // to cause a -1 index to return the whole string. Slice doesn't do that.
     if (cookie) {
       base64EncodedCookie = $window.atob($cookies.get(ACCOUNT_COOKIE)).split('~~');
-      // splits out the contract identifier from the account name. Uses substring because we want
-      // to cause a -1 index to return the whole string. Slice doesn't do that.
-      context.account = {
-        id: base64EncodedCookie[1].substring(1, base64EncodedCookie[1].lastIndexOf('_')),
-        name: base64EncodedCookie[0]
-      };
+      id = base64EncodedCookie[1].substring(1, base64EncodedCookie[1].lastIndexOf('_'));
+      name = base64EncodedCookie[0];
     }
+
+    context.account = {
+      id: id,
+      name: name
+    };
 
     if (context.isGroupContext()) {
       if (!qs[LUNA_GROUP_QUERY_PARAM]) {

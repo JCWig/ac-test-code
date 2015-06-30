@@ -45,8 +45,7 @@ module.exports = function ContextProvider() {
   this.OTHER_CONTEXT = APP_CONTEXTS.other;
 
   /* @ngInject */
-  this.$get = function Context($rootScope, $injector, $q,
-                               $window, $location, LUNA_ASSET_QUERY_PARAM) {
+  this.$get = function Context($injector, $q, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
     var $http;
 
     var currentAccount = {
@@ -238,12 +237,12 @@ module.exports = function ContextProvider() {
 
     // backwards compatibility method to set group and property cookies for luna applications
     function changeGroupOrPropertyForLuna(gid, aid) {
-      var url = CHANGE_GROUP_URL + '?gid=' + gid;
+      var url = CHANGE_GROUP_URL + '?' + LUNA_GROUP_QUERY_PARAM + '=' + gid;
 
       $http = $http || $injector.get('$http');
 
       if (aid) {
-        url += '&aid=' + aid;
+        url += '&' + LUNA_ASSET_QUERY_PARAM + '=' + aid;
       }
 
       return $http.get(url);
@@ -259,10 +258,6 @@ module.exports = function ContextProvider() {
     }
 
     function findGenericById(list, id) {
-      if (!id || !list) {
-        return null;
-      }
-
       return list.filter(function(item) {
         return item.id === id;
       })[0];

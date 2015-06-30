@@ -1,116 +1,297 @@
 /* eslint-disable max-nested-callbacks */
-/* globals angular, beforeEach, afterEach */
+/* globals angular, beforeEach, afterEach, spyOn */
 'use strict';
+
+var contextModule = require('../../src/context');
 
 describe('akamai.components.context', function() {
 
-  describe('with a AKALASTMANAGEDACCOUNT cookie', function() {
+  var $context, $rootScope, $httpBackend, $http;
 
-    describe('when the app loads', function() {
-
-      it('should decode the cookie for the current account');
-
-      it('should send a request for current account context data');
-
+  // common setup for all beforeEach blocks
+  function commonBeforeEach() {
+    angular.mock.inject.strictDi(true);
+    angular.mock.module(contextModule.name);
+    angular.mock.module(function(contextProvider) {
+      contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
     });
+    angular.mock.inject(function(_$rootScope_, _$httpBackend_, _$http_, context) {
+      $httpBackend = _$httpBackend_;
+      $http = _$http_;
+      $context = context;
+      $rootScope = _$rootScope_;
+      $httpBackend.when('GET', /core\/services\/session\/username\/extend/).respond({
+        status: 'OK'
+      });
+      $httpBackend.when('GET', /context.json/).respond({
+        context: {
+          mainMenuItems: [
+            {
+              itemId: 123,
+              contextId: 0,
+              cps: null,
+              dps: null,
+              url: '/ui/home',
+              name: 'Stella Cat',
+              subMenuItems: [
+                {
+                  itemId: 0,
+                  contextId: 1,
+                  cps: null,
+                  subMenuItems: null,
+                  dps: [
+                    'more-catnip',
+                    'tiny-mouse'
+                  ],
+                  url: '/ui/home?gid=123',
+                  name: 'Property not configured property (no aid in URL)'
+                }, {
+                  itemId: 987,
+                  contextId: 0,
+                  cps: null,
+                  dps: null,
+                  url: '/ui/home',
+                  name: 'Toys',
+                  subMenuItems: [{
+                    itemId: 0,
+                    contextId: 1,
+                    cps: null,
+                    subMenuItems: null,
+                    dps: [ ],
+                    url: '/ui/home?aid=1&gid=987',
+                    name: 'Crinkle Ball'
+                  }, {
+                    itemId: 888,
+                    contextId: 1,
+                    cps: null,
+                    subMenuItems: [
+                      {
+                        itemId: 0,
+                        contextId: 1,
+                        cps: null,
+                        subMenuItems: null,
+                        dps: [],
+                        url: '/ui/home?aid=2&gid=888',
+                        name: 'Food'
+                      },
+                      {
+                        itemId: 0,
+                        contextId: 1,
+                        cps: null,
+                        subMenuItems: null,
+                        dps: [],
+                        url: '/ui/home?aid=3&gid=888',
+                        name: 'Water'
+                      }
+                    ],
+                    dps: [ ],
+                    url: '/ui/home',
+                    name: 'Child Group'
+                  }]
+                }
+              ]
+            }, {
+              itemId: 999,
+              contextId: 0,
+              cps: null,
+              dps: null,
+              url: '/ui/home',
+              name: 'Iron Maiden',
+              subMenuItems: [
+                {
+                  itemId: 0,
+                  contextId: 1,
+                  cps: null,
+                  subMenuItems: null,
+                  dps: [
+                    'more-catnip',
+                    'tiny-mouse'
+                  ],
+                  url: '/ui/home?aid=666&gid=999',
+                  name: 'Number of the Beast'
+                }
+              ]
+            }
+          ]
+        }
+      });
+    });
+  }
 
-  });
+  describe('given a loaded app', function() {
 
-  describe('with a group centric app', function() {
+    describe('when an app requests its context', function() {
 
-    describe('and a valid gid query string parameter', function() {
+      beforeEach(commonBeforeEach);
 
-      describe('when the app loads', function() {
-
-        it('should store the gid in the session store');
-
-        it('should store the aid in the session store');
-
-        it('the menu should show the breadcrumb');
+      it('should return the correct context', function() {
+        expect($context.isGroupContext()).toBeTruthy();
       });
 
     });
 
-    describe('and an invalid gid query string parameter', function() {
+    describe('when an app requests the current group', function() {
 
-      describe('when the app loads', function() {
+      var group;
 
-        it('should throw a invalid group error');
+      beforeEach(function() {
+        commonBeforeEach();
+        $context.group = 987;
+        $context.group.then(function(g) {
+          group = g;
+        });
+        $httpBackend.flush();
+        $rootScope.$apply();
+      });
 
+      it('should return the current group’s name and identifier', function() {
+        expect(group.name).toEqual('Toys');
+      });
+
+      it('should return the current group’s parents', function() {
+        expect(group.parent.id).toEqual(123);
+      });
+
+      it('should return the current group’s child groups', function() {
+        expect(group.children[0].name).toEqual('Child Group');
+      });
+
+      it('should return the current group’s properties', function() {
+        expect(group.properties[0].name).toEqual('Crinkle Ball');
       });
 
     });
 
-  });
+    describe('when an app requests the current property', function() {
 
-  describe('with an account centric app', function() {
+      var property;
 
-    describe('when the app loads', function() {
+      beforeEach(function() {
+        commonBeforeEach();
+        $context.property = 666;
+        $context.property.then(function(p) {
+          property = p;
+        });
+        $httpBackend.flush();
+        $rootScope.$apply();
+      });
 
-      it('the menu should hide the breadcrumb');
+      it('should return the current property’s name and identifier', function() {
+        expect(property.name).toEqual('Number of the Beast');
+      });
 
-    });
-
-  });
-
-  describe('with a loaded app', function() {
-
-    describe('when an app requests the current group/property', function() {
-
-      it('should return the current group/property’s parents');
-
-      it('should return the current group/property’s children');
-
-      it('should return the current group/property’s name and identifier');
-
-    });
-
-    describe('when an app sets the current group/property', function() {
-
-      it('should update the gid and aid in the session store');
-
-      it('should broadcast a group/property changed event');
-
-      it('should update the browser location with the new gid and aid query ' +
-      'string parameter');
-
-      it('should make a request to extend the session with the gid and aid ' +
-      'query string parameter');
-
-    });
-
-    describe('when an api request is sent', function() {
-
-      it('should add the current group as a gid query string parameter');
-
-      describe('and the AKALASTMANAGEDACCOUNT cookie does not match the ' +
-      'context component’s current account', function() {
-
-        it('should show a message box asking the user if the account should be changed');
-
+      it('should return the current property’s parents', function() {
+        expect(property.group.name).toEqual('Iron Maiden');
       });
 
     });
 
-  });
+    describe('when an app requests the current account', function() {
+      beforeEach(function() {
+        commonBeforeEach();
+        $context.account = {
+          id: 1,
+          name: 'account'
+        };
+        $httpBackend.flush();
+        $rootScope.$apply();
+      });
 
-  describe('with the message box shown', function() {
-
-    describe('when the user accepts changing the account', function() {
-
-      it('should send a request to update the current account');
-
-      it('should should send a request for current account context data');
-
-      it('should update the breadcrumb');
-
-      it('should continue the original API request');
+      it('should return the current account', function() {
+        expect($context.account.name).toBe('account');
+      });
 
     });
 
-    describe('when the user declines changing the account', function() {
+    describe('when an app sets the current group', function() {
 
-      it('should go to the home page');
+      var property;
+
+      beforeEach(function() {
+        commonBeforeEach();
+        $context.property = 666;
+        $context.property.then(function(p) {
+          property = p;
+        });
+        $httpBackend.flush();
+        $rootScope.$apply();
+      });
+
+      it('should change the property to null', function() {
+        $context.group = 123;
+        $rootScope.$apply();
+
+        $context.property.then(function(p) {
+          property = p;
+        });
+        $httpBackend.flush();
+
+        expect(property.id).toBeNull();
+      });
+
+      it('should make a request to extend the session with the gid ' +
+      'query string parameter', function() {
+
+        var spy = spyOn($http, 'get').and.callThrough();
+
+        $context.group = 123;
+        $rootScope.$apply();
+        $httpBackend.flush();
+
+        expect(spy.calls.mostRecent().args[0]).toMatch(/gid=123/);
+      });
+
+    });
+
+    describe('when an app sets the current property', function() {
+
+      var group;
+
+      beforeEach(function() {
+        commonBeforeEach();
+        $context.group = 888;
+        $context.group.then(function(g) {
+          group = g;
+        });
+        $httpBackend.flush();
+        $rootScope.$apply();
+      });
+
+      it('should update the current group to be a parent of the current property', function() {
+        $context.property = 666;
+        $rootScope.$apply();
+
+        $context.group.then(function(g) {
+          group = g;
+        });
+        $httpBackend.flush();
+
+        expect(group.id).toBe(999);
+      });
+
+      it('should not update the group if it is already a parent of the ' +
+      'current property', function() {
+        $context.property = 2;
+        $rootScope.$apply();
+
+        $context.group.then(function(g) {
+          group = g;
+        });
+        $httpBackend.flush();
+
+        expect(group.id).toBe(888);
+      });
+
+      it('should make a request to extend the session with the aid ' +
+      'query string parameter', function() {
+        var spy = spyOn($http, 'get').and.callThrough();
+
+        $context.property = 666;
+        $rootScope.$apply();
+        $httpBackend.flush();
+
+        expect(spy.calls.mostRecent().args[0]).toMatch(/aid=666/);
+      });
 
     });
 

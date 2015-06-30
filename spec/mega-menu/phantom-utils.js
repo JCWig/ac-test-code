@@ -51,7 +51,6 @@ function keydown($el, code) {
   el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent('onkeydown', eventObj);
 }
 
-// sets config data in session storage so mega menu can fetch it.
 function config(data) {
   data = data || {
     username: 'me',
