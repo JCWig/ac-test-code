@@ -143,17 +143,20 @@ describe('Auth', function() {
     });
 
     it('should redirect to the logout page', function() {
+      var fakeCurrentUrl = '/some/path';
+      var base64EncodedCurrentUrl = win.btoa(fakeCurrentUrl);
+      spyOn(location, 'absUrl').and.returnValue(fakeCurrentUrl);
       httpBackend.expectPOST(config.tokenUrl).respond(400);
       tokenService.create();
       httpBackend.flush();
       expect(tokenService.logout).toHaveBeenCalled();
-      expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl);
+      expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl + base64EncodedCurrentUrl);
     });
 
     it('should redirect to the logout page with current url correctly base64 encoded', function() {
-      var fakeCurrentUrl = '/some/path?foo=bar&baz=xoxo';
+      var fakeCurrentUrl = '/some/path?foo=bar&baz=xoxo#/some/other/path?plus_new=parameters&hash=values';
       var base64EncodedCurrentUrl = win.btoa(fakeCurrentUrl);
-      spyOn(location, 'url').and.returnValue(fakeCurrentUrl);
+      spyOn(location, 'absUrl').and.returnValue(fakeCurrentUrl);
       httpBackend.expectPOST(config.tokenUrl).respond(400);
       tokenService.create();
       httpBackend.flush();
