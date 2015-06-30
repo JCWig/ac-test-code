@@ -49,8 +49,11 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig)
       return pendingRequest;
     },
     logout: function() {
-      var currentUrl = $location.absUrl();
-      var encodedUrl = $window.btoa(currentUrl);
+      var currentUrl = $location.absUrl(),
+          currentHost = $location.host(),
+          hostPosition = currentUrl.indexOf(currentHost),
+          redirectPath = currentUrl.substring(hostPosition + currentHost.length),
+          encodedUrl = $window.btoa(redirectPath);
 
       $window.location.replace( authConfig.lunaLogoutUrl + encodedUrl );
     }
