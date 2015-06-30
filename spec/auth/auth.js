@@ -143,9 +143,12 @@ describe('Auth', function() {
     });
 
     it('should redirect to the logout page', function() {
-      var fakeCurrentUrl = '/some/path';
-      var base64EncodedCurrentUrl = win.btoa(fakeCurrentUrl);
+      var domain = 'some.domain.com';
+      var path = '/some/path';
+      var fakeCurrentUrl = 'https://' + domain + path;
+      var base64EncodedCurrentUrl = win.btoa(path);
       spyOn(location, 'absUrl').and.returnValue(fakeCurrentUrl);
+      spyOn(location, 'host').and.returnValue(domain);
       httpBackend.expectPOST(config.tokenUrl).respond(400);
       tokenService.create();
       httpBackend.flush();
@@ -154,8 +157,11 @@ describe('Auth', function() {
     });
 
     it('should redirect to the logout page with current url correctly base64 encoded', function() {
-      var fakeCurrentUrl = '/some/path?foo=bar&baz=xoxo#/some/other/path?plus_new=parameters&hash=values';
-      var base64EncodedCurrentUrl = win.btoa(fakeCurrentUrl);
+      var domain = 'some.domain.com';
+      var path = '/some/path?foo=bar&baz=xoxo#/some/other/path?plus_new=parameters&hash=values';
+      var fakeCurrentUrl = 'https://' + domain + path;
+      var base64EncodedCurrentUrl = win.btoa(path);
+      spyOn(location, 'host').and.returnValue(domain);
       spyOn(location, 'absUrl').and.returnValue(fakeCurrentUrl);
       httpBackend.expectPOST(config.tokenUrl).respond(400);
       tokenService.create();
