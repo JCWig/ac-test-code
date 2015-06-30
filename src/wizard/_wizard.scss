@@ -89,6 +89,10 @@ $wizard-step-count-max: 5;
     li:last-child:after {
       display:none;
     }
+
+    &.error {
+      margin-top: 54px;
+    }
   }
 
 

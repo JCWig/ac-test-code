@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div class="wizard-steps" ng-class="steps.length > 5 ? 'wide' : ''">
+<div class="wizard-steps" ng-class="{'error': showSubmitError}">
     <ul>
         <li ng-class="stepClasses(step.id)" ng-repeat="step in steps" ng-click="activateStep(step.id)"><div>{{ $index + 1 }}</div><span>{{ ::step.name }}</span></li>
     </ul>
