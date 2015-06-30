@@ -78,16 +78,13 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       var ctrl = $scope.ac,
         deferred = $q.defer();
 
-      term = term || ctrl.selectedItem;
-      ctrl.selected = false;
-
       if (term.length < ctrl.searchLength) {
         return deferred.resolve([]);
       }
 
-      if (!angular.isFunction(ctrl.onSearch)) {
+      if (!angular.isFunction(ctrl.onSearch) || !$attrs.onSearch) {
         $log.error('onSearch function is required to make asynchronous calls.');
-        deferred.reject();
+        return deferred.reject();
       }
 
       return new Promise(function(resolve, reject) {
@@ -99,26 +96,29 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
           .then(function(raw) {
             resolve(normalizeData(raw));
           })
-          .catch(function() {
-            $log.error('ajax call return error.');
+          .catch(function(reason) {
             ctrl.items = [];
-            reject([]);
+            $log.error('Async call to the server return error: ' + reason.message);
+            reject();
           });
       });
     }
 
     //we could do something about raw data,
-    //like filtering, update pen class, turn off loading...
+    //like filtering, update open class, turn off loading...
     function normalizeData(rawData) {
       var data = rawData,
         hasData = false;
 
-      if (angular.isArray(data) && data.length) {
-        hasData = true;
-      } else if (angular.isObject(data) || angular.isString(data)) {
-        hasData = true;
+      if (angular.isArray(data)) {
+        hasData = data.length > 0;
+      } else if (angular.isObject(data) || angular.isString(data) && data.length) {
         data = [data];
+        hasData = true;
+      } else {
+        data = [];
       }
+
       $scope.ac.isOpen = hasData;
       //hide loading
       return data;
@@ -135,9 +135,8 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       $scope.setViewValue(item);
 
       this.isOpen = false;
-      this.selected = true;
 
-      if (angular.isFunction(this.onSelect)) {
+      if (angular.isFunction(this.onSelect) && $attrs.onSelect) {
         this.onSelect({
           item: item
         });
@@ -146,7 +145,6 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
 
     function clearSelected() {
       this.selectedItem = '';
-      this.selected = false;
       this.items = [];
     }
 

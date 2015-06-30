@@ -17,27 +17,27 @@
   </div>
     <br/>
   <div>
-    <h4>Display Auto Complete with customizabe content - 1</h4>
+    <h4>Display Auto Complete with customizabe content - 1 and search minimum of 2 characters</h4>
     <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name" content-property="stateFlags" minimum-search="2" placeholder="Search state with flag" on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-item>
         <a>
           <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
-          <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+          <span bind-html-unsafe="match.label | highlight:query"></span>
         </a>
       </akam-autocomplete-item>
     </akam-autocomplete>
   </div>
     <br/>
   <div>
-    <h4>Display Auto Complete with customizabe content - 2</h4>
+    <h4>Display Auto Complete with customizabe content - 2 and search minimum of 3 characters</h4>
     <akam-autocomplete items="vm.items" ng-model="vm.selectedName" text-property="name" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item)" on-search="vm.asyncSearchMatches2(term)">
       <akam-autocomplete-item>
         <div class="row">
           <div class="col-xs-5"><i class="fa fa-user"></i>
-            <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+            <span bind-html-unsafe="match.label | highlight:query"></span>
           </div>
           <div class="col-xs-7 text-right text-muted">
-            <span bind-html-unsafe="match.model.email | typeaheadHighlight:query"></span>
+            <span bind-html-unsafe="match.model.email | highlight:query"></span>
           </div>
           <div class="col-xs-12">
             Joined: <span class="text-muted" bind-html-unsafe="match.model.joined" </span>

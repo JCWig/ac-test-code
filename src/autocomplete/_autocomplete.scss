@@ -1,31 +1,29 @@
+
 .akam-autocomplete {
-
   position: relative;
-
-  & > input[type='text'] {
-    padding-right: 6px;
-    width: 125px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
+  min-width: 180px;
+  max-width: 600px;
+  width: 100%;
+  margin: 10px 0;
+  input {
+    padding-top: 1px;
+    -webkit-appearance: textfield;
+    outline: 1px;
+    min-width: 160px;
+    @include box-shadow($input-box-shadow);
+    @include ellipsis();
   }
-
-  & > ul.dropdown-menu {
-    //margin-top: 1px;
-    //padding: $dropdown-menu-padding;
-    min-width: 0;
-  }
-
   & > span.search-tip {
-
+    font: italic $input-text-size $text-font-family;
+    color: $input-placeholder-text-color;
   }
-  & > i.clear-selected {
-    //margin-left: -30px;
-    margin-top: 6px;
-    position: relative;
-    opacity: .28;
+  .clear-selected {
+    margin-left: -23px;
+    margin-top: 8px;
+    position: absolute;
+    opacity: .50;
     &:hover {
-      opacity: .64;
+      opacity: 1;
     }
   }
 }

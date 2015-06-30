@@ -1,6 +1,8 @@
 'use strict';
 var angular = require('angular');
 
+require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
+
 /**
  * @ngdoc overview
  *
@@ -16,6 +18,7 @@ var angular = require('angular');
 module.exports = angular.module('akamai.components.autocomplete', [
   require('angular-bootstrap-npm'),
   'ngSanitize',
+  'ui.highlight',
   require('../i18n').name,
   require('../uuid').name
 ])
