@@ -9,7 +9,8 @@ $wizard-step-count-max: 5;
 .modal {
 
   .wizard-steps {
-    width: $wizard-step-width * $wizard-step-count-max;
+    min-width: $wizard-step-width * $wizard-step-count-max;
+    max-width: 100%;
     background-color: #f3f3f3;
 
     ul, li {
@@ -25,9 +26,13 @@ $wizard-step-count-max: 5;
 
     li {
       display: inline-block;
-      margin: 0 39px;
+      width: 114px;
       text-align: center;
       color: $wizard-nav-step-color;
+
+      & > * {
+        display: inline-block;
+      }
 
       div {
         width: $wizard-nav-step-size;
@@ -38,10 +43,22 @@ $wizard-step-count-max: 5;
         line-height: $wizard-nav-step-size;
         margin: 0 auto;
         font-size: 14px;
+
+        &::after {
+          content: " ";
+          height: 1px;
+          background-color: $wizard-nav-step-color;
+          position: absolute;
+          width: 86px;
+          top: 14px;
+          margin-left: 10px;
+        }
       }
 
       span {
         font-size: 12px;
+        max-width: 130px;
+        @include ellipsis();
       }
     }
 
@@ -51,12 +68,13 @@ $wizard-step-count-max: 5;
       div {
         border-color: $wizard-nav-step-color-visited;
         color: $wizard-nav-step-color-visited;
+
+        &::after {
+          background-color: $wizard-nav-step-color-visited;
+        }
       }
       span {
         color: $wizard-nav-step-color-visited;
-      }
-      &:after {
-        background-color: $wizard-nav-step-color-visited;
       }
     }
 
@@ -73,11 +91,13 @@ $wizard-step-count-max: 5;
       }
     }
 
-    li.current:after {
-      background-color: $wizard-nav-step-color;
+    li.current {
+      div::after {
+        background-color: $wizard-nav-step-color;
+      }
     }
 
-    li:after {
+/*    li::after {
       content: " ";
       height: 1px;
       background-color: $wizard-nav-step-color;
@@ -85,9 +105,11 @@ $wizard-step-count-max: 5;
       width: 86px;
       top: 15px;
       margin-left: -4px;
-    }
-    li:last-child:after {
-      display:none;
+    }*/
+    li:last-child {
+      div::after {
+        display: none;
+      }
     }
 
     &.error {
