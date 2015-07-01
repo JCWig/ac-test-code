@@ -1,6 +1,6 @@
 <div class="akam-time-picker" ng-class='{open:timepicker.isOpen}'>
     <input type="text" ng-model="timepicker.inputTime" time-formatter ng-click="timepicker.isOpen=true" show-meridian='timepicker.showMeridian' ng-disabled='timepicker.isDisabled()' placeholder="{{::timepicker.placeholder}}">
-    <button class="btn" ng-click="timepicker.isOpen=!timepicker.isOpen" ng-disabled='timepicker.isDisabled()' tabindex="0">
+    <button type="button" class="btn" ng-click="timepicker.isOpen=!timepicker.isOpen" ng-disabled='timepicker.isDisabled()' tabindex="0">
         <i class="luna-time icon-states" ng-disabled='timepicker.isDisabled()'></i>
     </button>
     <div class="dropdown-menu" ng-show="timepicker.isOpen" ng-class='{open:timepicker.isOpen}'>
