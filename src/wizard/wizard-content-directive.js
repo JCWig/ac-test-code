@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($compile, $templateCache, $http, $q) {
+module.exports = function($compile, $templateCache, $http, $q, $log) {
 
   function getStepTemplate(step) {
     if (step.template) {
@@ -16,14 +16,16 @@ module.exports = function($compile, $templateCache, $http, $q) {
 
   return {
     restrict: 'E',
-    template: '<div class="modal-body"><div ng-if="processing" class="backwash"></div></div>',
+    template: '<div class="modal-body"></div>',
 
     link: function(scope, element) {
       scope.$watch('stepIndex', function(stepIndex) {
         getStepTemplate(scope.steps[stepIndex])
           .then(function(content) {
-            element.empty();
-            element.append($compile(content)(scope.contentScope));
+            var modalBodyElem = element.children(0);
+
+            modalBodyElem.empty();
+            modalBodyElem.append($compile(content)(scope.contentScope));
           });
       });
 

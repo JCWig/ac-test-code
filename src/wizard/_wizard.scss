@@ -11,6 +11,7 @@ $wizard-step-count-max: 5;
   .wizard-steps {
     min-width: $wizard-step-width * $wizard-step-count-max;
     max-width: 100%;
+    min-height: 63px;
     background-color: #f3f3f3;
 
     ul, li {
@@ -97,15 +98,6 @@ $wizard-step-count-max: 5;
       }
     }
 
-/*    li::after {
-      content: " ";
-      height: 1px;
-      background-color: $wizard-nav-step-color;
-      position: absolute;
-      width: 86px;
-      top: 15px;
-      margin-left: -4px;
-    }*/
     li:last-child {
       div::after {
         display: none;
@@ -119,6 +111,14 @@ $wizard-step-count-max: 5;
 
 
   .modal-content {
+    max-height: none;
+
+    & .modal-body {
+      height:250px;
+      width: $wizard-step-width * ($wizard-step-count-max + 1);
+      overflow-y: scroll;
+    }
+
     & > .modal-footer {
       .button-switch > .button {
         position: relative;
