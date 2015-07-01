@@ -41,7 +41,7 @@
   </div>
   <br/>
   <div>
-    <h4>Display Auto Complete with customizabe content - 2 and search minimum of 3 characters</h4>
+    <h4>Display Auto Complete with customizabe content and search minimum of 3 characters</h4>
     <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="name" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
       <akam-autocomplete-item>
         <a>
@@ -66,7 +66,7 @@
   </div>
   <br/>
   <div>
-    <h4>Display Auto Complete with customizabe content display multiple property as text</h4>
+    <h4>Display Auto Complete with customizabe content and display multiple property as text</h4>
     <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="name email joined" content-property="employeeNames" minimum-search="2" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
       <akam-autocomplete-item>
         <a>
@@ -90,9 +90,9 @@
   angular.module('autocompleteApp', ['akamai.components.autocomplete'])
     .controller('AutocompleteAppController', AutocompleteAppController);
 
-  AutocompleteAppController.$inject = ['$log', '$q', '$http', '$timeout'];
+  AutocompleteAppController.$inject = ['$log', '$q', '$http', '$timeout', '$filter'];
 
-  function AutocompleteAppController($log, $q, $http, $timeout) {
+  function AutocompleteAppController($log, $q, $http, $timeout, $filter) {
 
     var statesWithFlags = [{
       'name': 'Alabama',
@@ -299,8 +299,10 @@
 
     vm.asyncSearchMatches1 = function(term) {
       var deferred = $q.defer();
+           vm.currentSearchTerm = term;
+     var filteredItems = $filter('filter')(statesWithFlags, vm.criteriaMatch);
       $timeout(function() {
-        deferred.resolve(vm.statesWithFlags = statesWithFlags);
+        deferred.resolve(vm.statesWithFlags = filteredItems);
       }, 800);
       return deferred.promise;
     }
@@ -308,8 +310,12 @@
     vm.asyncSearchMatches2 = function(term) {
       var deferred = $q.defer();
 
+      vm.currentSearchTerm = term;
+
       $timeout(function() {
-        deferred.resolve(vm.oneSelectedItems = objItems);
+
+        var filteredItems = $filter('filter')(objItems, vm.criteriaMatch);
+        deferred.resolve(vm.oneSelectedItems = filteredItems);
       }, 1000);
       return deferred.promise;
     }
@@ -321,13 +327,20 @@
       //.success(function(data){deferred.resolve(data)})
       //.error(function(deferred.reject()))
       //return deferred.promise;
+      //
+     vm.currentSearchTerm = term;
+     var filteredItems = $filter('filter')(objItems, vm.criteriaMatch);
 
       $timeout(function() {
-        deferred.resolve(vm.multipleSelectedItems = objItems);
+        deferred.resolve(vm.multipleSelectedItems = filteredItems);
       }, 1000);
       return deferred.promise;
     }
-  }
+
+    vm.criteriaMatch = function(item) {
+      return item.name.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
+    }
+  };
   </script>
 </body>
 
