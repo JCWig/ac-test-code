@@ -51,7 +51,6 @@ function keydown($el, code) {
   el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent('onkeydown', eventObj);
 }
 
-// sets config data in session storage so mega menu can fetch it.
 function config(data) {
   data = data || {
     username: 'me',
@@ -70,5 +69,6 @@ module.exports = {
   config: config,
   CONFIG_URL: '/totem/api/pulsar/megamenu/config.json',
   BRANDING_URL: '/totem/static/pulsar/megamenu/branding.json',
-  FOOTER_URL: '/totem/api/pulsar/megamenu/footer.json'
+  FOOTER_URL: '/totem/api/pulsar/megamenu/footer.json',
+  LOCALE_URL: /locales\/mega-menu/
 };

@@ -1,8 +1,8 @@
+/* globals angular, beforeEach, afterEach, spyOn */
+/* eslint-disable max-nested-callbacks */
 'use strict';
-/*global angular:false*/
-var utilities = require('../utilities');
 
-describe('Auth', function() {
+describe('akamai.components.auth', function() {
   var http,
       httpBackend,
       buffer,
@@ -19,7 +19,7 @@ describe('Auth', function() {
     angular.mock.module(require('../../src/auth').name);
     angular.mock.module(function(contextProvider, authProvider) {
       provider = authProvider;
-      contextProvider.setApplicationContext('standalone');
+      contextProvider.setApplicationContext(contextProvider.OTHER_CONTEXT);
     });
     angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig, authInterceptor, $window, $location, auth) {
       http = $http;
@@ -236,4 +236,25 @@ describe('Auth', function() {
     });
 
   });
+
+  describe('given a loaded, group centric app', function() {
+
+    describe('when an api request is sent', function() {
+
+      describe('and the account has not changed', function() {
+
+        it('should add the current group as a gid query string parameter');
+
+      });
+
+      describe('and account has changed', function() {
+
+        it('should show a message box asking the user if the account should be changed');
+
+      });
+
+    });
+
+  });
+
 });
