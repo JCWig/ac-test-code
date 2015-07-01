@@ -31,7 +31,7 @@
             </span>
             <br />
             <div class="div-overflow-auto">
-                <akam-tree-view akam-standalone items="contextData" on-change="triggerChange(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone item="contextData" on-change="triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
             <br />
@@ -39,7 +39,7 @@
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
              <div class="div-overflow-auto">
-                <akam-tree-view akam-standalone items="jsonFromHttpGet"> </akam-tree-view>
+                <akam-tree-view akam-standalone item="jsonFromHttpGet"> </akam-tree-view>
             </div>
             <br />
             <br />
@@ -47,7 +47,7 @@
              <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
             </span>
              <div class="div-overflow-auto">
-                <akam-tree-view akam-standalone items="jsonFromHttpGetSmall" on-change="triggerChangeJSONSmall(item)" current-property="section" 
+                <akam-tree-view akam-standalone item="jsonFromHttpGetSmall" on-change="triggerChangeJSONSmall(item)"
                 parent-property="department" children-property="employees" root-property="boss" text-property="name"> </akam-tree-view>
             </div>
             <br />
@@ -55,14 +55,14 @@
             <h2>No Data Example</h2>
             <span>NOTE: No data nodes exist<br /></span>
             <div class="div-overflow-auto">
-                <akam-tree-view akam-standalone items="contextDataEmpty" on-change="triggerChange(item)"> </akam-tree-view>
+                <akam-tree-view akam-standalone item="contextDataEmpty" on-change="triggerChange(item)"> </akam-tree-view>
             </div>
             <br />
             <br />
             <h2>Non-existant JSON Data File Example</h2>
             <span>NOTE: This is a test of when the data file does not exist.  Should generate a 404<br /></span>
             <div class="div-overflow-auto">
-                <akam-tree-view akam-standalone items="jsonFromHttpGetFAIL"> </akam-tree-view>
+                <akam-tree-view akam-standalone item="jsonFromHttpGetFAIL"> </akam-tree-view>
             </div>
             <br />
             <br />   
@@ -166,7 +166,7 @@
                 
                 $scope.contextData = {
                     parent:[{title:"Employees"}],
-                    current:{title: "Development"},
+                    title: "Development",
                     children:[
                         {"title": "Bruce Hopper"},
                         {"title": "Kent Clarkson"},

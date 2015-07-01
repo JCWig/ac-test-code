@@ -1,6 +1,7 @@
 'use strict';
 
-var angular = require('angular');
+var angular = require('angular'),
+  context = require('../context');
 
 /**
  * @ngdoc overview
@@ -10,7 +11,9 @@ var angular = require('angular');
  * @description Provides an interceptor for failed requests for auth purposes
  *
  */
-module.exports = angular.module('akamai.components.auth', [])
+module.exports = angular.module('akamai.components.auth', [
+  context.name
+])
   .provider('auth', require('./auth-provider'))
   .constant('authConfig', {
     //client id we are using in authN

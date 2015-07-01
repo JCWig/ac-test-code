@@ -242,6 +242,10 @@
     "examples.full-name" : "Full Name",
     "examples.id": "ID",
     "examples.name": "Name",
+    "examples.lastname": "Last Name",
+    "examples.boolean": "Boolean",
     "examples.email": "Email",
+    "examples.ipaddress": "Internet Protocol Address",
+    "examples.country": "Country",
     "examples.actions": "Actions"
 }

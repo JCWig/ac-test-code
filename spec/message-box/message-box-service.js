@@ -254,14 +254,11 @@ describe('messageBox service', function() {
         var messageBoxDetails = document.querySelector('.message-box-details > div');
         var messageBoxDetailsTrigger = document.querySelector('.message-box-details > span');
 
-        expect(angular.element(messageBoxDetails).css('height')).toEqual('0px');
+        expect(messageBoxDetails.classList).not.toContain('in');
         utilities.click(messageBoxDetailsTrigger);
-        try {
-          this.$timeout.verifyNoPendingTasks();
-        } catch (e) {
-          this.$timeout.flush();
-        }
-        expect(angular.element(messageBoxDetails).css('height')).not.toEqual('0px');
+        this.$rootScope.$digest();
+        
+        expect(messageBoxDetails.classList).toContain('in');
       });
     });
 

@@ -13,7 +13,7 @@
 </style>
 <head>
   <meta charset="UTF-8">
-  <title>Akamai Component Examples - Data Table</title>
+  <title>Akamai Component Examples - Table</title>
   <link rel="stylesheet" href="../../dist/akamai-core.css">
 </head>
 <body class="common-css luna" ng-app="akamai.components.examples.table" ng-strict-di ng-controller="ExampleController as vm">
@@ -27,18 +27,17 @@
   <h3>Custom Toolbar, Pre-selected rows, row selection callback, custom markup in row</h3>
   <p>
     In this example, we define a custom toolbar in the <code>akam-table-toolbar</code>
-    element. We also define 3 rows. The first one is an example of using custom markup in the table
+    element. We also define 3 columns. The first one is an example of using custom markup in the table
     cell. Note that the <code>row-property</code> is used for sorting and filtering so we will
-    never match on any of the custom markup. The 2nd row isn't sortable nor filterable, as
-    defined by the presence of the <code>not-sortable</code> and <code>not-filterable</code> attributes. It
-    doesn't define any custom markup so it can simply define its <code>row-property</code> and
-    that's all.In all cases, the <code>header-name</code> field is a key into the i18n object and
-    it is automatically translated for us. Also, any standard HTML attributes (such as class names)
-    are automatically copied over for us as well. Finally, the last column shows how one might
-    wire up an action button. Note that your click handler no longer needs <code>
-    $parent.$parent.$parent.item</code> as the argument. We expose a special property, named
-    <code>row</code> inside the <code>akama-table-row</code> tag for your use. Also notice that
-    the API is completely declarative so there is no need for a schema object anymore.
+    never match on any of the custom markup. The 2nd column doesn't define any custom markup so it can
+    simply define its <code>row-property</code> and that's all.  In all cases, the <code>header-name</code>
+    field is a key into the i18n object and it is automatically translated for us. Also, any standard
+    HTML attributes (such as class names) are automatically copied over for us as well.
+    Finally, the last column shows how one might wire up an action button. It isn't sortable nor filterable,
+    as defined by the presence of the <code>not-sortable</code> and <code>not-filterable</code> attributes.
+    Note that your click handler no longer needs <code> $parent.$parent.$parent.item</code> as the argument.
+    We expose a special property, named <code>row</code> inside the <code>akama-table-row</code> tag for your
+    use. Also notice that the API is completely declarative so there is no need for a schema object anymore.
   </p>
 
   <akam-table items="vm.rows" akam-standalone
@@ -49,8 +48,8 @@
     <akam-table-toolbar class="toolbar-class util-pull-right">
       <span>Graphs of stuff</span> {{ vm.testText }}
       <i class="luna-bar_chart"></i>
-      <akam-menu-button>
-        <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked()">
+      <akam-menu-button icon-only="true">
+        <akam-menu-button-item text="PDF" icon-only ng-click="vm.pdfClicked()">
         </akam-menu-button-item>
       </akam-menu-button>
     </akam-table-toolbar>
@@ -61,7 +60,7 @@
       </akam-table-column>
       <akam-table-column row-property="email" header-name="examples.email"></akam-table-column>
       <akam-table-column not-filterable not-sortable class="column-action" header-name="examples.actions">
-          <akam-menu-button>
+          <akam-menu-button icon-only="true">
             <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked(row)"></akam-menu-button-item>
           </akam-menu-button>
       </akam-table-column>
@@ -102,6 +101,8 @@
       <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
       <akam-table-column row-property="lastName" default-sort header-name="examples.lastname"></akam-table-column>
       <akam-table-column row-property="boolean" header-name="examples.boolean"></akam-table-column>
+      <akam-table-column row-property="ipAddress" header-name="examples.ipaddress"></akam-table-column>
+      <akam-table-column row-property="country" header-name="examples.country"></akam-table-column>
     </akam-table-row>
   </akam-table>
 </div>
@@ -114,6 +115,7 @@
       <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
       <akam-table-column row-property="lastName" header-name="examples.lastname"></akam-table-column>
       <akam-table-column row-property="boolean" header-name="examples.boolean"></akam-table-column>
+      <akam-table-column row-property="ipAddress" header-name="examples.ipaddress"></akam-table-column>
     </akam-table-row>
   </akam-table>
 </div>
@@ -131,7 +133,6 @@
     </akam-table-row>
   </akam-table>
 </div>
-
 <script src="../../dist/akamai-core.js"></script>
 <script src="index.js"></script>
 
