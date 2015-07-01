@@ -6,7 +6,7 @@ var contextModule = require('../../src/context');
 
 describe('akamai.components.context', function() {
 
-  var $context, $rootScope, $httpBackend, $http;
+  var context, $rootScope, $httpBackend, $http;
 
   // common setup for all beforeEach blocks
   function commonBeforeEach() {
@@ -15,10 +15,10 @@ describe('akamai.components.context', function() {
     angular.mock.module(function(contextProvider) {
       contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
     });
-    angular.mock.inject(function(_$rootScope_, _$httpBackend_, _$http_, context) {
+    angular.mock.inject(function(_$rootScope_, _$httpBackend_, _$http_, _context_) {
       $httpBackend = _$httpBackend_;
       $http = _$http_;
-      $context = context;
+      context = _context_;
       $rootScope = _$rootScope_;
       $httpBackend.when('GET', /core\/services\/session\/username\/extend/).respond({
         status: 'OK'
@@ -125,7 +125,7 @@ describe('akamai.components.context', function() {
       beforeEach(commonBeforeEach);
 
       it('should return the correct context', function() {
-        expect($context.isGroupContext()).toBeTruthy();
+        expect(context.isGroupContext()).toBeTruthy();
       });
 
     });
@@ -136,8 +136,8 @@ describe('akamai.components.context', function() {
 
       beforeEach(function() {
         commonBeforeEach();
-        $context.group = 987;
-        $context.group.then(function(g) {
+        context.group = 987;
+        context.group.then(function(g) {
           group = g;
         });
         $httpBackend.flush();
@@ -168,8 +168,8 @@ describe('akamai.components.context', function() {
 
       beforeEach(function() {
         commonBeforeEach();
-        $context.property = 666;
-        $context.property.then(function(p) {
+        context.property = 666;
+        context.property.then(function(p) {
           property = p;
         });
         $httpBackend.flush();
@@ -189,7 +189,7 @@ describe('akamai.components.context', function() {
     describe('when an app requests the current account', function() {
       beforeEach(function() {
         commonBeforeEach();
-        $context.account = {
+        context.account = {
           id: 1,
           name: 'account'
         };
@@ -198,7 +198,7 @@ describe('akamai.components.context', function() {
       });
 
       it('should return the current account', function() {
-        expect($context.account.name).toBe('account');
+        expect(context.account.name).toBe('account');
       });
 
     });
@@ -209,8 +209,8 @@ describe('akamai.components.context', function() {
 
       beforeEach(function() {
         commonBeforeEach();
-        $context.property = 666;
-        $context.property.then(function(p) {
+        context.property = 666;
+        context.property.then(function(p) {
           property = p;
         });
         $httpBackend.flush();
@@ -218,10 +218,10 @@ describe('akamai.components.context', function() {
       });
 
       it('should change the property to null', function() {
-        $context.group = 123;
+        context.group = 123;
         $rootScope.$apply();
 
-        $context.property.then(function(p) {
+        context.property.then(function(p) {
           property = p;
         });
         $httpBackend.flush();
@@ -234,7 +234,7 @@ describe('akamai.components.context', function() {
 
         var spy = spyOn($http, 'get').and.callThrough();
 
-        $context.group = 123;
+        context.group = 123;
         $rootScope.$apply();
         $httpBackend.flush();
 
@@ -249,8 +249,8 @@ describe('akamai.components.context', function() {
 
       beforeEach(function() {
         commonBeforeEach();
-        $context.group = 888;
-        $context.group.then(function(g) {
+        context.group = 888;
+        context.group.then(function(g) {
           group = g;
         });
         $httpBackend.flush();
@@ -258,10 +258,10 @@ describe('akamai.components.context', function() {
       });
 
       it('should update the current group to be a parent of the current property', function() {
-        $context.property = 666;
+        context.property = 666;
         $rootScope.$apply();
 
-        $context.group.then(function(g) {
+        context.group.then(function(g) {
           group = g;
         });
         $httpBackend.flush();
@@ -271,10 +271,10 @@ describe('akamai.components.context', function() {
 
       it('should not update the group if it is already a parent of the ' +
       'current property', function() {
-        $context.property = 2;
+        context.property = 2;
         $rootScope.$apply();
 
-        $context.group.then(function(g) {
+        context.group.then(function(g) {
           group = g;
         });
         $httpBackend.flush();
@@ -286,7 +286,7 @@ describe('akamai.components.context', function() {
       'query string parameter', function() {
         var spy = spyOn($http, 'get').and.callThrough();
 
-        $context.property = 666;
+        context.property = 666;
         $rootScope.$apply();
         $httpBackend.flush();
 

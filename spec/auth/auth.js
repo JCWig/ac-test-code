@@ -1,6 +1,6 @@
+/* globals angular, beforeEach, afterEach, spyOn */
+/* eslint-disable max-nested-callbacks */
 'use strict';
-/*global angular:false*/
-var utilities = require('../utilities');
 
 describe('akamai.components.auth', function() {
   var http,

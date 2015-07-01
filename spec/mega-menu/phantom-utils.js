@@ -69,5 +69,6 @@ module.exports = {
   config: config,
   CONFIG_URL: '/totem/api/pulsar/megamenu/config.json',
   BRANDING_URL: '/totem/static/pulsar/megamenu/branding.json',
-  FOOTER_URL: '/totem/api/pulsar/megamenu/footer.json'
+  FOOTER_URL: '/totem/api/pulsar/megamenu/footer.json',
+  LOCALE_URL: /locales\/mega-menu/
 };

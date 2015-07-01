@@ -63,8 +63,8 @@ module.exports = angular.module('akamai.components.mega-menu', [
     // to cause a -1 index to return the whole string. Slice doesn't do that.
     if (cookie) {
       base64EncodedCookie = $window.atob($cookies.get(ACCOUNT_COOKIE)).split('~~');
-      id = base64EncodedCookie[1].substring(1, base64EncodedCookie[1].lastIndexOf('_'));
-      name = base64EncodedCookie[0];
+      id = base64EncodedCookie[1];
+      name = base64EncodedCookie[0].substring(1, base64EncodedCookie[0].lastIndexOf('_'));
     }
 
     context.account = {
