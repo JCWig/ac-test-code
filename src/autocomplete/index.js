@@ -35,7 +35,7 @@ module.exports = angular.module('akamai.components.autocomplete', [
    *
    * @param {Array} items string or object array set from backend calls
    *
-   * @param {String} [text-property] The property name of item to be displayed
+   * @param {Array} [text-property] The property name(s) of item to be displayed
    *
    * @param {String} [content-property] The content file name partial,
    * so it is unique for per directive

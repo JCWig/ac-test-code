@@ -10,6 +10,7 @@
   .col-xs-7 {
     font-size: 85%;
   }
+
   .row {
     border-bottom: 1px dotted #ccc;
     line-height: 20px;
@@ -33,7 +34,7 @@
       <akam-autocomplete-item>
         <a>
           <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
-          <span bind-html-unsafe="match.label | highlight:query"></span>
+          <span bind-html-unsafe="match.model.name | highlight:query"></span>
         </a>
       </akam-autocomplete-item>
     </akam-autocomplete>
@@ -41,28 +42,48 @@
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content - 2 and search minimum of 3 characters</h4>
-    <akam-autocomplete items="vm.items" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="name" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item)" on-search="vm.asyncSearchMatches2(term)">
+    <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="name" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
       <akam-autocomplete-item>
-      <a>
-        <div class="row">
-          <div class="col-xs-5"><i class="fa fa-user"></i>
-            <Strong><span bind-html-unsafe="match.label | highlight:query"></span></Strong>
+        <a>
+          <div class="row">
+            <div class="col-xs-5"><i class="fa fa-user"></i>
+              <Strong><span bind-html-unsafe="match.model.name | highlight:query"></span></Strong>
+            </div>
+            <div class="col-xs-7">
+              <span bind-html-unsafe="match.model.email | highlight:query"></span>
+            </div>
+            <div class="col-xs-12">
+              Joined: <span class="text-muted" bind-html-unsafe="match.model.joined"></span>
+            </div>
           </div>
-          <div class="col-xs-7">
-            <span bind-html-unsafe="match.model.email | highlight:query"></span>
-          </div>
-          <div class="col-xs-12">
-            Joined: <span class="text-muted" bind-html-unsafe="match.model.joined"></span>
-          </div>
-        </div>
-      </a>
+        </a>
       </akam-autocomplete-item>
     </akam-autocomplete>
-
-      <div class="form-group">
-        <input id="disableAutocomplete" type="checkbox" name='disableAutocomplete' ng-model='vm.disabled' />
-        <label class="label" for="disableAutocomplete">To disabled above autocomplete: </label>
-      </div>
+    <div class="form-group">
+      <input id="disableAutocomplete" type="checkbox" name='disableAutocomplete' ng-model='vm.disabled' />
+      <label class="label" for="disableAutocomplete">To disabled above autocomplete: </label>
+    </div>
+  </div>
+  <br/>
+  <div>
+    <h4>Display Auto Complete with customizabe content display multiple property as text</h4>
+    <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="name email joined" content-property="employeeNames" minimum-search="2" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
+      <akam-autocomplete-item>
+        <a>
+          <div class="row">
+            <div class="col-xs-5"><i class="fa fa-user"></i>
+              <Strong><span bind-html-unsafe="match.model.name | highlight:query"></span></Strong>
+            </div>
+            <div class="col-xs-7">
+              <span bind-html-unsafe="match.model.email | highlight:query"></span>
+            </div>
+            <div class="col-xs-12">
+              Joined: <span class="text-muted" bind-html-unsafe="match.model.joined"></span>
+            </div>
+          </div>
+        </a>
+      </akam-autocomplete-item>
+    </akam-autocomplete>
   </div>
   <script src="../dist/akamai-core.js"></script>
   <script>
@@ -262,8 +283,9 @@
     vm.selectedItem = "";
     vm.disabled = false;
 
-    vm.selectCallback = function(item) {
+    vm.selectCallback = function(item, selectedText) {
       $log.log(item);
+      $log.log(selectedText);
     }
 
     vm.asyncSearchMatchesWithString = function(term) {
@@ -284,7 +306,15 @@
     }
 
     vm.asyncSearchMatches2 = function(term) {
+      var deferred = $q.defer();
 
+      $timeout(function() {
+        deferred.resolve(vm.oneSelectedItems = objItems);
+      }, 1000);
+      return deferred.promise;
+    }
+
+    vm.asyncSearchMatches3 = function(term) {
       var deferred = $q.defer();
 
       //$http.get("domain?searchTerm="+term)
@@ -293,7 +323,7 @@
       //return deferred.promise;
 
       $timeout(function() {
-        deferred.resolve(vm.items = objItems);
+        deferred.resolve(vm.multipleSelectedItems = objItems);
       }, 1000);
       return deferred.promise;
     }

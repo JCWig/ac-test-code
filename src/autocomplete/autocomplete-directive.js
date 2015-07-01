@@ -40,13 +40,12 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
   }
 
   function buildStaticQuery(ctrl) {
-    var itemAsText = 'item',
-      c = ctrl;
+    var itemAsText = 'item';
 
-    if (c.textProperty) {
-      itemAsText = 'item[ac.textProperty]';
+    if (ctrl.textProperty) {
+      itemAsText = 'item.selectedText';
     }
-    c.query = 'item as ' + itemAsText + ' for item in ac.searchMatches($viewValue)';
+    ctrl.query = 'item as ' + itemAsText + ' for item in ac.searchMatches($viewValue)';
   }
 
   /* @ngInject */
@@ -57,10 +56,9 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
     this.autocompleteId = 'akam-autocomplete-' + $scope.$id + '-' + uuid.guid();
     this.searchLength = this.minimumSearch || consts.SEARCH_MINIMUM;
     this.placeholder = this.placeholder || '';
-    this.selected = false;
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
-      this.textProperty = $attrs.textProperty;
+      this.textProperties = $attrs.textProperty.split(' ');
     }
 
     translate.async('components.autocomplete.search-tip')
@@ -101,7 +99,7 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
 
         $q.when(asyncSearch)
           .then(function(raw) {
-            resolve(normalizeData(raw));
+            resolve(angular.bind(ctrl, normalizeData(raw)));
           })
           .catch(function(reason) {
             ctrl.items = [];
@@ -119,7 +117,8 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
      */
     function normalizeData(rawData) {
       var data = rawData,
-        hasData = false;
+        hasData = false,
+        names = [], ctrl = $scope.ac;
 
       if (angular.isArray(data)) {
         hasData = data.length > 0;
@@ -132,6 +131,17 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
 
       $scope.ac.isOpen = hasData;
       //hide loading
+
+      //add new property to be used as display text
+      angular.forEach(data, function(item) {
+        angular.forEach(ctrl.textProperties, function(name, i) {
+          names.push(item[name]);
+          if (ctrl.textProperties.length - 1 === i) {
+            item.selectedText = names.join(' ');//to be displayed
+            names = [];
+          }
+        });
+      });
       return data;
     }
 
@@ -139,21 +149,18 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
      * selectItem a scope method, it will gets call from typeahead,
      * then it will callback to parent in passing selected item
      * @param  {String|Object} item string or object user selected
+     * @param  {Object} model object user selected
+     * @param  {String} label string user selected and displayed
      */
-    function selectItem(item) {
-      var modelValue = item;
-
-      if (this.propertyText) {
-        modelValue = item[this.propertyText];
-      }
-      this.selectedItem = modelValue;
+    function selectItem(item, model, label) {
       $scope.setViewValue(item);
 
       this.isOpen = false;
 
       if (angular.isFunction(this.onSelect) && $attrs.onSelect) {
         this.onSelect({
-          item: item
+          item: item,
+          displayText: label
         });
       }
     }
