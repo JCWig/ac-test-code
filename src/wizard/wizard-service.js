@@ -177,6 +177,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
       // TODO: Time permitting, add controller and controllerAs
       instance = $modal.open(angular.extend(options, {
         scope: scope,
+        backdrop: 'static',
         template: require('./templates/wizard.tpl.html')
       }));
 
