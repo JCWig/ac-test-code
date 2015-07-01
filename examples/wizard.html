@@ -23,6 +23,7 @@
 <body class="common-css luna" ng-app="wizardApp" ng-strict-di ng-controller="WizardAppController as vm">
 
     <script type="text/ng-template" id="step1">
+        <i class="luna-contextural_help"></i>
         <p>
             Cupcake ipsum dolor sit. Amet caramels chocolate cake toffee. Cheesecake topping
             jujubes. Sweet roll cotton candy sweet roll lollipop pie ice cream. Icing liquorice
@@ -41,6 +42,7 @@
             croissant candy canes cupcake apple pie cake gingerbread gummies. Wafer cheesecake
             chocolate cake macaroon biscuit muffin chocolate bar chocolate bar. Powder sweet cake.
             Muffin tart jelly-o lemon drops cake pie lemon drops icing.
+            <i class="luna-calendar"></i>
         </p>
     </script>
     <script type="text/ng-template" id="step2">
@@ -53,7 +55,9 @@
             muffin pie donut sweet roll. Sweet sesame snaps jujubes jujubes wafer sweet. Candy
             canes pudding marzipan apple pie cookie. Toffee candy chocolate candy canes. Dragée
             wafer caramels wafer chocolate carrot cake chocolate dessert.
+            <akam-indeterminate-progress completed="{{completed}}"></akam-indeterminate-progress>
         </p>
+        <input type="checkbox" ng-model="completed" id="completed"><label for="completed">Clear Spinner</label>
         <p>
             Sweet ice cream biscuit pie. Danish cupcake marshmallow tiramisu caramels lemon drops
             pudding. Fruitcake cupcake tootsie roll wafer cotton candy topping tiramisu jujubes.
@@ -62,11 +66,12 @@
             sweet roll. Sweet chupa chups jelly-o lollipop sesame snaps. Lemon drops sugar plum
             toffee brownie gingerbread. Brownie wafer sweet roll muffin carrot cake carrot cake
             macaroon dessert gummies. Sugar plum bonbon tart chupa chups cheesecake.
-
         </p>
     </script>
     <script type="text/ng-template" id="step3">
         <p>
+            Enter your username: <input type="text" id="user" ng-model="user"> (minimum 3 characters)
+            <hr />
             Cupcake ipsum dolor sit amet. Jelly beans wafer biscuit jelly cheesecake apple pie
             macaroon croissant. Marshmallow gummi bears cake tootsie roll tart. Pudding donut donut
             lollipop halvah lemon drops. Tiramisu sugar plum lemon drops. Biscuit dragée tootsie
@@ -121,7 +126,7 @@
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('wizardApp', ['akamai.components.wizard'])
+        angular.module('wizardApp', ['akamai.components.wizard', 'akamai.components.indeterminate-progress'])
                 .controller('WizardAppController', WizardAppController)
                 .config(configFunction);
 
@@ -178,7 +183,7 @@
                             name: 'Step 3',
                             templateId: 'step3',
                             validate: function(scope) {
-                                return true;
+                                return scope.user != null && scope.user.length > 2;
                             }
                         },
                         {
