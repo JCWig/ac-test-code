@@ -27,7 +27,12 @@ var ajax = require('./ajax');
 function render(selector, template, data) {
   var elem = document.querySelector(selector);
 
-  elem.innerHTML = template(data);
+  // ideally, elem should always exist, but it seems to be causing issue in the test environment
+  // so we do a conditional check and don't render anything if there is no element to receive the
+  // html
+  if (elem) {
+    elem.innerHTML = template(data);
+  }
 }
 
 /**

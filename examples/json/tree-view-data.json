@@ -1,6 +1,6 @@
 {
     "parent" : {"title" : "Departments"},
-    "current": {"title" : "Development"},
+    "title" : "Development",
     "children": [
         {"title":"Terry Marshall"},
         {"title":"Ann Marshall"},
