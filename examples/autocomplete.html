@@ -42,12 +42,12 @@
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content and search minimum of 3 characters</h4>
-    <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="name" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
+    <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="first" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
       <akam-autocomplete-item>
         <a>
           <div class="row">
             <div class="col-xs-5"><i class="fa fa-user"></i>
-              <Strong><span bind-html-unsafe="match.model.name | highlight:query"></span></Strong>
+              <Strong><span bind-html-unsafe="match.model.first | highlight:query"></span></Strong>
             </div>
             <div class="col-xs-7">
               <span bind-html-unsafe="match.model.email | highlight:query"></span>
@@ -67,12 +67,12 @@
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content and display multiple property as text</h4>
-    <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="name email joined" content-property="employeeNames" minimum-search="2" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
+    <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="first last email" content-property="employeeNames" minimum-search="2" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
       <akam-autocomplete-item>
         <a>
           <div class="row">
             <div class="col-xs-5"><i class="fa fa-user"></i>
-              <Strong><span bind-html-unsafe="match.model.name | highlight:query"></span></Strong>
+              <Strong><span bind-html-unsafe="match.model.first | highlight:query"></span></Strong>
             </div>
             <div class="col-xs-7">
               <span bind-html-unsafe="match.model.email | highlight:query"></span>
@@ -249,31 +249,38 @@
     var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
     var objItems = [{
-      name: 'Yair',
+      first: 'Yair',
+      last: 'leviel',
       joined: '2 month ago',
       email: 'yair@email.com'
     }, {
-      name: 'Shawn',
+      first: 'Shawn',
+      last: 'Dahlen',
       joined: '2 days ago',
       email: 'shawn@ac.org'
     }, {
-      name: 'Mike',
+      first: 'Mike',
+      last: "D'Abrosio",
       joined: 'a week ago',
       email: 'mike@gmail.com'
     }, {
-      name: 'Kevin',
+      first: 'Kevin',
+      last: 'kotosky',
       joined: 'Yesterday',
       email: 'kevin@yahoo.com'
     }, {
-      name: 'Nick',
+      first: 'Nick',
+      last: 'Leon',
       joined: 'Just now',
       email: 'nick@msn.com'
     }, {
-      name: 'xxx',
+      first: 'xxx',
+      last: 'qqq',
       joined: 'Yesterday',
       email: 'xxx@mail.com'
     }, {
-      name: 'Sean',
+      first: 'Sean',
+      last: 'Wang',
       joined: '3 month ago',
       email: 'sean@inbox.com'
     }];
@@ -290,17 +297,31 @@
 
     vm.asyncSearchMatchesWithString = function(term) {
       var deferred = $q.defer();
+            vm.currentSearchTerm = term;
+
+      var criteriaMatch = function(item) {
+        var found = item.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
+        return found;
+      };
+
+      var filteredItems = $filter('filter')(states, criteriaMatch);
 
       $timeout(function() {
-        deferred.resolve(vm.states = states);
+        deferred.resolve(vm.states = filteredItems);
       }, 500);
       return deferred.promise;
     }
 
     vm.asyncSearchMatches1 = function(term) {
       var deferred = $q.defer();
-           vm.currentSearchTerm = term;
-     var filteredItems = $filter('filter')(statesWithFlags, vm.criteriaMatch);
+      vm.currentSearchTerm = term;
+
+      var criteriaMatch = function(item) {
+        var found = item.name.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
+        return found;
+      };
+
+      var filteredItems = $filter('filter')(statesWithFlags, criteriaMatch);
       $timeout(function() {
         deferred.resolve(vm.statesWithFlags = filteredItems);
       }, 800);
@@ -309,12 +330,18 @@
 
     vm.asyncSearchMatches2 = function(term) {
       var deferred = $q.defer();
-
       vm.currentSearchTerm = term;
 
-      $timeout(function() {
+      var criteriaMatch = function(item) {
+        var found = item.first.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
+          item.last.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
+          item.email.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
 
-        var filteredItems = $filter('filter')(objItems, vm.criteriaMatch);
+        return found;
+      }
+
+      $timeout(function() {
+        var filteredItems = $filter('filter')(objItems, criteriaMatch);
         deferred.resolve(vm.oneSelectedItems = filteredItems);
       }, 1000);
       return deferred.promise;
@@ -322,24 +349,32 @@
 
     vm.asyncSearchMatches3 = function(term) {
       var deferred = $q.defer();
+      vm.currentSearchTerm = term;
+
+      var criteriaMatch = function(item) {
+        var found = item.first.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
+          item.last.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
+          item.email.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
+
+        return found;
+      }
 
       //$http.get("domain?searchTerm="+term)
       //.success(function(data){deferred.resolve(data)})
       //.error(function(deferred.reject()))
       //return deferred.promise;
       //
-     vm.currentSearchTerm = term;
-     var filteredItems = $filter('filter')(objItems, vm.criteriaMatch);
 
+      var filteredItems = $filter('filter')(objItems, criteriaMatch);
       $timeout(function() {
         deferred.resolve(vm.multipleSelectedItems = filteredItems);
       }, 1000);
       return deferred.promise;
+
+
     }
 
-    vm.criteriaMatch = function(item) {
-      return item.name.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
-    }
+
   };
   </script>
 </body>
