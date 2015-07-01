@@ -5,14 +5,18 @@ $wizard-nav-step-size: 28px;
 $wizard-nav-font-size: 14px;
 $wizard-step-width: 114px;
 $wizard-step-count-max: 5;
+$wizard-border: 1px solid #e6e6e6;
 
 .modal {
 
   .wizard-steps {
     min-width: $wizard-step-width * $wizard-step-count-max;
     max-width: 100%;
-    min-height: 63px;
+    height: 63px;
+    padding: 10px 0;
     background-color: #f3f3f3;
+    border-top: $wizard-border;
+    border-bottom: $wizard-border;
 
     ul, li {
       padding:0;
@@ -21,7 +25,6 @@ $wizard-step-count-max: 5;
     }
     ul {
       text-align: center;
-      margin: 10px 0;
       position:relative;
     }
 
@@ -113,13 +116,18 @@ $wizard-step-count-max: 5;
   .modal-content {
     max-height: none;
 
+    & .modal-header {
+      border-bottom: none;
+    }
+
     & .modal-body {
       height:250px;
-      width: $wizard-step-width * ($wizard-step-count-max + 1);
-      overflow-y: scroll;
+      overflow-y: auto;
+      padding: 30px 15px 0;
     }
 
     & > .modal-footer {
+      border-top: $wizard-border;
       .button-switch > .button {
         position: relative;
 
