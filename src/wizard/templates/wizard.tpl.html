@@ -2,7 +2,7 @@
     <i ng-if="icon" class="title-icon" ng-class="icon"></i>
 
     <h3 class="modal-title">{{ title }}</h3>
-    <i class="close-icon" ng-click="close()" ng-if="!isProcessing()"></i>
+    <i class="close-icon" ng-click="close()" ng-if="!processing"></i>
 
     <div class="akam-status-message-wrapper" ng-if='showSubmitError'>
         <div class="akam-status-message-item-wrapper" ng-class="{'error': showSubmitError}">
