@@ -55,6 +55,9 @@
             "offLabel": "Off"
         },
         "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
         "error": {
             "validation": {},
             "data": "Ocorreu um problema ao carregar os dados."

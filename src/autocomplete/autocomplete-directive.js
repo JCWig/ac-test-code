@@ -12,8 +12,9 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
     SEARCH_MINIMUM: 1
   };
 
-  function setTemplate(transcludeFn, contentUrl) {
-    var itemContentHtml, itemContent, html;
+  function setTemplate(transcludeFn, ctrl) {
+    var itemContentHtml, itemContent, html, contentUrl,
+      c = ctrl;
 
     transcludeFn(function(clone) {
       if (clone.length && clone[1]) {
@@ -21,15 +22,21 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
         html = itemContent.innerHTML.trim();
 
         if (angular.lowercase(itemContent.tagName) === consts.CUSTOM_CONTENT && html.length) {
+          contentUrl = c.contentProperty ?
+            consts.ITEM_TEMPLATE_URL_PARTIAL + c.contentProperty + '.html' :
+            consts.ITEM_TEMPLATE_URL_PARTIAL + c.autocompleteId + '.html';
           itemContentHtml = html;
         } else {
+          contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
           itemContentHtml = require('./templates/autocomplete-item.tpl.html');
         }
       } else {
+        contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
         itemContentHtml = require('./templates/autocomplete-item.tpl.html');
       }
     });
     $templateCache.put(contentUrl, itemContentHtml);
+    c.contentTemplateUrl = contentUrl;
   }
 
   function buildStaticQuery(ctrl) {
@@ -40,7 +47,6 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       itemAsText = 'item[ac.textProperty]';
     }
     c.query = 'item as ' + itemAsText + ' for item in ac.searchMatches($viewValue)';
-    return ctrl; //for chainable
   }
 
   /* @ngInject */
@@ -52,9 +58,6 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
     this.searchLength = this.minimumSearch || consts.SEARCH_MINIMUM;
     this.placeholder = this.placeholder || '';
     this.selected = false;
-    this.contentTemplateUrl = this.contentProperty ?
-      consts.ITEM_TEMPLATE_URL_PARTIAL + this.contentProperty + '.html' :
-      consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
       this.textProperty = $attrs.textProperty;
@@ -65,15 +68,19 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
         $scope.ac.searchTip = value;
       });
 
-    //$scope methods names mapping
+    //$scope methods mapping
+    this.searchMatches = searchMatches;
     this.selectItem = selectItem;
     this.clearSelected = clearSelected;
-    this.searchMatches = searchMatches;
 
-    setTemplate($transclude, this.contentTemplateUrl);
+    setTemplate($transclude, this);
     buildStaticQuery(this);
 
-    //private functions
+    /**
+     * searchMatches a scope method gegts called from typeahead for async searching
+     * @param  {String} term User typed character
+     * @return {Object} return Promise object
+     */
     function searchMatches(term) {
       var ctrl = $scope.ac,
         deferred = $q.defer();
@@ -98,14 +105,18 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
           })
           .catch(function(reason) {
             ctrl.items = [];
-            $log.error('Async call to the server return error: ' + reason.message);
+            $log.error('onSearch call to the server return error: ' + reason.message);
             reject();
           });
       });
     }
 
-    //we could do something about raw data,
-    //like filtering, update open class, turn off loading...
+    /**
+     * normalizeData a provate function to massage the returned data
+     * we could do something about raw data, like filtering, update open class, turn off loading...
+     * @param  {Array} rawData data return from server
+     * @return {Array} modified data
+     */
     function normalizeData(rawData) {
       var data = rawData,
         hasData = false;
@@ -124,7 +135,11 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       return data;
     }
 
-    //this call from child directive to passing in the text or object
+    /**
+     * selectItem a scope method, it will gets call from typeahead,
+     * then it will callback to parent in passing selected item
+     * @param  {String|Object} item string or object user selected
+     */
     function selectItem(item) {
       var modelValue = item;
 
@@ -143,12 +158,14 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       }
     }
 
+    /**
+     * clearSelected a scope method triggered from user click close icon
+     */
     function clearSelected() {
       this.selectedItem = '';
       this.items = [];
+      this.isOpen = false;
     }
-
-    //$element.on('input', angular.bind(this, this.debounceSearch, this.selectedItem));
   }
 
   /* @ngInject */
@@ -176,7 +193,8 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       textProperty: '@?',
       contentProperty: '@?',
       placeholder: '@?',
-      minimumSearch: '=?'
+      minimumSearch: '=?',
+      isDisabled: '=?'
     },
     scope: {},
     template: require('./templates/autocomplete.tpl.html'),

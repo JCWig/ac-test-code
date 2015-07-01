@@ -55,6 +55,9 @@
             "offLabel": "Desactivado"
         },
         "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
         "error": {
             "validation": {},
             "data": "Se produjo un problema al cargar los datos."

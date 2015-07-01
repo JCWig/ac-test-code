@@ -4,7 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Akamai Component Examples - Auto Complete</title>
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="../dist/akamai-core.css">
+  <style type="text/css">
+  .col-xs-7 {
+    font-size: 85%;
+  }
+  .row {
+    border-bottom: 1px dotted #ccc;
+    line-height: 20px;
+    margin: 0;
+  }
+  </style>
 </head>
 
 <body class="common-css luna" ng-app="autocompleteApp" ng-strict-di ng-controller="AutocompleteAppController as vm">
@@ -15,7 +26,7 @@
     <h4>Display Auto Complete with minimum attributes and string list</h4>
     <akam-autocomplete items="vm.states" ng-model="vm.selectedState" placeholder="Enter state" on-search="vm.asyncSearchMatchesWithString(term)"></akam-autocomplete>
   </div>
-    <br/>
+  <br/>
   <div>
     <h4>Display Auto Complete with customizabe content - 1 and search minimum of 2 characters</h4>
     <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name" content-property="stateFlags" minimum-search="2" placeholder="Search state with flag" on-search="vm.asyncSearchMatches1(term)">
@@ -27,24 +38,31 @@
       </akam-autocomplete-item>
     </akam-autocomplete>
   </div>
-    <br/>
+  <br/>
   <div>
     <h4>Display Auto Complete with customizabe content - 2 and search minimum of 3 characters</h4>
-    <akam-autocomplete items="vm.items" ng-model="vm.selectedName" text-property="name" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item)" on-search="vm.asyncSearchMatches2(term)">
+    <akam-autocomplete items="vm.items" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="name" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item)" on-search="vm.asyncSearchMatches2(term)">
       <akam-autocomplete-item>
+      <a>
         <div class="row">
           <div class="col-xs-5"><i class="fa fa-user"></i>
-            <span bind-html-unsafe="match.label | highlight:query"></span>
+            <Strong><span bind-html-unsafe="match.label | highlight:query"></span></Strong>
           </div>
-          <div class="col-xs-7 text-right text-muted">
+          <div class="col-xs-7">
             <span bind-html-unsafe="match.model.email | highlight:query"></span>
           </div>
           <div class="col-xs-12">
-            Joined: <span class="text-muted" bind-html-unsafe="match.model.joined" </span>
+            Joined: <span class="text-muted" bind-html-unsafe="match.model.joined"></span>
           </div>
         </div>
+      </a>
       </akam-autocomplete-item>
     </akam-autocomplete>
+
+      <div class="form-group">
+        <input id="disableAutocomplete" type="checkbox" name='disableAutocomplete' ng-model='vm.disabled' />
+        <label class="label" for="disableAutocomplete">To disabled above autocomplete: </label>
+      </div>
   </div>
   <script src="../dist/akamai-core.js"></script>
   <script>
@@ -210,38 +228,39 @@
     var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
     var objItems = [{
-      name: 'Haki',
+      name: 'Yair',
       joined: '2 month ago',
-      email: 'Haki@email.com'
+      email: 'yair@email.com'
     }, {
-      name: 'Ran',
+      name: 'Shawn',
       joined: '2 days ago',
-      email: 'Ran123@ac.org'
+      email: 'shawn@ac.org'
     }, {
-      name: 'John',
+      name: 'Mike',
       joined: 'a week ago',
-      email: 'JJ@gmail.com'
+      email: 'mike@gmail.com'
     }, {
-      name: 'Mary',
+      name: 'Kevin',
       joined: 'Yesterday',
-      email: 'Mary@yahoo.com'
+      email: 'kevin@yahoo.com'
     }, {
-      name: 'Charlie',
+      name: 'Nick',
       joined: 'Just now',
-      email: 'Charlie@msn.com'
+      email: 'nick@msn.com'
     }, {
-      name: 'Rebecca',
+      name: 'xxx',
       joined: 'Yesterday',
-      email: 'Becky@mail.com'
+      email: 'xxx@mail.com'
     }, {
-      name: 'James',
+      name: 'Sean',
       joined: '3 month ago',
-      email: 'James@inbox.com'
+      email: 'sean@inbox.com'
     }];
 
     var vm = this;
     vm.items = [];
     vm.selectedItem = "";
+    vm.disabled = false;
 
     vm.selectCallback = function(item) {
       $log.log(item);
