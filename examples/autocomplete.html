@@ -24,17 +24,20 @@
 </head>
 
 <body class="common-css luna" ng-app="autocompleteApp" ng-strict-di ng-controller="AutocompleteAppController as vm">
+
   <br/>
   <h2>Auto Complete Component Example</h2>
   <hr>
+  <span>selected text: {{vm.selectedText}}</span>
+    <pre>selected item: {{vm.selectedItem | json}}</pre>
   <div>
     <h4>Display Auto Complete with minimum attributes and string list</h4>
-    <akam-autocomplete items="vm.states" ng-model="vm.selectedState" placeholder="Enter state" on-search="vm.asyncSearchMatchesWithString(term)"></akam-autocomplete>
+    <akam-autocomplete items="vm.states" ng-model="vm.selectedState" placeholder="Enter state" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatchesWithString(term)"></akam-autocomplete>
   </div>
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content - 1 and search minimum of 2 characters</h4>
-    <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name" minimum-search="2" placeholder="Search state with flag" on-search="vm.asyncSearchMatches1(term)">
+    <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name" minimum-search="2" placeholder="Search state with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-item>
         <a>
           <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
@@ -46,10 +49,7 @@
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content and search minimum of 3 characters</h4>
-    <div>
-      <p> text selections</p>
-      <span ng-repeat='name in vm.selectedNames1'>[{{name}}] </span>
-    </div>
+    <p> text property selections: <span ng-repeat='name in vm.selectedNames1'>[{{name}}] </span></p>
     <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="{{vm.selectedPropertyNames1}}" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
       <akam-autocomplete-item>
         <a>
@@ -74,11 +74,8 @@
   </div>
   <br/>
   <div>
-    <h4>Display Auto Complete with customizabe content and display multiple property as text</h4>
-    <div>
-      <p> text selections</p>
-      <span ng-repeat='name in vm.selectedNames2'>[{{name}}] </span>
-    </div>
+    <h4>Display customizabe content,one character search, return item json, return text selected</h4>
+    <p> text property selections: <span ng-repeat='name in vm.selectedNames2'>[{{name}}] </span></p>
     <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="{{vm.selectedPropertyNames2}}" minimum-search="1" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
       <akam-autocomplete-item>
         <a>
@@ -302,6 +299,9 @@
     vm.items = [];
     vm.selectedItem = "";
     vm.disabled = false;
+    vm.selectedText = "";
+    vm.selectedItem = "";
+
     vm.selectedNames1 = ["first", "email"];
     vm.selectedNames2 = ["first", "last"];
     vm.selectedPropertyNames1 = vm.selectedNames1.join(' ');
@@ -310,6 +310,9 @@
     vm.selectCallback = function(item, selectedText) {
       $log.log(item);
       $log.log(selectedText);
+
+      vm.selectedItem = item;
+      vm.selectedText = selectedText;
     }
 
     vm.asyncSearchMatchesWithString = function(term) {
