@@ -204,6 +204,9 @@ module.exports = function($templateCache, $log, $modal, $controller,
         // check to see if the onSubmit returns a promise
         if (result && angular.isFunction(result.then)) {
           scope.processing = true;
+        } else if (!result) {
+          scope.processing = false;
+          scope.showSubmitError = true;
         }
 
         $q.when(result).then(

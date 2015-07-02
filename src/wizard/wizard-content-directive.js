@@ -1,7 +1,7 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function($compile, $templateCache, $http, $q, $log) {
+module.exports = function($compile, $templateCache, $http, $q) {
 
   function getStepTemplate(step) {
     if (step.template) {
