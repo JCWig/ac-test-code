@@ -6,15 +6,16 @@ var angular = require('angular');
 module.exports = function(translate, uuid, $q, $log, $templateCache) {
 
   var consts = {
-    ITEM_TEMPLATE_URL_PARTIAL: 'template/typeahead/',
-    DEFAULT_TEMPLATE_NAME: 'akam-autocomplete.item.html',
+    ITEM_TEMPLATE_URL_PARTIAL: './templates/',
+    DEFAULT_TEMPLATE_NAME: 'autocomplete-item.tpl.html',
     CUSTOM_CONTENT: 'akam-autocomplete-item',
     SEARCH_MINIMUM: 1
   };
 
   function setTemplate(transcludeFn, ctrl) {
-    var itemContentHtml, itemContent, html, contentUrl,
-      c = ctrl;
+    var itemContentHtml, itemContent, html,
+      c = ctrl,
+      contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
 
     transcludeFn(function(clone) {
       if (clone.length && clone[1]) {
@@ -22,16 +23,13 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
         html = itemContent.innerHTML.trim();
 
         if (angular.lowercase(itemContent.tagName) === consts.CUSTOM_CONTENT && html.length) {
-          contentUrl = c.contentProperty ?
-            consts.ITEM_TEMPLATE_URL_PARTIAL + c.contentProperty + '.html' :
-            consts.ITEM_TEMPLATE_URL_PARTIAL + c.autocompleteId + '.html';
+          //use this unique file name to avoid same file name conflict in the cache
+          contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + c.autocompleteId + '.html';
           itemContentHtml = html;
         } else {
-          contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
           itemContentHtml = require('./templates/autocomplete-item.tpl.html');
         }
       } else {
-        contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
         itemContentHtml = require('./templates/autocomplete-item.tpl.html');
       }
     });
@@ -198,7 +196,6 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       onSelect: '&?',
       onSearch: '&',
       textProperty: '@?',
-      contentProperty: '@?',
       placeholder: '@?',
       minimumSearch: '=?',
       isDisabled: '=?'

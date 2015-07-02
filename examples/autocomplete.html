@@ -34,7 +34,7 @@
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content - 1 and search minimum of 2 characters</h4>
-    <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name flag" content-property="stateFlags" minimum-search="2" placeholder="Search state with flag" on-search="vm.asyncSearchMatches1(term)">
+    <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name" minimum-search="2" placeholder="Search state with flag" on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-item>
         <a>
           <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
@@ -50,7 +50,7 @@
       <p> text selections</p>
       <span ng-repeat='name in vm.selectedNames1'>[{{name}}] </span>
     </div>
-    <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="{{vm.selectedPropertyNames1}}" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
+    <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="{{vm.selectedPropertyNames1}}" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
       <akam-autocomplete-item>
         <a>
           <div class="row">
@@ -79,7 +79,7 @@
       <p> text selections</p>
       <span ng-repeat='name in vm.selectedNames2'>[{{name}}] </span>
     </div>
-    <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="{{vm.selectedPropertyNames2}}" content-property="employeeNames" minimum-search="2" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
+    <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="{{vm.selectedPropertyNames2}}" minimum-search="1" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
       <akam-autocomplete-item>
         <a>
           <div class="row">
