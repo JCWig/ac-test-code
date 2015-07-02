@@ -100,7 +100,8 @@
   <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('autocompleteApp', ['akamai.components.autocomplete'])
-    .controller('AutocompleteAppController', AutocompleteAppController);
+    .controller('AutocompleteAppController', AutocompleteAppController)
+    .config(configFunction);
 
   AutocompleteAppController.$inject = ['$log', '$q', '$http', '$timeout', '$filter'];
 
@@ -388,6 +389,15 @@
       return deferred.promise;
     }
   };
+  configFunction.$inject = ['i18nTokenProvider'];
+
+  function configFunction(i18nTokenProvider) {
+    // need to overwrite locales path on fee.akamai.com
+    if (window.location.host == 'fee.akamai.com') {
+      i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+      i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+    }
+  }
   </script>
 </body>
 
