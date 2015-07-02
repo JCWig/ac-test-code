@@ -34,7 +34,7 @@
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content - 1 and search minimum of 2 characters</h4>
-    <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name" content-property="stateFlags" minimum-search="2" placeholder="Search state with flag" on-search="vm.asyncSearchMatches1(term)">
+    <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name flag" content-property="stateFlags" minimum-search="2" placeholder="Search state with flag" on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-item>
         <a>
           <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
@@ -313,7 +313,7 @@
 
     vm.asyncSearchMatchesWithString = function(term) {
       var deferred = $q.defer();
-      vm.currentSearchTerm = term;
+      vm.currentSearchTerm = term.toLowerCase();;
 
       var criteriaMatch = function(item) {
         var found = item.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
@@ -330,7 +330,7 @@
 
     vm.asyncSearchMatches1 = function(term) {
       var deferred = $q.defer();
-      vm.currentSearchTerm = term;
+      vm.currentSearchTerm = term.toLowerCase();;
 
       var criteriaMatch = function(item) {
         var found = item.name.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
@@ -346,7 +346,7 @@
 
     vm.asyncSearchMatches2 = function(term) {
       var deferred = $q.defer();
-      vm.currentSearchTerm = term;
+      vm.currentSearchTerm = term.toLowerCase();;
 
       var criteriaMatch = function(item) {
         var found = item.first.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
@@ -365,7 +365,7 @@
 
     vm.asyncSearchMatches3 = function(term) {
       var deferred = $q.defer();
-      vm.currentSearchTerm = term;
+      vm.currentSearchTerm = term.toLowerCase();
 
       var criteriaMatch = function(item) {
         var found = item.first.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
