@@ -87,7 +87,7 @@ module.exports = function($provide) {
             return;
           }
           hourDownPromise = $interval(function() {
-            scope.incrementHours();
+            scope.decrementHours();
           }, DELAY);
         };
       };
