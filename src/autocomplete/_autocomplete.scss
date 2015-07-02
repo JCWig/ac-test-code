@@ -1,3 +1,4 @@
+$autocomplete-input-disabled-color: #cccccc;
 
 .akam-autocomplete {
   position: relative;
@@ -5,13 +6,18 @@
   max-width: 600px;
   width: 100%;
   margin: 10px 0;
-  input {
+  input[type=text] {
     padding-top: 1px;
     -webkit-appearance: textfield;
     outline: 1px;
     min-width: 160px;
     @include box-shadow($input-box-shadow);
     @include ellipsis();
+
+    &:disabled {
+      color: $autocomplete-input-disabled-color;
+      cursor: default;
+    }
   }
   & > span.search-tip {
     font: italic $input-text-size $text-font-family;
