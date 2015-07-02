@@ -16,6 +16,10 @@
     line-height: 20px;
     margin: 0;
   }
+
+  .selectName {
+    float: left;
+  }
   </style>
 </head>
 
@@ -42,7 +46,11 @@
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content and search minimum of 3 characters</h4>
-    <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="first" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
+    <div>
+      <p> text selections</p>
+      <span ng-repeat='name in vm.selectedNames1'>[{{name}}] </span>
+    </div>
+    <akam-autocomplete items="vm.oneSelectedItems" ng-model="vm.selectedName" is-disabled="vm.disabled" text-property="{{vm.selectedPropertyNames1}}" content-property="employeeNames" minimum-search="3" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches2(term)">
       <akam-autocomplete-item>
         <a>
           <div class="row">
@@ -67,7 +75,11 @@
   <br/>
   <div>
     <h4>Display Auto Complete with customizabe content and display multiple property as text</h4>
-    <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="first last email" content-property="employeeNames" minimum-search="2" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
+    <div>
+      <p> text selections</p>
+      <span ng-repeat='name in vm.selectedNames2'>[{{name}}] </span>
+    </div>
+    <akam-autocomplete items="vm.multipleSelectedItems" ng-model="vm.selectedMultipleNames" text-property="{{vm.selectedPropertyNames2}}" content-property="employeeNames" minimum-search="2" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
       <akam-autocomplete-item>
         <a>
           <div class="row">
@@ -289,6 +301,10 @@
     vm.items = [];
     vm.selectedItem = "";
     vm.disabled = false;
+    vm.selectedNames1 = ["first", "email"];
+    vm.selectedNames2 = ["first", "last"];
+    vm.selectedPropertyNames1 = vm.selectedNames1.join(' ');
+    vm.selectedPropertyNames2 = vm.selectedNames2.join(' ');
 
     vm.selectCallback = function(item, selectedText) {
       $log.log(item);
@@ -297,7 +313,7 @@
 
     vm.asyncSearchMatchesWithString = function(term) {
       var deferred = $q.defer();
-            vm.currentSearchTerm = term;
+      vm.currentSearchTerm = term;
 
       var criteriaMatch = function(item) {
         var found = item.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
@@ -370,11 +386,7 @@
         deferred.resolve(vm.multipleSelectedItems = filteredItems);
       }, 1000);
       return deferred.promise;
-
-
     }
-
-
   };
   </script>
 </body>

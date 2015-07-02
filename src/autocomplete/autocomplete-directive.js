@@ -58,7 +58,7 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
     this.placeholder = this.placeholder || '';
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
-      this.textProperties = $attrs.textProperty.split(' ');
+      this.textProperties = this.textProperty.split(' ');
     }
 
     translate.async('components.autocomplete.search-tip')
