@@ -15,7 +15,7 @@ function doRsync(location, tries) {
     src: ['./dist', './examples'],
     dest: 'sshacs@lunahome.upload.akamai.com:' + location,
     recursive: true,
-    args: ['--verbose', '--compress', '--partial', '--progress', '--recursive']
+    args: ['--verbose', '--compress', '--partial', '--progress', '--recursive', '--sockopts=SO_RCVTIMEOUT=0']
     //dryRun: true
   }, function(error, stdout, stderr, cmd) {
     if (error != null) {
