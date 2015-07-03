@@ -32,6 +32,7 @@ module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_A
       } else {
         breadcrumbs.render(items[0]);
       }
+      menu.render();
       updateLocation(items[0].id, items[1].id);
     });
   }
@@ -67,14 +68,16 @@ module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_A
   /* @ngInject */
   function MegaMenu($scope, megaMenuData) {
 
-    $scope.$watchGroup([function() {
-      return context.group;
-    }, function() {
-      return context.property;
-    }], contextChanged);
-
     helpers.register();
 
-    megaMenuData.fetch().then(renderAll);
+    megaMenuData.fetch()
+      .then(renderAll)
+      .then(function() {
+        $scope.$watchGroup([function() {
+          return context.group;
+        }, function() {
+          return context.property;
+        }], contextChanged);
+      });
   }
 };

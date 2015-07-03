@@ -208,13 +208,8 @@ describe('akamai.components.mega-menu', function() {
 
       describe('when the app loads', function() {
 
-        beforeEach(function() {
-          commonBeforeEach(true, false);
-        });
-
-        // for some silly reason this throws an error, but the assertion fails
-        xit('should throw a invalid group error', function() {
-          expect(angular.bind(this, compileMenu)).toThrow();
+        it('should throw a invalid group error', function() {
+          expect(angular.bind(this, commonBeforeEach, true, false)).toThrow();
         });
 
       });
@@ -264,29 +259,6 @@ describe('akamai.components.mega-menu', function() {
         $rootScope.$apply();
         expect(locationSpy.calls.mostRecent().args).toEqual(jasmine.arrayContaining(['aid', 456]));
       });
-
-    });
-
-  });
-
-  // TODO: some of this needs to be in the auth tests
-  describe('given the message box shown', function() {
-
-    describe('when the user accepts changing the account', function() {
-
-      it('should send a request to update the current account');
-
-      it('should should send a request for current account context data');
-
-      it('should update the breadcrumb');
-
-      it('should continue the original API request');
-
-    });
-
-    describe('when the user declines changing the account', function() {
-
-      it('should go to the home page');
 
     });
 

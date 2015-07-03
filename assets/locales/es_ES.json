@@ -1,5 +1,9 @@
 {
     "components": {
+        "context": {
+          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
+          "accountChangedTitle": "Account Changed"
+        },
         "menu-button": {
             "label": "Etiqueta"
         },

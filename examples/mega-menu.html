@@ -15,6 +15,7 @@
 <h1 class="page-title">My Application Title</h1>
 <div role="main">
   <!-- Page content -->
+  <h1>{{ vm.currentAccount.name }}</h1>
   <p>
     <button class="btn btn-default" ng-click="vm.changeGroup()">Click to change group</button>
     <span>Will change group to <code>gid=18783</code></span>
@@ -22,6 +23,14 @@
   <p>
     <button class="btn btn-default" ng-click="vm.changeProperty()">Click to change property</button>
     <span>Will change property to <code>aid=126628</code></span>
+  </p>
+  <p>
+    <button class="btn btn-default" ng-click="vm.switchAccount('portal')">Set account to "Akamai Portal"</button>
+  </p><p>
+    <button class="btn btn-default" ng-click="vm.switchAccount('internal')">Set account to "Akamai Internal"</button>
+  </p>
+  <p>
+    <button class="btn btn-primary" ng-click="vm.apiRequest()">Click to make an API request</button>
   </p>
 </div>
 <akam-menu-footer></akam-menu-footer>
@@ -38,7 +47,11 @@
   }
   Config.$inject = ['contextProvider'];
 
-  function MegaMenu(context) {
+  function MegaMenu($cookies, $http, context) {
+    var ids = {
+      portal: 'QWthbWFpIFBvcnRhbF9Ba2FtYWkgSW50ZXJuYWx+fjEtODU1UTU=',
+      internal: 'QWthbWFpIEludGVybmFsX0FrYW1haSBJbnRlcm5hbH5+MS03S0xHSA=='
+    };
 
     this.changeGroup = function() {
       context.group = 18783;
@@ -46,9 +59,22 @@
 
     this.changeProperty = function() {
       context.property = 126628;
-    }
+    };
+
+    this.apiRequest = function() {
+      return $http.get('/apps/appname/locales/en_US.json');
+    };
+
+    this.switchAccount = function(id) {
+      $cookies.put('AKALASTMANAGEDACCOUNT', ids[id], {
+        path: '/'
+      });
+      this.currentAccount = context.getAccountFromCookie();
+    };
+
+    this.currentAccount = context.getAccountFromCookie();
   }
-  MegaMenu.$inject = ['context'];
+  MegaMenu.$inject = ['$cookies', '$http', 'context'];
 
 </script>
 </html>
