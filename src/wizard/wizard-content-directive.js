@@ -3,6 +3,8 @@
 /* @ngInject */
 module.exports = function($compile, $templateCache, $http, $q) {
 
+  var backwashTemplate = '<div ng-if="processing" class="backwash"></div>';
+
   function getStepTemplate(step) {
     if (step.template) {
       return $q.when(step.template);
@@ -17,7 +19,6 @@ module.exports = function($compile, $templateCache, $http, $q) {
   return {
     restrict: 'E',
     template: '<div class="modal-body"></div>',
-
     link: function(scope, element) {
       scope.$watch('stepIndex', function(stepIndex) {
         getStepTemplate(scope.steps[stepIndex])
@@ -25,7 +26,7 @@ module.exports = function($compile, $templateCache, $http, $q) {
             var modalBodyElem = element.children(0);
 
             modalBodyElem.empty();
-            modalBodyElem.append($compile(content)(scope.contentScope));
+            modalBodyElem.append($compile(backwashTemplate + content)(scope.contentScope));
           });
       });
 
