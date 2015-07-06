@@ -289,7 +289,11 @@ describe('akamai.components.wizard', function() {
 
         var wizardScope = $scope.$new();
         wizardScope.successfulSubmit = false;
-        wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller2', errorMessage: 'Error'});
+        wizard.open({
+          steps: [steps[0]],
+          scope: wizardScope, controller: 'Controller2',
+          errorMessage: 'Error'
+        });
         $scope.$digest();
 
         var submitButton = document.querySelector('span.button-switch > button');
@@ -297,6 +301,24 @@ describe('akamai.components.wizard', function() {
 
         var errorMessage = document.querySelector('.modal-header .status-message-content');
         expect(_.trim(errorMessage.textContent)).toBe('Error');
+      });
+    });
+  });
+
+  describe('given the default error message', function() {
+    describe('when an error occurs when submitting the wizard', function() {
+      it('should display the default error message', function() {
+        var wizardScope = $scope.$new();
+        wizardScope.successfulSubmit = false;
+        wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller2'});
+        $scope.$digest();
+
+        var submitButton = document.querySelector('span.button-switch > button');
+        util.click(submitButton);
+
+        var errorMessage = document.querySelector('.modal-header .status-message-content');
+        expect(_.trim(errorMessage.textContent))
+          .toBe(translationMock.components.wizard.errorMessage);
       });
     });
   });

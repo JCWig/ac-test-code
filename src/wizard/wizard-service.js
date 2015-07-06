@@ -24,7 +24,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
     scope.submitLabel = options.submitLabel || translate.sync('components.wizard.label.submit');
     scope.successMessage = options.successMessage ||
       translate.sync('components.wizard.successMessage');
-    scope.errorMessage = options.errorMessage || translate.sync('components.wizard.successMessage');
+    scope.errorMessage = options.errorMessage || translate.sync('components.wizard.errorMessage');
     scope.showSubmitError = false;
     scope.processing = false;
 
