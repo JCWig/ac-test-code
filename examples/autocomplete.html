@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Akamai Component Examples - Auto Complete</title>
+  <title>Akamai Component Examples - Autocomplete</title>
   <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="../dist/akamai-core.css">
   <style type="text/css">
@@ -29,7 +29,7 @@
   <span>selected text: {{vm.selectedText}}</span>
   <pre>selected item: {{vm.selectedItem | json}}</pre>
   <div>
-    <h4>Display Auto Complete with customizabe content - state name</h4>
+    <h4>Display Autocomplete with customizabe content - state name</h4>
     <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStates" is-disabled="vm.disabled" show-search-tip="vm.showHideTip" text-property="name" placeholder="Search state with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-items>
         <a>
@@ -46,7 +46,7 @@
     </div>
   </div>
   <div>
-    <h4>Display Auto Complete with customizabe content and minmum search 4 characters and selected text define by textProperty</h4>
+    <h4>Display Autocomplete with customizabe content and minmum search 4 characters and selected text define by textProperty</h4>
     <p> text property selections: <span ng-repeat='name in vm.selectedNames1'>[{{name}}] </span></p>
     <akam-autocomplete items="vm.statesWithFlags" ng-model="vm.selectedStateWithFlag" text-property="name flag" minimum-search="4" placeholder="Search state with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-items>

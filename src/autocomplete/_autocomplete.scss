@@ -28,7 +28,6 @@ $autocomplete-input-width: 160px;
     width: 100%;
     & > span {
       display: inline-block;
-      //border: 1px solid $border-color;
       height: 100%;
       vertical-align: middle;
     }
@@ -44,10 +43,14 @@ $autocomplete-input-width: 160px;
       @include ellipsis();
     }
   }
+  .dropdown-menu > li > a {
+    cursor: pointer;
+  }
   .clear-selected {
     margin-left: -23px;
     margin-top: 8px;
     position: absolute;
+    cursor: pointer;
     opacity: .50;
     &:hover {
       opacity: 1;

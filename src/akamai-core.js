@@ -27,5 +27,4 @@ angular.module('akamai.components', [
   require('./autocomplete').name,
   require('./mega-menu').name,
   require('./wizard').name
->>>>>>> develop
 ]);
