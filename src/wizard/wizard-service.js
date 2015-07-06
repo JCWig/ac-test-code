@@ -15,6 +15,9 @@ module.exports = function($templateCache, $log, $modal, $controller,
       $controller(options.controller, {$scope: scope.contentScope});
     }
 
+    scope.processing = false;
+    scope.contentScope.process = scope.processing;
+    
     scope.title = options.title;
     scope.icon = options.icon;
 
@@ -25,8 +28,8 @@ module.exports = function($templateCache, $log, $modal, $controller,
     scope.successMessage = options.successMessage ||
       translate.sync('components.wizard.successMessage');
     scope.errorMessage = options.errorMessage || translate.sync('components.wizard.errorMessage');
+
     scope.showSubmitError = false;
-    scope.processing = false;
 
     angular.forEach(options.steps, function(step, i) {
       step.id = i;
@@ -178,6 +181,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
       instance = $modal.open(angular.extend(options, {
         scope: scope,
         backdrop: 'static',
+        windowClass: 'wizard',
         template: require('./templates/wizard.tpl.html')
       }));
 
@@ -204,8 +208,10 @@ module.exports = function($templateCache, $log, $modal, $controller,
         // check to see if the onSubmit returns a promise
         if (result && angular.isFunction(result.then)) {
           scope.processing = true;
+          scope.contentScope.processing = true;
         } else if (!result) {
           scope.processing = false;
+          scope.contentScope.processing = false;
           scope.showSubmitError = true;
         }
 
@@ -217,6 +223,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
         ).catch(
           function() {
             scope.processing = false;
+            scope.contentScope.processing = false;
             scope.showSubmitError = true;
           }
         );
