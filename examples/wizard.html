@@ -119,7 +119,7 @@
     <h1>Wizard Component examples</h1>
 
     <div ng-click="vm.launchWizard()" style="cursor:pointer;">
-        Launch wizard
+        Launch Wizard
     </div>
     <br/>
 
@@ -130,9 +130,8 @@
                 .controller('WizardAppController', WizardAppController)
                 .config(configFunction);
 
-
-        WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope', '$q', '$timeout'];
-        function WizardAppController($log, $modal, wizard, $rootScope, $q, $timeout) {
+        WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope', '$q', '$timeout', 'translate'];
+        function WizardAppController($log, $modal, wizard, $rootScope, $q, $timeout, translate) {
             var vm = this;
             var wizardScope = $rootScope.$new();
             var times = 0;
@@ -148,7 +147,6 @@
                             } else{
                                 deferral.resolve();
                             }
-
                             times++;
                         }, 1000);
                         return deferral.promise;
@@ -161,18 +159,17 @@
                     scope: wizardScope,
                     controller: WizardController,
                     title: 'Wizard Example',
-                    successMessage: 'Success Message',
-                    errorMessage: 'Error Message',
                     steps: [
                         {
-                            name: 'Step 1',
+                            // Example of translated text for the wizard steps
+                            name: translate.sync('examples.wizard.step1'),
                             templateId: 'step1',
                             validate: function(scope) {
                                 return true;
                             }
                         },
                         {
-                            name: 'Step 2',
+                            name: translate.sync('examples.wizard.step2'),
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
@@ -180,14 +177,14 @@
 
                         },
                         {
-                            name: 'Step 3',
+                            name: translate.sync('examples.wizard.step3'),
                             templateId: 'step3',
                             validate: function(scope) {
                                 return scope.user != null && scope.user.length > 2;
                             }
                         },
                         {
-                            name: 'Step 4',
+                            name: translate.sync('examples.wizard.step4'),
                             templateId: 'step4',
                             validate: function(scope) {
                                 return true;
@@ -195,7 +192,7 @@
 
                         },
                         {
-                            name: 'Step 5',
+                            name: translate.sync('examples.wizard.step5'),
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
