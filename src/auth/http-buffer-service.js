@@ -76,12 +76,10 @@ module.exports = function($injector, $q) {
     /**
      * @name retryAll
      * @description Retries all the buffered requests clears the buffer.
-     * @param {function} updater an optional transformation function that can modify the
-     *  requests that are retried after having logged in.  This can be used for example
-     *  to add an authentication token.  It must return the request.
      */
     retryAll: function() {
       angular.forEach(buffer, function(value) {
+        value.config.retriedRequest = true;
         retryHttpRequest(value.config, value.deferred);
       });
 

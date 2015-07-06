@@ -41,6 +41,11 @@ module.exports = function($q, httpBuffer, token, authConfig, auth) {
     responseError: function(response) {
       if (response.status === 401 && !isUriBlacklisted(response.config.url )) {
 
+        if (response.config.retriedRequest === true) {
+          token.logout();
+          return $q.reject(response);
+        }
+
         // send a request to create a token (if one needs to be created)
         if (!token.isPending()) {
           token.create();
