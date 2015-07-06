@@ -37,24 +37,25 @@ module.exports = angular.module('akamai.components.autocomplete', [
    *
    * @param {Array} [text-property] The property name(s) of item to be displayed
    *
-   * @param {String} [content-property] The content file name partial,
-   * so it is unique for per directive
-   *
    * @param {Number} [minimum-search=1] Minimum character(s) required to search
    *
-   * @param {String} [search-tip="Type in text ({n} character) to display matching items"],
-   * localizable
-   *
-   * @param {String} [placeholder=""] The placeholder text for the search input field
-   *
-   * @param {Function} [onSelect] A callback function to parent scope once
-   * search result item selected,the call back param will be string or object of the item selected
-   *
-   * @param {Function} onSearch A async call function everytime input changes:
-   * keydown, paste and etc
+   * @param {Boolean} [show-search-tip=true] a boolean value can be performed from parent
+   * to shoe or hide the search tip (for reason as space issue)
    *
    * @param {Boolean} isDisabled a boolean value can be performed from parent
    * to turn on and off the autocomplete component
    *
+   * @param {String} [placeholder=""] The placeholder text for the search input field
+   *
+   * @param {Function} [onSelect] A callback function to parent scope once
+   * search result item selected,the call back param will be
+   * item object or string, model and selected text
+   *
+   * @param {Function} onSearch A async call function everytime input changes:
+   * keydown, paste and etc
+   *
    */
-  .directive('akamAutocomplete', require('./autocomplete-directive'));
+  .directive('akamAutocomplete', require('./autocomplete-directive'))
+  .directive('akamAutocompleteItems', require('./autocomplete-items-directive'))
+  .directive('akamAutocompleteSelectedItem', require('./autocomplete-selected-item-directive'))
+  .factory('autocompleteService', require('./autocomplete-directive-service'));

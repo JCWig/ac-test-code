@@ -3,40 +3,18 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(translate, uuid, $q, $log, $templateCache) {
+module.exports = function(translate, uuid, $q, $log, $compile, $document, autocompleteService) {
 
-  var consts = {
-    ITEM_TEMPLATE_URL_PARTIAL: './templates/',
-    DEFAULT_TEMPLATE_NAME: 'autocomplete-item.tpl.html',
-    CUSTOM_CONTENT: 'akam-autocomplete-item',
-    SEARCH_MINIMUM: 1
+  var config = {
+    SEARCH_MINIMUM: 1,
+    ITEMS_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-ITEMS',
+    SELECTED_ITEM_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-SELECTED-ITEM'
   };
 
-  function setTemplate(transcludeFn, ctrl) {
-    var itemContentHtml, itemContent, html,
-      c = ctrl,
-      contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
-
-    transcludeFn(function(clone) {
-      if (clone.length && clone[1]) {
-        itemContent = clone[1];
-        html = itemContent.innerHTML.trim();
-
-        if (angular.lowercase(itemContent.tagName) === consts.CUSTOM_CONTENT && html.length) {
-          //use this unique file name to avoid same file name conflict in the cache
-          contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + c.autocompleteId + '.html';
-          itemContentHtml = html;
-        } else {
-          itemContentHtml = require('./templates/autocomplete-item.tpl.html');
-        }
-      } else {
-        itemContentHtml = require('./templates/autocomplete-item.tpl.html');
-      }
-    });
-    $templateCache.put(contentUrl, itemContentHtml);
-    c.contentTemplateUrl = contentUrl;
-  }
-
+  /**
+   * buildStaticQuery builds atring to tell typeahead to call async method specified
+   * @param  {object} ctrl a controller
+   */
   function buildStaticQuery(ctrl) {
     var itemAsText = 'item';
 
@@ -47,13 +25,17 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
   }
 
   /* @ngInject */
-  function AutocompleteController($scope, $element, $attrs, $transclude) {
+  function AutocompleteController($scope, $element, $attrs) {
 
-    //adjust values for $scope vars
+    //scope vars
     this.isOpen = false;
     this.autocompleteId = 'akam-autocomplete-' + $scope.$id + '-' + uuid.guid();
-    this.searchLength = this.minimumSearch || consts.SEARCH_MINIMUM;
+    this.searchLength = this.minimumSearch || config.SEARCH_MINIMUM;
     this.placeholder = this.placeholder || '';
+    this.showSearchTip = this.showSearchTip || true;
+    this.currentSearchTerm = '';
+    this.childControls = [];
+    this.itemSelected = false;
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
       this.textProperties = this.textProperty.split(' ');
@@ -64,16 +46,23 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
         $scope.ac.searchTip = value;
       });
 
-    //$scope methods mapping
+    //$scope methods
     this.searchMatches = searchMatches;
     this.selectItem = selectItem;
     this.clearSelected = clearSelected;
-
-    setTemplate($transclude, this);
-    buildStaticQuery(this);
+    this.register = register;
+    this.inputFocus = inputFocus;
 
     /**
-     * searchMatches a scope method gegts called from typeahead for async searching
+     * register a scope method to add child directive controller to this controller list
+     * @param  {object} childCtrl child ditective controller
+     */
+    function register(childCtrl) {
+      this.childControls.unshift(childCtrl);
+    }
+
+    /**
+     * searchMatches a scope method gets called from typeahead for async searching
      * @param  {String} term User typed character
      * @return {Object} return Promise object
      */
@@ -81,71 +70,22 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       var ctrl = $scope.ac,
         deferred = $q.defer();
 
+      this.currentSearchTerm = term;
+
       if (term.length < ctrl.searchLength) {
         return deferred.resolve([]);
       }
 
       if (!angular.isFunction(ctrl.onSearch) || !$attrs.onSearch) {
         $log.error('onSearch function is required to make asynchronous calls.');
-        return deferred.reject();
+        return deferred.reject('error');
       }
-
-      return new Promise(function(resolve, reject) {
-        var asyncSearch = ctrl.onSearch({
-          term: term
-        });
-
-        $q.when(asyncSearch)
-          .then(function(raw) {
-            resolve(angular.bind(ctrl, normalizeData(raw)));
-          })
-          .catch(function(reason) {
-            ctrl.items = [];
-            $log.error('onSearch call to the server return error: ' + reason.message);
-            reject();
-          });
-      });
+      return autocompleteService.asyncSearch(ctrl, term);
     }
 
     /**
-     * normalizeData a provate function to massage the returned data
-     * we could do something about raw data, like filtering, update open class, turn off loading...
-     * @param  {Array} rawData data return from server
-     * @return {Array} modified data
-     */
-    function normalizeData(rawData) {
-      var data = rawData,
-        hasData = false,
-        names = [], ctrl = $scope.ac;
-
-      if (angular.isArray(data)) {
-        hasData = data.length > 0;
-      } else if (angular.isObject(data) || angular.isString(data) && data.length) {
-        data = [data];
-        hasData = true;
-      } else {
-        data = [];
-      }
-
-      $scope.ac.isOpen = hasData;
-      //hide loading
-
-      //add new property to be used as display text
-      angular.forEach(data, function(item) {
-        angular.forEach(ctrl.textProperties, function(name, i) {
-          names.push(item[name]);
-          if (ctrl.textProperties.length - 1 === i) {
-            item.selectedText = names.join(' ');//to be displayed
-            names = [];
-          }
-        });
-      });
-      return data;
-    }
-
-    /**
-     * selectItem a scope method, it will gets call from typeahead,
-     * then it will callback to parent in passing selected item
+     * selectItem a scope method, it will gets call from typeahead when selected an item
+     * sets new selected data and state and callback to parent with data
      * @param  {String|Object} item string or object user selected
      * @param  {Object} model object user selected
      * @param  {String} label string user selected and displayed
@@ -153,7 +93,12 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
     function selectItem(item, model, label) {
       $scope.setViewValue(item);
 
-      this.isOpen = false;
+      this.itemSelected = true;
+      this.item = item;
+      this.itemSelected = true;
+      //this.isOpen = false;
+
+      this.selectedItem = this.currentSearchTerm;
 
       if (angular.isFunction(this.onSelect) && $attrs.onSelect) {
         this.onSelect({
@@ -164,17 +109,64 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
     }
 
     /**
-     * clearSelected a scope method triggered from user click close icon
+     * clearSelected a scope method triggered from user click close icon, then resets every states
      */
     function clearSelected() {
       this.selectedItem = '';
       this.items = [];
       this.isOpen = false;
+      this.currentSearchTerm = '';
     }
+
+    $document.on('click', angular.bind(this, clickHandler));
+
+    $scope.$on('$destroy', function() {
+      $document.off('click', angular.bind(this, clickHandler));
+    });
+
+    function clickHandler(e) {
+      var tagName = angular.lowercase(e.target.tagName);
+
+      if (this.selectedItem && tagName !== 'input') {
+        $scope.$apply('ac.itemSelected=true');
+      } else if (tagName === 'span') {
+        $scope.$apply('ac.itemSelected=true');
+      }
+    }
+
+    function inputFocus(e) {
+      this.itemSelected = false;
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    buildStaticQuery(this);
   }
 
   /* @ngInject */
-  function linkFn(scope, elem, attrs, ngModel) {
+  function linkFn(scope, elem, attrs, ctrls) {
+    var ctrl = ctrls[0],
+      ngModel = ctrls[1],
+      selectedContent = '',
+      itemsContent = '',
+      selectedElem, el;
+
+    //get the content from child directives
+    angular.forEach(ctrl.childControls, function(c) {
+      if (c.name === config.ITEMS_TEMPLATE_NAME) {
+        itemsContent = c.getContent();
+      } else if (c.name === config.SELECTED_ITEM_TEMPLATE_NAME) {
+        selectedContent = c.getContent();
+      }
+    });
+    autocompleteService.setItemsTemplate(ctrl, itemsContent);
+    selectedElem = autocompleteService.setSelectedItemTemplate(ctrl, selectedContent);
+
+    el = angular.element(require('./templates/autocomplete.tpl.html'));
+    el.append(selectedElem);
+    $compile(el)(scope, function(clonedElement) {
+      elem.replaceWith(clonedElement);
+    });
 
     scope.setViewValue = function(value) {
       ngModel.$setViewValue(value);
@@ -187,8 +179,7 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
 
   return {
     restrict: 'E',
-    transclude: true,
-    require: '^ngModel',
+    require: ['akamAutocomplete', '^ngModel'],
     controller: AutocompleteController,
     controllerAs: 'ac',
     bindToController: {
@@ -198,10 +189,10 @@ module.exports = function(translate, uuid, $q, $log, $templateCache) {
       textProperty: '@?',
       placeholder: '@?',
       minimumSearch: '=?',
-      isDisabled: '=?'
+      isDisabled: '=?',
+      showSearchTip: '=?'
     },
-    scope: {},
-    template: require('./templates/autocomplete.tpl.html'),
+    scope: true,
     link: linkFn
   };
 };

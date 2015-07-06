@@ -1,27 +1,48 @@
 $autocomplete-input-disabled-color: #cccccc;
-
+$autocomplete-input-width: 160px;
 .akam-autocomplete {
   position: relative;
-  min-width: 180px;
-  max-width: 600px;
-  width: 100%;
   margin: 10px 0;
-  input[type=text] {
-    padding-top: 1px;
-    -webkit-appearance: textfield;
-    outline: 1px;
-    min-width: 160px;
-    @include box-shadow($input-box-shadow);
-    @include ellipsis();
-
-    &:disabled {
-      color: $autocomplete-input-disabled-color;
-      cursor: default;
+  & > div.input-option {
+    input[type=text] {
+      padding-top: 1px;
+      -webkit-appearance: textfield;
+      outline: 1px;
+      min-width: $autocomplete-input-width;
+      @include box-shadow($input-box-shadow);
+      @include ellipsis();
+      &:disabled {
+        color: $autocomplete-input-disabled-color;
+        cursor: default;
+      }
+    }
+    & > span.search-tip {
+      font: italic $input-text-size $text-font-family;
+      color: $input-placeholder-text-color;
     }
   }
-  & > span.search-tip {
-    font: italic $input-text-size $text-font-family;
-    color: $input-placeholder-text-color;
+  & > div.input-toggle {
+    display: inline-block;
+    cursor: pointer;
+    height: 28px;
+    width: 100%;
+    & > span {
+      display: inline-block;
+      //border: 1px solid $border-color;
+      height: 100%;
+      vertical-align: middle;
+    }
+    & > span.selected-option {
+      margin-right: -4px;
+      line-height: 28px;
+      padding: 0 20px 0 10px;
+      width: $autocomplete-input-width;
+      background-color: $dropdown-selected-option-background-color;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      @include box-shadow($input-box-shadow);
+      @include ellipsis();
+    }
   }
   .clear-selected {
     margin-left: -23px;
