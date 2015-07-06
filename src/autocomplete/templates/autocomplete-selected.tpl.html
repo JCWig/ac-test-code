@@ -1,6 +1,6 @@
-<div class="input-toggle">
+<div class="input-toggle" ng-show="ac.itemSelected">
   <span class="selected-option util-ellipsis" ng-show="ac.itemSelected" ng-click="ac.inputFocus($event)">
-    <span class="default-provided" ng-show="!ac.hasContentProvided" title="{{ac.item.selectedText}}">{{ac.item.selectedText}}</span>
-    <span class="custom-provided" ng-show="ac.hasContentProvided" title="{{ac.item.selectedText}}"></span>
+    <span class="default-provided" ng-if="!ac.hasContentProvided" title="{{ac.item.selectedText}}">{{ac.item.selectedText}}</span>
+    <span class="custom-provided" ng-if="ac.hasContentProvided" title="{{ac.item.selectedText}}"></span>
   </span>
 </div>
