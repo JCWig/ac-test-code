@@ -25,5 +25,7 @@ angular.module('akamai.components', [
   require('./dropdown').name,
   require('./auth').name,
   require('./autocomplete').name,
-  require('./mega-menu').name
+  require('./mega-menu').name,
+  require('./wizard').name
+>>>>>>> develop
 ]);

@@ -7,6 +7,7 @@ var angular = require('angular'),
 /**
  * @ngdoc overview
  * @name akamai.components.context
+ * @requires ngCookies
  * @description a module that handles the various context switching methods in the portal.
  * For this version, we only handle group context switching.
  */
@@ -14,12 +15,26 @@ var angular = require('angular'),
 module.exports = angular.module('akamai.components.context', [
   cookies
 ])
-  .provider('context', contextProvider)
-  .run(function($cookies, context) {
 
-    if (!context.isStandaloneContext()) {
-      context.setAccountCookie();
-      context.setContextIdFromUrl();
-    }
+  /**
+   * @ngdoc service
+   * @name akamai.components.context.service:LUNA_GROUP_QUERY_PARAM
+   * @description Constant value representing the query parameter that should be sent to set the
+   * group ID.
+   */
+  .constant('LUNA_GROUP_QUERY_PARAM', 'gid')
 
-  });
+  /**
+   * @ngdoc service
+   * @name akamai.components.context.service:LUNA_ASSET_QUERY_PARAM
+   * @description Constant value representing the query parameter that should be sent to set the
+   * asset (property) ID.
+   */
+  .constant('LUNA_ASSET_QUERY_PARAM', 'aid')
+
+  /**
+   * @ngdoc service
+   * @name akamai.components.context.service:contextProvider
+   * @description TODO: how does this work again?
+   */
+  .provider('context', contextProvider);
