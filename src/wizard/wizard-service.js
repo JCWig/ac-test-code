@@ -172,7 +172,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
           }
         }
         return true;
-      }
+      };
 
       scope.stepClasses = function(stepNumber) {
         var current = true, maxStepIndex = scope.steps.length - 1;
