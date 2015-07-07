@@ -93,11 +93,9 @@ module.exports = function(translate, uuid, $q, $log, $compile, $document, autoco
     function selectItem(item, model, label) {
       $scope.setViewValue(item);
 
-      this.itemSelected = true;
       this.item = item;
       this.itemSelected = true;
       //this.isOpen = false;
-
       this.selectedItem = this.currentSearchTerm;
 
       if (angular.isFunction(this.onSelect) && $attrs.onSelect) {
@@ -125,19 +123,26 @@ module.exports = function(translate, uuid, $q, $log, $compile, $document, autoco
     });
 
     function clickHandler(e) {
-      var tagName = angular.lowercase(e.target.tagName);
+      var tagName = angular.lowercase(e.target.tagName),
+        inputElem, isInput = false;
 
-      if (this.selectedItem && tagName !== 'input') {
-        $scope.$apply('ac.itemSelected=true');
-      } else if (tagName === 'span') {
-        $scope.$apply('ac.itemSelected=true');
+      if (tagName === 'input') {
+        inputElem = angular.element(e.target);
+        if (inputElem.attr('id') === $scope.ac.autocompleteId) {
+          isInput = true;
+        }
+      }
+
+      if (this.selectedItem && !isInput) {
+        $scope.$apply('ac.itemSelected=true;');
       }
     }
 
     function inputFocus(e) {
-      this.itemSelected = false;
       e.preventDefault();
       e.stopPropagation();
+
+      this.itemSelected = false;
     }
 
     buildStaticQuery(this);

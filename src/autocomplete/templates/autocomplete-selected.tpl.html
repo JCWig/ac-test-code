@@ -1,5 +1,5 @@
 <div class="input-toggle" ng-show="ac.itemSelected">
-  <span class="selected-option util-ellipsis" ng-show="ac.itemSelected" ng-click="ac.inputFocus($event)">
+  <span class="selected-option util-ellipsis form-control" ng-click="ac.inputFocus($event)">
     <span class="default-provided" ng-if="!ac.hasContentProvided" title="{{ac.item.selectedText}}">{{ac.item.selectedText}}</span>
     <span class="custom-provided" ng-if="ac.hasContentProvided" title="{{ac.item.selectedText}}"></span>
   </span>
