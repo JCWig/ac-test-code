@@ -1,6 +1,8 @@
 'use strict';
 
 var angular = require('angular'),
+  i18n = require('../i18n'),
+  messageBox = require('../message-box'),
   context = require('../context');
 
 /**
@@ -12,7 +14,9 @@ var angular = require('angular'),
  *
  */
 module.exports = angular.module('akamai.components.auth', [
-  context.name
+  context.name,
+  messageBox.name,
+  i18n.name
 ])
   .provider('auth', require('./auth-provider'))
   .constant('authConfig', {
