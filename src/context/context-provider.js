@@ -10,8 +10,12 @@ var APP_CONTEXTS = {
   group: 'group',
   other: 'other'
 },
+  // This includes the account name and the account ID, concatenated with the contract name,
+  // separated by a double tilde "~~". The whole string is base64 encoded.
+  ACCOUNT_COOKIE = 'AKALASTMANAGEDACCOUNT',
   GROUPS_URL = '/ui/services/nav/megamenu/username/context.json',
-  CHANGE_GROUP_URL = '/core/services/session/username/extend';
+  CHANGE_GROUP_URL = '/core/services/session/username/extend',
+  ACCOUNT_CHANGE_URL = '/ui/home/manage?idaction=set_customer&newProvisioningAcct=';
 
 module.exports = function ContextProvider() {
 
@@ -45,12 +49,14 @@ module.exports = function ContextProvider() {
   this.OTHER_CONTEXT = APP_CONTEXTS.other;
 
   /* @ngInject */
-  this.$get = function Context($injector, $q, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
+  this.$get = function Context($injector, $q, $window, $cookies,
+                               LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
     var $http;
 
     var currentAccount = {
       id: null,
-      name: null
+      name: null,
+      cookieValue: null
     };
     var currentGroup = $q.when({
       id: null,
@@ -69,7 +75,9 @@ module.exports = function ContextProvider() {
       isGroupContext: angular.bind(this, isContext, APP_CONTEXTS.group),
       isAccountContext: angular.bind(this, isContext, APP_CONTEXTS.account),
       isOtherContext: angular.bind(this, isContext, APP_CONTEXTS.other),
-      accountChanged: accountChanged
+      getAccountFromCookie: getAccountFromCookie,
+      accountChanged: accountChanged,
+      resetAccount: resetAccount
     };
 
     // for now we can only set the current account, but not do much else
@@ -108,7 +116,45 @@ module.exports = function ContextProvider() {
      * last called.
      */
     function accountChanged() {
-      return initialAccount !== currentAccount;
+      return !isContext(APP_CONTEXTS.other) &&
+        initialAccount.cookieValue &&
+        initialAccount.id !== getAccountFromCookie().id;
+    }
+
+    /**
+     * Resets the current account to the initial account
+     * @returns {HttpPromise} A promise to change the account
+     */
+    function resetAccount() {
+      $http = $http || $injector.get('$http');
+      $cookies.put(ACCOUNT_COOKIE, initialAccount.cookieValue, {
+        path: '/'
+      });
+      currentAccount = initialAccount;
+      return $http.get(ACCOUNT_CHANGE_URL + initialAccount.name);
+    }
+
+    /**
+     * Parses the AKALASTMANAGEDACCOUNT cookie and returns the account object. The name includes
+     * the current contract
+     * @returns {{id: String, name: String}} the account object, as read from the appropriate
+     * cookie. Returns a null account if the cookie doesn't exist.
+     */
+    function getAccountFromCookie() {
+      var cookie = $cookies.get(ACCOUNT_COOKIE),
+        base64EncodedCookie, id = null, name = '';
+
+      if (cookie) {
+        base64EncodedCookie = $window.atob(cookie).split('~~');
+        id = base64EncodedCookie[1];
+        name = base64EncodedCookie[0];
+      }
+
+      return {
+        id: id,
+        name: name,
+        cookieValue: cookie
+      };
     }
 
     // ------------ utility methods below ------------
@@ -139,17 +185,17 @@ module.exports = function ContextProvider() {
     }
 
     function setAccount(newAccount) {
-      if (newAccount.id && newAccount.name) {
-        currentAccount = angular.copy(newAccount);
+      currentAccount.id = newAccount.id;
+      currentAccount.name = newAccount.name;
+      currentAccount.cookieValue = newAccount.cookieValue;
 
-        // used to detect if account changed
-        if (!initialAccount) {
-          initialAccount = currentAccount;
-        }
-
-        // set other pointers as well
-        currentAccount.context = getAccountContext();
+      // used to detect if account changed
+      if (!initialAccount) {
+        initialAccount = currentAccount;
       }
+
+      // set other pointers as well
+      currentAccount.context = getAccountContext();
     }
 
     // gets the contents of context.json
