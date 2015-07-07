@@ -20,7 +20,6 @@ module.exports = function($templateCache, $log, $modal, $controller,
 
     scope.title = options.title;
     scope.icon = options.icon;
-
     scope.previousLabel = options.previousLabel ||
       translate.sync('components.wizard.label.previous');
     scope.nextLabel = options.nextLabel || translate.sync('components.wizard.label.next');
