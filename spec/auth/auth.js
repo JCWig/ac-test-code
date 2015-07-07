@@ -238,6 +238,20 @@ describe('akamai.components.auth', function() {
       expect(tokenService.logout).toHaveBeenCalled();
     });
 
+    it('the component should not request logout for an unknown 401 code and reject promise', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+        code: 'unknown_code',
+        title: 'Something we do not know about',
+        incidentId: '55555555-002d-4494-8535-4c6186814756',
+        requestId: '66666666-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
   });
 
   describe('Scenario: Request a token', function() {

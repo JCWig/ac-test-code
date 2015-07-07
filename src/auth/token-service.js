@@ -62,10 +62,6 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig)
     isLogoutCondition: function(response) {
       var responseErrorCode;
 
-      if ( response == null ) {
-        return false;
-      }
-
       if (response.config.retriedRequest === true) {
         return true;
       }
@@ -86,6 +82,8 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig)
             return false;
         }
       }
+
+      return false;
     }
   };
 
