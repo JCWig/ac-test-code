@@ -132,6 +132,22 @@ describe('akamai.components.auth', function() {
     });
   });
 
+  describe('Scenario: Receive valid token, but the service is still erroring out on the server side', function() {
+    it('should submit queued API requests and when one of them returns a 401, log out', function() {
+      tokenService.logout.and.stub();
+      spyOn(buffer, 'retryAll').and.callThrough();
+      buffer.appendRequest({method: 'GET', url: '/deferred/for/token/auth1', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      buffer.appendRequest({method: 'GET', url: '/deferred/for/token/auth2', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
+      httpBackend.when('GET', '/deferred/for/token/auth1').respond(401);
+      httpBackend.when('GET', '/deferred/for/token/auth2').respond(200);
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      tokenService.create();
+      httpBackend.flush();
+      expect(buffer.retryAll).toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+  });
+
   describe('Scenario: Receive token error', function() {
     it('should clear the API request queue', function() {
       spyOn(buffer, 'clear').and.callThrough();
