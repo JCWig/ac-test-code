@@ -1,11 +1,11 @@
 $autocomplete-input-disabled-color: #cccccc;
 $autocomplete-input-width: 160px;
+$autocomplete-selected-background-color: #f4f4f4;
 .akam-autocomplete {
   position: relative;
+  margin: 0 10px;
   & > div.input-option {
     input[type=text] {
-      padding-top: 1px;
-      margin: 0 10px;
       min-width: $autocomplete-input-width;
     }
     & > span.search-tip {
@@ -25,7 +25,7 @@ $autocomplete-input-width: 160px;
       line-height: 28px;
       padding: 0 5px 0 10px;
       width: $autocomplete-input-width;
-      background-color: $dropdown-selected-option-background-color;
+      background-color: $autocomplete-selected-background-color;
       border: 1px solid $border-color;
       border-radius: $border-radius;
     }

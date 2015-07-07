@@ -197,7 +197,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $document, autoco
       isDisabled: '=?',
       showSearchTip: '=?'
     },
-    scope: true,
+    scope: {},
     link: linkFn
   };
 };
