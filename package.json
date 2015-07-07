@@ -22,7 +22,7 @@
   },
   "browserify-shim": {},
   "dependencies": {
-    "angular": "~1.4.0",
+    "angular": "~1.4.2",
     "angular-bootstrap-npm": "^0.13.0",
     "angular-cookies": "~1.4.0",
     "angular-messages": "~1.4.0",
