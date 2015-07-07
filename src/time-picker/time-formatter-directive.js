@@ -17,7 +17,9 @@ module.exports = function($filter, $timeout) {
     restrict: 'A',
     require: '?ngModel',
     scope: {
-      showMeridian: '='
+      showMeridian: '=',
+      minuteStep: '=',
+      hourStep: '='
     },
     link: link
   };
@@ -43,6 +45,18 @@ module.exports = function($filter, $timeout) {
         element.val(displayTime(value, true));
       }
       element.attr('placeholder', timeFormat);
+    });
+
+    scope.$watch('minuteStep', function(newValue) {
+      if (!newValue || isNaN(newValue)) {
+        scope.minuteStep = 15;
+      }
+    });
+
+    scope.$watch('hourStep', function(newValue) {
+      if (!newValue || isNaN(newValue)) {
+        scope.hourStep = 1;
+      }
     });
 
     function parseTime(value) {

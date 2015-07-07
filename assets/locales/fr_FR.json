@@ -99,6 +99,15 @@
                 "noSelection": "Select one",
                 "filter": "Filter"
             }
+        },
+        "wizard": {
+            "label": {
+                "previous": "Previous",
+                "next": "Next",
+                "submit": "Submit"
+            },
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
         }
     }
 }

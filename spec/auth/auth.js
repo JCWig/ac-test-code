@@ -20,7 +20,8 @@ describe('akamai.components.auth', function() {
     context,
     messageBox,
     $rootScope,
-    translate;
+    translate,
+    location;
 
   var translationMock = {
     components: {
@@ -95,8 +96,8 @@ describe('akamai.components.auth', function() {
     });
 
     angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig,
-                                        authInterceptor, $window, auth, _context_, _messageBox_,
-                                        _$rootScope_, _translate_) {
+                                        authInterceptor, $window, $location, auth, _context_,
+                                        _messageBox_, _$rootScope_, _translate_) {
       http = $http;
       httpBackend = $httpBackend;
       buffer = httpBuffer;
@@ -104,6 +105,7 @@ describe('akamai.components.auth', function() {
       config = authConfig;
       interceptor = authInterceptor;
       win = $window;
+      location = $location;
       authPro = auth;
       context = _context_;
       messageBox = _messageBox_;
@@ -223,11 +225,31 @@ describe('akamai.components.auth', function() {
     });
 
     it('should redirect to the logout page', function() {
+      var domain = 'some.domain.com';
+      var path = '/some/path';
+      var fakeCurrentUrl = 'https://' + domain + path;
+      var base64EncodedCurrentUrl = win.btoa(path);
+      spyOn(location, 'absUrl').and.returnValue(fakeCurrentUrl);
+      spyOn(location, 'host').and.returnValue(domain);
       httpBackend.expectPOST(config.tokenUrl).respond(400);
       tokenService.create();
       httpBackend.flush();
       expect(tokenService.logout).toHaveBeenCalled();
-      expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl);
+      expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl + base64EncodedCurrentUrl);
+    });
+
+    it('should redirect to the logout page with current url correctly base64 encoded', function() {
+      var domain = 'some.domain.com';
+      var path = '/some/path?foo=bar&baz=xoxo#/some/other/path?plus_new=parameters&hash=values';
+      var fakeCurrentUrl = 'https://' + domain + path;
+      var base64EncodedCurrentUrl = win.btoa(path);
+      spyOn(location, 'host').and.returnValue(domain);
+      spyOn(location, 'absUrl').and.returnValue(fakeCurrentUrl);
+      httpBackend.expectPOST(config.tokenUrl).respond(400);
+      tokenService.create();
+      httpBackend.flush();
+      expect(tokenService.logout).toHaveBeenCalled();
+      expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl + base64EncodedCurrentUrl);
     });
   });
 
