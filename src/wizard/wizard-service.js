@@ -20,7 +20,6 @@ module.exports = function($templateCache, $log, $modal, $controller,
 
     scope.title = options.title;
     scope.icon = options.icon;
-
     scope.previousLabel = options.previousLabel ||
       translate.sync('components.wizard.label.previous');
     scope.nextLabel = options.nextLabel || translate.sync('components.wizard.label.next');
@@ -147,18 +146,31 @@ module.exports = function($templateCache, $log, $modal, $controller,
         }
       };
 
-      scope.isValid = function() {
-        if (!angular.isFunction(scope.currentStep().validate)) {
+      scope.isValid = function(stepNumber) {
+        var step = angular.isNumber(stepNumber) ? scope.steps[stepNumber] : scope.currentStep();
+
+        if (!angular.isFunction(step.validate)) {
           return true;
         }
 
-        return scope.currentStep().validate(scope.contentScope);
+        return step.validate(scope.contentScope);
       };
 
       scope.activateStep = function(stepNumber) {
-        if (scope.steps[stepNumber].visited) {
+        if (scope.steps[stepNumber].visited && scope.previousStepsValid(stepNumber)) {
           scope.stepIndex = stepNumber;
         }
+      };
+
+      scope.previousStepsValid = function(stepNumber) {
+        var i;
+
+        for (i = 0; i < stepNumber; i++) {
+          if (!scope.isValid(i)) {
+            return false;
+          }
+        }
+        return true;
       };
 
       scope.stepClasses = function(stepNumber) {
@@ -167,12 +179,13 @@ module.exports = function($templateCache, $log, $modal, $controller,
         if (stepNumber > maxStepIndex) {
           return {};
         } else if (stepNumber < maxStepIndex) {
-          current = !scope.steps[stepNumber + 1].visited;
+          current = !scope.steps[stepNumber + 1].visited ||
+            !scope.previousStepsValid(stepNumber + 1);
         }
 
         return {
           active: stepNumber === scope.stepIndex,
-          visited: scope.steps[stepNumber].visited,
+          visited: scope.steps[stepNumber].visited && scope.previousStepsValid(stepNumber),
           current: current
         };
       };
