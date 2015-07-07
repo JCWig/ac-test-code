@@ -17,7 +17,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
 
     scope.processing = false;
     scope.contentScope.process = scope.processing;
-    
+
     scope.title = options.title;
     scope.icon = options.icon;
 
