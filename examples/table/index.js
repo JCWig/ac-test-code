@@ -39,6 +39,7 @@ function ExampleController($http, $q, $log) {
     $log.log('PDF button clicked', row);
   };
 
+  vm.ipAddress = "Internet Protocol Address";
   // Example 2
   // -------------------------------------------------
 
