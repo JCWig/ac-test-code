@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0",
-    "angular-ui-utils": "git://github.com/angular-ui/ui-utils.git",
+    "angular-ui-utils": "git://github.com/angular-ui/ui-utils.git#4615f8e2449d95badf280a9820b8e6429ebb99ab",
     "bootstrap": "^3.3.4",
     "bootstrap-sass": "^3.3.4",
     "brfs": "^1.4.0",

@@ -94,7 +94,7 @@ module.exports = function($http, $window, $cacheFactory) {
     cache = false;
 
     httpDefaultCache.remove(CONFIG_URL);
-    $window.sessionStorage.setItem(CONFIG_KEY, undefined);
+    $window.sessionStorage.removeItem(CONFIG_KEY);
 
     httpDefaultCache.remove(localeUrl());
     httpDefaultCache.remove(PARTNER_URL);

@@ -16,7 +16,7 @@ var selector = '#modular-mega-menu-header .mega-menu-breadcrumb';
  * @ngdoc function
  * @methodOf breadcrumbs
  * @name breadcrumbs.render
- * @param {GroupInfo} group Object representing the current group.
+ * @param {Object} group Object representing the current group, or property
  * @description
  * Renders the message count
  */
@@ -24,14 +24,23 @@ module.exports = {
   render: function(group) {
     var breadcrumbs = [], current = group;
 
-    while (current) {
-      breadcrumbs.unshift({
-        gid: current.gid,
-        aid: current.aid,
-        title: current.title
-      });
+    while (current && current.id) {
 
-      current = current.parent;
+      // is a property
+      if (current.group) {
+        breadcrumbs.unshift({
+          gid: current.group.id,
+          aid: current.id,
+          title: current.name
+        });
+        current = current.group;
+      } else {
+        breadcrumbs.unshift({
+          gid: current.id,
+          title: current.name
+        });
+        current = current.parent;
+      }
     }
 
     renderer.render(selector, template, breadcrumbs);

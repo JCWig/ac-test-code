@@ -29,7 +29,7 @@ describe('search', function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/mega-menu').name);
     angular.mock.module(function(contextProvider) {
-      contextProvider.setApplicationContext('standalone');
+      contextProvider.setApplicationContext(contextProvider.OTHER_CONTEXT);
     });
     angular.mock.inject(function($rootScope, _$compile_, $httpBackend) {
       $scope = $rootScope;
