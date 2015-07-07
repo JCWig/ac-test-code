@@ -219,6 +219,8 @@ module.exports = function($templateCache, $log, $modal, $controller,
           function(returnValue) {
             instance.close(returnValue);
             statusMessage.showSuccess({text: scope.successMessage});
+            scope.processing = false;
+            scope.contentScope.processing = false;
           }
         ).catch(
           function() {
