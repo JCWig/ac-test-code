@@ -1,3 +1,4 @@
+/* globals angular, beforeEach, afterEach, spyOn */
 /* eslint-disable max-nested-callbacks */
 'use strict';
 
