@@ -8,7 +8,10 @@ module.exports = function($q, httpBuffer, token, authConfig, auth) {
     /^\/svcs\/messagecenter\/.*$/i,
     /^\/search\/api\/v1\/query.*$/i,
     /^\/totem\/.*$/i,
-    /^\/portal\/pages\/messagecenter\/.*/i
+    /^\/portal\/pages\/messagecenter\/.*/i,
+    /^\/libs\/akamai-core\/.*/i,
+    /^\/ui\/home\/manage\/.*/i,
+    /^.*\.html/i
   ];
 
   var authUrls = [
@@ -39,20 +42,16 @@ module.exports = function($q, httpBuffer, token, authConfig, auth) {
       return requestConfig;
     },
     responseError: function(response) {
-      if (response.status === 401 && !isUriBlacklisted(response.config.url )) {
-
-        if (response.config.retriedRequest === true) {
+      if (response.status === 401 && !isUriBlacklisted(response.config.url)) {
+        if (token.isLogoutCondition(response)) {
           token.logout();
           return $q.reject(response);
         }
 
-        // send a request to create a token (if one needs to be created)
-        if (!token.isPending()) {
-          token.create();
+        // if we're requesting a new token, append the 401'd response to the retry queue, to be run
+        if (token.isPending()) {
+          return httpBuffer.appendResponse(response);
         }
-
-        // append the 401'd response to the retry queue to be run after the token is created
-        return httpBuffer.appendResponse(response);
       }
 
       return $q.reject(response);
