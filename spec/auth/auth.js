@@ -21,7 +21,8 @@ describe('akamai.components.auth', function() {
     messageBox,
     $rootScope,
     translate,
-    location;
+    location,
+    $q;
 
   var translationMock = {
     components: {
@@ -97,7 +98,7 @@ describe('akamai.components.auth', function() {
 
     angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig,
                                         authInterceptor, $window, $location, auth, _context_,
-                                        _messageBox_, _$rootScope_, _translate_) {
+                                        _messageBox_, _$rootScope_, _translate_, _$q_) {
       http = $http;
       httpBackend = $httpBackend;
       buffer = httpBuffer;
@@ -110,6 +111,7 @@ describe('akamai.components.auth', function() {
       context = _context_;
       messageBox = _messageBox_;
       $rootScope = _$rootScope_;
+      $q = _$q_;
       translate = _translate_;
       $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(enUsMessagesResponse);
       $httpBackend.when('GET', utilities.CONFIG_PATH).respond(enUsResponse);
@@ -379,19 +381,22 @@ describe('akamai.components.auth', function() {
 
     });
 
-    xdescribe('when the user declines changing the account', function() {
+    describe('when the user declines changing the account', function() {
 
       beforeEach(function() {
         context.setAccountChanged(true);
         spyOn(translate, 'async').and.returnValue('foo');
         http.get('/abc.json');
+        $rootScope.$digest();
       });
 
       it('should go to the home page', function() {
-        var elem = document.querySelector('.modal-footer button');
 
-        utilities.click(elem);
-        $rootScope.$digest();
+        // clicking the element will cause the http promise above to be rejected
+        expect(function() {
+          angular.element(document.querySelector('.modal-footer button')).trigger('click');
+        }).toThrow();
+
         expect(tokenService.logout).toHaveBeenCalled();
       });
 
