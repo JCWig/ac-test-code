@@ -124,11 +124,17 @@ describe('akamai.components.auth', function() {
   describe('Scenario: Receive unauthorized API response', function() {
     it('the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401);
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+        code: 'invalid_token',
+        title: 'Invalid JWT Token',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
       expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
     it('should queue intermediate error responses re-submission', function() {
@@ -154,9 +160,16 @@ describe('akamai.components.auth', function() {
     });
   });
 
-  describe('Scenario: Receive authorized API response', function() {
-    it('the component should pass through the response to the app', function() {
+  describe('Scenario: Receive unauthorized API response with logout codes', function() {
+    it('the component should request logout for akasession_username_invalid', function() {
       spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+        code: 'akasession_username_invalid',
+        title: 'Invalid Username',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
       spyOn(tokenService, 'create');
       httpBackend.when('GET', '/authorized/request1?aid=456&gid=123').respond(200);
       httpBackend.when('GET', '/authorized/request2?aid=456&gid=123').respond(302);
@@ -166,8 +179,79 @@ describe('akamai.components.auth', function() {
       http.get('/authorized/request3');
       httpBackend.flush();
       expect(buffer.appendResponse).not.toHaveBeenCalled();
-      expect(tokenService.create).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
     });
+
+    it('the component should request logout for expired_akasession', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+        code: 'expired_akasession',
+        title: 'Expired Akasession',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+
+    it('the component should request logout for malformed_akasession', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+        code: 'malformed_akasession',
+        title: 'Malformed Akasession',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+
+    it('the component should request logout for incorrect_current_account', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+        code: 'incorrect_current_account',
+        title: 'Incorrect Account',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+
+    it('the component should request logout for invalid_xsrf', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+        code: 'invalid_xsrf',
+        title: 'Invalid Cross Site Request Forgery Nonce',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+
+    it('the component should not request logout for an unknown 401 code and reject promise', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+        code: 'unknown_code',
+        title: 'Something we do not know about',
+        incidentId: '55555555-002d-4494-8535-4c6186814756',
+        requestId: '66666666-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
   });
 
   describe('Scenario: Request a token', function() {
@@ -221,8 +305,8 @@ describe('akamai.components.auth', function() {
       spyOn(buffer, 'retryAll').and.callThrough();
       buffer.appendRequest({method: 'GET', url: '/deferred/for/token/auth1', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
       buffer.appendRequest({method: 'GET', url: '/deferred/for/token/auth2', data: '', headers: { Accept: 'application/json, text/plain, */*'}});
-      httpBackend.when('GET', '/deferred/for/token/auth1').respond(401);
-      httpBackend.when('GET', '/deferred/for/token/auth2').respond(200);
+      httpBackend.when('GET', '/deferred/for/token/auth1?aid=456&gid=123').respond(401);
+      httpBackend.when('GET', '/deferred/for/token/auth2?aid=456&gid=123').respond(200);
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       tokenService.create();
       httpBackend.flush();

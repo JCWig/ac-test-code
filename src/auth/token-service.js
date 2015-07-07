@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /* @ngInject */
 module.exports = function(httpBuffer, $injector, $window, $location, authConfig) {
   var pendingRequest = false;
@@ -56,6 +58,32 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig)
           encodedUrl = $window.btoa(redirectPath);
 
       $window.location.replace( authConfig.lunaLogoutUrl + encodedUrl );
+    },
+    isLogoutCondition: function(response) {
+      var responseErrorCode;
+
+      if (response.config.retriedRequest === true) {
+        return true;
+      }
+
+      if (response.data != null && angular.isObject(response.data) && response.status === 401) {
+        responseErrorCode = response.data.code;
+        switch (responseErrorCode) {
+          case 'invalid_token':
+            this.create();
+            return false;
+          case 'akasession_username_invalid':
+          case 'expired_akasession':
+          case 'malformed_akasession':
+          case 'incorrect_current_account':
+          case 'invalid_xsrf':
+            return true;
+          default:
+            return false;
+        }
+      }
+
+      return false;
     }
   };
 
