@@ -3,14 +3,21 @@ $autocomplete-input-width: 160px;
 $autocomplete-selected-background-color: #f4f4f4;
 .akam-autocomplete {
   position: relative;
-  margin: 0 10px;
   & > div.input-option {
     input[type=text] {
+      margin: 0 10px;
       min-width: $autocomplete-input-width;
+      &:disabled {
+        color: $autocomplete-input-disabled-color;
+        cursor: default;
+      }
     }
     & > span.search-tip {
       font: italic $input-text-size $text-font-family;
       color: $input-placeholder-text-color;
+      &.disabled {
+        color: #e6e6e6;
+      }
     }
   }
   & > div.input-toggle {
@@ -18,24 +25,40 @@ $autocomplete-selected-background-color: #f4f4f4;
     height: 28px;
     & > span {
       display: inline-block;
+      border: 1px solid $border-color;
       height: 100%;
       vertical-align: middle;
     }
     & > span.selected-option {
+      margin: 0 10px;
       line-height: 28px;
-      padding: 0 5px 0 10px;
+      padding: 0 15px 0 10px;
       width: $autocomplete-input-width;
       background-color: $autocomplete-selected-background-color;
       border: 1px solid $border-color;
       border-radius: $border-radius;
+      & > span.disabled {
+        color: $autocomplete-input-disabled-color;
+        cursor: default;
+      }
     }
+    & > .selected {}
   }
   .dropdown-menu > li > a {
     cursor: pointer;
+    &:hover {
+      background-color: #ebf6ff;
+    }
+  }
+  .clear-query {
+    margin-left: -32px;
+    margin-top: 8px;
   }
   .clear-selected {
-    margin-left: -33px;
-    margin-top: 8px;
+    margin-left: 150px;
+    margin-top: -20px;
+  }
+  .clear-selected, .clear-query {
     position: absolute;
     cursor: pointer;
     @include opacity(.5);

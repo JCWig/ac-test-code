@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(translate, uuid, $q, $log, $compile, $document, autocompleteService) {
+module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocompleteService) {
 
   var config = {
     SEARCH_MINIMUM: 1,
@@ -36,6 +36,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $document, autoco
     this.currentSearchTerm = '';
     this.childControls = [];
     this.itemSelected = false;
+    this.needFocus = true;
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
       this.textProperties = this.textProperty.split(' ');
@@ -50,8 +51,10 @@ module.exports = function(translate, uuid, $q, $log, $compile, $document, autoco
     this.searchMatches = searchMatches;
     this.selectItem = selectItem;
     this.clearSelected = clearSelected;
+    this.clearSearch = clearSearch;
     this.register = register;
-    this.inputFocus = inputFocus;
+
+    buildStaticQuery(this);
 
     /**
      * register a scope method to add child directive controller to this controller list
@@ -93,59 +96,70 @@ module.exports = function(translate, uuid, $q, $log, $compile, $document, autoco
     function selectItem(item, model, label) {
       $scope.setViewValue(item);
 
-      this.item = item;
       this.itemSelected = true;
-      //this.isOpen = false;
-      this.selectedItem = this.currentSearchTerm;
+      this.selectedItem = item;
+      this.isOpen = false;
+      this.searchTerm = this.currentSearchTerm;
 
-      if (angular.isFunction(this.onSelect) && $attrs.onSelect) {
-        this.onSelect({
+      notifySelected(item, label);
+    }
+
+    /**
+     * clearSelected a scope method triggered from user click selected item close icon,
+     * either by clear selected and notify app with empty data
+     * then resets seted state
+     * @param  {event} e event
+     */
+    function clearSelected(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      this.selectedItem = '';
+      this.itemSelected = false;
+      notifySelected();
+      setInputFocus();
+    }
+
+    /**
+     * clearSearch a scope method to clear the search term user has entered.
+     * @param  {event} e event
+     */
+    function clearSearch(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      this.searchTerm = '';
+      this.isOpen = false;
+      this.currentSearchTerm = '';
+      setInputFocus();
+    }
+
+    function setInputFocus() {
+      //trigger input field focus
+      var inputEl = document.getElementById($scope.ac.autocompleteId);
+
+      $timeout(function() {
+        $scope.$apply(function() {
+          inputEl.focus();
+        });
+      });
+    }
+
+    /**
+     * notifySelected a private method to call into app with data selected or unselected
+     * @param  {String|Object} item string or object user selected
+     * @param  {String} label string user selected and displayed
+     */
+    function notifySelected(item, label) {
+      var ctrl = $scope.ac;
+
+      if (angular.isFunction(ctrl.onSelect) && $attrs.onSelect) {
+        ctrl.onSelect({
           item: item,
           displayText: label
         });
       }
     }
-
-    /**
-     * clearSelected a scope method triggered from user click close icon, then resets every states
-     */
-    function clearSelected() {
-      this.selectedItem = '';
-      this.items = [];
-      this.isOpen = false;
-      this.currentSearchTerm = '';
-    }
-
-    $document.on('click', angular.bind(this, clickHandler));
-
-    $scope.$on('$destroy', function() {
-      $document.off('click', angular.bind(this, clickHandler));
-    });
-
-    function clickHandler(e) {
-      var tagName = angular.lowercase(e.target.tagName),
-        inputElem, isInput = false;
-
-      if (tagName === 'input') {
-        inputElem = angular.element(e.target);
-        if (inputElem.attr('id') === $scope.ac.autocompleteId) {
-          isInput = true;
-        }
-      }
-
-      if (this.selectedItem && !isInput) {
-        $scope.$apply('ac.itemSelected=true;');
-      }
-    }
-
-    function inputFocus(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      this.itemSelected = false;
-    }
-
-    buildStaticQuery(this);
   }
 
   /* @ngInject */
@@ -178,7 +192,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $document, autoco
     };
 
     ngModel.$render = function() {
-      scope.ac.selectedItem = ngModel.$modelValue;
+      scope.ac.searchTerm = ngModel.$modelValue;
     };
   }
 
@@ -188,7 +202,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $document, autoco
     controller: AutocompleteController,
     controllerAs: 'ac',
     bindToController: {
-      items: '=',
       onSelect: '&?',
       onSearch: '&',
       textProperty: '@?',

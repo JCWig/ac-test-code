@@ -147,13 +147,14 @@ module.exports = function($q, $log, $templateCache) {
 
     if (contentHtml.length) {
       ctrl.hasContentProvided = true;
-      customSelectedElem = selectedContentElement[0].querySelector('.custom-provided');
+      //not ideal way locating that second span element
+      customSelectedElem = selectedContentElement.children().find('span')[1];
       customSelectedElem.innerHTML = contentHtml;
     } else {
       ctrl.hasContentProvided = false;
     }
     ctrl.itemSelected = false;
-    ctrl.item = {};
+    ctrl.searchTerm = {};
 
     return selectedContentElement;
   }

@@ -1,5 +1,6 @@
 'use strict';
-var angular = require('angular');
+var angular = require('angular'),
+  sanitize = require('angular-sanitize');
 
 require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 
@@ -17,7 +18,7 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
  */
 module.exports = angular.module('akamai.components.autocomplete', [
     require('angular-bootstrap-npm'),
-    'ngSanitize',
+    sanitize,
     'ui.highlight',
     require('../i18n').name,
     require('../uuid').name
@@ -32,8 +33,6 @@ module.exports = angular.module('akamai.components.autocomplete', [
    * @restrict E
    *
    * @param {String} ng-model The selected text
-   *
-   * @param {Array} items string or object array set from backend calls
    *
    * @param {Array} [text-property] The property name(s) of item to be displayed
    *
