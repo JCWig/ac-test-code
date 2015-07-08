@@ -134,8 +134,7 @@ module.exports = function($q, $log, $templateCache) {
    * setSelected a method do a few tsks here:
    * 1. Add hasContentProvided state to directive controller
    * 2. Insert custom content to second span's innerHTML
-   * 3. Set itemSelected flag to false, and initialize model empty object
-   * 5. Return selected element to caller for insert to main element
+   * 3. Return selected element to caller for insert to main element
    * @param {object} ctrl directive controller
    * @param {type} contentHtml html item content from child directive
    * @return {element} selectedContentElement
@@ -153,8 +152,6 @@ module.exports = function($q, $log, $templateCache) {
     } else {
       ctrl.hasContentProvided = false;
     }
-    ctrl.itemSelected = false;
-    ctrl.searchTerm = {};
 
     return selectedContentElement;
   }

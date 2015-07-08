@@ -36,7 +36,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
     this.currentSearchTerm = '';
     this.childControls = [];
     this.itemSelected = false;
-    this.needFocus = true;
+    this.searchTerm = '';
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
       this.textProperties = this.textProperty.split(' ');
