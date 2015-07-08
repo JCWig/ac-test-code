@@ -18,26 +18,62 @@ var config = {
   ITEMS_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-ITEMS',
   SELECTED_ITEM_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-SELECTED-ITEM'
 };
-var defaultMarkup = '<akam-autocomplete items="items" ng-model="selectedItem"></akam-autocomplete>';
+var defaultMarkup = '<akam-autocomplete ng-model="selectedItem"></akam-autocomplete>';
+
+var jsonMock = [{
+    first: 'Yair',
+    last: 'leviel',
+    joined: '2 month ago',
+    email: 'yair@email.com'
+  }, {
+    first: 'Shawn',
+    last: 'Dahlen',
+    joined: '2 days ago',
+    email: 'shawn@ac.org'
+  }, {
+    first: 'Mike',
+    last: "D'Abrosio",
+    joined: 'a week ago',
+    email: 'mike@gmail.com'
+  }, {
+    first: 'Nick',
+    last: 'Leon',
+    joined: 'Just now',
+    email: 'nick@msn.com'
+  }];
 
 describe('akamAutocomplete directive', function() {
 
-  var scope, compile, self, controller, objects;
+  var scope, compile, self, timeout, controller, objects;
 
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/autocomplete').name);
-    inject(function($rootScope, _$compile_) {
+    angular.mock.module(function($provide, $translateProvider) {
+      $translateProvider.useLoader('i18nCustomLoader');
+    });
+    inject(function($rootScope, _$compile_, $httpBackend, $timeout) {
       scope = $rootScope.$new();
       compile = _$compile_;
+
+      $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
+      $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
+      $httpBackend.flush();
+      timeout = $timeout;
     });
+    self = this;
   });
 
   afterEach(function() {
     if (self.element) {
       document.body.removeChild(self.element);
       self.element = null;
+    }
+
+  var remainingDropdown = document.querySelector('.dropdown-menu');
+    if (remainingDropdown) {
+      document.body.removeChild(remainingDropdown);
     }
   });
 
@@ -46,17 +82,48 @@ describe('akamAutocomplete directive', function() {
 
     tpl = '<div><form name="form">' + tpl + '</form></div>';
     var el = compile(tpl)(scope);
-    self.autocompleteEl = el.find("akam-autocomplete");
-    controller = self.autocompleteEl.isolateScope().ac;
+    //self.autocompleteEl = el.find("akam-autocomplete");
     scope.$digest();
 
     self.element = document.body.appendChild(el[0]);
   }
 
   describe("when rendering", function() {
-    it('should rendered with a placeholder string', function() {
+    it('should verify rendered element and attributes', function() {
+      addElement();
+      var dirEl = document.querySelector(selectors.ac);
+
+      expect(dirEl.classList.length).toBe(4);
+      expect(dirEl.classList[0]).toEqual("akam-autocomplete");
+      expect(dirEl.classList[1]).toEqual("akam-dropdown");
+
+          console.log(dirEl.classList[2])
+
+      console.log(dirEl.classList[3])
 
     });
+
+    it('should verify rendered input element and attributes and values', function() {
+      addElement();
+      //console.log(self.autocompleteEl)
+    });
+
+    it('should verify rendered search tip element and attributes', function() {
+      addElement();
+      //console.log(self.autocompleteEl)
+    });
+
+    it('should verify rendered clear icon element and attributes', function() {
+      addElement();
+      //console.log(self.autocompleteEl)
+    });
+
+    it('should verify rendered element and attributes', function() {
+      addElement();
+      //console.log(self.autocompleteEl)
+    });
+
+
 
   });
 
