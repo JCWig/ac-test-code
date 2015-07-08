@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @ngdoc object
  * @name contextSelector
@@ -177,7 +175,7 @@ function toggleMenu() {
 function render(contextData, callback) {
   config(function(data) {
     var cpcodesURL = '/ui/services/nav/megamenu/' + encodeURIComponent(data.username) +
-        '/cpcodes.json';
+      '/cpcodes.json';
 
     var cpPromise = ajax.promiseGet(cpcodesURL);
 

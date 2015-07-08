@@ -1,6 +1,3 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function(translate) {
   return {
     restrict: 'A',
@@ -13,3 +10,4 @@ module.exports = function(translate) {
     }
   };
 };
+module.exports.$inject = ['translate'];

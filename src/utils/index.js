@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 /**
@@ -28,7 +26,7 @@ module.exports = angular.module('akamai.components.utils', [])
  *
  */
   .directive('akamTextOverflow', require('./text-overflow-directive.js'))
- /**
+/**
  * @ngdoc directive
  *
  * @name akamai.components.utils.directive:akamStandalone

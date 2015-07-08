@@ -6,8 +6,9 @@ describe('i18n $locale service', function() {
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(/*@ngInject*/ function($provide, i18nTokenProvider) {
-      $provide.decorator('$locale', function($delegate, LOCALES, i18nToken) {
+    angular.mock.module(function($provide, i18nTokenProvider) {
+
+      function locale($delegate, LOCALES, i18nToken) {
         localeConstant = LOCALES;
         var loc = LOCALES[i18nToken.getCurrentLocale()];
         if (loc) {
@@ -15,7 +16,10 @@ describe('i18n $locale service', function() {
           $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;
         }
         return $delegate;
-      });
+      }
+      locale.$inject = ['$delegate', 'LOCALES', 'i18nToken'];
+
+      $provide.decorator('$locale', locale);
     });
     inject(function(_$locale_, _$rootScope_, i18nToken) {
       rootScope = _$rootScope_.$new();
@@ -76,20 +80,27 @@ describe("$locale service used as filter", function() {
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
-      $provide.decorator('$cookies', function($delegate) {
-        return $delegate;
-      });
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
 
-      $provide.decorator('$locale', function($delegate, LOCALES, i18nToken) {
+      function cookies($delegate) {
+        return $delegate;
+      }
+      cookies.$inject = ['$delegate'];
+
+      function locale($delegate, LOCALES, i18nToken) {
         var loc = LOCALES[i18nToken.getCurrentLocale()];
         if (loc) {
           $delegate.DATETIME_FORMATS = loc.DATETIME_FORMATS;
           $delegate.NUMBER_FORMATS = loc.NUMBER_FORMATS;
         }
         return $delegate;
-      });
+      }
+      locale.$inject = ['$delegate', 'LOCALES', 'i18nToken'];
+
+      $provide.decorator('$cookies', cookies);
+      $translateProvider.useLoader('i18nCustomLoader');
+
+      $provide.decorator('$locale', locale);
     });
     inject(function(_$locale_, _$cookies_, _$rootScope_, _$httpBackend_, _$timeout_, _$compile_, i18nToken) {
       rootScope = _$rootScope_.$new();

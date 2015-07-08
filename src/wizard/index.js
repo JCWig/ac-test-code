@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 /**
@@ -17,21 +15,21 @@ module.exports = angular.module('akamai.components.wizard', [
   require('../i18n').name
 ])
 
-  /**
-   * @ngdoc service
-   * @name akamai.components.wizard.service:wizard
-   *
-   * @description
-   * A service that opens a wizard
-   */
+/**
+ * @ngdoc service
+ * @name akamai.components.wizard.service:wizard
+ *
+ * @description
+ * A service that opens a wizard
+ */
   .factory('wizard', require('./wizard-service'))
 
-  /**
-   * @private
-   * @ngdoc directive
-   * @name akamai.components.wizard.directive:akamWizardContent
-   *
-   * @description
-   * A simple directive that injects step templates into the body of the wizard
-   */
+/**
+ * @private
+ * @ngdoc directive
+ * @name akamai.components.wizard.directive:akamWizardContent
+ *
+ * @description
+ * A simple directive that injects step templates into the body of the wizard
+ */
   .directive('akamWizardContent', require('./wizard-content-directive'));

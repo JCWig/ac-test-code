@@ -1,4 +1,3 @@
-'use strict';
 var angular = require('angular');
 
 require('ui-select');
@@ -41,4 +40,4 @@ module.exports = angular.module('akamai.components.tag-input', [
  * false is the input is not a valid input, we do not allow blank, undefined or
  * null inputs
  */
-.directive('akamTagInput', require('./tag-input-directive'));
+  .directive('akamTagInput', require('./tag-input-directive'));

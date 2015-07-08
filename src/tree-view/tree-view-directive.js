@@ -1,28 +1,11 @@
-'use strict';
 var angular = require('angular');
 var treeViewTemplate = require('./templates/tree-view.tpl.html');
 
-/* @ngInject */
 module.exports = function($q, $compile, $log, $timeout, $parse) {
-  return {
-    restrict: 'E',
-    scope: {},
-    bindToController: {
-      item: '=',
-      rootProperty: '@',
-      parentProperty: '@',
-      childrenProperty: '@',
-      textProperty: '@',
-      onChange: '&'
-    },
-    controller: TreeviewController,
-    controllerAs: 'treeview',
-    template: treeViewTemplate
-  };
-  /* @ngInject */
+
   function TreeviewController($scope) {
     var haveParentsFlag, childrenGetter, parentGetter,
-        inputParents, inputChildren, inputCurrent;
+      inputParents, inputChildren, inputCurrent;
 
     var rootProperty = this.rootProperty || 'root';
     var parentProperty = this.parentProperty || 'parent';
@@ -99,6 +82,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         });
       }
     }
+
     this.hasParents = function() {
       return !!this.parentTree.length;
     };
@@ -110,7 +94,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
       if (!haveParentsFlag) {
         inputParents = parentGetter(data);
         this.parentTree = this.parentTree.concat(
-              this.convertData(inputParents, parentProperty, data));
+          this.convertData(inputParents, parentProperty, data));
         if (inputParents && !angular.isArray(inputParents)) {
           value = inputParents;
           inputParents = [value];
@@ -143,8 +127,10 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         }
         return converted;
       } else if (data) {
-        return [{title: $parse(prop + '.' + textProperty)(convertFrom),
-          root: $parse(prop + '.' + rootProperty)(convertFrom)}];
+        return [{
+          title: $parse(prop + '.' + textProperty)(convertFrom),
+          root: $parse(prop + '.' + rootProperty)(convertFrom)
+        }];
       } else {
         return [];
       }
@@ -153,4 +139,23 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
       this.parentTree = this.parentTree.concat(obj);
     };
   }
+
+  TreeviewController.$inject = ['$scope'];
+
+  return {
+    restrict: 'E',
+    scope: {},
+    bindToController: {
+      item: '=',
+      rootProperty: '@',
+      parentProperty: '@',
+      childrenProperty: '@',
+      textProperty: '@',
+      onChange: '&'
+    },
+    controller: TreeviewController,
+    controllerAs: 'treeview',
+    template: treeViewTemplate
+  };
 };
+module.exports.$inject = ['$q', '$compile', '$log', '$timeout', '$parse'];

@@ -6,10 +6,8 @@
  * @licence May be freely distributed under the MIT license.
  */
 
-  // taken from https://github.com/musterknabe/translate.js. Modified to support common JS exports
-  // Note: This shouldn't be used directly by the application. Instead, see i18n-loader.js
-
-'use strict';
+// taken from https://github.com/musterknabe/translate.js. Modified to support common JS exports
+// Note: This shouldn't be used directly by the application. Instead, see i18n-loader.js
 
 var isNumeric = function(obj) { return !isNaN(parseFloat(obj)) && isFinite(obj); };
 var isObject = function(obj) { return typeof obj === 'object' && obj !== null; };

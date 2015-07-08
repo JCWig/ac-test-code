@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular'),
   i18n = require('../i18n'),
   messageBox = require('../message-box'),

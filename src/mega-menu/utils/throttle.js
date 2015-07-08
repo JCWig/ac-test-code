@@ -1,5 +1,3 @@
-'use strict';
-
 // gratuitously borrowed from https://remysharp.com/2010/07/21/throttling-function-calls
 
 /**

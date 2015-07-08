@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @ngdoc object
  * @name helpers.searchTargetBlank

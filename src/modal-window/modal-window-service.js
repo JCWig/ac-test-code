@@ -1,7 +1,5 @@
-'use strict';
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($modal, $templateCache, $rootScope, $q, translate, statusMessage) {
 
   return {
@@ -60,7 +58,7 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
       var scope = (options.scope || $rootScope).$new(),
         onSubmit = angular.noop,
         disabled = false,
-        //variable used to determine if the submit is clicked, but promise has not resolved
+      //variable used to determine if the submit is clicked, but promise has not resolved
         processing = false,
         instance;
 
@@ -77,15 +75,15 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
         title: options.title || translate.sync('components.modal-window.title'),
         icon: options.icon,
         cancelLabel: options.cancelLabel ||
-          translate.sync('components.modal-window.label.cancel'),
+        translate.sync('components.modal-window.label.cancel'),
         submitLabel: options.submitLabel ||
-          translate.sync('components.modal-window.label.save'),
+        translate.sync('components.modal-window.label.save'),
         template: options.template,
         templateUrl: options.templateUrl,
         errorMessage: options.errorMessage ||
-          translate.sync('components.modal-window.errorMessage'),
+        translate.sync('components.modal-window.errorMessage'),
         successMessage: options.successMessage ||
-          translate.sync('components.modal-window.successMessage')
+        translate.sync('components.modal-window.successMessage')
       };
 
       scope.isSubmitHidden = function() {
@@ -156,3 +154,5 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
     }
   };
 };
+module.exports.$inject = ['$modal', '$templateCache', '$rootScope', '$q', 'translate',
+  'statusMessage'];

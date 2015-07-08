@@ -1,5 +1,3 @@
-'use strict';
-
 var CONFIG_KEY = 'akamai.components.mega-menu.config';
 
 /**

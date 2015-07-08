@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($templateCache, $log, $modal, $controller,
                           $rootScope, $q, statusMessage, translate) {
 
@@ -248,3 +245,5 @@ module.exports = function($templateCache, $log, $modal, $controller,
     }
   };
 };
+module.exports.$inject = ['$templateCache', '$log', '$modal', '$controller', '$rootScope', '$q',
+  'statusMessage', 'translate'];

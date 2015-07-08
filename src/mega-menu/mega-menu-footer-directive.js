@@ -1,25 +1,16 @@
-'use strict';
-
 var render = require('./utils/renderer').render,
   i18n = require('./helpers/i18n');
 
 var internalFooterTpl = require('./footer/internalFooter.hbs'),
   footerTpl = require('./footer/_footer.hbs');
 
-/* @ngInject */
 module.exports = function() {
-  return {
-    restrict: 'E',
-    scope: { },
-    controller: Footer,
-    controllerAs: 'menuFooter',
-    template: '<footer id="modular-mega-menu-footer"></footer>'
-  };
 
-  /* @ngInject */
   function Footer(megaMenuData) {
     megaMenuData.fetch().then(renderFooter);
   }
+
+  Footer.$inject = ['megaMenuData'];
 
   function renderFooter(data) {
     var footerSel = '#modular-mega-menu-footer',
@@ -40,4 +31,13 @@ module.exports = function() {
       render(footerSel, footerTpl, footerData);
     }
   }
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controller: Footer,
+    controllerAs: 'menuFooter',
+    template: '<footer id="modular-mega-menu-footer"></footer>'
+  };
+
 };

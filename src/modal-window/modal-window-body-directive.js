@@ -1,6 +1,3 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function($compile, $http, $templateCache, $q) {
   function getBodyTemplate(modal) {
     if (modal.template) {
@@ -25,3 +22,4 @@ module.exports = function($compile, $http, $templateCache, $q) {
     }
   };
 };
+module.exports.$inject = ['$compile', '$http', '$templateCache', '$q'];

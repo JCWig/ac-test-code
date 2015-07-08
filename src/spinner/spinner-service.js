@@ -1,6 +1,3 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function($log) {
 
   var numericValidator;
@@ -48,13 +45,13 @@ module.exports = function($log) {
 
   NumericValidator.prototype.isOutOfBounds =
     function(value, minOrMax, isUpperBound, offset) {
-    var num = parseInt(value, 10);
+      var num = parseInt(value, 10);
 
-    minOrMax = parseInt(minOrMax, 10);
-    offset = offset ? 0 : 1;
+      minOrMax = parseInt(minOrMax, 10);
+      offset = offset ? 0 : 1;
 
-    return isUpperBound ? num + offset > minOrMax : num - offset < minOrMax;
-  };
+      return isUpperBound ? num + offset > minOrMax : num - offset < minOrMax;
+    };
 
   NumericValidator.prototype.isNumeric = function(value) {
     return !isNaN(parseInt(value, 10));
@@ -72,3 +69,4 @@ module.exports = function($log) {
     }
   };
 };
+module.exports.$inject = ['$log'];

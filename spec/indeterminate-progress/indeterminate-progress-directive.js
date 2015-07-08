@@ -68,7 +68,7 @@ describe('akam-indeterminate-progress', function() {
       expect(allIndeterminateProgresses.length).toEqual(1);
       expect(allIndeterminateProgresses[0].classList.contains('large')).toBe(true);
 
-      expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).toEqual('started');
+      expect(self.el.find('akam-indeterminate-progress').isolateScope().indeterminateProgress.state).toEqual('started');
     });
 
     it('should render indeterminate progress with new scope values - yet marked failed because failed="true"', function() {
@@ -87,7 +87,7 @@ describe('akam-indeterminate-progress', function() {
       expect(allIndeterminateProgresses[0].classList.contains('failed')).toBe(true);
       expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
 
-      expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).toEqual('failed');
+      expect(self.el.find('akam-indeterminate-progress').isolateScope().indeterminateProgress.state).toEqual('failed');
     });
 
     it('should render indeterminate progress with completed state', function() {
@@ -97,7 +97,7 @@ describe('akam-indeterminate-progress', function() {
 
       expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
 
-      expect(self.el.find('akam-indeterminate-progress').isolateScope().state()).toEqual('completed');
+      expect(self.el.find('akam-indeterminate-progress').isolateScope().indeterminateProgress.state).toEqual('completed');
     });
 
     it('should render without any label present when label is empty', function() {

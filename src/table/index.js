@@ -1,4 +1,3 @@
-'use strict';
 var angular = require('angular'),
   messages = require('angular-messages'),
   sanitize = require('angular-sanitize');

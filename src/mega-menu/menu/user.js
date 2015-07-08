@@ -1,5 +1,3 @@
-'use strict';
-
 var template = require('./user.hbs');
 var selector = '#modular-mega-menu-header .akam-user';
 

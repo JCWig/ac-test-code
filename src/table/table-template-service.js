@@ -1,10 +1,7 @@
-'use strict';
-
 var angular = require('angular');
 
 var sortableClass = 'column-sortable';
 
-/* @ngInject */
 module.exports = function($log) {
   return {
     template: getTableTemplate
@@ -66,15 +63,15 @@ module.exports = function($log) {
           elemClone.classList.add(sortableClass);
 
           elemClone.setAttribute('ng-class', 'table.sortDirectionClass("' +
-            elemClone.getAttribute('row-property') + '")');
+          elemClone.getAttribute('row-property') + '")');
 
           elemClone.setAttribute('ng-click', 'table.sortColumn("' +
-            elemClone.getAttribute('row-property') + '")');
+          elemClone.getAttribute('row-property') + '")');
         }
 
         headerHtml = '<span akam-translate="' +
-          elemClone.getAttribute('header-name') +
-          '"></span><i></i>';
+        elemClone.getAttribute('header-name') +
+        '"></span><i></i>';
 
         tpl = elemClone.outerHTML.replace('<akam-table-column', '<th');
         tpl = tpl.replace('akam-table-column>', 'th>');
@@ -143,8 +140,8 @@ module.exports = function($log) {
   }
 
   function isSortable(element, attributes) {
-    return !angular.isDefined(attributes.notSortable) &&
-      !element.hasAttribute('not-sortable') &&
+    return !angular.isDefined(attributes.notSortable) && !element.hasAttribute('not-sortable') &&
       element.hasAttribute('row-property');
   }
 };
+module.exports.$inject = ['$log'];

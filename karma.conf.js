@@ -1,7 +1,6 @@
 'use strict';
 
 var istanbul = require('browserify-istanbul');
-var ngannotate = require('browserify-ngannotate');
 var jenkins = !!require('yargs').argv.jenkins;
 
 module.exports = function(config) {
@@ -29,9 +28,8 @@ module.exports = function(config) {
     browsers: ['PhantomJS'],
     reporters: ['spec', 'junit', 'coverage'],
     browserify: {
-      debug: true,
       transform: [
-        ngannotate,
+        'babelify',
         istanbul({
           ignore: ['**/*.html', '**/spec/**', '**/*.hbs']
         })

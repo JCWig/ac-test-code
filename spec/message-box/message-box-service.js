@@ -19,8 +19,9 @@ describe('messageBox service', function() {
     var self = this;
 
     angular.mock.module(require('../../src/message-box').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
-      $provide.factory('i18nCustomLoader', function($q, $timeout) {
+    angular.mock.module(function($provide, $translateProvider) {
+
+      function i18nCustomLoader($q, $timeout) {
         return function(options) {
           var deferred = $q.defer();
           $timeout(function() {
@@ -28,7 +29,10 @@ describe('messageBox service', function() {
           });
           return deferred.promise;
         };
-      });
+      }
+      i18nCustomLoader.$inject = ['$q', '$timeout'];
+
+      $provide.factory('i18nCustomLoader', i18nCustomLoader);
       $translateProvider.useLoader('i18nCustomLoader');
     });
     inject(function(messageBox, $rootScope, $timeout, $httpBackend) {
