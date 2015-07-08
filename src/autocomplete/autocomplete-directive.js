@@ -125,10 +125,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
      * clearSearch a scope method to clear the search term user has entered.
      * @param  {event} e event
      */
-    function clearSearch(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
+    function clearSearch() {
       this.searchTerm = '';
       this.isOpen = false;
       this.currentSearchTerm = '';

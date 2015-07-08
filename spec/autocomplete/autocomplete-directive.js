@@ -82,30 +82,35 @@ describe('akamAutocomplete directive', function() {
 
     tpl = '<div><form name="form">' + tpl + '</form></div>';
     var el = compile(tpl)(scope);
-    //self.autocompleteEl = el.find("akam-autocomplete");
     scope.$digest();
-
     self.element = document.body.appendChild(el[0]);
   }
 
   describe("when rendering", function() {
     it('should verify rendered element and attributes', function() {
       addElement();
-      var dirEl = document.querySelector(selectors.ac);
+      var dirEl = document.querySelector(".akam-autocomplete");
 
       expect(dirEl.classList.length).toBe(4);
       expect(dirEl.classList[0]).toEqual("akam-autocomplete");
-      expect(dirEl.classList[1]).toEqual("akam-dropdown");
+      expect(dirEl.classList[1]).toEqual("dropdown");
+      expect(dirEl.classList[2]).toEqual("akam-dropdown");
 
-          console.log(dirEl.classList[2])
-
-      console.log(dirEl.classList[3])
-
+      var childEl = dirEl.querySelector(".input-option");
+      expect(childEl).not.toBe(undefined);
     });
 
     it('should verify rendered input element and attributes and values', function() {
       addElement();
-      //console.log(self.autocompleteEl)
+      var inputEl = document.querySelector(selectors.ac_input);
+
+      expect(inputEl.getAttribute('placeholder')).not.toBe(undefined);
+      expect(inputEl.getAttribute('id')).not.toBe(undefined);
+      expect(inputEl.getAttribute('typeahead')).not.toBe(undefined);
+      expect(inputEl.getAttribute('typeahead-on-select')).not.toBe(undefined);
+      expect(inputEl.getAttribute('typeahead-min-length')).not.toBe(undefined);
+      expect(inputEl.getAttribute('typeahead-template-url')).not.toBe(undefined);
+      expect(inputEl.getAttribute('typeahead-focus-first')).not.toBe(undefined);
     });
 
     it('should verify rendered search tip element and attributes', function() {
