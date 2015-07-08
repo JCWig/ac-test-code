@@ -117,6 +117,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
 
       this.selectedItem = '';
       this.itemSelected = false;
+      this.searchTerm = '';
       notifySelected();
       setInputFocus();
     }
