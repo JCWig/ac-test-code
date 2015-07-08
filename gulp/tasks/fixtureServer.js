@@ -6,7 +6,6 @@ var gulp = require('gulp'),
 var config = {
   staticPaths: {
     '/': '.',
-    '/libs/akamai-google-analytics/:version/': 'node_modules/akamai-google-analytics/dist',
     '/libs/akamai-core/:version/': 'node_modules/akamai-core/dist',
     '/libs/akamai-core/:version/locales/': 'assets/locales'
   },

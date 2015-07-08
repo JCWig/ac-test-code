@@ -66,8 +66,6 @@ module.exports = function($filter, translate) {
       post: function(scope, element, attrs, ngModel) {
         var noClear = angular.isDefined(attrs.noClear) ? true : false;
 
-        //Code Coverage Ignoring becuause ngModel is always defined. Good defensive coding though.
-        /* istanbul ignore if */
         if (!ngModel) {
           return;
         }

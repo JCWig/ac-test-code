@@ -4,9 +4,13 @@
 
 var contextModule = require('../../src/context');
 
+var ACCOUNT_COOKIE = 'QWthbWFpIEludGVybmFsX0FrYW1haSBJbnRlcm5hbH5+MS03S0xHSA==',
+  COOKIE_NAME = 'AKALASTMANAGEDACCOUNT',
+  CHANGED_COOKIE = 'Rml4dHVyZSBTZXJ2ZXJfRmFrZSBDb250cmFjdH5+MS0yMzQ1';
+
 describe('akamai.components.context', function() {
 
-  var context, $rootScope, $httpBackend, $http;
+  var context, $rootScope, $httpBackend, $http, $cookies;
 
   // common setup for all beforeEach blocks
   function commonBeforeEach() {
@@ -15,11 +19,13 @@ describe('akamai.components.context', function() {
     angular.mock.module(function(contextProvider) {
       contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
     });
-    angular.mock.inject(function(_$rootScope_, _$httpBackend_, _$http_, _context_) {
+    angular.mock.inject(function(_$rootScope_, _$httpBackend_, _$http_, _context_, _$cookies_) {
       $httpBackend = _$httpBackend_;
       $http = _$http_;
       context = _context_;
       $rootScope = _$rootScope_;
+      $cookies = _$cookies_;
+      $cookies.put(COOKIE_NAME, ACCOUNT_COOKIE);
       $httpBackend.when('GET', /core\/services\/session\/username\/extend/).respond({
         status: 'OK'
       });
@@ -291,6 +297,53 @@ describe('akamai.components.context', function() {
         $httpBackend.flush();
 
         expect(spy.calls.mostRecent().args[0]).toMatch(/aid=666/);
+      });
+
+    });
+
+  });
+
+  describe('given an application with the initial account set', function() {
+
+    describe('and when the AKALASTMANAGEDACCOUNT cookie changes', function() {
+
+      beforeEach(function() {
+        context.account = {
+          id: '1-7KLGH',
+          name: 'Akamai Internal',
+          cookieValue: ACCOUNT_COOKIE
+        };
+      });
+
+      it('should detect that the account has changed', function() {
+        context.account = {
+          id: 1,
+          name: 'a name',
+          cookieValue: CHANGED_COOKIE
+        };
+
+        expect(context.accountChanged()).toBeTruthy();
+      });
+
+    });
+
+    describe('and when a user resets their account to the initial one', function() {
+
+      beforeEach(function() {
+        $httpBackend.expectGET(/\/ui\/home\/manage\?idaction=set_customer&newProvisioningAcct/)
+          .respond(200);
+
+        context.account = {
+          id: '1-7KLGH',
+          name: 'Akamai Internal',
+          cookieValue: ACCOUNT_COOKIE
+        };
+
+      });
+
+      it('should send a request to update the current account', function() {
+        context.resetAccount();
+        $httpBackend.flush();
       });
 
     });

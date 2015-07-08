@@ -9,7 +9,7 @@ module.exports = function(config) {
     colors: !jenkins,
     browserNoActivityTimeout: 60000,
     files: [
-      'node_modules/angular/angular.min.js',
+      'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'dist/akamai-core.min.css',
       {pattern: 'dist/images/*', included: false, served: true},

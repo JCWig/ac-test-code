@@ -15,9 +15,11 @@ module.exports = function($templateCache, $log, $modal, $controller,
       $controller(options.controller, {$scope: scope.contentScope});
     }
 
+    scope.processing = false;
+    scope.contentScope.process = scope.processing;
+
     scope.title = options.title;
     scope.icon = options.icon;
-
     scope.previousLabel = options.previousLabel ||
       translate.sync('components.wizard.label.previous');
     scope.nextLabel = options.nextLabel || translate.sync('components.wizard.label.next');
@@ -25,8 +27,8 @@ module.exports = function($templateCache, $log, $modal, $controller,
     scope.successMessage = options.successMessage ||
       translate.sync('components.wizard.successMessage');
     scope.errorMessage = options.errorMessage || translate.sync('components.wizard.errorMessage');
+
     scope.showSubmitError = false;
-    scope.processing = false;
 
     angular.forEach(options.steps, function(step, i) {
       step.id = i;
@@ -144,18 +146,31 @@ module.exports = function($templateCache, $log, $modal, $controller,
         }
       };
 
-      scope.isValid = function() {
-        if (!angular.isFunction(scope.currentStep().validate)) {
+      scope.isValid = function(stepNumber) {
+        var step = angular.isNumber(stepNumber) ? scope.steps[stepNumber] : scope.currentStep();
+
+        if (!angular.isFunction(step.validate)) {
           return true;
         }
 
-        return scope.currentStep().validate(scope.contentScope);
+        return step.validate(scope.contentScope);
       };
 
       scope.activateStep = function(stepNumber) {
-        if (scope.steps[stepNumber].visited) {
+        if (scope.steps[stepNumber].visited && scope.previousStepsValid(stepNumber)) {
           scope.stepIndex = stepNumber;
         }
+      };
+
+      scope.previousStepsValid = function(stepNumber) {
+        var i;
+
+        for (i = 0; i < stepNumber; i++) {
+          if (!scope.isValid(i)) {
+            return false;
+          }
+        }
+        return true;
       };
 
       scope.stepClasses = function(stepNumber) {
@@ -164,12 +179,13 @@ module.exports = function($templateCache, $log, $modal, $controller,
         if (stepNumber > maxStepIndex) {
           return {};
         } else if (stepNumber < maxStepIndex) {
-          current = !scope.steps[stepNumber + 1].visited;
+          current = !scope.steps[stepNumber + 1].visited ||
+            !scope.previousStepsValid(stepNumber + 1);
         }
 
         return {
           active: stepNumber === scope.stepIndex,
-          visited: scope.steps[stepNumber].visited,
+          visited: scope.steps[stepNumber].visited && scope.previousStepsValid(stepNumber),
           current: current
         };
       };
@@ -178,6 +194,7 @@ module.exports = function($templateCache, $log, $modal, $controller,
       instance = $modal.open(angular.extend(options, {
         scope: scope,
         backdrop: 'static',
+        windowClass: 'wizard',
         template: require('./templates/wizard.tpl.html')
       }));
 
@@ -204,8 +221,10 @@ module.exports = function($templateCache, $log, $modal, $controller,
         // check to see if the onSubmit returns a promise
         if (result && angular.isFunction(result.then)) {
           scope.processing = true;
+          scope.contentScope.processing = true;
         } else if (!result) {
           scope.processing = false;
+          scope.contentScope.processing = false;
           scope.showSubmitError = true;
         }
 
@@ -213,10 +232,13 @@ module.exports = function($templateCache, $log, $modal, $controller,
           function(returnValue) {
             instance.close(returnValue);
             statusMessage.showSuccess({text: scope.successMessage});
+            scope.processing = false;
+            scope.contentScope.processing = false;
           }
         ).catch(
           function() {
             scope.processing = false;
+            scope.contentScope.processing = false;
             scope.showSubmitError = true;
           }
         );

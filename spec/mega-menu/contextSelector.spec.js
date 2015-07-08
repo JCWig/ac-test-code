@@ -5,16 +5,45 @@
 var contextSelector = require('../../src/mega-menu/contextSelector'),
   keyup = require('./phantom-utils').keyup,
   config = require('./phantom-utils').config,
-  CONFIG_URL = require('./phantom-utils').CONFIG_URL,
+  util = require('./phantom-utils'),
   HIDE_CLASS = require('../../src/mega-menu/utils/constants').HIDE_CLASS;
 
 var SEARCH_DELAY = 100;
 
 var spy, clock;
 
-xdescribe('context selector', function() {
+describe('context selector', function() {
 
-  var $scope, $compile, $httpBackend;
+  var $rootScope, $compile, $httpBackend;
+
+  var contextData = {
+    context: {
+      mainMenuItems: [
+        {
+          itemId: 123,
+          contextId: 0,
+          cps: null,
+          dps: null,
+          url: '/ui/home',
+          name: 'Scratching Post Site',
+          subMenuItems: [
+            {
+              itemId: 0,
+              contextId: 1,
+              cps: null,
+              subMenuItems: null,
+              dps: [
+                'more-catnip',
+                'tiny-mouse'
+              ],
+              url: '/ui/home',
+              name: 'sisal-is-awesome'
+            }
+          ]
+        }
+      ]
+    }
+  };
 
   afterEach(function() {
     if (this.element) {
@@ -27,45 +56,22 @@ xdescribe('context selector', function() {
 
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/mega-menu').name);
-    angular.mock.inject(function($rootScope, _$compile_, _$httpBackend_) {
-      $scope = $rootScope;
+    angular.mock.inject(function(_$rootScope_, _$compile_, _$httpBackend_) {
+      $rootScope = _$rootScope_;
       $compile = _$compile_;
       $httpBackend = _$httpBackend_;
-      $httpBackend.when('GET', CONFIG_URL).respond(config());
-      $httpBackend.when('GET', /context.json/).respond({
-        context: {
-          mainMenuItems: [
-            {
-              itemId: 123,
-              contextId: 0,
-              cps: null,
-              dps: null,
-              url: '/ui/home',
-              name: 'Scratching Post Site',
-              subMenuItems: [
-                {
-                  itemId: 0,
-                  contextId: 1,
-                  cps: null,
-                  subMenuItems: null,
-                  dps: [
-                    'more-catnip',
-                    'tiny-mouse'
-                  ],
-                  url: '/ui/home',
-                  name: 'sisal-is-awesome'
-                }
-              ]
-            }
-          ]
-        }
-      });
+      $httpBackend.when('GET', util.CONFIG_URL).respond(config());
+      $httpBackend.when('GET', util.FOOTER_URL).respond({});
+      $httpBackend.when('GET', util.BRANDING_URL).respond({});
+      $httpBackend.when('GET', util.LOCALE_URL).respond({});
+      $httpBackend.when('GET', /context.json/).respond(contextData);
+
+      $httpBackend.flush();
+      $rootScope.$apply();
     });
 
     this.el = $compile('<akam-menu-header></akam-menu-header>' +
-    '<akam-menu-footer></akam-menu-footer>')($scope);
-    $scope.$digest();
-    $httpBackend.flush();
+    '<akam-menu-footer></akam-menu-footer>')($rootScope);
     this.element = document.body.appendChild(this.el[0]);
 
     this.server = sinon.fakeServer.create();
@@ -103,11 +109,14 @@ xdescribe('context selector', function() {
     ]);
   });
 
-  beforeEach(function() {
+  beforeEach(function(done) {
     clock = sinon.useFakeTimers();
     spy = jasmine.createSpy('spy');
 
-    contextSelector.render(spy);
+    contextSelector.render(contextData, function(err) {
+      spy(err);
+      done();
+    });
     this.server.respond();
   });
 
