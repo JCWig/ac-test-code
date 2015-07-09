@@ -1,6 +1,17 @@
 'use strict';
 
 var angular = require('angular');
+var newTokenRequestCodes = ['invalid_token', 'missing_token', 'token_is_expired'];
+var logoutCodes = [
+  'token_is_revoked',
+  'akasession_username_invalid',
+  'expired_akasession',
+  'malformed_akasession',
+  'incorrect_current_account',
+  'invalid_xsrf',
+  'missing_akasession',
+  'missing_xsrf_token'
+];
 
 /* @ngInject */
 module.exports = function(httpBuffer, $injector, $window, $location, authConfig, $log) {
@@ -72,26 +83,22 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
 
       if (response.data != null && angular.isObject(response.data) && response.status === 401) {
         responseErrorCode = response.data.code;
-        switch (responseErrorCode) {
-          case 'invalid_token':
-          case 'missing_token':
-            this.create();
-            return false;
-          // account for known cases to log out
-          case 'akasession_username_invalid':
-          case 'expired_akasession':
-          case 'malformed_akasession':
-          case 'incorrect_current_account':
-          case 'invalid_xsrf':
-          case 'missing_akasession':
-          case 'missing_xsrf_token':
-            return true;
-          default:
-            // TODO: Explicitly recognize (back to server), that unknown code has been passed
-            $log.warn('401 response returned with unrecognized code:',
-              response.data.code, response.config.url);
-            return true;
+
+        // account for known cases where new token needs to be requested
+        if ( newTokenRequestCodes.indexOf(responseErrorCode) > -1) {
+          this.create();
+          return false;
         }
+
+        // account for known cases to log out
+        if ( logoutCodes.indexOf(responseErrorCode) > -1) {
+          return true;
+        }
+
+         // TODO: Explicitly recognize (back to server), that unknown code has been passed
+        $log.warn('401 response returned with unrecognized code:', response.data.code,
+          response.config.url);
+        return true;
       }
 
       // TODO: Explicitly recognize (back to server), that error code structure is missing
