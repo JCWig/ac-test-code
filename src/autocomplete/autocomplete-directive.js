@@ -177,6 +177,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
         selectedContent = c.getContent();
       }
     });
+
     autocompleteService.setItemsTemplate(ctrl, itemsContent);
     selectedElem = autocompleteService.setSelectedItemTemplate(ctrl, selectedContent);
 
