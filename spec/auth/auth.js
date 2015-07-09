@@ -52,16 +52,29 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
-    it('should queue intermediate error responses re-submission', function() {
+    it('should queue intermediate error (with token replacement code) response re-submission', function() {
+      spyOn(buffer, 'appendResponse').and.callThrough();
+      spyOn(tokenService, 'isPending').and.returnValue(true);
+      interceptor.responseError({ status: 401, config: {method: 'POST', url: '/should/be/deferred/for/token/auth1'}, data: {
+        code: 'invalid_token',
+        title: 'Missing JWT Token',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      } });
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.isPending).toHaveBeenCalled();
+      expect(buffer.size()).toBe(1);
+    });
+
+    it('should logout for intermediate error (with no token replacement code) response', function() {
       spyOn(buffer, 'appendResponse').and.callThrough();
       spyOn(tokenService, 'isPending').and.returnValue(true);
       spyOn(tokenService, 'create');
-      interceptor.responseError({ status: 401, config: {method: 'POST', url: '/should/be/deferred/for/token/auth1', data: '', headers: { Accept: 'application/json, text/plain, */*'}} });
       interceptor.responseError({ status: 401, config: {method: 'GET', url: '/should/be/deferred/for/token/auth2', headers: { Accept: 'application/json, text/plain, */*'}}});
-      expect(buffer.appendResponse).toHaveBeenCalled();
-      expect(tokenService.isPending).toHaveBeenCalled();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.isPending).not.toHaveBeenCalled();
       expect(tokenService.create).not.toHaveBeenCalled();
-      expect(buffer.size()).toBe(2);
+      expect(tokenService.logout).toHaveBeenCalled();
     });
 
     it('should queue intermediate error responses re-submission', function() {
@@ -146,6 +159,17 @@ describe('Auth', function() {
       expect(tokenService.logout).toHaveBeenCalled();
     });
 
+    it('the component should request logout for an unknown 401 code', function() {
+      httpBackend.when('GET', '/unauthorized/request').respond(401, {
+        code: 'unknown_code',
+        title: 'Some code we do not know about',
+        incidentId: '55555555-002d-4494-8535-4c6186814756',
+        requestId: '66666666-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
   });
 
   describe('Scenario: Request a token', function() {
