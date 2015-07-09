@@ -1,6 +1,8 @@
 $autocomplete-input-disabled-color: #cccccc;
+$autocomplete-disabled-border-color: #eeeeee;
 $autocomplete-input-width: 160px;
 $autocomplete-selected-background-color: #f4f4f4;
+$autocomplete-disabled-background-color: #ffffff;
 $autocomplete-searchtip-color: #e6e6e6;
 $autocomplete-dropdown-hover-background-color: #ebf6ff;
 .akam-autocomplete {
@@ -9,7 +11,8 @@ $autocomplete-dropdown-hover-background-color: #ebf6ff;
     input[type=text] {
       min-width: $autocomplete-input-width;
       &:disabled {
-        color: $autocomplete-input-disabled-color;
+        @include placeholder-enhanced($autocomplete-searchtip-color, italic);
+        color: $autocomplete-searchtip-color;
         cursor: default;
       }
     }
@@ -39,8 +42,11 @@ $autocomplete-dropdown-hover-background-color: #ebf6ff;
       background-color: $autocomplete-selected-background-color;
       border: 1px solid $border-color;
       border-radius: $border-radius;
-      & > span.disabled {
-        color: $autocomplete-input-disabled-color;
+      &.disabled {
+        background-color: $autocomplete-disabled-background-color;
+        border-color: $autocomplete-disabled-border-color;
+        box-shadow: none;
+        color: $autocomplete-searchtip-color;
         cursor: default;
       }
     }

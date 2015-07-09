@@ -4,21 +4,12 @@ var translationMock = require('../fixtures/translationFixture.json');
 
 var selectors = {
   ac: '.akam-autocomplete',
-  ac_open: '.akam-autocomplete .open',
   ac_input: '.akam-autocomplete input',
   ac_clear: '.akam-autocomplete .clear-selected',
   ac_clearQuery: '.akam-autocomplete .clear-query',
-  ac_tip: '.akam-autocomplete .search-tip',
-  ac_toggle: '.akam-autocomplete div.input-toggle',
-  ac_option: '.akam-autocomplete span.selected-option',
-  ac_defaultProvided: '.akam-autocomplete span.selected-option .default-provided',
-  ac_customProvided: '.akam-autocomplete span.selected-option .custom-provided'
+  ac_tip: '.akam-autocomplete .search-tip'
 };
-var config = {
-  SEARCH_MINIMUM: 1,
-  ITEMS_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-ITEMS',
-  SELECTED_ITEM_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-SELECTED-ITEM'
-};
+
 var defaultMarkup = '<akam-autocomplete ng-model="selectedItem"></akam-autocomplete>';
 
 var jsonMock = [{
@@ -45,7 +36,7 @@ var jsonMock = [{
 
 describe('akamAutocomplete directive', function() {
 
-  var scope, compile, self, timeout, controller, objects;
+  var scope, compile, self, timeout, controller;
 
   beforeEach(function() {
     inject.strictDi(true);
@@ -57,7 +48,6 @@ describe('akamAutocomplete directive', function() {
     inject(function($rootScope, _$compile_, $httpBackend, $timeout) {
       scope = $rootScope.$new();
       compile = _$compile_;
-
       $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
       $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
       $httpBackend.flush();
@@ -157,9 +147,49 @@ describe('akamAutocomplete directive', function() {
 
       });
 
+      it("verify search tip text display", function() {
+        addElement();
+        var tip = angular.element(document.querySelector(selectors.ac)).find("span.search-tip");
+
+        expect(tip.text()).toContain("matching results")
+      });
+
+
+      it("should verify search term not found", function() {
+        var markup = '<akam-autocomplete ng-model="selectedItem" minimum-search="1" text-property="first" on-search="onSearch(term)"></akam-autocomplete>';
+        scope.term = "";
+        scope.onSearch = function(term) {}
+        spyOn(scope, "onSearch");
+        addElement(markup);
+
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("abcd");
+        el.trigger('input');
+        scope.$digest();
+
+        expect(dirEl.classList.contains("open")).toBeFalsy();
+      });
+
+      it("should verify minimum-search value correctly", function() {
+        var markup = '<akam-autocomplete ng-model="selectedItem" minimum-search="5" text-property="first" on-search="onSearch(term)"></akam-autocomplete>';
+        scope.term = "";
+        scope.onSearch = function(term) {}
+        spyOn(scope, "onSearch");
+        addElement(markup);
+
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("abcd");
+        el.trigger('input');
+        scope.$digest();
+
+        expect(dirEl.classList.contains("open")).toBeFalsy();
+
+      });
+
       it("should verify on-search method to be called", function() {
         var markup = '<akam-autocomplete ng-model="selectedItem" text-property="first" on-search="onSearch(term)"></akam-autocomplete>';
-        //scope.onSearch = jasmine.createSpy('on-search-spy');
         scope.term = "";
         scope.onSearch = function(term) {}
         spyOn(scope, "onSearch");
@@ -214,6 +244,20 @@ describe('akamAutocomplete directive', function() {
         scope.$digest();
 
         expect(dirEl.classList.contains("open")).toBeFalsy();
+
+      });
+
+      it('should have rendered ul tag', function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve([]);
+        scope.$digest();
+
+        expect(angular.element(dirEl).find("ul").length).toBe(1);
 
       });
 
@@ -277,7 +321,7 @@ describe('akamAutocomplete directive', function() {
         scope.$digest();
 
         var clearIconEl = dirEl.querySelector(".selected-option i.clear-selected");
-        var selected = angular.element(dirEl.querySelector(".selected-option")).find("span")
+        var selected = angular.element(dirEl.querySelector(".selected-option")).find("span");
         utilities.click(clearIconEl);
         scope.$digest();
 
@@ -285,5 +329,107 @@ describe('akamAutocomplete directive', function() {
         expect(selected.text()).toBe("")
       });
     });
+
+    describe("akam-autocomplete-items content provided", function() {
+      var deferred;
+      beforeEach(inject(function($q) {
+        deferred = $q.defer();
+        scope.onSearch = function(term) {
+          return deferred.promise;
+        };
+        scope.onSelect = function(item, label) {
+          scope.item = item;
+          scope.label = label;
+        };
+        var markup =
+        '<akam-autocomplete ng-model="selectedItem" text-property="first" on-select="onSelect(item, label)" on-search="onSearch(term)">'
+        + '<akam-autocomplete-items>'
+        +    '<a><span bind-html-unsafe="match.model.first"></span>'
+        + '</akam-autocomplete-items>'
+        + '</akam-autocomplete>';
+        addElement(markup);
+      }));
+
+      it("should verify transclude content gone after rendered", function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve(jsonMock);
+        scope.$digest();
+
+        expect(angular.element(dirEl).find("akam-autocomplete-items").length).toBe(0);
+
+      });
+
+      it("should verify items content is used", function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve(jsonMock);
+        scope.$digest();
+
+        expect(dirEl.classList).toContain("open");
+
+      });
+    });
+
+    describe("akam-autocomplete-selected-item content provided", function() {
+      var deferred;
+      beforeEach(inject(function($q) {
+        deferred = $q.defer();
+        scope.onSearch = function(term) {
+          return deferred.promise;
+        };
+        scope.onSelect = function(item, label) {
+          scope.item = item;
+          scope.label = label;
+        };
+        var markup =
+        '<akam-autocomplete ng-model="selectedItem" text-property="first" on-select="onSelect(item, label)" on-search="onSearch(term)">'
+        + '<akam-autocomplete-items>'
+        +    '<a><span bind-html-unsafe="match.model.first"></span>'
+        + '</akam-autocomplete-items>'
+        + '<akam-autocomplete-selected-item>'
+        + '<span>custom:</span>'
+        + '</akam-autocomplete-selected-item>'
+        + '</akam-autocomplete>';
+        addElement(markup);
+      }));
+
+      it("should verify transclude content gone after rendered", function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve(jsonMock);
+        scope.$digest();
+
+        expect(angular.element(dirEl).find("akam-autocomplete-selected-item").length).toBe(0);
+
+      });
+
+      it("should verify items content is used", function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve(jsonMock);
+        scope.$digest();
+        expect(dirEl.classList).toContain("open");
+      });
+    });
+
+
+
   });
 });
