@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-module.exports = function(httpBuffer, $injector, $window, $location, authConfig) {
+module.exports = function(httpBuffer, $injector, $window, $location, authConfig, $log) {
   var pendingRequest = false;
   var $http;
   var service = {
@@ -70,20 +70,30 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig)
         responseErrorCode = response.data.code;
         switch (responseErrorCode) {
           case 'invalid_token':
+          case 'missing_token':
             this.create();
             return false;
+          // account for known cases to log out
           case 'akasession_username_invalid':
           case 'expired_akasession':
           case 'malformed_akasession':
           case 'incorrect_current_account':
           case 'invalid_xsrf':
+          case 'missing_akasession':
+          case 'missing_xsrf_token':
             return true;
           default:
-            return false;
+            // TODO: Explicitly recognize (back to server), that unknown code has been passed
+            $log.warn('401 response returned with unrecognized code:',
+              response.data.code, response.config.url);
+            return true;
         }
       }
 
-      return false;
+      // TODO: Explicitly recognize (back to server), that error code structure is missing
+      $log.warn('401 response returned without proper error code structure:',
+        response.data, response.config.url);
+      return true;
     }
   };
 

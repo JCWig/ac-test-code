@@ -115,9 +115,7 @@ module.exports = function($injector, $q, httpBuffer, token, authConfig, auth, co
         }
 
         // if we're requesting a new token, append the 401'd response to the retry queue, to be run
-        if (token.isPending()) {
-          return httpBuffer.appendResponse(response);
-        }
+        return httpBuffer.appendResponse(response);
       }
 
       return $q.reject(response);
