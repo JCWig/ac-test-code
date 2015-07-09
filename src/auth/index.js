@@ -32,11 +32,13 @@ module.exports = angular.module('akamai.components.auth', [])
     //401 response error codes which should perform logout
     logoutCodes: [
       'token_is_revoked',
+      'incorrect_current_account',
       'expired_akasession',
       'malformed_akasession',
-      'incorrect_current_account',
-      'invalid_xsrf',
       'missing_akasession',
+      'akasession_missing',
+      'akasession_decryption_problem',
+      'invalid_xsrf',
       'missing_xsrf_token'
     ]
   })
