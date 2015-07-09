@@ -25,5 +25,6 @@ angular.module('akamai.components', [
   require('./dropdown').name,
   require('./auth').name,
   require('./mega-menu').name,
-  require('./wizard').name
+  require('./wizard').name,
+  require('./navigation').name
 ]);
