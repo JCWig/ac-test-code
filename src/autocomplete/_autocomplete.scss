@@ -13,6 +13,7 @@ $autocomplete-height: 28px;
     float: left;
     input[type=text] {
       min-width: $autocomplete-input-width;
+      padding-right: 23px; //image + 5px each side
       &:disabled {
         @include placeholder-enhanced($autocomplete-searchtip-color, italic);
         color: $autocomplete-searchtip-color;
@@ -25,7 +26,7 @@ $autocomplete-height: 28px;
     color: $input-placeholder-text-color;
     margin: 6px 0 0 10px;
     display: inline-block;
-    height:$autocomplete-height;
+    height: $autocomplete-height;
     vertical-align: middle;
     &.disabled {
       color: $autocomplete-searchtip-color;
