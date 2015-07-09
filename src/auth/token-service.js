@@ -1,17 +1,6 @@
 'use strict';
 
 var angular = require('angular');
-var newTokenRequestCodes = ['invalid_token', 'missing_token', 'token_is_expired'];
-var logoutCodes = [
-  'token_is_revoked',
-  'akasession_username_invalid',
-  'expired_akasession',
-  'malformed_akasession',
-  'incorrect_current_account',
-  'invalid_xsrf',
-  'missing_akasession',
-  'missing_xsrf_token'
-];
 
 /* @ngInject */
 module.exports = function(httpBuffer, $injector, $window, $location, authConfig, $log) {
@@ -85,13 +74,13 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
         responseErrorCode = response.data.code;
 
         // account for known cases where new token needs to be requested
-        if ( newTokenRequestCodes.indexOf(responseErrorCode) > -1) {
+        if ( authConfig.newTokenRequestCodes.indexOf(responseErrorCode) > -1) {
           this.create();
           return false;
         }
 
         // account for known cases to log out
-        if ( logoutCodes.indexOf(responseErrorCode) > -1) {
+        if ( authConfig.logoutCodes.indexOf(responseErrorCode) > -1) {
           return true;
         }
 

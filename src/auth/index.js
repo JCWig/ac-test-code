@@ -20,7 +20,25 @@ module.exports = angular.module('akamai.components.auth', [])
     //token introspection endpoint
     introspectionUrl: '/ids-authn/v1/introspect',
     //url pointing to luna logout
-    lunaLogoutUrl: '/EdgeAuth/login.jsp?TARGET_URL='
+    lunaLogoutUrl: '/EdgeAuth/login.jsp?TARGET_URL=',
+    //401 response error codes which should request a new token
+    newTokenRequestCodes: [
+      'invalid_token',
+      'missing_token',
+      'token_is_expired',
+      'token_and_akasession_mismatch'
+    ],
+    //401 response error codes which should perform logout
+    logoutCodes: [
+      'token_is_revoked',
+      'akasession_username_invalid',
+      'expired_akasession',
+      'malformed_akasession',
+      'incorrect_current_account',
+      'invalid_xsrf',
+      'missing_akasession',
+      'missing_xsrf_token'
+    ]
   })
   .factory('httpBuffer', require('./http-buffer-service'))
   .factory('token', require('./token-service'))
