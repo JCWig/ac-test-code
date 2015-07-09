@@ -82,6 +82,21 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
+    it('the component should queue the API request for re-submission for akasession_username_invalid code', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, {
+        code: 'akasession_username_invalid',
+        title: 'Invalid Username',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
     it('should queue intermediate error (with token replacement code) response re-submission', function() {
       spyOn(buffer, 'appendResponse').and.callThrough();
       spyOn(tokenService, 'isPending').and.returnValue(true);
@@ -124,20 +139,6 @@ describe('Auth', function() {
       httpBackend.when('GET', '/unauthorized/request').respond(401, {
         code: 'token_is_revoked',
         title: 'Token is revoked',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
-      http.get('/unauthorized/request');
-      httpBackend.flush();
-      expect(buffer.appendResponse).not.toHaveBeenCalled();
-      expect(tokenService.logout).toHaveBeenCalled();
-    });
-
-    it('the component should request logout for akasession_username_invalid', function() {
-      spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'akasession_username_invalid',
-        title: 'Invalid Username',
         incidentId: '58c2725f-002d-4494-8535-4c6186814756',
         requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
       });
