@@ -37,7 +37,7 @@ describe('Auth', function() {
   });
 
   describe('Scenario: Receive unauthorized API response', function() {
-    it('the component should queue the API request for re-submission', function() {
+    it('the component should queue the API request for re-submission for invalid token case', function() {
       spyOn(buffer, 'appendResponse');
       httpBackend.when('GET', '/unauthorized/request').respond(401, {
         code: 'invalid_token',
@@ -52,11 +52,41 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
+    it('the component should queue the API request for re-submission for missing token case', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, {
+        code: 'missing_token',
+        title: 'Missing JWT Token',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
+    it('the component should queue the API request for re-submission for expired token case', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, {
+        code: 'token_is_expired',
+        title: 'JWT Token is Expired',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
     it('should queue intermediate error (with token replacement code) response re-submission', function() {
       spyOn(buffer, 'appendResponse').and.callThrough();
       spyOn(tokenService, 'isPending').and.returnValue(true);
       interceptor.responseError({ status: 401, config: {method: 'POST', url: '/should/be/deferred/for/token/auth1'}, data: {
-        code: 'invalid_token',
+        code: 'missing_token',
         title: 'Missing JWT Token',
         incidentId: '58c2725f-002d-4494-8535-4c6186814756',
         requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
@@ -89,6 +119,20 @@ describe('Auth', function() {
   });
 
   describe('Scenario: Receive unauthorized API response with logout codes', function() {
+    it('the component should request logout for revoked token', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, {
+        code: 'token_is_revoked',
+        title: 'Token is revoked',
+        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+      });
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+
     it('the component should request logout for akasession_username_invalid', function() {
       spyOn(buffer, 'appendResponse');
       httpBackend.when('GET', '/unauthorized/request').respond(401, {

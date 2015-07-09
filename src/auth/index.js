@@ -20,7 +20,7 @@ module.exports = angular.module('akamai.components.auth', [])
     //token introspection endpoint
     introspectionUrl: '/ids-authn/v1/introspect',
     //url pointing to luna logout
-    lunaLogoutUrl: '/portal/logout.jsp?TARGET_URL='
+    lunaLogoutUrl: '/EdgeAuth/login.jsp?TARGET_URL='
   })
   .factory('httpBuffer', require('./http-buffer-service'))
   .factory('token', require('./token-service'))
