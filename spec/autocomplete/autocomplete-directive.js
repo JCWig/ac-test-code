@@ -118,7 +118,6 @@ describe('akamAutocomplete directive', function() {
       it('should verify rendered search tip element and attributes', function() {
         addElement();
         var tipEl = document.querySelector(selectors.ac_tip);
-
         expect(tipEl).not.toBe(undefined);
         expect(tipEl.classList[0]).toBe("search-tip");
 
@@ -129,13 +128,13 @@ describe('akamAutocomplete directive', function() {
         var clearSelectedEl = document.querySelector(selectors.ac_clear);
 
         expect(clearSelectedEl).not.toBe(undefined);
-        expect(clearSelectedEl.classList[1]==="clear-selected").toBeTruthy();
+        expect(clearSelectedEl.classList).toContain("clear-selected");
         expect(clearSelectedEl.getAttribute("ng-click")).not.toBe(undefined);
 
         var clearQueryEl = document.querySelector(selectors.ac_clearQuery);
 
         expect(clearQueryEl).not.toBe(undefined);
-        expect(clearQueryEl.classList[1]==="clear-query").toBeTruthy();
+        expect(clearQueryEl.classList).toContain("clear-query");
         expect(clearQueryEl.getAttribute("ng-click")).not.toBe(undefined);
 
       });
@@ -145,9 +144,7 @@ describe('akamAutocomplete directive', function() {
       it("should verify is-disabled attribute value", function() {
         var markup = '<akam-autocomplete ng-model="selectedItem" is-disabled="true"></akam-autocomplete>';
         addElement(markup);
-
         var inputEl = document.querySelector(selectors.ac_input);
-
         expect(inputEl.getAttribute("disabled")).toBeTruthy();
       });
 
@@ -155,14 +152,138 @@ describe('akamAutocomplete directive', function() {
         var markup = '<akam-autocomplete ng-model="selectedItem" placeholder="{{ph}}"></akam-autocomplete>';
         scope.ph = "enter something";
         addElement(markup);
-
         var inputEl = document.querySelector(selectors.ac_input);
-
         expect(inputEl.getAttribute("placeholder")).toBe("enter something");
 
       });
 
+      it("should verify on-search method to be called", function() {
+        var markup = '<akam-autocomplete ng-model="selectedItem" text-property="first" on-search="onSearch(term)"></akam-autocomplete>';
+        //scope.onSearch = jasmine.createSpy('on-search-spy');
+        scope.term = "";
+        scope.onSearch = function(term) {}
+        spyOn(scope, "onSearch");
+        addElement(markup);
 
+        var inputEl = document.querySelector(selectors.ac_input);
+        utilities.click(inputEl);
+        scope.$digest();
+        var el = angular.element(inputEl).parent().find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        expect(scope.onSearch).toHaveBeenCalled();
+      });
+
+    });
+    describe('on-search function promises', function() {
+      var deferred;
+
+      beforeEach(inject(function($q) {
+        deferred = $q.defer();
+        scope.onSearch = function() {
+          return deferred.promise;
+        };
+        var markup = '<akam-autocomplete ng-model="selectedItem" text-property="first" on-search="onSearch(term)"></akam-autocomplete>';
+        addElement(markup);
+      }));
+
+      it('should display matches from promise', function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve(jsonMock);
+        scope.$digest();
+
+        expect(dirEl.classList).toContain("open");
+
+      });
+
+      it('should not display empty result from promise', function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve([]);
+        scope.$digest();
+
+        expect(dirEl.classList.contains("open")).toBeFalsy();
+
+      });
+
+      it('should not display when rejected from promise', function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.reject([]);
+        scope.$digest();
+
+        expect(dirEl.classList.contains("open")).toBeFalsy();
+
+      });
+    });
+
+    describe('clear selected', function() {
+      var deferred;
+
+      beforeEach(inject(function($q) {
+        deferred = $q.defer();
+        scope.onSearch = function(term) {
+          return deferred.promise;
+        };
+        scope.onSelect = function(item, label) {
+          scope.item = item;
+          scope.label = label;
+        };
+        var markup = '<akam-autocomplete ng-model="selectedItem" text-property="first" on-select="onSelect(item, label)" on-search="onSearch(term)"></akam-autocomplete>';
+        addElement(markup);
+      }));
+
+      it('should selected query be cleared once x out', function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve(jsonMock);
+        scope.$digest();
+
+        var clearIconEl = dirEl.querySelector(".input-option i.clear-query");
+        utilities.click(clearIconEl);
+        scope.$digest();
+
+        expect(el.val()).toBe("");
+
+      });
+
+      it('should selected item and query be cleared once x out ', function() {
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("a");
+        el.trigger('input');
+        scope.$digest();
+
+        deferred.resolve(jsonMock);
+        scope.$digest();
+
+        var clearIconEl = dirEl.querySelector(".selected-option i.clear-selected");
+        var selected = angular.element(dirEl.querySelector(".selected-option")).find("span")
+        utilities.click(clearIconEl);
+        scope.$digest();
+
+        expect(el.val()).toBe("");
+        expect(selected.text()).toBe("")
+      });
     });
   });
 });

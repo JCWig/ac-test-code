@@ -15,11 +15,11 @@ module.exports = function(config) {
       {pattern: 'dist/images/*', included: false, served: true},
       'node_modules/moment/moment.js',
 
-      'spec/!(mega-menu)/**/*.js'
+      'spec/!(mega-menu)/**/*.js',
 
       // load the mega menu tests last because they seem to not clean up the environment
       // properly and several message-box and modal-window tests end up failing
-      //'spec/mega-menu/**/*.js'
+      'spec/mega-menu/**/*.js'
     ],
     logLevel: config.LOG_ERROR,
     frameworks: ['browserify', 'jasmine', 'jquery-2.1.0', 'sinon'],
