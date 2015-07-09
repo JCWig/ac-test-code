@@ -84,7 +84,7 @@ describe('i18nToken service', function() {
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
+    angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
       provider = i18nTokenProvider;
       $translateProvider.useLoader('i18nCustomLoader');
     });

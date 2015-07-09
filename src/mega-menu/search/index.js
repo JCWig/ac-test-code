@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @ngdoc object
  * @name search
@@ -47,39 +45,39 @@ var selector = '#modular-mega-menu-header .search-placeholder',
 // categories for the search box. The ID and displayKey are used for i18n. category is used as a
 // query param when calling the search API
 var CATEGORIES = [{
-    id: 'search.all',
-    category: 'all',
-    hideFromResults: true,   // used to not show a section in the results
-    displayKey: 'search.all' //used for header i18n
-  }, {
-    id: 'search.accounts',
-    category: 'accounts',
-    displayKey: 'search.accounts'
-  }, {
-    id: 'search.applications',
-    category: 'applications',
-    displayKey: 'search.applications'
-  }, {
-    id: 'search.properties',
-    category: 'property',
-    displayKey: 'search.properties'
-  }, {
-    id: 'search.groups',
-    category: 'group',
-    displayKey: 'search.groups'
-  }, {
-    id: 'search.users',
-    category: 'users',
-    displayKey: 'search.users'
-  }, {
-    id: 'search.documentation',
-    category: 'documentation',
-    displayKey: 'search.documentation'
-  }, {
-    id: 'search.kb',
-    category: 'knowledge_base',
-    displayKey: 'search.knowledgeBase'
-  }];
+  id: 'search.all',
+  category: 'all',
+  hideFromResults: true,   // used to not show a section in the results
+  displayKey: 'search.all' //used for header i18n
+}, {
+  id: 'search.accounts',
+  category: 'accounts',
+  displayKey: 'search.accounts'
+}, {
+  id: 'search.applications',
+  category: 'applications',
+  displayKey: 'search.applications'
+}, {
+  id: 'search.properties',
+  category: 'property',
+  displayKey: 'search.properties'
+}, {
+  id: 'search.groups',
+  category: 'group',
+  displayKey: 'search.groups'
+}, {
+  id: 'search.users',
+  category: 'users',
+  displayKey: 'search.users'
+}, {
+  id: 'search.documentation',
+  category: 'documentation',
+  displayKey: 'search.documentation'
+}, {
+  id: 'search.kb',
+  category: 'knowledge_base',
+  displayKey: 'search.knowledgeBase'
+}];
 
 // polyfill
 require('native-promise-only');
@@ -269,7 +267,7 @@ function showSections() {
     section = sections[i];
 
     if (section.getAttribute('data-value') === SELECTED_CATEGORY ||
-        SELECTED_CATEGORY === 'search.all') {
+      SELECTED_CATEGORY === 'search.all') {
       section.classList.remove(HIDE_CLASS);
     } else {
       section.classList.add(HIDE_CLASS);

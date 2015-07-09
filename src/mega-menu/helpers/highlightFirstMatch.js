@@ -1,5 +1,3 @@
-'use strict';
-
 var Handlebars = require('hbsfy/runtime'),
   highlightText = require('./highlightText');
 

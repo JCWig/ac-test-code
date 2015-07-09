@@ -1,5 +1,3 @@
-'use strict';
-
 var template = require('./tabs.hbs');
 
 var selector = '#modular-mega-menu-header .tabs';

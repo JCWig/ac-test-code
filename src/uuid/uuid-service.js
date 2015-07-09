@@ -1,12 +1,9 @@
-'use strict';
-
 /****
  Code Borrowed from https://github.com/MBehtemam/angular-uuid
  ****/
 
 var uid = 0;
 
-/* @ngInject */
 module.exports = function() {
   var hexDigits = '0123456789abcdef';
 

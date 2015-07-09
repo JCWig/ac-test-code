@@ -1,6 +1,7 @@
-'use strict';
+import angular from 'angular';
+import indeterminateProgress from './indeterminate-progress';
 
-var angular = require('angular');
+const MODULE_NAME = 'akamai.components.indeterminate-progress';
 
 /**
  * @ngdoc overview
@@ -13,7 +14,7 @@ var angular = require('angular');
  * status of which can't be accurately measured.
  *
  */
-module.exports = angular.module('akamai.components.indeterminate-progress', [])
+export default angular.module(MODULE_NAME, [])
 
 /**
  * @ngdoc directive
@@ -34,4 +35,4 @@ module.exports = angular.module('akamai.components.indeterminate-progress', [])
  * indeterminate progress encountered a `completed` state.
  *
  */
-  .directive('akamIndeterminateProgress', require('./indeterminate-progress'));
+  .directive('akamIndeterminateProgress', indeterminateProgress);

@@ -503,7 +503,7 @@ describe('when given an i18n locale that does not exist', function() {
     self = this;
     angular.mock.module(require('../../src/date-picker').name);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
+    angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
     inject(function($compile, $rootScope, $httpBackend, _$cookies_) {

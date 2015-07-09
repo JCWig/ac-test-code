@@ -1,6 +1,3 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function() {
 
   return {

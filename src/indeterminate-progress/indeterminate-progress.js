@@ -1,66 +1,81 @@
-'use strict';
+const WRAPPER_CLASS_NAME = 'indeterminate-progress-wrapper',
+  CLASS_NAME = 'indeterminate-progress',
+  SIZE_SMALL = 'small',
+  SIZE_NORMAL = 'normal',
+  SIZE_LARGE = 'large',
+  STATE_STARTED = 'started',
+  STATE_COMPLETED = 'completed',
+  STATE_FAILED = 'failed';
 
-/* @ngInject */
-module.exports = function() {
+class IndeterminateProgressController {
+
+  get size() {
+    switch (this.spinnerSize) {
+      case SIZE_SMALL:
+        return SIZE_SMALL;
+      case SIZE_LARGE:
+        return SIZE_LARGE;
+      default:
+        return SIZE_NORMAL;
+    }
+  }
+
+  get state() {
+    if (this.failed) {
+      return STATE_FAILED;
+    }
+
+    if (this.completed) {
+      return STATE_COMPLETED;
+    }
+
+    return STATE_STARTED;
+  }
+
+  get completed() {
+    return this.stateCompleted === 'true';
+  }
+
+  get failed() {
+    return this.stateFailed === 'true';
+  }
+}
+
+export default () => {
+
   return {
     restrict: 'AE',
-    scope: {
+    scope: {},
+    bindToController: {
       label: '@label',
       stateFailed: '@failed',
       stateCompleted: '@completed',
       spinnerSize: '@size'
     },
-    template: require('./templates/indeterminate-progress.tpl.html'),
-    link: function($scope, element) {
-      element.addClass('indeterminate-progress-wrapper');
+    controller: IndeterminateProgressController,
+    controllerAs: 'indeterminateProgress',
+    link: ($scope, element) => {
 
-      $scope.size = function() {
-        switch ($scope.spinnerSize) {
-          case 'small':
-            return 'small';
-          case 'large':
-            return 'large';
-          default:
-            return 'normal';
-        }
-      };
-
-      element.addClass($scope.size());
-
-      $scope.state = function() {
-        if ($scope.failed()) {
-          return 'failed';
-        }
-
-        if ($scope.completed()) {
-          return 'completed';
-        }
-
-        return 'started';
-      };
-
-      $scope.completed = function() {
-        return $scope.stateCompleted === 'true';
-      };
-
-      $scope.failed = function() {
-        return $scope.stateFailed === 'true';
-      };
-
-      $scope.$watch('stateFailed', function() {
-        //add or remove the class based on wether or not the element is "completed".
-        element.toggleClass('failed', $scope.failed());
+      //add or remove the class based on whether or not the element is "completed".
+      $scope.$watch('indeterminateProgress.stateFailed', () => {
+        element.toggleClass('failed', $scope.indeterminateProgress.failed);
       }, true);
 
-      $scope.$watch('stateCompleted', function() {
-        //add or remove the class based on wether or not the element is "completed".
-        element.parent().toggleClass('indeterminate-progress', !$scope.completed());
+      //add or remove the class based on whether or not the element is "completed".
+      $scope.$watch('indeterminateProgress.stateCompleted', () => {
+        element.parent().toggleClass(CLASS_NAME, !$scope.indeterminateProgress.completed);
       }, true);
 
       //remove the indeterminate progress if the element is removed.
-      element.on('$destroy', function() {
-        element.parent().removeClass('indeterminate-progress');
+      element.on('$destroy', () => {
+        element.parent().removeClass(CLASS_NAME);
       });
-    }
+
+      element.addClass(WRAPPER_CLASS_NAME);
+      element.addClass($scope.indeterminateProgress.size);
+    },
+    template: `<div class="indeterminate-progress-spinner"></div>
+    <label ng-if="indeterminateProgress.label"
+      class="indeterminate-progress-label">{{ indeterminateProgress.label }}</label>`
   };
 };

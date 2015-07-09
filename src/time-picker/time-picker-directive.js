@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 var timepickerConfig = {
@@ -9,7 +7,6 @@ var timepickerConfig = {
   MERIDIAN_OFF: 'HH:mm'
 };
 
-/* @ngInject */
 module.exports = function($document, $parse) {
   var directive = {
     restrict: 'E',
@@ -28,9 +25,6 @@ module.exports = function($document, $parse) {
     link: linkFn
   };
 
-  return directive;
-
-  /* @ngInject */
   function TimePickerController($scope) {
 
     this.isOpen = false;
@@ -51,7 +45,8 @@ module.exports = function($document, $parse) {
     }
   }
 
-  /* @ngInject */
+  TimePickerController.$inject = ['$scope'];
+
   function linkFn(scope, element, attrs, ngModel) {
 
     var notShowMeridian = false,
@@ -86,7 +81,7 @@ module.exports = function($document, $parse) {
     });
 
     notShowMeridian = ctrl.showMeridian === false ||
-      scope.$eval(attrs.showMeridian) === false;
+    scope.$eval(attrs.showMeridian) === false;
     ctrl.showMeridian = !notShowMeridian;
 
     defaultPlaceholder = ctrl.showMeridian ?
@@ -113,4 +108,7 @@ module.exports = function($document, $parse) {
       e.stopPropagation();
     }
   }
+
+  return directive;
 };
+module.exports.$inject = ['$document', '$parse'];

@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function(httpBuffer, $injector, $window, $location, authConfig, $log) {
   var pendingRequest = false;
   var $http;
@@ -14,7 +11,7 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
      *  Otherwise clear all pending requests and redirect to login page.
      */
     create: function() {
-      if ( this.isPending() ) {
+      if (this.isPending()) {
         return;
       }
 
@@ -52,12 +49,12 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
     },
     logout: function() {
       var currentUrl = $location.absUrl(),
-          currentHost = $location.host(),
-          hostPosition = currentUrl.indexOf(currentHost),
-          redirectPath = currentUrl.substring(hostPosition + currentHost.length),
-          encodedUrl = $window.btoa(redirectPath);
+        currentHost = $location.host(),
+        hostPosition = currentUrl.indexOf(currentHost),
+        redirectPath = currentUrl.substring(hostPosition + currentHost.length),
+        encodedUrl = $window.btoa(redirectPath);
 
-      $window.location.replace( authConfig.lunaLogoutUrl + encodedUrl );
+      $window.location.replace(authConfig.lunaLogoutUrl + encodedUrl);
     },
     isLogoutCondition: function(response) {
       var responseErrorCode;
@@ -99,3 +96,5 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
 
   return service;
 };
+
+module.exports.$inject = ['httpBuffer', '$injector', '$window', '$location', 'authConfig', '$log'];

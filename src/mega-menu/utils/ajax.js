@@ -1,5 +1,3 @@
-'use strict';
-
 // Inspired by https://github.com/remy/libraries
 
 var angular = require('angular'),

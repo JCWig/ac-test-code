@@ -28,11 +28,14 @@ describe('akam-list-box', function() {
     self = this;
     angular.mock.module(require('../../src/list-box').name);
     angular.mock.module(function($provide) {
-      /*@ngInject*/
-      $provide.decorator('$http', function($delegate) {
+
+      function http($delegate) {
         $http = $delegate;
         return $delegate;
-      });
+      }
+      http.$inject = ['$delegate'];
+
+      $provide.decorator('$http', http);
     });
     inject(function($compile, $rootScope, $timeout, $q, $httpBackend, $sce) {
       compile = $compile;

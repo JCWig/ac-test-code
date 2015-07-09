@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($injector, $q, httpBuffer, token, authConfig, auth, context) {
   // dynamically injected message box and translate to get around circular dependency issue
   var messageBox, translate;
@@ -64,7 +61,7 @@ module.exports = function($injector, $q, httpBuffer, token, authConfig, auth, co
       // if the new token request pending flag is set,
       // and that request is not the token request itself,
       // then add it to the queue
-      if (token.isPending() && !isUriBlacklisted(requestConfig.url) ) {
+      if (token.isPending() && !isUriBlacklisted(requestConfig.url)) {
         return httpBuffer.appendRequest(requestConfig);
       }
 
@@ -84,16 +81,16 @@ module.exports = function($injector, $q, httpBuffer, token, authConfig, auth, co
         // shows a message box that asks the user if they want to switch the account back to the
         // initial account. Will log out the user if they don't choose to switch account.
         return $q.all([
-            translate.async('components.context.accountChanged', {
-              name: context.getAccountFromCookie().name
-            }),
-            translate.async('components.context.accountChangedTitle')
-          ]).then(function(values) {
-            return messageBox.showQuestion({
-              title: values[1],
-              headline: '',
-              text: values[0]
-            }).result
+          translate.async('components.context.accountChanged', {
+            name: context.getAccountFromCookie().name
+          }),
+          translate.async('components.context.accountChangedTitle')
+        ]).then(function(values) {
+          return messageBox.showQuestion({
+            title: values[1],
+            headline: '',
+            text: values[0]
+          }).result
 
             // change the account back and continue with the API request
             .then(context.resetAccount)
@@ -101,7 +98,7 @@ module.exports = function($injector, $q, httpBuffer, token, authConfig, auth, co
 
             // go to login page
             .catch(token.logout);
-          });
+        });
       }
 
       return addGroupAndPropertyConfig(requestConfig);
@@ -122,3 +119,6 @@ module.exports = function($injector, $q, httpBuffer, token, authConfig, auth, co
     }
   };
 };
+
+module.exports.$inject = ['$injector', '$q', 'httpBuffer', 'token', 'authConfig', 'auth',
+  'context'];

@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($interval, uuid, spinnerService) {
 
   var defaults = {
@@ -149,3 +146,4 @@ module.exports = function($interval, uuid, spinnerService) {
     }
   }
 };
+module.exports.$inject = ['$interval', 'uuid', 'spinnerService'];

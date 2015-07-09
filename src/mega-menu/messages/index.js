@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @ngdoc object
  * @name messages
@@ -31,7 +29,7 @@ function render(callback) {
 
     document.querySelector(selector).innerHTML = i18n('header.messages');
     url = '/svcs/messagecenter/' + encodeURIComponent(data.username) +
-      '/messages/count.json?status=N&gerpy=' + (new Date()).valueOf();
+    '/messages/count.json?status=N&gerpy=' + (new Date()).valueOf();
     fetchAndRender(url, selector, template, function(status) {
 
       // render the message center when we click on the message count link

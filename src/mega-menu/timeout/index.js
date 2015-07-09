@@ -1,5 +1,3 @@
-'use strict';
-
 var config = require('../utils/config'),
   ajax = require('../utils/ajax'),
   renderer = require('../utils/renderer'),

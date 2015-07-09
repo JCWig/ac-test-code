@@ -1,9 +1,21 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function(modalWindow, translate, $rootScope) {
+
+  function modalWindowController($scope) {
+    var collapsed = true;
+
+    $scope.toggle = function() {
+      collapsed = !collapsed;
+    };
+
+    $scope.isCollapsed = function() {
+      return collapsed;
+    };
+  }
+
+  modalWindowController.$inject = ['$scope'];
+
   function show(options, type) {
     var title = translate.sync('components.message-box.title.information');
 
@@ -36,19 +48,7 @@ module.exports = function(modalWindow, translate, $rootScope) {
     return modalWindow.open(angular.extend(options, {
       template: require('./templates/message-box.tpl.html'),
       doNotShowMessage: true,
-
-      /* @ngInject */
-      controller: function($scope) {
-        var collapsed = true;
-
-        $scope.toggle = function() {
-          collapsed = !collapsed;
-        };
-
-        $scope.isCollapsed = function() {
-          return collapsed;
-        };
-      }
+      controller: modalWindowController
     }));
   }
 
@@ -139,3 +139,4 @@ module.exports = function(modalWindow, translate, $rootScope) {
     }
   };
 };
+module.exports.$inject = ['modalWindow', 'translate', '$rootScope'];

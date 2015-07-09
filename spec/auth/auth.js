@@ -49,11 +49,10 @@ describe('akamai.components.auth', function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
 
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, authProvider) {
+    angular.mock.module(function($provide, $translateProvider, authProvider) {
       provider = authProvider;
 
-      // mock out context group and property fetching
-      $provide.factory('context', function($q) {
+      function Context($q) {
         var accountChangedValue = false;
 
         return {
@@ -81,9 +80,10 @@ describe('akamai.components.auth', function() {
             accountChangedValue = val;
           }
         };
-      });
+      }
+      Context.$inject = ['$q'];
 
-      $provide.factory('i18nCustomLoader', function($q, $timeout) {
+      function i18nCustomLoader($q, $timeout) {
         return function() {
           var deferred = $q.defer();
 
@@ -92,7 +92,12 @@ describe('akamai.components.auth', function() {
           });
           return deferred.promise;
         };
-      });
+      }
+      i18nCustomLoader.$inject = ['$q', '$timeout'];
+
+      // mock out context group and property fetching
+      $provide.factory('context', Context);
+      $provide.factory('i18nCustomLoader', i18nCustomLoader);
       $translateProvider.useLoader('i18nCustomLoader');
     });
 
