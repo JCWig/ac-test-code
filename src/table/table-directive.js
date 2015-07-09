@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular'),
   tableDirectiveTemplate = require('./templates/table.tpl.html');
 
@@ -13,100 +11,13 @@ var toolbarSelector = 'akam-table-toolbar',
   defaultSortDirection = SORT_DIRECTIONS.asc,
   defaultSortColumn = '';
 
-/* @ngInject */
 module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, translate,
                           filterFilter, orderByFilter, limitToFilter) {
-  return {
-    restrict: 'E',
-    scope: {},
-    bindToController: {
-      items: '=',
-      idProperty: '@',
-      filterPlaceholder: '@',
-      noFilterResultsMessage: '@',
-      noItemsMessage: '=?',
-      selectedItems: '=?', // selected items from the outside
-      onSelect: '&?',
-      onChange: '&?'
-    },
-    controller: TableController,
-    controllerAs: 'table',
-
-    // this method finds the akam-table-toolbar and the akam-table-row and saves them away. Then,
-    //it will show or hide elements in the template HTML file based on options that are
-    // passed in
-    template: function(element, attributes) {
-      var tpl = angular.element(tableDirectiveTemplate),
-        selector, toolbarElem, tableRowElem;
-
-      toolbarElem = element.find(toolbarSelector);
-      tableRowElem = element.find(rowSelector);
-
-      if (toolbarElem.length) {
-        tpl.find(toolbarSelector + '-placeholder').html(toolbarElem[0].outerHTML);
-      }
-
-      if (tableRowElem.length) {
-        tpl.find(rowSelector + '-placeholder').html(tableRowElem[0].outerHTML);
-      } else {
-        $log.debug('No', rowSelector, 'tag found. Nothing will render.');
-      }
-
-      // remove filter (and possibly the entire toolbar) if necessary
-      if (angular.isDefined(attributes.notFilterable)) {
-        if (tpl.find(toolbarSelector).length) {
-          selector = 'span.filter';
-        } else {
-          selector = '.toolbar';
-        }
-        angular.element(tpl[0].querySelector(selector)).remove();
-      }
-
-      // remove pagination if necessary
-      if (angular.isDefined(attributes.notPageable)) {
-        tpl.find('akam-pagination').remove();
-      }
-
-      return tpl[0].outerHTML;
-    },
-
-    // this method creates new scopes for the akam-table-toolbar and the akam-table-row. It then
-    // uses $compile to compile those templates against the newly created scopes.
-    // the scope tied to the table row will have a special variable called `table` that will have
-    // information injected by this scope
-    link: function(scope, element, attributes) {
-      var tableScope = scope.$parent.$new(),
-        toolbarScope = scope.$parent.$new(),
-        table = element.find(rowSelector + '-placeholder'),
-        toolbar = element.find(toolbarSelector + '-placeholder'),
-        selectable = !!element.attr('selected-items') || !!element.attr('on-select'),
-        tableRowElem = element.find(rowSelector),
-        toolbarElem = element.find(toolbarSelector),
-        template = akamTableTemplate.template(tableRowElem, attributes, selectable);
-
-      // set scope variables for our <table> element and compile
-      tableScope.table = scope.table;
-      table.replaceWith($compile(template)(tableScope));
-
-      // compile the toolbar as well, with a new scope
-      if (toolbarElem.length) {
-        toolbar.replaceWith($compile(toolbarElem[0].outerHTML)(toolbarScope));
-      }
-      defaultSortColumn = '';
-      // handle setting sorting and filtering state based on the 'not-sortable'
-      //and 'not-filterable' attrs this will potentially modify the scope.table.state object
-      angular.forEach(element.find('th'), function(header) {
-        addDefaultSort(scope, attributes, header);
-        addFilterableColumns(scope, attributes, header);
-      });
-    }
-  };
 
   // add sortable class and keep track of sortable columns
   function addDefaultSort(scope, attributes, header) {
     if (header.hasAttribute('default-sort')) {
-      if (!angular.isDefined(attributes.notSortable) &&
-        !header.hasAttribute('not-sortable') &&
+      if (!angular.isDefined(attributes.notSortable) && !header.hasAttribute('not-sortable') &&
         header.hasAttribute('row-property')) {
         scope.table.state.sortColumn = header.getAttribute('row-property');
         defaultSortColumn = header.getAttribute('row-property');
@@ -119,8 +30,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
 
   // keep track of filterable columns
   function addFilterableColumns(scope, attributes, header) {
-    if (!angular.isDefined(attributes.notFilterable) &&
-      !header.hasAttribute('not-filterable') &&
+    if (!angular.isDefined(attributes.notFilterable) && !header.hasAttribute('not-filterable') &&
       header.hasAttribute('row-property')) {
 
       scope.table.state.filterableColumns.push(header.getAttribute('row-property'));
@@ -130,8 +40,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
   /**
    * Table controller. Used to handle the various interactions for the table.
    * @constructor
+   * @param {Object} $scope angular scope
    */
-  /* @ngInject */
   function TableController($scope) {
     // auto increment table ID. This is used purely for the HTML label and input
     this.id = uuid.uid();
@@ -266,7 +176,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
           this.state.sortDirection = SORT_DIRECTIONS.asc;
         }
 
-      // otherwise, set the sort direction to the default and change the sort column
+        // otherwise, set the sort direction to the default and change the sort column
       } else {
         this.state.sortColumn = columnName;
         this.state.sortDirection = defaultSortDirection;
@@ -334,14 +244,13 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
 
       return !this.state.filterableColumns.length ||
         this.state.filterableColumns.some(function(column) {
-        var actual = $parse(column)(value),
-          expected = this.state.filter.toLowerCase();
+          var actual = $parse(column)(value),
+            expected = this.state.filter.toLowerCase();
 
-        return actual !== null &&
-          !angular.isUndefined(actual) &&
-          (!angular.isObject(actual) || angular.isObject(actual) && hasCustomToString(actual)) &&
-          actual.toString().toLowerCase().indexOf(expected) !== -1;
-      }, this);
+          return actual !== null && !angular.isUndefined(actual) &&
+            (!angular.isObject(actual) || angular.isObject(actual) && hasCustomToString(actual)) &&
+            actual.toString().toLowerCase().indexOf(expected) !== -1;
+        }, this);
     }
 
     /**
@@ -450,4 +359,95 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     }
 
   }
+
+  TableController.$inject = ['$scope'];
+
+  return {
+    restrict: 'E',
+    scope: {},
+    bindToController: {
+      items: '=',
+      idProperty: '@',
+      filterPlaceholder: '@',
+      noFilterResultsMessage: '@',
+      noItemsMessage: '=?',
+      selectedItems: '=?', // selected items from the outside
+      onSelect: '&?',
+      onChange: '&?'
+    },
+    controller: TableController,
+    controllerAs: 'table',
+
+    // this method finds the akam-table-toolbar and the akam-table-row and saves them away. Then,
+    //it will show or hide elements in the template HTML file based on options that are
+    // passed in
+    template: function(element, attributes) {
+      var tpl = angular.element(tableDirectiveTemplate),
+        selector, toolbarElem, tableRowElem;
+
+      toolbarElem = element.find(toolbarSelector);
+      tableRowElem = element.find(rowSelector);
+
+      if (toolbarElem.length) {
+        tpl.find(toolbarSelector + '-placeholder').html(toolbarElem[0].outerHTML);
+      }
+
+      if (tableRowElem.length) {
+        tpl.find(rowSelector + '-placeholder').html(tableRowElem[0].outerHTML);
+      } else {
+        $log.debug('No', rowSelector, 'tag found. Nothing will render.');
+      }
+
+      // remove filter (and possibly the entire toolbar) if necessary
+      if (angular.isDefined(attributes.notFilterable)) {
+        if (tpl.find(toolbarSelector).length) {
+          selector = 'span.filter';
+        } else {
+          selector = '.toolbar';
+        }
+        angular.element(tpl[0].querySelector(selector)).remove();
+      }
+
+      // remove pagination if necessary
+      if (angular.isDefined(attributes.notPageable)) {
+        tpl.find('akam-pagination').remove();
+      }
+
+      return tpl[0].outerHTML;
+    },
+
+    // this method creates new scopes for the akam-table-toolbar and the akam-table-row. It then
+    // uses $compile to compile those templates against the newly created scopes.
+    // the scope tied to the table row will have a special variable called `table` that will have
+    // information injected by this scope
+    link: function(scope, element, attributes) {
+      var tableScope = scope.$parent.$new(),
+        toolbarScope = scope.$parent.$new(),
+        table = element.find(rowSelector + '-placeholder'),
+        toolbar = element.find(toolbarSelector + '-placeholder'),
+        selectable = !!element.attr('selected-items') || !!element.attr('on-select'),
+        tableRowElem = element.find(rowSelector),
+        toolbarElem = element.find(toolbarSelector),
+        template = akamTableTemplate.template(tableRowElem, attributes, selectable);
+
+      // set scope variables for our <table> element and compile
+      tableScope.table = scope.table;
+      table.replaceWith($compile(template)(tableScope));
+
+      // compile the toolbar as well, with a new scope
+      if (toolbarElem.length) {
+        toolbar.replaceWith($compile(toolbarElem[0].outerHTML)(toolbarScope));
+      }
+      defaultSortColumn = '';
+      // handle setting sorting and filtering state based on the 'not-sortable'
+      //and 'not-filterable' attrs this will potentially modify the scope.table.state object
+      angular.forEach(element.find('th'), function(header) {
+        addDefaultSort(scope, attributes, header);
+        addFilterableColumns(scope, attributes, header);
+      });
+    }
+  };
+
 };
+module.exports.$inject = ['$log', 'uuid', '$q', 'akamTableTemplate', '$compile', '$parse',
+  'translate', 'filterFilter', 'orderByFilter', 'limitToFilter'];

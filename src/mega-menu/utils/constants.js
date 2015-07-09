@@ -1,5 +1,3 @@
-'use strict';
-
 var VERSION = '0.7.0';
 
 /**

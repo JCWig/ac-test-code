@@ -34,11 +34,11 @@ describe('modalWindow service', function() {
     spyOn(self, "notify");
 
     angular.mock.module(require('../../src/modal-window').name);
-    angular.mock.module(/*@ngInject*/function($translateProvider) {
+    angular.mock.module(function($translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
-    angular.mock.module(/*@ngInject*/function($controllerProvider) {
-      $controllerProvider.register('Controller', /*@ngInject*/function($scope) {
+    angular.mock.module(function($controllerProvider) {
+      function Controller($scope) {
         $scope.toggle = function() {
           if ($scope.isSubmitDisabled()) {
             $scope.enableSubmit();
@@ -51,7 +51,10 @@ describe('modalWindow service', function() {
           self.notify();
           return true;
         });
-      });
+      }
+      Controller.$inject = ['$scope'];
+
+      $controllerProvider.register('Controller', Controller);
     });
 
     inject(function(modalWindow, $rootScope, $httpBackend, $timeout, $q) {
@@ -231,16 +234,19 @@ describe('modalWindow service', function() {
         var submitButton;
         var deferral = this.q.defer();
 
+        function Controller($scope, $q) {
+          $scope.setOnSubmit(
+            function() {
+              return deferral.promise;
+            }
+          );
+        }
+        Controller.$inject = ['$scope', '$q'];
+
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: /*@ngInject*/function($scope, $q) {
-            $scope.setOnSubmit(
-              function() {
-                return deferral.promise;
-              }
-            );
-          }
+          controller: Controller
         });
         this.scope.$digest();
         submitButton = document.querySelector(SUBMIT_BUTTON);
@@ -261,16 +267,19 @@ describe('modalWindow service', function() {
           modalHeaderEl,
           deferral = this.q.defer();
 
+        function Controller($scope, $q) {
+          $scope.setOnSubmit(
+            function() {
+              return deferral.promise;
+            }
+          );
+        }
+        Controller.$inject = ['$scope', '$q'];
+
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: /*@ngInject*/function($scope, $q) {
-            $scope.setOnSubmit(
-              function() {
-                return deferral.promise;
-              }
-            );
-          }
+          controller: Controller
         });
         this.scope.$digest();
         submitButton = document.querySelector(SUBMIT_BUTTON);
@@ -290,17 +299,19 @@ describe('modalWindow service', function() {
           statusMessageWrapperEl,
           deferral = this.q.defer();
 
+        function Controller($scope, $q) {
+          $scope.setOnSubmit(
+            function() {
+              return deferral.promise;
+            }
+          );
+        }
+        Controller.$inject = ['$scope', '$q'];
+
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: /*@ngInject*/
-            function($scope, $q) {
-              $scope.setOnSubmit(
-                function() {
-                  return deferral.promise;
-                }
-              );
-            }
+          controller: Controller
         });
         this.scope.$digest();
         submitButton = document.querySelector(SUBMIT_BUTTON);
@@ -322,16 +333,19 @@ describe('modalWindow service', function() {
         var submitButton;
         var deferral = this.q.defer();
 
+        function Controller($scope, $q) {
+          $scope.setOnSubmit(
+            function() {
+              return deferral.promise;
+            }
+          );
+        }
+        Controller.$inject = ['$scope', '$q'];
+
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: /*@ngInject*/function($scope, $q) {
-            $scope.setOnSubmit(
-              function() {
-                return deferral.promise;
-              }
-            );
-          }
+          controller: Controller
         });
 
         this.scope.$digest();
@@ -348,16 +362,19 @@ describe('modalWindow service', function() {
         var submitButton;
         var deferral = this.q.defer();
 
+        function Controller($scope, $q) {
+          $scope.setOnSubmit(
+            function() {
+              return deferral.promise;
+            }
+          );
+        }
+        Controller.$inject = ['$scope', '$q'];
+
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: /*@ngInject*/function($scope, $q) {
-            $scope.setOnSubmit(
-              function() {
-                return deferral.promise;
-              }
-            );
-          }
+          controller: Controller
         });
 
         this.scope.$digest();
@@ -373,14 +390,17 @@ describe('modalWindow service', function() {
       it('should handle onSubmit being set to a value', function() {
         var submitButton;
 
+        function Controller($scope, $q) {
+          $scope.setOnSubmit(
+            'hello'
+          );
+        }
+        Controller.$inject = ['$scope', '$q'];
+
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
-          controller: /*@ngInject*/function($scope, $q) {
-            $scope.setOnSubmit(
-              'hello'
-            );
-          }
+          controller: Controller
         });
         this.scope.$digest();
         submitButton = document.querySelector(SUBMIT_BUTTON);

@@ -1,18 +1,15 @@
-'use strict';
-
 var angular = require('angular');
 var includes = require('lodash/collection/includes');
 var debounce = require('lodash/function/debounce');
 var POPUP_DELAY = 300;
 
-/* @ngInject */
 module.exports = function($log, $position, $compile, $timeout, $templateCache, $parse) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
       var template, popover, triggerElement, customTemplate, triggerHovering,
-          leaveHovering, popoverHover, enterTimeout, leaveTimeout, leavePopover,
-          leavePopoverTimeout;
+        leaveHovering, popoverHover, enterTimeout, leaveTimeout, leavePopover,
+        leavePopoverTimeout;
       var newScope = scope.$new();
 
       newScope.position = attrs.position;
@@ -27,8 +24,8 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
       newScope.hasHeader = newScope.header && newScope.header.length > 0;
       newScope.hasButton = newScope.buttonText && newScope.buttonText.length > 0;
       newScope.hasLink =
-          newScope.linkText && newScope.linkText.length > 0 &&
-          newScope.linkUrl && newScope.linkUrl.length > 0;
+        newScope.linkText && newScope.linkText.length > 0 &&
+        newScope.linkUrl && newScope.linkUrl.length > 0;
       newScope.isTriggerClick = attrs.trigger === 'click';
 
       newScope.isOpen = function() {
@@ -68,22 +65,22 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           newScope.arrowLeft = popoverWidth - 1;
         } else if (newScope.position === 'bottom') {
           newScope.popoverLeft = isOnLeftSide ?
-            triggerElementOffsetLeft - popoverArrowOffset :
-            triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
+          triggerElementOffsetLeft - popoverArrowOffset :
+          triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
           newScope.popoverTop = elementOffsetTop + arrowHeight + triggerElementHeight;
           newScope.arrowLeft = isOnLeftSide ?
             popoverArrowOffset :
-            popoverWidth - popoverArrowOffset - arrowWidth;
+          popoverWidth - popoverArrowOffset - arrowWidth;
           newScope.arrowTop = -arrowHeight;
         } else {
           newScope.popoverLeft = isOnLeftSide ?
-            triggerElementOffsetLeft - popoverArrowOffset :
-            triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
+          triggerElementOffsetLeft - popoverArrowOffset :
+          triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
           newScope.popoverTop = elementOffsetTop - popoverHeight - arrowHeight;
           newScope.arrowTop = popoverHeight;
           newScope.arrowLeft = isOnLeftSide ?
             popoverArrowOffset :
-            popoverWidth - arrowWidth - popoverArrowOffset;
+          popoverWidth - arrowWidth - popoverArrowOffset;
         }
 
         newScope.popoverTop = newScope.popoverTop + 'px';
@@ -91,6 +88,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
         newScope.arrowTop = newScope.arrowTop + 'px';
         newScope.arrowLeft = newScope.arrowLeft + 'px';
       }
+
       function validParameters() {
         var validPositions = ['right', 'left', 'top', 'bottom'];
 
@@ -99,6 +97,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
         }
         return true;
       }
+
       if (validParameters()) {
         newScope.opened = false;
         template = require('./templates/popover.tpl.html');
@@ -107,7 +106,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           customTemplate = $templateCache.get(attrs.customContent);
           try {
             angular.element(customTemplate);
-          } catch(e) {
+          } catch (e) {
             customTemplate = '<span>' + customTemplate + '</span>';
           }
           $timeout(function() {
@@ -171,3 +170,4 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
     }
   };
 };
+module.exports.$inject = ['$log', '$position', '$compile', '$timeout', '$templateCache', '$parse'];

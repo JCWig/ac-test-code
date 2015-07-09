@@ -1,5 +1,3 @@
-'use strict';
-
 var template = require('./header/header.html'),
   render = require('./utils/renderer').render,
   helpers = require('./helpers'),
@@ -14,15 +12,7 @@ var template = require('./header/header.html'),
   search = require('./search'),
   supportTemplate = require('./header/support.hbs');
 
-/* @ngInject */
 module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
-  return {
-    restrict: 'E',
-    scope: {},
-    controller: MegaMenu,
-    controllerAs: 'menuHeader',
-    template: template
-  };
 
   // whenever group or property changes, update breadcrumbs
   function contextChanged(data) {
@@ -65,7 +55,6 @@ module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_A
     timeout();
   }
 
-  /* @ngInject */
   function MegaMenu($scope, megaMenuData) {
 
     helpers.register();
@@ -80,4 +69,16 @@ module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_A
         }], contextChanged);
       });
   }
+
+  MegaMenu.$inject = ['$scope', 'megaMenuData'];
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controller: MegaMenu,
+    controllerAs: 'menuHeader',
+    template: template
+  };
 };
+module.exports.$inject = ['$location', '$q', 'context', 'LUNA_GROUP_QUERY_PARAM',
+  'LUNA_ASSET_QUERY_PARAM'];

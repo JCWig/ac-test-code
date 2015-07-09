@@ -1,6 +1,3 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function($compile, $templateCache, $http, $q) {
 
   var backwashTemplate = '<div ng-if="processing" class="backwash"></div>';
@@ -33,3 +30,4 @@ module.exports = function($compile, $templateCache, $http, $q) {
     }
   };
 };
+module.exports.$inject = ['$compile', '$templateCache', '$http', '$q'];

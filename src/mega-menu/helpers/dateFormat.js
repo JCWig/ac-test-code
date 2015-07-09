@@ -1,5 +1,3 @@
-'use strict';
-
 var i18n = require('../helpers/i18n').i18n;
 
 /**

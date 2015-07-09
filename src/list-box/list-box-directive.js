@@ -1,9 +1,25 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
+
+  function listBoxController($scope) {
+    this.loadMoreData = function() {
+      var current = $scope.page * 10;
+      var end = $scope.page * 10 + 10;
+      var i;
+
+      for (i = current; i < end; i++) {
+        if (!$scope.dataTable || !$scope.dataTable[i]) {
+          break;
+        }
+        $scope.dataSource.push($scope.dataTable[i]);
+      }
+      $scope.page++;
+    };
+  }
+
+  listBoxController.$inject = ['$scope'];
+
   return {
     replace: true,
     restrict: 'E',
@@ -19,22 +35,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
       onChange: '&?'
     },
 
-    /* @ngInject */
-    controller: function($scope) {
-      this.loadMoreData = function() {
-        var current = $scope.page * 10;
-        var end = $scope.page * 10 + 10;
-        var i;
-
-        for (i = current; i < end; i++) {
-          if (!$scope.dataTable || !$scope.dataTable[i]) {
-            break;
-          }
-          $scope.dataSource.push($scope.dataTable[i]);
-        }
-        $scope.page++;
-      };
-    },
+    controller: listBoxController,
 
     template: require('./templates/list-box.tpl.html'),
 
@@ -324,6 +325,7 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
 
   };
 };
+module.exports.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', 'translate'];
 
 function getDefaults() {
   return {

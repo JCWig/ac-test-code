@@ -1,11 +1,8 @@
-'use strict';
-
 var angular = require('angular');
 var debounce = require('lodash/function/debounce');
 
 require('angular-sanitize');
 
-/* @ngInject */
 module.exports = function($compile, dropdownTransformer, translate, $document, $timeout) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
@@ -92,6 +89,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         menuElem.toggleClass('util-show', isOpen);
         menuElem.toggleClass('util-hide', !isOpen);
       }
+
       function setAppendToBodyCoords() {
         var menu = elem.children(0)[0];
 
@@ -100,6 +98,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
           top: menu.offsetTop + menu.offsetHeight + 'px'
         });
       }
+
       if (typeof scope.placeholder !== 'string') {
         translate.async('components.dropdown.placeholder.noSelection')
           .then(function(value) {
@@ -185,3 +184,5 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
     }
   };
 };
+
+module.exports.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout'];

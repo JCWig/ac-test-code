@@ -92,8 +92,9 @@ $listbox__footer-height: 28px;
     }
     
     td {
+      border: $listbox__td-border;
       border-width: 0;
-      border-top: $listbox__td-border;
+      border-top-width: 1px;
     }
   }
   

@@ -12,14 +12,14 @@ describe('translate service', function() {
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider, i18nTokenProvider) {
+    angular.mock.module(function($provide, $translateProvider, i18nTokenProvider) {
       $translateProvider
         .translations('en_US', translationMock)
         .preferredLanguage('en_US')
         .fallbackLanguage('en_US')
         .useLoader('i18nCustomLoader');
 
-      $provide.factory('i18nCustomLoader', ['$q', '$timeout', function($q, $tmout) {
+      function i18nCustomLoader($q, $tmout) {
         return function(options) {
           var deferred = $q.defer();
           $tmout(function() {
@@ -29,7 +29,10 @@ describe('translate service', function() {
           });
           return deferred.promise;
         };
-      }]);
+      }
+      i18nCustomLoader.$inject = ['$q', '$timeout'];
+
+      $provide.factory('i18nCustomLoader', i18nCustomLoader);
     });
 
     inject(function(translate, _$q_, i18nConfig, _$rootScope_, _$translate_, _$timeout_) {

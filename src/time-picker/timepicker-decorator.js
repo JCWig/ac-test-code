@@ -1,10 +1,8 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($provide) {
-  $provide.decorator('timepickerDirective', function($delegate, $interval) {
+
+  function timepickerDirective($delegate, $interval) {
     var directive = $delegate[0],
       link,
       minuteUpPromise, minuteDownPromise, hourUpPromise, hourDownPromise,
@@ -94,5 +92,10 @@ module.exports = function($provide) {
     };
 
     return $delegate;
-  });
+  }
+
+  timepickerDirective.$inject = ['$delegate', '$interval'];
+
+  $provide.decorator('timepickerDirective', timepickerDirective);
 };
+module.exports.$inject = ['$provide'];

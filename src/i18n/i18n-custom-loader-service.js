@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
   var errorList = [],
     translationTable = [],
@@ -89,9 +86,11 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
 
   function valid(r) {
     var src = r.data,
-        clone = src ? angular.copy(src) : {};
+      clone = src ? angular.copy(src) : {};
 
     angular.merge(translationTable, clone);
     return translationTable;
   }
 };
+
+module.exports.$inject = ['$http', '$q', '$log', 'i18nToken', 'i18nConfig'];

@@ -14,7 +14,6 @@ var _ = require('lodash');
 var rename = require('gulp-rename');
 
 var sourcemaps = require('gulp-sourcemaps');
-var ngAnnotate = require('gulp-ng-annotate');
 var buffer = require('vinyl-buffer');
 var es = require('event-stream');
 
@@ -48,7 +47,6 @@ var browserifyTask = function(devMode) {
         .pipe(source(bundleConfig.outputName))
         .pipe(buffer())
         .pipe(gulpif(bundleConfig.debug, sourcemaps.init({loadMaps: true})))
-        .pipe(ngAnnotate())
         .pipe(gulpif(bundleConfig.debug, sourcemaps.write('./')))
         .pipe(gulp.dest(bundleConfig.dest))
         .pipe(browserSync.reload({
@@ -62,7 +60,6 @@ var browserifyTask = function(devMode) {
           suffix: '.min'
         }))
         .pipe(gulpif(bundleConfig.debug, sourcemaps.init({loadMaps: true})))
-        .pipe(gulpif(config.productionBuild, ngAnnotate()))
         .pipe(gulpif(config.productionBuild, uglify()))
         .pipe(gulpif(config.productionBuild && bundleConfig.debug, sourcemaps.write('./')))
         .pipe(gulpif(config.productionBuild, gulp.dest(bundleConfig.dest)))

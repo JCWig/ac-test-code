@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($filter, translate) {
   var PICKER_TYPES = {
     day: 'day',
@@ -102,3 +99,5 @@ module.exports = function($filter, translate) {
     }
   };
 };
+
+module.exports.$inject = ['$filter', 'translate'];

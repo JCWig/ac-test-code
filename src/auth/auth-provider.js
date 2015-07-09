@@ -1,11 +1,8 @@
-'use strict';
-
 var angular = require('angular');
 var isRegExp = function(re) {
   return Object.prototype.toString.call(re) === '[object RegExp]';
 };
 
-/* @ngInject */
 module.exports = function() {
   var blackListedUris = [];
 

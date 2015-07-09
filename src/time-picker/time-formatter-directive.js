@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 var formatterConfig = {
@@ -10,7 +8,6 @@ var formatterConfig = {
   APM_REGEX: /[a|p]m/i
 };
 
-/* @ngInject */
 module.exports = function($filter, $timeout) {
 
   var directive = {
@@ -39,7 +36,7 @@ module.exports = function($filter, $timeout) {
     scope.$watch('showMeridian', function() {
       var value = ngModel.$modelValue,
         timeFormat = scope.showMeridian ?
-        formatterConfig.MERIDIAN_ON : formatterConfig.MERIDIAN_OFF.toLowerCase();
+          formatterConfig.MERIDIAN_ON : formatterConfig.MERIDIAN_OFF.toLowerCase();
 
       if (value) {
         element.val(displayTime(value, true));
@@ -147,3 +144,4 @@ module.exports = function($filter, $timeout) {
     });
   }
 };
+module.exports.$inject = ['$filter', '$timeout'];

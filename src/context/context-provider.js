@@ -1,17 +1,15 @@
-'use strict';
-
 var querystring = require('querystring'),
   angular = require('angular');
 
 // static list of contexts that can  be applied to an application. It may be group or account
 // aware.
 var APP_CONTEXTS = {
-  account: 'account',
-  group: 'group',
-  other: 'other'
-},
-  // This includes the account name and the account ID, concatenated with the contract name,
-  // separated by a double tilde "~~". The whole string is base64 encoded.
+    account: 'account',
+    group: 'group',
+    other: 'other'
+  },
+// This includes the account name and the account ID, concatenated with the contract name,
+// separated by a double tilde "~~". The whole string is base64 encoded.
   ACCOUNT_COOKIE = 'AKALASTMANAGEDACCOUNT',
   GROUPS_URL = '/ui/services/nav/megamenu/username/context.json',
   CHANGE_GROUP_URL = '/core/services/session/username/extend',
@@ -48,9 +46,10 @@ module.exports = function ContextProvider() {
    */
   this.OTHER_CONTEXT = APP_CONTEXTS.other;
 
-  /* @ngInject */
-  this.$get = function Context($injector, $q, $window, $cookies,
-                               LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
+  this.$get = Context;
+
+  function Context($injector, $q, $window, $cookies,
+                   LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
     var $http;
 
     var currentAccount = {
@@ -381,6 +380,8 @@ module.exports = function ContextProvider() {
       return totalItems;
     }
 
-  };
+  }
 
+  Context.$inject = ['$injector', '$q', '$window', '$cookies', 'LUNA_GROUP_QUERY_PARAM',
+    'LUNA_ASSET_QUERY_PARAM'];
 };

@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 /**
@@ -38,7 +36,7 @@ module.exports = angular.module('akamai.components.time-picker', [
  * @param {Number} [minuteStep=15] - increment or decrement the minute value.
  *
  */
-.directive('akamTimePicker', require('./time-picker-directive'))
+  .directive('akamTimePicker', require('./time-picker-directive'))
 
 /**
  * @ngdoc directive
@@ -54,4 +52,4 @@ module.exports = angular.module('akamai.components.time-picker', [
  * @private
  *
  */
-.directive('timeFormatter', require('./time-formatter-directive'));
+  .directive('timeFormatter', require('./time-formatter-directive'));

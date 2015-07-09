@@ -1,5 +1,3 @@
-'use strict';
-
 var HIDE_CLASS = require('../utils/constants').HIDE_CLASS;
 
 /**

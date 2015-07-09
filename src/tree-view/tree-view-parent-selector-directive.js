@@ -1,8 +1,6 @@
-'use strict';
 var debounce = require('lodash/function/debounce');
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($timeout, $compile, $document) {
   return {
     restrict: 'A',
@@ -33,11 +31,13 @@ module.exports = function($timeout, $compile, $document) {
       function hasParents() {
         return scope.treeview.parentTree.length > 0;
       }
+
       function documentClickBind(e) {
         if (scope.opened && e.currentTarget !== parentSelector[0]) {
           scope.toggle();
         }
       }
+
       function setCoords() {
         var triggerElementOffsetLeft = triggerElement[0].offsetLeft;
         var elementOffsetTop = triggerElement[0].offsetTop;
@@ -77,3 +77,4 @@ module.exports = function($timeout, $compile, $document) {
     }
   };
 };
+module.exports.$inject = ['$timeout', '$compile', '$document'];

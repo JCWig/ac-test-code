@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular'),
   constants = require('./utils/constants');
 
@@ -11,7 +9,6 @@ var CONFIG_KEY = 'akamai.components.mega-menu.config',
   cache = true,
   locale;
 
-/* @ngInject */
 module.exports = function($http, $window, $cacheFactory) {
 
   return {
@@ -102,3 +99,4 @@ module.exports = function($http, $window, $cacheFactory) {
   }
 
 };
+module.exports.$inject = ['$http', '$window', '$cacheFactory'];

@@ -17,7 +17,8 @@ describe('akamai.components.wizard', function() {
     });
 
     angular.mock.module(function($controllerProvider) {
-      $controllerProvider.register('Controller1', /*@ngInject*/function($scope) {
+
+      function Controller1($scope) {
         $scope.foo = 'bar';
 
         if (angular.isFunction($scope.setOnSubmit)) {
@@ -25,14 +26,20 @@ describe('akamai.components.wizard', function() {
             return true;
           });
         }
-      });
-      $controllerProvider.register('Controller2', /*@ngInject*/function($scope) {
+      }
+      Controller1.$inject = ['$scope'];
+
+      function Controller2($scope) {
         if (angular.isFunction($scope.setOnSubmit)) {
           $scope.setOnSubmit(function() {
             return false;
           });
         }
-      });
+      }
+      Controller2.$inject = ['$scope'];
+
+      $controllerProvider.register('Controller1', Controller1);
+      $controllerProvider.register('Controller2', Controller2);
     });
 
     inject(function($rootScope, _$compile_, $httpBackend, _wizard_) {

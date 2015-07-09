@@ -1,8 +1,6 @@
-'use strict';
 var angular = require('angular');
 var tagInputTemplate = require('./templates/tag-input.tpl.html');
 
-/* @ngInject */
 module.exports = function(translate) {
   return {
     restrict: 'E',
@@ -39,6 +37,7 @@ module.exports = function(translate) {
           angular.element(ele).removeClass('dropping dropping-before dropping-after');
         });
       }
+
       ngModel.$isEmpty = function(value) {
         return value.length === 0;
       };
@@ -97,7 +96,7 @@ module.exports = function(translate) {
         if (!item) {
           scope.removeItem(item);
         } else if (scope.restricted && scope.restricted === 'true' &&
-                    scope.availableItems && index < 0) {
+          scope.availableItems && index < 0) {
           scope.removeItem(item);
         }
         ngModel.$validate();
@@ -119,3 +118,4 @@ module.exports = function(translate) {
     }
   };
 };
+module.exports.$inject = ['translate'];

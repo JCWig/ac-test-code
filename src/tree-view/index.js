@@ -1,10 +1,8 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = angular.module('akamai.components.tree-view', [
-	require('../indeterminate-progress').name,
-	require('../utils').name
+  require('../indeterminate-progress').name,
+  require('../utils').name
 ])
 
 /**
@@ -36,7 +34,7 @@ module.exports = angular.module('akamai.components.tree-view', [
  *
  */
 
-.directive('akamTreeView', require('./tree-view-directive'))
+  .directive('akamTreeView', require('./tree-view-directive'))
 
 /**
  * @ngdoc directive
@@ -50,4 +48,4 @@ module.exports = angular.module('akamai.components.tree-view', [
  * requires akamTreeView and its controller
  *
  */
-.directive('akamTreeViewParentSelector', require('./tree-view-parent-selector-directive'));
+  .directive('akamTreeViewParentSelector', require('./tree-view-parent-selector-directive'));
