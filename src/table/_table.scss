@@ -117,8 +117,9 @@ $table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
   }
   
   td {
+    border: $table__td-border;
     border-width: 0;
-    border-top: $table__td-border;
+    border-top-width: 1px;
     
     &.column-action {
       overflow: visible;
