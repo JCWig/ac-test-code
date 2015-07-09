@@ -72,26 +72,22 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
 
       if (response.data != null && angular.isObject(response.data) && response.status === 401) {
         responseErrorCode = response.data.code;
-        switch (responseErrorCode) {
-          case 'invalid_token':
-          case 'missing_token':
-            this.create();
-            return false;
-          // account for known cases to log out
-          case 'akasession_username_invalid':
-          case 'expired_akasession':
-          case 'malformed_akasession':
-          case 'incorrect_current_account':
-          case 'invalid_xsrf':
-          case 'missing_akasession':
-          case 'missing_xsrf_token':
-            return true;
-          default:
-            // TODO: Explicitly recognize (back to server), that unknown code has been passed
-            $log.warn('401 response returned with unrecognized code:',
-              response.data.code, response.config.url);
-            return true;
+
+        // account for known cases where new token needs to be requested
+        if ( authConfig.newTokenRequestCodes.indexOf(responseErrorCode) > -1) {
+          this.create();
+          return false;
         }
+
+        // account for known cases to log out
+        if ( authConfig.logoutCodes.indexOf(responseErrorCode) > -1) {
+          return true;
+        }
+
+         // TODO: Explicitly recognize (back to server), that unknown code has been passed
+        $log.warn('401 response returned with unrecognized code:', response.data.code,
+          response.config.url);
+        return true;
       }
 
       // TODO: Explicitly recognize (back to server), that error code structure is missing
