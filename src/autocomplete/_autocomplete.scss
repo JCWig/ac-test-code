@@ -43,7 +43,7 @@ $autocomplete-height: 28px;
     & > span.selected-option {
       position: relative;
       line-height: $autocomplete-height;
-      padding: 0 15px 0 10px;
+      padding: 0 22px 0 10px;
       width: $autocomplete-input-width;
       background-color: $autocomplete-selected-background-color;
       border: 1px solid $border-color;
@@ -61,6 +61,9 @@ $autocomplete-height: 28px;
     cursor: pointer;
     &:hover {
       background-color: $autocomplete-dropdown-hover-background-color;
+    }
+    &:active {
+      background-color: #CEE7FF;
     }
   }
   .clear-query {

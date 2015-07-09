@@ -105,12 +105,12 @@ describe('akamAutocomplete directive', function() {
         expect(inputEl.getAttribute('typeahead-focus-first')).not.toBe(undefined);
       });
 
-      it('should verify rendered search tip element and attributes', function() {
-        addElement();
+      it('should verify rendered search tip element and attributes only in disbale true state', function() {
+        var markup = '<akam-autocomplete ng-model="selectedItem" is-disabled="true"></akam-autocomplete>';
+        addElement(markup);
         var tipEl = document.querySelector(selectors.ac_tip);
         expect(tipEl).not.toBe(undefined);
-        expect(tipEl.classList[0]).toBe("search-tip");
-
+        expect(tipEl.classList).toContain("search-tip");
       });
 
       it('should verify rendered clear icon element and attributes', function() {
@@ -126,9 +126,7 @@ describe('akamAutocomplete directive', function() {
         expect(clearQueryEl).not.toBe(undefined);
         expect(clearQueryEl.classList).toContain("clear-query");
         expect(clearQueryEl.getAttribute("ng-click")).not.toBe(undefined);
-
       });
-
     });
     describe("using all attributes", function() {
       it("should verify is-disabled attribute value", function() {
