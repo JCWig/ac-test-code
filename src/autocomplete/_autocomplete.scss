@@ -5,9 +5,12 @@ $autocomplete-selected-background-color: #f4f4f4;
 $autocomplete-disabled-background-color: #ffffff;
 $autocomplete-searchtip-color: #e6e6e6;
 $autocomplete-dropdown-hover-background-color: #ebf6ff;
+$autocomplete-height: 28px;
 .akam-autocomplete {
   & > span.input-option {
     position: relative;
+    display: table-cell;
+    float: left;
     input[type=text] {
       min-width: $autocomplete-input-width;
       &:disabled {
@@ -20,14 +23,17 @@ $autocomplete-dropdown-hover-background-color: #ebf6ff;
   & > span.search-tip {
     font: italic $input-text-size $text-font-family;
     color: $input-placeholder-text-color;
-    margin: 0 0 0 10px;
+    margin: 6px 0 0 10px;
+    display: inline-block;
+    height:$autocomplete-height;
+    vertical-align: middle;
     &.disabled {
       color: $autocomplete-searchtip-color;
     }
   }
   & > div.input-toggle {
     display: inline-block;
-    height: 28px;
+    height: $autocomplete-height;
     & > span {
       display: inline-block;
       border: 1px solid $border-color;
@@ -36,7 +42,7 @@ $autocomplete-dropdown-hover-background-color: #ebf6ff;
     }
     & > span.selected-option {
       position: relative;
-      line-height: 28px;
+      line-height: $autocomplete-height;
       padding: 0 15px 0 10px;
       width: $autocomplete-input-width;
       background-color: $autocomplete-selected-background-color;
@@ -59,14 +65,13 @@ $autocomplete-dropdown-hover-background-color: #ebf6ff;
   }
   .clear-query {
     right: 8px;
-    top: 10%;
   }
   .clear-selected {
     right: 5px;
-    top: 25%;
   }
   .clear-query,
   .clear-selected {
+    top: 25%;
     position: absolute;
     cursor: pointer;
     @include opacity(.5);
