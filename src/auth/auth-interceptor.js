@@ -44,7 +44,7 @@ module.exports = function($q, httpBuffer, token, authConfig, auth) {
     responseError: function(response) {
       if (response.status === 401 || response.status === 502) {
         //catch any blacklisted items and reject them
-        if (!isUriBlacklisted(response.config.url)){
+        if (!isUriBlacklisted(response.config.url)) {
           return $q.reject(response);
         }
 
