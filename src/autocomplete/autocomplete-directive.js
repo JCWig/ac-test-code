@@ -98,6 +98,9 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
      * @param  {String} label string user selected and displayed
      */
     function selectItem(item, model, label) {
+      //only here to update ng-model of selectedItem
+      //still have to figure out which ng-model(serach input or selected) connecting to parent form and
+      //as form validation concerns.
       $scope.setViewValue(item);
 
       this.itemSelected = true;
@@ -121,6 +124,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
       this.selectedItem = '';
       this.itemSelected = false;
       this.searchTerm = '';
+      $scope.setViewValue("");
       notifySelected();
       setInputFocus();
     }
@@ -194,7 +198,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
     };
 
     ngModel.$render = function() {
-      scope.ac.searchTerm = ngModel.$modelValue;
+      scope.ac.selectedItem = ngModel.$modelValue;
     };
   }
 

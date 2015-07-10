@@ -114,6 +114,43 @@
 
   function AutocompleteAppController($log, $q, $http, $timeout, $filter) {
 
+    var objItems = [{
+      first: 'Yair',
+      last: 'leviel',
+      joined: '2 month ago',
+      email: 'yair@email.com'
+    }, {
+      first: 'Shawn',
+      last: 'Dahlen',
+      joined: '2 days ago',
+      email: 'shawn@ac.org'
+    }, {
+      first: 'Mike',
+      last: "D'Abrosio",
+      joined: 'a week ago',
+      email: 'mike@gmail.com'
+    }, {
+      first: 'Kevin',
+      last: 'kotosky',
+      joined: 'Yesterday',
+      email: 'kevin@yahoo.com'
+    }, {
+      first: 'Nick',
+      last: 'Leon',
+      joined: 'Just now',
+      email: 'nick@msn.com'
+    }, {
+      first: 'xxx',
+      last: 'qqq',
+      joined: 'Yesterday',
+      email: 'xxx@mail.com'
+    }, {
+      first: 'Sean',
+      last: 'Wang',
+      joined: '3 month ago',
+      email: 'sean@inbox.com'
+    }];
+
     var vm = this;
     vm.selectedItem = "";
     vm.disabled = false;
@@ -191,12 +228,6 @@
 
         return found;
       }
-
-      //$http.get("domain?searchTerm="+term)
-      //.success(function(data){deferred.resolve(data)})
-      //.error(function(deferred.reject()))
-      //return deferred.promise;
-      //
 
       var filteredItems = $filter('filter')(objItems, criteriaMatch);
       $timeout(function() {
