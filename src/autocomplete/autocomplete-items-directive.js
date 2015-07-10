@@ -7,13 +7,14 @@ module.exports = function(autocompleteService) {
   function AutocompleteItemsController($transclude) {
     var content = autocompleteService.extractContent($transclude);
 
+    this.name = 'AKAM-AUTOCOMPLETE-ITEMS';
     this.getContent = function() {
       return content;
     };
   }
 
   function linkFn($scope, $element, $attrs, ctrls) {
-    autocompleteService.addToParent(ctrls, 'AKAM-AUTOCOMPLETE-ITEMS');
+    autocompleteService.addToParent(ctrls);
   }
 
   return {
@@ -23,3 +24,5 @@ module.exports = function(autocompleteService) {
     link: linkFn
   };
 };
+
+module.exports.$inject = ['autocompleteService'];

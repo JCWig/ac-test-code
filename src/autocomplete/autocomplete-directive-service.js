@@ -8,7 +8,8 @@ module.exports = function($q, $log, $templateCache) {
     ITEM_TEMPLATE_URL_PARTIAL: '/templates/',
     DEFAULT_TEMPLATE_NAME: 'autocomplete-item.tpl.html',
     CUSTOM_CONTENT: 'akam-autocomplete-item',
-    SEARCH_MINIMUM: 1
+    ITEMS_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-ITEMS',
+    SELECTED_ITEM_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-SELECTED-ITEM'
   };
 
   /**
@@ -40,12 +41,18 @@ module.exports = function($q, $log, $templateCache) {
    * @param {array} arrCtrls array of controller list
    * @param {string} name child contrller name
    */
-  function addTo(arrCtrls, name) {
-    var childCtrl = arrCtrls[0],
+  function addTo(arrCtrls) {
+    var childCtrl, parentCtrl;
+
+    if (arrCtrls && arrCtrls.length) {
+      childCtrl = arrCtrls[0];
       parentCtrl = arrCtrls[1];
 
-    childCtrl.name = name;
-    parentCtrl.register(childCtrl);
+      if (childCtrl.name === consts.ITEMS_TEMPLATE_NAME ||
+        childCtrl.name === consts.SELECTED_ITEM_TEMPLATE_NAME) {
+        parentCtrl.register(childCtrl);
+      }
+    }
   }
 
   /**
