@@ -42,14 +42,21 @@ module.exports = function($q, httpBuffer, token, authConfig, auth) {
       return requestConfig;
     },
     responseError: function(response) {
-      if (response.status === 401 && !isUriBlacklisted(response.config.url)) {
+      if (response.status === 401 || response.status === 502) {
+        //catch any blacklisted items and reject them
+        if (!isUriBlacklisted(response.config.url)){
+          return $q.reject(response);
+        }
+
         if (token.isLogoutCondition(response)) {
           token.logout();
           return $q.reject(response);
         }
 
-        // if we're requesting a new token, append the 401'd response to the retry queue, to be run
-        return httpBuffer.appendResponse(response);
+        // if we're requesting a new token, append the response to the retry queue, to be run
+        if (token.isPending()) {
+          return httpBuffer.appendResponse(response);
+        }
       }
 
       return $q.reject(response);

@@ -24,22 +24,29 @@ module.exports = angular.module('akamai.components.auth', [])
     //401 response error codes which should request a new token
     newTokenRequestCodes: [
       'invalid_token',
-      'missing_token',
-      'token_is_expired',
-      'token_is_revoked',
-      'token_and_akasession_mismatch',
-      'akasession_username_invalid'
-    ],
-    //401 response error codes which should perform logout
-    logoutCodes: [
+      'akasession_username_invalid',
       'incorrect_current_account',
+      'invalid_xsrf',
+      'invalid_token_type',
+      'invalid_token_id',
+      'token_is_revoked',
+      'token_is_expired',
+      'invalid_token_subject',
+      'token_and_akasession_mismatch',
+      'missing_token',
+      'missing_xsrf_token'
+    ],
+    logoutCodes: [
+      //401 response error codes which should perform logout
       'expired_akasession',
       'malformed_akasession',
-      'missing_akasession',
-      'akasession_missing',
+      'malformed_akalastmanaged_account', //logout instead of login redirect
       'akasession_decryption_problem',
-      'invalid_xsrf',
-      'missing_xsrf_token'
+      'missing_akasession',
+      //502 response error codes which should perform logout
+      'internal.server.error', //why does this code use . instead of _?
+      'invalid_status_code',
+      'invalid_response_format'
     ]
   })
   .factory('httpBuffer', require('./http-buffer-service'))
