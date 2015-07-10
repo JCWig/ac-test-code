@@ -10,7 +10,7 @@ function HealthController() {
     },
     {
       heading: 'Nutrition',
-      route:   'health.nutrition'
+      route:   'health.nutrition',
     },
     {
       heading: 'Sleep',

@@ -1,34 +1,25 @@
-'use strict';
+import angular from 'angular';
 
-
-module.exports = function($rootScope, $state, $log) {
+module.exports = function($rootScope) {
 
   class NavigationController {
-    constructor($log, $state) {
-      $log.log('inside NavigationController constructor');
+    constructor($state) {
 
       var currentStateEqualTo = function(tab) {
-        var isEqual = $state.is(tab.route, tab.params, tab.options);
-        return isEqual;
+        return $state.is(tab.route, tab.params, tab.options);
       };
 
       this.go = function(tab) {
-
         if (!currentStateEqualTo(tab) && !tab.disabled) {
           $state.go(tab.route, tab.params, tab.options);
         }
       };
 
-      /* whether to highlight given route as part of the current state */
-      this.active = function(tab) {
-
-        var isAncestorOfCurrentRoute = $state.includes(tab.route, tab.params, tab.options);
-        return isAncestorOfCurrentRoute;
+      this.active = (tab) => {
+        return $state.includes(tab.route, tab.params, tab.options);
       };
 
-      this.update_tabs = function() {
-
-        // sets which tab is active (used for highlighting)
+      this.updateTabs = () => {
         angular.forEach(this.tabs, (tab) => {
           tab.params = tab.params || {};
           tab.options = tab.options || {};
@@ -36,12 +27,10 @@ module.exports = function($rootScope, $state, $log) {
         });
       };
 
-      // this always selects the first tab currently - fixed in ui-bootstrap master but not yet released
-      this.update_tabs();
-
+      this.updateTabs();
     }
   }
-  NavigationController.$inject = ['$log', '$state'];
+  NavigationController.$inject = ['$state'];
 
   return {
     restrict: 'E',
@@ -55,17 +44,16 @@ module.exports = function($rootScope, $state, $log) {
     controller: NavigationController,
     controllerAs: 'navigation',
     template: require('./templates/navigation.tpl.html'),
-    link: function (scope, elem, attrs, ctrl) {
-      $log.log('navigation directive link');
+    link: function(scope, elem, attrs, ctrl) {
 
-      var updateTabs = function() {
-        ctrl.update_tabs();
+      let updateTabs = () => {
+        ctrl.updateTabs();
       };
 
-      var unbindStateChangeSuccess = $rootScope.$on('$stateChangeSuccess', updateTabs);
-      var unbindStateChangeError = $rootScope.$on('$stateChangeError', updateTabs);
-      var unbindStateChangeCancel = $rootScope.$on('$stateChangeCancel', updateTabs);
-      var unbindStateNotFound = $rootScope.$on('$stateNotFound', updateTabs);
+      let unbindStateChangeSuccess = $rootScope.$on('$stateChangeSuccess', updateTabs);
+      let unbindStateChangeError = $rootScope.$on('$stateChangeError', updateTabs);
+      let unbindStateChangeCancel = $rootScope.$on('$stateChangeCancel', updateTabs);
+      let unbindStateNotFound = $rootScope.$on('$stateNotFound', updateTabs);
 
       scope.$on('$destroy', unbindStateChangeSuccess);
       scope.$on('$destroy', unbindStateChangeError);
@@ -73,7 +61,7 @@ module.exports = function($rootScope, $state, $log) {
       scope.$on('$destroy', unbindStateNotFound);
 
     }
-  }
+  };
 };
-module.exports.$inject = ['$rootScope', '$state', '$log'];
+module.exports.$inject = ['$rootScope', '$state'];
 
