@@ -2,7 +2,6 @@
 
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($q, $log, $templateCache) {
 
   var consts = {
@@ -164,3 +163,5 @@ module.exports = function($q, $log, $templateCache) {
     setSelectedItemTemplate: setSelected
   };
 };
+
+module.exports.$inject = ['$q', '$log', '$templateCache'];

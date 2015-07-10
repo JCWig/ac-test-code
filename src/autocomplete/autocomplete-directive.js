@@ -2,7 +2,6 @@
 
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocompleteService) {
 
   var config = {
@@ -161,7 +160,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
     }
   }
 
-  /* @ngInject */
   function linkFn(scope, elem, attrs, ctrls) {
     var ctrl = ctrls[0],
       ngModel = ctrls[1],
@@ -214,3 +212,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
     link: linkFn
   };
 };
+
+module.exports.$inject =
+  ['translate', 'uuid', '$q', '$log', '$compile', '$timeout', 'autocompleteService'];
