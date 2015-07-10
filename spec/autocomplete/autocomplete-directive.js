@@ -6,7 +6,6 @@ var selectors = {
   ac: '.akam-autocomplete',
   ac_input: '.akam-autocomplete input',
   ac_clear: '.akam-autocomplete .clear-selected',
-  ac_clearQuery: '.akam-autocomplete .clear-query',
   ac_tip: '.akam-autocomplete .search-tip'
 };
 
@@ -120,12 +119,6 @@ describe('akamAutocomplete directive', function() {
         expect(clearSelectedEl).not.toBe(undefined);
         expect(clearSelectedEl.classList).toContain("clear-selected");
         expect(clearSelectedEl.getAttribute("ng-click")).not.toBe(undefined);
-
-        var clearQueryEl = document.querySelector(selectors.ac_clearQuery);
-
-        expect(clearQueryEl).not.toBe(undefined);
-        expect(clearQueryEl.classList).toContain("clear-query");
-        expect(clearQueryEl.getAttribute("ng-click")).not.toBe(undefined);
       });
     });
     describe("using all attributes", function() {
@@ -300,7 +293,7 @@ describe('akamAutocomplete directive', function() {
         deferred.resolve(jsonMock);
         scope.$digest();
 
-        var clearIconEl = dirEl.querySelector(".input-option i.clear-query");
+        var clearIconEl = dirEl.querySelector(".input-option i.clear-selected");
         utilities.click(clearIconEl);
         scope.$digest();
 
