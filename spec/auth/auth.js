@@ -36,15 +36,20 @@ describe('Auth', function() {
     spyOn(authPro, 'getBlacklistedUris').and.returnValue(['/a/page/to/ignore.json', /^\/another\/page\/.*$/i]);
   });
 
-  describe('Scenario: Receive unauthorized API response', function() {
-    it('the component should queue the API request for re-submission for invalid token case', function() {
+  function generateErrorCodeResponse(code, title){
+    return {
+      code: code,
+      title: title || code,
+      incidentId: '58c2725f-002d-4494-8535-4c6186814756',
+      requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
+    };
+  }
+
+  describe('Scenario: Receive unauthorized API response - new token request', function() {
+
+    it('given invalid token, the component should queue the API request for re-submission', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'invalid_token',
-        title: 'Invalid JWT Token',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_token', 'Invalid Token'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -52,14 +57,9 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
-    it('the component should queue the API request for re-submission for missing token case', function() {
+    it('given invalid username in akasession, the component should queue the API request for re-submission', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'missing_token',
-        title: 'Missing JWT Token',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('akasession_username_invalid', 'Session does not match username'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -67,14 +67,9 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
-    it('the component should queue the API request for re-submission for expired token case', function() {
+    it('Given incorrect current account, the component should queue the API request for re-submission', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'token_is_expired',
-        title: 'JWT Token is Expired',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('incorrect_current_account', 'incorrect current account'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -82,14 +77,9 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
-    it('the component should queue the API request for re-submission for revoked token', function() {
+    it('Given incorrect cross site request forgery token, the component should queue the API request for re-submission', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'token_is_revoked',
-        title: 'Token is revoked',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_xsrf', 'incorrect cross site request forgery token'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -97,15 +87,9 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
-
-    it('the component should queue the API request for re-submission for akasession_username_invalid code', function() {
+    it('Given incorrect token type, the component should queue the API request for re-submission', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'akasession_username_invalid',
-        title: 'Invalid Username',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_token_type', 'incorrect token type'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -113,18 +97,87 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
-    it('should queue intermediate error (with token replacement code) response re-submission', function() {
-      spyOn(buffer, 'appendResponse').and.callThrough();
-      spyOn(tokenService, 'isPending').and.returnValue(true);
-      interceptor.responseError({ status: 401, config: {method: 'POST', url: '/should/be/deferred/for/token/auth1'}, data: {
-        code: 'missing_token',
-        title: 'Missing JWT Token',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      } });
+    it('Given incorrect token id, the component should queue the API request for re-submission', function () {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_token_id', 'incorrect token id'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
       expect(buffer.appendResponse).toHaveBeenCalled();
-      expect(tokenService.isPending).toHaveBeenCalled();
-      expect(buffer.size()).toBe(1);
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
+    it('Given revoked token, the component should queue the API request for re-submission', function () {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('token_is_revoked', 'token is revoked'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
+    it('Given expired token, the component should queue the API request for re-submission', function () {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('token_is_expired', 'token is expired'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
+    it('Given token with invalid subject, the component should queue the API request for re-submission', function () {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_token_subject', 'token has invalid subject'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
+    it('Given token that does not match the akasession data, the component should queue the API request for re-submission', function () {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('token_and_akasession_mismatch', 'token and akasession mismatch'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
+    it('Given missing token, the component should queue the API request for re-submission', function () {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('missing_token', 'missing token'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
+    it('Given missing xsrf token, the component should queue the API request for re-submission', function () {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('missing_xsrf_token', 'missing xsrf token'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
+  });
+
+  describe('Scenario: Receive unauthorized API response - multiple calls being handled', function() {
+    it('should queue intermediate error responses for re-submission', function() {
+      spyOn(tokenService, 'create').and.callThrough();
+      tokenService.create();
+      tokenService.create();
+      //note that this expectation is for one request and not two
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+
+      expect(tokenService.create).toHaveBeenCalled();
     });
 
     it('should logout for intermediate error (with no token replacement code) response', function() {
@@ -137,85 +190,92 @@ describe('Auth', function() {
       expect(tokenService.create).not.toHaveBeenCalled();
       expect(tokenService.logout).toHaveBeenCalled();
     });
-
-    it('should queue intermediate error responses re-submission', function() {
-      spyOn(tokenService, 'create').and.callThrough();
-      tokenService.create();
-      tokenService.create();
-      //note that this expectation is for one request and not two
-      httpBackend.expectPOST(config.tokenUrl).respond(200);
-
-      expect(tokenService.create).toHaveBeenCalled();
-    });
   });
 
   describe('Scenario: Receive unauthorized API response with logout codes', function() {
-    it('the component should request logout for expired_akasession', function() {
+    it('given an expired akasession, the component should request logout', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'expired_akasession',
-        title: 'Expired Akasession',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('expired_akasession', 'Expired Akasession'));
       http.get('/unauthorized/request');
       httpBackend.flush();
       expect(buffer.appendResponse).not.toHaveBeenCalled();
       expect(tokenService.logout).toHaveBeenCalled();
     });
 
-    it('the component should request logout for malformed_akasession', function() {
+    it('given a malformed akasession, the component should request logout', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'malformed_akasession',
-        title: 'Malformed Akasession',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('malformed_akasession', 'Malformed Akasession'));
       http.get('/unauthorized/request');
       httpBackend.flush();
       expect(buffer.appendResponse).not.toHaveBeenCalled();
       expect(tokenService.logout).toHaveBeenCalled();
     });
 
-    it('the component should request logout for incorrect_current_account', function() {
+    it('given a malformed akalastmanaged account, the component should request logout', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'incorrect_current_account',
-        title: 'Incorrect Account',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('malformed_akalastmanaged_account', 'Malformed Akalastmanaged'));
       http.get('/unauthorized/request');
       httpBackend.flush();
       expect(buffer.appendResponse).not.toHaveBeenCalled();
       expect(tokenService.logout).toHaveBeenCalled();
     });
 
-    it('the component should request logout for invalid_xsrf', function() {
+    it('given an akasession that can not be decrypted, the component should request logout', function () {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'invalid_xsrf',
-        title: 'Invalid Cross Site Request Forgery Nonce',
-        incidentId: '58c2725f-002d-4494-8535-4c6186814756',
-        requestId: '6658f551-7cb1-4a23-822f-d6a827194bd9'
-      });
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('akasession_decryption_problem', 'Akasession can not be decrypted'));
       http.get('/unauthorized/request');
       httpBackend.flush();
       expect(buffer.appendResponse).not.toHaveBeenCalled();
       expect(tokenService.logout).toHaveBeenCalled();
     });
 
-    it('the component should request logout for an unknown 401 code', function() {
-      httpBackend.when('GET', '/unauthorized/request').respond(401, {
-        code: 'unknown_code',
-        title: 'Some code we do not know about',
-        incidentId: '55555555-002d-4494-8535-4c6186814756',
-        requestId: '66666666-7cb1-4a23-822f-d6a827194bd9'
-      });
+    it('given a missing akasession, the component should request logout', function () {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('missing_akasession', 'Missing Akasession'));
       http.get('/unauthorized/request');
       httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
       expect(tokenService.logout).toHaveBeenCalled();
+    });
+
+  });
+
+  describe('Scenario: Receive 502 internal error, API response with logout codes', function() {
+
+    it('given an internal server error, the component should request logout', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(502, generateErrorCodeResponse('internal.server.error', 'internal server error'));
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+
+    it('given an invalid status code server error, the component should request logout', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(502, generateErrorCodeResponse('invalid_status_code', 'internal server error'));
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+
+    it('given an invalid response format server error, the component should request logout', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(502, generateErrorCodeResponse('invalid_response_format', 'internal server error'));
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).toHaveBeenCalled();
+    });
+
+    it('given a 502 server error that is unknown, the component should reject the promise and nothing more', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(502, generateErrorCodeResponse('unknown code', 'something we do not know about'));
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).not.toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
     });
   });
 
