@@ -5,13 +5,10 @@ $autocomplete-height: 28px;
 $clear-icon-width: 13px;
 $clear-icon-gap-width: 7px;
 .akam-autocomplete {
-  min-width: 160px;
-  max-width: 600px;
   width: 100%;
+  vertical-align: middle;
   & > span.input-option {
     position: relative;
-    display: table-cell;
-    float: left;
     input[type=text] {
       min-width: $autocomplete-input-width;
       padding-right: $clear-icon-width + $clear-icon-gap-width * 2;
@@ -23,9 +20,8 @@ $clear-icon-gap-width: 7px;
     }
   }
   & > span.search-tip {
-    font: italic $input-text-size $text-font-family;
+    font-style: italic;
     color: $input-placeholder-text-color;
-    margin: 7px 0 0 10px;
     display: inline-block;
     height: $autocomplete-height;
     &.disabled {
@@ -39,8 +35,6 @@ $clear-icon-gap-width: 7px;
       display: inline-block;
       border: 1px solid $border-color;
       height: 100%;
-      //vertical-align: middle;
-      //@include ellipsis();
     }
     & > span.selected-option {
       position: relative;
@@ -64,6 +58,7 @@ $clear-icon-gap-width: 7px;
     overflow-x: hidden;
     overflow-y: auto;
     -ms-overflow-y: scroll;
+    max-height: 224px; //line height is 32 * 7 (items display
     a {
       background-color: inherit;
       -webkit-transform: translate3d(0, 0, 0);
