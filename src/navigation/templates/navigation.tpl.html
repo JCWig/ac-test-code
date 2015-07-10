@@ -1,8 +1,9 @@
 <div>
-    <h2>Horizontal Navigation</h2>
-    <tabset>
-        <tab heading="Meat"><div>ribs</div><div>chicken</div></tab>
-        <tab heading="Dairy"><div>Cheese</div><div>Milk</div></tab>
-        <tab heading="Fruit"><div>apples</div><div>orange</div></tab>
+    <tabset class="tab-container" type="{{navigation.type}}" vertical="{{navigation.vertical}}"
+            justified="{{navigation.justified}}">
+        <tab class="tab" ng-repeat="tab in navigation.tabs" heading="{{tab.heading}}"
+             active="tab.active" disable="tab.disabled" ng-click="navigation.go(tab)">
+            <ui-view autoscroll></ui-view>
+        </tab>
     </tabset>
 </div>
