@@ -29,7 +29,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
     //scope vars
     this.isOpen = false;
     this.autocompleteId = 'akam-autocomplete-' + $scope.$id + '-' + uuid.guid();
-    this.searchLength = this.minimumSearch || config.SEARCH_MINIMUM;
+    this.searchLength = config.SEARCH_MINIMUM;
     this.placeholder = this.placeholder || '';
     this.showSearchTip = this.showSearchTip || true;
     this.currentSearchTerm = '';
@@ -37,6 +37,10 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
     this.itemSelected = false;
     this.searchTerm = '';
     this.selectItem = '';
+
+    if (angular.isDefined($attrs.minimumSearch) && $attrs.minimumSearch.length > 0) {
+      this.searchLength = $attrs.minimumSearch;
+    }
 
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
       this.textProperties = this.textProperty.split(' ');
@@ -204,7 +208,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
       onSearch: '&',
       textProperty: '@?',
       placeholder: '@?',
-      minimumSearch: '=?',
       isDisabled: '=?',
       showSearchTip: '=?'
     },
