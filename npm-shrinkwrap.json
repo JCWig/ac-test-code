@@ -558,6 +558,11 @@
       "from": "angular-translate@>=2.7.2 <3.0.0",
       "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-translate/-/angular-translate-2.7.2.tgz"
     },
+    "angular-ui-router": {
+      "version": "0.2.15",
+      "from": "angular-ui-router@*",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-ui-router/-/angular-ui-router-0.2.15.tgz"
+    },
     "angular-ui-utils": {
       "version": "0.2.3",
       "from": "git://github.com/angular-ui/ui-utils.git#4615f8e2449d95badf280a9820b8e6429ebb99ab",
