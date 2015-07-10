@@ -1,22 +1,23 @@
-$autocomplete-input-disabled-color: #cccccc;
-$autocomplete-disabled-border-color: #eeeeee;
-$autocomplete-input-width: 160px;
-$autocomplete-selected-background-color: #f4f4f4;
-$autocomplete-disabled-background-color: #ffffff;
-$autocomplete-searchtip-color: #e6e6e6;
+$autocomplete-input-width: 180px;
+$autocomplete-disabled-color: #e6e6e6;
 $autocomplete-dropdown-hover-background-color: #ebf6ff;
 $autocomplete-height: 28px;
+$clear-icon-width: 13px;
+$clear-icon-gap-width: 7px;
 .akam-autocomplete {
+  min-width: 160px;
+  max-width: 600px;
+  width: 100%;
   & > span.input-option {
     position: relative;
     display: table-cell;
     float: left;
     input[type=text] {
       min-width: $autocomplete-input-width;
-      padding-right: 23px; //image + 5px each side
+      padding-right: $clear-icon-width + $clear-icon-gap-width * 2;
       &:disabled {
-        @include placeholder-enhanced($autocomplete-searchtip-color, italic);
-        color: $autocomplete-searchtip-color;
+        @include placeholder-enhanced($autocomplete-disabled-color, italic);
+        color: $autocomplete-disabled-color;
         cursor: default;
       }
     }
@@ -24,12 +25,11 @@ $autocomplete-height: 28px;
   & > span.search-tip {
     font: italic $input-text-size $text-font-family;
     color: $input-placeholder-text-color;
-    margin: 6px 0 0 10px;
+    margin: 7px 0 0 10px;
     display: inline-block;
     height: $autocomplete-height;
-    vertical-align: middle;
     &.disabled {
-      color: $autocomplete-searchtip-color;
+      color: $autocomplete-disabled-color;
     }
   }
   & > div.input-toggle {
@@ -39,42 +39,45 @@ $autocomplete-height: 28px;
       display: inline-block;
       border: 1px solid $border-color;
       height: 100%;
-      vertical-align: middle;
+      //vertical-align: middle;
+      //@include ellipsis();
     }
     & > span.selected-option {
       position: relative;
       line-height: $autocomplete-height;
-      padding: 0 22px 0 10px;
+      padding: 0 27px 0 10px;
       width: $autocomplete-input-width;
-      background-color: $autocomplete-selected-background-color;
+      background-color: $input-background-color;
       border: 1px solid $border-color;
       border-radius: $border-radius;
       &.disabled {
-        background-color: $autocomplete-disabled-background-color;
-        border-color: $autocomplete-disabled-border-color;
+        background-color: $input-background-color-disabled;
+        border-color: $input-border-color-disabled;
         box-shadow: none;
-        color: $autocomplete-searchtip-color;
+        color: $autocomplete-disabled-color;
         cursor: default;
       }
     }
   }
-  .dropdown-menu > li > a {
-    cursor: pointer;
-    &:hover {
-      background-color: $autocomplete-dropdown-hover-background-color;
+  & ul.dropdown-menu {
+    width: $autocomplete-input-width;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -ms-overflow-y: scroll;
+    a {
+      background-color: inherit;
+      -webkit-transform: translate3d(0, 0, 0);
+      cursor: pointer;
+      &:hover {
+        background-color: $autocomplete-dropdown-hover-background-color;
+      }
+      &:active {
+        background-color: $dropdown-link-active-bg;
+      }
     }
-    &:active {
-      background-color: #CEE7FF;
-    }
-  }
-  .clear-query {
-    right: 8px;
   }
   .clear-selected {
-    right: 5px;
-  }
-  .clear-query,
-  .clear-selected {
+    right: $clear-icon-gap-width;
     top: 25%;
     position: absolute;
     cursor: pointer;

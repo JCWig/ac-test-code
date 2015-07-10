@@ -147,8 +147,8 @@ module.exports = function($q, $log, $templateCache) {
     if (contentHtml.length) {
       ctrl.hasContentProvided = true;
       //not ideal way locating that second span element
-      customSelectedElem = selectedContentElement.children().find('span')[1];
-      customSelectedElem.innerHTML = contentHtml;
+      customSelectedElem = selectedContentElement.children().find('span');
+      customSelectedElem.html(contentHtml);
     } else {
       ctrl.hasContentProvided = false;
     }
