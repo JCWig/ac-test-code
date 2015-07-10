@@ -17,8 +17,7 @@ function configFunction($stateProvider, $urlRouterProvider) {
     templateUrl: 'health/health.html'
   }).state('health.activity', {
     url:  'activity',
-    template: '<h2>Activity Content Panel - from template</h2>'
-    //templateUrl: 'health/activity.html'
+    templateUrl: 'health/activity.html'
   }).state('health.nutrition', {
     url: 'nutrition',
     controller: 'NutritionController',
