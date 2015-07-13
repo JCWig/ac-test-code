@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
@@ -18,7 +16,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
     ctrl.query = 'item as ' + itemAsText + ' for item in ac.searchMatches($viewValue)';
   }
 
-  /* @ngInject */
   function AutocompleteController($scope, $element, $attrs) {
 
     //scope vars
@@ -161,6 +158,8 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
       }
     }
   }
+
+  AutocompleteController.$inject = ['$scope', '$element', '$attrs'];
 
   function linkFn(scope, elem, attrs, ctrls) {
     var ctrl = ctrls[0],

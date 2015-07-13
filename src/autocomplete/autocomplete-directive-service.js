@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 module.exports = function($q, $log, $templateCache, autocompleteConfig) {
