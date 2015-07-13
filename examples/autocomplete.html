@@ -16,6 +16,9 @@
     line-height: 20px;
     margin: 0;
   }
+  .fa {
+  display: inherit;
+  }
   </style>
 </head>
 
@@ -86,7 +89,7 @@
         </a>
       </akam-autocomplete-items>
       <akam-autocomplete-selected-item>
-        <span>custom:
+        <span util-ellipsis>custom:
         <span class="fa fa-user"> {{ac.selectedItem.selectedText}} </span>
         </span>
       </akam-autocomplete-selected-item>
