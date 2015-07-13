@@ -83,6 +83,7 @@
     "semver": "^4.3.6",
     "shelljs": "^0.5.1",
     "sinon": "^1.15.3",
+    "sync-locale": "^0.1.1",
     "ui-select": "git://github.com/kkotosky/ui-select.git#752283eb951bf64f32df50d2ea29d6f61e08a4f1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
@@ -107,6 +108,8 @@
     "build": "npm test -- --jenkins && npm run gulp -- build --no-color --production",
     "generic-build": "npm run compass && npm run gulp -- build --no-color --production",
     "netstorage": "./jenkins.sh deploy",
-    "deploy": "npm run generic-build && npm run gulp -- deploy --no-color"
+    "deploy": "npm run generic-build && npm run gulp -- deploy --no-color",
+    "locale": "./node_modules/.bin/sync-locale",
+    "locale-jenkins": "npm run locale -- --xunitreport"
   }
 }
