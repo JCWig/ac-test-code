@@ -1,8 +1,5 @@
-'use strict';
-
 module.exports = function(autocompleteService, autocompleteConfig) {
 
-  /* @ngInject */
   function AutocompleteSelectedItemController($transclude) {
     var content = autocompleteService.extractContent($transclude);
 
@@ -11,6 +8,7 @@ module.exports = function(autocompleteService, autocompleteConfig) {
       return content;
     };
   }
+  AutocompleteSelectedItemController.$inject = ['$transclude'];
 
   function linkFn($scope, $element, $attrs, ctrls) {
     autocompleteService.addToParent(ctrls);
