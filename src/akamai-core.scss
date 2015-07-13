@@ -34,6 +34,7 @@
 
 /* These styles have an angular directive */
 .common-css {
+  @import "autocomplete/_autocomplete";
   @import "content-panel/_content-panel";
   @import "date-picker/_date-picker";
   @import "dropdown/_dropdown";

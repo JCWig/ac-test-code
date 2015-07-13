@@ -5,8 +5,8 @@
       "offLabel": "Off"
     },
     "tag-input": {
-    	"placeholder":"Select Items",
-    	"taggingLabel":"(new item)"
+      "placeholder": "Select Items",
+      "taggingLabel": "(new item)"
     },
     "dropdown": {
       "placeholder": {
@@ -22,6 +22,9 @@
       },
       "successMessage": "The action has been completed.",
       "errorMessage": "The action can't be completed."
+    },
+    "autocomplete": {
+      "search-tip": "Type in text to display matching results"
     }
   }
 }

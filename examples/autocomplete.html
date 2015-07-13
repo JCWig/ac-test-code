@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Autocomplete</title>
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+  <style type="text/css">
+  .col-xs-7 {
+    font-size: 85%;
+  }
+
+  .row {
+    border-bottom: 1px dotted #ccc;
+    line-height: 20px;
+    margin: 0;
+  }
+  .fa {
+  display: inherit;
+  }
+  </style>
+</head>
+
+<body class="common-css luna" ng-app="autocompleteApp" ng-strict-di ng-controller="AutocompleteAppController as vm">
+  <br/>
+  <h2>Auto Complete Component Example</h2>
+  <span>selected text: {{vm.selectedText}}</span>
+  <pre>selected item: {{vm.selectedItem | json}}</pre>
+  <div>
+    <h4>Display Autocomplete with no custom content</h4>
+    <akam-autocomplete ng-model="vm.selectedState" text-property="name" placeholder="Search states" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
+    </akam-autocomplete>
+  </div>
+  <div>
+    <h4>Display Autocomplete with customizabe list content - state name and flag</h4>
+    <akam-autocomplete ng-model="vm.selectedStates" is-disabled="vm.disabled" show-search-tip="vm.showHideTip" text-property="name" placeholder="Search states with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
+      <akam-autocomplete-items>
+        <a>
+          <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
+          <span bind-html-unsafe="match.model.name | highlight:query"></span>
+        </a>
+      </akam-autocomplete-items>
+    </akam-autocomplete>
+    <div class="form-group">
+      <input id="disableAutocomplete" type="checkbox" name='disableAutocomplete' ng-model='vm.disabled' />
+      <label class="label" for="disableAutocomplete">To disabled above component</label>
+      <input id="showHideSearchTip" type="checkbox" name='showHideSearchTip' ng-model='vm.showHideTip' />
+      <label class="label" for="showHideSearchTip">To show/hide search tip</label>
+    </div>
+  </div>
+  <div>
+    <h4>Display customizabe items content,one character search</h4>
+    <p> text property selections: <span ng-repeat='name in vm.selectedNames2'>[{{name}}] </span></p>
+    <akam-autocomplete ng-model="vm.selectedMultipleNames" text-property="{{vm.selectedPropertyNames2}}" minimum-search="1" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
+      <akam-autocomplete-items>
+        <a>
+          <div class="row">
+            <div class="col-xs-5"><i class="fa fa-user"></i>
+              <Strong><span bind-html-unsafe="match.model.first | highlight:query"></span></Strong>
+            </div>
+            <div class="col-xs-7">
+              <span bind-html-unsafe="match.model.email | highlight:query"></span>
+            </div>
+            <div class="col-xs-12">
+              Joined: <span class="text-muted" bind-html-unsafe="match.model.joined"></span>
+            </div>
+          </div>
+        </a>
+      </akam-autocomplete-items>
+    </akam-autocomplete>
+  </div>
+  <div>
+    <h4>Display customizabe items content and selection content - one character search</h4>
+    <akam-autocomplete ng-model="vm.selectedMultipleNames2" text-property="first last" minimum-search="1" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
+      <akam-autocomplete-items>
+        <a>
+          <div class="row">
+            <div class="col-xs-5"><i class="fa fa-user"></i>
+              <Strong><span bind-html-unsafe="match.model.first | highlight:query"></span></Strong>
+            </div>
+            <div class="col-xs-7">
+              <span bind-html-unsafe="match.model.email | highlight:query"></span>
+            </div>
+            <div class="col-xs-12">
+              Joined: <span class="text-muted" bind-html-unsafe="match.model.joined"></span>
+            </div>
+          </div>
+        </a>
+      </akam-autocomplete-items>
+      <akam-autocomplete-selected-item>
+        <span>custom:
+        <span class="fa fa-user"> {{ac.selectedItem.selectedText}} </span>
+        </span>
+      </akam-autocomplete-selected-item>
+    </akam-autocomplete>
+  </div>
+  <div>
+    <h4>Display Autocomplete with customizabe content and minmum search 3 characters and selected text defined by textProperty</h4>
+    <p> text property selections: <span ng-repeat='name in vm.selectedNames1'>[{{name}}] </span></p>
+    <akam-autocomplete ng-model="vm.selectedStateWithFlag" text-property="name flag" minimum-search="3" placeholder="Search state with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
+      <akam-autocomplete-items>
+        <a>
+          <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
+          <span bind-html-unsafe="match.model.name | highlight:query"></span>
+        </a>
+      </akam-autocomplete-items>
+    </akam-autocomplete>
+  </div>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  angular.module('autocompleteApp', ['akamai.components.autocomplete'])
+    .controller('AutocompleteAppController', AutocompleteAppController)
+    .config(configFunction);
+
+  AutocompleteAppController.$inject = ['$log', '$q', '$http', '$timeout', '$filter'];
+
+  function AutocompleteAppController($log, $q, $http, $timeout, $filter) {
+
+    var objItems = [{
+      first: 'Yair',
+      last: 'leviel',
+      joined: '2 month ago',
+      email: 'yair@email.com'
+    }, {
+      first: 'Shawn',
+      last: 'Dahlen',
+      joined: '2 days ago',
+      email: 'shawn@ac.org'
+    }, {
+      first: 'Mike',
+      last: "D'Abrosio",
+      joined: 'a week ago',
+      email: 'mike@gmail.com'
+    }, {
+      first: 'Kevin',
+      last: 'kotosky',
+      joined: 'Yesterday',
+      email: 'kevin@yahoo.com'
+    }, {
+      first: 'Nick',
+      last: 'Leon',
+      joined: 'Just now',
+      email: 'nick@msn.com'
+    }, {
+      first: 'xxx',
+      last: 'qqq',
+      joined: 'Yesterday',
+      email: 'xxx@mail.com'
+    }, {
+      first: 'Sean',
+      last: 'Wang',
+      joined: '3 month ago',
+      email: 'sean@inbox.com'
+    }];
+
+    var vm = this;
+    vm.selectedItem = "";
+    vm.disabled = false;
+    vm.showHideTip = true;
+    vm.selectedText = "";
+    vm.selectedItem = "";
+
+    vm.selectedNames1 = ["name", "flag"];
+    vm.selectedNames2 = ["first", "last"];
+    vm.selectedPropertyNames1 = vm.selectedNames1.join(' ');
+    vm.selectedPropertyNames2 = vm.selectedNames2.join(' ');
+
+    vm.selectCallback = function(item, selectedText) {
+      $log.log(item);
+      $log.log(selectedText);
+
+      vm.selectedItem = item;
+      vm.selectedText = selectedText;
+    }
+
+    vm.asyncSearchMatches1 = function(term) {
+      var deferred = $q.defer();
+      vm.currentSearchTerm = term.toLowerCase();;
+
+      var criteriaMatch = function(item) {
+        var found = item.name.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
+        return found;
+      };
+      var response = $http.get('json/autocomplete-data.json');
+
+      response
+        .success(function(data) {
+          var filteredItems = $filter('filter')(data, criteriaMatch);
+          deferred.resolve(vm.statesWithFlags = filteredItems);
+        })
+        .error(function(reason) {
+          deferred.reject("error getting data");
+        });
+      return deferred.promise;
+    }
+
+    vm.asyncSearchMatches2 = function(term) {
+      var deferred = $q.defer();
+      vm.currentSearchTerm = term.toLowerCase();;
+
+      var criteriaMatch = function(item) {
+        var found = item.first.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
+          item.last.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
+          item.email.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
+
+        return found;
+      }
+
+      var response = $http.get('json/autocomplete-data.json');
+
+      response
+        .success(function(data) {
+          var filteredItems = $filter('filter')(data, criteriaMatch);
+          deferred.resolve(vm.statesWithFlags = filteredItems);
+        })
+        .error(function(reason) {
+          deferred.reject("error getting data");
+        });
+      return deferred.promise;
+    }
+
+    vm.asyncSearchMatches3 = function(term) {
+      var deferred = $q.defer();
+      vm.currentSearchTerm = term.toLowerCase();
+
+      var criteriaMatch = function(item) {
+        var found = item.first.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
+          item.last.toLowerCase().indexOf(vm.currentSearchTerm) != -1 ||
+          item.email.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
+
+        return found;
+      }
+
+      var filteredItems = $filter('filter')(objItems, criteriaMatch);
+      $timeout(function() {
+        deferred.resolve(vm.multipleSelectedItems = filteredItems);
+      }, 600);
+      return deferred.promise;
+    }
+  };
+  configFunction.$inject = ['i18nTokenProvider'];
+
+  function configFunction(i18nTokenProvider) {
+    // need to overwrite locales path on fee.akamai.com
+    if (window.location.host == 'fee.akamai.com') {
+      i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+      i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+    }
+  }
+  </script>
+</body>
+
+</html>
