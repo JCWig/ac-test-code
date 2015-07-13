@@ -2,13 +2,8 @@
 
 var angular = require('angular');
 
-module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocompleteService) {
-
-  var config = {
-    SEARCH_MINIMUM: 1,
-    ITEMS_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-ITEMS',
-    SELECTED_ITEM_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-SELECTED-ITEM'
-  };
+module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
+  autocompleteService, autocompleteConfig) {
 
   /**
    * buildStaticQuery builds a query string to tell typeahead to call async method that specified
@@ -29,7 +24,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
     //scope vars
     this.isOpen = false;
     this.autocompleteId = 'akam-autocomplete-' + $scope.$id + '-' + uuid.guid();
-    this.searchLength = config.SEARCH_MINIMUM;
+    this.searchLength = autocompleteConfig.SEARCH_MINIMUM;
     this.placeholder = this.placeholder || '';
     this.showSearchTip = this.showSearchTip || true;
     this.currentSearchTerm = '';
@@ -176,9 +171,9 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
 
     //get the content from child directives
     angular.forEach(ctrl.childControls, function(c) {
-      if (c.name === config.ITEMS_TEMPLATE_NAME) {
+      if (c.name === autocompleteConfig.ITEMS_TEMPLATE_NAME) {
         itemsContent = c.getContent();
-      } else if (c.name === config.SELECTED_ITEM_TEMPLATE_NAME) {
+      } else if (c.name === autocompleteConfig.SELECTED_ITEM_TEMPLATE_NAME) {
         selectedContent = c.getContent();
       }
     });
@@ -220,4 +215,5 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
 };
 
 module.exports.$inject =
-  ['translate', 'uuid', '$q', '$log', '$compile', '$timeout', 'autocompleteService'];
+  ['translate', 'uuid', '$q', '$log', '$compile', '$timeout',
+    'autocompleteService', 'autocompleteConfig'];

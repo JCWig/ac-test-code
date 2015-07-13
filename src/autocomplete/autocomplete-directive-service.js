@@ -2,15 +2,7 @@
 
 var angular = require('angular');
 
-module.exports = function($q, $log, $templateCache) {
-
-  var consts = {
-    ITEM_TEMPLATE_URL_PARTIAL: '/templates/',
-    DEFAULT_TEMPLATE_NAME: 'autocomplete-item.tpl.html',
-    CUSTOM_CONTENT: 'akam-autocomplete-item',
-    ITEMS_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-ITEMS',
-    SELECTED_ITEM_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-SELECTED-ITEM'
-  };
+module.exports = function($q, $log, $templateCache, autocompleteConfig) {
 
   /**
    * extract a common method used in child directive to
@@ -24,7 +16,7 @@ module.exports = function($q, $log, $templateCache) {
 
     transcludeFn(function(cloneElements) {
       angular.forEach(cloneElements, function(elem) {
-        if (elem.nodeType !== 3) { //remove space node
+        if (elem.nodeType === 1) { //only interested in element node
           contentElem = elem;
         }
       });
@@ -48,8 +40,8 @@ module.exports = function($q, $log, $templateCache) {
       childCtrl = arrCtrls[0];
       parentCtrl = arrCtrls[1];
 
-      if (childCtrl.name === consts.ITEMS_TEMPLATE_NAME ||
-        childCtrl.name === consts.SELECTED_ITEM_TEMPLATE_NAME) {
+      if (childCtrl.name === autocompleteConfig.ITEMS_TEMPLATE_NAME ||
+        childCtrl.name === autocompleteConfig.SELECTED_ITEM_TEMPLATE_NAME) {
         parentCtrl.register(childCtrl);
       }
     }
@@ -100,7 +92,6 @@ module.exports = function($q, $log, $templateCache) {
     }
 
     ctrl.isOpen = hasData;
-    //hide loading
 
     //add new property to be used as combined display text
     //and text-property is required
@@ -125,10 +116,12 @@ module.exports = function($q, $log, $templateCache) {
    * @param {string} contentHtml html items content from child directive
    */
   function setItems(ctrl, contentHtml) {
-    var contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + consts.DEFAULT_TEMPLATE_NAME;
+    var contentUrl = autocompleteConfig.ITEM_TEMPLATE_URL_PARTIAL +
+      autocompleteConfig.DEFAULT_TEMPLATE_NAME;
 
     if (contentHtml.length) {
-      contentUrl = consts.ITEM_TEMPLATE_URL_PARTIAL + ctrl.autocompleteId + '.html';
+      contentUrl = autocompleteConfig.ITEM_TEMPLATE_URL_PARTIAL +
+        ctrl.autocompleteId + '.html';
     } else {
       contentHtml = require('./templates/autocomplete-items.tpl.html');
     }
@@ -171,4 +164,4 @@ module.exports = function($q, $log, $templateCache) {
   };
 };
 
-module.exports.$inject = ['$q', '$log', '$templateCache'];
+module.exports.$inject = ['$q', '$log', '$templateCache', 'autocompleteConfig'];

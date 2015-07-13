@@ -23,6 +23,14 @@ module.exports = angular.module('akamai.components.autocomplete', [
     require('../i18n').name,
     require('../uuid').name
   ])
+  .constant('autocompleteConfig', {
+    ITEMS_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-ITEMS',
+    SELECTED_ITEM_TEMPLATE_NAME: 'AKAM-AUTOCOMPLETE-SELECTED-ITEM',
+    ITEM_TEMPLATE_URL_PARTIAL: '/templates/',
+    DEFAULT_TEMPLATE_NAME: 'autocomplete-item.tpl.html',
+    CUSTOM_CONTENT: 'akam-autocomplete-item',
+    SEARCH_MINIMUM: 1
+  })
   /**
    * @ngdoc directive
    *

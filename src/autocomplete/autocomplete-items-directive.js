@@ -1,13 +1,13 @@
 'use strict';
 
 /* @ngInject */
-module.exports = function(autocompleteService) {
+module.exports = function(autocompleteService, autocompleteConfig) {
 
   /* @ngInject */
   function AutocompleteItemsController($transclude) {
     var content = autocompleteService.extractContent($transclude);
 
-    this.name = 'AKAM-AUTOCOMPLETE-ITEMS';
+    this.name = autocompleteConfig.ITEMS_TEMPLATE_NAME;
     this.getContent = function() {
       return content;
     };
@@ -25,4 +25,4 @@ module.exports = function(autocompleteService) {
   };
 };
 
-module.exports.$inject = ['autocompleteService'];
+module.exports.$inject = ['autocompleteService', 'autocompleteConfig'];
