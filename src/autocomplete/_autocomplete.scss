@@ -8,8 +8,7 @@ $autocomplete-clear-icon-gap-width: 7px;
   width: 100%;
   vertical-align: middle;
   height: $autocomplete-height;
-  span.input-option,
-  span.selected-option {
+  span.input-option, span.selected-option {
     width: $autocomplete-input-width;
     position: relative;
     display: inline-block;
@@ -24,10 +23,12 @@ $autocomplete-clear-icon-gap-width: 7px;
         color: $autocomplete-disabled-color;
         cursor: default;
       }
+      &::-ms-clear {
+        display: none;
+      }
     }
   }
   & > span.search-tip {
-    //line-height: $autocomplete-height;
     font-style: italic;
     margin-left: 10px;
     color: $input-placeholder-text-color;

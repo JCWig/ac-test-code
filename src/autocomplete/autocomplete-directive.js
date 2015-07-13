@@ -11,7 +11,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
   };
 
   /**
-   * buildStaticQuery builds atring to tell typeahead to call async method specified
+   * buildStaticQuery builds a query string to tell typeahead to call async method that specified
    * @param  {object} ctrl a controller
    */
   function buildStaticQuery(ctrl) {
@@ -141,7 +141,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
     }
 
     function setInputFocus() {
-      //trigger input field focus
       var inputEl = document.getElementById($scope.ac.autocompleteId);
 
       $timeout(function() {
