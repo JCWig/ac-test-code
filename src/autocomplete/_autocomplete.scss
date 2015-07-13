@@ -17,6 +17,7 @@ $autocomplete-clear-icon-gap-width: 7px;
   & > span.input-option {
     margin-right: -4px;
     input[type=text] {
+      width: $autocomplete-input-width;
       padding-right: $autocomplete-clear-icon-width + $autocomplete-clear-icon-gap-width * 2;
       &:disabled {
         @include placeholder-enhanced($autocomplete-disabled-color, italic);
