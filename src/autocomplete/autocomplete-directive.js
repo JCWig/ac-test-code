@@ -99,8 +99,8 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
      */
     function selectItem(item, model, label) {
       //only here to update ng-model of selectedItem
-      //still have to figure out which ng-model(serach input or selected) connecting to parent form and
-      //as form validation concerns.
+      //still have to figure out which ng-model(search input or selected)
+      //connecting to parent form as form validation concerns and require attribute used
       $scope.setViewValue(item);
 
       this.itemSelected = true;
@@ -124,7 +124,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, autocom
       this.selectedItem = '';
       this.itemSelected = false;
       this.searchTerm = '';
-      $scope.setViewValue("");
+      $scope.setViewValue('');
       notifySelected();
       setInputFocus();
     }

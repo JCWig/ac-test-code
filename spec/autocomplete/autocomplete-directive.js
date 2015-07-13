@@ -82,10 +82,9 @@ describe('akamAutocomplete directive', function() {
         addElement();
         var dirEl = document.querySelector(selectors.ac);
 
-        expect(dirEl.classList.length).toBe(4);
+        expect(dirEl.classList.length).toBe(3);
         expect(dirEl.classList[0]).toEqual("akam-autocomplete");
         expect(dirEl.classList[1]).toEqual("dropdown");
-        expect(dirEl.classList[2]).toEqual("akam-dropdown");
 
         var childEl = dirEl.querySelector(".input-option");
         expect(childEl).not.toBe(undefined);

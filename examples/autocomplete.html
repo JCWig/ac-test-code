@@ -26,12 +26,12 @@
   <pre>selected item: {{vm.selectedItem | json}}</pre>
   <div>
     <h4>Display Autocomplete with no custom content</h4>
-    <akam-autocomplete ng-model="vm.selectedState" text-property="name" placeholder="Search state with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
+    <akam-autocomplete ng-model="vm.selectedState" text-property="name" placeholder="Search states" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
     </akam-autocomplete>
   </div>
   <div>
     <h4>Display Autocomplete with customizabe list content - state name and flag</h4>
-    <akam-autocomplete ng-model="vm.selectedStates" is-disabled="vm.disabled" show-search-tip="vm.showHideTip" text-property="name" placeholder="Search state with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
+    <akam-autocomplete ng-model="vm.selectedStates" is-disabled="vm.disabled" show-search-tip="vm.showHideTip" text-property="name" placeholder="Search states with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-items>
         <a>
           <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">

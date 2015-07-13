@@ -1,17 +1,23 @@
-$autocomplete-input-width: 180px;
+$autocomplete-input-width: 170px;
 $autocomplete-disabled-color: #e6e6e6;
 $autocomplete-dropdown-hover-background-color: #ebf6ff;
 $autocomplete-height: 28px;
-$clear-icon-width: 13px;
-$clear-icon-gap-width: 7px;
+$autocomplete-clear-icon-width: 13px;
+$autocomplete-clear-icon-gap-width: 7px;
 .akam-autocomplete {
   width: 100%;
   vertical-align: middle;
-  & > span.input-option {
+  height: $autocomplete-height;
+  span.input-option,
+  span.selected-option {
+    width: $autocomplete-input-width;
     position: relative;
+    display: inline-block;
+  }
+  & > span.input-option {
+    margin-right: -4px;
     input[type=text] {
-      min-width: $autocomplete-input-width;
-      padding-right: $clear-icon-width + $clear-icon-gap-width * 2;
+      padding-right: $autocomplete-clear-icon-width + $autocomplete-clear-icon-gap-width * 2;
       &:disabled {
         @include placeholder-enhanced($autocomplete-disabled-color, italic);
         color: $autocomplete-disabled-color;
@@ -20,27 +26,18 @@ $clear-icon-gap-width: 7px;
     }
   }
   & > span.search-tip {
+    //line-height: $autocomplete-height;
     font-style: italic;
+    margin-left: 10px;
     color: $input-placeholder-text-color;
-    display: inline-block;
-    height: $autocomplete-height;
     &.disabled {
       color: $autocomplete-disabled-color;
     }
   }
   & > div.input-toggle {
-    display: inline-block;
-    height: $autocomplete-height;
-    & > span {
-      display: inline-block;
-      border: 1px solid $border-color;
-      height: 100%;
-    }
     & > span.selected-option {
-      position: relative;
       line-height: $autocomplete-height;
       padding: 0 27px 0 10px;
-      width: $autocomplete-input-width;
       background-color: $input-background-color;
       border: 1px solid $border-color;
       border-radius: $border-radius;
@@ -54,11 +51,11 @@ $clear-icon-gap-width: 7px;
     }
   }
   & ul.dropdown-menu {
-    width: $autocomplete-input-width;
+    min-width: $autocomplete-input-width;
     overflow-x: hidden;
     overflow-y: auto;
     -ms-overflow-y: scroll;
-    max-height: 224px; //line height is 32 * 7 (items display
+    max-height: 32 * $autocomplete-clear-icon-gap-width;
     a {
       background-color: inherit;
       -webkit-transform: translate3d(0, 0, 0);
@@ -72,8 +69,9 @@ $clear-icon-gap-width: 7px;
     }
   }
   .clear-selected {
-    right: $clear-icon-gap-width;
+    right: $autocomplete-clear-icon-gap-width;
     top: 25%;
+    display: block;
     position: absolute;
     cursor: pointer;
     @include opacity(.5);
