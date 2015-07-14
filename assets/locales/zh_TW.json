@@ -23,6 +23,18 @@
         "warning": {
             "browser-button": "Mac 上的 Safari 和 FireFox 不支援 BUTTON 元素中的焦點事件。請改用錨點標籤：A"
         },
+        "switch-button": {
+            "onLabel": "開",
+            "offLabel": "關"
+        },
+        "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "error": {
+            "validation": {},
+            "data": "載入資料時發生問題。"
+        },
         "list-box": {
             "text": {
                 "noFilterResults": "根據您的篩選找不到結果。",

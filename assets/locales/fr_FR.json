@@ -23,6 +23,18 @@
         "warning": {
             "browser-button": "Les navigateurs Safari et Firefox exécutés sous Mac ne permettent pas de placer la cible de saisie sur un élément BUTTON. À la place, utilisez la balise d'ancrage A."
         },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
+        },
+        "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "error": {
+            "validation": {},
+            "data": "Un problème s&apos;est produit lors du chargement des données."
+        },
         "list-box": {
             "text": {
                 "noFilterResults": "Aucun résultat ne correspond au filtre sélectionné.",

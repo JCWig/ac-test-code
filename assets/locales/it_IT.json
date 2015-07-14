@@ -23,6 +23,18 @@
         "warning": {
             "browser-button": "Safari e FireFox su Mac non supportano l'evento focus negli elementi PULSANTE. Utilizzare in sostituzione il tag di ancoraggio: A"
         },
+        "switch-button": {
+            "onLabel": "Attivo",
+            "offLabel": "Non attivo"
+        },
+        "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "error": {
+            "validation": {},
+            "data": "Si è verificato un problema durante il caricamento dei dati."
+        },
         "list-box": {
             "text": {
                 "noFilterResults": "Non sono presenti risultati in base al filtro impostato.",

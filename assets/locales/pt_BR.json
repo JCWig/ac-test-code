@@ -23,6 +23,18 @@
         "warning": {
             "browser-button": "Safari e FireFox no Mac não oferecem suporte ao evento de foco dos elementos BUTTON. Em vez disso, use a tag âncora: A"
         },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
+        },
+        "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "error": {
+            "validation": {},
+            "data": "Ocorreu um problema ao carregar os dados."
+        },
         "list-box": {
             "text": {
                 "noFilterResults": "Não existem resultados com base no seu filtro.",

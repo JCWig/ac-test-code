@@ -23,6 +23,18 @@
         "warning": {
             "browser-button": "Mac에 설치된 Safari와 FireFox에서는 BUTTON 요소의 포커스 이벤트를 지원하지 않습니다. A 앵커 태그를 대신 사용하십시오."
         },
+        "switch-button": {
+            "onLabel": "켜기",
+            "offLabel": "Off"
+        },
+        "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "error": {
+            "validation": {},
+            "data": "데이터를 로드하는 데 문제가 발생했습니다."
+        },
         "list-box": {
             "text": {
                 "noFilterResults": "지정한 필터에 따라 검색된 결과가 없습니다.",

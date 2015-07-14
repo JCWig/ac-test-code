@@ -23,6 +23,18 @@
         "warning": {
             "browser-button": "Mac 上的 Safari 和 FireFox 不支持“按钮”元素中的焦点事件。因此，请使用锚标记: A"
         },
+        "switch-button": {
+            "onLabel": "开启",
+            "offLabel": "关闭"
+        },
+        "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "error": {
+            "validation": {},
+            "data": "加载数据时出现问题。"
+        },
         "list-box": {
             "text": {
                 "noFilterResults": "没有符合您的过滤条件的结果。",
