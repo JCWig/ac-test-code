@@ -1,18 +1,5 @@
-
-label {
-  // Override TWBS
-  margin: 0;
-
-  & + input[type="text"],
-  & + input[type="search"],
-  & + input[type="email"],
-  & + textarea {
-    margin-left: $input-label-spacing;
-  }
-}
-
-label.label {
-  // Explicitly reset "label.label" to not use TWBS .label defaults
+/* take back the .label power! */
+.label {
   display: inline-block;
   padding: 0;
   font-size: 100%;
@@ -22,93 +9,34 @@ label.label {
   text-align: left;
   text-align: start;
   white-space: normal;
+  vertical-align: initial;
   border-radius: 0;
-  // Now style label.label as normal...
 }
 
-label.label,
-label.label-inline {
-  font-weight: bold;
-  font-size: 14px;
-  vertical-align: middle;
-}
 
-label.label {
-  margin-bottom: 10px;
-}
 
-label.label-inline {
-  display: inline;
-  margin-right: 10px;
-}
-
-.form-group.required label,
-label.required {
-  &:after {
-    content: "*";
-    color: lighten($input-border-color-invalid, 10%);
-    margin-left: $input-validation-icon-gutter;
+/* support TWBS and Common CSS radios/checkboxes */
+.radio,
+.radio-inline {
+  
+  input[type="radio"] {
+    width: initial;
+    height: initial;
+    opacity: 1;
   }
 }
 
-.form-group {
-  margin-bottom: 10px;
-
-  label + .form-control {
-    margin-top: $input-label-spacing;
-    margin-left: 0;
+.checkbox,
+.checkbox-inline {
+  
+  input[type="checkbox"] {
+    width: initial;
+    height: initial;
+    opacity: 1;
   }
 }
 
-@media (min-width: $screen-sm-min) {
-  .navbar-form .form-group {
-    margin-bottom: 0;
-  }
-}
-
-.form-inline {
-
-  .form-group {
-
-    label {
-
-      & + .form-control {
-        margin-top: 0;
-        margin-left: $input-label-spacing;
-      }
-    }
-  }
-}
-
-.form-horizontal {
-
-  .form-group {
-
-    label {
-      display: block;
-    }
-
-    input[type="text"],
-    input[type="search"],
-    input[type="search"] + .button,
-    input[type="email"],
-    textarea {
-      margin-top: $input-label-spacing;
-      margin-left: 0;
-    }
-  }
-}
-
-&, &.luna label {
-  // Luna tweaks here
-}
-
-&.pulsar label {
-  // Pulsar tweaks here
-}
-
-
-
+/*
 .radio,
 .checkbox {
   margin-top: 15px;
@@ -124,5 +52,56 @@ label.required {
     margin-left: 15px;
   }
 }
+*/
 
 
+/* address labels */
+.form-horizontal {
+  .form-group {
+    label {
+      text-align: right;
+      padding-right: 10px;
+      line-height: 28px;
+    }
+    
+    .radio-inline,
+    .checkbox-inline,
+    .radio,
+    .checkbox {
+    
+      label {
+        line-height: inherit;
+      }
+    }
+  }
+}
+
+label {
+  // Override TWBS
+  margin: 0;
+
+  /*
+  & + input[type="text"],
+  & + input[type="search"],
+  & + input[type="email"],
+  & + textarea {
+    margin-left: $input-label-spacing;
+  }
+  */
+}
+
+
+.form-horizontal {
+
+  .form-group {
+    margin-bottom: 10px;
+
+    /*
+    label + .form-control {
+      margin-top: $input-label-spacing;
+      margin-left: 0;
+    }
+    */
+  }
+
+}

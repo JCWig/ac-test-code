@@ -1,4 +1,5 @@
 
+/* angular form validation classes */
 input[type="text"],
 input[type="search"],
 input[type="email"],
@@ -10,7 +11,9 @@ textarea {
   &.ng-invalid.ng-touched,
   &.ng-invalid.ng-dirty {
     border-color: $border-color-invalid;
+    border-width: 2px;
   }
+
 }
 
 input[type="search"],
@@ -25,15 +28,35 @@ input[type="month"] {
       border-left-color: $border-color-invalid;
     }
   }
+
 }
 
+
+[ng-messages] { 
+  display: none; // addresses FOUC
+  
+  color: #9f1a00;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.ng-invalid:not(.ng-untouched) ~ [ng-messages] {
+  display: block;
+}
+
+
+/* dropdown menu validation */
 ul.dropdown-menu {
 
   &.ng-invalid {
     border-color: $border-color-invalid;
   }
+
 }
 
+
+
+/* date picker validation */
 .akam-date-picker.ng-invalid {
 
   &.ng-touched {
