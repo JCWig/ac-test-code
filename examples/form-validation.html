@@ -25,7 +25,7 @@
             </div>
             
             
-            <form class="example ssssshow-required" name="kitchenSink" novalidate>
+            <form class="example show-required" name="kitchenSink" novalidate>
               
               <fieldset class="form-horizontal">
                 <legend>1. Form with checkboxes and drop down</legend>
@@ -164,19 +164,19 @@
                   <div class="col-md-8">
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" ng-model="optionsRadios" value="1">
+                        <input type="radio" name="optionsRadios1" ng-model="optionsRadios1" value="1">
                         <span class="label">Radio Label</span>
                       </label>
                     </div>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" ng-model="optionsRadios" value="2">
+                        <input type="radio" name="optionsRadios1" ng-model="optionsRadios1" value="2">
                         <span class="label">Radio Label</span>
                       </label>
                     </div>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" ng-model="optionsRadios" value="3">
+                        <input type="radio" name="optionsRadios1" ng-model="optionsRadios1" value="3">
                         <span class="label">Radio Label</span>
                       </label>
                     </div>
@@ -209,13 +209,13 @@
                   <div class="col-md-8">
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" ng-model="optionsRadios" value="1">
+                        <input type="radio" name="optionsRadios2" ng-model="optionsRadios2" value="1">
                         <span class="label">Radio Label</span>
                       </label>
                     </div>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" ng-model="optionsRadios" value="2">
+                        <input type="radio" name="optionsRadios2" ng-model="optionsRadios2" value="2">
                         <span class="label">Radio Label</span>
                       </label>
                     </div>
@@ -862,19 +862,19 @@
                   <div class="col-md-8">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="checkbox4" ng-model="checkbox4" required>
+                        <input type="checkbox" name="checkbox4" ng-model="checkbox4">
                         <span class="label">Checkbox Label</span>
                       </label>
                     </div>
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="checkbox5" ng-model="checkbox5" required>
+                        <input type="checkbox" name="checkbox5" ng-model="checkbox5">
                         <span class="label">Checkbox Label</span>
                       </label>
                     </div>
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="checkbox6" ng-model="checkbox6" required>
+                        <input type="checkbox" name="checkbox6" ng-model="checkbox6">
                         <span class="label">Checkbox Label</span>
                       </label>
                     </div>
@@ -1021,19 +1021,19 @@
                   <div class="col-md-8">
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" ng-model="optionsRadios" required>
+                        <input type="radio" name="optionsRadios3" ng-model="optionsRadios3">
                         <span class="label">Radio Label</span>
                       </label>
                     </div>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" ng-model="optionsRadios" required>
+                        <input type="radio" name="optionsRadios3" ng-model="optionsRadios3">
                         <span class="label">Radio Label</span>
                       </label>
                     </div>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" ng-model="optionsRadios" required>
+                        <input type="radio" name="optionsRadios3" ng-model="optionsRadios3">
                         <span class="label">Radio Label</span>
                       </label>
                     </div>
@@ -1130,20 +1130,12 @@
                   $log.log('selected item changed', item);
               };
               
-              // Data for the Drag/Drop Tag Order Example
               $scope.items1 = [".png",".jpg", ".svg"];
-              
-              // Data for the Sorted Selected Tag Example
               $scope.items2 = [".xls",".log", ".gif"];
-              
-              // Data for the Adding New Items Disallowed Example
               $scope.items3 = [".txt",".jpg", ".csv", ".tiff"];
-              
-              // Data for the tag component with validation
               $scope.items4 = [".png",".jpg", ".svg", ".pdf", ".xls", ".exe", ".app"];
-              
-              // Data for the Large Available Items List Example
               $scope.items5 = [".exe",".doc", ".rtf"];
+              $scope.items6 = [".exe",".doc", ".rtf", ".jpg", ".svg", ".pdf", ".xls", ".app"];
               
               // List of all possible tag items
               $scope.availableItems = [

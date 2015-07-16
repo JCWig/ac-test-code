@@ -8,15 +8,17 @@ input[type="radio"] {
   height: 0;
   @include opacity(0);
 
-  & + label {
-    font-size: $label-font-size;
+  & + label,
+  & + .label {
+    // font-size: $label-font-size;
     // Override TWBS
     font-weight: normal;
     padding-left: 0;
   }
 
   // Adjacent labels will construct a custom input using the content property
-  & + label:before {
+  & + label:before,
+  & + .label:before {
     content: "";
     display: inline-block;
     background-color: transparent;
