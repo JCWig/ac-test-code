@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
+module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $document,
   autocompleteService, autocompleteConfig) {
 
   /**
@@ -51,6 +51,15 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
     this.register = register;
 
     buildStaticQuery(this);
+
+    //handle tab key handling loose focus to close dropdown
+    $document.on('keyup', function(e) {
+      if (e.which === 9) {
+        $timeout(function() {
+          $document.triggerHandler('click');
+        });
+      }
+    });
 
     /**
      * register a scope method to add child directive controller to this controller list
@@ -133,7 +142,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
     }
 
     function setInputFocus() {
-      var inputEl = document.getElementById($scope.ac.autocompleteId);
+      var inputEl = $document[0].getElementById($scope.ac.autocompleteId);
 
       $timeout(function() {
         $scope.$apply(function() {
@@ -213,6 +222,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
   };
 };
 
-module.exports.$inject =
-  ['translate', 'uuid', '$q', '$log', '$compile', '$timeout',
-    'autocompleteService', 'autocompleteConfig'];
+module.exports.$inject = ['translate', 'uuid', '$q', '$log', '$compile', '$timeout', '$document',
+  'autocompleteService', 'autocompleteConfig'
+];
