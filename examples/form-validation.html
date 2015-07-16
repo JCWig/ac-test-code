@@ -30,7 +30,7 @@
               
               
               <div class="form-horizontal show-required">
-                <div class="form-group required">
+                <fieldset class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input1" ng-model="input1" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -44,10 +44,10 @@
                     </div>
                   </div>
                   
-                </div>
+                </fieldset>
               
               
-                <div class="form-group">
+                <fieldset class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput1" ng-model="longerInput1" ng-minlength="5" ng-maxlength="20" required>
@@ -60,9 +60,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
               
-                <div class="form-group required">
+                <fieldset class="form-group required">
                   <label class="col-md-4" for="#">Dropdown</label>
                   <div class="col-md-8">
                     <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown1" required></akam-dropdown>
@@ -71,45 +71,33 @@
                       <div ng-message="required">You did not select an item</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
               
-                <div class="form-group">
+                <fieldset class="form-group">
                   <label class="col-md-4">Please make your choice:</label>
                   <div class="col-md-8">
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox1" ng-model="checkbox1" required>
                         <span class="label">Checkbox Label</span>
-                        
-                        <div ng-messages="kitchenSink.checkbox1.$error" class="ngMessages" role="alert">
-                          <div ng-message="required">This is required</div>
-                        </div>
                       </label>
                     </div>
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox2" ng-model="checkbox2" required>
                         <span class="label">Checkbox Label</span>
-                        
-                        <div ng-messages="kitchenSink.checkbox2.$error" class="ngMessages" role="alert">
-                          <div ng-message="required">This is required</div>
-                        </div>
                       </label>
                     </div>
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox3" ng-model="checkbox3" required>
                         <span class="label">Checkbox Label</span>
-                        
-                        <div ng-messages="kitchenSink.checkbox3.$error" class="ngMessages" role="alert">
-                          <div ng-message="required">This is required</div>
-                        </div>
                       </label>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group">
+                <fieldset class="form-group">
                   <label class="col-md-4">Much Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput1" ng-model="muchLongerInput1" minlength="5" maxlength="20" required>
@@ -122,9 +110,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group required">
+                <fieldset class="form-group required">
                   <label class="col-md-4">Pick A Date Range</label>
                   <div class="col-md-4">
                     <akam-date-picker
@@ -164,9 +152,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group">
+                <fieldset class="form-group">
                   <label class="col-md-4">Pick A Date</label>
                   <div class="col-md-8">
                     <akam-date-picker
@@ -187,9 +175,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group required">
+                <fieldset class="form-group required">
                   <label class="col-md-4">Pick A Number</label>
                   <div class="col-md-8">
                     <akam-spinner min="0" max="100" ng-model="number1" name="number1"></akam-spinner>
@@ -202,9 +190,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group">
+                <fieldset class="form-group">
                   <label class="col-md-4">Pick A Time</label>
                   <div class="col-md-8">
                     <akam-time-picker
@@ -223,9 +211,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group required">
+                <fieldset class="form-group required">
                   <label class="col-md-4">Tag Input</label>
                   <div class="col-md-8">
                     <akam-tag-input 
@@ -242,45 +230,33 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group">
+                <fieldset class="form-group">
                   <label class="col-md-4">Please make your choice:</label>
                   <div class="col-md-8">
                     <div class="radio">
                       <label>
                         <input type="radio" name="optionsRadios" ng-model="optionsRadios" required>
                         <span class="label">Radio Label</span>
-                        
-                        <div ng-messages="kitchenSink.optionsRadios.$error" class="ngMessages" role="alert">
-                          <div ng-message="required">This is required</div>
-                        </div>
                       </label>
                     </div>
                     <div class="radio">
                       <label>
                         <input type="radio" name="optionsRadios" ng-model="optionsRadios" required>
                         <span class="label">Radio Label</span>
-                        
-                        <div ng-messages="kitchenSink.optionsRadios.$error" class="ngMessages" role="alert">
-                          <div ng-message="required">This is required</div>
-                        </div>
                       </label>
                     </div>
                     <div class="radio">
                       <label>
                         <input type="radio" name="optionsRadios" ng-model="optionsRadios" required>
                         <span class="label">Radio Label</span>
-                        
-                        <div ng-messages="kitchenSink.optionsRadios.$error" class="ngMessages" role="alert">
-                          <div ng-message="required">This is required</div>
-                        </div>
                       </label>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group required">
+                <fieldset class="form-group required">
                   <label class="col-md-4">Free Text Area</label>
                   <div class="col-md-8">
                     <textarea class="form-control" name="textarea1" ng-model="textarea1" minlength="5" maxlength="20" required rows="5"></textarea>
@@ -293,9 +269,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
-                <div class="form-group">
+                <fieldset class="form-group">
                   <label class="col-md-4">List Box</label>
                   <div class="col-md-8">
                     <akam-list-box akam-standalone 
@@ -312,7 +288,7 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </div>
+                </fieldset>
                 
               </div>
               
