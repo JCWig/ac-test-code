@@ -56,14 +56,14 @@ module.exports = function($filter) {
 
   /**
    * selectedRange set selected date range string
-   * @param  {object} rangeStart start date object
-   * @param  {object} rangeEnd end date object
+   * @param  {Date} startDate start date object
+   * @param  {Date} endDate end date object
    * @param  {String} format date format
    * @return {String} appended string
    */
-  function selectedRange(rangeStart, rangeEnd, format) {
-    var d1 = this.filterDate(rangeStart.value, format),
-      d2 = this.filterDate(rangeEnd.value, format);
+  function selectedRange(startDate, endDate, format) {
+    var d1 = this.filterDate(startDate, format),
+      d2 = this.filterDate(endDate, format);
 
     return this.append2DateString(d1, d2);
   }

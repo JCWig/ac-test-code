@@ -19,6 +19,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
     this.opened = false;
     this.rangeStart = {};
     this.rangeEnd = {};
+    this.rangeStart.dateSelected = this.rangeEnd.dateSelected = false;
 
     this.dateFormat = this.format || config.format;
     this.options = config.options;
@@ -58,18 +59,18 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
     }
 
     ngModel.$render = function() {
-      var nextMonth = new Date();
+      dr.rangeStart.value =
+        angular.isDefined(attr.startDate) && this.startDate ? this.startDate : '';
+      dr.rangeStart.dateSelected = dr.rangeStart.value !== '';
 
-      nextMonth.setMonth(nextMonth.getMonth() + 1);
+      dr.rangeEnd.value =
+        angular.isDefined(attr.endDate) && this.endDate ? this.endDate : '';
+      dr.rangeEnd.dateSelected = dr.rangeEnd.value !== '';
 
-      dr.rangeStart.value = attr.startDate
-        ? dateRangeService.filterDate(attr.startDate, dr.dateFormat)
-        : '';
-      dr.rangeEnd.value = attr.endDate
-        ? dateRangeService.filterDate(attr.endDate, dr.dateFormat)
-        : '';
-      scope.setViewValue(
-        dateRangeService.append2DateString(dr.rangeStart.value, dr.rangeEnd.value));
+      if (dr.rangeStart.value && dr.rangeEnd.value) {
+        scope.setViewValue(
+          dateRangeService.append2DateString(dr.rangeStart.value, dr.rangeEnd.value));
+      }
 
       $timeout(function() {
         initialized = true;
@@ -87,46 +88,65 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
       }
     };
 
-    //those $watches can have chance to do some validation....
     scope.$watch('dr.rangeStart.value', function(newVal, oldVal) {
-      var dateRange;
+      var dateRange, dates;
 
-      if (dr.rangeEnd.value) {
-        $timeout(function() {
-          scope.$broadcast('startDateChanged', {
-            startDate: newVal,
-            endDate: new Date(dr.rangeEnd.value)
-          });
-        });
+      if (dr.rangeStart.dateSelected) {
+        if (newVal.getTime() > oldVal.getTime()) {
+          dates = [oldVal, newVal];
+        } else {
+          dates = [newVal, oldVal];
+        }
+      } else if (dr.rangeEnd.dateSelected) { //rangeStart.dateSelected is true now
+        dates = [newVal, new Date(dr.rangeEnd.value)];
       }
 
-      dateRange =
-        dateRangeService.getSelectedDateRange(dr.rangeStart, dr.rangeEnd, dr.dateFormat);
-      scope.setViewValue(dateRange);
+      if (dates && dates.length === 2) {
+        $timeout(function() {
+          scope.$broadcast('startDateChanged', {
+            startDate: dates[0],
+            endDate: dates[1]
+          });
+        });
+        dateRange =
+          dateRangeService.getSelectedDateRange(dates[0], dates[1], dr.dateFormat);
+        scope.setViewValue(dateRange);
+      }
 
       if (initialized) {
         dr.opened = true;
+        dr.rangeStart.dateSelected = true;
       }
     });
 
     scope.$watch('dr.rangeEnd.value', function(newVal, oldVal) {
-      var dateRange;
+      var dateRange, dates;
 
-      if (dr.rangeStart.value) {
-        $timeout(function() {
-          scope.$broadcast('endDateChanged', {
-            endDate: newVal,
-            startDate: new Date(dr.rangeStart.value)
-          });
-        });
+      if (dr.rangeEnd.dateSelected) {
+        if (newVal.getTime() > oldVal.getTime()) {
+          dates = [oldVal, newVal];
+        } else {
+          dates = [newVal, oldVal];
+        }
+      } else if (dr.rangeStart.dateSelected) { //rangeEnd.dateSelected is true now
+        dates = [new Date(dr.rangeStart.value), newVal];
       }
 
-      dateRange =
-        dateRangeService.getSelectedDateRange(dr.rangeStart, dr.rangeEnd, dr.dateFormat);
-      scope.setViewValue(dateRange);
+      if (dates && dates.length === 2) {
+        $timeout(function() {
+          scope.$broadcast('endDateChanged', {
+            startDate: dates[0],
+            endDate: dates[1]
+          });
+        });
+        dateRange =
+          dateRangeService.getSelectedDateRange(dates[0], dates[1], dr.dateFormat);
+        scope.setViewValue(dateRange);
+      }
 
       if (initialized) {
         dr.opened = true;
+        dr.rangeEnd.dateSelected = true;
       }
     });
   }
