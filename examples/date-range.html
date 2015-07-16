@@ -11,8 +11,8 @@
   <br/>
   <h2>Date Range Component Example</h2>
   <pre>selected Date Range: {{vm.selectedRange}}</pre>
-  <akam-date-range ng-model="vm.selectedRange"  format="M/d/yy" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange)"></akam-date-range>
-    <br/>
+  <akam-date-range ng-model="vm.selectedRange" format="M/d/yy" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange)"></akam-date-range>
+  <br/>
   <br/>
   <div class="form-group">
     <div>
@@ -23,7 +23,8 @@
   <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('dateRangeApp', ['akamai.components.date-range'])
-    .controller('DateRangeAppController', DateRangeAppController);
+    .controller('DateRangeAppController', DateRangeAppController)
+    .config(configFunction);
 
   DateRangeAppController.$inject = ['$log'];
 
@@ -37,6 +38,16 @@
     vm.onSelectCallback = function(selectedDateRange) {
       $log.log(selectedDateRange);
       vm.selectedRange = selectedDateRange;
+    }
+  }
+
+  configFunction.$inject = ['i18nTokenProvider'];
+
+  function configFunction(i18nTokenProvider) {
+    // need to overwrite locales path on fee.akamai.com
+    if (window.location.host == 'fee.akamai.com') {
+      i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+      i18nTokenProvider.setAppLocalePath("locales/json/messages/");
     }
   }
   </script>
