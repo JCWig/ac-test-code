@@ -17,6 +17,7 @@
 
 /* support TWBS and Common CSS radios/checkboxes */
 
+/*
 .radio,
 .radio-inline {
   
@@ -36,7 +37,7 @@
     opacity: 1;
   }
 }
-/*
+
 .radio,
 .checkbox {
   margin-top: 15px;
@@ -71,12 +72,12 @@
       padding-top: 0;
       
       input {
-        // margin-left: 0;
+        margin-left: 0;
       }
       
       label {
         line-height: inherit;
-        // padding-left: 0;
+        padding-left: 0;
       }
     }
   }

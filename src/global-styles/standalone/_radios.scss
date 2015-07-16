@@ -34,35 +34,44 @@ input[type="radio"] {
 
 input[type="radio"] {
   // The cascade order matters here: Disabled > Active > Hover > Focus > Default
-  &:focus + label:before {
+  &:focus + label:before,
+  &:focus + .label:before {
     @include luna-sprite(radio_focus);
   }
-  &:hover + label:before {
+  &:hover + label:before,
+  &:hover + .label:before {
     @include luna-sprite(radio_hover);
   }
-  &:active + label:before {
+  &:active + label:before,
+  &:active + .label:before {
     @include luna-sprite(radio_active);
   }
-  &:disabled + label:before {
+  &:disabled + label:before,
+  &:disabled + .label:before {
     @include luna-sprite(radio_disabled);
   }
 
   // The states for a checked radio button
   &:checked {
     // The cascade order matters here: Disabled > Active > Hover > Focus > Default
-    & + label:before {
+    & + label:before,
+    & + .label:before {
       @include luna-sprite(radio-selected);
     }
-    &:focus + label:before {
+    &:focus + label:before,
+    &:focus + .label:before {
       @include luna-sprite(radio-selected_focus);
     }
-    &:hover + label:before {
+    &:hover + label:before,
+    &:hover + .label:before {
       @include luna-sprite(radio-selected_hover);
     }
-    &:active + label:before {
+    &:active + label:before,
+    &:active + .label:before {
       @include luna-sprite(radio-selected_active);
     }
-    &:disabled + label:before {
+    &:disabled + label:before,
+    &:disabled + .label:before {
       @include luna-sprite(radio-selected_disabled);
     }
   }

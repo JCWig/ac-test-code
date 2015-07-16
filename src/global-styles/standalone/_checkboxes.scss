@@ -31,39 +31,52 @@ input[type="checkbox"] {
 
 input[type="checkbox"] {
   // The cascade order matters here: Disabled > Active > Hover > Focus > Default
-  &:focus + label:before {
+  &:focus + label:before,
+  &:focus + .label:before {
     @include luna-sprite(checkbox_focus);
   }
-  &:hover + label:before {
+  &:hover + label:before,
+  &:hover + .label:before {
     @include luna-sprite(checkbox_hover);
   }
-  &:active + label:before {
+  &:active + label:before,
+  &:active + .label:before {
     @include luna-sprite(checkbox_active);
   }
-  &:disabled + label:before {
+  &:disabled + label:before,
+  &:disabled + .label:before {
     @include luna-sprite(checkbox_disabled);
   }
 
   // The states for a checked checkbox
   &:checked {
     // The cascade order matters here: Disabled > Active > Hover > Focus > Default
-    & + label:before {
+    & + label:before,
+    & + .label:before {
       @include luna-sprite(checkbox-selected);
     }
-    &:focus + label:before {
+    &:focus + label:before,
+    &:focus + .label:before {
       @include luna-sprite(checkbox-selected_focus);
     }
-    &:hover + label:before {
+    &:hover + label:before,
+    &:hover + .label:before {
       @include luna-sprite(checkbox-selected_hover);
     }
-    &:active + label:before {
+    &:active + label:before,
+    &:active + .label:before {
       @include luna-sprite(checkbox-selected_active);
     }
-    &:disabled + label:before {
+    &:disabled + label:before,
+    &:disabled + .label:before {
       @include luna-sprite(checkbox-selected_disabled);
     }
   }
+  
+  
 }
+
+
 
 &.luna input[type="checkbox"] {
   // Luna tweaks here
