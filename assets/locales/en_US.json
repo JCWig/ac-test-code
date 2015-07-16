@@ -102,6 +102,9 @@
                 "year": "Year Picker"
             }
         },
+        "date-range": {
+            "placeholder": "Select Dates"
+        },
         "tooltip": {
 
         },

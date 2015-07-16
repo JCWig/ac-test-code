@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Date Range</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+</head>
+
+<body class="common-css luna" ng-app="dateRangeApp" ng-strict-di ng-controller="DateRangeAppController as vm">
+  <br/>
+  <h2>Date Range Component Example</h2>
+  <pre>selected Date Range: {{vm.selectedRange}}</pre>
+  <akam-date-range ng-model="vm.selectedRange"  format="M/d/yy" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange)"></akam-date-range>
+    <br/>
+  <br/>
+  <div class="form-group">
+    <div>
+      <input id="disableDateRange" type="checkbox" name='disableDateRange' ng-model='vm.disabled' />
+      <label class="label" for="disableDateRange">To disabled above component</label>
+    </div>
+  </div>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  angular.module('dateRangeApp', ['akamai.components.date-range'])
+    .controller('DateRangeAppController', DateRangeAppController);
+
+  DateRangeAppController.$inject = ['$log'];
+
+  function DateRangeAppController($log) {
+    var vm = this;
+    vm.selectedRange = "";
+    var d = new Date();
+    //vm.startDate = new Date(d.getFullYear(), d.getMonth());
+    //vm.endDate = new Date(d.getFullYear() + 1, d.getMonth() + 1);
+
+    vm.onSelectCallback = function(selectedDateRange) {
+      $log.log(selectedDateRange);
+      vm.selectedRange = selectedDateRange;
+    }
+  }
+  </script>
+</body>
+
+</html>

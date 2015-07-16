@@ -20,6 +20,9 @@
                 "month": "월 선택기"
             }
         },
+        "date-range": {
+            "placeholder": "Select Dates"
+        },
         "modal-window": {
             "successMessage": "The action has been completed.",
             "errorMessage": "The action can't be completed.",

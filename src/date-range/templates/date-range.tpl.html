@@ -1,0 +1,46 @@
+<div class="akam-date-range akam-date-picker day" ng-class="{opened:dr.opened}">
+  <span class="rangeStart">
+    <input
+      id="{{::dr.rangeStart.id}}"
+      type="text"
+      datepicker-popup="{{::dr.dateFormat}}"
+      ng-model="dr.rangeStart.value"
+      is-open="dr.opened"
+      min-date="{{::dr.rangeStart.minDate}}"
+      max-date="{{::dr.rangeStart.maxDate}}"
+      datepicker-options="{{::dr.options}}"
+      placeholder="{{dr.rangeStart.placeholder}}"
+      ng-click="dr.toggle($event)"
+      ng-disabled="dr.isDisabled"
+      readonly="readonly"
+      show-button-bar="false">
+  <button class="button" ng-click="dr.toggle($event)" ng-disabled="dr.isDisabled">
+    <i class="luna-calendar icon-states" ng-disabled="dr.isDisabled"></i>
+  </button>
+  </span>
+  <span class="rangeEnd">
+    <input
+      id="{{::dr.rangeEnd.id}}"
+      type="text"
+      datepicker-popup="{{dr.dateFormat}}"
+      ng-model="dr.rangeEnd.value"
+      init-date="dr.rangeEnd.initDate"
+      is-open="dr.opened"
+      datepicker-options="{{::dr.options}}"
+      min-date="{{::dr.rangeEnd.minDate}}"
+      max-date="{{::dr.rangeEnd.maxDate}}"
+      placeholder="{{dr.rangeEnd.placeholder}}"
+      ng-click="dr.toggle($event)"
+      ng-disabled="dr.isDisabled"
+      readonly="readonly"
+      show-button-bar="false">
+  <button class="button" ng-click="dr.toggle($event)" ng-disabled="dr.isDisabled">
+    <i class="luna-calendar icon-states" ng-disabled="dr.isDisabled"></i>
+  </button>
+  </span>
+</div>
+
+<!--    datepicker-options="dateOptions"
+    datepicker-mode="mode"
+
+    -->

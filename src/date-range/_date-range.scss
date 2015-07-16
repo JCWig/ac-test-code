@@ -1,0 +1,51 @@
+$date-range-disabled-color: #e6e6e6;
+$date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
+$date-range-in-range-color: #666666;
+$date-range-in-range-background-color: #CEE7FF;
+.akam-date-picker.akam-date-range {
+  position: relative;
+  input {
+    &::-ms-clear {
+      display: none;
+    }
+    &:disabled {
+      @include placeholder-enhanced($date-range-disabled-color, italic);
+      color: $date-range-disabled-color;
+      cursor: default;
+    }
+  }
+  & span.rangeStart {
+    position: absolute;
+    ul.dropdown-menu {
+      min-width: 225px;
+      border-right: none;
+      @include border-right-radius(0);
+    }
+  }
+  & span.rangeEnd {
+    position: absolute;
+    margin-left: 224px;
+    ul.dropdown-menu {
+      min-width: 225px;
+      border-left: none;
+      @include border-left-radius(0);
+      @include box-shadow($date-range-boxshadow);
+    }
+  }
+  table tbody td button {
+    &.in-range {
+      color: $date-range-in-range-color;
+      background-color: $date-range-in-range-background-color;
+    }
+    span.text-info {
+      -webkit-box-shadow: inset 0px 0px 0px 2px #0099CC;
+      -moz-box-shadow: inset 0px 0px 0px 2px #0099CC;
+      box-shadow: inset 0px 0px 0px 2px #0099CC;
+      background-color: $button-primary-text-color!important;
+    }
+  }
+
+  ul.dropdown-menu tbody td {
+    height: 23px;
+  }
+}
