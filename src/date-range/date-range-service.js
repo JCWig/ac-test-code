@@ -74,8 +74,8 @@ module.exports = function($filter) {
     setStartMinMax: setStartMinMax,
     setEndMinMax: setEndMinMax,
     getSelectedDateRange: selectedRange
-  }
+  };
 
-}
+};
 
 module.exports.$inject = ['$filter'];

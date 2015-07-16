@@ -21,7 +21,6 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
     this.rangeEnd = {};
 
     this.dateFormat = this.format || config.format;
-    console.log(this.dateFormat)
     this.options = config.options;
 
     if ($attr.placeholder) {
@@ -43,7 +42,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
       e.stopPropagation();
 
       this.opened = !this.opened;
-    }
+    };
   }
 
   DateRangeController.$inject = ['$scope', '$element', '$attrs'];
@@ -54,17 +53,23 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
       initialized = false;
 
     if (!ngModel) {
-      $log.error('Missing ngModel, it is required to instantiate the date range component.')
+      $log.error('Missing ngModel, it is required to instantiate the date range component.');
       return;
     }
+
     ngModel.$render = function() {
       var nextMonth = new Date();
 
       nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-      dr.rangeStart.value = attr.startDate ? dateRangeService.filterDate(attr.startDate, dr.dateFormat) : '';
-      dr.rangeEnd.value = attr.endDate ? dateRangeService.filterDate(attr.endDate, dr.dateFormat) : '';
-      scope.setViewValue(dateRangeService.append2DateString(dr.rangeStart.value, dr.rangeEnd.value));
+      dr.rangeStart.value = attr.startDate
+        ? dateRangeService.filterDate(attr.startDate, dr.dateFormat)
+        : '';
+      dr.rangeEnd.value = attr.endDate
+        ? dateRangeService.filterDate(attr.endDate, dr.dateFormat)
+        : '';
+      scope.setViewValue(
+        dateRangeService.append2DateString(dr.rangeStart.value, dr.rangeEnd.value));
 
       $timeout(function() {
         initialized = true;
@@ -143,6 +148,6 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
     link: linkFn,
     template: require('./templates/date-range.tpl.html')
   };
-}
+};
 
 module.exports.$inject = ['translate', 'uuid', '$log', '$filter', '$timeout', 'dateRangeService'];

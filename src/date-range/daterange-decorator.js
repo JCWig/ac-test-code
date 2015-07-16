@@ -1,5 +1,7 @@
+var angular = require('angular');
+
 module.exports = function($provide) {
-  function datePickerDirective($delegate, $timeout) {
+  function datePickerDirective($delegate) {
     var link;
 
     // since: directives could potentially share names, the provider returns an array
@@ -53,7 +55,7 @@ module.exports = function($provide) {
             return dt.date.getTime() >= sd.getTime() && dt.date.getTime() <= ed.getTime();
           }
           return false;
-        }
+        };
       };
     };
 
