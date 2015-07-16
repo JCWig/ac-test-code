@@ -74,3 +74,30 @@ ul.dropdown-menu {
     border-color: $border-color-invalid;
   }
 }
+
+
+/* optional field marking */
+.form-horizontal:not(.show-required) {
+  .form-group:not(.required) > label {
+    line-height: 1.2;
+    &:after {
+      content: '\A (optional)';
+      font-weight: normal;
+      white-space: pre;
+      color: $colors__gray4;
+    }
+  }
+}
+
+
+.form-horizontal.show-required {
+  .form-group.required > label {
+    line-height: 1.2;
+    &:after {
+      content: '\A (required)';
+      font-weight: normal;
+      white-space: pre;
+      color: $colors__gray4;
+    }
+  }
+}

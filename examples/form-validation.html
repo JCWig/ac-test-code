@@ -29,8 +29,8 @@
               
               
               
-              <div class="form-horizontal">
-                <div class="form-group">
+              <div class="form-horizontal show-required">
+                <div class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input1" ng-model="input1" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -48,7 +48,7 @@
               
               
                 <div class="form-group">
-                  <label class="col-md-4">Longer Input (optional)</label>
+                  <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput1" ng-model="longerInput1" ng-minlength="5" ng-maxlength="20" required>
                     
@@ -62,7 +62,7 @@
                   </div>
                 </div>
               
-                <div class="form-group">
+                <div class="form-group required">
                   <label class="col-md-4" for="#">Dropdown</label>
                   <div class="col-md-8">
                     <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown1" required></akam-dropdown>
@@ -124,7 +124,7 @@
                   </div>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group required">
                   <label class="col-md-4">Pick A Date Range</label>
                   <div class="col-md-4">
                     <akam-date-picker
@@ -189,7 +189,7 @@
                   </div>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group required">
                   <label class="col-md-4">Pick A Number</label>
                   <div class="col-md-8">
                     <akam-spinner min="0" max="100" ng-model="number1" name="number1"></akam-spinner>
@@ -225,7 +225,7 @@
                   </div>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group required">
                   <label class="col-md-4">Tag Input</label>
                   <div class="col-md-8">
                     <akam-tag-input 
@@ -280,7 +280,7 @@
                   </div>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group required">
                   <label class="col-md-4">Free Text Area</label>
                   <div class="col-md-8">
                     <textarea class="form-control" name="textarea1" ng-model="textarea1" minlength="5" maxlength="20" required rows="5"></textarea>
