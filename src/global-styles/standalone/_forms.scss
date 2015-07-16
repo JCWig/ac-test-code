@@ -80,6 +80,16 @@
         padding-left: 0;
       }
     }
+    
+    .radio,
+    .checkbox {
+      min-height: 0;
+      
+      & + .radio,
+      & + .checkbox {
+        margin-top: 10px;
+      }
+    }
   }
 }
 
@@ -111,4 +121,12 @@ label {
     */
   }
 
+}
+
+
+/* legends */
+.form-horizontal {
+  legend {
+    margin-bottom: 20px;
+  }
 }
