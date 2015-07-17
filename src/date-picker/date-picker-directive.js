@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function($filter, translate) {
+module.exports = function($filter, $timeout, translate) {
   var PICKER_TYPES = {
     day: 'day',
     month: 'month'
@@ -20,15 +20,12 @@ module.exports = function($filter, translate) {
     template: require('./templates/date-picker.tpl.html'),
     link: {
       pre: function(scope) {
-        var format;
 
         scope.opened = false;
         scope.mode = scope.mode in PICKER_TYPES ?
           scope.mode : PICKER_TYPES.day;
 
         if (scope.mode === PICKER_TYPES.day) {
-          format = scope.format || 'EEE, MMM dd, yyyy';
-          scope.newFormat = format;
           if (!scope.placeholder) {
             translate.async('components.date-picker.placeholder.date').then(function(value) {
               scope.placeholder = value;
@@ -42,8 +39,6 @@ module.exports = function($filter, translate) {
             maxMode: 'day'
           };
         } else {
-          format = scope.format || 'MMM yyyy';
-          scope.newFormat = format;
           if (!scope.placeholder) {
             translate.async('components.date-picker.placeholder.month').then(function(value) {
               scope.placeholder = value;
@@ -95,9 +90,17 @@ module.exports = function($filter, translate) {
         scope.$watch('opened', function(newValue) {
           element.toggleClass('opened', newValue);
         });
+
+        $timeout(function() {
+          if (scope.mode === PICKER_TYPES.day) {
+            scope.format = scope.format || 'EEE, MMM dd, yyyy';
+          } else {
+            scope.format = scope.format || 'MMM yyyy';
+          }
+        });
       }
     }
   };
 };
 
-module.exports.$inject = ['$filter', 'translate'];
+module.exports.$inject = ['$filter', '$timeout', 'translate'];
