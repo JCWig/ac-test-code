@@ -154,8 +154,12 @@ describe('akamai.components.context', function() {
         expect(group.name).toEqual('Toys');
       });
 
-      it('should return the current group’s parents', function() {
+      it('should return the current group’s parent', function() {
         expect(group.parent.id).toEqual(123);
+      });
+
+      it('should return the current group’s parents', function() {
+        expect(group.parents[0].id).toEqual(123);
       });
 
       it('should return the current group’s child groups', function() {
@@ -235,8 +239,7 @@ describe('akamai.components.context', function() {
         expect(property.id).toBeNull();
       });
 
-      it('should make a request to extend the session with the gid ' +
-      'query string parameter', function() {
+      it('should make a request to extend the session', function() {
 
         var spy = spyOn($http, 'get').and.callThrough();
 
@@ -244,7 +247,7 @@ describe('akamai.components.context', function() {
         $rootScope.$apply();
         $httpBackend.flush();
 
-        expect(spy.calls.mostRecent().args[0]).toMatch(/gid=123/);
+        expect(spy.calls.mostRecent().args[0]).toMatch(/extend/);
       });
 
     });
@@ -288,15 +291,14 @@ describe('akamai.components.context', function() {
         expect(group.id).toBe(888);
       });
 
-      it('should make a request to extend the session with the aid ' +
-      'query string parameter', function() {
+      it('should make a request to extend the session', function() {
         var spy = spyOn($http, 'get').and.callThrough();
 
         context.property = 666;
         $rootScope.$apply();
         $httpBackend.flush();
 
-        expect(spy.calls.mostRecent().args[0]).toMatch(/aid=666/);
+        expect(spy.calls.mostRecent().args[0]).toMatch(/extend/);
       });
 
     });

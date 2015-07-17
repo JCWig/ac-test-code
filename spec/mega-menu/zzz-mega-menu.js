@@ -89,6 +89,7 @@ describe('akamai.components.mega-menu', function() {
         username: 'me',
         locale: 'en_US'
       });
+      $httpBackend.when('GET', /grp.json/).respond({});
       $httpBackend.when('GET', util.FOOTER_URL).respond({});
       $httpBackend.when('GET', util.BRANDING_URL).respond({});
       $httpBackend.when('GET', util.LOCALE_URL).respond({});
