@@ -22,7 +22,7 @@ module.exports = angular.module('akamai.components.date-range', [
    *
    * @name akamai.components.date-range.service:dateRangeService
    *
-   * @description Provides some util functions for dates manipulations for directive
+   * @description Provides util functions for dates range manipulations for directive
    */
   .factory('dateRangeService', require('./date-range-service'))
   /**
@@ -34,11 +34,11 @@ module.exports = angular.module('akamai.components.date-range', [
    *
    * @param {String} ng-model The selected date ranger
    *
-   * @param {String} [start-date=''] pre populate the start date range value
+   * @param {String} [start-date=''] value can be empty or pre populate the start date range value
    *
-   * @param {String} [end-date=''] pre populate the end date range value
+   * @param {String} [end-date=''] value can be empty or pre populate the end date range value
    *
-   * @param {string} [format='EEE, MMM dd, yyyy'], format valu ecan be passed in to
+   * @param {string} [format='EEE, MMM dd, yyyy'], format value can be passed in to
    * override the default value
    *
    * @param {Boolean} isDisabled a boolean value can be performed from parent

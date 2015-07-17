@@ -52,6 +52,20 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
 
       this.opened = !this.opened;
     };
+
+    this.clearStartDate = function(e) {
+            e.preventDefault();
+      e.stopPropagation();
+      this.rangeStart.value = '';
+      this.rangeStart.dateSelected = false;
+    }
+
+    this.clearEndDate = function(e) {
+            e.preventDefault();
+      e.stopPropagation();
+      this.rangeEnd.value = '';
+      this.rangeEnd.dateSelected = false;
+    }
   }
 
   DateRangeController.$inject = ['$scope', '$element', '$attrs'];
@@ -78,6 +92,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
       dr.rangeEnd.dateSelected = endDate !== '';
 
       if (startDate && endDate) {
+        //if startDate greater then endDate, swap date value
         if (startDate.getTime() > endDate.getTime()) {
           cloneDate = new Date(endDate);
           endDate = startDate;
@@ -125,7 +140,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
 
       if (initialized) {
         dr.opened = true;
-        dr.rangeStart.dateSelected = true;
+        dr.rangeStart.dateSelected = newVal !== '';
       }
     });
 
@@ -146,7 +161,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
 
       if (initialized) {
         dr.opened = true;
-        dr.rangeEnd.dateSelected = true;
+        dr.rangeEnd.dateSelected = newVal !== '';
       }
     });
   }

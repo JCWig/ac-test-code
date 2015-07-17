@@ -14,6 +14,8 @@
       ng-disabled="dr.isDisabled"
       readonly="readonly"
       show-button-bar="false">
+      <i class="luna-close clear-date util-clickable"
+        ng-show="dr.rangeStart.dateSelected" ng-click="dr.clearStartDate($event)"></i>
   <button class="button" ng-click="dr.toggle($event)" ng-disabled="dr.isDisabled">
     <i class="luna-calendar icon-states" ng-disabled="dr.isDisabled"></i>
   </button>
@@ -34,6 +36,8 @@
       ng-disabled="dr.isDisabled"
       readonly="readonly"
       show-button-bar="false">
+      <i class="luna-close clear-date util-clickable"
+        ng-show="dr.rangeEnd.dateSelected" ng-click="dr.clearEndDate($event)"></i>
   <button class="button" ng-click="dr.toggle($event)" ng-disabled="dr.isDisabled">
     <i class="luna-calendar icon-states" ng-disabled="dr.isDisabled"></i>
   </button>

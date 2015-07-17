@@ -116,6 +116,11 @@ module.exports = function($filter) {
   function evaluateDates(d1, d2, d3, d4, sel1, sel2) {
     var dates;
 
+    //new value is empty, due to user unselects
+    if (!d1) {
+      return [undefined, undefined];
+    }
+
     if (sel1) {
       if (d1.getTime() > d2.getTime()) {
         dates = [d2, d1];
