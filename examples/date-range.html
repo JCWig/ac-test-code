@@ -6,12 +6,10 @@
   <title>Akamai Component Examples - Date Range</title>
   <link rel="stylesheet" href="../dist/akamai-core.css">
   <style type="text/css">
-  .title1 {
+  .title {
     margin-top: 30px;
   }
-  .title2 {
-    margin-top: 250px;
-  }
+
   .form-group div {
     margin: 15px 0;
   }
@@ -22,9 +20,7 @@
   <br/>
   <h2>Date Range Component Example</h2>
   <pre>selected Date Range: {{vm.selectedRange}}</pre>
-  <h4 class="title1">Plain date range</h4>
-  <akam-date-range ng-model="vm.selectedRange" on-select="vm.onSelectCallback(selectedDateRange)"></akam-date-range>
-  <h4 class="title2">Complex date range</h4>
+  <h4 class="title">date range</h4>
   <akam-date-range ng-model="vm.selectedRange" format="{{vm.format}}" start-date="vm.startDate" end-date="vm.endDate" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange)"></akam-date-range>
   <br/>
   <br/>
@@ -50,8 +46,9 @@
     var vm = this;
     vm.selectedRange = "";
     var d = new Date();
-    vm.startDate = new Date(d.getFullYear(), d.getMonth(), 3);
-    vm.endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    vm.startDate = ""; //new Date(d.getFullYear(), d.getMonth(), 3);
+    vm.endDate = ""; //new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    vm.btnName = "preload dates";
 
     vm.formats = [{
       value: 'EEE, MMM d, y',

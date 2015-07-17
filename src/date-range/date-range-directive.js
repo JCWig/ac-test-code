@@ -92,7 +92,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
 
       $timeout(function() {
         initialized = true;
-        //interesting, have to wait for completed to here
+        //interesting, have to wait for $digest completed
         dr.format = dr.format || config.format;
       });
     };
