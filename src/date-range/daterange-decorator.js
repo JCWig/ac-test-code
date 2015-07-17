@@ -37,12 +37,7 @@ module.exports = function($provide) {
           return ctrl.maxDate && lastDayOfMonth >= ctrl.maxDate;
         };
 
-        scope.$on('endDateChanged', function(event, info) {
-          scope.newEndDate = info.endDate;
-          scope.newStartDate = info.startDate;
-        });
-
-        scope.$on('startDateChanged', function(event, info) {
+        scope.$on('rangeDateChanged', function(event, info) {
           scope.newEndDate = info.endDate;
           scope.newStartDate = info.startDate;
         });

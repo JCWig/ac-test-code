@@ -68,12 +68,74 @@ module.exports = function($filter) {
     return this.append2DateString(d1, d2);
   }
 
+  function evaluateDates(startDate, endDate, rangeStart, rangeEnd, changeFrom) {
+    var stSelected = rangeStart.dateSelected,
+      edSelected = rangeEnd.dateSelected,
+      stValue = rangeStart.value,
+      edValue = rangeEnd.value,
+      dates;
+
+    if (changeFrom === "firstPane") {
+      if (stSelected) {
+        if (newVal.getTime() > oldVal.getTime()) {
+          dates = [oldVal, newVal];
+        } else {
+          dates = [newVal, oldVal];
+        }
+      } else if (edSelected) { //rangeStart.dateSelected is true now
+        dates = [newVal, new Date(edValue)];
+      }
+    } else {
+      if (edSelected) {
+        if (newVal.getTime() > oldVal.getTime()) {
+          dates = [oldVal, newVal];
+        } else {
+          dates = [newVal, oldVal];
+        }
+      } else if (stSelected) { //rangeStart.dateSelected is true now
+        dates = [newVal, new Date(stValue)];
+      }
+    }
+    return dates;
+  }
+
+  function evaluateStartDateChange(newVal, oldVal, startObj, endObj) {
+    var sel1 = startObj.dateSelected,
+      sel2 = endObj.dateSelected;
+
+    return evaluateDates(newVal, oldVal, newVal, new Date(endObj.value), sel1, sel2);
+  }
+
+  function evaluateEndDateChange(newVal, oldVal, startObj, endObj) {
+    var sel1 = endObj.dateSelected,
+      sel2 = startObj.dateSelected;
+
+    return evaluateDates(newVal, oldVal, new Date(startObj.value), newVal, sel1, sel2);
+  }
+
+  function evaluateDates(v1, v2, v3, v4, sel1, sel2) {
+    var dates;
+
+    if (sel1) {
+      if (v1.getTime() > v2.getTime()) {
+        dates = [v2, v1];
+      } else {
+        dates = [v1, v2];
+      }
+    } else if (sel2) { //rangeStart.dateSelected is true now
+      dates = [v3, v4];
+    }
+    return dates;
+  }
+
   return {
     filterDate: filterDate,
     append2DateString: appendDates,
     setStartMinMax: setStartMinMax,
     setEndMinMax: setEndMinMax,
-    getSelectedDateRange: selectedRange
+    getSelectedDateRange: selectedRange,
+    evaluateEndDateChange: evaluateEndDateChange,
+    evaluateStartDateChange: evaluateStartDateChange
   };
 
 };

@@ -3,7 +3,7 @@
     <input
       id="{{::dr.rangeStart.id}}"
       type="text"
-      datepicker-popup="{{::dr.dateFormat}}"
+      datepicker-popup="{{dr.format}}"
       ng-model="dr.rangeStart.value"
       is-open="dr.opened"
       min-date="{{::dr.rangeStart.minDate}}"
@@ -22,7 +22,7 @@
     <input
       id="{{::dr.rangeEnd.id}}"
       type="text"
-      datepicker-popup="{{dr.dateFormat}}"
+      datepicker-popup="{{dr.format}}"
       ng-model="dr.rangeEnd.value"
       init-date="dr.rangeEnd.initDate"
       is-open="dr.opened"
