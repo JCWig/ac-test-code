@@ -109,16 +109,12 @@ label {
 
 
 .form-horizontal {
-
+  & + .form-horizontal {
+    margin-top: 30px;
+  }
+  
   .form-group {
     margin-bottom: 10px;
-
-    /*
-    label + .form-control {
-      margin-top: $input-label-spacing;
-      margin-left: 0;
-    }
-    */
   }
 
 }
@@ -127,6 +123,30 @@ label {
 /* legends */
 .form-horizontal {
   legend {
+    border-bottom: 0 none;
     margin-bottom: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    
+    & > * {
+      display: block;
+      
+      &:not(:first-child) {
+        font-size: 12px;
+        font-weight: normal;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
+
+/* status messages */
+.form-horizontal {
+  position: relative;
+  
+  .akam-status-message-wrapper {
+    position: relative;
+    margin-bottom: 10px;
   }
 }

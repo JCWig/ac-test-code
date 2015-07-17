@@ -15,6 +15,9 @@
           form.example + form.example {
             margin-top: 2em;
           }
+          form.example .form-horizontal legend {
+            // border-bottom: 1px solid #e5e5e5;
+          }
         </style>
         
     </head>
@@ -25,12 +28,15 @@
             </div>
             
             
-            <form class="example show-required" name="kitchenSink" novalidate>
+            <form class="example" name="kitchenSink" novalidate>
               
               <fieldset class="form-horizontal">
-                <legend>1. Form with checkboxes and drop down</legend>
-                
-                <fieldset class="form-group required">
+                <legend>
+                  <span>1. Form with checkboxes and drop down</span>
+                  <span>Optional subheading: lorem ipsum dolor sit amet</span>
+                </legend>
+
+                <div class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input1" ng-model="input1" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -43,9 +49,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput1" ng-model="longerInput1" ng-minlength="5" ng-maxlength="20">
@@ -58,9 +64,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4" for="#">Dropdown</label>
                   <div class="col-md-8">
                     <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown1" required></akam-dropdown>
@@ -69,9 +75,9 @@
                       <div ng-message="required">You did not select an item</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Please make your choice:</label>
                   <div class="col-md-8">
                     <div class="checkbox">
@@ -93,9 +99,9 @@
                       </label>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Much Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput1" ng-model="muchLongerInput1" minlength="5" maxlength="20" required>
@@ -108,13 +114,13 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
               </fieldset>
               
               <fieldset class="form-horizontal">
                 <legend>2. Form with radio buttons and free text area</legend>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input2" ng-model="input2" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -127,9 +133,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput2" ng-model="longerInput2" ng-minlength="5" ng-maxlength="20">
@@ -142,9 +148,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Much Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput2" ng-model="muchLongerInput2" minlength="5" maxlength="20" required>
@@ -157,9 +163,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Please make your choice:</label>
                   <div class="col-md-8">
                     <div class="radio">
@@ -181,9 +187,9 @@
                       </label>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Free Text Area</label>
                   <div class="col-md-8">
                     <textarea class="form-control" name="textarea1" ng-model="textarea1" minlength="5" maxlength="20" required rows="5"></textarea>
@@ -196,7 +202,7 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
                 
               </fieldset>
@@ -204,7 +210,7 @@
               <fieldset class="form-horizontal">
                 <legend>3. Form with radio buttons and sub form</legend>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Please make your choice:</label>
                   <div class="col-md-8">
                     <div class="radio">
@@ -222,7 +228,7 @@
                     
                     
                     <div class="col-md-12">
-                      <fieldset class="form-group required">
+                      <div class="form-group required">
                         <label class="col-md-4">Input</label>
                         <div class="col-md-8">
                           <input type="text" class="form-control" name="input3" ng-model="input3" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -235,9 +241,9 @@
                             <div ng-message="max">Your value is above the maximum value</div>
                           </div>
                         </div>
-                      </fieldset>
+                      </div>
                       
-                      <fieldset class="form-group">
+                      <div class="form-group">
                         <label class="col-md-4">Longer Input</label>
                         <div class="col-md-8">
                           <input type="text" class="form-control" name="longerInput3" ng-model="longerInput3" ng-minlength="5" ng-maxlength="20">
@@ -250,9 +256,9 @@
                             <div ng-message="max">Your value is above the maximum value</div>
                           </div>
                         </div>
-                      </fieldset>
+                      </div>
                       
-                      <fieldset class="form-group required">
+                      <div class="form-group required">
                         <label class="col-md-4" for="#">Dropdown</label>
                         <div class="col-md-8">
                           <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown2" required></akam-dropdown>
@@ -261,19 +267,22 @@
                             <div ng-message="required">You did not select an item</div>
                           </div>
                         </div>
-                      </fieldset>
+                      </div>
                     </div>
                     
                   </div>
-                </fieldset>
+                </div>
                 
                 
               </fieldset>
               
-              <fieldset class="form-horizontal show-required">
-                <legend>4. Form with date range picker, date picker, time picker, spinner, and list box</legend>
+              <fieldset class="form-horizontal">
+                <legend>
+                  <span>4. Form with date range picker, date picker, time picker, spinner, and list box</span>
+                  <span>Optional subheading: lorem ipsum dolor sit amet</span>
+                </legend>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Pick A Date Range</label>
                   <div class="col-md-4">
                     <akam-date-picker
@@ -313,9 +322,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Pick A Date</label>
                   <div class="col-md-8">
                     <akam-date-picker
@@ -336,9 +345,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Pick A Time</label>
                   <div class="col-md-8">
                     <akam-time-picker
@@ -357,9 +366,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Pick A Number</label>
                   <div class="col-md-8">
                     <akam-spinner min="0" max="100" ng-model="number1" name="number1"></akam-spinner>
@@ -372,9 +381,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">List Box</label>
                   <div class="col-md-8">
                     <akam-list-box akam-standalone 
@@ -392,13 +401,13 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
               </fieldset>
               
               <fieldset class="form-horizontal">
                 <legend>5. Form with date of birth and tag input fields</legend>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput4" ng-model="longerInput4" ng-minlength="5" ng-maxlength="20">
@@ -411,9 +420,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Tag Input</label>
                   <div class="col-md-8">
                     <akam-tag-input 
@@ -430,9 +439,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Tag Input</label>
                   <div class="col-md-8">
                     <akam-tag-input 
@@ -449,9 +458,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Tag Input</label>
                   <div class="col-md-8">
                     <akam-tag-input 
@@ -468,9 +477,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Tag Input</label>
                   <div class="col-md-8">
                     <akam-tag-input 
@@ -487,9 +496,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Tag Input</label>
                   <div class="col-md-8">
                     <akam-tag-input 
@@ -506,13 +515,16 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
               </fieldset>
               
               <fieldset class="form-horizontal">
-                <legend>6a. Form with action button</legend>
+                <legend>
+                  <span>6a. Form with action button</span>
+                  <span>Optional subheading: lorem ipsum dolor sit amet</span>
+                </legend>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input4" ng-model="input4" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -525,9 +537,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput5" ng-model="longerInput5" ng-minlength="5" ng-maxlength="20">
@@ -540,9 +552,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Much Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput3" ng-model="muchLongerInput3" minlength="5" maxlength="20" required>
@@ -555,9 +567,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Another Long Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput4" ng-model="muchLongerInput4" minlength="5" maxlength="20" required>
@@ -570,19 +582,19 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <div class="col-md-12">
                     <button class="btn pull-right" name="submit1">Submit</button>
                   </div>
-                </fieldset>
+                </div>
               </fieldset>
               
               <fieldset class="form-horizontal">
                 <legend>6b. Form with hit action button</legend>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input5" ng-model="input5" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -595,9 +607,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput6" ng-model="longerInput6" ng-minlength="5" ng-maxlength="20">
@@ -610,9 +622,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Much Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput5" ng-model="muchLongerInput5" minlength="5" maxlength="20" required>
@@ -625,9 +637,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Another Long Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput6" ng-model="muchLongerInput6" minlength="5" maxlength="20" required>
@@ -640,17 +652,20 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <div class="col-md-12">
                     <button class="btn pull-right" name="submit1">SPINNER</button>
                   </div>
-                </fieldset>
+                </div>
               </fieldset>
               
               <fieldset class="form-horizontal">
-                <legend>6c. Form with failed action</legend>
+                <legend>
+                  <span>6c. Form with failed action</span>
+                  <span>Optional subheading: lorem ipsum dolor sit amet</span>
+                </legend>
                 
                 <ul class="akam-status-message-wrapper">
                   <li id="akam-status-message-1" class="akam-status-message-item-wrapper error" item-id="akam-status-message-1" text="Basic Message Text" title="" timeout="0" status="error">
@@ -663,7 +678,7 @@
                   </li>
                 </ul>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input6" ng-model="input6" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -676,9 +691,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput7" ng-model="longerInput7" ng-minlength="5" ng-maxlength="20">
@@ -691,9 +706,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Much Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput7" ng-model="muchLongerInput7" minlength="5" maxlength="20" required>
@@ -706,9 +721,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Another Long Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput8" ng-model="muchLongerInput8" minlength="5" maxlength="20" required>
@@ -721,13 +736,13 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <div class="col-md-12">
                     <button class="btn pull-right" name="submit1">Submit</button>
                   </div>
-                </fieldset>
+                </div>
               </fieldset>
               
               <fieldset class="form-horizontal">
@@ -744,7 +759,7 @@
                   </li>
                 </ul>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input7" ng-model="input7" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -757,9 +772,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput8" ng-model="longerInput8" ng-minlength="5" ng-maxlength="20">
@@ -772,9 +787,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Much Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput9" ng-model="muchLongerInput9" minlength="5" maxlength="20" required>
@@ -787,9 +802,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Another Long Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput10" ng-model="muchLongerInput10" minlength="5" maxlength="20" required>
@@ -802,20 +817,20 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <div class="col-md-12">
                     <button class="btn pull-right" name="submit1">Submit</button>
                   </div>
-                </fieldset>
+                </div>
               </fieldset>
               
               
-              <fieldset class="form-horizontal show-required">
+              <fieldset class="form-horizontal">
                 <legend>Kitchen Sink</legend>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="input8" ng-model="input8" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
@@ -828,10 +843,10 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
               
               
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="longerInput9" ng-model="longerInput9" ng-minlength="5" ng-maxlength="20" required>
@@ -844,9 +859,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
               
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4" for="#">Dropdown</label>
                   <div class="col-md-8">
                     <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown3" required></akam-dropdown>
@@ -855,9 +870,9 @@
                       <div ng-message="required">You did not select an item</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
               
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Please make your choice:</label>
                   <div class="col-md-8">
                     <div class="checkbox">
@@ -879,9 +894,9 @@
                       </label>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Much Longer Input</label>
                   <div class="col-md-8">
                     <input type="text" class="form-control" name="muchLongerInput11" ng-model="muchLongerInput11" minlength="5" maxlength="20" required>
@@ -894,9 +909,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Pick A Date Range</label>
                   <div class="col-md-4">
                     <akam-date-picker
@@ -936,9 +951,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Pick A Date</label>
                   <div class="col-md-8">
                     <akam-date-picker
@@ -959,9 +974,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Pick A Number</label>
                   <div class="col-md-8">
                     <akam-spinner min="0" max="100" ng-model="number1" name="number1"></akam-spinner>
@@ -974,9 +989,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Pick A Time</label>
                   <div class="col-md-8">
                     <akam-time-picker
@@ -995,9 +1010,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Tag Input</label>
                   <div class="col-md-8">
                     <akam-tag-input 
@@ -1014,9 +1029,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">Please make your choice:</label>
                   <div class="col-md-8">
                     <div class="radio">
@@ -1038,9 +1053,9 @@
                       </label>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group required">
+                <div class="form-group required">
                   <label class="col-md-4">Free Text Area</label>
                   <div class="col-md-8">
                     <textarea class="form-control" name="textarea2" ng-model="textarea2" minlength="5" maxlength="20" required rows="5"></textarea>
@@ -1053,9 +1068,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-                <fieldset class="form-group">
+                <div class="form-group">
                   <label class="col-md-4">List Box</label>
                   <div class="col-md-8">
                     <akam-list-box akam-standalone 
@@ -1072,9 +1087,9 @@
                       <div ng-message="max">Your value is above the maximum value</div>
                     </div>
                   </div>
-                </fieldset>
+                </div>
                 
-              </div>
+              </fieldset>
               
               
             </form>

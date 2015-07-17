@@ -10,7 +10,7 @@ textarea {
 
   &.ng-invalid.ng-touched,
   &.ng-invalid.ng-dirty {
-    border-color: $border-color-invalid;
+    border-color: $colors__red3;
     border-width: 2px;
   }
 
@@ -25,31 +25,31 @@ input[type="month"] {
 
     & ~ .button,
     & ~ .btn {
-      border-left-color: $border-color-invalid;
+      border-left-color: $colors__red3;
     }
   }
 
 }
 
-
 [ng-messages] { 
   display: none; // addresses FOUC
   
-  color: #9f1a00;
+  color: $colors__red3;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.ng-invalid:not(.ng-untouched) ~ [ng-messages] {
+.ng-invalid.ng-touched ~ [ng-messages] {
   display: block;
 }
+
 
 
 /* dropdown menu validation */
 ul.dropdown-menu {
 
   &.ng-invalid {
-    border-color: $border-color-invalid;
+    border-color: $colors__red3;
   }
 
 }
@@ -61,22 +61,22 @@ ul.dropdown-menu {
 
   &.ng-touched {
     & > input {
-      border-color: $border-color-invalid;
+      border-color: $colors__red3;
 
       & ~ .button,
       & ~ .btn {
-        border-left-color: $border-color-invalid;
+        border-left-color: $colors__red3;
       }
     }
   }
 
   ul.dropdown-menu {
-    border-color: $border-color-invalid;
+    border-color: $colors__red3;
   }
 }
 
 
-/* optional field marking */
+/* required/optional field marking */
 form:not(.show-required) {
     
   .form-group:not(.required) > label {
@@ -106,12 +106,3 @@ form.show-required {
 }
 
 
-/* status messages */
-.form-horizontal {
-  position: relative;
-  
-  .akam-status-message-wrapper {
-    position: relative;
-    margin-bottom: 10px;
-  }
-}
