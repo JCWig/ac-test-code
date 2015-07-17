@@ -411,6 +411,7 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
       // remove pagination if necessary
       if (angular.isDefined(attributes.notPageable)) {
         tpl.find('akam-pagination').remove();
+        angular.element(tpl[0].querySelector('.data')).addClass('basic-table');
       }
 
       return tpl[0].outerHTML;
