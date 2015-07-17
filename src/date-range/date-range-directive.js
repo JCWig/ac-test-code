@@ -136,7 +136,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
         return;
       }
 
-      dates = drService.evaluateEndDateChange( newVal, oldVal, dr.rangeStart, dr.rangeEnd);
+      dates = drService.evaluateEndDateChange(newVal, oldVal, dr.rangeStart, dr.rangeEnd);
 
       if (dates && dates.length === 2) {
         notifyDatesChanged(scope, dates[0], dates[1]);

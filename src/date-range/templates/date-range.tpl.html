@@ -1,5 +1,5 @@
 <div class="akam-date-range akam-date-picker day" ng-class="{opened:dr.opened}">
-  <span class="rangeStart">
+  <span class="rangeStart" ng-class="{selected: dr.rangeStart.dateSelected}">
     <input
       id="{{::dr.rangeStart.id}}"
       type="text"
@@ -18,7 +18,7 @@
     <i class="luna-calendar icon-states" ng-disabled="dr.isDisabled"></i>
   </button>
   </span>
-  <span class="rangeEnd">
+  <span class="rangeEnd" ng-class="{selected: dr.rangeEnd.dateSelected}">
     <input
       id="{{::dr.rangeEnd.id}}"
       type="text"

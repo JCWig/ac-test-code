@@ -51,9 +51,12 @@ module.exports = function($filter) {
    * @return {String} appended string
    */
   function selectedRange(startDate, endDate, format) {
-    var d1 = this.filterDate(startDate, format),
-      d2 = this.filterDate(endDate, format);
+    var d1 = angular.isDate(startDate) ? this.filterDate(startDate, format) : '',
+      d2 = angular.isDate(endDate) ? this.filterDate(endDate, format) : '';
 
+    if (!d1 || !d2) {
+      return '';
+    }
     return appendDates(d1, d2);
   }
 
@@ -102,13 +105,13 @@ module.exports = function($filter) {
   /**
    * evaluateDates (private function) checking the dates value,
    * and create array, insert them in theright order
-   * @param  {Date} d1   new date value
-   * @param  {Date} d2   old date value
-   * @param  {Date} d3   arbituray date value
-   * @param  {Date} d4   arbituray date value
+   * @param  {Date} d1 new date value
+   * @param  {Date} d2 old date value
+   * @param  {Date} d3 arbituray date value
+   * @param  {Date} d4 arbituray date value
    * @param  {Boolean} sel1 is rangeStart date selected
    * @param  {Boolean} sel2 is rangeEnd date selected
-   * @return {Array}  array with 2 date value
+   * @return {Array}  array with 2 date value if any, otherwise undefined
    */
   function evaluateDates(d1, d2, d3, d4, sel1, sel2) {
     var dates;
