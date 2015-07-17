@@ -35,6 +35,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
         $timeout(function() {
           newScope.opened = !newScope.opened;
           popover.toggleClass('in', newScope.opened);
+          setCoords();
         });
       };
       newScope.buttonFunctionNew = function() {
