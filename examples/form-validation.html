@@ -278,51 +278,9 @@
               
               <fieldset class="form-horizontal">
                 <legend>
-                  <span>4. Form with date range picker, date picker, time picker, spinner, and list box</span>
+                  <span>4. Form with date picker, time picker, spinner, switch, and autocomplete</span>
                   <span>Optional subheading: lorem ipsum dolor sit amet</span>
                 </legend>
-                
-                <div class="form-group">
-                  <label class="col-md-4">Pick A Date Range</label>
-                  <div class="col-md-4">
-                    <akam-date-picker
-                      name="day1" 
-                      ng-model="day1" 
-                      min="{{min}}" 
-                      max="{{max}}" 
-                      mode="day" 
-                      placeholder="date picker" 
-                      ng-change="dateChange()" 
-                      format="{{formatDay}}"></akam-date-picker>
-                    
-                    <div ng-messages="kitchenSink.day1.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <akam-date-picker
-                      name="day2" 
-                      ng-model="day2" 
-                      min="{{min}}" 
-                      max="{{max}}" 
-                      mode="day" 
-                      placeholder="date picker" 
-                      ng-change="dateChange()" 
-                      format="{{formatDay}}"></akam-date-picker>
-                    
-                    <div ng-messages="kitchenSink.day2.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
                 
                 <div class="form-group">
                   <label class="col-md-4">Pick A Date</label>
@@ -384,16 +342,26 @@
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-md-4">List Box</label>
+                  <label class="col-md-4">Switch</label>
                   <div class="col-md-8">
-                    <akam-list-box akam-standalone 
-                      name="list1" 
-                      data="basedata10" 
-                      schema="columns10" 
-                      filter-placeholder="Filter Employees" 
-                      no-data-message="{{noDataMessage}}"></akam-list-box>
+                    <akam-switch-button name="switch1" ng-model="switch1" on-label="Allow" off-label="Deny"></akam-switch-button>
                     
-                    <div ng-messages="kitchenSink.list1.$error" class="ngMessages" role="alert">
+                    <div ng-messages="kitchenSink.switch1.$error" class="ngMessages" role="alert">
+                      <div ng-message="required">You did not enter a field</div>
+                      <div ng-message="minlength">Your field is too short</div>
+                      <div ng-message="maxlength">Your field is too long</div>
+                      <div ng-message="min">Your value is below the minimum value</div>
+                      <div ng-message="max">Your value is above the maximum value</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-md-4">Autocomplete</label>
+                  <div class="col-md-8">
+                    <akam-autocomplete ng-model="autocomplete1" name="autocomplete1" text-property="name" placeholder="Autocomplete" on-select="" on-search=""></akam-autocomplete>
+                    
+                    <div ng-messages="kitchenSink.autocomplete1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
                       <div ng-message="minlength">Your field is too short</div>
                       <div ng-message="maxlength">Your field is too long</div>
@@ -827,269 +795,7 @@
               </fieldset>
               
               
-              <fieldset class="form-horizontal">
-                <legend>Kitchen Sink</legend>
-                
-                <div class="form-group required">
-                  <label class="col-md-4">Input</label>
-                  <div class="col-md-8">
-                    <input type="text" class="form-control" name="input8" ng-model="input8" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
-                    
-                    <div ng-messages="kitchenSink.input8.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
               
-              
-                <div class="form-group">
-                  <label class="col-md-4">Longer Input</label>
-                  <div class="col-md-8">
-                    <input type="text" class="form-control" name="longerInput9" ng-model="longerInput9" ng-minlength="5" ng-maxlength="20" required>
-                    
-                    <div ng-messages="kitchenSink.longerInput9.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-              
-                <div class="form-group required">
-                  <label class="col-md-4" for="#">Dropdown</label>
-                  <div class="col-md-8">
-                    <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown3" required></akam-dropdown>
-                    
-                    <div ng-messages="kitchenSink.dropdown3.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not select an item</div>
-                    </div>
-                  </div>
-                </div>
-              
-                <div class="form-group">
-                  <label class="col-md-4">Please make your choice:</label>
-                  <div class="col-md-8">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" name="checkbox4" ng-model="checkbox4">
-                        <span class="label">Checkbox Label</span>
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" name="checkbox5" ng-model="checkbox5">
-                        <span class="label">Checkbox Label</span>
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" name="checkbox6" ng-model="checkbox6">
-                        <span class="label">Checkbox Label</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="col-md-4">Much Longer Input</label>
-                  <div class="col-md-8">
-                    <input type="text" class="form-control" name="muchLongerInput11" ng-model="muchLongerInput11" minlength="5" maxlength="20" required>
-                    
-                    <div ng-messages="kitchenSink.muchLongerInput11.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group required">
-                  <label class="col-md-4">Pick A Date Range</label>
-                  <div class="col-md-4">
-                    <akam-date-picker
-                      name="day2" 
-                      ng-model="day2" 
-                      min="{{min}}" 
-                      max="{{max}}" 
-                      mode="day" 
-                      placeholder="date picker" 
-                      ng-change="dateChange()" 
-                      format="{{formatDay}}"></akam-date-picker>
-                    
-                    <div ng-messages="kitchenSink.day2.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <akam-date-picker
-                      name="day2" 
-                      ng-model="day2" 
-                      min="{{min}}" 
-                      max="{{max}}" 
-                      mode="day" 
-                      placeholder="date picker" 
-                      ng-change="dateChange()" 
-                      format="{{formatDay}}"></akam-date-picker>
-                    
-                    <div ng-messages="kitchenSink.day2.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="col-md-4">Pick A Date</label>
-                  <div class="col-md-8">
-                    <akam-date-picker
-                      name="day3"
-                      ng-model="day3" 
-                      min="{{min}}" 
-                      max="{{max}}" 
-                      mode="day" 
-                      placeholder="date picker" 
-                      ng-change="dateChange()" 
-                      format="{{formatDay}}"></akam-date-picker>
-                    
-                    <div ng-messages="kitchenSink.day3.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group required">
-                  <label class="col-md-4">Pick A Number</label>
-                  <div class="col-md-8">
-                    <akam-spinner min="0" max="100" ng-model="number1" name="number1"></akam-spinner>
-                    
-                    <div ng-messages="kitchenSink.number1.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="col-md-4">Pick A Time</label>
-                  <div class="col-md-8">
-                    <akam-time-picker
-                      name="time1"
-                      ng-model="vm.time" 
-                      minute-step="vm.minuteStep" 
-                      hour-step="vm.hourStep" 
-                      disabled="vm.disabled" 
-                      show-meridian="vm.showMeridian"></akam-time-picker>
-                    
-                    <div ng-messages="kitchenSink.time1.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group required">
-                  <label class="col-md-4">Tag Input</label>
-                  <div class="col-md-8">
-                    <akam-tag-input 
-                      name="items6"
-                      ng-model="items6" 
-                      available-items="availableItems" 
-                      drag-dropable="true" required></akam-tag-input>
-                    
-                    <div ng-messages="kitchenSink.items6.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="col-md-4">Please make your choice:</label>
-                  <div class="col-md-8">
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="optionsRadios3" ng-model="optionsRadios3">
-                        <span class="label">Radio Label</span>
-                      </label>
-                    </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="optionsRadios3" ng-model="optionsRadios3">
-                        <span class="label">Radio Label</span>
-                      </label>
-                    </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="optionsRadios3" ng-model="optionsRadios3">
-                        <span class="label">Radio Label</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group required">
-                  <label class="col-md-4">Free Text Area</label>
-                  <div class="col-md-8">
-                    <textarea class="form-control" name="textarea2" ng-model="textarea2" minlength="5" maxlength="20" required rows="5"></textarea>
-                    
-                    <div ng-messages="kitchenSink.textarea2.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="col-md-4">List Box</label>
-                  <div class="col-md-8">
-                    <akam-list-box akam-standalone 
-                      data="basedata10" 
-                      schema="columns10" 
-                      filter-placeholder="Filter Employees" 
-                      no-data-message="{{noDataMessage}}"></akam-list-box>
-                    
-                    <div ng-messages="kitchenSink.number1.$error" class="ngMessages" role="alert">
-                      <div ng-message="required">You did not enter a field</div>
-                      <div ng-message="minlength">Your field is too short</div>
-                      <div ng-message="maxlength">Your field is too long</div>
-                      <div ng-message="min">Your value is below the minimum value</div>
-                      <div ng-message="max">Your value is above the maximum value</div>
-                    </div>
-                  </div>
-                </div>
-                
-              </fieldset>
               
               
             </form>
@@ -1214,6 +920,44 @@
               
               // This is the message that will appear when no data exists
               $scope.noDataMessage = "No data exists";
+              
+              var autocomplete1 = [{
+                first: 'Yair',
+                last: 'leviel',
+                joined: '2 month ago',
+                email: 'yair@email.com'
+              }, {
+                first: 'Shawn',
+                last: 'Dahlen',
+                joined: '2 days ago',
+                email: 'shawn@ac.org'
+              }, {
+                first: 'Mike',
+                last: "D'Abrosio",
+                joined: 'a week ago',
+                email: 'mike@gmail.com'
+              }, {
+                first: 'Kevin',
+                last: 'kotosky',
+                joined: 'Yesterday',
+                email: 'kevin@yahoo.com'
+              }, {
+                first: 'Nick',
+                last: 'Leon',
+                joined: 'Just now',
+                email: 'nick@msn.com'
+              }, {
+                first: 'xxx',
+                last: 'qqq',
+                joined: 'Yesterday',
+                email: 'xxx@mail.com'
+              }, {
+                first: 'Sean',
+                last: 'Wang',
+                joined: '3 month ago',
+                email: 'sean@inbox.com'
+              }];
+
           }
       </script>
       

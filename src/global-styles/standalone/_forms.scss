@@ -14,48 +14,6 @@
 }
 
 
-
-/* support TWBS and Common CSS radios/checkboxes */
-
-/*
-.radio,
-.radio-inline {
-  
-  input[type="radio"] {
-    width: initial;
-    height: initial;
-    opacity: 1;
-  }
-}
-
-.checkbox,
-.checkbox-inline {
-  
-  input[type="checkbox"] {
-    width: initial;
-    height: initial;
-    opacity: 1;
-  }
-}
-
-.radio,
-.checkbox {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-.radio-inline,
-.checkbox-inline {
-  padding-left: 0;
-
-  & + .radio-inline,
-  & + .checkbox-inline {
-    margin-left: 15px;
-  }
-}
-*/
-
-
 /* address labels */
 .form-horizontal {
   .form-group {
@@ -139,6 +97,16 @@ label {
     }
   }
 }
+
+
+
+/* switches */
+.form-horizontal .switch-button .switch-button-container label {
+    text-align: center;
+    padding-right: 0;
+    line-height: 16px;
+}
+
 
 
 /* status messages */
