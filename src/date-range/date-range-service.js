@@ -17,17 +17,6 @@ module.exports = function($filter) {
   }
 
   /**
-   * appendDates append 2 dates string
-   * @param  {String} d1 date string
-   * @param  {String} d2 date string
-   * @return {String} appended 2 string
-   */
-  function appendDates(d1, d2) {
-    //may need to do some checking on date string values
-    return [d1, d2].join(' - ');
-  }
-
-  /**
    * setStartMinMax set start date min and max values
    * @param {object} rangeStart start date object
    * @param {Date} date Date value
@@ -65,72 +54,79 @@ module.exports = function($filter) {
     var d1 = this.filterDate(startDate, format),
       d2 = this.filterDate(endDate, format);
 
-    return this.append2DateString(d1, d2);
+    return appendDates(d1, d2);
   }
 
-  function evaluateDates(startDate, endDate, rangeStart, rangeEnd, changeFrom) {
-    var stSelected = rangeStart.dateSelected,
-      edSelected = rangeEnd.dateSelected,
-      stValue = rangeStart.value,
-      edValue = rangeEnd.value,
-      dates;
+  /**
+   * evaluateEndDateChange re-arrange parameters for rangeStart,
+   * and call to return dates array
+   * @param  {Date} newVal new date value
+   * @param  {Date} oldVal old date value
+   * @param  {Object} rangeStart   [description]
+   * @param  {Object} rangeEnd [description]
+   * @return {function} function will return dates array bck to caller
+   */
+  function evaluateStartDateChange(newVal, oldVal, rangeStart, rangeEnd) {
+    var sel1 = rangeStart.dateSelected,
+      sel2 = rangeEnd.dateSelected;
 
-    if (changeFrom === "firstPane") {
-      if (stSelected) {
-        if (newVal.getTime() > oldVal.getTime()) {
-          dates = [oldVal, newVal];
-        } else {
-          dates = [newVal, oldVal];
-        }
-      } else if (edSelected) { //rangeStart.dateSelected is true now
-        dates = [newVal, new Date(edValue)];
-      }
-    } else {
-      if (edSelected) {
-        if (newVal.getTime() > oldVal.getTime()) {
-          dates = [oldVal, newVal];
-        } else {
-          dates = [newVal, oldVal];
-        }
-      } else if (stSelected) { //rangeStart.dateSelected is true now
-        dates = [newVal, new Date(stValue)];
-      }
-    }
-    return dates;
+    return evaluateDates(newVal, oldVal, newVal, new Date(rangeEnd.value), sel1, sel2);
   }
 
-  function evaluateStartDateChange(newVal, oldVal, startObj, endObj) {
-    var sel1 = startObj.dateSelected,
-      sel2 = endObj.dateSelected;
+  /**
+   * evaluateEndDateChange re-arrange parameters for rangeEnd,
+   * and call to return dates array
+   * @param  {Date} newVal new date value
+   * @param  {Date} oldVal old date value
+   * @param  {Object} rangeStart   [description]
+   * @param  {Object} rangeEnd [description]
+   * @return {function} function will return dates array bck to caller
+   */
+  function evaluateEndDateChange(newVal, oldVal, rangeStart, rangeEnd) {
+    var sel1 = rangeEnd.dateSelected,
+      sel2 = rangeStart.dateSelected;
 
-    return evaluateDates(newVal, oldVal, newVal, new Date(endObj.value), sel1, sel2);
+    return evaluateDates(newVal, oldVal, new Date(rangeStart.value), newVal, sel1, sel2);
   }
 
-  function evaluateEndDateChange(newVal, oldVal, startObj, endObj) {
-    var sel1 = endObj.dateSelected,
-      sel2 = startObj.dateSelected;
-
-    return evaluateDates(newVal, oldVal, new Date(startObj.value), newVal, sel1, sel2);
+  /**
+   * appendDates (private function) append 2 dates string
+   * @param  {String} d1 date string
+   * @param  {String} d2 date string
+   * @return {String} appended 2 string
+   */
+  function appendDates(d1, d2) {
+    return [d1, d2].join(' - ');
   }
 
-  function evaluateDates(v1, v2, v3, v4, sel1, sel2) {
+  /**
+   * evaluateDates (private function) checking the dates value,
+   * and create array, insert them in theright order
+   * @param  {Date} d1   new date value
+   * @param  {Date} d2   old date value
+   * @param  {Date} d3   arbituray date value
+   * @param  {Date} d4   arbituray date value
+   * @param  {Boolean} sel1 is rangeStart date selected
+   * @param  {Boolean} sel2 is rangeEnd date selected
+   * @return {Array}  array with 2 date value
+   */
+  function evaluateDates(d1, d2, d3, d4, sel1, sel2) {
     var dates;
 
     if (sel1) {
-      if (v1.getTime() > v2.getTime()) {
-        dates = [v2, v1];
+      if (d1.getTime() > d2.getTime()) {
+        dates = [d2, d1];
       } else {
-        dates = [v1, v2];
+        dates = [d1, d2];
       }
-    } else if (sel2) { //rangeStart.dateSelected is true now
-      dates = [v3, v4];
+    } else if (sel2) {
+      dates = [d3, d4];
     }
     return dates;
   }
 
   return {
     filterDate: filterDate,
-    append2DateString: appendDates,
     setStartMinMax: setStartMinMax,
     setEndMinMax: setEndMinMax,
     getSelectedDateRange: selectedRange,

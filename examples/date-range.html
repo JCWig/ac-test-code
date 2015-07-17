@@ -50,8 +50,8 @@
     var vm = this;
     vm.selectedRange = "";
     var d = new Date();
-    vm.startDate = new Date(d.getFullYear(), d.getMonth());
-    vm.endDate = new Date(d.getFullYear() + 1, d.getMonth() + 1);
+    vm.startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    vm.endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
 
     vm.formats = [{
       value: 'EEE, MMM d, y',

@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeService) {
+module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
 
   var config = {
     options: {
@@ -43,8 +43,8 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
     this.rangeStart.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
     this.rangeEnd.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
 
-    dateRangeService.setStartMinMax(this.rangeStart, d);
-    dateRangeService.setEndMinMax(this.rangeEnd, d);
+    drService.setStartMinMax(this.rangeStart, d);
+    drService.setEndMinMax(this.rangeEnd, d);
 
     this.toggle = function(e) {
       e.preventDefault();
@@ -67,25 +67,28 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
     }
 
     ngModel.$render = function() {
-      var startValue = '',
-        endValue = '';
+      var startDate = '',
+        endDate = '',
+        cloneDate;
 
-      startValue =
-        angular.isDefined(attr.startDate) && dr.startDate ? dr.startDate : '';
-      dr.rangeStart.dateSelected = startValue !== '';
+      startDate = angular.isDefined(attr.startDate) && dr.startDate ? dr.startDate : '';
+      dr.rangeStart.dateSelected = startDate !== '';
 
-      endValue =
-        angular.isDefined(attr.endDate) && dr.endDate ? dr.endDate : '';
-      dr.rangeEnd.dateSelected = endValue !== '';
+      endDate = angular.isDefined(attr.endDate) && dr.endDate ? dr.endDate : '';
+      dr.rangeEnd.dateSelected = endDate !== '';
 
-      if (startValue && endValue) {
-        notifyDatesChanged(scope, startValue, endValue);
-        scope.setViewValue(
-          dateRangeService.getSelectedDateRange(startValue, endValue, dr.format));
+      if (startDate && endDate) {
+        if (startDate.getTime() > endDate.getTime()) {
+          cloneDate = new Date(endDate);
+          endDate = startDate;
+          startDate = cloneDate;
+        }
+        notifyDatesChanged(scope, startDate, endDate);
+        scope.setViewValue(drService.getSelectedDateRange(startDate, endDate, dr.format));
       }
 
-      dr.rangeStart.value = startValue;
-      dr.rangeEnd.value = endValue;
+      dr.rangeStart.value = startDate;
+      dr.rangeEnd.value = endDate;
 
       $timeout(function() {
         initialized = true;
@@ -112,13 +115,11 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
         return;
       }
 
-      dates = dateRangeService.evaluateStartDateChange(
-        newVal, oldVal, dr.rangeStart, dr.rangeEnd);
+      dates = drService.evaluateStartDateChange(newVal, oldVal, dr.rangeStart, dr.rangeEnd);
 
       if (dates && dates.length === 2) {
         notifyDatesChanged(scope, dates[0], dates[1]);
-        dateRange =
-          dateRangeService.getSelectedDateRange(dates[0], dates[1], dr.format);
+        dateRange = drService.getSelectedDateRange(dates[0], dates[1], dr.format);
         scope.setViewValue(dateRange);
       }
 
@@ -135,13 +136,11 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, dateRangeSer
         return;
       }
 
-      dates = dateRangeService.evaluateEndDateChange(
-        newVal, oldVal, dr.rangeStart, dr.rangeEnd);
+      dates = drService.evaluateEndDateChange( newVal, oldVal, dr.rangeStart, dr.rangeEnd);
 
       if (dates && dates.length === 2) {
         notifyDatesChanged(scope, dates[0], dates[1]);
-        dateRange =
-          dateRangeService.getSelectedDateRange(dates[0], dates[1], dr.format);
+        dateRange = drService.getSelectedDateRange(dates[0], dates[1], dr.format);
         scope.setViewValue(dateRange);
       }
 
