@@ -81,8 +81,8 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
     this.messages = messages;
     translateMessages.call(this);
 
-    $scope.$watch('table.items', angular.bind(this, loadingFn));
-    $scope.$watch('table.selectedItems', angular.bind(this, setSelectedItems));
+    $scope.$watchCollection('table.items', angular.bind(this, loadingFn));
+    $scope.$watchCollection('table.selectedItems', angular.bind(this, setSelectedItems));
 
     // --- utility methods below ---
 

@@ -107,6 +107,7 @@
 </div>
 <div class="container">
   <h2>Basic Table (no filtering, no sorting, no pagination)</h2>
+  <button ng-click='vm.addRow()'>Add a row</button>
   <akam-table items="vm.arrayData" not-filterable not-pageable not-sortable akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>

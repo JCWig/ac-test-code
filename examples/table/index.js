@@ -61,5 +61,11 @@ function ExampleController($http, $q, $log) {
     {id: 5, firstName: 'Charles', lastName: 'Reyes', email: 'creyes4@cbsnews.com', country: 'Spain', ipAddress: '136.197.92.192', boolean: true, color: 'Red'}
   ];
 
+  this.addRow = function() {
+    var id = this.arrayData[this.arrayData.length - 1].id + 1;
+
+    this.arrayData.push({id: id, firstName: 'blah' + id, lastName: 'blah' + id});
+  };
+
 }
 ExampleController.$inject = ['$http', '$q', '$log'];
