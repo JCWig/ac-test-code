@@ -65,7 +65,7 @@ module.exports = function($filter) {
    * and call to return dates array
    * @param  {Date} newVal new date value
    * @param  {Date} oldVal old date value
-   * @param  {Object} rangeStart   [description]
+   * @param  {Object} rangeStart [description]
    * @param  {Object} rangeEnd [description]
    * @return {function} function will return dates array bck to caller
    */

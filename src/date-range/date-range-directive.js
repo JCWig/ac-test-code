@@ -54,18 +54,20 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
     };
 
     this.clearStartDate = function(e) {
-            e.preventDefault();
+      e.preventDefault();
       e.stopPropagation();
-      this.rangeStart.value = '';
+
       this.rangeStart.dateSelected = false;
-    }
+      this.rangeStart.value = '';
+    };
 
     this.clearEndDate = function(e) {
-            e.preventDefault();
+      e.preventDefault();
       e.stopPropagation();
-      this.rangeEnd.value = '';
+
       this.rangeEnd.dateSelected = false;
-    }
+      this.rangeEnd.value = '';
+    };
   }
 
   DateRangeController.$inject = ['$scope', '$element', '$attrs'];
