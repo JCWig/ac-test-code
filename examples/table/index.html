@@ -100,33 +100,34 @@
       <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
       <akam-table-column row-property="lastName" default-sort header-name="examples.lastname"></akam-table-column>
       <akam-table-column row-property="boolean" header-name="examples.boolean"></akam-table-column>
-      <akam-table-column row-property="ipAddress" akam-text-overflow="vm.ipAddress" header-name="examples.ipaddress"></akam-table-column>
+      <akam-table-column row-property="ipAddress" akam-text-overflow="row.ipAddress" header-name="examples.ipaddress"></akam-table-column>
       <akam-table-column row-property="country" header-name="examples.country"></akam-table-column>
     </akam-table-row>
   </akam-table>
 </div>
 <div class="container">
   <h2>Basic Table (no filtering, no sorting, no pagination)</h2>
+  <button ng-click='vm.addRow()'>Add a row</button>
   <akam-table items="vm.arrayData" not-filterable not-pageable not-sortable akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
       <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
       <akam-table-column row-property="lastName" header-name="examples.lastname"></akam-table-column>
       <akam-table-column row-property="boolean" header-name="examples.boolean"></akam-table-column>
-      <akam-table-column row-property="ipAddress" akam-text-overflow="vm.ipAddress" header-name="examples.ipaddress"></akam-table-column>
+      <akam-table-column row-property="ipAddress" akam-text-overflow="row.ipAddress" header-name="examples.ipaddress"></akam-table-column>
     </akam-table-row>
   </akam-table>
 </div>
 
 <div class="container">
   <h2>Failure Table no akam-table-row defined</h2>
-  <akam-table items="vm.arrayData" not-filterable not-pageable not-sortable akam-standalone>
+  <akam-table items="vm.arrayData" not-filterable not-sortable akam-standalone>
   </akam-table>
 </div>
 
 <div class="container">
   <h2>Failure Table no akam-table-columns defined</h2>
-  <akam-table items="vm.arrayData" not-filterable not-pageable not-sortable akam-standalone>
+  <akam-table items="vm.arrayData" not-filterable not-sortable akam-standalone>
     <akam-table-row>
     </akam-table-row>
   </akam-table>
