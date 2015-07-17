@@ -24,17 +24,32 @@
 
 <body class="common-css luna" ng-app="autocompleteApp" ng-strict-di ng-controller="AutocompleteAppController as vm">
   <br/>
-  <h2>Autocomplete Component Example</h2>
-  <span>selected text: {{vm.selectedText}}</span>
-  <pre>selected item: {{vm.selectedItem | json}}</pre>
+  <h1>Autocomplete Component Example</h1>
+  <br />
+  <br />
   <div>
-    <h4>Display Autocomplete with no custom content</h4>
-    <akam-autocomplete ng-model="vm.selectedState" text-property="name" placeholder="Search states" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
+    <h2>No Custom Content (localized placeholder text)</h2>
+    <akam-autocomplete ng-model="vm.selectedState" text-property="name"
+                       placeholder='{{"examples.autocomplete.search.states" | akamTranslate}}'
+                       on-select="vm.selectCallback(item, displayText)"
+                       on-search="vm.asyncSearchMatches1(term)">
     </akam-autocomplete>
   </div>
+  <br />
+  <br />
   <div>
-    <h4>Display Autocomplete with customizabe list content - state name and flag</h4>
-    <akam-autocomplete ng-model="vm.selectedStates" is-disabled="vm.disabled" show-search-tip="vm.showHideTip" text-property="name" placeholder="Search states with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
+    <h2>Customizable list content (state name and flag)</h2>
+    <div class="form-group">
+      <input id="disableAutocomplete" type="checkbox" name='disableAutocomplete' ng-model='vm.disabled' />
+      <label class="label" for="disableAutocomplete">Disable autocomplete component</label>
+      <br />
+      <input id="showHideSearchTip" type="checkbox" name='showHideSearchTip' ng-model='vm.showHideTip' />
+      <label class="label" for="showHideSearchTip">Show/hide search tip</label>
+    </div>
+    <akam-autocomplete ng-model="vm.selectedStates" is-disabled="vm.disabled"
+                       show-search-tip="vm.showHideTip" text-property="name"
+                       placeholder="Search states with flag" on-select="vm.selectCallback(item, displayText)"
+                       on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-items>
         <a>
           <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
@@ -42,17 +57,17 @@
         </a>
       </akam-autocomplete-items>
     </akam-autocomplete>
-    <div class="form-group">
-      <input id="disableAutocomplete" type="checkbox" name='disableAutocomplete' ng-model='vm.disabled' />
-      <label class="label" for="disableAutocomplete">To disabled above component</label>
-      <input id="showHideSearchTip" type="checkbox" name='showHideSearchTip' ng-model='vm.showHideTip' />
-      <label class="label" for="showHideSearchTip">To show/hide search tip</label>
-    </div>
+    
   </div>
+  <br />
+  <br />
   <div>
-    <h4>Display customizabe items content,one character search</h4>
+    <h2>Customizable Items Content (one character search)</h2>
     <p> text property selections: <span ng-repeat='name in vm.selectedNames2'>[{{name}}] </span></p>
-    <akam-autocomplete ng-model="vm.selectedMultipleNames" text-property="{{vm.selectedPropertyNames2}}" minimum-search="1" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
+    <akam-autocomplete ng-model="vm.selectedMultipleNames" text-property="{{vm.selectedPropertyNames2}}"
+                       minimum-search="1" placeholder="Enter name"
+                       on-select="vm.selectCallback(item, displayText)"
+                       on-search="vm.asyncSearchMatches3(term)">
       <akam-autocomplete-items>
         <a>
           <div class="row">
@@ -70,10 +85,16 @@
       </akam-autocomplete-items>
     </akam-autocomplete>
   </div>
+  <br />
+  <br />
   <div>
-    <h4>Display customizabe items content and selection content - one character search</h4>
-    <akam-autocomplete ng-model="vm.selectedMultipleNames2" text-property="first last" minimum-search="1" placeholder="Enter name" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches3(term)">
+    <h2>Customizable Items Content and Selection Content (one character search)</h2>
+    <akam-autocomplete ng-model="vm.selectedMultipleNames2" text-property="first last"
+                       minimum-search="1" placeholder="Enter name"
+                       on-select="vm.selectCallback(item, displayText)"
+                       on-search="vm.asyncSearchMatches3(term)">
       <akam-autocomplete-items>
+        
         <a>
           <div class="row">
             <div class="col-xs-5"><i class="fa fa-user"></i>
@@ -95,10 +116,15 @@
       </akam-autocomplete-selected-item>
     </akam-autocomplete>
   </div>
+  <br />
+  <br />
   <div>
-    <h4>Display Autocomplete with customizabe content and minmum search 3 characters and selected text defined by textProperty</h4>
+    <h2>Customizable Content and Minmum Search (3 characters and selected text defined by textProperty)</h2>
     <p> text property selections: <span ng-repeat='name in vm.selectedNames1'>[{{name}}] </span></p>
-    <akam-autocomplete ng-model="vm.selectedStateWithFlag" text-property="name flag" minimum-search="3" placeholder="Search state with flag" on-select="vm.selectCallback(item, displayText)" on-search="vm.asyncSearchMatches1(term)">
+    <akam-autocomplete ng-model="vm.selectedStateWithFlag" text-property="name flag"
+                       minimum-search="3" placeholder="Search state with flag"
+                       on-select="vm.selectCallback(item, displayText)"
+                       on-search="vm.asyncSearchMatches1(term)">
       <akam-autocomplete-items>
         <a>
           <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
@@ -107,15 +133,20 @@
       </akam-autocomplete-items>
     </akam-autocomplete>
   </div>
+  <br />
+  <br />
+  <br />
+  <span>Selected Text: {{vm.selectedText}}</span>
+  <pre>Selected Item: {{vm.selectedItem | json}}</pre>
   <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('autocompleteApp', ['akamai.components.autocomplete'])
     .controller('AutocompleteAppController', AutocompleteAppController)
     .config(configFunction);
 
-  AutocompleteAppController.$inject = ['$log', '$q', '$http', '$timeout', '$filter'];
+  AutocompleteAppController.$inject = ['$log', '$q', '$http', '$timeout', '$filter', 'translate'];
 
-  function AutocompleteAppController($log, $q, $http, $timeout, $filter) {
+  function AutocompleteAppController($log, $q, $http, $timeout, $filter, translate) {
 
     var objItems = [{
       first: 'Yair',
