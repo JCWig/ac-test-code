@@ -1,44 +1,13 @@
 {
     "components": {
-        "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+        "indeterminate-progress": {},
+        "tag-input": {
+            "placeholder": "選取項目",
+            "taggingLabel": "(新項目)"
         },
         "menu-button": {
             "label": "標籤"
         },
-        "bubblehelp": {
-            "title": "資訊"
-        },
-        "determinate-progress": {},
-        "name": "Akamai 一般元件",
-        "indeterminate-progress": {},
-        "date-picker": {
-            "placeholder": {
-                "date": "日期選擇器",
-                "year": "年份選擇器",
-                "month": "月份選擇器"
-            }
-        },
-        "modal-window": {
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed.",
-            "title": "強制回應視窗",
-            "label": {
-                "cancel": "取消",
-                "save": "儲存"
-            }
-        },
-        "pagination": {
-            "label": {
-                "show-entries": "顯示項目：",
-                "results": "結果：",
-                "total-items": "項目總數",
-                "current-page": "目前頁面"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "message-box": {
             "yes": "是",
             "title": {
@@ -79,6 +48,29 @@
                 "filter": "筛选器"
             }
         },
+        "bubblehelp": {
+            "title": "資訊"
+        },
+        "wizard": {
+            "successMessage": "動作已完成。",
+            "errorMessage": "動作無法完成。",
+            "label": {
+                "next": "下一步",
+                "submit": "提交",
+                "previous": "上一個"
+            }
+        },
+        "modal-window": {
+            "successMessage": "動作已完成。",
+            "errorMessage": "動作無法完成。",
+            "title": "強制回應視窗",
+            "label": {
+                "cancel": "取消",
+                "save": "儲存"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "根據您的篩選找不到結果。",
@@ -91,26 +83,47 @@
                 "action": "動作"
             }
         },
+        "determinate-progress": {},
+        "context": {
+            "accountChangedTitle": "Account Changed",
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'"
+        },
+        "dropdown": {
+            "placeholder": {
+                "filter": "筛选器",
+                "noSelection": "Select one"
+            }
+        },
+        "date-picker": {
+            "placeholder": {
+                "date": "日期選擇器",
+                "year": "年份選擇器",
+                "month": "月份選擇器"
+            }
+        },
         "notifications": {
             "information": "資訊",
             "warning": "警告",
             "success": "成功",
             "error": "錯誤"
         },
-        "dropdown": {
-            "placeholder": {
-                "noSelection": "Select one",
-                "filter": "Filter"
+        "pagination": {
+            "label": {
+                "show-entries": "顯示項目：",
+                "results": "結果：",
+                "total-items": "項目總數",
+                "current-page": "目前頁面"
             }
         },
-        "wizard": {
-            "label": {
-                "previous": "Previous",
-                "next": "Next",
-                "submit": "Submit"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+        "name": "Akamai 一般元件",
+        "switch-button": {
+            "onLabel": "開",
+            "offLabel": "關"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "載入資料時發生問題。"
         }
     }
 }

@@ -1,44 +1,13 @@
 {
     "components": {
-        "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+        "indeterminate-progress": {},
+        "tag-input": {
+            "placeholder": "Selezione articoli",
+            "taggingLabel": "(new articolo)"
         },
         "menu-button": {
             "label": "Etichetta"
         },
-        "bubblehelp": {
-            "title": "Informazioni"
-        },
-        "determinate-progress": {},
-        "name": "Componenti comuni Akamai",
-        "indeterminate-progress": {},
-        "date-picker": {
-            "placeholder": {
-                "date": "Selezione data",
-                "year": "Selezione anno",
-                "month": "Selezione mese"
-            }
-        },
-        "modal-window": {
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed.",
-            "title": "Finestra modale",
-            "label": {
-                "cancel": "Annulla",
-                "save": "Salva"
-            }
-        },
-        "pagination": {
-            "label": {
-                "show-entries": "Mostra voci",
-                "results": "Risultati",
-                "total-items": "Elementi totali",
-                "current-page": "Pagina corrente"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "message-box": {
             "yes": "Sì",
             "title": {
@@ -52,7 +21,7 @@
             "no": "No"
         },
         "warning": {
-            "browser-button": "Safari e FireFox su Mac non supportano l&apos;evento focus negli elementi PULSANTE. Utilizzare in sostituzione il tag di ancoraggio: A"
+            "browser-button": "Safari e FireFox su Mac non supportano l'evento focus negli elementi PULSANTE. Utilizzare in sostituzione il tag di ancoraggio: A"
         },
         "switch-button": {
             "onLabel": "Attivo",
@@ -79,6 +48,29 @@
                 "filter": "Filtra"
             }
         },
+        "bubblehelp": {
+            "title": "Informazioni"
+        },
+        "wizard": {
+            "successMessage": "L'azione è stata completata.",
+            "errorMessage": "Impossibile completare l'azione.",
+            "label": {
+                "next": "Avanti",
+                "submit": "Invia",
+                "previous": "Precedente"
+            }
+        },
+        "modal-window": {
+            "successMessage": "L'azione è stata completata.",
+            "errorMessage": "Impossibile completare l'azione.",
+            "title": "Finestra modale",
+            "label": {
+                "cancel": "Annulla",
+                "save": "Salva"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "Non sono presenti risultati in base al filtro impostato.",
@@ -91,26 +83,47 @@
                 "action": "Azione"
             }
         },
+        "determinate-progress": {},
+        "context": {
+            "accountChangedTitle": "Account Changed",
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'"
+        },
+        "dropdown": {
+            "placeholder": {
+                "filter": "Filtra",
+                "noSelection": "Select one"
+            }
+        },
+        "date-picker": {
+            "placeholder": {
+                "date": "Selezione data",
+                "year": "Selezione anno",
+                "month": "Selezione mese"
+            }
+        },
         "notifications": {
             "information": "INFORMAZIONI",
             "warning": "AVVISO",
             "success": "OPERAZIONE RIUSCITA",
             "error": "ERRORE"
         },
-        "dropdown": {
-            "placeholder": {
-                "noSelection": "Select one",
-                "filter": "Filter"
+        "pagination": {
+            "label": {
+                "show-entries": "Mostra voci",
+                "results": "Risultati",
+                "total-items": "Elementi totali",
+                "current-page": "Pagina corrente"
             }
         },
-        "wizard": {
-            "label": {
-                "previous": "Previous",
-                "next": "Next",
-                "submit": "Submit"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+        "name": "Componenti comuni Akamai",
+        "switch-button": {
+            "onLabel": "Attivo",
+            "offLabel": "Non attivo"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "Si è verificato un problema durante il caricamento dei dati."
         }
     }
 }

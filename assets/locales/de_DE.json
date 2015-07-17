@@ -1,44 +1,13 @@
 {
     "components": {
-        "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+        "indeterminate-progress": {},
+        "tag-input": {
+            "placeholder": "Elemente auswählen",
+            "taggingLabel": "(neues Element)"
         },
         "menu-button": {
             "label": "Beschriftung"
         },
-        "bubblehelp": {
-            "title": "Informationen"
-        },
-        "determinate-progress": {},
-        "name": "Allgemeine Akamai-Komponenten",
-        "indeterminate-progress": {},
-        "date-picker": {
-            "placeholder": {
-                "date": "Datumsauswahl",
-                "year": "Jahresauswahl",
-                "month": "Monatsauswahl"
-            }
-        },
-        "modal-window": {
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed.",
-            "title": "Modales Fenster",
-            "label": {
-                "cancel": "Abbrechen",
-                "save": "Speichern"
-            }
-        },
-        "pagination": {
-            "label": {
-                "show-entries": "Einträge anzeigen",
-                "results": "Ergebnisse",
-                "total-items": "Elemente gesamt",
-                "current-page": "Aktuelle Seite"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "message-box": {
             "yes": "Ja",
             "title": {
@@ -79,6 +48,29 @@
                 "filter": "Filter"
             }
         },
+        "bubblehelp": {
+            "title": "Informationen"
+        },
+        "wizard": {
+            "successMessage": "Die Aktion wurde abgeschlossen.",
+            "errorMessage": "Die Aktion kann nicht abgeschlossen werden.",
+            "label": {
+                "next": "Weiter",
+                "submit": "Abschicken",
+                "previous": "Zurück"
+            }
+        },
+        "modal-window": {
+            "successMessage": "Die Aktion wurde abgeschlossen.",
+            "errorMessage": "Die Aktion kann nicht abgeschlossen werden.",
+            "title": "Modales Fenster",
+            "label": {
+                "cancel": "Abbrechen",
+                "save": "Speichern"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "Ihr Filter hat keine Ergebnisse geliefert.",
@@ -91,26 +83,47 @@
                 "action": "Aktion"
             }
         },
+        "determinate-progress": {},
+        "context": {
+            "accountChangedTitle": "Account Changed",
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'"
+        },
+        "dropdown": {
+            "placeholder": {
+                "filter": "Filter",
+                "noSelection": "Select one"
+            }
+        },
+        "date-picker": {
+            "placeholder": {
+                "date": "Datumsauswahl",
+                "year": "Jahresauswahl",
+                "month": "Monatsauswahl"
+            }
+        },
         "notifications": {
             "information": "INFORMATION",
             "warning": "WARNUNG",
             "success": "ERFOLG",
             "error": "FEHLER"
         },
-        "dropdown": {
-            "placeholder": {
-              "noSelection": "Select one",
-              "filter": "Filter"
+        "pagination": {
+            "label": {
+                "show-entries": "Einträge anzeigen",
+                "results": "Ergebnisse",
+                "total-items": "Elemente gesamt",
+                "current-page": "Aktuelle Seite"
             }
         },
-        "wizard": {
-            "label": {
-                "previous": "Previous",
-                "next": "Next",
-                "submit": "Submit"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+        "name": "Allgemeine Akamai-Komponenten",
+        "switch-button": {
+            "onLabel": "An",
+            "offLabel": "Aus"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "Beim Laden der Daten ist ein Problem aufgetreten."
         }
     }
 }

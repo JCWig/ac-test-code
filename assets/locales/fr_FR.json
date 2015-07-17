@@ -1,44 +1,13 @@
 {
     "components": {
-        "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+        "indeterminate-progress": {},
+        "tag-input": {
+            "placeholder": "Sélectionner des éléments",
+            "taggingLabel": "(nouvel élément)"
         },
         "menu-button": {
             "label": "Étiquette"
         },
-        "bubblehelp": {
-            "title": "Informations"
-        },
-        "determinate-progress": {},
-        "name": "Composants communs Akamai",
-        "indeterminate-progress": {},
-        "date-picker": {
-            "placeholder": {
-                "date": "Sélecteur de date",
-                "year": "Sélecteur d&apos;année",
-                "month": "Sélecteur de mois"
-            }
-        },
-        "modal-window": {
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed.",
-            "title": "Fenêtre modale",
-            "label": {
-                "cancel": "Annuler",
-                "save": "Enregistrer"
-            }
-        },
-        "pagination": {
-            "label": {
-                "show-entries": "Afficher les entrées",
-                "results": "Résultats",
-                "total-items": "Total des éléments",
-                "current-page": "Page actuelle"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "message-box": {
             "yes": "Oui",
             "title": {
@@ -52,7 +21,7 @@
             "no": "Non"
         },
         "warning": {
-            "browser-button": "Les navigateurs Safari et Firefox exécutés sous Mac ne permettent pas de placer la cible de saisie sur un élément BUTTON. À la place, utilisez la balise d&apos;ancrage A."
+            "browser-button": "Les navigateurs Safari et Firefox exécutés sous Mac ne permettent pas de placer la cible de saisie sur un élément BUTTON. À la place, utilisez la balise d'ancrage A."
         },
         "switch-button": {
             "onLabel": "On",
@@ -69,7 +38,7 @@
         "list-box": {
             "text": {
                 "noFilterResults": "Aucun résultat ne correspond au filtre sélectionné.",
-                "viewSelectedOnly": "Aucun élément n&apos;est sélectionné.",
+                "viewSelectedOnly": "Aucun élément n'est sélectionné.",
                 "selected": "Sélectionné",
                 "viewSelected": "Afficher les éléments sélectionnés uniquement",
                 "noItem": "Aucun élément trouvé",
@@ -79,6 +48,29 @@
                 "filter": "Filtrer"
             }
         },
+        "bubblehelp": {
+            "title": "Informations"
+        },
+        "wizard": {
+            "successMessage": "L'action a été effectuée.",
+            "errorMessage": "L'action ne peut pas être effectuée.",
+            "label": {
+                "next": "Suivant",
+                "submit": "Envoyer",
+                "previous": "Précédent"
+            }
+        },
+        "modal-window": {
+            "successMessage": "L'action a été effectuée.",
+            "errorMessage": "L'action ne peut pas être effectuée.",
+            "title": "Fenêtre modale",
+            "label": {
+                "cancel": "Annuler",
+                "save": "Enregistrer"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "Aucun résultat ne correspond au filtre sélectionné.",
@@ -91,26 +83,47 @@
                 "action": "Action"
             }
         },
+        "determinate-progress": {},
+        "context": {
+            "accountChangedTitle": "Account Changed",
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'"
+        },
+        "dropdown": {
+            "placeholder": {
+                "filter": "Filtrer",
+                "noSelection": "Select one"
+            }
+        },
+        "date-picker": {
+            "placeholder": {
+                "date": "Sélecteur de date",
+                "year": "Sélecteur d'année",
+                "month": "Sélecteur de mois"
+            }
+        },
         "notifications": {
             "information": "INFORMATIONS",
             "warning": "AVERTISSEMENT",
             "success": "TERMINÉ",
             "error": "ERREUR"
         },
-        "dropdown": {
-            "placeholder": {
-                "noSelection": "Select one",
-                "filter": "Filter"
+        "pagination": {
+            "label": {
+                "show-entries": "Afficher les entrées",
+                "results": "Résultats",
+                "total-items": "Total des éléments",
+                "current-page": "Page actuelle"
             }
         },
-        "wizard": {
-            "label": {
-                "previous": "Previous",
-                "next": "Next",
-                "submit": "Submit"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+        "name": "Composants communs Akamai",
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "Un problème s'est produit lors du chargement des données."
         }
     }
 }

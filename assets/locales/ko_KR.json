@@ -1,44 +1,13 @@
 {
     "components": {
-        "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+        "indeterminate-progress": {},
+        "tag-input": {
+            "placeholder": "항목 선택",
+            "taggingLabel": "(새 항목)"
         },
         "menu-button": {
             "label": "레이블"
         },
-        "bubblehelp": {
-            "title": "정보"
-        },
-        "determinate-progress": {},
-        "name": "Akamai 공통 구성 요소",
-        "indeterminate-progress": {},
-        "date-picker": {
-            "placeholder": {
-                "date": "날짜 선택기",
-                "year": "연도 선택기",
-                "month": "월 선택기"
-            }
-        },
-        "modal-window": {
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed.",
-            "title": "모달 창",
-            "label": {
-                "cancel": "취소",
-                "save": "저장"
-            }
-        },
-        "pagination": {
-            "label": {
-                "show-entries": "항목 표시",
-                "results": "결과",
-                "total-items": "총 항목 수",
-                "current-page": "현재 페이지"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "message-box": {
             "yes": "예",
             "title": {
@@ -79,6 +48,29 @@
                 "filter": "필터"
             }
         },
+        "bubblehelp": {
+            "title": "정보"
+        },
+        "wizard": {
+            "successMessage": "작업이 완료되었습니다.",
+            "errorMessage": "작업을 완료할 수 없습니다.",
+            "label": {
+                "next": "다음",
+                "submit": "제출",
+                "previous": "이전"
+            }
+        },
+        "modal-window": {
+            "successMessage": "작업이 완료되었습니다.",
+            "errorMessage": "작업을 완료할 수 없습니다.",
+            "title": "모달 창",
+            "label": {
+                "cancel": "취소",
+                "save": "저장"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "지정한 필터에 따라 검색된 결과가 없습니다.",
@@ -91,26 +83,47 @@
                 "action": "작업"
             }
         },
+        "determinate-progress": {},
+        "context": {
+            "accountChangedTitle": "Account Changed",
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'"
+        },
+        "dropdown": {
+            "placeholder": {
+                "filter": "필터",
+                "noSelection": "Select one"
+            }
+        },
+        "date-picker": {
+            "placeholder": {
+                "date": "날짜 선택기",
+                "year": "연도 선택기",
+                "month": "월 선택기"
+            }
+        },
         "notifications": {
             "information": "정보",
             "warning": "경고",
             "success": "성공",
             "error": "오류"
         },
-        "dropdown": {
-            "placeholder": {
-                "noSelection": "Select one",
-                "filter": "Filter"
+        "pagination": {
+            "label": {
+                "show-entries": "항목 표시",
+                "results": "결과",
+                "total-items": "총 항목 수",
+                "current-page": "현재 페이지"
             }
         },
-        "wizard": {
-            "label": {
-                "previous": "Previous",
-                "next": "Next",
-                "submit": "Submit"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+        "name": "Akamai 공통 구성 요소",
+        "switch-button": {
+            "onLabel": "켜기",
+            "offLabel": "Off"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "데이터를 로드하는 데 문제가 발생했습니다."
         }
     }
 }
