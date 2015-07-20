@@ -4,13 +4,11 @@ var angular = require('angular'),
   header = require('./mega-menu-header-directive'),
   footer = require('./mega-menu-footer-directive');
 
-// infamous GA include
-require('./utils/ga');
-
 function run($window, $location, context, LUNA_GROUP_QUERY_PARAM) {
   var qs = $location.search();
 
   if (!context.isOtherContext()) {
+    require('./utils/ga');
     context.account = context.getAccountFromCookie();
   }
 
