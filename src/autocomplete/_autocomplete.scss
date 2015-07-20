@@ -6,6 +6,7 @@ $autocomplete-clear-icon-width: 13px;
 $autocomplete-clear-icon-gap-width: 7px;
 .akam-autocomplete {
   width: 100%;
+  min-width: $autocomplete-input-width;
   vertical-align: middle;
   height: $autocomplete-height;
   span.input-option, span.selected-option {
@@ -54,9 +55,10 @@ $autocomplete-clear-icon-gap-width: 7px;
   }
   & ul.dropdown-menu {
     min-width: $autocomplete-input-width;
+    width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    -ms-overflow-y: scroll;
+    -ms-overflow-y: auto;
     max-height: 32 * $autocomplete-clear-icon-gap-width;
     a {
       background-color: inherit;
