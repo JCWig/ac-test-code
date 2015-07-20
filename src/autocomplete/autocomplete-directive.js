@@ -49,17 +49,9 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     this.clearSelected = clearSelected;
     this.clearSearch = clearSearch;
     this.register = register;
+    this.handleBlurEvent = handleBlurEvent;
 
     buildStaticQuery(this);
-
-    //handle tab key handling loose focus to close dropdown
-    $document.on('keyup', function(e) {
-      if (e.which === 9) {
-        $timeout(function() {
-          $document.triggerHandler('click');
-        });
-      }
-    });
 
     /**
      * register a scope method to add child directive controller to this controller list
@@ -141,6 +133,31 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
       setInputFocus();
     }
 
+    /**
+     * handleBlurEvent a scope method to be trigged on input blur event,
+     * and check if it is right element and has class open, then trigger click to close it
+     * @param  {object} e event object
+     */
+    function handleBlurEvent(e) {
+      var that = this, dirElem;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (e.currentTarget.id && e.currentTarget.id === that.autocompleteId) {
+        dirElem = angular.element(e.currentTarget).parent().parent();
+        if (dirElem.hasClass('open')) {
+          $timeout(function() {
+            $document.triggerHandler('click');
+            that.isOpen = false;
+          });
+        }
+      }
+    }
+
+    /**
+     * setInputFocus private function to force input focus
+     */
     function setInputFocus() {
       var inputEl = $document[0].getElementById($scope.ac.autocompleteId);
 
