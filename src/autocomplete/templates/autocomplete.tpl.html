@@ -1,0 +1,7 @@
+<div class="akam-autocomplete dropdown" ng-class="{open: ac.isOpen}">
+  <span class="input-option" ng-show="!ac.itemSelected">
+    <i ng-show="ac.searchTerm && !ac.isDisabled" class="luna-small_close clear-selected" ng-click="ac.clearSearch($event)"></i>
+    <input id="{{::ac.autocompleteId}}" class="util-ellipsis" type="text" ng-model="ac.searchTerm" ng-disabled="ac.isDisabled" placeholder="{{ac.placeholder}}" typeahead="{{ac.query}}" typeahead-on-select="ac.selectItem($item, $model, $label)" typeahead-min-length="{{::ac.searchLength}}" typeahead-template-url="{{::ac.contentTemplateUrl}}" typeahead-focus-first="false" class="form-control">
+  </span>
+  <span ng-if="ac.showSearchTip && !ac.itemSelected" ng-class="{'disabled':ac.isDisabled, 'search-tip':ac.showSearchTip}">{{::ac.searchTip}}</span>
+</div>

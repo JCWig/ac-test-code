@@ -39,7 +39,7 @@ function ExampleController($http, $q, $log) {
     $log.log('PDF button clicked', row);
   };
 
-  vm.ipAddress = "Internet Protocol Address";
+  vm.ipAddress = 'Internet Protocol Address';
   // Example 2
   // -------------------------------------------------
 
@@ -58,13 +58,14 @@ function ExampleController($http, $q, $log) {
     {id: 2, firstName: 'Amanda', lastName: 'Martin', email: 'amartin1@unesco.org', country: 'Haiti', ipAddress: '249.90.111.115', boolean: false, color: 'Blue'},
     {id: 3, firstName: 'Gloria', lastName: 'Allen', email: 'gallen2@reuters.com', country: 'Micronesia', ipAddress: '233.173.83.45', boolean: false, color: 'Yellow'},
     {id: 4, firstName: 'Bobby', lastName: 'Montgomery', email: 'bmontgomery3@msn.com', country: 'Gabon', ipAddress: '16.173.58.169', boolean: true, color: 'Blue'},
-    {id: 5, firstName: 'Charles', lastName: 'Reyes', email: 'creyes4@cbsnews.com', country: 'Spain', ipAddress: '136.197.92.192', boolean: true, color: 'Red'},
-    {id: 6, firstName: 'Joshua', lastName: 'Thompson', email: 'jthompson5@yale.edu', country: 'Russia', ipAddress: '61.57.205.127', boolean: true, color: 'Yellow'},
-    {id: 7, firstName: 'Sarah', lastName: 'West', email: 'swest6@shop-pro.jp', country: 'China', ipAddress: '55.80.171.169', boolean: false, color: 'Green'},
-    {id: 8, firstName: 'Amy', lastName: 'Stone', email: 'astone7@buzzfeed.com', country: 'China', ipAddress: '183.243.240.125', boolean: true, color: 'Blue'},
-    {id: 9, firstName: 'Jeffrey', lastName: 'Webb', email: 'jwebb8@cloudflare.com', country: 'China', ipAddress: '216.7.198.28', boolean: false, color: 'Yellow'},
-    {id: 10, firstName: 'Andrea', lastName: 'Wagner', email: 'awagner9@wisc.edu', country: 'Sweden', ipAddress: '20.158.247.82', boolean: false, color: 'Yellow'}
+    {id: 5, firstName: 'Charles', lastName: 'Reyes', email: 'creyes4@cbsnews.com', country: 'Spain', ipAddress: '136.197.92.192', boolean: true, color: 'Red'}
   ];
+
+  this.addRow = function() {
+    var id = this.arrayData[this.arrayData.length - 1].id + 1;
+
+    this.arrayData.push({id: id, firstName: 'blah' + id, lastName: 'blah' + id});
+  };
 
 }
 ExampleController.$inject = ['$http', '$q', '$log'];

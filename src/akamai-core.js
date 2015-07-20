@@ -22,6 +22,7 @@ angular.module('akamai.components', [
   require('./tag-input').name,
   require('./dropdown').name,
   require('./auth').name,
+  require('./autocomplete').name,
   require('./mega-menu').name,
   require('./wizard').name,
   require('./navigation').name

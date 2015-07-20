@@ -67,6 +67,19 @@ module.exports = function($log) {
 
           elemClone.setAttribute('ng-click', 'table.sortColumn("' +
           elemClone.getAttribute('row-property') + '")');
+
+          // akam-text-overflow expects a fully translated string already, so if the user
+          // defines an akam-text-overflow for a table row, we will replace it with a title tag
+          // with the translated value (using the akamTranslate filter). This is a trade-off
+          // between adding unnecessary watches for every <th> item and delaying compiling this
+          // element until we can translate the table header string.
+          if (elemClone.hasAttribute('akam-text-overflow')) {
+            elemClone.removeAttribute('akam-text-overflow');
+
+            elemClone.setAttribute('title',
+              '{{ \'' + elemClone.getAttribute('header-name') + '\' | akamTranslate}}');
+          }
+
         }
 
         headerHtml = '<span akam-translate="' +

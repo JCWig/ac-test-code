@@ -1,44 +1,13 @@
 {
     "components": {
-        "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+        "indeterminate-progress": {},
+        "tag-input": {
+            "placeholder": "Select Items",
+            "taggingLabel": "(new item)"
         },
         "menu-button": {
             "label": "Label"
         },
-        "bubblehelp": {
-            "title": "Information"
-        },
-        "determinate-progress": {},
-        "name": "AT&T Common Components",
-        "indeterminate-progress": {},
-        "date-picker": {
-            "placeholder": {
-                "date": "Date Picker",
-                "year": "Year Picker",
-                "month": "Month Picker"
-            }
-        },
-        "modal-window": {
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed.",
-            "title": "Modal Window",
-            "label": {
-                "cancel": "Cancel",
-                "save": "Save"
-            }
-        },
-        "pagination": {
-            "label": {
-                "show-entries": "Show Entries:",
-                "results": "Results:",
-                "total-items": "Total Items",
-                "current-page": "Current Page"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "message-box": {
             "yes": "Yes",
             "title": {
@@ -59,6 +28,9 @@
             "offLabel": "Off"
         },
         "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
         "error": {
             "validation": {},
             "data": "There was a problem loading the data."
@@ -76,6 +48,29 @@
                 "filter": "Filter"
             }
         },
+        "bubblehelp": {
+            "title": "Information"
+        },
+        "wizard": {
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
+            "label": {
+                "next": "Next",
+                "submit": "Submit",
+                "previous": "Previous"
+            }
+        },
+        "modal-window": {
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
+            "title": "Modal Window",
+            "label": {
+                "cancel": "Cancel",
+                "save": "Save"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "There are no results based upon your filter.",
@@ -88,26 +83,47 @@
                 "action": "Action"
             }
         },
+        "determinate-progress": {},
+        "context": {
+            "accountChangedTitle": "Account Changed",
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'"
+        },
+        "dropdown": {
+            "placeholder": {
+                "filter": "Filter",
+                "noSelection": "Select one"
+            }
+        },
+        "date-picker": {
+            "placeholder": {
+                "date": "Date Picker",
+                "year": "Year Picker",
+                "month": "Month Picker"
+            }
+        },
         "notifications": {
             "information": "INFORMATION",
             "warning": "WARNING",
             "success": "SUCCESS",
             "error": "ERROR"
         },
-        "dropdown": {
-            "placeholder": {
-                "noSelection": "Select one",
-                "filter": "Filter"
+        "pagination": {
+            "label": {
+                "show-entries": "Show Entries:",
+                "results": "Results:",
+                "total-items": "Total Items",
+                "current-page": "Current Page"
             }
         },
-        "wizard": {
-            "label": {
-                "previous": "Previous",
-                "next": "Next",
-                "submit": "Submit"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+        "name": "AT&T Common Components",
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "There was a problem loading the data."
         }
     }
 }

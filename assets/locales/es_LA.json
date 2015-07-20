@@ -1,44 +1,13 @@
 {
     "components": {
-        "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+        "indeterminate-progress": {},
+        "tag-input": {
+            "placeholder": "Seleccionar ítems",
+            "taggingLabel": "(ítem nuevo)"
         },
         "menu-button": {
             "label": "Etiqueta"
         },
-        "bubblehelp": {
-            "title": "Información"
-        },
-        "determinate-progress": {},
-        "name": "Componentes comunes de Akamai",
-        "indeterminate-progress": {},
-        "date-picker": {
-            "placeholder": {
-                "date": "Selector de fecha",
-                "year": "Selector de año",
-                "month": "Selector de mes"
-            }
-        },
-        "modal-window": {
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed.",
-            "title": "Ventana modal",
-            "label": {
-                "cancel": "Cancelar",
-                "save": "Guardar"
-            }
-        },
-        "pagination": {
-            "label": {
-                "show-entries": "Mostrar entradas",
-                "results": "Resultados",
-                "total-items": "Ítems totales",
-                "current-page": "Página actual"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "message-box": {
             "yes": "Sí",
             "title": {
@@ -59,6 +28,9 @@
             "offLabel": "Desactivado"
         },
         "dialog": {},
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
         "error": {
             "validation": {},
             "data": "Ocurrió un problema al cargar los datos."
@@ -76,6 +48,29 @@
                 "filter": "Filtro"
             }
         },
+        "bubblehelp": {
+            "title": "Información"
+        },
+        "wizard": {
+            "successMessage": "La acción se ha realizado.",
+            "errorMessage": "No se puede realizar la acción.",
+            "label": {
+                "next": "Siguiente",
+                "submit": "Enviar",
+                "previous": "Anterior"
+            }
+        },
+        "modal-window": {
+            "successMessage": "La acción se ha realizado.",
+            "errorMessage": "No se puede realizar la acción.",
+            "title": "Ventana modal",
+            "label": {
+                "cancel": "Cancelar",
+                "save": "Guardar"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "No hay resultados basados en su filtro.",
@@ -88,26 +83,47 @@
                 "action": "Acción"
             }
         },
+        "determinate-progress": {},
+        "context": {
+            "accountChangedTitle": "Account Changed",
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'"
+        },
+        "dropdown": {
+            "placeholder": {
+                "filter": "Filtro",
+                "noSelection": "Select one"
+            }
+        },
+        "date-picker": {
+            "placeholder": {
+                "date": "Selector de fecha",
+                "year": "Selector de año",
+                "month": "Selector de mes"
+            }
+        },
         "notifications": {
             "information": "INFORMACIÓN",
             "warning": "ADVERTENCIA",
             "success": "ÉXITO",
             "error": "ERROR"
         },
-        "dropdown": {
-            "placeholder": {
-                "noSelection": "Select one",
-                "filter": "Filter"
+        "pagination": {
+            "label": {
+                "show-entries": "Mostrar entradas",
+                "results": "Resultados",
+                "total-items": "Ítems totales",
+                "current-page": "Página actual"
             }
         },
-        "wizard": {
-            "label": {
-                "previous": "Previous",
-                "next": "Next",
-                "submit": "Submit"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+        "name": "Componentes comunes de Akamai",
+        "switch-button": {
+            "onLabel": "Activado",
+            "offLabel": "Desactivado"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "Ocurrió un problema al cargar los datos."
         }
     }
 }
