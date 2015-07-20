@@ -1,13 +1,44 @@
 {
     "components": {
-        "indeterminate-progress": {},
-        "tag-input": {
-            "placeholder": "选择项目",
-            "taggingLabel": "(新项目)"
+        "context": {
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
+            "accountChangedTitle": "Account Changed"
         },
         "menu-button": {
             "label": "标签"
         },
+        "bubblehelp": {
+            "title": "信息"
+        },
+        "determinate-progress": {},
+        "name": "Akamai 一般组件",
+        "indeterminate-progress": {},
+        "date-picker": {
+            "placeholder": {
+                "date": "日期选择器",
+                "year": "年份选择器",
+                "month": "月份选择器"
+            }
+        },
+        "modal-window": {
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
+            "title": "模式窗口",
+            "label": {
+                "cancel": "取消",
+                "save": "保存"
+            }
+        },
+        "pagination": {
+            "label": {
+                "show-entries": "显示条目",
+                "results": "结果",
+                "total-items": "项目总计",
+                "current-page": "当前页面"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "message-box": {
             "yes": "是",
             "title": {
@@ -28,9 +59,6 @@
             "offLabel": "关闭"
         },
         "dialog": {},
-        "autocomplete": {
-            "search-tip": "Type in text to display matching results"
-        },
         "error": {
             "validation": {},
             "data": "加载数据时出现问题。"
@@ -48,29 +76,6 @@
                 "filter": "筛选器"
             }
         },
-        "bubblehelp": {
-            "title": "信息"
-        },
-        "wizard": {
-            "successMessage": "已完成此操作。",
-            "errorMessage": "无法完成此操作。",
-            "label": {
-                "next": "下一步",
-                "submit": "提交",
-                "previous": "之前的"
-            }
-        },
-        "modal-window": {
-            "successMessage": "已完成此操作。",
-            "errorMessage": "无法完成此操作。",
-            "title": "模式窗口",
-            "label": {
-                "cancel": "取消",
-                "save": "保存"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "没有符合您的过滤条件的结果。",
@@ -83,47 +88,30 @@
                 "action": "操作"
             }
         },
-        "determinate-progress": {},
-        "context": {
-            "accountChangedTitle": "Account Changed",
-            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?'"
-        },
-        "dropdown": {
-            "placeholder": {
-                "filter": "筛选器",
-                "noSelection": "Select one"
-            }
-        },
-        "date-picker": {
-            "placeholder": {
-                "date": "日期选择器",
-                "year": "年份选择器",
-                "month": "月份选择器"
-            }
-        },
         "notifications": {
             "information": "信息",
             "warning": "警告！",
             "success": "成功",
             "error": "错误"
         },
-        "pagination": {
-            "label": {
-                "show-entries": "显示条目",
-                "results": "结果",
-                "total-items": "项目总计",
-                "current-page": "当前页面"
+        "dropdown": {
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
             }
         },
-        "name": "Akamai 一般组件",
-        "switch-button": {
-            "onLabel": "开启",
-            "offLabel": "关闭"
+        "wizard": {
+            "label": {
+                "previous": "Previous",
+                "next": "Next",
+                "submit": "Submit"
+            },
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
         },
-        "dialog": {},
-        "error": {
-            "validation": {},
-            "data": "加载数据时出现问题。"
+        "tag-input": {
+            "placeholder": "Select Items",
+            "taggingLabel": "(new item)"
         }
     }
 }
