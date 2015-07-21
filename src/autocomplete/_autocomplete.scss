@@ -6,7 +6,6 @@ $autocomplete-clear-icon-width: 13px;
 $autocomplete-clear-icon-gap-width: 7px;
 .akam-autocomplete {
   width: 100%;
-  min-width: $autocomplete-input-width;
   vertical-align: middle;
   height: $autocomplete-height;
   span.input-option, span.selected-option {

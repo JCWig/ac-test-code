@@ -49,7 +49,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     this.clearSelected = clearSelected;
     this.clearSearch = clearSearch;
     this.register = register;
-    this.handleBlurEvent = handleBlurEvent;
 
     buildStaticQuery(this);
 
@@ -134,28 +133,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     }
 
     /**
-     * handleBlurEvent a scope method to be trigged on input blur event,
-     * and check if it is right element and has class open, then trigger click to close it
-     * @param  {object} e event object
-     */
-    function handleBlurEvent(e) {
-      var that = this, dirElem;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (e.currentTarget.id && e.currentTarget.id === that.autocompleteId) {
-        dirElem = angular.element(e.currentTarget).parent().parent();
-        if (dirElem.hasClass('open')) {
-          $timeout(function() {
-            $document.triggerHandler('click');
-            that.isOpen = false;
-          });
-        }
-      }
-    }
-
-    /**
      * setInputFocus private function to force input focus
      */
     function setInputFocus() {
@@ -219,6 +196,35 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     ngModel.$render = function() {
       scope.ac.selectedItem = ngModel.$modelValue;
     };
+
+    $document.on('keyup', handleTabEvent);
+
+
+    /**
+     * handleTabEvent a private function trigged by keyup event and handle it
+     * only if it is tab key and has open class, then manually trigger click to close it
+     * @param  {object} e event object
+     */
+    function handleTabEvent(e) {
+      var that = ctrl, dirElem;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if ((e.keyCode || e.which) === 9) {
+        dirElem = $document[0].querySelector('.akam-autocomplete.open');
+        if (dirElem) {
+          $timeout(function() {
+            $document.triggerHandler('click');
+            that.isOpen = false;
+          });
+        }
+      }
+    }
+
+    scope.$on('$destroy', function() {
+      $document.off('click', handleTabEvent);
+    });
   }
 
   return {
