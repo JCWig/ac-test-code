@@ -1,49 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+  body {
+    padding-top: 20px;
+  }
+  .common-css.luna .container{
+    padding-bottom: 15px;
+  }
+</style>
 <head>
-    <meta charset="UTF-8">
-    <title>Akamai Components Examples - Menu Button</title>
-    <link rel="stylesheet" href="../dist/akamai-core.css">
+  <meta charset="UTF-8">
+  <title>Akamai Components Examples - Menu Button</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
 </head>
-<body class="common-css" ng-app="example" ng-strict-di ng-controller="ExampleController">
-    <div class="container">
-        <akam-menu-button label="Choose an application">
-            <akam-menu-button-item
-                ng-repeat="item in items track by item.id"
-                text="{{item.appName}}"
-                ng-click="process(item)">
-            </akam-menu-button-item>
-        </akam-menu-button>
-        
-        <br />
-        
-        <akam-menu-button icon="luna-gear" position="right">
-            <akam-menu-button-item
-                ng-repeat="item in items track by item.id"
-                text="{{item.appName}}"
-                ng-click="process(item)">
-            </akam-menu-button-item>
-        </akam-menu-button>
-    </div> 
+<body class="common-css luna" ng-app="akamai.components.examples.menu-button" ng-strict-di ng-controller="ExampleController as vm">
 
-    <script src="../dist/akamai-core.js"></script>
-    <script>
-        var controllerFuction = function($scope) {
-            $scope.items = [
-                { appName : 'Tranquility', id : 'tranq' },
-                { appName : 'Billing Center', id : 'bc' },
-                { appName : 'Property Manager', id : 'pm' }
-            ];
-          
-            $scope.process = function(item) {
-                console.log('You clicked on the the app: ', item.appName);
-            };
-        };
+<div class="container">
+  <h1 class="page-header">Menu Button Examples</h1>
+</div>
 
-        controllerFuction.$inject = ['scope'];
-        angular.module('example', ['akamai.components.menu-button'])
+<div class="container">
+  <h3>Menu Button</h3>
+  <akam-menu-button>
+    <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
+    <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+    <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+  </akam-menu-button>
+</div>
 
-        .controller('ExampleController', controllerFuction);
-    </script>
+<div class="container">
+  <h3>Split Button</h3>
+  <akam-menu-button>
+    <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
+    <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+    <akam-menu-button-item default-action text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+  </akam-menu-button>
+</div>
+
+<script src="../dist/akamai-core.js"></script>
+<script>
+  var controllerFuction = function() {
+
+    this.process = function(item) {
+      console.log('You clicked on the the app: ', item);
+    };
+  };
+
+  angular.module('akamai.components.examples.menu-button',
+    ['akamai.components.menu-button'])
+    .controller('ExampleController', controllerFuction);
+</script>
 </body>
 </html>

@@ -184,6 +184,15 @@ $table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
     i + .dropdown-menu {
       margin-top: 3px;
     }
+
+    > button {
+      border: none;
+      background: none;
+
+      > i {
+        @extend .icon-states;
+      }
+    }
   }
   
   .empty-table-message {

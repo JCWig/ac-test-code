@@ -1,13 +1,15 @@
-module.exports = function(options) {
-  return function() {
-    return {
-      restrict: 'E',
-      replace: true,
-      require: '^' + options.require,
-      scope: {
-        text: '@'
-      },
-      template: '<li><a href="javascript:void(0);">{{ text }}</a></li>'
-    };
+export default function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {},
+    bindToController: {
+      text: '@'
+    },
+    controller: function() { },
+    controllerAs: 'menuButtonItem',
+    template: `<li>
+      <a href="javascript:void(0);" akam-translate="{{ menuButtonItem.text }}"></a>
+    </li>`
   };
-};
+}
