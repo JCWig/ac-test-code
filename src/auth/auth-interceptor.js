@@ -4,6 +4,9 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
   // dynamically injected message box and translate to get around circular dependency issue
   var messageBox, translate;
 
+  // used to enforce that only one message box is shown at a time.
+  var accountSwitchPromise;
+
   // patterns that should neither get API tokens nor luna "gid" and "aid" params
   var noAuthNoLunaQueryStringPatterns = [
     /^\/ui\/services\/nav\/megamenu\/.*\/context.json.*$/i,
@@ -65,6 +68,44 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
     });
   }
 
+  // shows the message box asking the user if they wish to switch accounts. We try to ensure that
+  // we only ever show 1 message box as there may be multiple ajax requests that are made when
+  // we detect an account switch.
+  function showMessageBox(requestConfig) {
+    if (accountSwitchPromise) {
+      return accountSwitchPromise;
+    }
+
+    accountSwitchPromise = $q.all([
+      translate.async('components.context.accountChanged', {
+        name: context.getAccountFromCookie().name,
+        oldName: context.account.name
+      }),
+      translate.async('components.context.accountChangedTitle')
+    ]).then(function(values) {
+      return messageBox.showQuestion({
+        title: values[1],
+        headline: '',
+        text: values[0]
+      }).result
+
+        // change the account back and continue with the API request
+        .then(context.resetAccount)
+        .then(angular.bind(this, addGroupAndPropertyConfig, requestConfig))
+
+        // go to login page
+        .catch(function() {
+          $window.location.replace('/');
+        })
+        .finally(function() {
+          // set the promise to null so we can show a new dialog again
+          accountSwitchPromise = null;
+        });
+    });
+
+    return accountSwitchPromise;
+  }
+
   return {
     request: function(requestConfig) {
       translate = translate || $injector.get('translate');
@@ -93,27 +134,7 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
 
         // shows a message box that asks the user if they want to switch the account back to the
         // initial account. Will redirect to the home page if they don't choose to switch account.
-        return $q.all([
-          translate.async('components.context.accountChanged', {
-            name: context.getAccountFromCookie().name
-          }),
-          translate.async('components.context.accountChangedTitle')
-        ]).then(function(values) {
-          return messageBox.showQuestion({
-            title: values[1],
-            headline: '',
-            text: values[0]
-          }).result
-
-            // change the account back and continue with the API request
-            .then(context.resetAccount)
-            .then(angular.bind(this, addGroupAndPropertyConfig, requestConfig))
-
-            // go to login page
-            .catch(function() {
-              $window.location.replace('/');
-            });
-        });
+        return showMessageBox(requestConfig);
       }
 
       return addGroupAndPropertyConfig(requestConfig);

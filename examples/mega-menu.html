@@ -42,10 +42,11 @@
     .controller('MegaMenu', MegaMenu)
     .config(Config);
 
-  function Config(contextProvider) {
+  function Config(contextProvider, i18nTokenProvider) {
     contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
+    i18nTokenProvider.setAppLocalePath('/libs/akamai-core/0.7.0/locales/');
   }
-  Config.$inject = ['contextProvider'];
+  Config.$inject = ['contextProvider', 'i18nTokenProvider'];
 
   function MegaMenu($cookies, $http, context) {
     var ids = {
@@ -61,8 +62,10 @@
       context.property = 126628;
     };
 
+    // make two requests to ensure that only 1 dialog shows up
     this.apiRequest = function() {
-      return $http.get('/apps/appname/locales/en_US.json');
+      $http.get('/apps/appname/locales/en_US.json');
+      $http.get('/apps/appname/locales/en_US.json');
     };
 
     this.switchAccount = function(id) {
