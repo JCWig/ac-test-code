@@ -17,7 +17,7 @@ $date-range-in-range-background-color: #CEE7FF;
   & span.rangeStart {
     position: absolute;
     ul.dropdown-menu {
-      min-width: 225px;
+      //min-width: 225px;
       border-right: none;
       @include border-right-radius(0);
     }
@@ -32,6 +32,18 @@ $date-range-in-range-background-color: #CEE7FF;
       @include box-shadow($date-range-boxshadow);
     }
   }
+  ul.dropdown-menu {
+    min-width: 450px;
+    table {
+      //min-width: 400px;
+      width: 100%;
+
+      td.space {
+        width: 5%;
+        border-width: 0;
+      }
+    }
+  }
   table tbody td button {
     &.in-range {
       color: $date-range-in-range-color;
@@ -44,7 +56,6 @@ $date-range-in-range-background-color: #CEE7FF;
       background-color: $button-primary-text-color!important;
     }
   }
-
   ul.dropdown-menu tbody td {
     height: 23px;
   }
