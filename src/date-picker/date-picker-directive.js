@@ -15,7 +15,8 @@ module.exports = function($filter, $timeout, translate) {
       mode: '@',
       min: '@',
       max: '@',
-      format: '@'
+      format: '@',
+      isDisabled: '=?'
     },
     template: require('./templates/date-picker.tpl.html'),
     link: {
@@ -79,7 +80,7 @@ module.exports = function($filter, $timeout, translate) {
         };
 
         scope.showClear = function() {
-          return scope.value && !noClear;
+          return scope.value && !noClear && !scope.isDisabled;
         };
 
         scope.clearDate = function() {
