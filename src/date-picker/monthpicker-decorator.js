@@ -1,8 +1,5 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function($provide) {
-  $provide.decorator('monthpickerDirective', function($delegate) {
+  function monthPickerDirective($delegate) {
     var link;
 
     // since: directives could potentially share names, the provider returns an array
@@ -39,5 +36,11 @@ module.exports = function($provide) {
     };
 
     return $delegate;
-  });
+  }
+
+  monthPickerDirective.$inject = ['$delegate'];
+
+  $provide.decorator('monthpickerDirective', monthPickerDirective);
 };
+
+module.exports.$inject = ['$provide'];

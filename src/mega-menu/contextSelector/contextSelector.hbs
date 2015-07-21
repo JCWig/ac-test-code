@@ -1,0 +1,25 @@
+<nav class="popup context util-hide">
+  <div class="util-arrow-up"></div>
+  <div>
+    <div class="header">
+      <header>{{menuTitle}}<a href="{{helpURL}}" target="_blank"><i
+        class="context-help util-align-middle"></i></a></header>
+      <input class="util-full-width" type="text" placeholder="{{findTitle}}"/>
+    </div>
+    <div class="scroll-pane all-contexts">
+      {{#each mainMenuItems}}
+        <section>
+          <div>
+            <a href="{{url}}"><i class="context-{{contextId}}"></i>{{name}}</a>
+            {{#if subMenuItems}}<i class="arrow-down"></i>{{/if}}
+          </div>
+          {{#if subMenuItems}}
+            {{> contextSelectorSection }}
+          {{/if}}
+        </section>
+      {{/each}}
+    </div>
+    <div class="scroll-pane search-results util-hide"></div>
+  </div>
+</nav>
+

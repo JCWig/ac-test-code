@@ -1,37 +1,17 @@
-'use strict';
 var angular = require('angular');
 var treeViewTemplate = require('./templates/tree-view.tpl.html');
 
-/* @ngInject */
 module.exports = function($q, $compile, $log, $timeout, $parse) {
-  return {
-    restrict: 'E',
-    scope: {},
-    bindToController: {
-      items: '=',
-      rootProperty: '@',
-      currentProperty: '@',
-      parentProperty: '@',
-      childrenProperty: '@',
-      textProperty: '@',
-      onChange: '&'
-    },
-    controller: TreeviewController,
-    controllerAs: 'treeview',
-    template: treeViewTemplate
-  };
-  /* @ngInject */
+
   function TreeviewController($scope) {
-    var haveParentsFlag, currentGetter, childrenGetter, parentGetter,
-        inputParents, inputChildren, inputCurrent;
+    var haveParentsFlag, childrenGetter, parentGetter,
+      inputParents, inputChildren, inputCurrent;
 
     var rootProperty = this.rootProperty || 'root';
     var parentProperty = this.parentProperty || 'parent';
-    var currentProperty = this.currentProperty || 'current';
     var childrenProperty = this.childrenProperty || 'children';
     var textProperty = this.textProperty || 'title';
 
-    currentGetter = $parse(currentProperty);
     childrenGetter = $parse(childrenProperty);
     parentGetter = $parse(parentProperty);
 
@@ -77,7 +57,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         self.failed = true;
       });
     };
-    $scope.$watch('treeview.items', angular.bind(this, itemChangeFn));
+    $scope.$watch('treeview.item', angular.bind(this, itemChangeFn));
     function itemChangeFn() {
       var self = this;
 
@@ -88,13 +68,13 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         }
       }, 300);
       this.failed = false;
-      if (this.items) {
-        $q.when(this.items).then(function(resp) {
+      if (this.item) {
+        $q.when(this.item).then(function(resp) {
           var data = resp.data ? resp.data : resp;
 
           if (!self.current) {
-            inputCurrent = currentGetter(data);
-            self.current = self.convertData(inputCurrent, currentProperty, data)[0] || {};
+            inputCurrent = data;
+            self.current = {title: $parse(textProperty)(data)};
           }
           self.retrieveAndHandleNewChildrenAndParents(data);
         }).catch(function() {
@@ -102,6 +82,7 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         });
       }
     }
+
     this.hasParents = function() {
       return !!this.parentTree.length;
     };
@@ -112,7 +93,8 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
 
       if (!haveParentsFlag) {
         inputParents = parentGetter(data);
-        this.maintainParentTree(this.convertData(inputParents, parentProperty, data));
+        this.parentTree = this.parentTree.concat(
+          this.convertData(inputParents, parentProperty, data));
         if (inputParents && !angular.isArray(inputParents)) {
           value = inputParents;
           inputParents = [value];
@@ -145,20 +127,35 @@ module.exports = function($q, $compile, $log, $timeout, $parse) {
         }
         return converted;
       } else if (data) {
-        return [{title: $parse(prop + '.' + textProperty)(convertFrom),
-          root: $parse(prop + '.' + rootProperty)(convertFrom)}];
+        return [{
+          title: $parse(prop + '.' + textProperty)(convertFrom),
+          root: $parse(prop + '.' + rootProperty)(convertFrom)
+        }];
       } else {
         return [];
       }
     };
-    this.maintainParentTree = function(obj, toRemove) {
-      if (toRemove) {
-        this.parentTree.splice(this.parentTree.indexOf(obj), this.parentTree.length);
-      } else if (angular.isArray(obj)) {
-        this.parentTree = this.parentTree.concat(obj);
-      } else {
-        this.parentTree.push(obj);
-      }
+    this.maintainParentTree = function(obj) {
+      this.parentTree = this.parentTree.concat(obj);
     };
   }
+
+  TreeviewController.$inject = ['$scope'];
+
+  return {
+    restrict: 'E',
+    scope: {},
+    bindToController: {
+      item: '=',
+      rootProperty: '@',
+      parentProperty: '@',
+      childrenProperty: '@',
+      textProperty: '@',
+      onChange: '&'
+    },
+    controller: TreeviewController,
+    controllerAs: 'treeview',
+    template: treeViewTemplate
+  };
 };
+module.exports.$inject = ['$q', '$compile', '$log', '$timeout', '$parse'];

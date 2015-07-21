@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 /**
@@ -31,14 +29,14 @@ module.exports = angular.module('akamai.components.time-picker', [
  *
  * @param {boolean} [showMeridian=true] - Whether to display 12H or 24H mode.
  *
- * @param {String} [disabled=false] - whether to disable the picker input and button or not.
+ * @param {String} [isDisabled=false] - whether to disable the picker input and button or not.
  *
  * @param {Number} [hourStep=1] - increment or decrement the hour value.
  *
- * @param {Number} disabled - [minuteStep=15] - increment or decrement the minute value.
+ * @param {Number} [minuteStep=15] - increment or decrement the minute value.
  *
  */
-.directive('akamTimePicker', require('./time-picker-directive'))
+  .directive('akamTimePicker', require('./time-picker-directive'))
 
 /**
  * @ngdoc directive
@@ -54,4 +52,4 @@ module.exports = angular.module('akamai.components.time-picker', [
  * @private
  *
  */
-.directive('timeFormatter', require('./time-formatter-directive'));
+  .directive('timeFormatter', require('./time-formatter-directive'));

@@ -235,5 +235,11 @@
     "invoice.amount.due": "Fälliger Betrag",
     "cp-codes.modal.title": "CP-CODES",
     "recurring-report.empty": "Es wurden keine wiederkehrenden Berichte gefunden.",
-    "report.edit.title": "WIEDERKEHRENDEN BERICHT BEARBEITEN"
+    "report.edit.title": "WIEDERKEHRENDEN BERICHT BEARBEITEN",
+    "examples.wizard.step1": "Schritt 1",
+    "examples.wizard.step2": "Schritt 2",
+    "examples.wizard.step3": "Schritt 3",
+    "examples.wizard.step4": "Schritt 4",
+    "examples.wizard.step5": "Schritt 5",
+    "examples.autocomplete.search.states": "Suche nach Staaten"
 }

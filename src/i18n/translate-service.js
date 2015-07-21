@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($translate) {
   // use sync
   var syncMethod = function(key, args) {
@@ -125,3 +122,4 @@ module.exports = function($translate) {
     sync: syncMethod
   };
 };
+module.exports.$inject = ['$translate'];

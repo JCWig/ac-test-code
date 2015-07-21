@@ -1,10 +1,7 @@
-'use strict';
-
 var angular = require('angular');
 
 var sortableClass = 'column-sortable';
 
-/* @ngInject */
 module.exports = function($log) {
   return {
     template: getTableTemplate
@@ -66,15 +63,28 @@ module.exports = function($log) {
           elemClone.classList.add(sortableClass);
 
           elemClone.setAttribute('ng-class', 'table.sortDirectionClass("' +
-            elemClone.getAttribute('row-property') + '")');
+          elemClone.getAttribute('row-property') + '")');
 
           elemClone.setAttribute('ng-click', 'table.sortColumn("' +
-            elemClone.getAttribute('row-property') + '")');
+          elemClone.getAttribute('row-property') + '")');
+
+          // akam-text-overflow expects a fully translated string already, so if the user
+          // defines an akam-text-overflow for a table row, we will replace it with a title tag
+          // with the translated value (using the akamTranslate filter). This is a trade-off
+          // between adding unnecessary watches for every <th> item and delaying compiling this
+          // element until we can translate the table header string.
+          if (elemClone.hasAttribute('akam-text-overflow')) {
+            elemClone.removeAttribute('akam-text-overflow');
+
+            elemClone.setAttribute('title',
+              '{{ \'' + elemClone.getAttribute('header-name') + '\' | akamTranslate}}');
+          }
+
         }
 
         headerHtml = '<span akam-translate="' +
-          elemClone.getAttribute('header-name') +
-          '"></span><i></i>';
+        elemClone.getAttribute('header-name') +
+        '"></span><i></i>';
 
         tpl = elemClone.outerHTML.replace('<akam-table-column', '<th');
         tpl = tpl.replace('akam-table-column>', 'th>');
@@ -143,8 +153,8 @@ module.exports = function($log) {
   }
 
   function isSortable(element, attributes) {
-    return !angular.isDefined(attributes.notSortable) &&
-      !element.hasAttribute('not-sortable') &&
+    return !angular.isDefined(attributes.notSortable) && !element.hasAttribute('not-sortable') &&
       element.hasAttribute('row-property');
   }
 };
+module.exports.$inject = ['$log'];

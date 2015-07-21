@@ -1,4 +1,3 @@
-'use strict';
 var angular = require('angular'),
   messages = require('angular-messages'),
   sanitize = require('angular-sanitize');
@@ -29,7 +28,11 @@ module.exports = angular.module('akamai.components.table', [
 /**
  * @ngdoc directive
  * @name akamai.components.table.directive:akamTable
- * @description Creates a data table control.
+ * @description Creates a data table control. NOTE: If you are using an `<akam-menu-button>`
+ * inside of a data table row, then you must put the class ".column-action" on the
+ * `<akam-table-column>` in order to achieve UXD approved behavior. See the data table example
+ * for a usage example.
+ *
  * @restrict E
  *
  * @param {Object[]} items Required data model for the table.
@@ -84,7 +87,7 @@ module.exports = angular.module('akamai.components.table', [
  *        {{ row.name }} is awesome
  *      </akam-table-column>
  *      <akam-table-column row-property="street" header-name="my.street"></akam-table-column>
- *      <akam-table-column class="foo" header-name="my.actions">
+ *      <akam-table-column class="column-action" header-name="my.actions">
  *        <akam-menu-button></akam-menu-button>
  *      </akam-table-column>
  *    </akam-table-row>

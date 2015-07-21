@@ -28,11 +28,14 @@ describe('akam-list-box', function() {
     self = this;
     angular.mock.module(require('../../src/list-box').name);
     angular.mock.module(function($provide) {
-      /*@ngInject*/
-      $provide.decorator('$http', function($delegate) {
+
+      function http($delegate) {
         $http = $delegate;
         return $delegate;
-      });
+      }
+      http.$inject = ['$delegate'];
+
+      $provide.decorator('$http', http);
     });
     inject(function($compile, $rootScope, $timeout, $q, $httpBackend, $sce) {
       compile = $compile;
@@ -1260,7 +1263,7 @@ describe('akam-list-box', function() {
     });
   });
   describe('when data messes up', function() {
-    it('should recognize null content when redenring', function() {
+    it('should recognize null content when rendering', function() {
       scope.baddata = [
         {first: "Nick"},
         {first: "Kevin"}];
@@ -1306,10 +1309,12 @@ describe('akam-list-box', function() {
       var rowFourColumnTwo = document.querySelectorAll(TABLE_ROW)[3].querySelectorAll('td')[1];
       var rowFiveColumnTwo = document.querySelectorAll(TABLE_ROW)[4].querySelectorAll('td')[1];
 
-      expect(rowOneColumnTwo.textContent).toEqual('');
-      expect(rowTwoColumnTwo.textContent).toEqual('');
-      expect(rowFourColumnTwo.textContent).toContain('James');
-      expect(rowFiveColumnTwo.textContent).toContain('Kevin');
+      // as per https://github.com/angular/angular.js/pull/12072, angular now treats nulls lower
+      // than objects. This may be "broken" in a future angular change.
+      expect(rowOneColumnTwo.textContent).toContain('James');
+      expect(rowTwoColumnTwo.textContent).toContain('Kevin');
+      expect(rowFourColumnTwo.textContent).toEqual('');
+      expect(rowFiveColumnTwo.textContent).toEqual('');
     });
   });
   describe('when errors are thrown', function() {

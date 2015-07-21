@@ -242,6 +242,16 @@
     "examples.full-name" : "Full Name",
     "examples.id": "ID",
     "examples.name": "Name",
+    "examples.lastname": "Last Name",
+    "examples.boolean": "Boolean",
     "examples.email": "Email",
-    "examples.actions": "Actions"
+    "examples.ipaddress": "Internet Protocol Address",
+    "examples.country": "Country",
+    "examples.actions": "Actions",
+    "examples.wizard.step1": "Step 1",
+    "examples.wizard.step2": "Step 2",
+    "examples.wizard.step3": "Step 3",
+    "examples.wizard.step4": "Step 4",
+    "examples.wizard.step5": "Step 5",
+    "examples.autocomplete.search.states": "Search States"
 }

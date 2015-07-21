@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 var formatterConfig = {
@@ -10,14 +8,15 @@ var formatterConfig = {
   APM_REGEX: /[a|p]m/i
 };
 
-/* @ngInject */
 module.exports = function($filter, $timeout) {
 
   var directive = {
     restrict: 'A',
     require: '?ngModel',
     scope: {
-      showMeridian: '='
+      showMeridian: '=',
+      minuteStep: '=',
+      hourStep: '='
     },
     link: link
   };
@@ -37,12 +36,24 @@ module.exports = function($filter, $timeout) {
     scope.$watch('showMeridian', function() {
       var value = ngModel.$modelValue,
         timeFormat = scope.showMeridian ?
-        formatterConfig.MERIDIAN_ON : formatterConfig.MERIDIAN_OFF.toLowerCase();
+          formatterConfig.MERIDIAN_ON : formatterConfig.MERIDIAN_OFF.toLowerCase();
 
       if (value) {
         element.val(displayTime(value, true));
       }
       element.attr('placeholder', timeFormat);
+    });
+
+    scope.$watch('minuteStep', function(newValue) {
+      if (!newValue || isNaN(newValue)) {
+        scope.minuteStep = 15;
+      }
+    });
+
+    scope.$watch('hourStep', function(newValue) {
+      if (!newValue || isNaN(newValue)) {
+        scope.hourStep = 1;
+      }
     });
 
     function parseTime(value) {
@@ -133,3 +144,4 @@ module.exports = function($filter, $timeout) {
     });
   }
 };
+module.exports.$inject = ['$filter', '$timeout'];

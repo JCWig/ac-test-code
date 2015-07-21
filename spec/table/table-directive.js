@@ -14,6 +14,7 @@ var DROP_DOWN_MENU = '.akam-menu-button .dropdown-menu';
 var PREVIOUS_BUTTON = 'div.akam-pagination .pagination li:first-child';
 var NEXT_BUTTON = 'div.akam-pagination .pagination li:last-child';
 var TOTAL_ITEMS_SPAN = 'div.akam-pagination .total-items';
+var PAGINATION_INDEXES = 'div.akam-pagination .pagination li';
 var PAGINATION_PAGE_ONE = 'div.akam-pagination .pagination li:nth-child(2)';
 var PAGINATION_INDEX_NTH = 'div.akam-pagination .pagination li:nth-child';
 var PAGINATION_INDEX_REVERSE = 'div.akam-pagination .pagination li:nth-last-child';
@@ -22,7 +23,6 @@ var PAGE_SIZE_LARGEST = 'div.akam-pagination .page-size li:last-child';
 var PAGE_SIZE_NTH = 'div.akam-pagination .page-size li:nth-child';
 var PAGE_SIZES = 'div.akam-pagination .page-size li';
 
-//i18n Requirements
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 
@@ -49,7 +49,7 @@ describe('akam-table', function() {
     });
     scope.mydata = [
       {
-        fullname: 'Oliver Queen',
+        first_name: 'Oliver Queen',
         id: 11,
         bu: 'Justice League',
         color: 'Green',
@@ -57,7 +57,7 @@ describe('akam-table', function() {
         generic: ['seriously whats wrong with arrow cave?']
       },
       {
-        fullname: 'Roy Harper',
+        first_name: 'Roy Harper',
         id: 20,
         bu: 'Teen Titans',
         color: 'Red',
@@ -65,7 +65,7 @@ describe('akam-table', function() {
         generic: ['speedy']
       },
       {
-        fullname: 'Dinah Lance',
+        first_name: 'Dinah Lance',
         id: 35,
         bu: 'Birds of Prey',
         color: 'Black',
@@ -74,7 +74,7 @@ describe('akam-table', function() {
       }
     ];
     scope.columns = {
-      fullname: 'Full Name',
+      first_name: 'Full Name',
       id: 'ID',
       bu: 'Team',
       color: 'Favorite Color',
@@ -98,336 +98,496 @@ describe('akam-table', function() {
     scope.$digest();
     self.element = document.body.appendChild(self.el[0]);
   }
-  describe('when rendering data table', function() {
-    beforeEach(function(){
-      scope.pdfClicked = jasmine.createSpy('spy');
-      var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
-          '<akam-table-toolbar class="toolbar-class util-pull-right">'+
-            '<span>Icons</span>'+
-            '<i class="luna-bar_chart"></i>'+
-            '<akam-menu-button>'+
-              '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
-              '</akam-menu-button-item>'+
-            '</akam-menu-button>'+
-          '</akam-table-toolbar>'+
-          '<akam-table-row>'+
-          '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-          '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
-          '</akam-table-column>'+
-          '<akam-table-column class="bu" row-property="bu" header-name="{{columns.bu}}">'+
-            '<span class="custom-content"> {{row.bu}} </span>'+
-          '</akam-table-column>'+
-          '<akam-table-column class="color" row-property="color" header-name="{{columns.color}}">'+
-          '</akam-table-column>'+
-          '<akam-table-column class="birthday" row-property="birthday" header-name="{{columns.birthday}}">'+
-          '</akam-table-column>'+
-          '<akam-table-column class="generic" row-property="generic" header-name="{{columns.generic}}">'+
-          '</akam-table-column>'+
-        '</akam-table-row>'+
-      '</akam-table>'
-      addElement(markup);
-    });
-    it('should render data table and pagination', function() {
-      var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      var numberOfColumns = document.querySelector('tbody tr').querySelectorAll('td').length;
-      var pagination = document.querySelector('div.akam-pagination');
-
-      expect(numberOfColumns).toEqual(6); // # rows plus header row
-      expect(numberOfRows).toEqual(3); //# columns + checkbox 
-      expect(pagination).not.toBe(null);
-    });
-    it('should render a filter bar with placeholder', function(){
-      var filterbox = document.querySelector('.filter');
-      expect(filterbox).not.toBe(null);
-      expect(filterbox.textContent).not.toBe('placeholder');
-    });
-    it('should render toolbar menu', function(){
-      var akamToolbar = document.querySelector('akam-table-toolbar');
-      var icon = akamToolbar.querySelector('.luna-bar_chart');
-      var dropdownMenu = akamToolbar.querySelector('ul.dropdown-menu');
-      var dropMenuOption = dropdownMenu.querySelector('li');
-      utilities.click(dropMenuOption);
-      scope.$digest();
-      expect(akamToolbar).not.toBe(null);
-      expect(icon).not.toBe(null);
-      expect(dropdownMenu).not.toBe(null);
-      expect(dropMenuOption.textContent).toContain('PDF')
-      expect(scope.pdfClicked).toHaveBeenCalled();
-    });
-    it('should render data correctly', function(){
-      var columnOneHeader = document.querySelector('.name');
-      var columnTwoHeader = document.querySelector('.id');
-      var columnThreeHeader = document.querySelector('.bu');
-      var columnFourHeader = document.querySelector('.color');
-      var columnFiveHeader = document.querySelector('.birthday');
-      var columnSixHeader = document.querySelector('.generic');
-
-      var rowOneColumnOne = document.querySelectorAll('.name')[1];
-      var rowOneColumnTwo = document.querySelectorAll('.id')[1];
-      var rowOneColumnThree = document.querySelectorAll('.bu')[1];
-      var rowOneColumnFour = document.querySelectorAll('.color')[1];
-      var rowOneColumnFive = document.querySelectorAll('.birthday')[1];
-      var rowOneColumnSix = document.querySelectorAll('.generic')[1];
-
-      expect(columnOneHeader.textContent).toContain(scope.columns.fullname);
-      expect(columnTwoHeader.textContent).toContain(scope.columns.id);
-      expect(columnThreeHeader.textContent).toContain(scope.columns.bu);
-      expect(columnFourHeader.textContent).toContain(scope.columns.color);
-      expect(columnFiveHeader.textContent).toContain(scope.columns.birthday);
-      expect(columnSixHeader.textContent).toContain(scope.columns.generic);
-
-      expect(rowOneColumnOne.textContent).toContain(scope.mydata[0].fullname);
-      expect(rowOneColumnTwo.textContent).toContain(scope.mydata[0].id);
-      expect(rowOneColumnThree.textContent).toContain(scope.mydata[0].bu);
-      expect(rowOneColumnFour.textContent).toContain(scope.mydata[0].color);
-      expect(rowOneColumnFive.textContent).toContain('2001-11-20'); //Extended Standard String
-      expect(rowOneColumnSix.textContent).toContain(scope.mydata[0].generic);
-    });
-    it('should display total number of results', function(){
-      var totalItemsSpan = document.querySelector('.total-items');
-      expect(totalItemsSpan.textContent).toContain('3');
-    });
-    it('should have forward and backward arrows disabled', function(){
-      var backArrow = document.querySelector(PREVIOUS_BUTTON);
-      var nextArrow = document.querySelector(NEXT_BUTTON);
-
-      expect(backArrow.classList).toContain('disabled');
-      expect(nextArrow.classList).toContain('disabled');
+  describe('given an array bound to the items attribute', function(){
+  	describe('when a table is rendered', function(){
+  		beforeEach(function(){
+	      scope.pdfClicked = jasmine.createSpy('spy');
+	      var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
+	          '<akam-table-row>'+
+	          '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+	          '</akam-table-column>'+
+	          '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
+	          '</akam-table-column>'+
+	          '<akam-table-column class="bu" row-property="bu" header-name="{{columns.bu}}">'+
+	            '<span class="custom-content"> {{row.bu}} </span>'+
+	          '</akam-table-column>'+
+	          '<akam-table-column class="color" row-property="color" header-name="{{columns.color}}">'+
+	          '</akam-table-column>'+
+	          '<akam-table-column class="birthday" row-property="birthday" header-name="{{columns.birthday}}">'+
+	          '</akam-table-column>'+
+	          '<akam-table-column class="generic" row-property="generic" header-name="{{columns.generic}}">'+
+	          '</akam-table-column>'+
+	        '</akam-table-row>'+
+	      '</akam-table>'
+	      addElement(markup);
+	    });
+  		it('should display rows chunked by page size', function(){
+				var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
+	      expect(numberOfRows).toEqual(3); //# columns + checkbox 
+  		});
+      it('should dislay headers for each akam-row-column', function(){
+        var numberOfColumns = document.querySelector('tbody tr').querySelectorAll('td').length;
+        expect(numberOfColumns).toEqual(6); // # rows plus header row
+      });
+      it('should display a page count equal to the aray size divided by page size', function(){
+        var paginationIndexes = document.querySelectorAll(PAGINATION_INDEXES);
+        expect(paginationIndexes.length).toEqual(3);
+      });
+  	});
+  });
+  describe('given a promise bound to the items attribute', function(){
+    describe('when a table is rendered', function(){
+      beforeEach(function(){
+        var def = q.defer();
+        scope.delayedData = def.promise;
+        timeout(function(){
+          def.resolve(scope.mydata);
+        }, 2000);
+        var markup = '<akam-table items="delayedData" akam-standalone not-filterable on-change="changeRows(items)"'+
+             'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+            '</akam-table-column>'+
+          '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+      });
+      it('should display an indeterminate progress indicator', function(){
+        var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+        expect(indeterminateProgress).not.toBe(null);
+        expect(indeterminateProgress.classList).not.toContain('failed');
+        timeout.flush();
+        indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+        expect(indeterminateProgress).toBe(null);
+      });
     });
   });
-  describe('when data is delayed', function(){
-    it('should render indeterminate progress while loading (deffered)', function(){
-      var def = q.defer();
-      scope.delayedData = def.promise;
-      timeout(function(){
-        def.resolve(scope.mydata);
-      }, 2000);
-      var markup = '<akam-table items="delayedData" akam-standalone not-filterable on-change="changeRows(items)"'+
-           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
-          '<akam-table-row>'+
-          '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-        '</akam-table-row>'+
-      '</akam-table>'
-      addElement(markup);
-
-      var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-      expect(indeterminateProgress).not.toBe(null);
-      expect(indeterminateProgress.classList).not.toContain('failed');
-      timeout.flush();
-      indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-      expect(indeterminateProgress).toBe(null);
-    });
-    it('should render failure indeterminate progress when failed', function(){
-      var def = q.defer();
-      scope.delayedData = def.promise;
-      timeout(function(){
-        def.reject();
-      }, 2000);
-      var markup = '<akam-table items="delayedData" akam-standalone on-change="changeRows(items)"'+
-           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
-          '<akam-table-row>'+
-          '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-        '</akam-table-row>'+
-      '</akam-table>'
-      addElement(markup);
-
-      var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-      expect(indeterminateProgress).not.toBe(null);
-      expect(indeterminateProgress.classList).not.toContain('failed');
-      timeout.flush();
-      indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-      expect(indeterminateProgress).not.toBe(null);
-      expect(indeterminateProgress.classList).toContain('failed');
-    });
-    it('should render indeterminate progress while loading (http)', function(){
-      httpBackend.when('GET', '/randomurl').respond(scope.mydata);
-      scope.httpData = http.get('/randomurl');
-      var markup = '<akam-table items="httpData" akam-standalone on-change="changeRows(items)"'+
-           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
-          '<akam-table-row>'+
-          '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-        '</akam-table-row>'+
-      '</akam-table>'
-      addElement(markup);
-
-      var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-      expect(indeterminateProgress).not.toBe(null);
-      expect(indeterminateProgress.classList).not.toContain('failed');
-      httpBackend.flush();
-      indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-      expect(indeterminateProgress).toBe(null);
-    });
-    it('should render failure indeterminate progress when failed', function(){
-      httpBackend.when('GET', '/randomurl').respond(404, "data not found");
-      scope.httpData = http.get('/randomurl');
-      var markup = '<akam-table items="httpData" akam-standalone on-change="changeRows(items)"'+
-           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
-          '<akam-table-row>'+
-          '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-        '</akam-table-row>'+
-      '</akam-table>'
-      addElement(markup);
-
-      var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-      expect(indeterminateProgress).not.toBe(null);
-      expect(indeterminateProgress.classList).not.toContain('failed');
-      httpBackend.flush();
-      indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-      expect(indeterminateProgress).not.toBe(null);
-      expect(indeterminateProgress.classList).toContain('failed');
+  describe('given a promise bound to the items attribute', function(){
+    describe('when a table is rendered', function(){
+      describe('and the promise resolved successfully', function(){
+        beforeEach(function(){
+          var def = q.defer();
+          scope.delayedData = def.promise;
+          timeout(function(){
+            def.resolve(scope.mydata);
+          }, 2000);
+          var markup = '<akam-table items="delayedData" akam-standalone not-filterable on-change="changeRows(items)"'+
+               'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>'
+          addElement(markup);
+          timeout.flush();
+        });
+        it('should remove the indeterminate progress indicator', function(){
+          var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+          expect(indeterminateProgress).toBe(null);
+        });
+      });
     });
   });
-  describe('when rendered with selectedItems', function(){
-    beforeEach(function(){
-      scope.selectionCallback = jasmine.createSpy('spy');
-      scope.selectedItems = [scope.mydata[1]];
-      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)"'+
-           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
-          '<akam-table-row>'+
-          '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-        '</akam-table-row>'+
-      '</akam-table>'
-      addElement(markup);
-    });
-    it('should render checkboxes for each row', function() {
-      var checkboxes = document.querySelector('tbody').querySelectorAll('input[type="checkbox"]');
-      expect(checkboxes.length).toEqual(3);
-    });
-    it('should have an additional column for checkboxes', function() {
-      var numberOfColumns = document.querySelector('tbody tr').querySelectorAll('td').length;
-      expect(numberOfColumns).toEqual(2); // # columns plus checkbox
-    });
-    it('should be able to provide selected items', function() {
-      var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      expect(selectedCheckboxes.length).toEqual(1);
-    });
-    it('should be able to select items', function() {
-      var toSelectCheckbox = document.querySelectorAll('input[type="checkbox"]')[2];
-      utilities.click(toSelectCheckbox);
-      scope.$digest();
-      expect(scope.selectedItems.length).toEqual(2);
-      expect(scope.selectionCallback).toHaveBeenCalled();
-      expect(scope.selectionCallback.calls.count()).toEqual(1);
-    });
-    it('should be able to deselect items', function(){
-      var toSelectCheckbox = document.querySelectorAll('input[type="checkbox"]')[1];
-      utilities.click(toSelectCheckbox);
-      scope.$digest();
-      expect(scope.selectedItems.length).toEqual(0);
-      expect(scope.selectionCallback.calls.count()).toEqual(1);
-    });
-    it('should be able select all items', function(){
-      var toSelectCheckbox = document.querySelectorAll('input[type="checkbox"]')[0];
-      utilities.click(toSelectCheckbox);
-      scope.$digest();
-      expect(scope.selectedItems.length).toEqual(2);
-      expect(scope.selectionCallback.calls.count()).toEqual(1);
+  describe('given a promise bound to the items attribute', function(){
+    describe('when the promise fails', function(){
+      beforeEach(function(){
+        httpBackend.when('GET', '/randomurl').respond(404, "data not found");
+        scope.httpData = http.get('/randomurl');
+        var markup = '<akam-table items="httpData" akam-standalone on-change="changeRows(items)"'+
+             'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
+            '</akam-table-column>'+
+          '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+      });
+      it('should display failed indeterminate progress', function(){
+        httpBackend.flush();
+        var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+        expect(indeterminateProgress.classList).toContain('failed');
+      });
     });
   });
-  describe('when using data table sort option', function() {
-    beforeEach(function() {
-      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+  describe('given a promise bound to the items attribute', function(){
+    describe('when the promise fails', function(){
+      describe('and a new promise is given', function(){
+        beforeEach(function(){
+          httpBackend.when('GET', '/randomurl').respond(404, "data not found");
+          httpBackend.when('GET', '/successurl').respond(scope.mydata);
+          scope.httpData = http.get('/randomurl');
+          var markup = '<akam-table items="httpData" akam-standalone on-change="changeRows(items)"'+
+               'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>'
+          addElement(markup);
+          httpBackend.flush();
+          scope.httpData = http.get('/successurl');
+        });
+        it('should re show the indeterminate progress indicator', function(){
+          var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+          expect(indeterminateProgress.classList).toContain('failed');
+        });
+      });
+    });
+  });
+  describe('given a rendered table', function(){
+    describe('when a value is rebound to the items attribute', function(){
+      beforeEach(function(){
+        scope.changingData = scope.bigData;
+        var markup = '<akam-table items="changingData" akam-standalone on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" default-sort row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
+            '</akam-table-column>'+
+          '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+        utilities.click(NEXT_BUTTON);
+        scope.$digest();
+        var tableController = self.el.isolateScope().table;
+        tableController.state.filter = 'Oliver';
+        tableController.filterRows();
+        scope.$digest();
+        var columnTwoHeader = document.querySelector('.id');
+        utilities.click(columnTwoHeader);
+        scope.changingData = scope.mydata
+        scope.$digest();
+      });
+      it('should reset the pagination state', function(){
+        var paginationOneIndex = document.querySelector(PAGINATION_PAGE_ONE);
+        expect(paginationOneIndex.classList).toContain('active');
+      });
+      it('should reset filter box state', function(){
+        var tableController = self.el.isolateScope().table;
+        expect(tableController.state.filter).toEqual('');
+      });
+      it('should reset sort state to default', function(){
+        var columnTwoHeader = document.querySelector('.id');
+        expect(columnTwoHeader.classList).not.toContain('asc');
+      });
+    });
+  });
+  describe('given a not-pageable attribute', function(){
+    describe('when a table is rendered', function(){
+      beforeEach(function(){
+        scope.pdfClicked = jasmine.createSpy('spy');
+        var markup = '<akam-table items="mydata" akam-standalone not-pageable filter-placeholder="placeholder" on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+            '</akam-table-column>'+
+        '</akam-table>'
+        addElement(markup);
+      });
+      it('should not display pagination', function(){
+        var pagination = document.querySelector('div.akam-pagination');
+        expect(pagination).toBe(null);
+      });
+    });
+  });
+  describe('given custom markup for a column', function(){
+    describe('when the table is rendered', function(){
+      beforeEach(function(){
+        scope.pdfClicked = jasmine.createSpy('spy');
+        var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+              '</akam-table-column>'+
+              '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
+              '</akam-table-column>'+
+              '<akam-table-column not-filterable not-sortable class="column-action" header-name="examples.actions">'+
+                '<akam-menu-button>'+
+                  '<akam-menu-button-item text="PDF" ng-click="pdfClicked(row)"></akam-menu-button-item>'+
+                '</akam-menu-button>'+
+            '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>'
+          addElement(markup);
+        });
+      it("should compile the custom markup with the table's parent scope", function(){
+        var icon = document.querySelectorAll('.column-action')[1].querySelector('.akam-menu-button ul li');
+        utilities.click(icon);
+        expect(scope.pdfClicked).toHaveBeenCalled();
+      });
+      it('should render the custom markup', function(){
+        var icon = document.querySelectorAll('.column-action')[1].querySelector('.akam-menu-button i');
+        expect(icon).not.toBe(null);
+      });
+    });
+  });
+  describe('given a text-property attribtue for a column', function(){
+    describe('when the table is rendered', function(){
+      beforeEach(function(){
+        scope.pdfClicked = jasmine.createSpy('spy');
+        var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+            '</akam-table-column>'+
+        '</akam-table>'
+        addElement(markup);
+      });
+      it("should display text-property's value", function(){
+        var rowOneColumnOne = document.querySelectorAll('.name')[1];
+        expect(rowOneColumnOne.textContent).toContain('Oliver Queen');
+      });
+    });
+  });
+  describe('given a header name atribute for a column', function(){
+    describe('and the value is a valid locale key', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          scope.pdfClicked = jasmine.createSpy('spy');
+          var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="table.full-name">'+
+              '</akam-table-column>'+
+          '</akam-table>'
+          addElement(markup);
+        });
+        it('should display the translated header-name', function(){
+          var columnOneHeader = document.querySelector('.name');
+          expect(columnOneHeader.textContent).toContain('Full Name');
+        });
+      });
+    });
+  });
+  describe('given a header name attribute for a column', function(){
+    describe('when the table is rendered', function(){
+      beforeEach(function(){
+        scope.pdfClicked = jasmine.createSpy('spy');
+        var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+            '</akam-table-column>'+
+        '</akam-table>'
+        addElement(markup);
+      });
+      it('should display the attributes value', function(){
+        var columnOneHeader = document.querySelector('.name');
+        expect(columnOneHeader.textContent).toContain(scope.columns.first_name);
+      });
+    });
+  });
+  describe('given a not not-sortable attribute for a column', function(){
+    describe('when the table is rendered', function(){
+      beforeEach(function(){
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
           '<akam-table-row>'+
-          '<akam-table-column class="name" default-sort row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-          '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
-          '</akam-table-column>'+
-          '<akam-table-column class="generic" row-property="generic" header-name="{{columns.generic}}">'+
-          '</akam-table-column>'+
           '<akam-table-column class="color" row-property="color" not-sortable header-name="{{columns.color}}">'+
           '</akam-table-column>'+
         '</akam-table-row>'+
       '</akam-table>'
       addElement(markup);
+      });
+      it('should not display the sort icon on hover for the column',function(){
+        var columnHeader = document.querySelector('.color')
+        utilities.mouseHover(columnHeader);
+        var icon = columnHeader.querySelector('i');
+        expect(icon.classList).not.toContain('luna-arrow-up')
+      });
+      it('should not respond to a click event for the column',function(){
+        var columnOneHeader = document.querySelector('.color');
+        utilities.click(columnOneHeader);
+        var rowOneColumnFour = document.querySelectorAll('.color')[1];
+        var rowThreeColumnFour = document.querySelectorAll('.color')[3];
+        expect(rowOneColumnFour.textContent).toContain('Green');
+        expect(rowThreeColumnFour.textContent).toContain('Black');
+      });
     });
-    it('should be able to sort default', function(){
-      var columnOneHeader = document.querySelector('.name');
-      var rowOneColumnOne = document.querySelectorAll('.name')[1];
-      var rowThreeColumnOne = document.querySelectorAll('.name')[3];
-      expect(rowOneColumnOne.textContent).toContain('Dinah Lance');
-      expect(rowThreeColumnOne.textContent).toContain('Roy Harper');
+    describe('given a declared not sortable attribute for a table', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          var markup = '<akam-table items="mydata" akam-standalone not-sortable on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+                '</akam-table-column>'+
+              '<akam-table-column class="color" row-property="color"  header-name="{{columns.color}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>'
+          addElement(markup);
+        });
+        it('should not display the sort icon on hover for all columns', function(){
+          var columnOneHeader = document.querySelector('.name');
+          var columnTwoHeader = document.querySelector('.color');
+          utilities.mouseHover(columnOneHeader);
+          var icon = columnOneHeader.querySelector('i');
+          expect(icon.classList).not.toContain('luna-arrow-up');
+          utilities.mouseHover(columnTwoHeader);
+          var icon = columnTwoHeader.querySelector('i');
+          expect(icon.classList).not.toContain('luna-arrow-up')
+        });
+        it('should not respond to a click event for all columns', function(){
+          var columnOneHeader = document.querySelector('.name');
+          utilities.click(columnOneHeader);
+          var rowOneColumnFour = document.querySelectorAll('.color')[1];
+          var rowThreeColumnFour = document.querySelectorAll('.color')[3];
+          expect(rowOneColumnFour.textContent).toContain('Green');
+          expect(rowThreeColumnFour.textContent).toContain('Black');
+          var columnTwoHeader = document.querySelector('.color');
+          utilities.click(columnTwoHeader);
+          expect(rowOneColumnFour.textContent).toContain('Green');
+          expect(rowThreeColumnFour.textContent).toContain('Black');
+        });
+      });
     });
-    it('should be able to sort alphabetically', function(){
-      var columnOneHeader = document.querySelector('.name');
-      utilities.click(columnOneHeader);
-      utilities.click(columnOneHeader);
-      var rowOneColumnOne = document.querySelectorAll('.name')[1];
-      var rowThreeColumnOne = document.querySelectorAll('.name')[3];
-      expect(rowOneColumnOne.textContent).toContain('Dinah Lance');
-      expect(rowThreeColumnOne.textContent).toContain('Roy Harper');
-    });
-    it('should be able to sort reverse-alphabetically', function(){
-      var columnOneHeader = document.querySelector('.name');
-      utilities.click(columnOneHeader);
-      var rowOneColumnOne = document.querySelectorAll('.name')[1];
-      var rowThreeColumnOne = document.querySelectorAll('.name')[3];
-      expect(rowOneColumnOne.textContent).toContain('Roy Harper');
-      expect(rowThreeColumnOne.textContent).toContain('Dinah Lance');
-    });
-    it('should be able to sort numerically', function(){
-      var columnTwoHeader = document.querySelector('.id');
-      utilities.click(columnTwoHeader);
-      var rowOneColumnTwo = document.querySelectorAll('.id')[1];
-      var rowThreeColumnTwo = document.querySelectorAll('.id')[3];
-      expect(rowOneColumnTwo.textContent).toContain('11');
-      expect(rowThreeColumnTwo.textContent).toContain('35');
-    });
-    it('should be able to sort reverse-numerically', function(){
-      var columnTwoHeader = document.querySelector('.id');
-      utilities.click(columnTwoHeader);
-      utilities.click(columnTwoHeader);
-      var rowOneColumnTwo = document.querySelectorAll('.id')[1];
-      var rowThreeColumnTwo = document.querySelectorAll('.id')[3];
-      expect(rowOneColumnTwo.textContent).toContain('35');
-      expect(rowThreeColumnTwo.textContent).toContain('11');
-    });
-    it('should be able to sort generically', function(){
-      var columnThreeHeader = document.querySelector('.generic');
-      utilities.click(columnThreeHeader);
-      var rowOneColumnThree = document.querySelectorAll('.generic')[1];
-      var rowThreeColumnThree = document.querySelectorAll('.generic')[3];
-      expect(rowOneColumnThree.textContent).toContain('["AAAAAAAAAAAAAAAAAAA"]');
-      expect(rowThreeColumnThree.textContent).toContain('["speedy"]');
-    });
-    it('should be able to sort reverse-generically', function(){
-      var columnThreeHeader = document.querySelector('.generic');
-      utilities.click(columnThreeHeader);
-      utilities.click(columnThreeHeader);
-      var rowOneColumnThree = document.querySelectorAll('.generic')[1];
-      var rowThreeColumnThree = document.querySelectorAll('.generic')[3];
-      expect(rowOneColumnThree.textContent).toContain('["speedy"]');
-      expect(rowThreeColumnThree.textContent).toContain('["AAAAAAAAAAAAAAAAAAA"]');
-    });
-    it('should not sort columns with not-sortable enabled', function(){
-      var columnFourHeader = document.querySelector('.color');
-      utilities.click(columnFourHeader);
-      utilities.click(columnFourHeader);
-      var rowOneColumnFour = document.querySelectorAll('.color')[1];
-      var rowThreeColumnFour = document.querySelectorAll('.color')[3];
-      expect(rowOneColumnFour.textContent).toContain('Black');
-      expect(rowThreeColumnFour.textContent).toContain('Red');
-    });
-    it('should be able to sort entire row', function(){
-      var columnThreeHeader = document.querySelector('.generic');
-      utilities.click(columnThreeHeader);
-      utilities.click(columnThreeHeader);
-      var rowOneColumnOne = document.querySelectorAll('.name')[1];
-      var rowTwoColumnOne = document.querySelectorAll('.name')[2];
-      var rowThreeColumnOne = document.querySelectorAll('.name')[3];
-      expect(rowOneColumnOne.textContent).toContain('Roy Harper');
-      expect(rowTwoColumnOne.textContent).toContain('Oliver Queen');
-      expect(rowThreeColumnOne.textContent).toContain('Dinah Lance');
+    describe('given a rendered table', function(){
+      describe('when a sortable column is clicked', function(){
+        beforeEach(function(){
+          var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+                '</akam-table-column>'+
+              '<akam-table-column class="color" row-property="color"  header-name="{{columns.color}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>'
+          addElement(markup);
+        });
+        it('should display the ascending sort icon for the column', function(){
+          var columnOneHeader = document.querySelector('.name');
+          utilities.click(columnOneHeader);
+          scope.$digest();
+          expect(columnOneHeader.classList).toContain('asc');
+        });
+        it('should sort column data in ascending order by the text-property', function(){
+          var columnOneHeader = document.querySelector('.name');
+          utilities.click(columnOneHeader);
+          scope.$digest();
+          var rowOneColumnFour = document.querySelectorAll('.name')[1];
+          var rowThreeColumnFour = document.querySelectorAll('.name')[3];
+          expect(rowOneColumnFour.textContent).toContain('Dinah Lance');
+          expect(rowThreeColumnFour.textContent).toContain('Roy Harper');
+        });
+      });
     });
   });
-  describe('when working with big data', function(){
-    beforeEach(function(){
-      var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
+  describe('given a rendered table', function(){
+    describe('when a sortable column is clicked', function(){
+      beforeEach(function(){
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+              '</akam-table-column>'+
+            '<akam-table-column class="color" row-property="color"  header-name="{{columns.color}}">'+
+            '</akam-table-column>'+
+          '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+      });
+      it('should display the reverse sort icon for the column', function(){
+        var columnOneHeader = document.querySelector('.name');
+        utilities.click(columnOneHeader);
+        utilities.click(columnOneHeader);
+        expect(columnOneHeader.classList).toContain('desc');
+      });
+      it('should sort column data in reverse order by the text-property', function(){
+        var columnOneHeader = document.querySelector('.name');
+        utilities.click(columnOneHeader);
+        utilities.click(columnOneHeader)
+        var rowOneColumnFour = document.querySelectorAll('.name')[1];
+        var rowThreeColumnFour = document.querySelectorAll('.name')[3];
+        expect(rowOneColumnFour.textContent).toContain('Roy Harper');
+        expect(rowThreeColumnFour.textContent).toContain('Dinah Lance');
+      });
+    });
+  });
+  describe('given a rendered table', function(){
+    describe('when a descending sorted column is clicked', function(){
+      beforeEach(function() {
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" default-sort row-property="first_name" header-name="{{columns.first_name}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="generic" row-property="generic" header-name="{{columns.generic}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="color" row-property="color"  header-name="{{columns.color}}">'+
+            '</akam-table-column>'+
+          '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+        var columnOneHeader = document.querySelector('.name');
+        utilities.click(columnOneHeader);
+        utilities.click(columnOneHeader);
+      });
+      it('should display the ascending sort icon for the column', function(){
+        var columnOneHeader = document.querySelector('.name');
+        expect(columnOneHeader.classList).toContain('asc');
+      });
+      it('should sort column data in ascending order by the text-property', function(){
+        var columnOneHeader = document.querySelector('.name');
+        var rowOneColumnOne = document.querySelectorAll('.name')[1];
+        var rowThreeColumnOne = document.querySelectorAll('.name')[3];
+        expect(rowOneColumnOne.textContent).toContain('Dinah Lance');
+        expect(rowThreeColumnOne.textContent).toContain('Roy Harper');
+      });
+    });
+  });
+  describe('given a default-sort attribtute for a column', function(){
+    describe('when the table is rendered', function(){
+      beforeEach(function() {
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" default-sort row-property="first_name" header-name="{{columns.first_name}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="generic" row-property="generic" header-name="{{columns.generic}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="color" row-property="color"  header-name="{{columns.color}}">'+
+            '</akam-table-column>'+
+          '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+      });
+      it('should display the ascending sort icon for the column', function(){
+        var columnOneHeader = document.querySelector('.name');
+        expect(columnOneHeader.classList).toContain('asc');
+      });
+      it('should sort column data in ascending order by the text-property', function(){
+        var columnOneHeader = document.querySelector('.name');
+        var rowOneColumnOne = document.querySelectorAll('.name')[1];
+        var rowThreeColumnOne = document.querySelectorAll('.name')[3];
+        expect(rowOneColumnOne.textContent).toContain('Dinah Lance');
+        expect(rowThreeColumnOne.textContent).toContain('Roy Harper');
+      });
+    });
+  });
+  describe('given a default-sort attribute on a column', function(){
+    describe('and a not-sortable attribute on the table', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          var spy = spyOn(log, "debug");
+          var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" not-sortable>'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" default-sort row-property="first_name" header-name="{{columns.first_name}}">'+
+              '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>';
+          addElement(markup);
+        });
+        it('should alert the user to the mistake', function(){
+          expect(log.debug).toHaveBeenCalled();   
+        });
+        it('should not sort by that column', function(){
+          var rowOneColumnOne = document.querySelectorAll('.name')[1];
+          var rowThreeColumnOne = document.querySelectorAll('.name')[3];
+          expect(rowOneColumnOne.textContent).toContain('Oliver Queen');
+          expect(rowThreeColumnOne.textContent).toContain('Dinah Lance');
+        });
+      });
+    });
+  });
+  describe('given a rendered table', function(){
+    describe('when input is provided in the filter box', function(){
+      beforeEach(function(){
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
@@ -436,128 +596,46 @@ describe('akam-table', function() {
           '</akam-table-row>'+
         '</akam-table>'
         addElement(markup);
-    });
-    it('should start on pagination index 1', function(){
-      var paginationOneIndex = document.querySelector(PAGINATION_PAGE_ONE);
-      expect(paginationOneIndex.classList).toContain('active');
-    });
-    it('should render inactive pages', function(){
-      var paginationTwoIndex = document.querySelector(PAGE_SIZE_NTH+'(2)');
-      expect(paginationTwoIndex.classList).not.toContain('active');
-    });
-    it('should start on page size 25', function(){
-      var pageSize10 = document.querySelector(PAGE_SIZE_SMALLEST);
-      var pageSize25 = document.querySelector(PAGE_SIZE_NTH+'(2)');
-      var pageSize50 = document.querySelector(PAGE_SIZE_LARGEST);
-      expect(pageSize10.classList).toContain('active');
-      expect(pageSize25.classList).not.toContain('active');
-      expect(pageSize50.classList).not.toContain('active');
-    });
-    it('should be able to change page size', function(){
-      var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      expect(numberOfRows).toEqual(10); 
-
-      var pageSize25 = document.querySelector(PAGE_SIZE_NTH+'(2)');
-      utilities.click(pageSize25.querySelector('a'));
-      scope.$digest();
-
-      numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      expect(numberOfRows).toEqual(25);
-    });
-    it('should be able to change page forward and back index (arrow)', function(){
-      var rowOneColumnOne = document.querySelectorAll('.name')[1];
-      var firstContent = rowOneColumnOne.textContent;
-      utilities.click(NEXT_BUTTON+' a');
-      scope.$digest();
-      rowOneColumnOne = document.querySelectorAll('.name')[1];
-      expect(rowOneColumnOne.textContent).not.toEqual(firstContent);
-      utilities.click(PREVIOUS_BUTTON+' a');
-      scope.$digest();
-      rowOneColumnOne = document.querySelectorAll('.name')[1];
-      expect(rowOneColumnOne.textContent).toEqual(firstContent);
-    });
-    it('should be able to change page by clicking on indexes', function(){
-      var rowOneColumnOne = document.querySelectorAll('.name')[1];
-      var firstContent = rowOneColumnOne.textContent;
-      utilities.click(document.querySelector(PAGINATION_INDEX_NTH+'(3) a'));
-      scope.$digest();
-      rowOneColumnOne = document.querySelectorAll('.name')[1];
-      expect(rowOneColumnOne.textContent).not.toEqual(firstContent);
-      utilities.click(PAGINATION_PAGE_ONE+' a');
-      scope.$digest();
-      rowOneColumnOne = document.querySelectorAll('.name')[1];
-      expect(rowOneColumnOne.textContent).toEqual(firstContent);
+        var tableController = self.el.isolateScope().table;
+        tableController.state.filter = 'Oliver';
+        tableController.filterRows();
+        scope.$digest();
+      });
+      it('should display rows where input matches any column text', function(){
+        var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
+        expect(numberOfRows).toEqual(1); 
+      });
     });
   });
-  describe('when interacting with filter bar', function(){
-    beforeEach(function(){
-      scope.onRowsChange = jasmine.createSpy('spy');
-      var markup = '<akam-table no-filter-results-message="no filter results" items="mydata" '+
-          'akam-standalone on-change="onRowsChange(items)"'+
-           'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
-          '<akam-table-row>'+
-          '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-          '<akam-table-column class="name" not-filterable row-property="bu" header-name="{{columns.bu}}">'+
-          '</akam-table-column>'+
-          '<akam-table-column class="name" not-filterable row-property="color" header-name="{{columns.color}}">'+
-            '<span class="custom-content">{{row.color}}</span>'+
-          '</akam-table-column>'+
-        '</akam-table-row>'+
-      '</akam-table>'
-      addElement(markup);
-    });
-    it('should filter based upon input', function(){
-      var tableController = self.el.isolateScope().table;
-      tableController.state.filter = 'Oliver';
-      tableController.filterRows();
-      scope.$digest();
-      var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      expect(numberOfRows).toEqual(1);
-      expect(scope.onRowsChange).toHaveBeenCalled();
-    });
-    it('should not filter on no filter columns', function(){
-      var tableController = self.el.isolateScope().table;
-      tableController.state.filter = 'Justice';
-      tableController.filterRows();
-      scope.$digest();
-      var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      expect(numberOfRows).toEqual(0); 
-    });
-    it('should be able to clear filter', function(){
-      var tableController = self.el.isolateScope().table;
-      tableController.state.filter = 'Justice';
-      tableController.filterRows();
-      scope.$digest();
-      var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      expect(numberOfRows).toEqual(0); 
-      utilities.click('.clear-filter');
-      scope.$digest();
-      numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      expect(numberOfRows).toEqual(3); 
-    });
-    it('should not match custom markup', function(){
-      var tableController = self.el.isolateScope().table;
-      tableController.state.filter = 'Green';
-      tableController.filterRows();
-      scope.$digest();
-      var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      expect(numberOfRows).toEqual(0); 
-    });
-    it('should display message if no filter results', function(){
-      var tableController = self.el.isolateScope().table;
-      tableController.state.filter = 'Green';
-      tableController.filterRows();
-      scope.$digest();
-      var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      var emptyMessage = document.querySelector('.empty-table-message');
-      expect(emptyMessage.textContent).toContain('no filter results');
-      expect(numberOfRows).toEqual(0); 
+  describe('given a not-filterable attrbute for a column', function(){
+    describe('and a rendered table', function(){
+      describe('when input is provided in the filter box', function(){
+        beforeEach(function(){
+          var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" not-filterable header-name="{{bigDataColumns.row1}}">'+
+              '</akam-table-column>'+
+              '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>'
+          addElement(markup);
+          var tableController = self.el.isolateScope().table;
+          tableController.state.filter = 'Oliver';
+          tableController.filterRows();
+          scope.$digest();
+        });
+        it('should not display rows where input matches column text', function(){
+          var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
+          expect(numberOfRows).toEqual(0); 
+        });
+      });
     });
   });
-  describe('when filtering large data', function(){
-    beforeEach(function(){
-      var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
+  describe('given a not-filterable attribute for a table', function(){
+    describe('when the table is rendered', function(){
+      beforeEach(function(){
+        var markup = '<akam-table items="mydata" akam-standalone not-filterable on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
@@ -566,206 +644,512 @@ describe('akam-table', function() {
           '</akam-table-row>'+
         '</akam-table>'
         addElement(markup);
-    });
-    it('should filter based upon input', function(){
-      utilities.click(NEXT_BUTTON+' a');
-      scope.$digest();
-      var tableController = self.el.isolateScope().table;
-      tableController.state.filter = 'a';
-      tableController.filterRows();
-      scope.$digest();
-      var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-      var paginationOne = document.querySelector(PAGINATION_PAGE_ONE);
-      expect(numberOfRows).toEqual(10);
-      expect(paginationOne.classList).toContain('active');
+      });
+      it('should not display the filter box', function(){
+        var filterbox = document.querySelector('.filter input');
+        expect(filterbox).toBe(null);
+      });
     });
   });
-  describe('when table is not filterable', function(){
-    beforeEach(function(){
-      var markup = '<akam-table items="bigData" not-filterable  akam-standalone on-change="changeRows(items)">'+
+  describe('given an undeclared selected-items attribute', function(){
+    describe('when the table is rendered', function(){
+      beforeEach(function(){
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
-            '</akam-table-column>'+
-            '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
             '</akam-table-column>'+
           '</akam-table-row>'+
         '</akam-table>'
         addElement(markup);
-    });
-    it('should not render filterbox', function(){
-      var filterbox = document.querySelector('.filter input');
-      expect(filterbox).toBe(null);
+      });
+      it('should not display the checkbox column', function(){
+        var columnHeaders = document.querySelector('thead').querySelectorAll('th');
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        expect(columnHeaders.length).toEqual(1);
+        expect(checkboxes.length).toEqual(0);
+      });
     });
   });
-  describe('when giving menu buttons', function(){
-    beforeEach(function(){
-      scope.pdfClicked = jasmine.createSpy('spy');
-      var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
+  describe('given an array bound to the selected-items attribute', function(){
+    describe('when a table is rendered', function(){
+      beforeEach(function(){
+        scope.selectedItems = [scope.mydata[1]];
+         var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" selected-items="selectedItems">'+
             '<akam-table-row>'+
             '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
             '</akam-table-column>'+
-            '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
-            '</akam-table-column>'+
-            '<akam-table-column not-filterable not-sortable class="column-action" header-name="examples.actions">'+
+          '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+      });
+      it('should display a checkbox column', function(){
+        var columnHeaders = document.querySelector('thead').querySelectorAll('th');
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        expect(columnHeaders.length).toEqual(2);
+        expect(checkboxes.length).not.toEqual(0);
+      });
+      it('should check row items contained in the bound array', function(){
+        var checkedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
+        expect(checkedCheckboxes.length).toEqual(1);
+      });
+    });
+  });
+  describe('given an array bound to the selected-items attribute', function(){
+    describe('and a callback bound to the on-selected attribute', function(){
+      describe('and a rendered table', function(){
+        describe('when a row checkbox is checked', function(){
+          beforeEach(function(){
+            scope.selectedItems = [scope.mydata[1]];
+            scope.onSelect = jasmine.createSpy('spy');
+             var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" selected-items="selectedItems" '+
+                'on-select="onSelect(selectedItems)">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+                '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>'
+            addElement(markup);
+            utilities.click(document.querySelectorAll('input[type="checkbox"]')[0]);
+            scope.$digest();
+          });
+          it('should append the row item to the bound array', function(){
+            expect(scope.selectedItems.length).toEqual(2);
+          });
+          it('should invoke the callback with the bound array as an argument', function(){
+            expect(scope.onSelect).toHaveBeenCalledWith(scope.selectedItems);
+          });
+        });
+      });
+    });
+  });
+  describe('given an array bound to the selected-items attribute', function(){
+    describe('and a callback bound to the on-select attribute', function(){
+      describe('and a arendred table with a chekced row', function(){
+        describe('when a row checkbox is unchecked', function(){
+          beforeEach(function(){
+            scope.selectedItems = [scope.mydata[1]];
+            scope.onSelect = jasmine.createSpy('spy');
+             var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" selected-items="selectedItems" '+
+                'on-select="onSelect(selectedItems)">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+                '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>'
+            addElement(markup);
+            utilities.click(document.querySelectorAll('input[type="checkbox"]')[1]);
+            scope.$digest();
+          });
+          it('should remove the row item from the bound array', function(){
+            expect(scope.selectedItems.length).toEqual(0);
+          });
+          it('should invoke the callback with the bound array as an argument', function(){
+            expect(scope.onSelect).toHaveBeenCalledWith(scope.selectedItems);
+          });
+        });
+      });
+    }); 
+  });
+  describe('given no custom markup for the toolbar', function(){
+    describe('and a not-filterable attribute for the table', function(){
+      describe('when a table is rendered', function(){
+        beforeEach(function(){
+           var markup = '<akam-table items="mydata" akam-standalone not-filterable on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>'
+          addElement(markup);
+          scope.$digest();
+        });
+        it('should not display the toolbar container', function(){
+          var toolbar = document.querySelector('.toolbar');
+          expect(toolbar).toBe(null);
+        });
+      });
+    });
+  });
+  describe('given custom markup for the toolbar', function(){
+    describe('when a table is rendered', function(){
+      beforeEach(function(){
+        scope.pdfClicked = jasmine.createSpy('spy');
+        var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
+            '<akam-table-toolbar class="toolbar-class util-pull-right">'+
+              '<span>Icons</span>'+
+              '<i class="luna-bar_chart"></i>'+
               '<akam-menu-button>'+
-                '<akam-menu-button-item text="PDF" ng-click="pdfClicked(row)"></akam-menu-button-item>'+
+                '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
+                '</akam-menu-button-item>'+
               '</akam-menu-button>'+
-          '</akam-table-column>'+
-          '</akam-table-row>'+
-        '</akam-table>'
-        addElement(markup);
-    });
-    it('should render with an icon', function(){
-      var icon = document.querySelectorAll('.column-action')[1].querySelector('.akam-menu-button i');
-      expect(icon).not.toBe(null);
-    });
-    it('should be able to trigger icon event', function(){
-      var icon = document.querySelectorAll('.column-action')[1].querySelector('.akam-menu-button ul li');
-      utilities.click(icon);
-      expect(scope.pdfClicked).toHaveBeenCalled();
-    });
-  });
-  describe('when no data is given', function(){
-    beforeEach(function(){
-      scope.nodata = [];
-      scope.noDataMessage = "no data available"
-      var markup = '<akam-table items="nodata" akam-standalone on-change="changeRows(items)" no-items-message="noDataMessage">'+
-            '<akam-table-row>'+
-            '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
-            '</akam-table-column>'+
-          '</akam-table-row>'+
-        '</akam-table>'
-        addElement(markup);
-    });
-    it('should display and empty message', function(){
-      var emptyMessage = document.querySelector('.empty-table-message');
-      expect(emptyMessage.textContent).toContain(scope.noDataMessage);
-    });
-    it('should be able to change empty message', function(){
-      var emptyMessage = document.querySelector('.empty-table-message');
-      expect(emptyMessage.textContent).toContain("no data available");
-      scope.noDataMessage = "new message";
-      scope.$digest();
-      expect(emptyMessage.textContent).toContain("new message");
-    });
-  });
-  describe('when no columns are filterable', function(){
-    beforeEach(function(){
-      var markup = '<akam-table items="mydata" akam-standalone not-filterable on-change="changeRows(items)">'+
-          '<akam-table-toolbar class="toolbar-class util-pull-right">'+
-            '<span>Icons</span>'+
-            '<i class="luna-bar_chart"></i>'+
-            '<akam-menu-button>'+
-              '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
-              '</akam-menu-button-item>'+
-            '</akam-menu-button>'+
             '</akam-table-toolbar>'+
             '<akam-table-row>'+
-            '<akam-table-column class="name" not-filterable row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
-            '</akam-table-column>'+
-          '</akam-table-row>'+
-        '</akam-table>';
-        addElement(markup);
-    });
-    it('should not display a filter box', function(){
-      var filterbox = document.querySelector(FILTER_BOX);
-      expect(filterbox).toBe(null);
-    });
-  });
-  describe('when no pagination is requested', function(){
-    beforeEach(function(){
-      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" not-pageable>'+
-            '<akam-table-row>'+
-            '<akam-table-column class="name" not-filterable row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
-            '</akam-table-column>'+
-          '</akam-table-row>'+
-        '</akam-table>';
-        addElement(markup);
-    });
-    it('should not display pagination', function(){
-      var pagination = document.querySelector('.akam-pagination');
-      expect(pagination).toBe(null);
-    });
-  });
-  describe('when no sorting is requested', function(){
-    beforeEach(function(){
-      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" not-sortable>'+
-            '<akam-table-row>'+
             '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
+            '</akam-table-column>'+
           '</akam-table-row>'+
-        '</akam-table>';
+        '</akam-table>'
         addElement(markup);
-    });
-    it('should not sort by any column', function(){
-      var columnOneHeader = document.querySelector('.name');
-      utilities.click(columnOneHeader);
-      var rowOneColumnOne = document.querySelectorAll('.name')[1];
-      var rowThreeColumnOne = document.querySelectorAll('.name')[3];
-      expect(rowOneColumnOne.textContent).toContain('Oliver Queen');
-      expect(rowThreeColumnOne.textContent).toContain('Dinah Lance');
+      });
+      it('should compile the custom markup with the tables parent scope', function(){
+        var akamToolbar = document.querySelector('akam-table-toolbar');
+        var dropdownMenu = akamToolbar.querySelector('ul.dropdown-menu');
+        var dropMenuOption = dropdownMenu.querySelector('li');
+        utilities.click(dropMenuOption);
+        scope.$digest(); 
+        expect(scope.pdfClicked).toHaveBeenCalled();
+      });
+      it('should render the custom markup within the toolbar container', function(){
+        var akamToolbar = document.querySelector('akam-table-toolbar');
+        var icon = akamToolbar.querySelector('.luna-bar_chart');
+        var dropdownMenu = akamToolbar.querySelector('ul.dropdown-menu');
+        var dropMenuOption = dropdownMenu.querySelector('li');
+        expect(akamToolbar).not.toBe(null);
+        expect(icon).not.toBe(null);
+        expect(dropdownMenu).not.toBe(null);
+        expect(dropMenuOption.textContent).toContain('PDF');
+      });
     });
   });
-  describe('when reaching error cases', function(){
-    it('should not show data when it doesnt have a string format', function(){
-      scope.brokenData = [{id:{}},{id:{}},{id:{}}];
-      var markup = '<akam-table items="brokenData" akam-standalone on-change="changeRows(items)">'+
-            '<akam-table-row>'+
-            '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
-          '</akam-table-column>'+
-          '</akam-table-row>'+
-        '</akam-table>';
-      addElement(markup);
-      var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
-      expect(totalItemsSpan.textContent).toContain('0');
+  describe('given custom markup for the toolbar', function(){
+    describe('and a not-filterable attribute on the table', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder"'+
+              ' not-filterable on-change="changeRows(items)">'+
+                '<akam-table-toolbar class="toolbar-class util-pull-right">'+
+                  '<span>Icons</span>'+
+                  '<i class="luna-bar_chart"></i>'+
+                  '<akam-menu-button>'+
+                    '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
+                    '</akam-menu-button-item>'+
+                  '</akam-menu-button>'+
+                '</akam-table-toolbar>'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
+                '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>'
+            addElement(markup);
+        });
+        it('should remove only the filterbox', function(){
+          var filterbox = document.querySelector(FILTER_BOX);
+          var akamToolbar = document.querySelector('akam-table-toolbar');
+          expect(filterbox).toBe(null);
+          expect(akamToolbar).not.toBe(null);
+        });
+      });
     });
-    it('should not sort default sort if no sort is requested', function(){
-      var spy = spyOn(log, "debug");
-      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" not-sortable>'+
-            '<akam-table-row>'+
-            '<akam-table-column class="name" default-sort row-property="fullname" header-name="{{columns.fullname}}">'+
-          '</akam-table-column>'+
-          '</akam-table-row>'+
-        '</akam-table>';
-      addElement(markup);
-      expect(spy).toHaveBeenCalled();   
+  });
+  describe('given an akam-table-row element is provided', function(){
+    describe('and no akam-table-column is proivded', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          spyOn(log, "warn");
+          var markup = '<akam-table items="mydata" not-sortable akam-standalone on-change="changeRows(items)">'+
+                '<akam-table-row>'+
+                '<akam-fake-name></akam-fake-name>'+
+              '</akam-table-row>'+
+            '</akam-table>';
+          addElement(markup);
+        });
+        it('should warn the developer of the mistake', function(){
+          expect(log.warn).toHaveBeenCalled();
+        });
+      });
     });
-    it('should not render anything and warn if columns not provided', function(){
-      var spy = spyOn(log, "warn");
-      var markup = '<akam-table items="mydata" not-sortable akam-standalone on-change="changeRows(items)">'+
-            '<akam-table-row>'+
-            '<akam-fake-name></akam-fake-name>'+
-          '</akam-table-row>'+
-        '</akam-table>';
-      addElement(markup);
-      expect(spy).toHaveBeenCalled();   
+  });
+  describe('given an akam-table element', function(){
+    describe('and no akam-table-row element is provided', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          spyOn(log, "debug");
+          var markup = '<akam-table items="mydata" not-sortable akam-standalone on-change="changeRows(items)">'+
+            '</akam-table>';
+          addElement(markup);
+        });
+        it('should alert the developer of the mistake with a logged debug', function(){
+          expect(log.debug).toHaveBeenCalled();
+        });
+      });
     });
-    it('should warn user if no akam-table-row provided', function(){
-      var spy = spyOn(log, "debug");
-      var markup = '<akam-table items="mydata" not-sortable akam-standalone on-change="changeRows(items)">'+
-        '</akam-table>';
-      addElement(markup);
-      expect(spy).toHaveBeenCalled();   
+  });
+  describe('given an array bound to the items attribute', function(){
+    describe('and no row-property attribute for an akam-table-colun', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          spyOn(log, "debug");
+          var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" header-name="{{columns.fullname}}">'+
+                '</akam-table-column>'+
+                '</akam-table-row>'+
+              '</akam-table>';
+          addElement(markup);
+        });
+        it('should not render any value for that column', function(){
+          var text = document.querySelectorAll('.name')[1].textContent;
+          expect(text).toEqual('');
+        });
+        it('should alert the developer of the mistake with a logged debug', function(){
+          expect(log.debug).toHaveBeenCalled();
+        });
+      });
     });
-    it('should warn user if no columns provided', function(){
-      var spy = spyOn(log, "warn");
-      var markup = '<akam-table items="mydata" not-sortable akam-standalone on-change="changeRows(items)">'+
-            '<akam-table-row>'+
-          '</akam-table-row>'+
-        '</akam-table>';
-      addElement(markup);
-      expect(spy).toHaveBeenCalled();   
+  });
+  describe('given a text-property attribute for a column', function(){
+    describe('and the text-property value does not have a string format', function(){
+      describe('when the table is rendered', function(){
+        beforeEach(function(){
+          scope.brokenData = [{id:{}},{id:{}},{id:{}}];
+          var markup = '<akam-table items="brokenData" akam-standalone on-change="changeRows(items)">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
+              '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>';
+          addElement(markup);
+        });
+        it('should not display the rows', function(){
+          var totalItemsSpan = document.querySelector(TOTAL_ITEMS_SPAN);
+          expect(totalItemsSpan.textContent).toContain('0');
+        });
+      })
     });
-    it('should not render anything and log error no row property given', function(){
-      var spy = spyOn(log, "debug");
-      var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
-            '<akam-table-row>'+
-            '<akam-table-column class="name" header-name="{{columns.fullname}}">'+
-            '</akam-table-column>'+
+  });
+  describe('given a rendered table', function(){
+    describe('and table has pagination', function(){
+      describe('when the next arrow is clicked', function(){
+        beforeEach(function(){
+          scope.changeRows = jasmine.createSpy('spy');
+          var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+                '</akam-table-column>'+
+                '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
+                '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>';
+            addElement(markup);
+        });
+        it('should display the next page of data', function(){
+          var rowOneColumnOne = document.querySelectorAll('.name')[1];
+          var firstContent = rowOneColumnOne.textContent;
+          utilities.click(NEXT_BUTTON+' a');
+          scope.$digest();
+          rowOneColumnOne = document.querySelectorAll('.name')[1];
+          expect(rowOneColumnOne.textContent).not.toEqual(firstContent);
+        });
+        it('should trigger on-change callback', function(){
+          expect(scope.changeRows).toHaveBeenCalled();
+        });
+      })
+    });
+  });
+  describe('given a rendered table', function(){
+    describe('and table has pagination', function(){
+      describe('when the previous arrow is clicked', function(){
+        var firstContent;
+        beforeEach(function(){
+          scope.changeRows = jasmine.createSpy('spy');
+          var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+                '</akam-table-column>'+
+                '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
+                '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>';
+            addElement(markup);
+            var rowOneColumnOne = document.querySelectorAll('.name')[1];
+            firstContent = rowOneColumnOne.textContent;
+            utilities.click(NEXT_BUTTON+' a');
+            scope.$digest();
+        });
+        it('should display the previous page of data', function(){
+          var rowOneColumnOne = document.querySelectorAll('.name')[1];
+          utilities.click(PREVIOUS_BUTTON+' a');
+          scope.$digest();
+          rowOneColumnOne = document.querySelectorAll('.name')[1];
+          expect(rowOneColumnOne.textContent).toEqual(firstContent);
+        });
+        it('should trigger on-change callback', function(){
+          expect(scope.changeRows).toHaveBeenCalled();
+        });
+      })
+    });
+  });
+  describe('given a rendered table', function(){
+    describe('and table has pagination', function(){
+      describe('when an indices is clicked', function(){
+        beforeEach(function(){
+          scope.changeRows = jasmine.createSpy('spy');
+          var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+              '</akam-table-column>'+
+              '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
+              '</akam-table-column>'+
             '</akam-table-row>'+
           '</akam-table>';
-      addElement(markup);
-      expect(spy).toHaveBeenCalled();   
+          addElement(markup);
+        });
+        it('should display the that page of data', function(){
+          var rowOneColumnOne = document.querySelectorAll('.name')[1];
+          var firstContent = rowOneColumnOne.textContent;
+          utilities.click(document.querySelector(PAGINATION_INDEX_NTH+'(3) a'));
+          scope.$digest();
+          rowOneColumnOne = document.querySelectorAll('.name')[1];
+          expect(rowOneColumnOne.textContent).not.toEqual(firstContent);
+        });
+        it('should trigger on-change callback', function(){
+          expect(scope.changeRows).toHaveBeenCalled();
+        });
+      })
     });
   });
-});
+  describe('given a rendered table', function(){
+    describe('and table has pagination', function(){
+      describe('when an new page size is clicked', function(){
+        beforeEach(function(){
+          var markup = '<akam-table items="bigData" akam-standalone on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+              '</akam-table-column>'+
+              '<akam-table-column class="id" row-property="id" header-name="{{bigDataColumns.row2}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>';
+          addElement(markup);
+          utilities.click(PAGE_SIZE_LARGEST+ ' a');
+          scope.$digest();
+        });
+        it('should display that amount of data', function(){
+          var totalRows = document.querySelectorAll(TABLE_ROW);
+          expect(totalRows.length).toEqual(50);
+        });
+      })
+    });
+  });
+  describe('given a no-data-message attribute', function(){
+    describe('when the table is rendered', function(){
+      describe('and the table contains no data', function(){
+        beforeEach(function(){
+          scope.noData = [];
+          scope.noDataMessage = "No data available";
+          var markup = '<akam-table items="noData" akam-standalone on-change="changeRows(items)" no-items-message="noDataMessage">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>';
+          addElement(markup);
+        }); 
+        it('should display the no data message', function(){
+          var emptyMessage = document.querySelector('.empty-table-message');
+          expect(emptyMessage.textContent).toContain(scope.noDataMessage);
+        });
+      });
+    });
+  });
+  describe('given a no-data-message attribute', function(){
+    describe('when the table is rendered', function(){
+      describe('and the table contains no data', function(){
+        describe('and the message is changed', function(){
+          beforeEach(function(){
+            scope.noData = [];
+            scope.noDataMessage = "No data available";
+            var markup = '<akam-table items="noData" akam-standalone on-change="changeRows(items)" no-items-message="noDataMessage">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+                '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>';
+            addElement(markup);
+            scope.noDataMessage = "new message";
+            scope.$digest();
+          }); 
+          it('should display the new no data message', function(){
+            var emptyMessage = document.querySelector('.empty-table-message');
+            expect(emptyMessage.textContent).toContain("new message");
+          });
+        });
+      });
+    });
+  });
+  describe('given no no-data-message attribute', function(){
+    describe('when the table is rendered', function(){
+      describe('and the table contains no data', function(){
+        beforeEach(function(){
+          scope.noData = [];
+          var markup = '<akam-table items="noData" akam-standalone on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+              '</akam-table-column>'+
+            '</akam-table-row>'+
+          '</akam-table>';
+          addElement(markup);
+          var emptyMessage = document.querySelector('.empty-table-message');
+          scope.$digest();
+        }); 
+        it('should display default no data message message', function(){
+          var emptyMessage = document.querySelector('.empty-table-message');
+          expect(emptyMessage.textContent).toContain("There is no data based upon your criteria");
+        });
+      });
+    });
+  });
+  describe('given a no-filter-message attribute', function(){
+    describe('when the table is rendered', function(){
+      describe('and there is some filter', function(){
+        describe('and the table contains no data', function(){
+          beforeEach(function(){
+            scope.noData = [];
+            scope.noFiterMessage = "No data available";
+            var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)" '+
+                'no-filter-results-message="{{noFiterMessage}}">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+                '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>';
+            addElement(markup);
+            var tableController = self.el.isolateScope().table;
+            tableController.state.filter = 'zzzzz';
+            tableController.filterRows();
+            scope.$digest();
+          }); 
+          it('should display the no filter results message', function(){
+            var emptyMessage = document.querySelector('.empty-table-message');
+            expect(emptyMessage.textContent).toContain(scope.noFiterMessage);
+          });
+        });
+      });
+    });
+  });
+  describe('given no no-filter-message attribute', function(){
+    describe('when the table is rendered', function(){
+      describe('and there is some filter', function(){
+        describe('and the table contains no data', function(){
+          beforeEach(function(){
+            scope.noFiterMessage = "No data available";
+            var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+                '<akam-table-row>'+
+                '<akam-table-column class="name" row-property="first_name" header-name="{{bigDataColumns.row1}}">'+
+                '</akam-table-column>'+
+              '</akam-table-row>'+
+            '</akam-table>';
+            addElement(markup);
+            var tableController = self.el.isolateScope().table;
+            tableController.state.filter = 'zzzzz';
+            tableController.filterRows();
+            scope.$digest();
+          }); 
+          it('should display the no filter results message', function(){
+            var emptyMessage = document.querySelector('.empty-table-message');
+            expect(emptyMessage.textContent).toContain('There are no results based upon your filter');
+          });
+        });
+      });
+    });
+  });
+ });

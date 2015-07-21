@@ -1,8 +1,6 @@
-'use strict';
 var debounce = require('lodash/function/debounce');
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($timeout) {
   return {
     restrict: 'A',
@@ -20,8 +18,9 @@ module.exports = function($timeout) {
           } else {
             element.removeAttr('title');
           }
-        }, 0);
+        }, 100);
       }
+
       angular.element(window).on('resize', debounce(giveTitles, 200));
       scope.$watch('akamTextOverflow', function() {
         giveTitles();
@@ -30,3 +29,4 @@ module.exports = function($timeout) {
     }
   };
 };
+module.exports.$inject = ['$timeout'];

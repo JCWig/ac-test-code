@@ -23,15 +23,17 @@ var findCertainButton = function(buttonKey) {
 describe('akam-date-picker', function() {
   var compile = null;
   var scope = null;
+  var timeout = null;
   var self = this;
 
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/date-picker').name);
-    inject(function($compile, $rootScope, $httpBackend) {
+    inject(function($compile, $rootScope, $timeout, $httpBackend) {
       compile = $compile;
       scope = $rootScope.$new();
+      timeout = $timeout;
       $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
       $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
       $httpBackend.flush();
@@ -49,6 +51,7 @@ describe('akam-date-picker', function() {
   function addElement(markup) {
     self.el = compile(markup)(scope);
     scope.$digest();
+    timeout.flush();
     self.element = document.body.appendChild(self.el[0]);
   }
 
@@ -497,20 +500,21 @@ describe('akam-date-picker', function() {
   });
 });
 describe('when given an i18n locale that does not exist', function() {
-  var compile, scope, self, cookies;
+  var compile, scope, self, cookies, timeout;
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/date-picker').name);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
+    angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
-    inject(function($compile, $rootScope, $httpBackend, _$cookies_) {
+    inject(function($compile, $rootScope, $httpBackend, _$cookies_, $timeout) {
       compile = $compile;
       scope = $rootScope.$new();
       _$cookies_.put('AKALOCALE', "eXpfUkU=");
       cookies = _$cookies_;
+      timeout = $timeout;
       $httpBackend.when('GET', '/apps/appname/locales/yz_RE.json').respond({});
       $httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/yz_RE.json/).respond({});
       $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
@@ -528,6 +532,7 @@ describe('when given an i18n locale that does not exist', function() {
   function addElement(markup) {
     self.el = compile(markup)(scope);
     scope.$digest();
+    timeout.flush();
     self.element = document.body.appendChild(self.el[0]);
   }
 

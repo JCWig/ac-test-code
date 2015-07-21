@@ -1,6 +1,3 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function(translate) {
 
   var c = {
@@ -78,3 +75,4 @@ module.exports = function(translate) {
     }
   };
 };
+module.exports.$inject = ['translate'];

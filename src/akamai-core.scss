@@ -34,6 +34,7 @@
 
 /* These styles have an angular directive */
 .common-css {
+  @import "autocomplete/_autocomplete";
   @import "content-panel/_content-panel";
   @import "date-picker/_date-picker";
   @import "dropdown/_dropdown";
@@ -50,6 +51,7 @@
   @import "tag-input/_tag-input";
   @import "time-picker/_time-picker";
   @import "tree-view/_tree-view";
+  @import "wizard/_wizard";
 }
 
 

@@ -1,4 +1,3 @@
-'use strict';
 var angular = require('angular');
 
 require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');

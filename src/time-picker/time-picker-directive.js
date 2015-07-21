@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 var timepickerConfig = {
@@ -9,7 +7,6 @@ var timepickerConfig = {
   MERIDIAN_OFF: 'HH:mm'
 };
 
-/* @ngInject */
 module.exports = function($document, $parse) {
   var directive = {
     restrict: 'E',
@@ -18,7 +15,7 @@ module.exports = function($document, $parse) {
     require: 'ngModel',
     bindToController: {
       showMeridian: '=?',
-      disabled: '=?',
+      disabled: '=isDisabled',
       hourStep: '=?',
       minuteStep: '=?'
     },
@@ -28,9 +25,6 @@ module.exports = function($document, $parse) {
     link: linkFn
   };
 
-  return directive;
-
-  /* @ngInject */
   function TimePickerController($scope) {
 
     this.isOpen = false;
@@ -51,7 +45,8 @@ module.exports = function($document, $parse) {
     }
   }
 
-  /* @ngInject */
+  TimePickerController.$inject = ['$scope'];
+
   function linkFn(scope, element, attrs, ngModel) {
 
     var notShowMeridian = false,
@@ -69,12 +64,11 @@ module.exports = function($document, $parse) {
 
     ctrl.changed = function() {
       ngModel.$setViewValue(ctrl.inputTime);
-      ngModel.$setDirty();
       ngModel.$setValidity('time',
         !(angular.isUndefined(ctrl.inputTime) || ctrl.inputTime === null));
     };
 
-    ctrl.disabled = ctrl.disabled === true || attrs.disabled === 'disabled';
+    ctrl.disabled = ctrl.disabled === true || attrs.isDisabled === 'disabled';
 
     ctrl.minuteStep = timepickerConfig.MINUTE_STEP;
     $parse(attrs.minuteStep, function(value) {
@@ -87,16 +81,34 @@ module.exports = function($document, $parse) {
     });
 
     notShowMeridian = ctrl.showMeridian === false ||
-      scope.$eval(attrs.showMeridian) === false;
+    scope.$eval(attrs.showMeridian) === false;
     ctrl.showMeridian = !notShowMeridian;
 
     defaultPlaceholder = ctrl.showMeridian ?
       timepickerConfig.MERIDIAN_ON : timepickerConfig.MERIDIAN_OFF.toLowerCase();
     ctrl.placeholder = attrs.placeholder ? attrs.placeholder : defaultPlaceholder;
 
-    element.bind('click', function(event) {
-      event.preventDefault();
-      event.stopPropagation();
+    element.find('input').bind('keypress', function(e) {
+      var k = event.which || event.keyCode,
+        isMeridian = this.getAttribute('name') === 'meridian';
+
+      //to prevent enter key to close dropdown and
+      //still making meridian button functional
+      if (k === 13 && !isMeridian) {
+        preventDefaultEvents(e);
+      }
     });
+
+    element.bind('click', function(e) {
+      preventDefaultEvents(e);
+    });
+
+    function preventDefaultEvents(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   }
+
+  return directive;
 };
+module.exports.$inject = ['$document', '$parse'];

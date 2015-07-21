@@ -5,14 +5,26 @@
       "offLabel": "Off"
     },
     "tag-input": {
-    	"placeholder":"Select Items",
-    	"taggingLabel":"(new item)"
+      "placeholder": "Select Items",
+      "taggingLabel": "(new item)"
     },
     "dropdown": {
       "placeholder": {
         "noSelection": "Select one",
         "filter": "Filter"
       }
+    },
+    "wizard": {
+      "label": {
+        "previous": "Previous",
+        "next": "Next",
+        "submit": "Submit"
+      },
+      "successMessage": "The action has been completed.",
+      "errorMessage": "The action can't be completed."
+    },
+    "autocomplete": {
+      "search-tip": "Type in text to display matching results"
     }
   }
 }

@@ -19,8 +19,9 @@ describe('messageBox service', function() {
     var self = this;
 
     angular.mock.module(require('../../src/message-box').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
-      $provide.factory('i18nCustomLoader', function($q, $timeout) {
+    angular.mock.module(function($provide, $translateProvider) {
+
+      function i18nCustomLoader($q, $timeout) {
         return function(options) {
           var deferred = $q.defer();
           $timeout(function() {
@@ -28,7 +29,10 @@ describe('messageBox service', function() {
           });
           return deferred.promise;
         };
-      });
+      }
+      i18nCustomLoader.$inject = ['$q', '$timeout'];
+
+      $provide.factory('i18nCustomLoader', i18nCustomLoader);
       $translateProvider.useLoader('i18nCustomLoader');
     });
     inject(function(messageBox, $rootScope, $timeout, $httpBackend) {
@@ -254,14 +258,11 @@ describe('messageBox service', function() {
         var messageBoxDetails = document.querySelector('.message-box-details > div');
         var messageBoxDetailsTrigger = document.querySelector('.message-box-details > span');
 
-        expect(angular.element(messageBoxDetails).css('height')).toEqual('0px');
+        expect(messageBoxDetails.classList).not.toContain('in');
         utilities.click(messageBoxDetailsTrigger);
-        try {
-          this.$timeout.verifyNoPendingTasks();
-        } catch (e) {
-          this.$timeout.flush();
-        }
-        expect(angular.element(messageBoxDetails).css('height')).not.toEqual('0px');
+        this.$rootScope.$digest();
+        
+        expect(messageBoxDetails.classList).toContain('in');
       });
     });
 

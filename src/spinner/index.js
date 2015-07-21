@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 /**
@@ -33,7 +31,7 @@ module.exports = angular.module('akamai.components.spinner', [require('../uuid')
  * Default is other than String of "disabled". Two way bind
  *
  */
-.directive('akamSpinner', require('./spinner-directive'))
+  .directive('akamSpinner', require('./spinner-directive'))
 
 /**
  * @ngdoc service
@@ -44,4 +42,4 @@ module.exports = angular.module('akamai.components.spinner', [require('../uuid')
  * and max | min checking for akamSpinner directive
  *
  */
-.factory('spinnerService', require('./spinner-service'));
+  .factory('spinnerService', require('./spinner-service'));

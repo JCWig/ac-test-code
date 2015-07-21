@@ -48,7 +48,7 @@
 
 .modal-content {
   background-color: $dialog-background-color;
-  border: 1px solid $dialog-border-color;
+  border: 0 solid $dialog-border-color;
   border-radius: $dialog-border-radius;
   outline: 0;
   overflow: hidden;
@@ -173,6 +173,7 @@
     background: $dialog-background-color;
 
     .button + .button,
+    .button + .button-switch > .button,
     .btn + .btn,
     .button + .btn,
     .btn + .button {

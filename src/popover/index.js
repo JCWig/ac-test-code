@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 var sanitize = require('angular-sanitize');
 
@@ -42,4 +40,4 @@ module.exports = angular.module('akamai.components.popover', [
  * @param {String} button-function What function should
  * fire when button is pressed
  */
-.directive('akamPopover', require('./popover-directive'));
+  .directive('akamPopover', require('./popover-directive'));
