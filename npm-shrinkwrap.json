@@ -3,9 +3,9 @@
   "version": "0.7.0",
   "dependencies": {
     "angular": {
-      "version": "1.4.2",
-      "from": "angular@>=1.4.2 <1.5.0",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular/-/angular-1.4.2.tgz"
+      "version": "1.4.3",
+      "from": "angular@1.4.3",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular/-/angular-1.4.3.tgz"
     },
     "angular-bootstrap-npm": {
       "version": "0.13.0",
@@ -534,24 +534,24 @@
       }
     },
     "angular-cookies": {
-      "version": "1.4.2",
-      "from": "angular-cookies@>=1.4.0 <1.5.0",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-cookies/-/angular-cookies-1.4.2.tgz"
+      "version": "1.4.3",
+      "from": "angular-cookies@1.4.3",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-cookies/-/angular-cookies-1.4.3.tgz"
     },
     "angular-messages": {
-      "version": "1.4.2",
-      "from": "angular-messages@>=1.4.0 <1.5.0",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-messages/-/angular-messages-1.4.2.tgz"
+      "version": "1.4.3",
+      "from": "angular-messages@1.4.3",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-messages/-/angular-messages-1.4.3.tgz"
     },
     "angular-mocks": {
-      "version": "1.4.2",
-      "from": "angular-mocks@>=1.4.0 <2.0.0",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-mocks/-/angular-mocks-1.4.2.tgz"
+      "version": "1.4.3",
+      "from": "angular-mocks@1.4.3",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-mocks/-/angular-mocks-1.4.3.tgz"
     },
     "angular-sanitize": {
-      "version": "1.4.2",
-      "from": "angular-sanitize@>=1.4.0 <1.5.0",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-sanitize/-/angular-sanitize-1.4.2.tgz"
+      "version": "1.4.3",
+      "from": "angular-sanitize@1.4.3",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-sanitize/-/angular-sanitize-1.4.3.tgz"
     },
     "angular-translate": {
       "version": "2.7.2",
