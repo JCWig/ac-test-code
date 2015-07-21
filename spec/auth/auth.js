@@ -61,6 +61,9 @@ describe('akamai.components.auth', function() {
           property: $q.when({
             id: 456
           }),
+          account: {
+            name: 'test account'
+          },
           accountChanged: function() {
             return accountChangedValue;
           },
