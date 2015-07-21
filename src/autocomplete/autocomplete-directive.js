@@ -52,15 +52,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
 
     buildStaticQuery(this);
 
-    //handle tab key handling loose focus to close dropdown
-    $document.on('keyup', function(e) {
-      if (e.which === 9) {
-        $timeout(function() {
-          $document.triggerHandler('click');
-        });
-      }
-    });
-
     /**
      * register a scope method to add child directive controller to this controller list
      * @param  {object} childCtrl child ditective controller
@@ -141,6 +132,9 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
       setInputFocus();
     }
 
+    /**
+     * setInputFocus private function to force input focus
+     */
     function setInputFocus() {
       var inputEl = $document[0].getElementById($scope.ac.autocompleteId);
 
@@ -202,6 +196,34 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     ngModel.$render = function() {
       scope.ac.selectedItem = ngModel.$modelValue;
     };
+
+    $document.on('keyup', handleTabEvent);
+
+    /**
+     * handleTabEvent a private function trigged by keyup event and handle it
+     * only if it is tab key and has open class, then manually trigger click to close it
+     * @param  {object} e event object
+     */
+    function handleTabEvent(e) {
+      var that = ctrl, dirElem;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if ((e.keyCode || e.which) === 9) {
+        dirElem = $document[0].querySelector('.akam-autocomplete.open');
+        if (dirElem) {
+          $timeout(function() {
+            $document.triggerHandler('click');
+            that.isOpen = false;
+          });
+        }
+      }
+    }
+
+    scope.$on('$destroy', function() {
+      $document.off('keyup', handleTabEvent);
+    });
   }
 
   return {
