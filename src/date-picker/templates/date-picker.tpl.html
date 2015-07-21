@@ -12,6 +12,7 @@
     placeholder="{{ placeholder }}"
     ng-click="toggle($event)"
     readonly="readonly"
+    ng-disabled="isDisabled"
     show-button-bar="false"> <i class="luna-close clear-date util-clickable" ng-if="showClear()"
                                 ng-click="clearDate()"></i>
   <button class="button" ng-click="toggle($event)">

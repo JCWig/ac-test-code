@@ -49,6 +49,12 @@ $datepicker-text-color-disabled: #e6e6e6;
       background-color: $input-background-color;
       @include box-shadow($input-box-shadow);
     }
+
+    &:disabled {
+      @include placeholder-enhanced($datepicker-text-color-disabled, italic);
+      color: $datepicker-text-color-disabled;
+      cursor: default;
+    }
   }
 
   .clear-date {
