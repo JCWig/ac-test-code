@@ -223,7 +223,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     }
 
     scope.$on('$destroy', function() {
-      $document.off('click', handleTabEvent);
+      $document.off('keyup', handleTabEvent);
     });
   }
 
