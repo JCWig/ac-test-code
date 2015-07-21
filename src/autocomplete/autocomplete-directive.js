@@ -199,7 +199,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
 
     $document.on('keyup', handleTabEvent);
 
-
     /**
      * handleTabEvent a private function trigged by keyup event and handle it
      * only if it is tab key and has open class, then manually trigger click to close it
