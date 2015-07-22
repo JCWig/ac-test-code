@@ -15,7 +15,8 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
 
   function notifyDatesChanged(scope, startValue, endValue) {
     $timeout(function() {
-      scope.$broadcast('rangeDateChanged', {
+      //notify child scope if listen this event
+      scope.$broadcast('dateRangeChanged', {
         startDate: startValue,
         endDate: endValue
       });
@@ -26,9 +27,9 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
     var d = new Date();
 
     this.opened = false;
-    this.rangeStart = {};
-    this.rangeEnd = {};
-    this.rangeStart.dateSelected = this.rangeEnd.dateSelected = false;
+    this.rangeStart = this.rangeEnd = {};
+    this.rangeStart.selectedValue = this.rangeEnd.selectedValue = '';
+    this.rangeSelected = false;
 
     this.options = config.options;
 
@@ -44,30 +45,29 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
     this.rangeEnd.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
 
     drService.setStartMinMax(this.rangeStart, d);
-    drService.setEndMinMax(this.rangeEnd, d);
+    //drService.setEndMinMax(this.rangeEnd, d); //may not needed
 
     this.toggle = function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
+      preventOtherEvents(e);
       this.opened = !this.opened;
     };
 
     this.clearStartDate = function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      this.rangeStart.dateSelected = false;
-      this.rangeStart.value = '';
+      preventOtherEvents(e);
+      this.rangeStart.selectedValue = '';
+      this.rangeSelected = false;
     };
 
     this.clearEndDate = function(e) {
+      preventOtherEvents(e);
+      this.rangeEnd.selectedValue = '';
+      this.rangeSelected = false;
+    };
+
+    function preventOtherEvents(e) {
       e.preventDefault();
       e.stopPropagation();
-
-      this.rangeEnd.dateSelected = false;
-      this.rangeEnd.value = '';
-    };
+    }
   }
 
   DateRangeController.$inject = ['$scope', '$element', '$attrs'];
@@ -88,10 +88,10 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
         cloneDate;
 
       startDate = angular.isDefined(attr.startDate) && dr.startDate ? dr.startDate : '';
-      dr.rangeStart.dateSelected = startDate !== '';
+      //dr.rangeStart.dateSelected = startDate !== '';
 
       endDate = angular.isDefined(attr.endDate) && dr.endDate ? dr.endDate : '';
-      dr.rangeEnd.dateSelected = endDate !== '';
+      //dr.rangeEnd.dateSelected = endDate !== '';
 
       if (startDate && endDate) {
         //if startDate greater then endDate, swap date value
@@ -104,8 +104,8 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
         scope.setViewValue(drService.getSelectedDateRange(startDate, endDate, dr.format));
       }
 
-      dr.rangeStart.value = startDate;
-      dr.rangeEnd.value = endDate;
+      dr.rangeStart.selectedValue = startDate;
+      dr.rangeEnd.selectedValue = endDate;
 
       $timeout(function() {
         initialized = true;
@@ -113,7 +113,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
         dr.format = dr.format || config.format;
       });
     };
-
+/*
     scope.setViewValue = function(value) {
       ngModel.$setViewValue(value);
 
@@ -166,6 +166,7 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
         dr.rangeEnd.dateSelected = newVal !== '';
       }
     });
+*/
   }
 
   return {

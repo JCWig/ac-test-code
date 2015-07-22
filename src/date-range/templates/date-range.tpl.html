@@ -1,10 +1,10 @@
 <div class="akam-date-range akam-date-picker day" ng-class="{opened:dr.opened}">
-  <span class="rangeStart" ng-class="{selected: dr.rangeStart.dateSelected}">
+  <span class="rangeStart" ng-class="{rangSelected: dr.rangeSelected}">
     <input
       id="{{::dr.rangeStart.id}}"
       type="text"
       datepicker-popup="{{dr.format}}"
-      ng-model="dr.rangeStart.value"
+      ng-model="dr.rangeStart.selectedValue"
       is-open="dr.opened"
       min-date="{{::dr.rangeStart.minDate}}"
       max-date="{{::dr.rangeStart.maxDate}}"
@@ -25,6 +25,8 @@
         ng-disabled="dr.isDisabled">
       </i>
     </button>
-    <span>{{dr.rangeStart.value}}</span>
+    <span>{{dr.rangeStart.selectedValue}}</span>
+  <span>{{dr.rangeEnd.selectedValue}}</span>
+  <span>{{dr.rangeStart.maxDate}}</span>
   </span>
 </div>

@@ -25,8 +25,8 @@ module.exports = function($filter) {
     var y = date.getFullYear(),
       m = date.getMonth();
 
-    rangeStart.minDate = new Date(y, m, 1);
-    rangeStart.maxDate = new Date(y + 1, m, 1);
+    rangeStart.minDate = new Date(y, m-1, 1);
+    rangeStart.maxDate = new Date(y + 1, m+1, 0);
   }
 
   /**
@@ -73,7 +73,7 @@ module.exports = function($filter) {
     var sel1 = rangeStart.dateSelected,
       sel2 = rangeEnd.dateSelected;
 
-    return evaluateDates(newVal, oldVal, newVal, new Date(rangeEnd.value), sel1, sel2);
+    return evaluateDates(newVal, oldVal, newVal, new Date(rangeEnd.selectedValue), sel1, sel2);
   }
 
   /**
