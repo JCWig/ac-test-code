@@ -169,7 +169,8 @@ $datepicker-text-color-disabled: #e6e6e6;
       }
     }
 
-    thead th button[role="heading"] {
+    thead th {
+      button[role="heading"] {
       &,
       &:hover,
       &:active,
@@ -179,6 +180,7 @@ $datepicker-text-color-disabled: #e6e6e6;
         background: #FFFFFF;
         box-shadow: none;
       }
+    }
 
       strong {
         font-size: 14px;

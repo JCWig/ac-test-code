@@ -15,33 +15,16 @@
       readonly="readonly"
       show-button-bar="false">
       <i class="luna-close clear-date util-clickable"
-        ng-show="dr.rangeStart.dateSelected" ng-click="dr.clearStartDate($event)"></i>
-  <button class="button" ng-click="dr.toggle($event)" ng-disabled="dr.isDisabled">
-    <i class="luna-calendar icon-states" ng-disabled="dr.isDisabled"></i>
-  </button>
-  </span>
-  <!--
-  <span class="rangeEnd" ng-class="{selected: dr.rangeEnd.dateSelected}">
-    <input
-      id="{{::dr.rangeEnd.id}}"
-      type="text"
-      datepicker-popup="{{dr.format}}"
-      ng-model="dr.rangeEnd.value"
-      init-date="dr.rangeEnd.initDate"
-      is-open="dr.opened"
-      datepicker-options="{{::dr.options}}"
-      min-date="{{::dr.rangeEnd.minDate}}"
-      max-date="{{::dr.rangeEnd.maxDate}}"
-      placeholder="{{dr.rangeEnd.placeholder}}"
+        ng-show="dr.rangeStart.dateSelected && !dr.isDisabled"
+        ng-click="dr.clearStartDate($event)">
+      </i>
+    <button class="button"
       ng-click="dr.toggle($event)"
-      ng-disabled="dr.isDisabled"
-      readonly="readonly"
-      show-button-bar="false">
-      <i class="luna-close clear-date util-clickable"
-        ng-show="dr.rangeEnd.dateSelected" ng-click="dr.clearEndDate($event)"></i>
-  <button class="button" ng-click="dr.toggle($event)" ng-disabled="dr.isDisabled">
-    <i class="luna-calendar icon-states" ng-disabled="dr.isDisabled"></i>
-  </button>
+      ng-disabled="dr.isDisabled">
+      <i class="luna-calendar icon-states"
+        ng-disabled="dr.isDisabled">
+      </i>
+    </button>
+    <span>{{dr.rangeStart.value}}</span>
   </span>
-  -->
 </div>

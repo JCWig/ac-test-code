@@ -1,7 +1,8 @@
 var angular = require('angular');
 
 module.exports = function($provide) {
-  function datePickerDirective($delegate) {
+
+  function datePickerDirective($delegate, $timeout, dateFilter) {
     var link;
 
     // since: directives could potentially share names, the provider returns an array
@@ -51,13 +52,60 @@ module.exports = function($provide) {
           }
           return false;
         };
+
+        function fixTimeZone(date) {
+          var hours = date.getHours();
+          date.setHours(hours === 23 ? hours + 2 : 0);
+        };
+
+        function getDates(startDate, n) {
+          var dates = new Array(n),
+            current = new Date(startDate),
+            i = 0,
+            date;
+          while (i < n) {
+            date = new Date(current);
+            fixTimeZone(date);
+            dates[i++] = date;
+            current.setDate(current.getDate() + 1);
+          }
+          return dates;
+        }
+
+        function createSiblingRows() {
+          var year = ctrl.activeDate.getFullYear(),
+            month = ctrl.activeDate.getMonth() + 1,
+            firstDayOfMonth = new Date(year, month, 1),
+            difference = ctrl.startingDay - firstDayOfMonth.getDay(),
+            numDisplayedFromPreviousMonth = (difference > 0) ? 7 - difference : -difference,
+            firstDate = new Date(firstDayOfMonth);
+
+          if (numDisplayedFromPreviousMonth > 0) {
+            firstDate.setDate(-numDisplayedFromPreviousMonth + 1);
+          }
+
+          // 42 is the number of days on a six-month calendar
+          var days = getDates(firstDate, 42);
+          for (var i = 0; i < 42; i++) {
+            days[i] = angular.extend(ctrl.createDateObject(days[i], ctrl.formatDay), {
+              secondary: days[i].getMonth() !== month,
+              uid: scope.uniqueId + '-' + i
+            });
+          }
+          scope.siblingTitle = dateFilter(firstDayOfMonth, ctrl.formatDayTitle);
+          scope.siblingRows = ctrl.split(days, 7);
+        }
+
+        $timeout(function() {
+          createSiblingRows();
+        });
       };
     };
 
     return $delegate;
   }
 
-  datePickerDirective.$inject = ['$delegate', '$timeout'];
+  datePickerDirective.$inject = ['$delegate', '$timeout', 'dateFilter'];
 
   $provide.decorator('daypickerDirective', datePickerDirective);
 };
