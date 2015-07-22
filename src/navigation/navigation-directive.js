@@ -38,8 +38,7 @@ module.exports = function($rootScope) {
     bindToController: {
       tabs: '=data',
       type: '@',
-      justified: '@',
-      vertical: '@'
+      justified: '@'
     },
     controller: NavigationController,
     controllerAs: 'navigation',
