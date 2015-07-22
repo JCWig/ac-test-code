@@ -37,6 +37,14 @@
   </akam-menu-button>
 </div>
 
+<div class="container">
+  <h3>Using <code>ng-repeat</code></h3>
+  <akam-menu-button>
+    <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
+    </akam-menu-button-item>
+  </akam-menu-button>
+</div>
+
 <script src="../dist/akamai-core.js"></script>
 <script>
   var controllerFuction = function() {
@@ -44,6 +52,12 @@
     this.process = function(item) {
       console.log('You clicked on the the app: ', item);
     };
+
+    this.items = [{
+      id: 'examples.appNames.tq'
+    }, {
+      id: 'examples.appNames.bc'
+    }];
   };
 
   angular.module('akamai.components.examples.menu-button',
