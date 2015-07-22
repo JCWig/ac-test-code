@@ -47,9 +47,22 @@ $dropdown-max-items: 8;
       }
     }
 
+    &.small > li {
+      line-height: 22px;
+    }
+
+    &.large > li {
+      line-height: 30px;
+    }
+
   }
 }
 
+// if we have a split button, make the dropdown menu be at least as wide as the split button
+// With a regular menu button (gear icon), the 160px minimum will likely apply
+.split-button + .dropdown-menu {
+  min-width: 100%;
+}
 
 .dropdown-menu {
   padding: 0;
@@ -57,14 +70,14 @@ $dropdown-max-items: 8;
   margin-top: 0;
   overflow-x: auto;
   max-height: #{$dropdown-item-line-height * $dropdown-max-items};
-  max-width: 100%;
+ // max-width: 100%;
   @include box-shadow(0 2px 4px 0 rgba(0, 0, 0, .25));
 
   > li > a,
   > .fixed-header {
     padding: 0 $dropdown-item-right-padding 0 $dropdown-item-left-padding;
     line-height: $dropdown-item-line-height;
-    @include ellipsis();
+    //@include ellipsis();
 
     &:not(.fixed-header):active {
       background-color: $dropdown-link-active-bg;

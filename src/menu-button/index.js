@@ -24,6 +24,7 @@ export default angular.module('akamai.components.menu-button', [
  *
  * @param {String} [position="left"] Where the dropdown menu should be positioned. Should be either
  * "left" or "right".
+ * @param {String} [size="medium"] The size of the button. Can be "small", "medium" or "large".
  *
  * @example
  * <pre>

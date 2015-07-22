@@ -3,6 +3,7 @@ import template from './templates/menu-button.tpl.html';
 
 const defaultActionSelector = 'akam-menu-button-placeholder',
   itemsSelector = 'akam-menu-button-item',
+  itemsPlaceholderSelector = `${itemsSelector}-placeholder`,
   menuButtonSelector = '.menu-button',
   splitButtonSelector = '.split-button';
 
@@ -12,7 +13,8 @@ function menuButton($compile) {
     replace: true,
     scope: {},
     bindToController: {
-      position: '@'
+      position: '@',
+      size: '@'
     },
 
     // similar to data-table we have to manually compile the template and move some stuff around
@@ -29,7 +31,7 @@ function menuButton($compile) {
         }
       });
 
-      thisTemplate.find(`${itemsSelector}-placeholder`).append(menuButtonItems);
+      thisTemplate.find(itemsPlaceholderSelector).append(menuButtonItems);
 
       if (defaultAction) {
         angular.element(thisTemplate[0].querySelector(menuButtonSelector)).remove();
@@ -46,7 +48,7 @@ function menuButton($compile) {
     link: (scope, element) => {
       let compileScope,
         defaultAction = element.find(defaultActionSelector),
-        items = element.find(`${itemsSelector}-placeholder`);
+        items = element.find(itemsPlaceholderSelector);
 
       // manually compile the default action into the button, if necessary
       if (defaultAction.length) {
@@ -64,6 +66,12 @@ function menuButton($compile) {
         );
       });
       items.replaceWith('');
+
+      // add "small", "medium" or "large" classes for button as needed
+      if (scope.menuButton.size &&
+        ['small', 'large'].indexOf(scope.menuButton.size.toLowerCase()) !== -1) {
+        element.find('button').addClass(scope.menuButton.size.toLowerCase());
+      }
     },
 
     // there isn't actually any reason to have a controller other than to support the usage of

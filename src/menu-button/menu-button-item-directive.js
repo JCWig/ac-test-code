@@ -8,8 +8,9 @@ export default function() {
     },
     controller: function() { },
     controllerAs: 'menuButtonItem',
-    template: `<li>
-      <a href="javascript:void(0);" akam-translate="{{ menuButtonItem.text }}"></a>
-    </li>`
+    template:
+      `<li>
+        <a href="javascript:void(0);" akam-translate="{{ menuButtonItem.text }}"></a>
+      </li>`
   };
 }

@@ -38,10 +38,28 @@
 </div>
 
 <div class="container">
-  <h3>Using <code>ng-repeat</code></h3>
-  <akam-menu-button>
+  <h3>Small button</h3>
+  <akam-menu-button size="small">
     <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
     </akam-menu-button-item>
+  </akam-menu-button>
+  <akam-menu-button size="small">
+    <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
+    <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+    <akam-menu-button-item default-action text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+  </akam-menu-button>
+</div>
+
+<div class="container">
+  <h3>Large button</h3>
+  <akam-menu-button size="large">
+    <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
+    </akam-menu-button-item>
+  </akam-menu-button>
+  <akam-menu-button size="large">
+    <akam-menu-button-item text="This is a very long name name name name name" ng-click="vm.process('tq')"></akam-menu-button-item>
+    <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+    <akam-menu-button-item default-action text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
   </akam-menu-button>
 </div>
 
