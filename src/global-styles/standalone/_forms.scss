@@ -1,4 +1,8 @@
 /* take back the .label power! */
+label {
+  margin: 0;
+}
+
 .label {
   display: inline-block;
   padding: 0;
@@ -49,20 +53,6 @@
       }
     }
   }
-}
-
-label {
-  // Override TWBS
-  margin: 0;
-
-  /*
-  & + input[type="text"],
-  & + input[type="search"],
-  & + input[type="email"],
-  & + textarea {
-    margin-left: $input-label-spacing;
-  }
-  */
 }
 
 
