@@ -31,14 +31,17 @@
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+            <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex1.selectedState" items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
         </span>
+    </div>
+    <br/>
+    <div>
         <span>
-            <akam-dropdown ng-model="vm.ex2.selectedState" text-property="name"
+            <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex2.selectedState" text-property="name"
                            items="vm.stateObjects" clearable on-change="vm.doChange(item)">
 
                 <akam-dropdown-selected>
-                    <span class="selected-option util-ellipsis">
+                    <span class="selected-option util-ellipsis" ng-class="{disabled:vm.disabled}">
                         <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
                             custom: {{selectedItem[textProperty]}}
                         </span>
@@ -54,7 +57,12 @@
         </span>
     </div>
     <br/>
-
+    <span class="form-group">
+        <input id="disableDropdown" type="checkbox" name='disableDropdown' ng-model='vm.disabled' />
+        <label class="label" for="disableDropdown">Disable above dropdowns</label>
+    </span>
+    <br/>
+    <br/>
     <div>
         <h2>Dropdown with a list of strings and a filter, not clearable</h2>
         <span>
@@ -155,6 +163,7 @@
         function DropdownAppController($log) {
             var vm = this;
             vm.test = 'test';
+            vm.disabled = false;
 
             vm.stateObjects = [
                 {name: 'Colorado'},
