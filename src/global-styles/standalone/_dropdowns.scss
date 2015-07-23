@@ -66,7 +66,6 @@ $dropdown-max-items: 8;
   > .fixed-header {
     padding: 0 $dropdown-item-right-padding 0 $dropdown-item-left-padding;
     line-height: $dropdown-item-line-height;
-    //@include ellipsis();
 
     &:not(.fixed-header):active {
       background-color: $dropdown-link-active-bg;
