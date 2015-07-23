@@ -33,34 +33,6 @@ $dropdown-max-items: 8;
     @extend .luna-gear:hover;
   }
 
-  // default action is rendered as a LI inside of a button so we have to heavily modify it
-  & > .split-button:first-of-type {
-    padding: 0;
-
-    &[disabled] > li > a {
-      color: $colors__gray7;
-    }
-
-    // unfortunately, the li has the ng-click attribute, so we need to take away the padding from
-    // the surrounding button and add it to the LI element so we have the largest possible click
-    // target
-    & > li {
-      display: block;
-      list-style: none;
-      padding: $button-padding-tb $button-padding-lr;
-      height: 100%;
-      line-height: 26px;
-
-      & > a {
-        color: $colors__gray2;
-      }
-    }
-
-    &.small > li {
-      line-height: 22px;
-    }
-
-  }
 }
 
 // if we have a split button, make the dropdown menu be at least as wide as the split button

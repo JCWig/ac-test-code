@@ -1,19 +1,35 @@
-<div class="akam-menu-button dropdown" ng-class="menuButton.position" dropdown>
+<div class="akam-menu-button dropdown" ng-class="::menuButton.position" dropdown>
 
-  <button type="button" class="btn btn-default dropdown-toggle menu-button" ng-disabled="menuButton.isDisabled"
-          dropdown-toggle ng-click="$event.stopPropagation()">
+  <button type="button"
+          class="btn btn-default dropdown-toggle menu-button"
+          ng-class="::menuButton.size"
+          ng-disabled="menuButton.isDisabled"
+          ng-click="$event.stopPropagation()"
+          ng-if="::!menuButton.defaultText"
+          dropdown-toggle>
     <i class="luna-gear" ng-class="{'luna-gear_disabled': menuButton.isDisabled}"></i>
   </button>
 
-  <button type="button" class="btn btn-default split-button" ng-disabled="menuButton.isDisabled">
-    <akam-menu-button-placeholder ng-non-bindable></akam-menu-button-placeholder>
+  <button type="button" class="btn btn-default split-button"
+          ng-class="::menuButton.size"
+          ng-disabled="menuButton.isDisabled"
+          ng-click="menuButton.onClick()"
+          ng-if="::menuButton.defaultText"
+          akam-translate="{{ ::menuButton.defaultText }}">
   </button>
-  <button type="button" class="btn btn-default dropdown-toggle split-button" ng-disabled="menuButton.isDisabled"
-          dropdown-toggle ng-click="$event.stopPropagation()">
+  <button type="button"
+          class="btn btn-default dropdown-toggle split-button"
+          ng-class="::menuButton.size"
+          ng-disabled="menuButton.isDisabled"
+          ng-click="$event.stopPropagation()"
+          ng-if="::menuButton.defaultText"
+          dropdown-toggle>
     <i class="caret-dropdown luna-arrow_smDown" ng-class="{'luna-arrow_smDown_disabled': menuButton.isDisabled}"></i>
   </button>
 
-  <ul class="dropdown-menu" role="menu">
-    <akam-menu-button-item-placeholder ng-non-bindable></akam-menu-button-item-placeholder>
+  <ul class="dropdown-menu"
+      ng-class="::menuButton.size"
+      role="menu"
+      ng-transclude>
   </ul>
 </div>

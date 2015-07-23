@@ -10,7 +10,7 @@ export default function() {
     controllerAs: 'menuButtonItem',
     template:
       `<li>
-        <a href="javascript:void(0);" akam-translate="{{ menuButtonItem.text }}"></a>
+        <a href="javascript:void(0);" akam-translate="{{ ::menuButtonItem.text }}"></a>
       </li>`
   };
 }

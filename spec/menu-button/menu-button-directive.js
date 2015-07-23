@@ -39,7 +39,7 @@ describe('akamai.components.menu-button', function() {
 
   });
 
-  describe('given no "akam-menu-button-item" set as a default-action', function() {
+  describe('given a dropdown menu', function() {
 
     beforeEach(function() {
       let markup =
@@ -66,14 +66,13 @@ describe('akamai.components.menu-button', function() {
 
   });
 
-  describe('given a "akam-menu-button-item" set as a default-action', function() {
+  describe('given a split button menu', function() {
 
     beforeEach(function() {
       let markup =
-        `<akam-menu-button>
+        `<akam-menu-button default-text="examples.appNames.pm" >
           <akam-menu-button-item text="examples.appNames.tq"></akam-menu-button-item>
           <akam-menu-button-item text="examples.appNames.bc"></akam-menu-button-item>
-          <akam-menu-button-item default-action text="examples.appNames.pm">
           </akam-menu-button-item>
         </akam-menu-button>`;
 
