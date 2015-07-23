@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-module.exports = function($rootScope) {
+function navigation($rootScope) {
 
   class NavigationController {
     constructor($state) {
@@ -61,6 +61,8 @@ module.exports = function($rootScope) {
 
     }
   };
-};
-module.exports.$inject = ['$rootScope', '$state'];
+}
+navigation.$inject = ['$rootScope'];
+
+export default navigation;
 
