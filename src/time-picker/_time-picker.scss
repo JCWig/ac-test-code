@@ -24,6 +24,12 @@ $timepicker-input-disabled-color: #cccccc;
     &:active {
       border-color: $button-border-color-hover;
     }
+    &:disabled {
+      &:hover {
+        border-width: 0;
+      }
+
+    }
   }
   & > input[type='text'] {
     padding-right: 6px;
