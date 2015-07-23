@@ -41,6 +41,13 @@ module.exports = function($log) {
               scope.onToggle({value: newValue});
             }
           });
+          scope.headerClick = function(e) {
+            if (scope.showIcon) {
+              scope.isCollapsed = !scope.isCollapsed;
+            }
+            e.preventDefault();
+            e.stopPropagation();
+          };
         }
       };
     }
