@@ -6,7 +6,6 @@
 $dropdown-fixed-header-padding: 10px;
 $dropdown-max-items: 8;
 
-
 .dropdown {
   display: inline-block;
   line-height: 1;
@@ -23,6 +22,12 @@ $dropdown-max-items: 8;
     cursor: pointer;
     vertical-align: middle;
   }
+
+  & > button[disabled] {
+    > i, > li > a {
+      cursor: default;
+    }
+  }
   
   &.open > button > i.luna-gear {
     @extend .luna-gear:hover;
@@ -31,6 +36,10 @@ $dropdown-max-items: 8;
   // default action is rendered as a LI inside of a button so we have to heavily modify it
   & > .split-button:first-of-type {
     padding: 0;
+
+    &[disabled] > li > a {
+      color: $colors__gray7;
+    }
 
     // unfortunately, the li has the ng-click attribute, so we need to take away the padding from
     // the surrounding button and add it to the LI element so we have the largest possible click
@@ -51,27 +60,35 @@ $dropdown-max-items: 8;
       line-height: 22px;
     }
 
-    &.large > li {
-      line-height: 30px;
-    }
-
   }
 }
 
 // if we have a split button, make the dropdown menu be at least as wide as the split button
 // With a regular menu button (gear icon), the 160px minimum will likely apply
-.split-button + .dropdown-menu {
-  min-width: 100%;
+.split-button {
+  + .dropdown-menu, + .dropdown-menu.small {
+    min-width: 100%;
+  }
+
 }
 
 .dropdown-menu {
   padding: 0;
   border-radius: 0;
-  margin-top: 0;
+  margin-top: -1px;
   overflow-x: auto;
   max-height: #{$dropdown-item-line-height * $dropdown-max-items};
- // max-width: 100%;
   @include box-shadow(0 2px 4px 0 rgba(0, 0, 0, .25));
+
+  &.small {
+    min-width: 120px;
+
+    > li > a {
+      line-height: $dropdown-item-line-height-small;
+      font-size: $button-text-size-small;
+    }
+  }
+
 
   > li > a,
   > .fixed-header {

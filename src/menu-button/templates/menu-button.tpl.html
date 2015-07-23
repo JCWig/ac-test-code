@@ -1,14 +1,16 @@
 <div class="akam-menu-button dropdown" ng-class="menuButton.position" dropdown>
 
-  <button type="button" class="btn btn-default dropdown-toggle menu-button" dropdown-toggle ng-click="$event.stopPropagation()">
-    <i class="luna-gear"></i>
+  <button type="button" class="btn btn-default dropdown-toggle menu-button" ng-disabled="menuButton.isDisabled"
+          dropdown-toggle ng-click="$event.stopPropagation()">
+    <i class="luna-gear" ng-class="{'luna-gear_disabled': menuButton.isDisabled}"></i>
   </button>
 
-  <button type="button" class="btn btn-default split-button">
+  <button type="button" class="btn btn-default split-button" ng-disabled="menuButton.isDisabled">
     <akam-menu-button-placeholder ng-non-bindable></akam-menu-button-placeholder>
   </button>
-  <button type="button" class="btn btn-default dropdown-toggle split-button" dropdown-toggle ng-click="$event.stopPropagation()">
-    <i class="caret-dropdown luna-arrow_smDown"></i>
+  <button type="button" class="btn btn-default dropdown-toggle split-button" ng-disabled="menuButton.isDisabled"
+          dropdown-toggle ng-click="$event.stopPropagation()">
+    <i class="caret-dropdown luna-arrow_smDown" ng-class="{'luna-arrow_smDown_disabled': menuButton.isDisabled}"></i>
   </button>
 
   <ul class="dropdown-menu" role="menu">

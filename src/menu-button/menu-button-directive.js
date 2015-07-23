@@ -5,7 +5,8 @@ const defaultActionSelector = 'akam-menu-button-placeholder',
   itemsSelector = 'akam-menu-button-item',
   itemsPlaceholderSelector = `${itemsSelector}-placeholder`,
   menuButtonSelector = '.menu-button',
-  splitButtonSelector = '.split-button';
+  splitButtonSelector = '.split-button',
+  smallClassName = 'small';
 
 function menuButton($compile) {
   return {
@@ -14,7 +15,8 @@ function menuButton($compile) {
     scope: {},
     bindToController: {
       position: '@',
-      size: '@'
+      size: '@',
+      isDisabled: '@'
     },
 
     // similar to data-table we have to manually compile the template and move some stuff around
@@ -68,9 +70,9 @@ function menuButton($compile) {
       items.replaceWith('');
 
       // add "small", "medium" or "large" classes for button as needed
-      if (scope.menuButton.size &&
-        ['small', 'large'].indexOf(scope.menuButton.size.toLowerCase()) !== -1) {
-        element.find('button').addClass(scope.menuButton.size.toLowerCase());
+      if (scope.menuButton.size && scope.menuButton.size.toLowerCase() === smallClassName) {
+        element.find('button').addClass(smallClassName);
+        element.find('ul').addClass(smallClassName);
       }
     },
 
