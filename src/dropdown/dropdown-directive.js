@@ -34,7 +34,8 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       textProperty: '@?',
       onChange: '&?',
       placeholder: '@?',
-      filterPlaceholder: '@?'
+      filterPlaceholder: '@?',
+      isDisabled: '=?'
     },
 
     template: function(tElem) {
@@ -137,6 +138,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         selectedScope.textProperty = scope.textProperty;
         selectedScope.clearSelectedItem = scope.clearSelectedItem;
         selectedScope.setOpen = scope.setOpen;
+        selectedScope.isDisabled = scope.isDisabled;
 
         selectedElem = $compile(selectedContentTemplate)(selectedScope);
       } else {

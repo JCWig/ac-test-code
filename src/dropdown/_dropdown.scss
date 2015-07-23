@@ -1,10 +1,12 @@
 $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
+$arrow-disabled-background: luna-sprite(arrow_smDown_disabled) center no-repeat;
 $selected-option-background-color: #f4f4f4;
 $dropdown-button-gradient: linear-gradient(to bottom, #fff, #e6e6e6);
 $dropdown-button-gradient-hover: linear-gradient(to bottom, #f4f4f4, #c8c8c8);
 $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
 $dropdown-selected-option-background-color: #f4f4f4;
 $dropdown-button-active-hover-border-color: #999;
+$dropdown-button-disabled-color: #e6e6e6;
 
 .dropdown-menu.append-body {
   position: absolute;
@@ -46,6 +48,7 @@ $dropdown-button-active-hover-border-color: #999;
     height: 28px;
     width: 100%;
 
+
     & > span {
       display: inline-block;
       border: 1px solid $border-color;
@@ -63,6 +66,22 @@ $dropdown-button-active-hover-border-color: #999;
       border-bottom-left-radius: $border-radius;
       @include box-shadow($input-box-shadow);
       @include ellipsis();
+
+      &.disabled {
+          background-color: $input-background-color-disabled;
+          border-color: $input-border-color-disabled;
+          box-shadow: none;
+          border-width: 0;
+          cursor: default;
+        span:first-child {
+          @include placeholder-enhanced($dropdown-button-disabled-color, italic);
+          color: $dropdown-button-disabled-color;
+        }
+        & + span {
+          border-width: 0;
+          cursor: default;
+        }
+      }
     }
 
     & > span:last-child {
