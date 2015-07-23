@@ -26,7 +26,7 @@ describe('akamai.components.dropdown', function() {
     inject(function($rootScope, _$compile_, $httpBackend, $timeout) {
       $scope = $rootScope;
       $compile = _$compile_;
- 
+
       $httpBackend.when('GET', util.LIBRARY_PATH).respond(translationMock);
       $httpBackend.when('GET', util.CONFIG_PATH).respond({});
       $httpBackend.flush();
@@ -166,6 +166,62 @@ describe('akamai.components.dropdown', function() {
       });
     });
   });
+  describe('given a is-disabled=false attribute added', function(){
+    describe('when the dropdown is rendered', function(){
+      describe('disabled state in dropdown-toggle element when value changes', function(){
+        beforeEach(function(){
+          $scope.selectedStateObj = {name: 'Colorado'};
+          $scope.stateStringsObjs = stateObjects;
+          $scope.onChange = jasmine.createSpy('on-change-spy');
+          $scope.disabled = false;
+          var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" is-disabled="disabled" items="stateStringsObjs"></akam-dropdown>';
+          addElement(dropdownTemplate);
+        });
+        it('dropdown-toggle element should not have disabled attribute', function(){
+          var toggleElem = document.querySelector('.dropdown-toggle');
+          expect(toggleElem.getAttribute('disabled')).toBe(null);
+        });
+
+        it('selected-option element should not have disabled class', function(){
+          var selectedElem = document.querySelector('.selected-option.disabled');
+          expect(selectedElem).toBe(null);
+        });
+      });
+    });
+  });
+
+  describe('given a is-disabled=true attribute added', function(){
+    describe('when the dropdown is rendered', function(){
+      describe('disabled state in dropdown-toggle element when value changes', function(){
+        beforeEach(function(){
+          $scope.selectedStateObj = {name: 'Colorado'};
+          $scope.stateStringsObjs = stateObjects;
+          $scope.onChange = jasmine.createSpy('on-change-spy');
+          $scope.disabled = true;
+          var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" is-disabled="disabled" items="stateStringsObjs"></akam-dropdown>';
+          addElement(dropdownTemplate);
+        });
+        it('dropdown-toggle elemtn should have disabled attribute', function(){
+          var toggleElem = document.querySelector('.dropdown-toggle');
+          expect(toggleElem.getAttribute('disabled')).toBe("disabled");
+        });
+
+        it('selected-option element should have disabled class', function(){
+          var selectedElem = document.querySelector('.selected-option.disabled');
+          expect(selectedElem).not.toBe(null);
+        });
+
+        it('should not open dropdown in the disabled state when click', function() {
+          timeout.flush();
+            var dropdown = util.find('.dropdown');
+            util.click('.dropdown-toggle');
+            $scope.$digest();
+            expect(dropdown.classList).not.toContain('open');
+        });
+      });
+    });
+  });
+
   describe('given a clearable attribute', function(){
     describe('when the dropdown is rendered', function(){
       describe('and some item is selected', function(){
