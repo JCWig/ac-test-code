@@ -17,6 +17,10 @@ label {
   border-radius: 0;
 }
 
+.form-control {
+  @include transition(none);
+}
+
 
 /* address labels */
 .form-horizontal {
@@ -102,11 +106,6 @@ label {
 /* status messages */
 .form-horizontal {
   position: relative;
-  
-  .akam-status-message-wrapper {
-    position: relative;
-    margin-bottom: 10px;
-  }
   
   .form-status-message {
     width: 100%;
