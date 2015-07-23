@@ -18,6 +18,11 @@ $dropdown-max-items: 8;
     @extend .dropdown-menu-left;
   }
 
+  // the gear icon here doesn't appear to vertically align correctly so we move it up
+  & > button.small > i.luna-gear {
+    margin-top: -2px;
+  }
+
   & > button > i {
     cursor: pointer;
     vertical-align: middle;
@@ -28,6 +33,12 @@ $dropdown-max-items: 8;
       cursor: default;
     }
   }
+
+  &.open > .btn-default.dropdown-toggle {
+    color: $button-text-color;
+    border-color: $dropdown-border-color-active;
+    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+  }
   
   &.open > button > i.luna-gear {
     @extend .luna-gear:hover;
@@ -35,9 +46,22 @@ $dropdown-max-items: 8;
 
 }
 
-// if we have a split button, make the dropdown menu be at least as wide as the split button
-// With a regular menu button (gear icon), the 160px minimum will likely apply
 .split-button {
+
+  // this renders the dark border when the split button is active.
+  &:first-of-type:active {
+    border-color: $dropdown-border-color-active;
+    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+
+    // ridiculous that this is needed but the dropdown has a -6px margin so we have to hack the
+    // split button's right border by coloring the left border for the adjacent caret button
+    & + .split-button {
+      border-left-color: $dropdown-border-color-active;
+    }
+  }
+
+  // if we have a split button, make the dropdown menu be at least as wide as the split button
+  // With a regular menu button (gear icon), the 160px minimum will likely apply
   + .dropdown-menu, + .dropdown-menu.small {
     min-width: 100%;
   }
