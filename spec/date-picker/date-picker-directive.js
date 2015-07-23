@@ -148,6 +148,28 @@ describe('akam-date-picker', function() {
     });
   });
 
+  describe('when is-disabled added', function() {
+    beforeEach(function() {
+      var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" no-clear is-disabled="disabled"></akam-date-picker></div>';
+      scope.disabled = false;
+      addElement(markup);
+    });
+
+    it('should date picker enabled when set to false', function() {
+      var inputDateField = document.querySelector('input');
+
+      expect(inputDateField.getAttribute('disabled')).toBe(null);
+    });
+
+    it('should date picker disabled when set to true', function() {
+      scope.disabled = true;
+      scope.$digest();
+      var inputDateField = document.querySelector('input');
+
+      expect(inputDateField.getAttribute('disabled')).toBe('disabled');
+    });
+  });
+
   describe('when interacting with the date picker', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" ng-change="mychange()"></akam-date-picker></div>';
@@ -529,6 +551,7 @@ describe('when given an i18n locale that does not exist', function() {
     }
     cookies.remove('AKALOCALE');
   });
+
   function addElement(markup) {
     self.el = compile(markup)(scope);
     scope.$digest();

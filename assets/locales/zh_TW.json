@@ -86,7 +86,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "Account Changed",
-            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?'"
         },
         "dropdown": {
             "placeholder": {
