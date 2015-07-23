@@ -32,6 +32,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
     scope: {
       items: '=',
       textProperty: '@?',
+      keyProperty: '=?',
       onChange: '&?',
       placeholder: '@?',
       filterPlaceholder: '@?',
@@ -50,7 +51,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
     link: function(scope, elem, attrs, ngModel) {
       var selectedScope, selectedContentTemplate, selectedElem,
         menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate, windowElement,
-        inputClick;
+        inputClick, itemSet = [];
 
       var appendToBody = typeof attrs.appendToBody !== 'undefined';
 
@@ -68,12 +69,30 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       scope.hasFilter = typeof attrs.filterable !== 'undefined';
       scope.isClearable = typeof attrs.clearable !== 'undefined';
 
+      if (typeof attrs.keyProperty !== 'undefined') {
+        scope.keyProperty = attrs.keyProperty;
+
+        angular.forEach(scope.items, function(item) {
+          if (!itemSet[item[attrs.keyProperty]]) {
+            itemSet[item[attrs.keyProperty]] = item;
+          } else {
+            throw new Error('Keys must be unique when using the key-property attribute');
+          }
+        });
+      }
+
       scope.filterProperty = attrs.filterable;
 
       scope.isOpen = false;
 
       scope.setSelectedItem = function(item) {
-        ngModel.$setViewValue(item);
+
+        if (scope.keyProperty) {
+          ngModel.$setViewValue(item[scope.keyProperty]);
+        } else {
+          ngModel.$setViewValue(item);
+
+        }
       };
       scope.clearSelectedItem = function($event) {
         $event.stopPropagation();
@@ -120,8 +139,12 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       scope.$watch(function() {
         return ngModel.$viewValue;
       }, function(modelValue) {
+        if (scope.keyProperty) {
+          scope.selectedItem = itemSet[modelValue];
+        } else {
+          scope.selectedItem = modelValue;
 
-        scope.selectedItem = modelValue;
+        }
         if (typeof selectedScope !== 'undefined') {
           selectedScope.selectedItem = modelValue;
         }

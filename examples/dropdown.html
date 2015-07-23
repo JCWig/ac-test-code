@@ -106,6 +106,7 @@
         </span>
 
     </div>
+    <br/>
     <div>
      <h2>Default dropdown with a list of strings appended to body</h2>
         <span class="util-hidden-overflow">
@@ -139,6 +140,17 @@
 
     </div>
     <br/>
+    <div>
+        <h2>Default dropdown with a list of objects with keys and a filter</h2>
+        <span>
+            <!--filterable="name"-->
+            <akam-dropdown ng-model="vm.ex8.selectedState" text-property="name" key-property="key"
+                           items="vm.stateObjectsWithKeys" clearable>
+            </akam-dropdown>
+        </span>
+    </div>
+    <br/>
+
 
     <script src="../dist/akamai-core.js"></script>
 
@@ -166,6 +178,20 @@
                 {name: 'Washington, District of Columbia'},
             ];
 
+            vm.stateObjectsWithKeys = [
+                {key: 'key1', name: 'Colorado'},
+                {key: 'key2', name: 'Connecticut'},
+                {key: 'key3', name: 'Maryland'},
+                {key: 'key4', name: 'Massachusetts'},
+                {key: 'key5', name: 'New Hampshire'},
+                {key: 'key6', name: 'New Jersey'},
+                {key: 'key7', name: 'New York'},
+                {key: 'key8', name: 'Vermont'},
+                {key: 'key9', name: 'Virginia'},
+                {key: 'key10', name: 'Washington, District of Columbia'},
+            ];
+
+
             vm.strings = [
                 'Colorado',
                 'Connecticut',
@@ -186,6 +212,7 @@
             vm.ex5 = { selectedState: undefined };
             vm.ex6 = { selectedState: undefined };
             vm.ex7 = { selectedState: undefined };
+            vm.ex8 = { selectedState: 'key9' };
 
             vm.doChange = function(item) {
                 $log.log('selected item changed', item);
