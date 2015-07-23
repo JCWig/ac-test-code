@@ -8,6 +8,8 @@
     <ul class="dropdown-menu">
         <li ng-repeat="item in items | filter:dropdownFilter">
             <a ng-click="setSelectedItem(item)">
+                <span ng-if="keyProperty" title="{{ item[keyProperty][textProperty] }}"
+                      ng-bind-html="item[keyProperty][textProperty] | highlight:dropdownFilter[filterProperty]"></span>
                 <span ng-if="textProperty" title="{{item[textProperty]}}"
                       ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
                 <span ng-if="!textProperty" title="{{item}}"
