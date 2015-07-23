@@ -107,4 +107,48 @@ label {
     position: relative;
     margin-bottom: 10px;
   }
+  
+  .form-status-message {
+    width: 100%;
+    padding: 1em 0;
+    margin: 0;
+    margin-bottom: 10px;
+    position: relative;
+    
+    &:before {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      position: absolute;
+      top: 50%;
+      @include translateY(-50%);
+    }
+    
+    &.error {
+      background-color: $colors__red4;
+      color: darken($colors__red4, 60%);
+      padding-left: luna-sprite-width(warning_red_red) * 3;
+      
+      &:before {
+        @include luna-sprite(warning_red_red);
+        width: luna-sprite-width(warning_red_red);
+        height: luna-sprite-height(warning_red_red);
+        left: luna-sprite-width(warning_red_red);
+      }
+    }
+    
+    &.success {
+      background-color: $colors__green3;
+      color: darken($colors__green3, 60%);
+      padding-left: luna-sprite-width(checkmark_green) * 3;
+      
+      &:before {
+        @include luna-sprite(checkmark_green);
+        width: luna-sprite-width(checkmark_green);
+        height: luna-sprite-height(checkmark_green);
+        left: luna-sprite-width(checkmark_green);
+      }
+    }
+  }
+
 }

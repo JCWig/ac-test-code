@@ -8,7 +8,7 @@ input[type="month"],
 input[type="number"],
 textarea {
 
-  &.ng-invalid.ng-dirty {
+  &.ng-invalid.ng-dirty.ng-touched {
     border-color: $colors__red3;
     border-width: 2px;
   }
@@ -19,7 +19,7 @@ input[type="search"],
 input[type="date"],
 input[type="month"] {
 
-  &.ng-invalid.ng-dirty {
+  &.ng-invalid.ng-dirty.ng-touched {
 
     & ~ .button,
     & ~ .btn {
@@ -37,7 +37,7 @@ input[type="month"] {
   margin-bottom: 10px;
 }
 
-.ng-invalid.ng-dirty ~ [ng-messages] {
+.ng-invalid.ng-dirty.ng-touched ~ [ng-messages] {
   display: block;
 }
 
