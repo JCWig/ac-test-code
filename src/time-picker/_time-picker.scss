@@ -20,15 +20,12 @@ $timepicker-input-disabled-color: #cccccc;
       > i {
         @include luna-sprite(time);
       }
+      &:disabled {
+        border-color: $button-border-color-disabled;
+      }
     }
     &:active {
       border-color: $button-border-color-hover;
-    }
-    &:disabled {
-      &:hover {
-        border-width: 0;
-      }
-
     }
   }
   & > input[type='text'] {
