@@ -1,3 +1,5 @@
+var angular = require('angular');
+
 module.exports = function($log) {
   return {
     restrict: 'E',
@@ -5,7 +7,7 @@ module.exports = function($log) {
     replace: true,
     scope: {
       header: '@',
-      isCollapsed: '=?',
+      notCollapsable: '=?',
       onToggle: '&?'
     },
     template: require('./templates/content-panel.tpl.html'),
@@ -32,8 +34,9 @@ module.exports = function($log) {
           }
         },
         post: function postLink(scope) {
-          scope.isCollapsed = !!scope.isCollapsed;
-          scope.$watch('isCollapsed', function(newValue, oldValue) {
+          scope.showExpandCollapse = angular.isDefined(scope.notCollapsable);
+          scope.notCollapsable = !!scope.notCollapsable;
+          scope.$watch('notCollapsable', function(newValue, oldValue) {
             if (newValue !== oldValue && typeof scope.onToggle === 'function') {
               scope.onToggle({value: newValue});
             }

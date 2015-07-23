@@ -38,7 +38,11 @@ module.exports = angular.module('akamai.components.content-panel', [
  *
  * @restrict E
  *
- * @param {Boolean} [collapsed=false] The panel's collapsed state.
+ * @param {Boolean} [notCollapsable=false] The panel's collapsed state. There are 3 states
+ * 1. notCollapsable = true, expanded icon shown
+ * 2. notCollapsable = false, collapsed icon shown
+ * 3. notCollapsable = undefined, not included in the directive attribute,
+ * the expand/collapse icon will be hidden
  * @param {String} [header] String to use as the panel header (optional)
  *
  */
