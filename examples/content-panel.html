@@ -12,27 +12,33 @@
             <div class="page-header">
                 <h1>Content Panel Component Example</h1>
             </div>
-            <h3>Panel Initially shows no expand or collapse icon:</h3>
+            <h3>Panel Initially shows expanded icon without using  is-collapsed:</h3>
             <akam-content-panel akam-standalone header="Header 1" on-toggle="process(value)">
                 <div>Panel Content</div>
                 <div>More Panel Content</div>
             </akam-content-panel>
             <br/>
-            <h3>Panel Initially Expanded:</h3>
-            <akam-content-panel akam-standalone not-collapsable="isCollapsed1" header="Header 1" on-toggle="process(value)">
+            <h3>Panel Initially shows no expanded/collapsed icon when using not-collapsable:</h3>
+            <akam-content-panel akam-standalone not-collapsable header="Header 1" on-toggle="process(value)">
+                <div>Panel Content</div>
+                <div>More Panel Content</div>
+            </akam-content-panel>
+            <br/>
+            <h3>Panel Initially Expanded when is-collapsed=false:</h3>
+            <akam-content-panel akam-standalone is-collapsed="isCollapsed1" header="Header 1" on-toggle="process(value)">
                 <div>Panel Content</div>
                 <div>More Panel Content</div>
             </akam-content-panel>
             <br />
             <h3>Panel Initially Collapsed:</h3>
-            <akam-content-panel akam-standalone  not-collapsable="isCollapsed2" on-toggle="process(value)" header="Content Panel Header Text - Example of a Longer Header Title">
+            <akam-content-panel akam-standalone  is-collapsed="isCollapsed2" on-toggle="process(value)" header="Content Panel Header Text - Example of a Longer Header Title">
                 <div>Second Panel Content</div>
                 <div>More Panel Content</div>
             </akam-content-panel>
             <br />
             <h3>Panel Group:</h3>
             <div class="panel-group">
-                <akam-content-panel ng-repeat="panel in panels" on-toggle="process(value)" header="{{panel.header}}" not-collapsable="panel.collapsed">
+                <akam-content-panel ng-repeat="panel in panels" on-toggle="process(value)" header="{{panel.header}}" is-collapsed="panel.collapsed">
                     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
                     3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
                     Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.

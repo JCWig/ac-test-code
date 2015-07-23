@@ -6,8 +6,8 @@ module.exports = function($log) {
     transclude: true,
     replace: true,
     scope: {
-      header: '@',
-      notCollapsable: '=?',
+      header: '@?',
+      isCollapsed: '=?',
       onToggle: '&?'
     },
     template: require('./templates/content-panel.tpl.html'),
@@ -34,9 +34,9 @@ module.exports = function($log) {
           }
         },
         post: function postLink(scope) {
-          scope.showExpandCollapse = angular.isDefined(scope.notCollapsable);
-          scope.notCollapsable = !!scope.notCollapsable;
-          scope.$watch('notCollapsable', function(newValue, oldValue) {
+          scope.showIcon = angular.isUndefined(tAttrs.notCollapsable);
+          scope.isCollapsed = scope.isCollapsed === true;
+          scope.$watch('isCollapsed', function(newValue, oldValue) {
             if (newValue !== oldValue && typeof scope.onToggle === 'function') {
               scope.onToggle({value: newValue});
             }
