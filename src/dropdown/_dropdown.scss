@@ -123,7 +123,7 @@ $dropdown-button-active-hover-border-color: #999;
     & ul.dropdown-menu {
       overflow-x: hidden;
       overflow-y: auto;
-      -ms-overflow-y: scroll;
+      -ms-overflow-y: auto;
 
       // fix for weird rendering issue when filtering in chrome
       a {
