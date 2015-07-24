@@ -276,19 +276,24 @@ module.exports = function ContextProvider() {
 
     // simple factory method to make a group from the context.json schema
     function makeGroup(parentGroup, data) {
-      var id = data.itemId, parents = [], p = parentGroup;
-
-      // calculate an array of all parents
-      while (p) {
-        parents.push(p);
-        p = p.parent;
-      }
+      var id = data.itemId;
 
       return {
         id: id,
         name: data.name,
         parent: parentGroup,
-        parents: parents,
+
+        // calculate an array of all parents
+        get parents() {
+          var p = parentGroup, parentArray = [];
+
+          while (p) {
+            parentArray.unshift(p);
+            p = p.parent;
+          }
+
+          return parentArray;
+        },
         properties: [],
         children: []
       };
