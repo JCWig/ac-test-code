@@ -16,19 +16,9 @@ $timepicker-input-disabled-color: #cccccc;
     }
     &:hover,
     &:focus {
-      border-color: $button-border-color-hover;
       > i {
         @include luna-sprite(time);
       }
-    }
-    &:active {
-      border-color: $button-border-color-hover;
-    }
-    &:disabled {
-      &:hover {
-        border-width: 0;
-      }
-
     }
   }
   & > input[type='text'] {
