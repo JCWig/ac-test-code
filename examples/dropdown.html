@@ -144,8 +144,8 @@
         <h2>Default dropdown with a list of objects with keys and a filter</h2>
         <span>
             <!--filterable="name"-->
-            <akam-dropdown ng-model="vm.ex8.selectedState" text-property="name" key-property="key"
-                           items="vm.stateObjectsWithKeys" clearable>
+            <akam-dropdown ng-model="vm.ex8.selectedState" text-property="state.name" key-property="state.key"
+                           items="vm.stateObjectsWithKeys" clearable filterable="name">
             </akam-dropdown>
         </span>
     </div>
@@ -179,18 +179,17 @@
             ];
 
             vm.stateObjectsWithKeys = [
-                {key: 'key1', name: 'Colorado'},
-                {key: 'key2', name: 'Connecticut'},
-                {key: 'key3', name: 'Maryland'},
-                {key: 'key4', name: 'Massachusetts'},
-                {key: 'key5', name: 'New Hampshire'},
-                {key: 'key6', name: 'New Jersey'},
-                {key: 'key7', name: 'New York'},
-                {key: 'key8', name: 'Vermont'},
-                {key: 'key9', name: 'Virginia'},
-                {key: 'key10', name: 'Washington, District of Columbia'},
+                {state: {key: 'key1', name: 'Colorado'}},
+                {state: {key: 'key2', name: 'Connecticut'}},
+                {state: {key: 'key3', name: 'Maryland'}},
+                {state: {key: 'key4', name: 'Massachusetts'}},
+                {state: {key: 'key5', name: 'New Hampshire'}},
+                {state: {key: 'key6', name: 'New Jersey'}},
+                {state: {key: 'key7', name: 'New York'}},
+                {state: {key: 'key8', name: 'Vermont'}},
+                {state: {key: 'key9', name: 'Virginia'}},
+                {state: {key: 'key10', name: 'Washington, District of Columbia'}}
             ];
-
 
             vm.strings = [
                 'Colorado',
