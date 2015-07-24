@@ -3,7 +3,7 @@ var debounce = require('lodash/function/debounce');
 
 require('angular-sanitize');
 
-module.exports = function($compile, dropdownTransformer, translate, $document, $timeout) {
+module.exports = function($compile, dropdownTransformer, translate, $document, $timeout, $parse) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
     var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
@@ -66,15 +66,20 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         menuScope = scope.$parent.$new();
       }
 
-      scope.hasFilter = typeof attrs.filterable !== 'undefined';
-      scope.isClearable = typeof attrs.clearable !== 'undefined';
+      scope.textPropertyFn = $parse(scope.textProperty);
 
-      if (typeof attrs.keyProperty !== 'undefined') {
+      scope.hasFilter = angular.isDefined(attrs.filterable);
+      scope.isClearable = angular.isDefined(attrs.clearable);
+
+      if (angular.isDefined(attrs.keyProperty)) {
         scope.keyProperty = attrs.keyProperty;
+        scope.keyPropertyFn = $parse(scope.keyProperty || 'id');
 
         angular.forEach(scope.items, function(item) {
-          if (!itemSet[item[attrs.keyProperty]]) {
-            itemSet[item[attrs.keyProperty]] = item;
+          var keyId = scope.keyPropertyFn(item);
+
+          if (!itemSet[keyId]) {
+            itemSet[keyId] = item;
           } else {
             throw new Error('Keys must be unique when using the key-property attribute');
           }
@@ -88,7 +93,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       scope.setSelectedItem = function(item) {
 
         if (scope.keyProperty) {
-          ngModel.$setViewValue(item[scope.keyProperty]);
+          ngModel.$setViewValue(scope.keyPropertyFn(item));
         } else {
           ngModel.$setViewValue(item);
 
@@ -176,6 +181,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         menuScope.setSelectedItem = scope.setSelectedItem;
         menuScope.hasFilter = scope.hasFilter;
         menuScope.filterProperty = scope.filterProperty;
+        menuScope.textPropertyFn = scope.textPropertyFn;
         menuScope.setOpen = scope.setOpen;
         menuScope.setInputAsClicked = scope.setInputAsClicked;
         menuElem = $compile(menuTemplate)(menuScope);
@@ -210,4 +216,5 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
   };
 };
 
-module.exports.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout'];
+module.exports.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout',
+                          '$parse'];
