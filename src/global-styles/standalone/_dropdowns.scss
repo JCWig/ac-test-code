@@ -64,6 +64,10 @@ $dropdown-max-items: 8;
     border-color: $dropdown-border-color-active;
   }
 
+  &:disabled {
+    border-color: $button-border-color-disabled;
+  }
+
   // this renders the dark border when the split button is active.
   &:first-of-type:active {
     border-color: $dropdown-border-color-active;
