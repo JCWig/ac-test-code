@@ -77,6 +77,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
 
         angular.forEach(scope.items, function(item) {
           var keyId = scope.keyPropertyFn(item);
+
           if (!itemSet[keyId]) {
             itemSet[keyId] = item;
           } else {
@@ -215,4 +216,5 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
   };
 };
 
-module.exports.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout', '$parse'];
+module.exports.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout',
+                          '$parse'];
