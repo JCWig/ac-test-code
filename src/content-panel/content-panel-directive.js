@@ -1,10 +1,12 @@
+var angular = require('angular');
+
 module.exports = function($log) {
   return {
     restrict: 'E',
     transclude: true,
     replace: true,
     scope: {
-      header: '@',
+      header: '@?',
       isCollapsed: '=?',
       onToggle: '&?'
     },
@@ -32,12 +34,20 @@ module.exports = function($log) {
           }
         },
         post: function postLink(scope) {
-          scope.isCollapsed = !!scope.isCollapsed;
+          scope.showIcon = angular.isUndefined(tAttrs.notCollapsable);
+          scope.isCollapsed = scope.isCollapsed === true;
           scope.$watch('isCollapsed', function(newValue, oldValue) {
             if (newValue !== oldValue && typeof scope.onToggle === 'function') {
               scope.onToggle({value: newValue});
             }
           });
+          scope.headerClick = function(e) {
+            if (scope.showIcon) {
+              scope.isCollapsed = !scope.isCollapsed;
+            }
+            e.preventDefault();
+            e.stopPropagation();
+          };
         }
       };
     }
