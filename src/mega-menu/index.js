@@ -4,8 +4,9 @@ var angular = require('angular'),
   header = require('./mega-menu-header-directive'),
   footer = require('./mega-menu-footer-directive');
 
-function run($window, $location, context, LUNA_GROUP_QUERY_PARAM) {
-  var qs = $location.search();
+function run($window, $location, $timeout,
+             context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
+  var qs = $location.search(), assetId;
 
   if (!context.isOtherContext()) {
     require('./utils/ga');
@@ -17,10 +18,18 @@ function run($window, $location, context, LUNA_GROUP_QUERY_PARAM) {
       throw Error('Required query param "' + LUNA_GROUP_QUERY_PARAM + '" missing from URL');
     } else {
       context.group = $window.parseInt(qs[LUNA_GROUP_QUERY_PARAM], 10);
+      assetId = $window.parseInt(qs[LUNA_ASSET_QUERY_PARAM], 10);
+
+      if (assetId) {
+        $timeout(function() {
+          context.property = assetId;
+        });
+      }
     }
   }
 }
-run.$inject = ['$window', '$location', 'context', 'LUNA_GROUP_QUERY_PARAM'];
+run.$inject = ['$window', '$location', '$timeout', 'context',
+  'LUNA_GROUP_QUERY_PARAM', 'LUNA_ASSET_QUERY_PARAM'];
 
 /**
  * @ngdoc overview
