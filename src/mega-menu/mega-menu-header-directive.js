@@ -32,6 +32,9 @@ module.exports = function($location, $q, context, $http,
   }
 
   // whenever group or property changes, update breadcrumbs
+  // items[0] is the current group
+  // items[1] is the current property.
+  // See the `watchGroup` statement below.
   function contextChanged(data) {
     $q.all(data).then(function(items) {
       if (items[1].id) {
