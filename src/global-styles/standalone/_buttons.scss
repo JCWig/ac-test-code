@@ -21,6 +21,10 @@
   @include background-image(linear-gradient($button-gradient-top, $button-gradient-bottom));
   @include box-sizing(border-box);
 
+  &.has-icon {
+    min-width: 0;
+  }
+
   &:hover {
     color: $button-text-color;
     border-color: $button-border-color-hover;

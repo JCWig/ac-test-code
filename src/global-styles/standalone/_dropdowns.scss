@@ -1,7 +1,10 @@
+@import '../uxd_colors';
+@import '../uxd_variables';
+@import '../variables';
+@import '../mixins';
 
 $dropdown-fixed-header-padding: 10px;
 $dropdown-max-items: 8;
-
 
 .dropdown {
   display: inline-block;
@@ -15,39 +18,104 @@ $dropdown-max-items: 8;
     @extend .dropdown-menu-left;
   }
 
-  & > i {
+  // the gear icon here doesn't appear to vertically align correctly so we move it up
+  & > button.small > i.luna-gear {
+    margin-top: -2px;
+  }
+
+  & > button > i {
     cursor: pointer;
     vertical-align: middle;
   }
+
+  & > button[disabled] {
+    > i, > li > a {
+      cursor: default;
+    }
+  }
+
+  &.open > .btn-default.dropdown-toggle {
+    color: $button-text-color;
+    border-color: $dropdown-border-color-active;
+    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+  }
   
-  &.open > i.luna-gear {
+  &.open > button > i.luna-gear {
     @extend .luna-gear:hover;
+  }
+
+}
+
+
+.menu-button {
+
+  &:active {
+    border-color: $dropdown-border-color-active;
+  }
+
+  &:disabled {
+    border-color: $button-border-color-disabled;
   }
 }
 
+.split-button {
+
+  &:active {
+    border-color: $dropdown-border-color-active;
+  }
+
+  &:disabled {
+    border-color: $button-border-color-disabled;
+  }
+
+  // this renders the dark border when the split button is active.
+  &:first-of-type:active {
+    border-color: $dropdown-border-color-active;
+    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+
+    // ridiculous that this is needed but the dropdown has a -6px margin so we have to hack the
+    // split button's right border by coloring the left border for the adjacent caret button
+    & + .split-button {
+      border-left-color: $dropdown-border-color-active;
+    }
+  }
+
+  // if we have a split button, make the dropdown menu be at least as wide as the split button
+  // With a regular menu button (gear icon), the 160px minimum will likely apply
+  + .dropdown-menu, + .dropdown-menu.small {
+    min-width: 100%;
+  }
+
+}
 
 .dropdown-menu {
   padding: 0;
   border-radius: 0;
-  margin-top: 0;
+  margin-top: -1px;
   overflow-x: auto;
   max-height: #{$dropdown-item-line-height * $dropdown-max-items};
-  max-width: 100%;
   @include box-shadow(0 2px 4px 0 rgba(0, 0, 0, .25));
+
+  &.small {
+    min-width: 120px;
+
+    > li > a {
+      line-height: $dropdown-item-line-height-small;
+      font-size: $button-text-size-small;
+    }
+  }
+
 
   > li > a,
   > .fixed-header {
-    padding: 0;
-    padding-left: $dropdown-item-left-padding;
-    padding-right: $dropdown-item-right-padding;
+    padding: 0 $dropdown-item-right-padding 0 $dropdown-item-left-padding;
     line-height: $dropdown-item-line-height;
-    @include ellipsis();
 
     &:not(.fixed-header):active {
       background-color: $dropdown-link-active-bg;
     }
   }
-  
+
   .fixed-header {
     line-height: 1;
     padding: $dropdown-fixed-header-padding;
@@ -57,7 +125,7 @@ $dropdown-max-items: 8;
 
 div.dropdown-menu {
   max-height: #{($dropdown-item-line-height * ($dropdown-max-items - 1)) + ($dropdown-fixed-header-padding * 2) + ($input-height) + 2};
-  
+
   > ul.dropdown-menu {
     display: block;
     position: static;
