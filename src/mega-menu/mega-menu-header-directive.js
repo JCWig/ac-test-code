@@ -16,9 +16,15 @@ var template = require('./header/header.html'),
 module.exports = function($location, $q, context, $http,
                           LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
 
-  function renderMenu() {
+  function renderMenu(property) {
+    let tabs = 'grp.json';
+
+    if (property.id) {
+      tabs = 'asset.json';
+    }
+
     config(function(data) {
-      $http.get('/ui/services/nav/megamenu/' + encodeURIComponent(data.username) + '/grp.json')
+      $http.get(`/ui/services/nav/megamenu/${encodeURIComponent(data.username)}/${tabs}`)
         .then(function(response) {
           menu.render(response.data);
         });
@@ -33,7 +39,7 @@ module.exports = function($location, $q, context, $http,
       } else {
         breadcrumbs.render(items[0]);
       }
-      renderMenu();
+      renderMenu(items[1]);
       updateLocation(items[0].id, items[1].id);
     });
   }
