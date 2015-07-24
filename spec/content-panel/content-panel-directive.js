@@ -356,8 +356,11 @@ describe('akam-content-panel', function() {
       addElement(markup);
 
       var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+      var headerDiv = document.querySelector(PANEL_HEADER);
 
       expect(headerIcon.classList.contains('ng-hide')).toBe(true);
+      expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
+      expect(headerDiv.classList.contains('util-clickable')).not.toBe(true);
     });
   });
 });
