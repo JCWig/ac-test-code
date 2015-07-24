@@ -88,11 +88,10 @@ module.exports = function($provide) {
           }
 
           // 42 is the number of days on a six-month calendar
-          var days = getDates(firstDate, 42),
-            toBeExtended, m;
+          var days = getDates(firstDate, 42), m;
           for (var i = 0; i < 42; i++) {
             m = days[i].getMonth();
-            if (m===0) {//01/2016 will 0 month value, not sure why
+            if (m === 0) {//01/2016 will 0 month value, not sure why
               m = 12;
             }
             days[i] = angular.extend(ctrl.createDateObject(days[i], ctrl.formatDay), {

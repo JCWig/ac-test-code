@@ -3,60 +3,74 @@ $date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
 $date-range-in-range-color: #666666;
 $date-range-in-range-background-color: #CEE7FF;
 .akam-date-picker.akam-date-range {
-  position: relative;
-  input {
-    &::-ms-clear {
-      display: none;
+    position: relative;
+    input {
+        &::-ms-clear {
+            display: none;
+        }
+        &:disabled {
+            @include placeholder-enhanced($date-range-disabled-color, italic);
+            color: $date-range-disabled-color;
+            cursor: default;
+        }
     }
-    &:disabled {
-      @include placeholder-enhanced($date-range-disabled-color, italic);
-      color: $date-range-disabled-color;
-      cursor: default;
+    & span.range-start {
+        position: absolute;
+        ul.dropdown-menu {
+            //min-width: 225px;
+            border-right: none;
+            @include border-right-radius(0);
+        }
     }
-  }
-  & span.rangeStart {
-    position: absolute;
+    & span.range-end {
+        position: absolute;
+        margin-left: 224px;
+        ul.dropdown-menu {
+            min-width: 225px;
+            border-left: none;
+            @include border-left-radius(0);
+            @include box-shadow($date-range-boxshadow);
+        }
+    }
+    & span.range-selected {
+        > span {
+            height: $input-height;
+            padding: 6px $input-padding;
+            background-color: $input-background-color;
+            border: 1px solid $border-color;
+            border-radius: $border-radius;
+            &:first-child {
+                color: red;
+            }
+            &:last-child {
+                color: lime;
+            }
+        }
+    }
     ul.dropdown-menu {
-      //min-width: 225px;
-      border-right: none;
-      @include border-right-radius(0);
+        min-width: 450px;
+        table {
+            //min-width: 400px;
+            width: 100%;
+            td.space {
+                width: 5%;
+                border-width: 0;
+            }
+        }
     }
-  }
-  & span.rangeEnd {
-    position: absolute;
-    margin-left: 224px;
-    ul.dropdown-menu {
-      min-width: 225px;
-      border-left: none;
-      @include border-left-radius(0);
-      @include box-shadow($date-range-boxshadow);
+    table tbody td button {
+        &.in-range {
+            color: $date-range-in-range-color;
+            background-color: $date-range-in-range-background-color;
+        }
+        span.text-info {
+            -webkit-box-shadow: inset 0px 0px 0px 2px #0099CC;
+            -moz-box-shadow: inset 0px 0px 0px 2px #0099CC;
+            box-shadow: inset 0px 0px 0px 2px #0099CC;
+            background-color: $button-primary-text-color!important;
+        }
     }
-  }
-  ul.dropdown-menu {
-    min-width: 450px;
-    table {
-      //min-width: 400px;
-      width: 100%;
-
-      td.space {
-        width: 5%;
-        border-width: 0;
-      }
+    ul.dropdown-menu tbody td {
+        height: 23px;
     }
-  }
-  table tbody td button {
-    &.in-range {
-      color: $date-range-in-range-color;
-      background-color: $date-range-in-range-background-color;
-    }
-    span.text-info {
-      -webkit-box-shadow: inset 0px 0px 0px 2px #0099CC;
-      -moz-box-shadow: inset 0px 0px 0px 2px #0099CC;
-      box-shadow: inset 0px 0px 0px 2px #0099CC;
-      background-color: $button-primary-text-color!important;
-    }
-  }
-  ul.dropdown-menu tbody td {
-    height: 23px;
-  }
 }

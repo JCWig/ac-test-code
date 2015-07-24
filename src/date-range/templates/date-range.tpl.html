@@ -1,5 +1,5 @@
 <div class="akam-date-range akam-date-picker day" ng-class="{opened:dr.opened}">
-  <span class="rangeStart" ng-class="{rangSelected: dr.rangeSelected}">
+  <span class="range-start">
     <input
       id="{{::dr.rangeStart.id}}"
       type="text"
@@ -25,8 +25,11 @@
         ng-disabled="dr.isDisabled">
       </i>
     </button>
-    <span>{{dr.rangeStart.selectedValue}}</span>
-  <span>{{dr.rangeEnd.selectedValue}}</span>
-  <span>{{dr.rangeStart.maxDate}}</span>
+    <span class="range-selected" ng-class="{'range-selected': dr.rangeSelected}">
+      <span ng-if="dr.rangeStart.selectedValue">{{dr.rangeStart.selectedValue}}</span>
+      <span ng-if="dr.rangeEnd.selectedValue">{{dr.rangeEnd.selectedValue}}</span>
+      <span ng-if="!dr.rangeStart.selectedValue">{{::dr.rangeStart.placeholder}}</span>
+      <span ng-if="!dr.rangeEnd.selectedValue">{{::dr.rangeEnd.placeholder}}</span>
+    </span>
   </span>
 </div>

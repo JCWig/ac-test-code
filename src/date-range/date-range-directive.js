@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
+module.exports = function(translate, uuid, $log, $timeout, drService) {
 
   var config = {
     options: {
@@ -27,7 +27,8 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
     var d = new Date();
 
     this.opened = false;
-    this.rangeStart = this.rangeEnd = {};
+    this.rangeStart = {};
+    this.rangeEnd = {};
     this.rangeStart.selectedValue = this.rangeEnd.selectedValue = '';
     this.rangeSelected = false;
 
@@ -188,4 +189,4 @@ module.exports = function(translate, uuid, $log, $filter, $timeout, drService) {
   };
 };
 
-module.exports.$inject = ['translate', 'uuid', '$log', '$filter', '$timeout', 'dateRangeService'];
+module.exports.$inject = ['translate', 'uuid', '$log', '$timeout', 'dateRangeService'];

@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function($filter) {
+module.exports = function($filter, $parse) {
 
   /**
    * filterDate filter any date with given format
@@ -144,4 +144,4 @@ module.exports = function($filter) {
 
 };
 
-module.exports.$inject = ['$filter'];
+module.exports.$inject = ['$filter', '$parse'];
