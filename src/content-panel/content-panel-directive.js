@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function($log) {
+module.exports = function($log, $compile) {
   return {
     restrict: 'E',
     transclude: true,
@@ -15,7 +15,7 @@ module.exports = function($log) {
       //If the header attribute is not specified, assume
       // the developer provided their own akam-content-panel-header
       // and akam-content-panel-body inner directives.
-      if ( !tAttrs.header ) {
+      if (!tAttrs.header) {
         tElement.empty();
       }
 
@@ -23,10 +23,10 @@ module.exports = function($log) {
         pre: function preLink(scope, iElement, iAttrs, controller, transclude) {
           var hasHeaderTranscluded;
 
-          //This is essentially the same as if this directive's template had
-          // ng-transclude on the root element.
-          if ( !iAttrs.header ) {
+          if (!iAttrs.header) {
             iElement.append(transclude());
+            $compile(iElement)(scope);
+
             hasHeaderTranscluded = !!iElement[0].querySelector('.panel-heading');
             if (!hasHeaderTranscluded) {
               $log.error('No "akam-content-panel-header" tag found. Header will not render.');
@@ -34,15 +34,19 @@ module.exports = function($log) {
           }
         },
         post: function postLink(scope) {
-          scope.showIcon = angular.isUndefined(tAttrs.notCollapsable);
+          scope.collapsable = angular.isUndefined(tAttrs.notCollapsable);
           scope.isCollapsed = scope.isCollapsed === true;
+
           scope.$watch('isCollapsed', function(newValue, oldValue) {
             if (newValue !== oldValue && typeof scope.onToggle === 'function') {
-              scope.onToggle({value: newValue});
+              scope.onToggle({
+                value: newValue
+              });
             }
           });
+
           scope.headerClick = function(e) {
-            if (scope.showIcon) {
+            if (scope.collapsable) {
               scope.isCollapsed = !scope.isCollapsed;
             }
             e.preventDefault();
@@ -54,4 +58,4 @@ module.exports = function($log) {
   };
 };
 
-module.exports.$inject = ['$log'];
+module.exports.$inject = ['$log', '$compile'];

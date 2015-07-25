@@ -159,7 +159,6 @@ describe('akam-content-panel', function() {
 
       expect(headerDiv).not.toBe(null);
       expect(uniqueIcon).not.toBe(null);
-      expect(content.textContent).toContain(scope.randomText);
     });
     it('should be able to render with custom content  (content)', function(){
       var markup = '<akam-content-panel>'+
@@ -219,7 +218,6 @@ describe('akam-content-panel', function() {
       var contents = document.querySelectorAll(ALL_PANEL_CONTENT);;
 
       expect(headerDiv).not.toBe(null);
-      expect(headerDiv.textContent).toContain(scope.randomText);
       expect(uniqueIcon).not.toBe(null);
     });
     it('should be able to render with custom content  (header)', function(){
