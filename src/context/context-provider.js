@@ -229,7 +229,7 @@ module.exports = function ContextProvider() {
           // determine if the current property is contained within the current group
           match = property.group.parents.filter(function(p) {
             return p.id === group.id;
-          }).length;
+          }).length || property.group.id === group.id;
 
           // change group to be the direct parent of the current property
           if (!match) {
