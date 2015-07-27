@@ -25,7 +25,8 @@ $panel-body-wrapper-padding: 17px 15px;
     }
   }
 
-  .panel-title, .panel-title-pull-left {
+  .panel-title {
+    padding-left: 15px;
     font-size: 16px;
     margin-bottom: -2px;
     & > a {
@@ -33,8 +34,8 @@ $panel-body-wrapper-padding: 17px 15px;
     }
   }
 
-  .panel-title {
-    padding-left: 15px;
+  .panel-title:not(.is-collapsable) {
+    padding-left: 0;
   }
 
   .panel-body {
