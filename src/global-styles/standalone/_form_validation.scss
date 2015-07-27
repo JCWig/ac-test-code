@@ -12,16 +12,6 @@ textarea {
     border-color: $colors__red3;
     border-width: 2px;
   }
-  
-  &.ng-valid.ng-dirty.ng-touched {
-    
-    &:focus {
-      border-color: $colors__green2;
-      border-width: 2px;
-    }
-  }
-
-
 }
 
 input[type="search"],
@@ -35,7 +25,6 @@ input[type="month"] {
       border-left-color: $colors__red3;
     }
   }
-
 }
 
 [ng-messages] { 
