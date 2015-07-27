@@ -256,5 +256,10 @@
     "examples.autocomplete.search.states": "Search States",
     "examples.appNames.tq": "Tranquility",
     "examples.appNames.bc": "Billing Center",
-    "examples.appNames.pm": "Property Manager"
+    "examples.appNames.pm": "Property Manager",
+    "examples.datepicker.choose.date": "Choose Date",
+    "examples.datepicker.choose.month": "Choose Month",
+    "examples.switchbutton.custom.allow": "Allow",
+    "examples.switchbutton.custom.deny": "Deny",
+    "examples.dropdown.select.one": "Select One"
 }
