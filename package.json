@@ -29,6 +29,7 @@
     "angular-messages": "~1.4.3",
     "angular-sanitize": "~1.4.3",
     "angular-translate": "^2.7.2",
+    "angular-ui-router": "^0.2.15",
     "moment": "^2.10.3"
   },
   "devDependencies": {
