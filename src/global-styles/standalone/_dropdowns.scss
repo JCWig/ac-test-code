@@ -80,6 +80,19 @@ $dropdown-max-items: 8;
     }
   }
 
+  // TODO: this is slightly brittle as it copies the .btn styles
+  &:first-of-type:disabled {
+    cursor: default;
+    opacity: 1;
+    background: $button-background-color-disabled;
+    border-color: $button-border-color-disabled;
+    color: $button-text-color-disabled;
+
+    & + .split-button {
+      border-left-color: $button-border-color-disabled;
+    }
+  }
+
   // if we have a split button, make the dropdown menu be at least as wide as the split button
   // With a regular menu button (gear icon), the 160px minimum will likely apply
   + .dropdown-menu, + .dropdown-menu.small {
