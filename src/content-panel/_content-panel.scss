@@ -25,13 +25,16 @@ $panel-body-wrapper-padding: 17px 15px;
     }
   }
 
-  .panel-title {
-    padding-left: 15px;
+  .panel-title, .panel-title-pull-left {
     font-size: 16px;
     margin-bottom: -2px;
     & > a {
       text-decoration: none;
     }
+  }
+
+  .panel-title {
+    padding-left: 15px;
   }
 
   .panel-body {

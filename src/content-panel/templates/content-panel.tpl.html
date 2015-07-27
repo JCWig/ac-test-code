@@ -1,6 +1,6 @@
 <div class="akam-content-panel panel panel-default">
   <akam-content-panel-header>
-    <h3 class="panel-title">{{header}}</h3>
+    <h3 ng-class="{'panel-title': collapsable, 'panel-title-pull-left': !collapsable}">{{header}}</h3>
   </akam-content-panel-header>
   <akam-content-panel-body>
     <div ng-transclude/>

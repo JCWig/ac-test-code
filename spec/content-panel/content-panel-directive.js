@@ -116,7 +116,7 @@ describe('akam-content-panel', function() {
         header: 'Header 3',
         collapsed: false
       }];
-      var markup = '<div class ="panel-group"><akam-content-panel ng-repeat="panel in panels" header="{{panel.header}}" not-collapsable="panel.collapsed">' +
+      var markup = '<div class ="panel-group"><akam-content-panel ng-repeat="panel in panels" header="{{panel.header}}">' +
         '<div>Gandalf the Grey</div><div>Gandalf the White</div>' +
         '</akam-content-panel></div>'
       addElement(markup);
@@ -390,7 +390,7 @@ describe('akam-content-panel', function() {
       addElement(markup);
 
       var headerIcon = document.querySelector(PANEL_HEADER_ICON);
-      var headerDiv = document.querySelector(PANEL_HEADER);
+      var headerDiv = document.querySelector(PANEL_HEADER + "-pull-left");
 
       expect(headerIcon.classList.contains('ng-hide')).toBe(true);
       expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
