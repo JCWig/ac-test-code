@@ -26,6 +26,7 @@ describe('akam-content-panel', function() {
       self.element = null;
     }
   });
+
   function addElement(markup) {
     self.el = compile(markup)(scope);
     scope.$digest();
@@ -72,7 +73,7 @@ describe('akam-content-panel', function() {
     });
     it('should be able to render without a header', function() {
       scope.isCollapsed = true;
-      spyOn(log,"error");
+      spyOn(log, "error");
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()">' +
         '<div>Gandalf the Grey</div><div>Gandalf the White</div>' +
         '</akam-content-panel>'
@@ -97,7 +98,7 @@ describe('akam-content-panel', function() {
     });
     it('should be able to render without content or header', function() {
       scope.isCollapsed = true;
-      spyOn(log,"error");
+      spyOn(log, "error");
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()">' +
         '</akam-content-panel>'
       addElement(markup);
@@ -105,11 +106,16 @@ describe('akam-content-panel', function() {
       expect(log.error).toHaveBeenCalled();
     });
     it('should be able to render multiple content panels', function() {
-      scope.panels = [
-        {header: 'Header 1', collapsed: false},
-        {header: 'Header 2', collapsed: true},
-        {header: 'Header 3', collapsed: false}
-      ];
+      scope.panels = [{
+        header: 'Header 1',
+        collapsed: false
+      }, {
+        header: 'Header 2',
+        collapsed: true
+      }, {
+        header: 'Header 3',
+        collapsed: false
+      }];
       var markup = '<div class ="panel-group"><akam-content-panel ng-repeat="panel in panels" header="{{panel.header}}" not-collapsable="panel.collapsed">' +
         '<div>Gandalf the Grey</div><div>Gandalf the White</div>' +
         '</akam-content-panel></div>'
@@ -129,7 +135,7 @@ describe('akam-content-panel', function() {
       var header3 = headerDivs[2].textContent;
 
       expect(headerDivs.length).toEqual(3);
-      expect(contents.length).toEqual(9);//2 divs in each content-panel + headers
+      expect(contents.length).toEqual(9); //2 divs in each content-panel + headers
       expect(contentWrappers.length).toEqual(3);
       expect(headerIcons.length).toEqual(3);
 
@@ -141,16 +147,16 @@ describe('akam-content-panel', function() {
       expect(header2).toMatch(/Header 2/);
       expect(header3).toMatch(/Header 3/);
     });
-    it('should be able to render with custom content with only text node (content)', function(){
+    it('should be able to render with custom content with only text node (content)', function() {
       scope.randomText = "Here is some random text"
-      var markup = '<akam-content-panel>'+
-                '<akam-content-panel-header>'+
-                    '<i class="luna-world_map"></i> Custom Header'+
-                '</akam-content-panel-header>'+
-                '<akam-content-panel-body>'+
-                    '{{randomText}}'+
-                '</akam-content-panel-body>'+
-            '</akam-content-panel>';
+      var markup = '<akam-content-panel>' +
+        '<akam-content-panel-header>' +
+        '<i class="luna-world_map"></i> Custom Header' +
+        '</akam-content-panel-header>' +
+        '<akam-content-panel-body>' +
+        '{{randomText}}' +
+        '</akam-content-panel-body>' +
+        '</akam-content-panel>';
       addElement(markup);
 
       var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
@@ -160,15 +166,15 @@ describe('akam-content-panel', function() {
       expect(headerDiv).not.toBe(null);
       expect(uniqueIcon).not.toBe(null);
     });
-    it('should be able to render with custom content  (content)', function(){
-      var markup = '<akam-content-panel>'+
-                '<akam-content-panel-header>'+
-                    '<i class="luna-world_map"></i> Custom Header'+
-                '</akam-content-panel-header>'+
-                '<akam-content-panel-body>'+
-                    '<span class="uniqueContent" Panel content </span>'+
-                '</akam-content-panel-body>'+
-            '</akam-content-panel>';
+    it('should be able to render with custom content  (content)', function() {
+      var markup = '<akam-content-panel>' +
+        '<akam-content-panel-header>' +
+        '<i class="luna-world_map"></i> Custom Header' +
+        '</akam-content-panel-header>' +
+        '<akam-content-panel-body>' +
+        '<span class="uniqueContent"> Panel content </span>' +
+        '</akam-content-panel-body>' +
+        '</akam-content-panel>';
       addElement(markup);
 
       var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
@@ -176,19 +182,21 @@ describe('akam-content-panel', function() {
       var uniqueContent = document.querySelector('.uniqueContent');
 
       expect(headerDiv).not.toBe(null);
+      expect(headerDiv.textContent.trim()).toBe("Custom Header");
       expect(uniqueIcon).not.toBe(null);
       expect(uniqueContent).not.toBe(null);
+      expect(uniqueContent.textContent.trim()).toBe("Panel content");
     });
-    it('should be able to render with custom content with multiple root nodes (content)' , function(){
-      var markup = '<akam-content-panel>'+
-                '<akam-content-panel-header>'+
-                    '<i class="luna-world_map"></i> Custom Header'+
-                '</akam-content-panel-header>'+
-                '<akam-content-panel-body>'+
-                    '<span class="uniqueContent" Panel content </span>'+
-                    '<span class="uniqueContent2" Panel content 2 </span>'+
-                '</akam-content-panel-body>'+
-            '</akam-content-panel>';
+    it('should be able to render with custom content with multiple root nodes (content)', function() {
+      var markup = '<akam-content-panel>' +
+        '<akam-content-panel-header>' +
+        '<i class="luna-world_map"></i> Custom Header' +
+        '</akam-content-panel-header>' +
+        '<akam-content-panel-body>' +
+        '<span class="uniqueContent"> Panel content </span>' +
+        '<span class="uniqueContent2"> Panel content 2 </span>' +
+        '</akam-content-panel-body>' +
+        '</akam-content-panel>';
       addElement(markup);
 
       var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
@@ -199,18 +207,20 @@ describe('akam-content-panel', function() {
       expect(headerDiv).not.toBe(null);
       expect(uniqueIcon).not.toBe(null);
       expect(uniqueContent1).not.toBe(null);
+      expect(uniqueContent1.textContent.trim()).toBe("Panel content");
       expect(uniqueContent2).not.toBe(null);
+      expect(uniqueContent2.textContent.trim()).toBe("Panel content 2");
     });
-    it('should be able to render with custom content with only text node (header)', function(){
+    it('should be able to render with custom content with only text node (header)', function() {
       scope.randomText = "Here is some random text"
-      var markup = '<akam-content-panel>'+
-                '<akam-content-panel-header>'+
-                    '{{randomText}}'+
-                '</akam-content-panel-header>'+
-                '<akam-content-panel-body>'+
-                    '<i class="luna-world_map"></i> Custom Header'+
-                '</akam-content-panel-body>'+
-            '</akam-content-panel>';
+      var markup = '<akam-content-panel>' +
+        '<akam-content-panel-header>' +
+        '{{randomText}}' +
+        '</akam-content-panel-header>' +
+        '<akam-content-panel-body>' +
+        '<i class="luna-world_map"></i> Custom Header' +
+        '</akam-content-panel-body>' +
+        '</akam-content-panel>';
       addElement(markup);
 
       var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
@@ -218,17 +228,18 @@ describe('akam-content-panel', function() {
       var contents = document.querySelectorAll(ALL_PANEL_CONTENT);;
 
       expect(headerDiv).not.toBe(null);
+      expect(headerDiv.textContent.trim()).toBe(scope.randomText);
       expect(uniqueIcon).not.toBe(null);
     });
-    it('should be able to render with custom content  (header)', function(){
-      var markup = '<akam-content-panel>'+
-                '<akam-content-panel-header>'+
-                    '<span class="uniqueContent" Panel content </span>'+
-                '</akam-content-panel-header>'+
-                '<akam-content-panel-body>'+
-                    '<i class="luna-world_map"></i> Custom Header'+
-                '</akam-content-panel-body>'+
-            '</akam-content-panel>';
+    it('should be able to render with custom content  (header)', function() {
+      var markup = '<akam-content-panel>' +
+        '<akam-content-panel-header>' +
+        '<span class="uniqueContent"> Panel content </span>' +
+        '</akam-content-panel-header>' +
+        '<akam-content-panel-body>' +
+        '<i class="luna-world_map"></i> Custom Header' +
+        '</akam-content-panel-body>' +
+        '</akam-content-panel>';
       addElement(markup);
 
       var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
@@ -239,16 +250,16 @@ describe('akam-content-panel', function() {
       expect(uniqueIcon).not.toBe(null);
       expect(uniqueContent).not.toBe(null);
     });
-    it('should be able to render with custom content with multiple root nodes (header)' , function(){
-      var markup = '<akam-content-panel>'+
-                '<akam-content-panel-header>'+
-                    '<span class="uniqueContent" Panel content </span>'+
-                    '<span class="uniqueContent2" Panel content 2 </span>'+
-                '</akam-content-panel-header>'+
-                '<akam-content-panel-body>'+
-                    '<i class="luna-world_map"></i> Custom Header'+
-                '</akam-content-panel-body>'+
-            '</akam-content-panel>';
+    it('should be able to render with custom content with multiple root nodes (header)', function() {
+      var markup = '<akam-content-panel>' +
+        '<akam-content-panel-header>' +
+        '<span class="uniqueContent"> Panel content </span>' +
+        '<span class="uniqueContent2"> Panel content 2 </span>' +
+        '</akam-content-panel-header>' +
+        '<akam-content-panel-body>' +
+        '<i class="luna-world_map"></i> Custom Header' +
+        '</akam-content-panel-body>' +
+        '</akam-content-panel>';
       addElement(markup);
 
       var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
@@ -261,6 +272,31 @@ describe('akam-content-panel', function() {
       expect(uniqueContent1).not.toBe(null);
       expect(uniqueContent2).not.toBe(null);
     });
+  });
+  it('should be able to render with custom header and body content and can be expanded and collapsable', function() {
+    var markup = '<akam-content-panel>' +
+      '<akam-content-panel-header>' +
+      '<span class="uniqueContent"> Custom Header </span>' +
+      '</akam-content-panel-header>' +
+      '<akam-content-panel-body>' +
+      '<i class="luna-world_map"></i> Panel content' +
+      '</akam-content-panel-body>' +
+      '</akam-content-panel>';
+    addElement(markup);
+
+    var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
+    var contentWrapper = document.querySelector(PANEL_CONTENT_WRAPPER);
+    var headerContent = document.querySelector(PANEL_HEADER_WRAPPER);
+    var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+
+    expect(contentWrapper.textContent.trim()).toBe('Panel content');
+    expect(headerContent.textContent.trim()).toBe('Custom Header');
+    //expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
+
+    utilities.click(headerIcon);
+    scope.$digest();
+
+    //expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(false);
   });
   describe('when rendered', function() {
     it('should be able to toggle visibility of content', function() {
