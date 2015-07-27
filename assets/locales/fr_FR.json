@@ -1,8 +1,8 @@
 {
     "components": {
         "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
+            "accountChangedTitle": "Account Changed"
         },
         "menu-button": {
             "label": "Étiquette"
@@ -59,9 +59,6 @@
             "offLabel": "Off"
         },
         "dialog": {},
-        "autocomplete": {
-            "search-tip": "Type in text to display matching results"
-        },
         "error": {
             "validation": {},
             "data": "Un problème s&apos;est produit lors du chargement des données."
@@ -111,6 +108,13 @@
             },
             "successMessage": "The action has been completed.",
             "errorMessage": "The action can't be completed."
+        },
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "tag-input": {
+            "placeholder": "Select Items",
+            "taggingLabel": "(new item)"
         }
     }
 }

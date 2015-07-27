@@ -1,11 +1,35 @@
-<span class="akam-menu-button dropdown" ng-class="position" data-dropdown>
-    <i class="luna-gear icon-states" ng-if="iconOnly" data-dropdown-toggle
-       ng-click="$event.stopPropagation()"></i>
-    <button type="button" class="btn dropdown-toggle" ng-if="!iconOnly" data-dropdown-toggle
-            ng-click="$event.stopPropagation()">
-      <span ng-if="label" class="label">{{ label }}</span> <i
-      class="caret-dropdown luna-arrow_smDown"></i>
-    </button>
-    <ul class="dropdown-menu" role="menu" ng-transclude>
-    </ul>
-</span>
+<div class="akam-menu-button dropdown" ng-class="::menuButton.position" dropdown>
+
+  <button type="button"
+          class="btn btn-default dropdown-toggle menu-button"
+          ng-class="::menuButton.size"
+          ng-disabled="menuButton.isDisabled"
+          ng-click="$event.stopPropagation()"
+          ng-if="::!menuButton.defaultText"
+          dropdown-toggle>
+    <i class="luna-gear" ng-class="{'luna-gear_disabled': menuButton.isDisabled}"></i>
+  </button>
+
+  <button type="button" class="btn btn-default split-button"
+          ng-class="::menuButton.size"
+          ng-disabled="menuButton.isDisabled"
+          ng-click="menuButton.onClick()"
+          ng-if="::menuButton.defaultText"
+          akam-translate="{{ ::menuButton.defaultText }}">
+  </button>
+  <button type="button"
+          class="btn btn-default dropdown-toggle split-button"
+          ng-class="::menuButton.size"
+          ng-disabled="menuButton.isDisabled"
+          ng-click="$event.stopPropagation()"
+          ng-if="::menuButton.defaultText"
+          dropdown-toggle>
+    <i class="caret-dropdown luna-arrow_smDown" ng-class="{'luna-arrow_smDown_disabled': menuButton.isDisabled}"></i>
+  </button>
+
+  <ul class="dropdown-menu"
+      ng-class="::menuButton.size"
+      role="menu"
+      ng-transclude>
+  </ul>
+</div>

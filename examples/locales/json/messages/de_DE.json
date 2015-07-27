@@ -240,5 +240,6 @@
     "examples.wizard.step2": "Schritt 2",
     "examples.wizard.step3": "Schritt 3",
     "examples.wizard.step4": "Schritt 4",
-    "examples.wizard.step5": "Schritt 5"
+    "examples.wizard.step5": "Schritt 5",
+    "examples.autocomplete.search.states": "Suche nach Staaten"
 }

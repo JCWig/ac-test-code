@@ -4,13 +4,11 @@ var angular = require('angular'),
   header = require('./mega-menu-header-directive'),
   footer = require('./mega-menu-footer-directive');
 
-// infamous GA include
-require('./utils/ga');
-
-function run($window, $location, context, LUNA_GROUP_QUERY_PARAM) {
-  var qs = $location.search();
+function run($window, $location, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
+  var qs = $location.search(), assetId;
 
   if (!context.isOtherContext()) {
+    require('./utils/ga');
     context.account = context.getAccountFromCookie();
   }
 
@@ -18,11 +16,21 @@ function run($window, $location, context, LUNA_GROUP_QUERY_PARAM) {
     if (!qs[LUNA_GROUP_QUERY_PARAM]) {
       throw Error('Required query param "' + LUNA_GROUP_QUERY_PARAM + '" missing from URL');
     } else {
-      context.group = $window.parseInt(qs[LUNA_GROUP_QUERY_PARAM], 10);
+      assetId = $window.parseInt(qs[LUNA_ASSET_QUERY_PARAM], 10);
+
+      // set the property, which will implicitly set the group to the parent property for the group
+      // this assumes that a property can only exist in one group. If that is not the case, then
+      // the API will have to be adjusted to do lookups by both GID and AID.
+      if (assetId) {
+        context.property = assetId;
+      } else {
+        context.group = $window.parseInt(qs[LUNA_GROUP_QUERY_PARAM], 10);
+      }
     }
   }
 }
-run.$inject = ['$window', '$location', 'context', 'LUNA_GROUP_QUERY_PARAM'];
+run.$inject = ['$window', '$location', 'context',
+  'LUNA_GROUP_QUERY_PARAM', 'LUNA_ASSET_QUERY_PARAM'];
 
 /**
  * @ngdoc overview

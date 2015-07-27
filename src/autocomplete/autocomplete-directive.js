@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
+module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $document,
   autocompleteService, autocompleteConfig) {
 
   /**
@@ -132,8 +132,11 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
       setInputFocus();
     }
 
+    /**
+     * setInputFocus private function to force input focus
+     */
     function setInputFocus() {
-      var inputEl = document.getElementById($scope.ac.autocompleteId);
+      var inputEl = $document[0].getElementById($scope.ac.autocompleteId);
 
       $timeout(function() {
         $scope.$apply(function() {
@@ -193,6 +196,34 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
     ngModel.$render = function() {
       scope.ac.selectedItem = ngModel.$modelValue;
     };
+
+    $document.on('keyup', handleTabEvent);
+
+    /**
+     * handleTabEvent a private function trigged by keyup event and handle it
+     * only if it is tab key and has open class, then manually trigger click to close it
+     * @param  {object} e event object
+     */
+    function handleTabEvent(e) {
+      var that = ctrl, dirElem;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if ((e.keyCode || e.which) === 9) {
+        dirElem = $document[0].querySelector('.akam-autocomplete.open');
+        if (dirElem) {
+          $timeout(function() {
+            $document.triggerHandler('click');
+            that.isOpen = false;
+          });
+        }
+      }
+    }
+
+    scope.$on('$destroy', function() {
+      $document.off('keyup', handleTabEvent);
+    });
   }
 
   return {
@@ -213,6 +244,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout,
   };
 };
 
-module.exports.$inject =
-  ['translate', 'uuid', '$q', '$log', '$compile', '$timeout',
-    'autocompleteService', 'autocompleteConfig'];
+module.exports.$inject = ['translate', 'uuid', '$q', '$log', '$compile', '$timeout', '$document',
+  'autocompleteService', 'autocompleteConfig'
+];

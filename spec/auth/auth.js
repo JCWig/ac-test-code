@@ -21,8 +21,7 @@ describe('akamai.components.auth', function() {
     messageBox,
     $rootScope,
     translate,
-    location,
-    $q;
+    location;
 
   var translationMock = {
     components: {
@@ -62,6 +61,9 @@ describe('akamai.components.auth', function() {
           property: $q.when({
             id: 456
           }),
+          account: {
+            name: 'test account'
+          },
           accountChanged: function() {
             return accountChangedValue;
           },
@@ -103,7 +105,7 @@ describe('akamai.components.auth', function() {
 
     angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig,
                                         authInterceptor, $window, $location, auth, _context_,
-                                        _messageBox_, _$rootScope_, _translate_, _$q_) {
+                                        _messageBox_, _$rootScope_, _translate_) {
       http = $http;
       httpBackend = $httpBackend;
       buffer = httpBuffer;
@@ -116,10 +118,10 @@ describe('akamai.components.auth', function() {
       context = _context_;
       messageBox = _messageBox_;
       $rootScope = _$rootScope_;
-      $q = _$q_;
       translate = _translate_;
       $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(enUsMessagesResponse);
       $httpBackend.when('GET', utilities.CONFIG_PATH).respond(enUsResponse);
+      $httpBackend.when('GET', /grp.json/).respond({});
     });
     spyOn(tokenService, 'logout').and.callThrough();
     spyOn(win.location, 'replace');
@@ -375,8 +377,8 @@ describe('akamai.components.auth', function() {
     it('should pass through the response', function() {
       spyOn(buffer, 'appendResponse').and.callThrough();
       spyOn(tokenService, 'create').and.callThrough();
-      httpBackend.when('GET', '/ui/services/nav/megamenu/someUser/grp.json').respond(401);
-      httpBackend.when('GET', '/core/services/session/another_user/extend').respond(401);
+      httpBackend.when('GET', /\/ui\/services\/nav\/megamenu\/someUser\/grp.json/).respond(401);
+      httpBackend.when('GET', /\/core\/services\/session\/another_user\/extend/).respond(401);
       httpBackend.when('GET', '/svcs/messagecenter/yet_SOME_other_USER/message/12345.json').respond(401);
       http.get('/ui/services/nav/megamenu/someUser/grp.json');
       http.get('/core/services/session/another_user/extend');
@@ -513,7 +515,7 @@ describe('akamai.components.auth', function() {
           angular.element(document.querySelector('.modal-footer button')).trigger('click');
         }).toThrow();
 
-        expect(tokenService.logout).toHaveBeenCalled();
+        expect(win.location.replace).toHaveBeenCalled();
       });
 
     });

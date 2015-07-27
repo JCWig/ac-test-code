@@ -2,6 +2,7 @@ var template = require('./header/header.html'),
   render = require('./utils/renderer').render,
   helpers = require('./helpers'),
   menu = require('./menu'),
+  config = require('./utils/config'),
   i18n = require('./helpers/i18n'),
   alerts = require('./alerts'),
   messages = require('./messages'),
@@ -12,9 +13,28 @@ var template = require('./header/header.html'),
   search = require('./search'),
   supportTemplate = require('./header/support.hbs');
 
-module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
+module.exports = function($location, $q, context, $http,
+                          LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
+
+  function renderMenu(property) {
+    let tabs = 'grp.json';
+
+    if (property.id) {
+      tabs = 'asset.json';
+    }
+
+    config(function(data) {
+      $http.get(`/ui/services/nav/megamenu/${encodeURIComponent(data.username)}/${tabs}`)
+        .then(function(response) {
+          menu.render(response.data);
+        });
+    });
+  }
 
   // whenever group or property changes, update breadcrumbs
+  // items[0] is the current group
+  // items[1] is the current property.
+  // See the `watchGroup` statement below.
   function contextChanged(data) {
     $q.all(data).then(function(items) {
       if (items[1].id) {
@@ -22,7 +42,7 @@ module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_A
       } else {
         breadcrumbs.render(items[0]);
       }
-      menu.render();
+      renderMenu(items[1]);
       updateLocation(items[0].id, items[1].id);
     });
   }
@@ -47,7 +67,6 @@ module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_A
     group.then(breadcrumbs.render);
     accountContext.then(contextSelector.render);
 
-    menu.render();
     alerts.render();
     messages.render();
     accountSelector.render();
@@ -80,5 +99,5 @@ module.exports = function($location, $q, context, LUNA_GROUP_QUERY_PARAM, LUNA_A
     template: template
   };
 };
-module.exports.$inject = ['$location', '$q', 'context', 'LUNA_GROUP_QUERY_PARAM',
+module.exports.$inject = ['$location', '$q', 'context', '$http', 'LUNA_GROUP_QUERY_PARAM',
   'LUNA_ASSET_QUERY_PARAM'];

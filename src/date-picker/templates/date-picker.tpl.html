@@ -1,7 +1,7 @@
 <div class="akam-date-picker" ng-class="mode">
   <input
     type="text"
-    datepicker-popup="{{ newFormat }}"
+    datepicker-popup="{{ format }}"
     ng-model="value"
     ng-change="change()"
     is-open="opened"
@@ -12,9 +12,10 @@
     placeholder="{{ placeholder }}"
     ng-click="toggle($event)"
     readonly="readonly"
+    ng-disabled="isDisabled"
     show-button-bar="false"> <i class="luna-close clear-date util-clickable" ng-if="showClear()"
                                 ng-click="clearDate()"></i>
-  <button class="button" ng-click="toggle($event)">
-    <i class="luna-calendar"></i>
+  <button class="button" ng-click="toggle($event)" ng-disabled="isDisabled">
+    <i class="luna-calendar icon-states" ng-disabled="isDisabled"></i>
   </button>
 </div>

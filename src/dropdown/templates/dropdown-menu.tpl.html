@@ -1,15 +1,14 @@
 <div class="dropdown-menu">
     <div class="fixed-header" ng-show="hasFilter">
-        <input ng-click="setInputAsClicked()" ng-show="!filterProperty" type="text" ng-model="dropdownFilter" placeholder="{{::filterPlaceholder}}" />
-        <input ng-click="setInputAsClicked()" ng-show="filterProperty" type="text" ng-model="dropdownFilter[filterProperty]" placeholder="{{::filterPlaceholder}}" />
+        <input ng-click="setInputAsClicked()" ng-show="hasFilter" type="text" ng-model="dropdownFilter" placeholder="{{::filterPlaceholder}}" />
         <i ng-show="dropdownFilter" class="luna-small_close_light_gray util-clickable clear-filter"
            ng-click="dropdownFilter = undefined"></i>
     </div>
     <ul class="dropdown-menu">
         <li ng-repeat="item in items | filter:dropdownFilter">
             <a ng-click="setSelectedItem(item)">
-                <span ng-if="textProperty" title="{{item[textProperty]}}"
-                      ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                <span ng-if="textProperty" title="{{ textPropertyFn(item) }}"
+                      ng-bind-html="textPropertyFn(item) | highlight:dropdownFilter"></span>
                 <span ng-if="!textProperty" title="{{item}}"
                       ng-bind-html="item | highlight:dropdownFilter"></span>
             </a>

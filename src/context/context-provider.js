@@ -19,31 +19,12 @@ module.exports = function ContextProvider() {
 
   var applicationType = APP_CONTEXTS.account, initialAccount, allGroups, allProperties, rawContext;
 
-  /**
-   * Sets the application context to be either account centric or group centric.
-   * @param {String} newType Should be 'this.ACCOUNT_CONTEXT', 'this.GROUP_CONTEXT'
-   * or 'this.OTHER_CONTEXT' (for non luna apps).
-   */
-  this.setApplicationContext = function(newType) {
-    applicationType = newType;
+  this.setApplicationContext = function(value) {
+    applicationType = value;
   };
 
-  /**
-   * Value for an application that is group aware
-   * @type {String}
-   */
   this.GROUP_CONTEXT = APP_CONTEXTS.group;
-
-  /**
-   * Value for an application that does not care about groups, but exists in Luna.
-   * @type {String}
-   */
   this.ACCOUNT_CONTEXT = APP_CONTEXTS.account;
-
-  /**
-   * Value for an application that is outside of luna.
-   * @type {String}
-   */
   this.OTHER_CONTEXT = APP_CONTEXTS.other;
 
   this.$get = Context;
@@ -62,6 +43,7 @@ module.exports = function ContextProvider() {
       name: null,
       properties: [],
       parent: {},
+      parents: [],
       children: []
     });
     var initialProperty = $q.when({
@@ -109,36 +91,24 @@ module.exports = function ContextProvider() {
 
     return descriptor;
 
-    /**
-     * Determines if we have switched accounts
-     * @returns {boolean} true if the account cookie has changed since `setAccountCookie` was
-     * last called.
-     */
     function accountChanged() {
       return !isContext(APP_CONTEXTS.other) &&
         initialAccount.cookieValue &&
         initialAccount.id !== getAccountFromCookie().id;
     }
 
-    /**
-     * Resets the current account to the initial account
-     * @returns {HttpPromise} A promise to change the account
-     */
     function resetAccount() {
       $http = $http || $injector.get('$http');
       $cookies.put(ACCOUNT_COOKIE, initialAccount.cookieValue, {
         path: '/'
       });
       currentAccount = initialAccount;
-      return $http.get(ACCOUNT_CHANGE_URL + initialAccount.name);
+      return $http.get(ACCOUNT_CHANGE_URL + initialAccount.name)
+        .catch(angular.noop);
     }
 
-    /**
-     * Parses the AKALASTMANAGEDACCOUNT cookie and returns the account object. The name includes
-     * the current contract
-     * @returns {{id: String, name: String}} the account object, as read from the appropriate
-     * cookie. Returns a null account if the cookie doesn't exist.
-     */
+    //Parses the AKALASTMANAGEDACCOUNT cookie and returns the account object.
+    // The name includes the current contract
     function getAccountFromCookie() {
       var cookie = $cookies.get(ACCOUNT_COOKIE),
         base64EncodedCookie, id = null, name = '';
@@ -254,16 +224,12 @@ module.exports = function ContextProvider() {
       // unchanged
       currentGroup = $q.all([currentGroup, currentProperty])
         .then(function(items) {
-          var group = items[0], property = items[1], match = false, current = property.group;
+          var group = items[0], property = items[1], match;
 
           // determine if the current property is contained within the current group
-          while (current.parent) {
-            if (group.id === current.id) {
-              match = true;
-              break;
-            }
-            current = current.parent;
-          }
+          match = property.group.parents.filter(function(p) {
+            return p.id === group.id;
+          }).length || property.group.id === group.id;
 
           // change group to be the direct parent of the current property
           if (!match) {
@@ -316,6 +282,18 @@ module.exports = function ContextProvider() {
         id: id,
         name: data.name,
         parent: parentGroup,
+
+        // calculate an array of all parents
+        get parents() {
+          var p = parentGroup, parentArray = [];
+
+          while (p) {
+            parentArray.unshift(p);
+            p = p.parent;
+          }
+
+          return parentArray;
+        },
         properties: [],
         children: []
       };

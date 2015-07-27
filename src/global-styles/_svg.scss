@@ -44,3 +44,15 @@
     @include svg('small-close-hover');
   }
 }
+
+// some of the png icons were wrong so we replace them with svgs here
+// svg include assumes 16 x 16 image, but this image is 12 x 8 so we have to center it in the box
+.luna-arrow_smDown_disabled {
+  background-position: 2px 4px;
+  @include svg('arrow_down_disabled');
+}
+
+.luna-gear_disabled {
+  background-position: 0 0;
+  @include svg('gear_disabled');
+}

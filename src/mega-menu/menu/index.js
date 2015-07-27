@@ -15,8 +15,6 @@
  * and the template that should be used for rendering.
  */
 var querystring = require('querystring'),
-  ajax = require('../utils/ajax'),
-  config = require('../utils/config'),
   tabs = require('./tabs'),
   user = require('./user'),
   account = require('./currentAccount'),
@@ -34,6 +32,7 @@ var OPEN_TAB = '-1';
  * @ngdoc function
  * @methodOf menu
  * @name menu.render
+ * @param {Object} data data to render
  * @param {Function} [callback] optional callback to be invoked upon completion. Will be passed a
  * boolean indicating if the render was successful.
  * @description
@@ -41,52 +40,30 @@ var OPEN_TAB = '-1';
  * for when a user clicks a tab. This call will first fetch `config.json` (if it hasn't been
  * fetched before) and then use the username to determine its URL.
  */
-function getURL(callback) {
-  config(function(data) {
-    var grp = '/ui/services/nav/megamenu/' + encodeURIComponent(data.username) + '/grp.json';
+function renderAll(data, callback) {
+  var qs = querystring.parse(window.location.search.replace('?', ''));
 
-    renderAll(grp, callback);
-  });
-}
+  if (data.tabs && qs.tab) {
 
-/**
- * Actual method to render the Modular Mega Menu tabs. Fetches grp.json and then renders the menu.
- * @param {String} url the url
- * @param {Function} [callback] the callback
- * @private
- */
-function renderAll(url, callback) {
+    data.tabs = data.tabs.map(function(tab) {
+      tab.active = qs.tab === tab.englishName;
+      return tab;
+    });
+  }
 
-  ajax.get(url, function(err, data) {
-    var qs;
+  renderer.render(tabs.selector, tabs.template, data.tabs);
+  renderer.render(user.selector, user.template, data.users);
+  renderer.render(account.selector, account.template, data);
 
-    if (!err) {
+  if (data.hasAccounts !== 'true') {
+    document.querySelector(account.selector).classList.add('no-hover');
+  }
 
-      qs = querystring.parse(window.location.search.replace('?', ''));
-      if (data.tabs && qs.tab) {
+  bindEvents();
 
-        data.tabs = data.tabs.map(function(tab) {
-          tab.active = qs.tab === tab.englishName;
-          return tab;
-        });
-      }
-
-      renderer.render(tabs.selector, tabs.template, data.tabs);
-      renderer.render(user.selector, user.template, data.users);
-      renderer.render(account.selector, account.template, data);
-
-      if (data.hasAccounts !== 'true') {
-        document.querySelector(account.selector).classList.add('no-hover');
-      }
-
-      bindEvents();
-    }
-
-    if (typeof callback === 'function') {
-      callback(!err);
-    }
-
-  });
+  if (typeof callback === 'function') {
+    callback(true);
+  }
 }
 
 /**
@@ -169,6 +146,6 @@ function showMenu() {
 }
 
 module.exports = {
-  render: getURL
+  render: renderAll
 };
 
