@@ -14,7 +14,8 @@ function NutritionController() {
     },
     {
       heading: 'Protein',
-      route:   'health.nutrition.protein'
+      route:   'health.nutrition.protein',
+      disabled: true
     }
   ];
 

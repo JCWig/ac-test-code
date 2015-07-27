@@ -8,19 +8,19 @@
 
   .nav-pills {
     border-bottom: 1px solid $colors__gray6;
-    padding: 0 10px;
 
     .tab {
       position: relative;
       float: none;
       display: inline-block;
+      margin: 0 10px;
 
       & > a {
         color: $colors__gray2;
         border-radius: 0;
         top: 2px;
         background-color: white;
-        padding: 0 15px 4px;
+        padding: 0 5px 4px;
         cursor: pointer;
 
         &:hover {
@@ -32,6 +32,11 @@
         color: $colors__blue1;
         border-bottom: 4px solid $colors__blue1;
         cursor: default;
+      }
+
+      &.disabled > a {
+        cursor: default;
+        color: $colors__gray7;
       }
     }
   }
