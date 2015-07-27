@@ -25,5 +25,9 @@ angular.module('akamai.components', [
   require('./autocomplete').name,
   require('./mega-menu').name,
   require('./wizard').name,
+<<<<<<< HEAD
   require('./date-range').name
+=======
+  require('./navigation').name
+>>>>>>> develop
 ]);

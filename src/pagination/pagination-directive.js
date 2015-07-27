@@ -54,6 +54,11 @@ module.exports = function(translate) {
           scope.currentPage = 1;
         } else if (scope.currentPage > scope.totalPages) {
           scope.currentPage = scope.totalPages;
+
+          // this handles the case where the user increases the page size, thus decreasing the
+          // number of pages. If the user is on a very high page number, they need to be notified
+          // that a page change has occurred.
+          scope.onchangepage({page: scope.totalPages});
         }
 
         // calculate the starting page and number of pages to display

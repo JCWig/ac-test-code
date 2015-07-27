@@ -133,8 +133,18 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       var start = angular.copy(info.selectedStart),
         end = angular.copy(info.selectedEnd);
 
-      dr.rangeStart.selectedValue = dateFilter(start, dr.format);
-      dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
+      if (info.rangeSelected) {
+        dr.rangeStart.selectedValue = dateFilter(start, dr.format);
+        dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
+        dr.opened = false;
+        //call callback func to
+      } else { //assuming only start date has value, calendar stay open
+        dr.rangeStart.selectedValue = dateFilter(start, dr.format);
+        dr.opened = false;
+      }
+
+
+/*
       if (start.getTime() === end.getTime()) {
         $timeout(function() {
           dr.opened = true;
@@ -142,6 +152,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       } else {
         dr.opened = false;
       }
+      */
       //console.log(start)
       //scope.setViewValue(drService.getSelectedDateRange(start, end, dr.format));
       //e.preventDefault();
@@ -177,4 +188,5 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
 };
 
 module.exports.$inject = ['translate', 'uuid', '$log', '$timeout', '$rootScope', 'dateFilter',
-'dateRangeService'];
+  'dateRangeService'
+];

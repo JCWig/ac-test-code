@@ -3,7 +3,7 @@ var debounce = require('lodash/function/debounce');
 
 require('angular-sanitize');
 
-module.exports = function($compile, dropdownTransformer, translate, $document, $timeout) {
+module.exports = function($compile, dropdownTransformer, translate, $document, $timeout, $parse) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
     var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
@@ -32,9 +32,11 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
     scope: {
       items: '=',
       textProperty: '@?',
+      keyProperty: '=?',
       onChange: '&?',
       placeholder: '@?',
-      filterPlaceholder: '@?'
+      filterPlaceholder: '@?',
+      isDisabled: '=?'
     },
 
     template: function(tElem) {
@@ -49,7 +51,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
     link: function(scope, elem, attrs, ngModel) {
       var selectedScope, selectedContentTemplate, selectedElem,
         menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate, windowElement,
-        inputClick;
+        inputClick, itemSet = [];
 
       var appendToBody = typeof attrs.appendToBody !== 'undefined';
 
@@ -64,15 +66,38 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         menuScope = scope.$parent.$new();
       }
 
-      scope.hasFilter = typeof attrs.filterable !== 'undefined';
-      scope.isClearable = typeof attrs.clearable !== 'undefined';
+      scope.textPropertyFn = $parse(scope.textProperty);
+
+      scope.hasFilter = angular.isDefined(attrs.filterable);
+      scope.isClearable = angular.isDefined(attrs.clearable);
+
+      if (angular.isDefined(attrs.keyProperty)) {
+        scope.keyProperty = attrs.keyProperty;
+        scope.keyPropertyFn = $parse(scope.keyProperty || 'id');
+
+        angular.forEach(scope.items, function(item) {
+          var keyId = scope.keyPropertyFn(item);
+
+          if (!itemSet[keyId]) {
+            itemSet[keyId] = item;
+          } else {
+            throw new Error('Keys must be unique when using the key-property attribute');
+          }
+        });
+      }
 
       scope.filterProperty = attrs.filterable;
 
       scope.isOpen = false;
 
       scope.setSelectedItem = function(item) {
-        ngModel.$setViewValue(item);
+
+        if (scope.keyProperty) {
+          ngModel.$setViewValue(scope.keyPropertyFn(item));
+        } else {
+          ngModel.$setViewValue(item);
+
+        }
       };
       scope.clearSelectedItem = function($event) {
         $event.stopPropagation();
@@ -119,8 +144,12 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       scope.$watch(function() {
         return ngModel.$viewValue;
       }, function(modelValue) {
+        if (scope.keyProperty) {
+          scope.selectedItem = itemSet[modelValue];
+        } else {
+          scope.selectedItem = modelValue;
 
-        scope.selectedItem = modelValue;
+        }
         if (typeof selectedScope !== 'undefined') {
           selectedScope.selectedItem = modelValue;
         }
@@ -137,6 +166,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         selectedScope.textProperty = scope.textProperty;
         selectedScope.clearSelectedItem = scope.clearSelectedItem;
         selectedScope.setOpen = scope.setOpen;
+        selectedScope.isDisabled = scope.isDisabled;
 
         selectedElem = $compile(selectedContentTemplate)(selectedScope);
       } else {
@@ -151,6 +181,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         menuScope.setSelectedItem = scope.setSelectedItem;
         menuScope.hasFilter = scope.hasFilter;
         menuScope.filterProperty = scope.filterProperty;
+        menuScope.textPropertyFn = scope.textPropertyFn;
         menuScope.setOpen = scope.setOpen;
         menuScope.setInputAsClicked = scope.setInputAsClicked;
         menuElem = $compile(menuTemplate)(menuScope);
@@ -185,4 +216,5 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
   };
 };
 
-module.exports.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout'];
+module.exports.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout',
+                          '$parse'];

@@ -108,6 +108,6 @@
     "no-use-before-define": [2, "nofunc"],
 
     // strict
-    "strict": [2, "global"] // browserified environment allows for this
+//    "strict": [2, "global"] // browserified environment allows for this
   }
 }

@@ -1,8 +1,8 @@
 {
     "components": {
         "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-          "accountChangedTitle": "Account Changed"
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
+            "accountChangedTitle": "Account Changed"
         },
         "menu-button": {
             "label": "标签"
@@ -62,9 +62,6 @@
             "offLabel": "关闭"
         },
         "dialog": {},
-        "autocomplete": {
-            "search-tip": "Type in text to display matching results"
-        },
         "error": {
             "validation": {},
             "data": "加载数据时出现问题。"
@@ -114,6 +111,13 @@
             },
             "successMessage": "The action has been completed.",
             "errorMessage": "The action can't be completed."
+        },
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "tag-input": {
+            "placeholder": "Select Items",
+            "taggingLabel": "(new item)"
         }
     }
 }

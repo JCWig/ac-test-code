@@ -19,14 +19,15 @@ module.exports = function($provide) {
         scope.selectedEnd = dt;
       }
     } else { //first select will forming a range and start === end
-      scope.rangeSelected = true;
+      //scope.rangeSelected = true;
       scope.selectedStart = dt;
-      scope.selectedEnd = dt;
+      //scope.selectedEnd = dt;
     }
 
     $rootScope.$emit('rangeSelected', {
       selectedStart: scope.selectedStart,
-      selectedEnd: scope.selectedEnd
+      selectedEnd: scope.selectedEnd,
+      rangeSelected: scope.rangeSelected
     });
   }
 

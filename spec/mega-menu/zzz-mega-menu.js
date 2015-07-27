@@ -1,6 +1,5 @@
 /* eslint-disable max-nested-callbacks */
 /* globals angular, beforeEach, afterEach, spyOn, jasmine */
-'use strict';
 
 // for some reason, this test messes up the rest of the mega menu tests so we make sure it runs
 // last. We do this by prefixing the file with "zzz". This is something that should be fixed
@@ -24,7 +23,7 @@ var CONFIG_KEY = 'akamai.components.mega-menu.config',
 
 describe('akamai.components.mega-menu', function() {
 
-  var context, megaMenuData, $cookies, $rootScope, $window, $httpBackend, $http,
+  var context, megaMenuData, $cookies, $rootScope, $window, $httpBackend,
     $compile, locationSpy;
 
   // prevent the mega menu from rendering any of its sub modules.
@@ -69,10 +68,9 @@ describe('akamai.components.mega-menu', function() {
         };
       });
     });
-    angular.mock.inject(function(_$rootScope_, _$httpBackend_, _$http_, _$cookies_, _$compile_,
+    angular.mock.inject(function(_$rootScope_, _$httpBackend_, _$cookies_, _$compile_,
                                  _context_, _megaMenuData_, $location, _$window_) {
       $httpBackend = _$httpBackend_;
-      $http = _$http_;
       $window = _$window_;
       $compile = _$compile_;
       $cookies = _$cookies_;
@@ -89,6 +87,8 @@ describe('akamai.components.mega-menu', function() {
         username: 'me',
         locale: 'en_US'
       });
+      $httpBackend.when('GET', /grp.json/).respond({});
+      $httpBackend.when('GET', /asset.json/).respond({});
       $httpBackend.when('GET', util.FOOTER_URL).respond({});
       $httpBackend.when('GET', util.BRANDING_URL).respond({});
       $httpBackend.when('GET', util.LOCALE_URL).respond({});
@@ -242,22 +242,23 @@ describe('akamai.components.mega-menu', function() {
 
   describe('given a loaded app', function() {
 
-    describe('when an app sets the current group/property', function() {
+    describe('when an app sets the current property', function() {
 
       beforeEach(function() {
         commonBeforeEach();
         compileMenu.call(this);
+        $httpBackend.expectGET(/asset.json/).respond(200);
+        context.property = 456;
         $httpBackend.flush();
         $rootScope.$apply();
       });
 
-      it('should update the browser location with the new gid and aid query ' +
-      'string parameter', function() {
-
-        context.property = 456;
-        $httpBackend.flush();
-        $rootScope.$apply();
+      it('should update the location with the new aid query string parameter', function() {
         expect(locationSpy.calls.mostRecent().args).toEqual(jasmine.arrayContaining(['aid', 456]));
+      });
+
+      it('should fetch "asset.json"', function() {
+        expect(true).toBeTruthy();
       });
 
     });

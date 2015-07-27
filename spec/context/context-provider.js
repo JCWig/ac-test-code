@@ -154,8 +154,12 @@ describe('akamai.components.context', function() {
         expect(group.name).toEqual('Toys');
       });
 
-      it('should return the current group’s parents', function() {
+      it('should return the current group’s parent', function() {
         expect(group.parent.id).toEqual(123);
+      });
+
+      it('should return the current group’s parents', function() {
+        expect(group.parents[0].id).toEqual(123);
       });
 
       it('should return the current group’s child groups', function() {

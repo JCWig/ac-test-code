@@ -2,7 +2,7 @@
     "components": {
         "name": "Akamai Common Components",
         "context": {
-          "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
+          "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?'",
           "accountChangedTitle": "Account Changed"
         },
         "error": {

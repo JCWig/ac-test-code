@@ -9,6 +9,80 @@ var menu = require('../../src/mega-menu/menu'),
   HIDE_CLASS = require('../../src/mega-menu/utils/constants').HIDE_CLASS,
   TABS_SELECTOR = require('../../src/mega-menu/menu/tabs').selector;
 
+var data = {
+  accounts: null,
+  hasAccounts: 'true',
+  contextTitle: 'Select Group or Property',
+  currentAccount: 'Crinkle Ball Inc',
+  tabs: [
+    {
+      active: true,
+      tabId: 1,
+      itemId: 1,
+      englishName: 'MONITOR',
+      url: null,
+      name: 'MONITOR',
+      columns: [
+        {
+          mainMenuItems: [
+            {
+              itemId: 16640,
+              url: null,
+              name: 'Site',
+              subMenuItems: [
+                {
+                  itemId: 16819,
+                  cps: null,
+                  subMenuItems: null,
+                  dps: null,
+                  contextId: 0,
+                  url: '/core-reports/views/user_traffic.do',
+                  name: 'User Traffic'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      url: null,
+      englishName: 'RESOLVE',
+      name: 'RESOLVE',
+      tabId: 4,
+      itemId: 4,
+      columns: [
+        {
+          mainMenuItems: [
+            {
+              url: '/resolve/diagnostic_tools',
+              cps: null,
+              subMenuItems: [],
+              dps: null,
+              itemId: 18458,
+              contextId: 0,
+              name: 'Diagnostic Tools'
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  users: {
+    textLoggedInAs: null,
+    mainMenuItems: [
+      {
+        itemId: 0,
+        contextId: 0,
+        url: '/portal/profile/edit_profile.jsf',
+        name: 'Settings'
+      }
+    ],
+    current: 'Stella Cat',
+    impersonator: null
+  }
+};
+
 describe('menu', function() {
 
   var $scope, $compile;
@@ -40,83 +114,6 @@ describe('menu', function() {
     this.element = document.body.appendChild(this.el[0]);
 
     this.server = sinon.fakeServer.create();
-
-    // minimal menu. Two tabs, one has a section with sub-sections and the other does not
-    this.server.respondWith('GET', /\/ui\/services\/nav\/megamenu/, [
-      200, {'Content-Type': 'application/json'}, JSON.stringify({
-        accounts: null,
-        hasAccounts: 'true',
-        contextTitle: 'Select Group or Property',
-        currentAccount: 'Crinkle Ball Inc',
-        tabs: [
-          {
-            active: true,
-            tabId: 1,
-            itemId: 1,
-            englishName: 'MONITOR',
-            url: null,
-            name: 'MONITOR',
-            columns: [
-              {
-                mainMenuItems: [
-                  {
-                    itemId: 16640,
-                    url: null,
-                    name: 'Site',
-                    subMenuItems: [
-                      {
-                        itemId: 16819,
-                        cps: null,
-                        subMenuItems: null,
-                        dps: null,
-                        contextId: 0,
-                        url: '/core-reports/views/user_traffic.do',
-                        name: 'User Traffic'
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            url: null,
-            englishName: 'RESOLVE',
-            name: 'RESOLVE',
-            tabId: 4,
-            itemId: 4,
-            columns: [
-              {
-                mainMenuItems: [
-                  {
-                    url: '/resolve/diagnostic_tools',
-                    cps: null,
-                    subMenuItems: [],
-                    dps: null,
-                    itemId: 18458,
-                    contextId: 0,
-                    name: 'Diagnostic Tools'
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        users: {
-          textLoggedInAs: null,
-          mainMenuItems: [
-            {
-              itemId: 0,
-              contextId: 0,
-              url: '/portal/profile/edit_profile.jsf',
-              name: 'Settings'
-            }
-          ],
-          current: 'Stella Cat',
-          impersonator: null
-        }
-      })
-    ]);
   });
 
   afterEach(function() {
@@ -126,7 +123,7 @@ describe('menu', function() {
   it('should render on success', function() {
     var spy = jasmine.createSpy('spy');
 
-    menu.render(spy);
+    menu.render(data, spy);
 
     // this may cause the config call to be done for the first time
     this.server.respond();
@@ -134,24 +131,10 @@ describe('menu', function() {
   });
 
   it('should render on success, even with a bogus callback', function() {
-    menu.render('BOGUS');
+    menu.render(data, 'BOGUS');
 
     // this will not cause the config call to fetch because the above test will (if it hasn't happened already)
     this.server.respond();
-  });
-
-  it('should not render on error', function() {
-    var spy;
-
-    this.server.respondWith('GET', /\/ui\/services\/nav\/megamenu/, [
-      500, {'Content-Type': 'application/json'}, JSON.stringify({})
-    ]);
-
-    spy = jasmine.createSpy('spy');
-    menu.render(spy);
-    this.server.respond();
-
-    expect(spy).toHaveBeenCalledWith(false);
   });
 
   describe('tabs', function() {
@@ -172,7 +155,7 @@ describe('menu', function() {
     };
 
     beforeEach(function() {
-      menu.render();
+      menu.render(data);
       this.server.respond();
     });
 

@@ -145,11 +145,14 @@ $table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
   
   .data {
     position: relative;
-    min-height: 353px;
     min-height: $table__tbody-height + $table__th-height + ($base__border-width * 2);
     border-top: $table__border;
     border-bottom: $table__border;
     border-top: 0 none;
+
+    &.basic-table {
+      min-height: initial;
+    }
   }
 
   .akam-pagination {
@@ -181,14 +184,28 @@ $table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
     i + .dropdown-menu {
       margin-top: 3px;
     }
+
+    > button {
+      border: none;
+      background: none;
+
+      &.menu-button,
+      &.menu-button:hover,
+      &.menu-button:focus
+      &.menu-button:active {
+        border: none;
+        background: none;
+      }
+
+      > i {
+        @extend .icon-states;
+      }
+    }
   }
   
   .empty-table-message {
-    position: absolute;
+    position: relative;
     padding: 10px 10px 10px 36px;
-    top: $table__th-height;
-    left: 0;
-    right: 0;
 
     &.ng-inactive {
       display: none;

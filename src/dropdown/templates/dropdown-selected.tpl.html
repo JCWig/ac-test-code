@@ -1,9 +1,9 @@
-<span class="selected-option util-ellipsis">
+<span class="selected-option util-ellipsis" ng-class="{disabled:isDisabled}">
     <span ng-if="!textProperty && selectedItem" title="{{selectedItem}}">{{selectedItem}}</span>
-    <span ng-if="textProperty && selectedItem" title="{{selectedItem[textProperty]}}">{{selectedItem[textProperty]}}</span>
+    <span ng-if="textProperty && selectedItem" title="{{ textPropertyFn(selectedItem) }}">{{ textPropertyFn(selectedItem) }}</span>
     <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
 </span>
 <i class="luna-small_close_dark_gray util-clickable clear-dropdown"
    ng-click="clearSelectedItem($event)"
-   ng-if="selectedItem && isClearable"></i>
+   ng-if="selectedItem && isClearable && !isDisabled"></i>
 <span></span>

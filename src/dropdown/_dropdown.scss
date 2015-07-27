@@ -1,10 +1,12 @@
 $arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
+$arrow-disabled-background: inline-svg-image("svg/arrow_smDown_disabled.svg") center no-repeat;
 $selected-option-background-color: #f4f4f4;
 $dropdown-button-gradient: linear-gradient(to bottom, #fff, #e6e6e6);
 $dropdown-button-gradient-hover: linear-gradient(to bottom, #f4f4f4, #c8c8c8);
 $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
 $dropdown-selected-option-background-color: #f4f4f4;
 $dropdown-button-active-hover-border-color: #999;
+$dropdown-button-disabled-color: #e6e6e6;
 
 .dropdown-menu.append-body {
   position: absolute;
@@ -39,7 +41,6 @@ $dropdown-button-active-hover-border-color: #999;
   max-width: 600px;
   width: 100%;
 
-
   & > .dropdown-toggle {
     display: inline-block;
     cursor: pointer;
@@ -63,6 +64,24 @@ $dropdown-button-active-hover-border-color: #999;
       border-bottom-left-radius: $border-radius;
       @include box-shadow($input-box-shadow);
       @include ellipsis();
+
+      &.disabled {
+        @include user-select(none);
+        background-color: $input-background-color-disabled;
+        border-color: $input-border-color-disabled;
+        box-shadow: none;
+        cursor: default;
+        span:first-child {
+          @include placeholder-enhanced($dropdown-button-disabled-color, italic);
+          color: $dropdown-button-disabled-color;
+        }
+        & + span {
+          background: $arrow-disabled-background;
+          border-color: $button-border-color-disabled;
+          cursor: default;
+          background-color: $button-background-color-disabled;
+        }
+      }
     }
 
     & > span:last-child {
@@ -123,7 +142,7 @@ $dropdown-button-active-hover-border-color: #999;
     & ul.dropdown-menu {
       overflow-x: hidden;
       overflow-y: auto;
-      -ms-overflow-y: scroll;
+      -ms-overflow-y: auto;
 
       // fix for weird rendering issue when filtering in chrome
       a {

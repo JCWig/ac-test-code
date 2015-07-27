@@ -49,12 +49,6 @@ describe('account selector', function() {
 
     this.server = sinon.fakeServer.create();
 
-    this.server.respondWith('GET', /grp.json/, [
-      200, {'Content-Type': 'application/json'}, JSON.stringify({
-        hasAccounts: 'true'
-      })
-    ]);
-
     this.server.respondWith('GET', /accounts.json/, [
       200, {'Content-Type': 'application/json'}, JSON.stringify({
         context: null,
@@ -97,7 +91,9 @@ describe('account selector', function() {
     var accountMenu = $(ACCOUNT_SELECTOR), nav;
 
     // the account selector depends on the menu rendering at some point in order to toggle its popup status properly
-    menu.render();
+    menu.render({
+      hasAccounts: 'true'
+    });
     accountSelector.render();
 
     this.server.respond();
@@ -116,14 +112,10 @@ describe('account selector', function() {
   it('should do nothing if there are no accounts', function() {
     var accountMenu, nav;
 
-    this.server.respondWith('GET', /grp.json/, [
-      200, {'Content-Type': 'application/json'}, JSON.stringify({
-        hasAccounts: 'false'
-      })
-    ]);
-
     accountMenu = $(ACCOUNT_SELECTOR);
-    menu.render();
+    menu.render({
+      hasAccounts: 'false'
+    });
     this.server.respond();
 
     accountSelector.render();
@@ -140,18 +132,14 @@ describe('account selector', function() {
   it('should do nothing if there are no accounts and the menu renders last', function() {
     var accountMenu, nav;
 
-    this.server.respondWith('GET', /grp.json/, [
-      200, {'Content-Type': 'application/json'}, JSON.stringify({
-        hasAccounts: 'false'
-      })
-    ]);
-
     accountMenu = $(ACCOUNT_SELECTOR);
 
     accountSelector.render();
     this.server.respond();
 
-    menu.render();
+    menu.render({
+      hasAccounts: 'false'
+    });
     this.server.respond();
 
     nav = $(NAV_SELECTOR);

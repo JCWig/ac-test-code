@@ -18,11 +18,15 @@
   <h1>{{ vm.currentAccount.name }}</h1>
   <p>
     <button class="btn btn-default" ng-click="vm.changeGroup()">Click to change group</button>
-    <span>Will change group to <code>gid=18783</code></span>
+    <span>Will change group to <code>gid=19715</code></span>
   </p>
   <p>
     <button class="btn btn-default" ng-click="vm.changeProperty()">Click to change property</button>
-    <span>Will change property to <code>aid=126628</code></span>
+    <span>Will change property to <code>aid=3260447</code></span>
+  </p>
+  <p>
+    <button class="btn btn-default" ng-click="vm.changeAnotherProperty()">Click to change property</button>
+    <span>Will change property to <code>aid=10322722</code></span>
   </p>
   <p>
     <button class="btn btn-default" ng-click="vm.switchAccount('portal')">Set account to "Akamai Portal"</button>
@@ -42,10 +46,11 @@
     .controller('MegaMenu', MegaMenu)
     .config(Config);
 
-  function Config(contextProvider) {
+  function Config(contextProvider, i18nTokenProvider) {
     contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
+    i18nTokenProvider.setAppLocalePath('/libs/akamai-core/0.7.0/locales/');
   }
-  Config.$inject = ['contextProvider'];
+  Config.$inject = ['contextProvider', 'i18nTokenProvider'];
 
   function MegaMenu($cookies, $http, context) {
     var ids = {
@@ -54,15 +59,21 @@
     };
 
     this.changeGroup = function() {
-      context.group = 18783;
+      context.group = 19715;
     };
 
     this.changeProperty = function() {
-      context.property = 126628;
+      context.property = 3260447;
     };
 
+    this.changeAnotherProperty = function () {
+      context.property = 10322722;
+    };
+
+    // make two requests to ensure that only 1 dialog shows up
     this.apiRequest = function() {
-      return $http.get('/apps/appname/locales/en_US.json');
+      $http.get('/apps/appname/locales/en_US.json');
+      $http.get('/apps/appname/locales/en_US.json');
     };
 
     this.switchAccount = function(id) {
