@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function(translate, uuid, $log, $timeout, drService) {
+module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilter, drService) {
 
   var config = {
     options: {
@@ -105,8 +105,8 @@ module.exports = function(translate, uuid, $log, $timeout, drService) {
         scope.setViewValue(drService.getSelectedDateRange(startDate, endDate, dr.format));
       }
 
-      dr.rangeStart.selectedValue = startDate;
-      dr.rangeEnd.selectedValue = endDate;
+      dr.rangeStart.selectedValue = dateFilter(startDate, dr.format);
+      dr.rangeEnd.selectedValue = dateFilter(endDate, dr.format);
 
       $timeout(function() {
         initialized = true;
@@ -114,9 +114,12 @@ module.exports = function(translate, uuid, $log, $timeout, drService) {
         dr.format = dr.format || config.format;
       });
     };
-/*
+
+    $rootScope.$on('rangeSelected', setAndNotifySelection);
+    scope.$on('$destroy', setAndNotifySelection);
+
     scope.setViewValue = function(value) {
-      ngModel.$setViewValue(value);
+      //ngModel.$setViewValue(value);
 
       //call back
       if (angular.isFunction(dr.onSelect) && attr.onSelect) {
@@ -126,48 +129,32 @@ module.exports = function(translate, uuid, $log, $timeout, drService) {
       }
     };
 
-    scope.$watch('dr.rangeStart.value', function(newVal, oldVal) {
-      var dateRange, dates;
+    function setAndNotifySelection(e, info) {
+      var start = angular.copy(info.selectedStart),
+        end = angular.copy(info.selectedEnd);
 
-      if (!initialized) {
-        return;
+      dr.rangeStart.selectedValue = dateFilter(start, dr.format);
+      dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
+      if (start.getTime() === end.getTime()) {
+        $timeout(function() {
+          dr.opened = true;
+        });
+      } else {
+        dr.opened = false;
       }
+      //console.log(start)
+      //scope.setViewValue(drService.getSelectedDateRange(start, end, dr.format));
+      //e.preventDefault();
+      //e.stopPropagation();
 
-      dates = drService.evaluateStartDateChange(newVal, oldVal, dr.rangeStart, dr.rangeEnd);
-
-      if (dates && dates.length === 2) {
-        notifyDatesChanged(scope, dates[0], dates[1]);
-        dateRange = drService.getSelectedDateRange(dates[0], dates[1], dr.format);
-        scope.setViewValue(dateRange);
-      }
-
-      if (initialized) {
-        dr.opened = true;
-        dr.rangeStart.dateSelected = newVal !== '';
-      }
-    });
-
-    scope.$watch('dr.rangeEnd.value', function(newVal, oldVal) {
-      var dateRange, dates;
-
-      if (!initialized) {
-        return;
-      }
-
-      dates = drService.evaluateEndDateChange(newVal, oldVal, dr.rangeStart, dr.rangeEnd);
-
-      if (dates && dates.length === 2) {
-        notifyDatesChanged(scope, dates[0], dates[1]);
-        dateRange = drService.getSelectedDateRange(dates[0], dates[1], dr.format);
-        scope.setViewValue(dateRange);
-      }
-
-      if (initialized) {
-        dr.opened = true;
-        dr.rangeEnd.dateSelected = newVal !== '';
-      }
-    });
-*/
+    }
+    /*
+          if (initialized) {
+            dr.opened = true;
+            dr.rangeEnd.dateSelected = newVal !== '';
+          }
+        });
+    */
   }
 
   return {
@@ -189,4 +176,5 @@ module.exports = function(translate, uuid, $log, $timeout, drService) {
   };
 };
 
-module.exports.$inject = ['translate', 'uuid', '$log', '$timeout', 'dateRangeService'];
+module.exports.$inject = ['translate', 'uuid', '$log', '$timeout', '$rootScope', 'dateFilter',
+'dateRangeService'];

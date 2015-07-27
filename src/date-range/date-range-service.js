@@ -1,6 +1,29 @@
 var angular = require('angular');
 
-module.exports = function($filter, $parse) {
+module.exports = function(dateFilter) {
+
+  function isFirstDateExceedMinDate(currentDate, min) {
+    var firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
+    return min && firstDayOfMonth.getTime() >= min.getTime();
+  }
+
+  function isLastDateNotOverMaxDate(currentDate, max) {
+    var lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+    return max && lastDayOfMonth.getTime() < max.getTime();
+  }
+
+  function compareEqual(currentDate, d2) {
+    if (d2 && angular.isDate(d2)) {
+      return currentDate.getTime() === d2.getTime();
+    }
+    return false;
+  }
+
+  function inRangeCheck(currentDate, start, end) {
+    return currentDate.getTime() >= start.getTime() && currentDate.getTime() <= end.getTime();
+  }
 
   /**
    * filterDate filter any date with given format
@@ -11,7 +34,7 @@ module.exports = function($filter, $parse) {
    */
   function filterDate(value, format) {
     if (value && angular.isDate(value)) {
-      return $filter('date')(new Date(value), format);
+      return dateFilter(new Date(value), format);
     }
     return '';
   }
@@ -25,8 +48,8 @@ module.exports = function($filter, $parse) {
     var y = date.getFullYear(),
       m = date.getMonth();
 
-    rangeStart.minDate = new Date(y, m-1, 1);
-    rangeStart.maxDate = new Date(y + 1, m+1, 0);
+    rangeStart.minDate = new Date(y, m - 1, 1);
+    rangeStart.maxDate = new Date(y + 1, m + 1, 0);
   }
 
   /**
@@ -137,11 +160,15 @@ module.exports = function($filter, $parse) {
     filterDate: filterDate,
     setStartMinMax: setStartMinMax,
     setEndMinMax: setEndMinMax,
+    areDatesEqual: compareEqual,
     getSelectedDateRange: selectedRange,
     evaluateEndDateChange: evaluateEndDateChange,
-    evaluateStartDateChange: evaluateStartDateChange
+    evaluateStartDateChange: evaluateStartDateChange,
+    isDateInDateRange: inRangeCheck,
+    isFirstDateExceedMinDate: isFirstDateExceedMinDate,
+    isLastDateNotOverMaxDate: isLastDateNotOverMaxDate
   };
 
 };
 
-module.exports.$inject = ['$filter', '$parse'];
+module.exports.$inject = ['dateFilter'];

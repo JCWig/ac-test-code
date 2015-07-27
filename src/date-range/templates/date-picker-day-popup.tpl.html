@@ -3,13 +3,13 @@
 
       <th>
       <strong>{{ title }}</strong>
-        <button ng-show="showNavPrev()" role="heading" type="button" class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1">
+        <button ng-show="showNavPrev()" role="heading" type="button" class="btn btn-default btn-sm pull-left" ng-click="move(-2)" tabindex="-1">
         <i class="glyphicon glyphicon-chevron-left"></i></button>
       </th>
       <th colspan="5"></th>
       <th>
-      <strong>{{ siblingTitle }}</strong>
-        <button ng-show="showNavNext()" role="heading" type="button" class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1">
+      <strong>{{ pairTitle }}</strong>
+        <button ng-show="showNavNext()" role="heading" type="button" class="btn btn-default btn-sm pull-right" ng-click="move(2)" tabindex="-1">
         <i class="glyphicon glyphicon-chevron-right"></i></button>
       </th>
 
@@ -25,7 +25,14 @@
           </tr>
           <tr ng-repeat="row in rows track by $index">
             <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{ dt.uid }}" aria-disabled="{{!!dt.disabled}}">
-              <button type="button" style="width:100%;" class="btn btn-default btn-sm" ng-class="{'btn-info': dt.selected, active: isActive(dt), 'in-range': isInRange(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" tabindex="-1">
+              <button
+                type="button"
+                style="width:100%;"
+                class="btn btn-default btn-sm"
+                ng-class="{'in-range': isInRange(dt.date), 'selected-start': isStart(dt.date), 'selected-end': isEnd(dt.date)}"
+                ng-click="activeSelect(dt.date)"
+                ng-disabled="dt.disabled"
+                tabindex="-1">
                 <span ng-class="{'text-muted': dt.secondary, 'text-info': dt.current}">{{ dt.label }}</span>
               </button>
             </td>
@@ -40,9 +47,16 @@
               <small aria-label="{{ label.full }}">{{ label.abbr }}</small>
             </th>
           </tr>
-          <tr ng-repeat="row in siblingRows track by $index">
+          <tr ng-repeat="row in pairRows track by $index">
             <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{ dt.uid }}" aria-disabled="{{!!dt.disabled}}">
-              <button type="button" style="width:100%;" class="btn btn-default btn-sm" ng-class="{'btn-info': dt.selected, active: isActive(dt), 'in-range': isInRange(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" tabindex="-1">
+              <button
+                type="button"
+                style="width:100%;"
+                class="btn btn-default btn-sm"
+                ng-class="{'in-range': isInRange(dt.date), 'selected-start': isStart(dt.date), 'selected-end': isEnd(dt.date)}"
+                ng-click="pairSelect(dt.date)"
+                ng-disabled="dt.disabled"
+                tabindex="-1">
                 <span ng-class="{'text-muted': dt.secondary, 'text-info': dt.current}">{{ dt.label }}</span>
               </button>
             </td>

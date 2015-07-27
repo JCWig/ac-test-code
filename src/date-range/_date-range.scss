@@ -3,74 +3,97 @@ $date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
 $date-range-in-range-color: #666666;
 $date-range-in-range-background-color: #CEE7FF;
 .akam-date-picker.akam-date-range {
-    position: relative;
-    input {
-        &::-ms-clear {
-            display: none;
-        }
-        &:disabled {
-            @include placeholder-enhanced($date-range-disabled-color, italic);
-            color: $date-range-disabled-color;
-            cursor: default;
-        }
+  position: relative;
+  input {
+    &::-ms-clear {
+      display: none;
     }
-    & span.range-start {
-        position: absolute;
-        ul.dropdown-menu {
-            //min-width: 225px;
-            border-right: none;
-            @include border-right-radius(0);
-        }
+    &:disabled {
+      @include placeholder-enhanced($date-range-disabled-color, italic);
+      color: $date-range-disabled-color;
+      cursor: default;
     }
-    & span.range-end {
-        position: absolute;
-        margin-left: 224px;
-        ul.dropdown-menu {
-            min-width: 225px;
-            border-left: none;
-            @include border-left-radius(0);
-            @include box-shadow($date-range-boxshadow);
-        }
-    }
-    & span.range-selected {
-        > span {
-            height: $input-height;
-            padding: 6px $input-padding;
-            background-color: $input-background-color;
-            border: 1px solid $border-color;
-            border-radius: $border-radius;
-            &:first-child {
-                color: red;
-            }
-            &:last-child {
-                color: lime;
-            }
-        }
-    }
+  }
+  & span.range-start {
+    position: absolute;
     ul.dropdown-menu {
-        min-width: 450px;
-        table {
-            //min-width: 400px;
-            width: 100%;
-            td.space {
-                width: 5%;
-                border-width: 0;
-            }
-        }
+      //min-width: 225px;
+      border-right: none;
+      @include border-right-radius(0);
     }
-    table tbody td button {
-        &.in-range {
-            color: $date-range-in-range-color;
-            background-color: $date-range-in-range-background-color;
-        }
-        span.text-info {
-            -webkit-box-shadow: inset 0px 0px 0px 2px #0099CC;
-            -moz-box-shadow: inset 0px 0px 0px 2px #0099CC;
-            box-shadow: inset 0px 0px 0px 2px #0099CC;
-            background-color: $button-primary-text-color!important;
-        }
+  }
+  & span.range-end {
+    position: absolute;
+    margin-left: 224px;
+    ul.dropdown-menu {
+      min-width: 225px;
+      border-left: none;
+      @include border-left-radius(0);
+      @include box-shadow($date-range-boxshadow);
     }
-    ul.dropdown-menu tbody td {
-        height: 23px;
+  }
+  & span.range-selection {
+    > span {
+      position: absolute;
+      height: $input-height;
+      padding: 6px $input-padding;
+      background-color: $input-background-color;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      min-width: 160px;
+      width: 100%;
+      @include border-right-radius(0);
+      @include box-shadow($date-range-boxshadow);
+      &:first-child {
+        width: 160px;
+      }
+      &:last-child {
+        width: 160px;
+        margin-left: 224px;
+      }
     }
+  }
+  ul.dropdown-menu {
+    min-width: 450px;
+    table {
+      //min-width: 400px;
+      width: 100%;
+      td.space {
+        width: 5%;
+        border-width: 0;
+      }
+    }
+  }
+  table tbody td button {
+    &.in-range {
+      color: $date-range-in-range-color;
+      background-color: $date-range-in-range-background-color;
+    }
+    &.selected-start.selected-end {
+      background-color: #0099CC;
+      border-radius: 8px/40%;
+    }
+    &.selected-start,
+    &.selected-end {
+      background-color: #0099CC;
+      //color: white !important;
+    }
+    &.selected-start {
+      border-top-right-radius: 40%;
+      border-bottom-right-radius: 40%;
+    }
+    &.selected-end {
+      border-top-left-radius: 40%;
+      border-bottom-left-radius: 40%;
+    }
+    span.text-info {
+      -webkit-box-shadow: inset 0px 0px 0px 2px #0099CC;
+      -moz-box-shadow: inset 0px 0px 0px 2px #0099CC;
+      box-shadow: inset 0px 0px 0px 2px #0099CC;
+      background-color: $button-primary-text-color!important;
+    }
+  }
+  ul.dropdown-menu tbody td {
+    height: 23px;
+  }
 }
