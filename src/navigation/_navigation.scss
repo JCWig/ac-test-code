@@ -10,6 +10,10 @@
     border-bottom: 1px solid $colors__gray6;
     margin: 0 3px 20px;
 
+    & + .tab-content {
+      padding: 0 0.1em;
+    }
+
     .tab {
       position: relative;
       float: none;
