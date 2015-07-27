@@ -95,6 +95,7 @@ describe('akam-content-panel', function() {
       expect(headerDiv.textContent).toMatch(/Header 1/);
       expect(headerIcon).not.toBe(null);
       expect(content.length).toEqual(1); //header
+      expect(headerDiv.classList.contains("is-collapsable")).toBe(true);
     });
     it('should be able to render without content or header', function() {
       scope.isCollapsed = true;
@@ -390,11 +391,13 @@ describe('akam-content-panel', function() {
       addElement(markup);
 
       var headerIcon = document.querySelector(PANEL_HEADER_ICON);
-      var headerDiv = document.querySelector(PANEL_HEADER + "-pull-left");
+      var headerDiv = document.querySelector(PANEL_HEADER);
+      var headerWrapper = document.querySelector(PANEL_HEADER_WRAPPER);
 
       expect(headerIcon.classList.contains('ng-hide')).toBe(true);
       expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
-      expect(headerDiv.classList.contains('util-clickable')).not.toBe(true);
+      expect(headerWrapper.classList.contains('util-clickable')).not.toBe(true);
+      expect(headerDiv.classList.contains('is-collapsable')).not.toBe(true);
     });
   });
 });
