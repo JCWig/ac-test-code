@@ -26,8 +26,10 @@
     <br/>
 
     <div>
-        <h2>Custom Labels</h2>
-        <akam-switch-button ng-model="vm.ex2.on" on-label="Allow" off-label="Deny"></akam-switch-button>
+        <h2>Custom Labels</h2>   
+        <akam-switch-button ng-model="vm.ex2.on" on-label='{{"examples.switchbutton.custom.allow" | akamTranslate}}'
+                            off-label='{{"examples.switchbutton.custom.deny" | akamTranslate}}'>
+        </akam-switch-button>
     </div>
     <br/>
 
@@ -81,7 +83,7 @@
             }
         }
         configFunction.$inject = ['i18nTokenProvider']; 
-        function configFunction (i18nTokenProvider, $scope) {
+        function configFunction (i18nTokenProvider, $scope, translate) {
             
             // need to overwrite locales path on fee.akamai.com
             if(window.location.host == 'fee.akamai.com') {
