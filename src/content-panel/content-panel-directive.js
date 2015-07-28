@@ -19,39 +19,42 @@ module.exports = function($log, $compile) {
         tElement.empty();
       }
 
-      return {
-        pre: function preLink(scope, iElement, iAttrs, controller, transclude) {
-          var hasHeaderTranscluded;
+      return function(scope, iElement, iAttrs, controller, transclude) {
+        var hasHeaderTranscluded, customContentScope;
 
-          if (!iAttrs.header) {
-            iElement.append(transclude());
-            $compile(iElement)(scope);
+        scope.collapsable = angular.isUndefined(tAttrs.notCollapsable);
+        scope.isCollapsed = scope.isCollapsed === true;
 
-            hasHeaderTranscluded = !!iElement[0].querySelector('.panel-heading');
-            if (!hasHeaderTranscluded) {
-              $log.error('No "akam-content-panel-header" tag found. Header will not render.');
+        scope.headerClick = function(e) {
+          if (scope.collapsable) {
+            scope.isCollapsed = !scope.isCollapsed;
+            if (customContentScope) {
+              customContentScope.isCollapsed = !customContentScope.isCollapsed;
             }
           }
-        },
-        post: function postLink(scope) {
-          scope.collapsable = angular.isUndefined(tAttrs.notCollapsable);
-          scope.isCollapsed = scope.isCollapsed === true;
+          e.preventDefault();
+          e.stopPropagation();
+        };
 
-          scope.$watch('isCollapsed', function(newValue, oldValue) {
-            if (newValue !== oldValue && typeof scope.onToggle === 'function') {
-              scope.onToggle({
-                value: newValue
-              });
-            }
-          });
+        scope.$watch('isCollapsed', function(newValue, oldValue) {
+          if (newValue !== oldValue && typeof scope.onToggle === 'function') {
+            scope.onToggle({
+              value: newValue
+            });
+          }
+        });
 
-          scope.headerClick = function(e) {
-            if (scope.collapsable) {
-              scope.isCollapsed = !scope.isCollapsed;
-            }
-            e.preventDefault();
-            e.stopPropagation();
-          };
+        if (!iAttrs.header) {
+          customContentScope = scope.$parent.$new();
+          customContentScope.headerClick = scope.headerClick;
+          customContentScope.collapsable = scope.collapsable;
+          customContentScope.isCollapsed = scope.isCollapsed;
+          iElement.append($compile(transclude())(customContentScope));
+
+          hasHeaderTranscluded = !!iElement[0].querySelector('.panel-heading');
+          if (!hasHeaderTranscluded) {
+            $log.error('No "akam-content-panel-header" tag found. Header will not render.');
+          }
         }
       };
     }
