@@ -10789,8 +10789,8 @@
     },
     "ui-select": {
       "version": "0.12.0",
-      "from": "git://github.com/kkotosky/ui-select.git#752283eb951bf64f32df50d2ea29d6f61e08a4f1",
-      "resolved": "git://github.com/kkotosky/ui-select.git#752283eb951bf64f32df50d2ea29d6f61e08a4f1"
+      "from": "git://github.com/rysilva/ui-select#fixes",
+      "resolved": "git://github.com/rysilva/ui-select#fixes"
     },
     "vinyl-buffer": {
       "version": "1.0.0",
