@@ -31,7 +31,11 @@
             </div>
             <div class="container">
                 <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}"
-                                  mode="day" placeholder="date picker" ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled"></akam-date-picker>
+                                  mode="day" placeholder='{{"examples.datepicker.choose.date" | akamTranslate}}'
+                                  ng-change="dateChange()" format="{{formatDay}}"
+                                  is-disabled="disabled">
+                    
+                </akam-date-picker>
             </div>
             <br />
             <div class="form-group">
@@ -57,13 +61,14 @@
             </div>
             <div class="container">
                 <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}"
-                                  mode="month" placeholder="month picker" ng-change="monthChange()" format="{{formatMonth}}" no-clear></akam-date-picker>
+                                  mode="month" placeholder='{{"examples.datepicker.choose.month" | akamTranslate}}'
+                                  ng-change="monthChange()" format="{{formatMonth}}" no-clear></akam-date-picker>
             </div>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
 
-            var controllerFunction = function($scope, $log) {
+            var controllerFunction = function($scope, $log, translate) {
                 var d = new Date();
                 $scope.disabled = false;
                 $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
@@ -80,7 +85,7 @@
                     $log.log('Month Picker value selected: ', $scope.month);
                 };
             };
-            controllerFunction.$inject = ['$scope', '$log'];
+            controllerFunction.$inject = ['$scope', '$log', 'translate'];
 
             angular.module('example', ['akamai.components.date-picker'])
 

@@ -241,5 +241,13 @@
     "examples.wizard.step3": "Schritt 3",
     "examples.wizard.step4": "Schritt 4",
     "examples.wizard.step5": "Schritt 5",
-    "examples.autocomplete.search.states": "Suche nach Staaten"
+    "examples.autocomplete.search.states": "Suche nach Staaten",
+    "examples.appNames.tq": "Tranquility",
+    "examples.appNames.bc": "Billing Center",
+    "examples.appNames.pm": "Property Manager",
+    "examples.datepicker.choose.date": "Datum wählen",
+    "examples.datepicker.choose.month": "wählen Sie Monat",
+    "examples.switchbutton.custom.allow": "erlauben",
+    "examples.switchbutton.custom.deny": "verweigern",
+    "examples.dropdown.select.one": "Wähle eins"
 }
