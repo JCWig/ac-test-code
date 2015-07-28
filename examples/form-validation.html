@@ -790,12 +790,12 @@
         
         <script>
           angular.module('formValidationExample', ['akamai.components', 'ngMessages'])
-                .controller('formValidationController', formValidationController);
-                // .config(configFunction);
+                .controller('formValidationController', formValidationController)
+                .config(configFunction);
                 
-          formValidationController.$inject = ['$scope', '$log', '$filter', '$q', '$http'];
-                
-          function formValidationController($scope, $log, $filter, $q, $http) {
+          formValidationController.$inject = ['$scope', '$log', '$filter', '$q', '$http', 'translate'];
+          
+          function formValidationController($scope, $log, $filter, $q, $http, translate) {
               var vm = this;
               vm.test = 'test';
 
@@ -809,7 +809,7 @@
                   {name: 'New York'},
                   {name: 'Vermont'},
                   {name: 'Virginia'},
-                  {name: 'Washington, District of Columbia'},
+                  {name: 'Washington, District of Columbia'}
               ];
 
               vm.strings = [
@@ -956,19 +956,17 @@
                   });
                 return deferred.promise;
               }
-
-
-              configFunction.$inject = ['i18nTokenProvider'];
-
-              function configFunction(i18nTokenProvider) {
-                // need to overwrite locales path on fee.akamai.com
-                if (window.location.host == 'fee.akamai.com') {
-                  i18nTokenProvider.setComponentLocalePath("../dist/locales/");
-                  i18nTokenProvider.setAppLocalePath("locales/json/messages/");
-                }
-              }
-
           }
+          
+          configFunction.$inject = ['i18nTokenProvider'];
+
+          function configFunction(i18nTokenProvider) {
+            if (window.location.host == 'fee.akamai.com') {
+              i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+              i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            }
+          }
+          
       </script>
       <script>
         var forms = document.getElementsByTagName("form"),
