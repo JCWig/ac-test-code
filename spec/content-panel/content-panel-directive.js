@@ -79,7 +79,6 @@ describe('akam-content-panel', function() {
         '</akam-content-panel>'
       addElement(markup);
 
-
       expect(log.error).toHaveBeenCalled();
     });
     it('should be able to render without content', function() {
@@ -292,12 +291,76 @@ describe('akam-content-panel', function() {
 
     expect(contentWrapper.textContent.trim()).toBe('Panel content');
     expect(headerContent.textContent.trim()).toBe('Custom Header');
-    //expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
+    expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
 
     utilities.click(headerIcon);
     scope.$digest();
 
-    //expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(false);
+    expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(true);
+  });
+
+  it('should be able to render with custom header and body content with not-collapsable', function() {
+    var markup = '<akam-content-panel not-collapsable>' +
+      '<akam-content-panel-header>' +
+      '<span class="uniqueContent"> Custom Header </span>' +
+      '</akam-content-panel-header>' +
+      '<akam-content-panel-body>' +
+      '<i class="luna-world_map"></i> Panel content' +
+      '</akam-content-panel-body>' +
+      '</akam-content-panel>';
+    addElement(markup);
+
+    var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+
+    expect(headerIcon.classList.contains('ng-hide')).toBe(true);
+
+    utilities.click(headerIcon);
+    scope.$digest();
+
+    expect(headerIcon.classList.contains('ng-hide')).toBe(true);
+  });
+  it('should verify new isolated scope using custom content when compile its elements', function() {
+    var markup = '<akam-content-panel>' +
+      '<akam-content-panel-header>' +
+      '<span class="uniqueContent"> Custom Header </span>' +
+      '</akam-content-panel-header>' +
+      '<akam-content-panel-body>' +
+      '<i class="luna-world_map"></i> Panel content' +
+      '</akam-content-panel-body>' +
+      '</akam-content-panel>';
+    addElement(markup);
+
+    var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+
+    utilities.click(headerIcon);
+    scope.$digest();
+
+    var isoScope = self.el.isolateScope();
+
+    expect(isoScope.collapsable).toBe(true);
+    expect(isoScope.isCollapsed).toBe(true);
+    expect(typeof isoScope.headerClick).toBe('function');
+
+  });
+  it('should verify new isolated scope using not-collapsable', function() {
+    var markup = '<akam-content-panel not-collapsable>' +
+      '<akam-content-panel-header>' +
+      '<span class="uniqueContent"> Custom Header </span>' +
+      '</akam-content-panel-header>' +
+      '<akam-content-panel-body>' +
+      '<i class="luna-world_map"></i> Panel content' +
+      '</akam-content-panel-body>' +
+      '</akam-content-panel>';
+    addElement(markup);
+
+    var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+
+    utilities.click(headerIcon);
+    scope.$digest();
+
+    var isoScope = self.el.isolateScope();
+
+    expect(isoScope.collapsable).toBe(false);
   });
   describe('when rendered', function() {
     it('should be able to toggle visibility of content', function() {
