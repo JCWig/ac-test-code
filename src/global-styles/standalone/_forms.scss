@@ -62,7 +62,7 @@ label {
       
       & + .radio,
       & + .checkbox {
-        margin-top: 8px; // UXD tweak
+        margin-top: 5px; // UXD tweak
       }
     }
   }
@@ -77,14 +77,14 @@ label {
 
 .form-horizontal {
   & + .form-horizontal {
-    margin-top: 30px;
+    margin-top: 20px;
   }
   
   .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     
     .form-group:first-of-type {
-      margin-top: 10px;
+      margin-top: 8px;
     }
   }
 
@@ -95,7 +95,7 @@ label {
 .form-horizontal {
   legend {
     border-bottom: 0 none;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     font-size: 12px;
     font-weight: bold;
     
@@ -105,7 +105,7 @@ label {
       &:not(:first-child) {
         font-size: 12px;
         font-weight: normal;
-        margin-top: 10px;
+        margin-top: 5px;
       }
     }
   }
@@ -130,7 +130,7 @@ label {
     width: 100%;
     padding: 1em 0;
     margin: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     position: relative;
     
     &:before {
