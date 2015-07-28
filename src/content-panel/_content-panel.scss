@@ -34,6 +34,10 @@ $panel-body-wrapper-padding: 17px 15px;
     }
   }
 
+  .panel-title:not(.is-collapsable) {
+    padding-left: 0;
+  }
+
   .panel-body {
     border-top-width: 1px;
     border-top-style: solid;
