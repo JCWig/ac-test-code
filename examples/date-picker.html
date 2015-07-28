@@ -1,95 +1,89 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Akamai Component Examples - Date Picker</title>
-        <link rel="stylesheet" href="../dist/akamai-core.css">
-    </head>
-    <body ng-app="example" ng-controller="ExampleController" ng-strict-di class="common-css luna">
-        <div class="container">
-            <div class="page-header">
-                <h1>Date Picker Component Example</h1>
-                <h5>A minimum date (current year, current month, 1st day) and maximum date (current year + 1, current month, 1st day)
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Date Picker</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+</head>
+
+<body ng-app="example" ng-controller="ExampleController" ng-strict-di class="common-css luna">
+  <form>
+    <div class="container">
+      <div class="page-header">
+        <h1>Date Picker Component Example</h1>
+        <h5>A minimum date (current year, current month, 1st day) and maximum date (current year + 1, current month, 1st day)
                 are assigned to the Date Picker component.</h5>
-            </div>
-            <br />
-            <div class="container">
-                <label class="label">Specify Day Format:</label>
-                <table>
-                    <tr>
-                        <td>
-                            <input id="format1" name="formatDay" type="radio" ng-model="formatDay" value="EEE, MMM dd, yyyy" />
-                            <label class="label" for="format1">EEE, MMM dd, yyyy</label>
-                            <input id="format2" name="formatDay" type="radio" ng-model="formatDay" value="EEE, yyyy, MMM dd" />
-                            <label class="label" for="format2">EEE, yyyy, MMM dd</label>
-                            <input id="format3" name="formatDay" type="radio" ng-model="formatDay" value="yyyy-MM-dd" />
-                            <label class="label" for="format3">yyyy-MM-dd</label>
-                        </td>
-                    </tr>
-                </table>
-            <br />
-            </div>
-            <div class="container">
-                <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}"
-                                  mode="day" placeholder='{{"examples.datepicker.choose.date" | akamTranslate}}'
-                                  ng-change="dateChange()" format="{{formatDay}}"
-                                  is-disabled="disabled">
-                    
-                </akam-date-picker>
-            </div>
-            <br />
-            <div class="form-group">
-                <input id="disableDatePicker" type="checkbox" name='disableDatePicker' ng-model='disabled' />
-                <label class="label" for="disableDatePicker">Disable Datepicker component</label>
-            </div>
-            <br />
-            <div class="container">
-                <label class="label">Specify Month Format:</label>
-                <table>
-                    <tr>
-                        <td>
-                            <input id="format4" name="formatMonth" type="radio" ng-model="formatMonth" value="MMM yyyy" />
-                            <label class="label" for="format4">MMM yyyy</label>
-                            <input id="format5" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy MMM" />
-                            <label class="label" for="format5">yyyy MMM</label>
-                            <input id="format6" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy-MM" />
-                            <label class="label" for="format6">yyyy-MM</label>
-                        </td>
-                    </tr>
-                </table>
-            <br/>
-            </div>
-            <div class="container">
-                <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}"
-                                  mode="month" placeholder='{{"examples.datepicker.choose.month" | akamTranslate}}'
-                                  ng-change="monthChange()" format="{{formatMonth}}" no-clear></akam-date-picker>
-            </div>
-        </div>
-        <script src="../dist/akamai-core.js"></script>
-        <script>
+      </div>
+      <br />
+      <div class="container">
+        <label class="label">Specify Day Format:</label>
+        <table>
+          <tr>
+            <td>
+              <input id="format1" name="formatDay" type="radio" ng-model="formatDay" value="EEE, MMM dd, yyyy" />
+              <label class="label" for="format1">EEE, MMM dd, yyyy</label>
+              <input id="format2" name="formatDay" type="radio" ng-model="formatDay" value="EEE, yyyy, MMM dd" />
+              <label class="label" for="format2">EEE, yyyy, MMM dd</label>
+              <input id="format3" name="formatDay" type="radio" ng-model="formatDay" value="yyyy-MM-dd" />
+              <label class="label" for="format3">yyyy-MM-dd</label>
+            </td>
+          </tr>
+        </table>
+        <br />
+      </div>
+      <div class="container">
+        <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day" placeholder='{{"examples.datepicker.choose.date" | akamTranslate}}' ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
+        </akam-date-picker>
+      </div>
+      <br />
+      <div class="form-group">
+        <input id="disableDatePicker" type="checkbox" name='disableDatePicker' ng-model='disabled' />
+        <label class="label" for="disableDatePicker">Disable Datepicker component</label>
+      </div>
+      <br />
+      <div class="container">
+        <label class="label">Specify Month Format:</label>
+        <table>
+          <tr>
+            <td>
+              <input id="format4" name="formatMonth" type="radio" ng-model="formatMonth" value="MMM yyyy" />
+              <label class="label" for="format4">MMM yyyy</label>
+              <input id="format5" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy MMM" />
+              <label class="label" for="format5">yyyy MMM</label>
+              <input id="format6" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy-MM" />
+              <label class="label" for="format6">yyyy-MM</label>
+            </td>
+          </tr>
+        </table>
+        <br/>
+      </div>
+      <div class="container">
+        <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month" placeholder='{{"examples.datepicker.choose.month" | akamTranslate}}' ng-change="monthChange()" format="{{formatMonth}}" no-clear></akam-date-picker>
+      </div>
+    </div>
+  </form>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  var controllerFunction = function($scope, $log, translate) {
+    var d = new Date();
+    $scope.disabled = false;
+    $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
+    $log.log('Date Picker min: ', $scope.min);
 
-            var controllerFunction = function($scope, $log, translate) {
-                var d = new Date();
-                $scope.disabled = false;
-                $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
-                $log.log('Date Picker min: ', $scope.min);
+    $scope.dateChange = function() {
+      $log.log('Date Picker value selected: ', $scope.day);
+    };
 
-                $scope.max = new Date(d.getFullYear() + 1, d.getMonth(), 1);
-                $log.log('Date Picker max: ', $scope.max);
+    $scope.monthChange = function() {
+      $log.log('Month Picker value selected: ', $scope.month);
+    };
+  };
+  controllerFunction.$inject = ['$scope', '$log', 'translate'];
 
-                $scope.dateChange = function(){
-                    $log.log('Date Picker value selected: ', $scope.day);
-                };
+  angular.module('example', ['akamai.components.date-picker'])
+    .controller('ExampleController', controllerFunction);
+  </script>
+</body>
 
-                $scope.monthChange = function(){
-                    $log.log('Month Picker value selected: ', $scope.month);
-                };
-            };
-            controllerFunction.$inject = ['$scope', '$log', 'translate'];
-
-            angular.module('example', ['akamai.components.date-picker'])
-
-            .controller('ExampleController', controllerFunction);
-        </script>
-    </body>
 </html>
