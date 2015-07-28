@@ -88,6 +88,10 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
         endDate = '',
         cloneDate;
 
+      if (initialized) {
+        return;
+      }
+
       startDate = angular.isDefined(attr.startDate) && dr.startDate ? dr.startDate : '';
       //dr.rangeStart.dateSelected = startDate !== '';
 
@@ -118,10 +122,9 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     $rootScope.$on('rangeSelected', setAndNotifySelection);
     scope.$on('$destroy', setAndNotifySelection);
 
-    scope.setViewValue = function(value) {
+    scope.setViewValue = function(value, start, end) {
       //ngModel.$setViewValue(value);
 
-      //call back
       if (angular.isFunction(dr.onSelect) && attr.onSelect) {
         dr.onSelect({
           selectedDateRange: value
@@ -130,42 +133,23 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     };
 
     function setAndNotifySelection(e, info) {
-      var start = angular.copy(info.selectedStart),
-        end = angular.copy(info.selectedEnd);
+      var start = info.selectedStart,
+        end = info.selectedEnd,
+        range = drService.getSelectedDateRange(start, end, dr.format);
 
       if (info.rangeSelected) {
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
+        scope.setViewValue(range, start, end);
         dr.opened = false;
-        //call callback func to
       } else { //assuming only start date has value, calendar stay open
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
-        dr.opened = false;
-      }
-
-
-/*
-      if (start.getTime() === end.getTime()) {
+        dr.rangeEnd.selectedValue = end;
         $timeout(function() {
-          dr.opened = true;
+          scope.$apply('dr.opened = true');
         });
-      } else {
-        dr.opened = false;
       }
-      */
-      //console.log(start)
-      //scope.setViewValue(drService.getSelectedDateRange(start, end, dr.format));
-      //e.preventDefault();
-      //e.stopPropagation();
-
     }
-    /*
-          if (initialized) {
-            dr.opened = true;
-            dr.rangeEnd.dateSelected = newVal !== '';
-          }
-        });
-    */
   }
 
   return {

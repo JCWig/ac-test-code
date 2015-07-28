@@ -6,22 +6,19 @@ module.exports = function($provide) {
     var cloneDate = new Date();
 
     if (scope.rangeSelected) {
-      if (scope.selectedStart === scope.selectedEnd) {
-        if (scope.selectedStart.getTime() > dt.getTime()) {
-          cloneDate = angular.copy(scope.selectedStart);
-          scope.selectedStart = dt;
-          scope.selectedEnd = cloneDate;
-        } else if (scope.selectedStart.getTime() < dt.getTime()) {
-          scope.selectedEnd = dt;
-        }
-      } else {
-        scope.selectedStart = dt;
-        scope.selectedEnd = dt;
-      }
-    } else { //first select will forming a range and start === end
-      //scope.rangeSelected = true;
       scope.selectedStart = dt;
-      //scope.selectedEnd = dt;
+      scope.selectedEnd = null;
+      scope.rangeSelected = false;
+    } else if (angular.isDate(scope.selectedStart)) {
+      scope.selectedEnd = dt;
+      scope.rangeSelected = true;
+      if (scope.selectedStart.getTime() > dt.getTime()) {
+        cloneDate = angular.copy(scope.selectedStart);
+        scope.selectedStart = dt;
+        scope.selectedEnd = cloneDate;
+      }
+    } else {
+      scope.selectedStart = dt;
     }
 
     $rootScope.$emit('rangeSelected', {
@@ -72,6 +69,7 @@ module.exports = function($provide) {
         var initialDateRange;
 
         link.apply(this, arguments);
+        scope.rangeSelected = false;
 
         //show/hide nav previous button depend on the minDate
         scope.showNavPrev = function() {
@@ -101,7 +99,7 @@ module.exports = function($provide) {
 
         scope.isInRange = function(currentDate) {
           //if the date fall in the first date or the last date, consider it not in the range
-          if (scope.isStart(currentDate) || scope.isEnd(currentDate)) {
+          if (!scope.rangeSelected && scope.isStart(currentDate) || scope.isEnd(currentDate)) {
             return false;
           }
 
@@ -166,7 +164,8 @@ module.exports = function($provide) {
   }
 
   datePickerDirective.$inject = ['$delegate', '$timeout', '$rootScope', 'dateFilter',
-  'dateRangeService'];
+    'dateRangeService'
+  ];
   $provide.decorator('daypickerDirective', datePickerDirective);
 };
 
