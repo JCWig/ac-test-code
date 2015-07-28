@@ -15,7 +15,8 @@
             </div>
             <h2>Drag/Drop Tag Order Example</h2>
             <div class="container-div"; >
-                <akam-tag-input ng-model="items1" available-items="availableItems" drag-dropable="true"> 
+                <akam-tag-input ng-model="items1" available-items="availableItems"
+                                placeholder="{{placeholder}}" drag-dropable="true"> 
                 </akam-tag-input>
             </div>
             <br/><br/><br/>
@@ -36,7 +37,7 @@
                 <div class="container-div";>
                     <h2>Tag Character Limit Validation Example</h2>
                     <akam-tag-input name="tagInput" ng-model="items4" available-items="availableItems"
-                                    tagging-label="(add new item)" placeholder="Select Items"
+                                    tagging-label="(add new item)" placeholder="{{placeholder}}"
                                     drag-dropable="true" validate-function="validateFunction"> 
                     </akam-tag-input>
                 </div>
@@ -54,7 +55,7 @@
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            var exampleController = function($scope, $log) {
+            var exampleController = function($scope, $log, translate) {
                 
                 // Data for the Drag/Drop Tag Order Example
                 $scope.items1 = [".png",".jpg", ".svg"];
@@ -257,6 +258,12 @@
                     ".yxx",
                     ".zip" ];
                 
+                // localized string coming from the example locale file
+                $scope.placeholder = translate.async('examples.autocomplete.search.states').then(function(v){
+                    $scope.placeholder = v;
+                    $log.log("placeholder text is " + $scope.placeholder);
+                });
+                
                 // Sort the tag data
                 $scope.sortFunction = function(input){
                     return input.sort();
@@ -276,7 +283,7 @@
                 };
             };
             
-            exampleController.$inject = ['$scope', '$log'];
+            exampleController.$inject = ['$scope', '$log', 'translate'];
             
             angular.module('example', ['akamai.components.tag-input', 'ngMessages'])
             .controller('ExampleController', exampleController);
