@@ -16,7 +16,7 @@ var jsFileName = packageName + '.js';
 module.exports = {
   productionBuild: production,
   docs: {
-    sources : ['indeterminateProgress/**/*.js', 'table/**/*.js'],
+    sources : ['indeterminate-progress/**/*.js', 'table/**/*.js', 'modal-window/**/*.js'],
     base: src,
     outputDirectory: docs
   },
