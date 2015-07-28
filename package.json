@@ -33,6 +33,7 @@
     "moment": "^2.10.3"
   },
   "devDependencies": {
+    "akamai-docs" : "git+ssh://git@stash.akamai.com:7999/fee/akamai-documents.git#master",
     "angular-mocks": "~1.4.3",
     "angular-ui-utils": "git://github.com/angular-ui/ui-utils.git#4615f8e2449d95badf280a9820b8e6429ebb99ab",
     "babelify": "^6.1.2",
