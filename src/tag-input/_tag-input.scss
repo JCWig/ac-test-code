@@ -63,6 +63,9 @@ $tag-input-drag-drop-border-color: #0099cc;
     max-height: $tag-input-max-height-of-dropdown;
     overflow-x: hidden;
     margin-top: 1px;     
+  }
+  
+  & .ui-select-bootstrap:not(.direction-up) > .ui-select-choices {
     border-top: none;
   }
 
