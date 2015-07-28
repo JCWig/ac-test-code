@@ -19,9 +19,12 @@
 <body class="common-css luna" ng-app="dateRangeApp" ng-strict-di ng-controller="DateRangeAppController as vm">
   <br/>
   <h2>Date Range Component Example</h2>
-  <pre>selected Date Range: {{vm.selectedRange}}</pre>
+  <br/>
+  <pre>selected Date Range: {{vm.range}}</pre>
+  <pre>selected start date: {{vm.start}}</pre>
+  <pre>selected end Date: {{vm.end}}</pre>
   <h4 class="title">date range</h4>
-  <akam-date-range ng-model="vm.selectedRange" format="{{vm.format}}" start-date="vm.startDate" end-date="vm.endDate" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange)"></akam-date-range>
+  <akam-date-range ng-model="vm.selectedRange" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <br/>
   <br/>
   <div class="form-group">
@@ -34,6 +37,9 @@
       <label class="label" for="DateRangeFormat">To select different formats</label>
     </div>
   </div>
+  <br/>
+  <h4 class="title">date range with initial values</h4>
+  <akam-date-range ng-model="vm.selectedRange" format="{{vm.format}}" start-date="vm.startDate" end-date="vm.endDate" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('dateRangeApp', ['akamai.components.date-range'])
@@ -44,10 +50,12 @@
 
   function DateRangeAppController($log) {
     var vm = this;
-    vm.selectedRange = "";
+    vm.range = "";
+    vm.start = "";
+    vm.end = "";
     var d = new Date();
-    vm.startDate = ""; //new Date(d.getFullYear(), d.getMonth(), 3);
-    vm.endDate = ""; //new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    vm.startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    vm.endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
     vm.btnName = "preload dates";
 
     vm.formats = [{
@@ -67,9 +75,10 @@
       label: 'FullDate2'
     }];
 
-    vm.onSelectCallback = function(selectedDateRange) {
-      $log.log(selectedDateRange);
-      vm.selectedRange = selectedDateRange;
+    vm.onSelectCallback = function(range, start, end) {
+      vm.range = range;
+      vm.start = start;
+      vm.end = end;
     }
   }
 

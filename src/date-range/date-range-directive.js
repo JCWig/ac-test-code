@@ -13,10 +13,10 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     format: 'EEE, MMM dd, yyyy'
   };
 
-  function notifyDatesChanged(scope, startValue, endValue) {
+  function notifyNewRange(scope, startValue, endValue) {
     $timeout(function() {
-      //notify child scope if listen this event
-      scope.$broadcast('dateRangeChanged', {
+      //notify children if any are listening this event
+      scope.$broadcast('initialDateRange', {
         startDate: startValue,
         endDate: endValue
       });
@@ -33,6 +33,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     this.rangeSelected = false;
 
     this.options = config.options;
+    this.rangeStart.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
 
     if ($attr.placeholder) {
       this.rangeStart.placeholder = this.rangeEnd.placeholder = $attr.placeholder;
@@ -42,11 +43,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       });
     }
 
-    this.rangeStart.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
-    this.rangeEnd.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
-
     drService.setStartMinMax(this.rangeStart, d);
-    //drService.setEndMinMax(this.rangeEnd, d); //may not needed
 
     this.toggle = function(e) {
       preventOtherEvents(e);
@@ -84,33 +81,29 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     }
 
     ngModel.$render = function() {
-      var startDate = '',
-        endDate = '',
-        cloneDate;
+      var start = '', end = '', clone;
 
       if (initialized) {
         return;
       }
 
-      startDate = angular.isDefined(attr.startDate) && dr.startDate ? dr.startDate : '';
-      //dr.rangeStart.dateSelected = startDate !== '';
+      start = angular.isDefined(attr.startDate) && angular.isDate(dr.startDate) ? dr.startDate : '';
+      end = angular.isDefined(attr.endDate) && angular.isDate(dr.endDate) ? dr.endDate : '';
 
-      endDate = angular.isDefined(attr.endDate) && dr.endDate ? dr.endDate : '';
-      //dr.rangeEnd.dateSelected = endDate !== '';
-
-      if (startDate && endDate) {
+      if (start && end) {
         //if startDate greater then endDate, swap date value
-        if (startDate.getTime() > endDate.getTime()) {
-          cloneDate = new Date(endDate);
-          endDate = startDate;
-          startDate = cloneDate;
+        if (start.getTime() > end.getTime()) {
+          clone = new Date(end);
+          end = start;
+          start = clone;
         }
-        notifyDatesChanged(scope, startDate, endDate);
-        scope.setViewValue(drService.getSelectedDateRange(startDate, endDate, dr.format));
-      }
 
-      dr.rangeStart.selectedValue = dateFilter(startDate, dr.format);
-      dr.rangeEnd.selectedValue = dateFilter(endDate, dr.format);
+        dr.rangeStart.selectedValue = dateFilter(start, dr.format);
+        dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
+
+        notifyNewRange(scope, start, end);
+        scope.setViewValue(drService.getSelectedDateRange(start, end, dr.format), start, end);
+      }
 
       $timeout(function() {
         initialized = true;
@@ -119,6 +112,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       });
     };
 
+    //it needs to listen unique id for identify correct instance
     $rootScope.$on('rangeSelected', setAndNotifySelection);
     scope.$on('$destroy', setAndNotifySelection);
 
@@ -127,7 +121,9 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
 
       if (angular.isFunction(dr.onSelect) && attr.onSelect) {
         dr.onSelect({
-          selectedDateRange: value
+          selectedDateRange: value,
+          startDate: start,
+          endDate: end
         });
       }
     };
