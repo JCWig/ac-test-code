@@ -33,7 +33,8 @@
         <br />
       </div>
       <div class="container">
-        <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day" placeholder="date picker" ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled"></akam-date-picker>
+        <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day" placeholder='{{"examples.datepicker.choose.date" | akamTranslate}}' ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
+        </akam-date-picker>
       </div>
       <br />
       <div class="form-group">
@@ -58,20 +59,17 @@
         <br/>
       </div>
       <div class="container">
-        <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month" placeholder="month picker" ng-change="monthChange()" format="{{formatMonth}}" no-clear></akam-date-picker>
+        <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month" placeholder='{{"examples.datepicker.choose.month" | akamTranslate}}' ng-change="monthChange()" format="{{formatMonth}}" no-clear></akam-date-picker>
       </div>
     </div>
   </form>
   <script src="../dist/akamai-core.js"></script>
   <script>
-  var controllerFunction = function($scope, $log) {
+  var controllerFunction = function($scope, $log, translate) {
     var d = new Date();
     $scope.disabled = false;
     $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
     $log.log('Date Picker min: ', $scope.min);
-
-    $scope.max = new Date(d.getFullYear() + 1, d.getMonth(), 1);
-    $log.log('Date Picker max: ', $scope.max);
 
     $scope.dateChange = function() {
       $log.log('Date Picker value selected: ', $scope.day);
@@ -81,11 +79,10 @@
       $log.log('Month Picker value selected: ', $scope.month);
     };
   };
-  controllerFunction.$inject = ['$scope', '$log'];
+  controllerFunction.$inject = ['$scope', '$log', 'translate'];
 
   angular.module('example', ['akamai.components.date-picker'])
-
-  .controller('ExampleController', controllerFunction);
+    .controller('ExampleController', controllerFunction);
   </script>
 </body>
 

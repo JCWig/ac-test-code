@@ -12,25 +12,25 @@
             <div class="page-header">
                 <h1>Content Panel Component Example</h1>
             </div>
-            <h3>Panel Initially shows expanded icon without using  is-collapsed:</h3>
+            <h3>Panel Initially shows expanded icon without using is-collapsed:</h3>
             <akam-content-panel akam-standalone header="Header 1" on-toggle="process(value)">
                 <div>Panel Content</div>
                 <div>More Panel Content</div>
             </akam-content-panel>
             <br/>
-            <h3>Panel Initially shows no expanded/collapsed icon when using not-collapsable:</h3>
-            <akam-content-panel akam-standalone not-collapsable header="Header 1" on-toggle="process(value)">
-                <div>Panel Content</div>
-                <div>More Panel Content</div>
-            </akam-content-panel>
-            <br/>
-            <h3>Panel Initially Expanded when is-collapsed=false:</h3>
+            <h3>Panel Initially Expanded icon when is-collapsed=false:</h3>
             <akam-content-panel akam-standalone is-collapsed="isCollapsed1" header="Header 1" on-toggle="process(value)">
                 <div>Panel Content</div>
                 <div>More Panel Content</div>
             </akam-content-panel>
+            <br/>
+            <h3>Panel shows expanded content with no icon and header un-clickable when using not-collapsable:</h3>
+            <akam-content-panel akam-standalone not-collapsable header="Header 1" on-toggle="process(value)">
+                <div>Panel Content</div>
+                <div>More Panel Content</div>
+            </akam-content-panel>
             <br />
-            <h3>Panel Initially Collapsed:</h3>
+            <h3>Panel Initially Collapsed when is-collapsed=true:</h3>
             <akam-content-panel akam-standalone  is-collapsed="isCollapsed2" on-toggle="process(value)" header="Content Panel Header Text - Example of a Longer Header Title">
                 <div>Second Panel Content</div>
                 <div>More Panel Content</div>
@@ -48,15 +48,27 @@
                 </akam-content-panel>
             </div>
             <br />
-            <h3>Panel with Custom Header</h3>
-            <akam-content-panel>
+            <h3>Panel initially expanded with Custom Header and body</h3>
+            <akam-content-panel on-toggle="process(value)">
                 <akam-content-panel-header>
-                    <div class="panel-title">
+                    <div class="panel-title" ng-class="{'is-collapsable': collapsable}">
                         <i class="luna-world_map mm"></i> Custom Header
                     </div>
                 </akam-content-panel-header>
                 <akam-content-panel-body>
-                    Panel content
+                    Custom Body
+                </akam-content-panel-body>
+            </akam-content-panel>
+            <br />
+            <h3>Panel use not-collapsable for custom header and body</h3>
+            <akam-content-panel not-collapsable>
+                <akam-content-panel-header>
+                    <div class="panel-title" ng-class="{'is-collapsable': collapsable}">
+                        <i class="luna-world_map mm"></i> Custom Header
+                    </div>
+                </akam-content-panel-header>
+                <akam-content-panel-body>
+                    Custom Body
                 </akam-content-panel-body>
             </akam-content-panel>
         </div>
@@ -77,7 +89,7 @@
                     },
                     {
                         header : 'Header 2',
-                        collapsed: false
+                        collapsed: true
                     },
                     {
                         header : 'Header 3',
