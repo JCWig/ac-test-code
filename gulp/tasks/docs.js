@@ -5,7 +5,6 @@ var akamaiDocs = require('akamai-docs');
 var bundleLogger = require('../util/bundle-logger');
 var config = require('../config');
 
-console.log('config', config.docs);
 gulp.task('docs', ['clean'], function() {
   akamaiDocs({
     sources: config.docs.sources,
