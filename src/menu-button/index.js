@@ -6,7 +6,8 @@ import menuButtonItem from './menu-button-item-directive';
 import menuButton from './menu-button-directive';
 
 /**
- * @ngdoc overview
+ * @ngdoc module
+ * @display Menu Button
  * @name akamai.components.menu-button
  * @description Provides a set of directives to use in order to create Pulsar-compatible menu
  * buttons.

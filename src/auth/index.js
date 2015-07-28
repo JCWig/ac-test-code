@@ -4,8 +4,8 @@ var angular = require('angular'),
   context = require('../context');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Authentication
  * @name akamai.components.auth
  *
  * @description Provides an interceptor for failed requests for auth purposes

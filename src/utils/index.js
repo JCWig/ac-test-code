@@ -1,7 +1,8 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
+ * @ngdoc module
+ * @display Utilities
  * @name akamai.components.utils
  * @description Utility methods for the akamai components
  */

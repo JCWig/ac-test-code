@@ -1,8 +1,9 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  *
+ * @display Switch Button
  * @name akamai.components.switch-button
  *
  * @description Provides a directive that creates a Luna- and

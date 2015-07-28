@@ -3,7 +3,8 @@ var angular = require('angular'),
   contextProvider = require('./context-provider');
 
 /**
- * @ngdoc overview
+ * @ngdoc module
+ * @display Context
  * @name akamai.components.context
  * @requires ngCookies
  * @description a module that handles the various context switching methods in the portal.

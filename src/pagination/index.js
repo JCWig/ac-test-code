@@ -1,8 +1,8 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Pagination
  * @name akamai.components.pagination
  *
  * @description Enable a user to page through a set of results and set

@@ -3,8 +3,9 @@ var angular = require('angular'),
   sanitize = require('angular-sanitize');
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name akamai.components.table
+ * @display Table
  * @requires module:ngSanitize
  * @requires module:akamai.components.uuid
  * @requires module:akamai.components.indeterminate-progress

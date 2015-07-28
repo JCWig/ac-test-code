@@ -1,6 +1,16 @@
 var angular = require('angular');
 
 require('ui-select');
+
+/**
+ * @ngdoc module
+ * @display Tag Input
+ * @name akamai.components.tag-input
+ *
+ * @description Provides a directive that creates a Luna- and
+ * Pulsar-compatible tag input control.
+ *
+ */
 module.exports = angular.module('akamai.components.tag-input', [
   'ui.select',
   require('../i18n').name

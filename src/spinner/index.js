@@ -1,8 +1,8 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Numeric Spinner
  * @name akamai.components.spinner
  *
  * @description Presents a input spinner and

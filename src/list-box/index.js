@@ -3,8 +3,8 @@ var angular = require('angular');
 require('angular-sanitize');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display List Box
  * @name akamai.components.list-box
  *
  * @description Provides a directive that creates a Luna- and

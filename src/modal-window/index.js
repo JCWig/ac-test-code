@@ -1,8 +1,8 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Modal Window
  * @name akamai.components.modal-window
  *
  * @description Presents a window requiring an action to continue the

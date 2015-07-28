@@ -33,8 +33,9 @@ run.$inject = ['$window', '$location', 'context',
   'LUNA_GROUP_QUERY_PARAM', 'LUNA_ASSET_QUERY_PARAM'];
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name akamai.components.mega-menu
+ * @display Mega Menu
  * @requires akamai.components.context
  * @description a module for the old mega menu.
  */

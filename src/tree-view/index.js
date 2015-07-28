@@ -1,5 +1,14 @@
 var angular = require('angular');
 
+/**
+ * @ngdoc module
+ * @display Tree View
+ * @name akamai.components.tree-view
+ *
+ * @description Provides a directive that creates a Luna- and
+ * Pulsar-compatible tree view.
+ *
+ */
 module.exports = angular.module('akamai.components.tree-view', [
   require('../indeterminate-progress').name,
   require('../utils').name

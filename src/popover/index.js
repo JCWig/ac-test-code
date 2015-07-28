@@ -1,6 +1,14 @@
 var angular = require('angular');
 var sanitize = require('angular-sanitize');
 
+/**
+ * @ngdoc module
+ * @display Popover
+ * @name akamai.components.popover
+ *
+ * @description Enable popover/tooltip messages for a given element
+ *
+ */
 module.exports = angular.module('akamai.components.popover', [
   sanitize,
   require('angular-bootstrap-npm')

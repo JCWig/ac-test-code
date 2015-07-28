@@ -4,9 +4,10 @@ import indeterminateProgress from './indeterminate-progress';
 const MODULE_NAME = 'akamai.components.indeterminate-progress';
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  *
  * @name akamai.components.indeterminate-progress
+ * @display Indeterminate Progress
  *
  * @description Provides a directive that creates Luna- and
  * Pulsar-compatible indeterminate progress elements. These

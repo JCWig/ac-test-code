@@ -4,8 +4,8 @@ var angular = require('angular'),
 require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Auto-Complete
  * @name akamai.components.autocomplete
  *
  * @requires module:ngSanitize

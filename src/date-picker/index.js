@@ -1,8 +1,8 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Date Picker
  * @name akamai.components.date-picker
  *
  * @description Provides a directive that creates Luna-

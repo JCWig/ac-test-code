@@ -7,6 +7,7 @@ var dest = './dist';
 var src = './src';
 var assets = './assets';
 var reports = './reports';
+var docs = './docs';
 var production = !!require('yargs').argv.production;
 var packageName = pkg.name;
 
@@ -14,6 +15,11 @@ var jsFileName = packageName + '.js';
 
 module.exports = {
   productionBuild: production,
+  docs: {
+    sources : ['indeterminateProgress/**/*.js', 'table/**/*.js'],
+    base: src,
+    outputDirectory: docs
+  },
   browserSync: {
     server: {
       // Serve up our build folder
@@ -48,6 +54,7 @@ module.exports = {
     jsMinMap: packageName + '.min.js.map',
     dest: dest,
     reports: reports,
+    docs: docs,
     packageName: pkg.name
   }
 };

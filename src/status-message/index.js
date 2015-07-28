@@ -1,8 +1,8 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Status Message
  * @name akamai.components.status-message
  *
  * @description Provides a directive that creates Luna- and

@@ -1,8 +1,8 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Time Picker
  * @name akamai.components.time-picker
  *
  * @description Provides a directive that creates Luna-
