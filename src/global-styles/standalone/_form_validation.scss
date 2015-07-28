@@ -41,6 +41,18 @@ input[type="month"] {
 
 
 
+/* tag input validation */
+akam-tag-input {
+  &.ng-invalid.ng-dirty.ng-touched {
+    .ui-select-container {
+      border-color: $colors__red3;
+      border-width: 2px;
+    }
+  }
+}
+
+
+
 /* dropdown menu validation */
 ul.dropdown-menu {
 

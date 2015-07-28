@@ -1,6 +1,7 @@
 /* take back the .label power! */
 label {
   margin: 0;
+  font-weight: normal;
 }
 
 .label {
@@ -28,6 +29,10 @@ label {
     label {
       text-align: right;
       padding-right: 10px;
+      word-wrap: break-word;
+    }
+    
+    label:not(.long-label) {
       line-height: 28px;
     }
     
@@ -43,16 +48,32 @@ label {
       
       label {
         padding-left: 0;
+        line-height: 1;
       }
     }
     
     .radio,
     .checkbox {
       min-height: 0;
+      
+      &:first-of-type {
+        margin-top: 5px;
+      }
+      
+      & + .radio,
+      & + .checkbox {
+        margin-top: 10px;
+      }
     }
   }
 }
 
+.show-required .form-group.required {
+  .radio:first-of-type,
+  .checkbox:first-of-type {
+    margin-top: 0;
+  }
+}
 
 .form-horizontal {
   & + .form-horizontal {
