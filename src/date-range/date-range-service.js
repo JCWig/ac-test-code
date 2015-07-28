@@ -2,41 +2,33 @@ var angular = require('angular');
 
 module.exports = function(dateFilter) {
 
-  function isFirstDateExceedMinDate(currentDate, min) {
-    var firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-
-    return min && firstDayOfMonth.getTime() >= min.getTime();
+  function stripTime(d) {
+    d.setHours(0, 0, 0, 0, 0);
+    return d;
   }
 
-  function isLastDateNotOverMaxDate(currentDate, max) {
-    var lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+  function isFirstDateExceedMinDate(d, min) {
+    var firstDayOfMonth = stripTime(new Date(d.getFullYear(), d.getMonth(), 1));
 
-    return max && lastDayOfMonth.getTime() < max.getTime();
+    return min && stripTime(firstDayOfMonth) >= stripTime(min);
   }
 
-  function compareEqual(currentDate, d2) {
-    if (d2 && angular.isDate(d2)) {
-      return currentDate.getTime() === d2.getTime();
+  function isLastDateNotOverMaxDate(d, max) {
+    var lastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+
+    return max && stripTime(lastDayOfMonth) < stripTime(max);
+  }
+
+  function compareDates(d1, d2) {
+    if (angular.isDate(d1) && angular.isDate(d2)) {
+      return stripTime(d1).getTime() === stripTime(d2).getTime();
     }
     return false;
   }
 
   function inRangeCheck(currentDate, start, end) {
-    return currentDate.getTime() >= start.getTime() && currentDate.getTime() <= end.getTime();
-  }
-
-  /**
-   * filterDate filter any date with given format
-   * @param  {Date} value Date value
-   * @param  {String} format display format
-   * @return {String} return a formatted string or empty string
-   * if value is empty or not Date type
-   */
-  function filterDate(value, format) {
-    if (value && angular.isDate(value)) {
-      return dateFilter(new Date(value), format);
-    }
-    return '';
+    currentDate = stripTime(currentDate);
+    return currentDate >= stripTime(start) && currentDate <= stripTime(end);
   }
 
   /**
@@ -44,26 +36,12 @@ module.exports = function(dateFilter) {
    * @param {object} rangeStart start date object
    * @param {Date} date Date value
    */
-  function setStartMinMax(rangeStart, date) {
+  function setMinMax(rangeStart, date) {
     var y = date.getFullYear(),
       m = date.getMonth();
 
     rangeStart.minDate = new Date(y, m - 1, 1);
     rangeStart.maxDate = new Date(y + 1, m + 1, 0);
-  }
-
-  /**
-   * setEndMinMax set end date min and max values
-   * @param {object} rangeEnd end date object
-   * @param {Date} date Date value
-   */
-  function setEndMinMax(rangeEnd, date) {
-    var y = date.getFullYear(),
-      m = date.getMonth();
-
-    rangeEnd.minDate = new Date(y, m + 1, 1);
-    rangeEnd.maxDate = new Date(y + 1, m + 1, 1);
-    rangeEnd.initDate = rangeEnd.minDate;
   }
 
   /**
@@ -74,45 +52,13 @@ module.exports = function(dateFilter) {
    * @return {String} appended string
    */
   function selectedRange(startDate, endDate, format) {
-    var d1 = angular.isDate(startDate) ? this.filterDate(startDate, format) : '',
-      d2 = angular.isDate(endDate) ? this.filterDate(endDate, format) : '';
+    var d1 = angular.isDate(startDate) ? dateFilter(startDate, format) : '',
+      d2 = angular.isDate(endDate) ? dateFilter(endDate, format) : '';
 
     if (!d1 || !d2) {
       return '';
     }
     return appendDates(d1, d2);
-  }
-
-  /**
-   * evaluateEndDateChange re-arrange parameters for rangeStart,
-   * and call to return dates array
-   * @param  {Date} newVal new date value
-   * @param  {Date} oldVal old date value
-   * @param  {Object} rangeStart [description]
-   * @param  {Object} rangeEnd [description]
-   * @return {function} function will return dates array bck to caller
-   */
-  function evaluateStartDateChange(newVal, oldVal, rangeStart, rangeEnd) {
-    var sel1 = rangeStart.dateSelected,
-      sel2 = rangeEnd.dateSelected;
-
-    return evaluateDates(newVal, oldVal, newVal, new Date(rangeEnd.selectedValue), sel1, sel2);
-  }
-
-  /**
-   * evaluateEndDateChange re-arrange parameters for rangeEnd,
-   * and call to return dates array
-   * @param  {Date} newVal new date value
-   * @param  {Date} oldVal old date value
-   * @param  {Object} rangeStart   [description]
-   * @param  {Object} rangeEnd [description]
-   * @return {function} function will return dates array bck to caller
-   */
-  function evaluateEndDateChange(newVal, oldVal, rangeStart, rangeEnd) {
-    var sel1 = rangeEnd.dateSelected,
-      sel2 = rangeStart.dateSelected;
-
-    return evaluateDates(newVal, oldVal, new Date(rangeStart.value), newVal, sel1, sel2);
   }
 
   /**
@@ -125,50 +71,14 @@ module.exports = function(dateFilter) {
     return [d1, d2].join(' - ');
   }
 
-  /**
-   * evaluateDates (private function) checking the dates value,
-   * and create array, insert them in theright order
-   * @param  {Date} d1 new date value
-   * @param  {Date} d2 old date value
-   * @param  {Date} d3 arbituray date value
-   * @param  {Date} d4 arbituray date value
-   * @param  {Boolean} sel1 is rangeStart date selected
-   * @param  {Boolean} sel2 is rangeEnd date selected
-   * @return {Array}  array with 2 date value if any, otherwise undefined
-   */
-  function evaluateDates(d1, d2, d3, d4, sel1, sel2) {
-    var dates;
-
-    //new value is empty, due to user unselects
-    if (!d1) {
-      return [undefined, undefined];
-    }
-
-    if (sel1) {
-      if (d1.getTime() > d2.getTime()) {
-        dates = [d2, d1];
-      } else {
-        dates = [d1, d2];
-      }
-    } else if (sel2) {
-      dates = [d3, d4];
-    }
-    return dates;
-  }
-
   return {
-    filterDate: filterDate,
-    setStartMinMax: setStartMinMax,
-    setEndMinMax: setEndMinMax,
-    areDatesEqual: compareEqual,
-    getSelectedDateRange: selectedRange,
-    evaluateEndDateChange: evaluateEndDateChange,
-    evaluateStartDateChange: evaluateStartDateChange,
+    setMinMaxDate: setMinMax,
+    areDatesEqual: compareDates,
     isDateInDateRange: inRangeCheck,
+    getSelectedDateRange: selectedRange,
     isFirstDateExceedMinDate: isFirstDateExceedMinDate,
     isLastDateNotOverMaxDate: isLastDateNotOverMaxDate
   };
-
 };
 
 module.exports.$inject = ['dateFilter'];

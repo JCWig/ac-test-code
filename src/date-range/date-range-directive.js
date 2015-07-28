@@ -43,7 +43,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       });
     }
 
-    drService.setStartMinMax(this.rangeStart, d);
+    drService.setMinMaxDate(this.rangeStart, d);
 
     this.toggle = function(e) {
       preventOtherEvents(e);
@@ -92,7 +92,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
 
       if (start && end) {
         //if startDate greater then endDate, swap date value
-        if (start.getTime() > end.getTime()) {
+        if (start > end) {
           clone = new Date(end);
           end = start;
           start = clone;
@@ -142,7 +142,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = end;
         $timeout(function() {
-          scope.$apply('dr.opened = true');
+          dr.opened = true;
         });
       }
     }

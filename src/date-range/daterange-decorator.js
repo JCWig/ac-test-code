@@ -111,11 +111,17 @@ module.exports = function($provide) {
         };
 
         scope.isStart = function(currentDate) {
-          return dateRangeService.areDatesEqual(currentDate, scope.selectedStart);
+          if (scope.selectedStart) {
+            return dateRangeService.areDatesEqual(currentDate, scope.selectedStart);
+          }
+          return false;
         };
 
         scope.isEnd = function(currentDate) {
-          return dateRangeService.areDatesEqual(currentDate, scope.selectedEnd);
+          if (scope.selectedEnd) {
+            return dateRangeService.areDatesEqual(currentDate, scope.selectedEnd);
+          }
+          return false;
         };
 
         scope.activeSelect = function(currentDate) {
