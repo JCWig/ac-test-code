@@ -64,6 +64,28 @@ function imageTagProcessor() {
   };
 }
 
+function exampleTagProcessor() {
+  return {
+    name: 'example',
+    multi: true,
+    docProperty: 'examples',
+    transforms: function(doc, tag, value) {
+      if(value){
+        var exampleRegex = /^([^\s]*)\s+([\S\s]*)/;
+        var match = exampleRegex.exec(value);
+        // Attach the example as an object to the doc
+        doc.exampleFiles = doc.exampleFiles || [];
+        doc.exampleFiles.push({
+          name : match[1],
+          content: match[2]
+        });
+        // return the content
+        return match[2];
+      }
+    }
+  };
+}
+
 
 gulp.task('docs', ['clean'], function() {
   var pkg = new Dgeni.Package('akamai-package', [
@@ -74,7 +96,7 @@ gulp.task('docs', ['clean'], function() {
   .config(configureIds)
   .config(configureTemplates)
   .config(function(parseTagsProcessor, getInjectables) {
-      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(  getInjectables([guidelineTagProcessor, imageTagProcessor]) );
+      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(  getInjectables([guidelineTagProcessor, imageTagProcessor, exampleTagProcessor]) );
   })
   .processor(filterDocsProcessor);
 

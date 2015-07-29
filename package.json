@@ -91,7 +91,7 @@
     "watchify": "^3.2.2",
     "yargs": "^3.10.0",
     "dgeni": "^0.4.1",
-    "dgeni-packages": "git://github.com/yleviel/dgeni-packages.git#26d6d8c06f39d3ce2687ae5cbd4a58b7138cf2f7"
+    "dgeni-packages": "git://github.com/yleviel/dgeni-packages.git#5144a1d7fd167d815aae6143e86e56a12959c66a"
   },
   "files": [
     "dist",

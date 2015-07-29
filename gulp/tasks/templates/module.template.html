@@ -38,5 +38,9 @@
 
   <section class="code-example">
     <h1>Code Example</h1>
+    {% for example in doc.exampleFiles %}
+      <label>{$ example.name $}</label>
+      <pre>{$ example.content $}</pre>
+    {% endfor %}
   </section>
 </section>
