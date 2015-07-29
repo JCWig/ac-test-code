@@ -16,7 +16,7 @@ module.exports = angular.module('akamai.components.navigation', [
  *
  * @name akamai.components.navigation.directive:akamNavigation
  *
- * @description Creates a switch button control
+ * @description Creates a navigation control
  *
  * @restrict E
  *
