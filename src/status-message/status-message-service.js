@@ -32,13 +32,20 @@ module.exports = function($document, $compile, $rootScope) {
     itemCount++;
     options.itemId = 'akam-status-message-' + itemCount;
     items.push(options);
+    return options.itemId;
   }
 
   return {
     /**
      * @ngdoc method
      * @name statusMessage#show
-     * @description goes here
+     * @description shows a success message to the end user. This is an alias for showSuccess
+     * @param {object} [options] A hash with the options specified below.
+     * @param {string} [options.text=''] The text content to show within the status message
+     * @param {string} [options.title=''] The title content to show within the status message
+     * @param {number} [options.timeout=2000] The time (in ms) before the status message removes
+     * itself from being shown.  *Note: Use timeout = 0 to force the user to close the message.*
+     * @returns {string} id of status message being shown on the screen
      */
     show: function(options) {
       return this.showSuccess(options);
@@ -47,7 +54,13 @@ module.exports = function($document, $compile, $rootScope) {
     /**
      * @ngdoc method
      * @name statusMessage#showSuccess
-     * @description goes here
+     * @description shows a success message to the end user
+     * @param {object} [options] A hash with the options specified below.
+     * @param {string} [options.text=''] The text content to show within the status message
+     * @param {string} [options.title=''] The title content to show within the status message
+     * @param {number} [options.timeout=2000] The time (in ms) before the status message removes
+     * itself from being shown.  *Note: Use timeout = 0 to force the user to close the message.*
+     * @returns {string} id of status message being shown on the screen
      */
     showSuccess: function(options) {
       return show(angular.extend({}, options || {}, {status: 'success'}));
@@ -56,7 +69,13 @@ module.exports = function($document, $compile, $rootScope) {
     /**
      * @ngdoc method
      * @name statusMessage#showInformation
-     * @description goes here
+     * @description shows an informational message to the end user
+     * @param {object} [options] A hash with the options specified below.
+     * @param {string} [options.text=''] The text content to show within the status message
+     * @param {string} [options.title=''] The title content to show within the status message
+     * @param {number} [options.timeout=2000] The time (in ms) before the status message removes
+     * itself from being shown.  *Note: Use timeout = 0 to force the user to close the message.*
+     * @returns {string} id of status message being shown on the screen
      */
     showInformation: function(options) {
       return show(angular.extend({}, options || {}, {status: 'information'}));
@@ -65,7 +84,12 @@ module.exports = function($document, $compile, $rootScope) {
     /**
      * @ngdoc method
      * @name statusMessage#showError
-     * @description goes here
+     * @description shows an error message to the end user. *Note: The message must be closed by
+     * the end user as there is no allowed timeout.*
+     * @param {object} [options] A hash with the options specified below.
+     * @param {string} [options.text=''] The text content to show within the status message
+     * @param {string} [options.title=''] The title content to show within the status message
+     * @returns {string} id of status message being shown on the screen
      */
     showError: function(options) {
       // errors must be closed, therefore set timeout to 0
@@ -75,7 +99,12 @@ module.exports = function($document, $compile, $rootScope) {
     /**
      * @ngdoc method
      * @name statusMessage#showWarning
-     * @description goes here
+     * @description shows a warning message to the end user. *Note: The message must be closed by
+     * the end user as there is no allowed timeout.*
+     * @param {object} [options] A hash with the options specified below.
+     * @param {string} [options.text=''] The text content to show within the status message
+     * @param {string} [options.title=''] The title content to show within the status message
+     * @returns {string} id of status message being shown on the screen
      */
     showWarning: function(options) {
       return show(angular.extend({}, options || {}, {timeout: 0, status: 'warning'}));
