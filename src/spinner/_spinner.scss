@@ -82,14 +82,14 @@ $spinner-button-active-gradient-top: #c8c8c8;
         display: block;
       }
 
-      &:hover {
+      &:hover:not[disabled='disabled'] {
         margin-left: -1px;
         border-left-width: 1px;
         border-color: $spinner-border-color-hover;
         @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
       }
 
-      &:active {
+      &:active:not[disabled='disabled'] {
         margin-left: -1px;
         border-left-width: 1px;
         border-color: $spinner-button-color-active;

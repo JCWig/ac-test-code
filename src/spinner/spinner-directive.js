@@ -121,6 +121,10 @@ module.exports = function($interval, uuid, spinnerService) {
         };
       }
 
+      if (angular.isUndefined(scope.inputValue)) {
+        scope.inputValue = defaults.VALUE;
+      }
+
       ngModel.$render();
 
       scope.$watch('inputValue', function(newValue, oldValue) {
