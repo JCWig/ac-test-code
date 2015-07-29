@@ -25,7 +25,34 @@ module.exports = angular.module('akamai.components.auth', [
     //token introspection endpoint
     introspectionUrl: '/ids-authn/v1/introspect',
     //url pointing to luna logout
-    lunaLogoutUrl: '/portal/logout.jsp?TARGET_URL='
+    lunaLogoutUrl: '/EdgeAuth/login.jsp?TARGET_URL=',
+    //401 response error codes which should request a new token
+    newTokenRequestCodes: [
+      'invalid_token',
+      'akasession_username_invalid',
+      'incorrect_current_account',
+      'invalid_xsrf',
+      'invalid_token_type',
+      'invalid_token_id',
+      'token_is_revoked',
+      'token_is_expired',
+      'invalid_token_subject',
+      'token_and_akasession_mismatch',
+      'missing_token',
+      'missing_xsrf_token'
+    ],
+    logoutCodes: [
+      //401 response error codes which should perform logout
+      'expired_akasession',
+      'malformed_akasession',
+      'malformed_akalastmanaged_account', //logout instead of login redirect
+      'akasession_decryption_problem',
+      'missing_akasession',
+      //502 response error codes which should perform logout
+      'internal.server.error', //why does this code use . instead of _?
+      'invalid_status_code',
+      'invalid_response_format'
+    ]
   })
   .factory('httpBuffer', require('./http-buffer-service'))
   .factory('token', require('./token-service'))
