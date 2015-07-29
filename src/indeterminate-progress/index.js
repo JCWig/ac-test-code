@@ -20,7 +20,6 @@ export default angular.module(MODULE_NAME, [])
  * @ngdoc directive
  *
  * @name akamIndeterminateProgress
- * @module akamai.components.indeterminate-progress
  *
  * @description Creates an indeterminate progress control
  *

@@ -21,13 +21,21 @@ var pkg = new Dgeni.Package('akamai-package', [
   templateFinder.templateFolders.unshift(path.resolve(__dirname, 'templates'));
 })
 .config(function(computePathsProcessor) {
-    computePathsProcessor.pathTemplates.push({
-        docTypes: ['module'],
-        getPath: function(doc) {
-          return path.dirname(doc.fileInfo.relativePath);
-        },
-        outputPathTemplate: '${path}/index.html'
-    });
+  computePathsProcessor.pathTemplates.push({
+    docTypes: ['module'],
+    getPath: function(doc) {
+      return path.dirname(doc.fileInfo.relativePath);
+    },
+    outputPathTemplate: '${path}/index.html'
+  });
+})
+.config(function(computeIdsProcessor) {
+  computeIdsProcessor.idTemplates.push({
+    docTypes: ['module'],
+    getId: function(doc) {
+      return path.dirname(doc.fileInfo.relativePath);
+    }
+  });
 })
 .processor(function filterDocsProcessor() {
   return {
