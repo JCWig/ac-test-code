@@ -12,8 +12,11 @@ $dropdown-button-disabled-color: #e6e6e6;
   position: absolute;
   border: 0 none;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  margin-top: 0;
+  
   div.fixed-header {
     padding: 4px 5px;
+    @include ellipsis();
 
     & input {
       width: 100%;
@@ -39,6 +42,15 @@ $dropdown-button-disabled-color: #e6e6e6;
 .dropdown.akam-dropdown {
   min-width: 180px;
   width: 100%;
+
+  .dropdown-menu {
+    max-width: 100%;
+
+    > li > a,
+    > .fixed-header {
+      @include ellipsis();
+    }
+  }
 
   & > .dropdown-toggle {
     display: inline-block;
@@ -118,9 +130,11 @@ $dropdown-button-disabled-color: #e6e6e6;
   & div.dropdown-menu {
     width: calc(100% - 1px);
     border-top: none;
+    margin-top: 0;
 
     & div.fixed-header {
       padding: 4px 5px;
+      @include ellipsis();
 
       & input {
         width: 100%;
