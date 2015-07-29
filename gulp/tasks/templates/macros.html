@@ -7,3 +7,12 @@
   {% endfor %}
 </ul>
 {% endmacro %}
+
+{% macro componentName(component) %}
+{% if component.docType == 'directive' %}
+&lt;{$ component.name | dashCase $}&gt;
+{% endif %}
+{% if component.docType != 'directive' %}
+{$ component.name $}
+{% endif %}
+{% endmacro %}

@@ -30,9 +30,13 @@
     <h1>API</h1>
     {% for component in doc.components %}
     <section class="component">
-      <h1>{$ component.docType $}: <span>{$ component.name | dashCase $}</span></h1>
+      <h1>{$ component.docType $}:<span>{$ componentName(component) $}</span></h1>
       <p>{$ component.description $}</p>
     </section>
     {% endfor %}
   </section> 
+
+  <section class="code-example">
+    <h1>Code Example</h1>
+  </section>
 </section>
