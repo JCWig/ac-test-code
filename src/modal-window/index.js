@@ -2,7 +2,6 @@ var angular = require('angular');
 
 /**
  * @ngdoc module
- * @display Modal Window
  * @name akamai.components.modal-window
  *
  * @description Presents a window requiring an action to continue the
@@ -18,7 +17,7 @@ module.exports = angular.module('akamai.components.modal-window', [
 /**
  * @ngdoc service
  *
- * @name akamai.components.modal-window.service:modalWindow
+ * @name modalWindow
  *
  * @description Provides a method to open new modal window instances.
  *
@@ -26,9 +25,7 @@ module.exports = angular.module('akamai.components.modal-window', [
   .factory('modalWindow', require('./modal-window-service'))
 
 /**
- * @ngdoc directive
- *
- * @name akamai.components.modal-window.directive:akamModalWindowBody
+ * @name akamModalWindowBody
  *
  * @description Provides directive to display content body section in html.
  *

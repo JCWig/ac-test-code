@@ -7,11 +7,24 @@
 {% for page in doc.components %}
 <div>
   <h2>{$ page.name | dashCase $}</h2>
-  {%- if page.params %}
+  {% if page.docType == 'service' %}
+    {% for method in page.methods %}
+    <h3>{$ method.name $}</h3>
+      {% if method.params %}
+      <section class="api-section">
+        <h3>Arguments</h3>
+        {$ paramTable(method.params) $}
+      </section>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+    
+  {% if page.params %}
   <section class="api-section">
       <h3>Arguments</h3>
       {$ paramTable(page.params) $}
     </section>
-    {%- endif -%}
+    {% endif %}
 </div>
 {% endfor %}

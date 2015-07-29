@@ -35,23 +35,48 @@ module.exports = function($document, $compile, $rootScope) {
   }
 
   return {
+    /**
+     * @ngdoc method
+     * @name statusMessage#show
+     * @description goes here
+     */
     show: function(options) {
       return this.showSuccess(options);
     },
 
+    /**
+     * @ngdoc method
+     * @name statusMessage#showSuccess
+     * @description goes here
+     */
     showSuccess: function(options) {
       return show(angular.extend({}, options || {}, {status: 'success'}));
     },
 
+    /**
+     * @ngdoc method
+     * @name statusMessage#showInformation
+     * @description goes here
+     */
     showInformation: function(options) {
       return show(angular.extend({}, options || {}, {status: 'information'}));
     },
 
+    /**
+     * @ngdoc method
+     * @name statusMessage#showError
+     * @description goes here
+     */
     showError: function(options) {
       // errors must be closed, therefore set timeout to 0
       return show(angular.extend({}, options || {}, {timeout: 0, status: 'error'}));
     },
 
+    /**
+     * @ngdoc method
+     * @name statusMessage#showWarning
+     * @description goes here
+     */
     showWarning: function(options) {
       return show(angular.extend({}, options || {}, {timeout: 0, status: 'warning'}));
     }

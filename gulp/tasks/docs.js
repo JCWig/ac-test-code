@@ -13,7 +13,7 @@ function configureDgeni(dgeni, log) {
 
 function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsProcessor) {
   readFilesProcessor.basePath = './src';
-  readFilesProcessor.sourceFiles = ['indeterminate-progress/**/*.js'];
+  readFilesProcessor.sourceFiles = ['indeterminate-progress/**/*.js', 'modal-window/**/*.js', 'status-message/**/*.js'];
   writeFilesProcessor.outputFolder = '../docs';
 
   computePathsProcessor.pathTemplates.push({
