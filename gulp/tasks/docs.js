@@ -50,6 +50,14 @@ function filterDocsProcessor() {
   };
 }
 
+function guideline() {
+  return {
+    name: 'guideline',
+    multi: true,
+    docProperty: 'guidelines'
+  };
+}
+
 gulp.task('docs', ['clean'], function() {
   var pkg = new Dgeni.Package('akamai-package', [
     require('dgeni-packages/ngdoc')
@@ -58,6 +66,9 @@ gulp.task('docs', ['clean'], function() {
   .config(configurePaths)
   .config(configureIds)
   .config(configureTemplates)
+  .config(function(parseTagsProcessor, getInjectables) {
+      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(  getInjectables([guideline]) );
+  })
   .processor(filterDocsProcessor);
 
   var dgeni = new Dgeni([pkg]);
