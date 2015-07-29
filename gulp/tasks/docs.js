@@ -4,23 +4,18 @@ var gulp = require('gulp');
 var path = require('path');
 var Dgeni = require('dgeni');
 
-var pkg = new Dgeni.Package('akamai-package', [
-  require('dgeni-packages/ngdoc')
-])
-.config(function(dgeni, log, readFilesProcessor, writeFilesProcessor) {
+function configureDgeni(dgeni, log) {
   dgeni.stopOnValidationError = true;
   dgeni.stopOnProcessingError = true;
 
   log.level = 'info';
+}
 
+function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsProcessor) {
   readFilesProcessor.basePath = './src';
   readFilesProcessor.sourceFiles = ['indeterminate-progress/**/*.js'];
   writeFilesProcessor.outputFolder = '../docs';
-})
-.config(function(templateFinder) {
-  templateFinder.templateFolders.unshift(path.resolve(__dirname, 'templates'));
-})
-.config(function(computePathsProcessor) {
+
   computePathsProcessor.pathTemplates.push({
     docTypes: ['module'],
     getPath: function(doc) {
@@ -28,16 +23,22 @@ var pkg = new Dgeni.Package('akamai-package', [
     },
     outputPathTemplate: '${path}/index.html'
   });
-})
-.config(function(computeIdsProcessor) {
+}
+
+function configureIds(computeIdsProcessor) {
   computeIdsProcessor.idTemplates.push({
     docTypes: ['module'],
     getId: function(doc) {
       return path.dirname(doc.fileInfo.relativePath);
     }
   });
-})
-.processor(function filterDocsProcessor() {
+}
+
+function configureTemplates(templateFinder) {
+  templateFinder.templateFolders.unshift(path.resolve(__dirname, 'templates'));
+}
+
+function filterDocsProcessor() {
   return {
     $runBefore: ['computePathsProcessor'],
     $runAfter: ['providerDocsProcessor'],
@@ -47,17 +48,26 @@ var pkg = new Dgeni.Package('akamai-package', [
       });
     }
   };
-});
+}
 
 gulp.task('docs', ['clean'], function() {
-    var dgeni = new Dgeni([pkg]);
+  var pkg = new Dgeni.Package('akamai-package', [
+    require('dgeni-packages/ngdoc')
+  ])
+  .config(configureDgeni)
+  .config(configurePaths)
+  .config(configureIds)
+  .config(configureTemplates)
+  .processor(filterDocsProcessor);
 
-    dgeni.generate()
-    .then(function(docs) {
-      console.log(docs.length, 'docs generated');
-    })
-    .catch(function(error) {
-      console.log(error);
-      process.exit(1);
-    });
+  var dgeni = new Dgeni([pkg]);
+
+  dgeni.generate()
+  .then(function(docs) {
+    console.log(docs.length, 'docs generated');
+  })
+  .catch(function(error) {
+    console.log(error);
+    process.exit(1);
+  });
 });
