@@ -13,12 +13,12 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     format: 'EEE, MMM dd, yyyy'
   };
 
-  function notifyNewRange(scope, startValue, endValue) {
+  function notifyNewRange(scope, startValue, endValue, id) {
     $timeout(function() {
-      //notify children if any are listening this event
       scope.$broadcast('initialDateRange', {
         startDate: startValue,
-        endDate: endValue
+        endDate: endValue,
+        id: id
       });
     });
   }
@@ -33,7 +33,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     this.rangeSelected = false;
 
     this.options = config.options;
-    this.rangeStart.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
+    this.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
 
     if ($attr.placeholder) {
       this.rangeStart.placeholder = this.rangeEnd.placeholder = $attr.placeholder;
@@ -47,7 +47,9 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
 
     this.toggle = function(e) {
       preventOtherEvents(e);
-      this.opened = !this.opened;
+      if (!this.isDisabled) {
+        this.opened = !this.opened;
+      }
     };
 
     this.clearStartDate = function(e) {
@@ -81,7 +83,9 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     }
 
     ngModel.$render = function() {
-      var start = '', end = '', clone;
+      var start = '',
+        end = '',
+        clone;
 
       if (initialized) {
         return;
@@ -100,21 +104,36 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
 
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
-
-        notifyNewRange(scope, start, end);
         scope.setViewValue(drService.getSelectedDateRange(start, end, dr.format), start, end);
       }
 
+      notifyNewRange(scope, start, end, dr.id);
+
       $timeout(function() {
-        initialized = true;
         //interesting, have to wait for $digest completed
         dr.format = dr.format || config.format;
+        initialized = true;
       });
     };
 
+    scope.$watch('dr.format', function() {
+      var start = dr.rangeStart.selectedValue,
+        end = dr.rangeEnd.selectedValue;
+
+      if (!initialized) {
+        return;
+      }
+      if (start) {
+        dr.rangeStart.selectedValue = dateFilter(new Date(start), dr.format);
+      }
+      if (end) {
+        dr.rangeEnd.selectedValue = dateFilter(new Date(end), dr.format);
+      }
+    });
+
     //it needs to listen unique id for identify correct instance
-    $rootScope.$on('rangeSelected', setAndNotifySelection);
-    scope.$on('$destroy', setAndNotifySelection);
+    $rootScope.$on('rangeSelected', setRangeValues);
+    scope.$on('$destroy', setRangeValues);
 
     scope.setViewValue = function(value, start, end) {
       //ngModel.$setViewValue(value);
@@ -128,10 +147,15 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       }
     };
 
-    function setAndNotifySelection(e, info) {
+    function setRangeValues(e, info) {
       var start = info.selectedStart,
         end = info.selectedEnd,
         range = drService.getSelectedDateRange(start, end, dr.format);
+
+      //if it is not for you, don't handle it
+      if (info.id && info.id !== dr.id) {
+        return;
+      }
 
       if (info.rangeSelected) {
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);

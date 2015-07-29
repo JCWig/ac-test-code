@@ -1,7 +1,6 @@
-<div class="akam-date-range akam-date-picker day" ng-class="{opened:dr.opened}">
-  <span class="range-start">
-    <input ng-hide="true"
-      id="{{::dr.rangeStart.id}}"
+<div id="{{::dr.id}}" class="akam-date-range akam-date-picker day" ng-class="{opened:dr.opened}">
+  <span class="range-picker">
+    <input
       type="text"
       datepicker-popup="{{dr.format}}"
       ng-model="dr.rangeStart.value"
@@ -9,27 +8,30 @@
       min-date="{{::dr.rangeStart.minDate}}"
       max-date="{{::dr.rangeStart.maxDate}}"
       datepicker-options="{{::dr.options}}"
-      placeholder="{{dr.rangeStart.placeholder}}"
-      ng-click="dr.toggle($event)"
-      ng-disabled="dr.isDisabled"
       readonly="readonly"
       show-button-bar="false">
-      <i class="luna-close clear-date util-clickable"
-        ng-show="dr.rangeStart.dateSelected && !dr.isDisabled"
-        ng-click="dr.clearStartDate($event)">
-      </i>
-    <button class="button"
-      ng-click="dr.toggle($event)"
-      ng-disabled="dr.isDisabled">
-      <i class="luna-calendar icon-states"
-        ng-disabled="dr.isDisabled">
-      </i>
-    </button>
   </span>
-    <span class="range-selection" ng-class="{'selected': dr.rangeSelected}">
-      <span ng-if="dr.rangeStart.selectedValue">{{dr.rangeStart.selectedValue}}</span>
-      <span ng-if="dr.rangeEnd.selectedValue">{{dr.rangeEnd.selectedValue}}</span>
-      <span ng-if="!dr.rangeStart.selectedValue">{{::dr.rangeStart.placeholder}}</span>
-      <span ng-if="!dr.rangeEnd.selectedValue">{{::dr.rangeEnd.placeholder}}</span>
-    </span>
+  <div class="range-selection" ng-class="{'selected': dr.rangeSelected}">
+    <div class="range-start util-clickable" >
+      <span class="date-range-placeholder" ng-class="{disabled: dr.isDisabled}" ng-click="dr.toggle($event)" ng-if="!dr.rangeStart.selectedValue">{{::dr.rangeStart.placeholder}}</span>
+      <span class="util-ellipsis selected"
+        ng-class="{disabled: dr.isDisabled}"
+        ng-click="dr.toggle($event)"
+        ng-if="dr.rangeStart.selectedValue"
+        title="{{dr.rangeStart.selectedValue}}">{{dr.rangeStart.selectedValue}}</span>
+      <i class="luna-close clear-date" ng-show="dr.rangeStart.selectedValue && !dr.isDisabled" ng-click="dr.clearStartDate($event)"></i>
+    </div>
+    <div class="range-end util-clickable">
+      <span class="date-range-placeholder" ng-class="{disabled: dr.isDisabled}" ng-click="dr.toggle($event)" ng-if="!dr.rangeEnd.selectedValue">{{::dr.rangeEnd.placeholder}}</span>
+      <span class="util-ellipsis selected"
+        ng-class="{disabled: dr.isDisabled}"
+        ng-click="dr.toggle($event)"
+        ng-if="dr.rangeEnd.selectedValue"
+        title="{{dr.rangeEnd.selectedValue}}">{{dr.rangeEnd.selectedValue}}</span>
+      <i class="luna-close clear-date" ng-show="dr.rangeStart.dateSelected && !dr.isDisabled" ng-click="dr.clearStartDate($event)"></i>
+    </div>
+    <button class="button" type="button" ng-click="dr.toggle($event)" ng-disabled="dr.isDisabled">
+      <i class="luna-calendar icon-states" ng-disabled="dr.isDisabled"></i>
+    </button>
+  </div>
 </div>

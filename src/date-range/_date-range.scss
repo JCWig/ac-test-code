@@ -2,16 +2,94 @@ $date-range-disabled-color: #e6e6e6;
 $date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
 $date-range-in-range-color: #666666;
 $date-range-in-range-background-color: #CEE7FF;
+$date-range-width: 150px;
 .akam-date-picker.akam-date-range {
+  width: 100%;
+  vertical-align: middle;
+  height: $autocomplete-height;
   position: relative;
   input {
-    &::-ms-clear {
-      display: none;
+    position: absolute;
+  }
+  div.range-selection {
+    .range-start,
+    .range-end {
+      //width: $date-range-width;
+      position: absolute;
+      display: inline-block;
+      & ~ .button,
+      & ~ .btn {
+        min-width: 0;
+        margin-left: 340px;
+        position: absolute;
+        @include border-left-radius(0);
+        i {
+          @include disable-magic-sprite-selectors(calendar);
+        }
+      }
     }
-    &:disabled {
-      @include placeholder-enhanced($date-range-disabled-color, italic);
-      color: $date-range-disabled-color;
-      cursor: default;
+    .rang-start {
+      > span {}
+    }
+    .range-end {
+      > span {
+        margin-left: 180px;
+        @include border-right-radius(0);
+      }
+    }
+    span {
+      position: absolute;
+      height: $input-height;
+      padding: 6px $input-padding;
+      background-color: $input-background-color;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      //min-width: 160px;
+      width: $date-range-width;
+      //@include border-right-radius(0);
+      @include box-shadow($date-range-boxshadow);
+      &.disabled {
+        @include placeholder-enhanced($autocomplete-disabled-color, italic);
+        color: $autocomplete-disabled-color;
+        border-color: $input-border-color-disabled;
+        background-color: $input-background-color-disabled;
+        box-shadow: none;
+        cursor: default;
+        @include user-select(none);
+      }
+      /*&:first-child {
+        width: 160px;
+      }
+      &:last-child {
+        width: 160px;
+        margin-left: 224px;
+      }
+      */
+    }
+    & .date-range-placeholder {
+      color: #ccc;
+      font-style: italic;
+    }
+  }
+  & span.range-selection {
+    > span {
+      position: absolute;
+      height: $input-height;
+      padding: 6px $input-padding;
+      background-color: $input-background-color;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      min-width: 160px;
+      width: 100%;
+      @include border-right-radius(0);
+      @include box-shadow($date-range-boxshadow);
+      &:first-child {
+        width: 160px;
+      }
+      &:last-child {
+        width: 160px;
+        margin-left: 224px;
+      }
     }
   }
   & span.range-start {
@@ -55,6 +133,14 @@ $date-range-in-range-background-color: #CEE7FF;
   }
   ul.dropdown-menu {
     min-width: 450px;
+    padding: $datepicker-padding;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: $border-radius;
+    margin-top: 0;
+    top: 29px;
+    //min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
+    @include box-shadow($global-box-shadow);
     table {
       //min-width: 400px;
       width: 100%;

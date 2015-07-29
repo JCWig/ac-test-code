@@ -24,7 +24,8 @@ module.exports = function($provide) {
     $rootScope.$emit('rangeSelected', {
       selectedStart: scope.selectedStart,
       selectedEnd: scope.selectedEnd,
-      rangeSelected: scope.rangeSelected
+      rangeSelected: scope.rangeSelected,
+      id: scope.callerId
     });
   }
 
@@ -93,6 +94,7 @@ module.exports = function($provide) {
           scope.selectedStart = info.startDate;
           scope.selectedEnd = info.endDate;
           scope.rangeSelected = true;
+          scope.callerId = info.id;
         });
 
         scope.$on('$destroy', initialDateRange);
@@ -132,9 +134,10 @@ module.exports = function($provide) {
         scope.pairSelect = function(currentDate) {
           setRangeAndNotify(currentDate, scope, $rootScope);
           //not to call scope.select(dt), it will make active as ...
-          //and let range directive to determine
+          //and let range directive to determine open or not
         };
 
+        //copied from datepicker.js
         function createPairingRows() {
           var year = ctrl.activeDate.getFullYear(),
             month = ctrl.activeDate.getMonth() + 1,

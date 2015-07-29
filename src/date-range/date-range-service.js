@@ -2,33 +2,28 @@ var angular = require('angular');
 
 module.exports = function(dateFilter) {
 
-  function stripTime(d) {
-    d.setHours(0, 0, 0, 0, 0);
-    return d;
-  }
-
   function isFirstDateExceedMinDate(d, min) {
-    var firstDayOfMonth = stripTime(new Date(d.getFullYear(), d.getMonth(), 1));
+    var firstDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
 
-    return min && stripTime(firstDayOfMonth) >= stripTime(min);
+    return min && firstDayOfMonth >= min;
   }
 
   function isLastDateNotOverMaxDate(d, max) {
     var lastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0);
 
-    return max && stripTime(lastDayOfMonth) < stripTime(max);
+    return max && lastDayOfMonth < max;
   }
 
   function compareDates(d1, d2) {
     if (angular.isDate(d1) && angular.isDate(d2)) {
-      return stripTime(d1).getTime() === stripTime(d2).getTime();
+      d2.setHours(d1.getHours());
+      return d1.getTime() === d2.getTime();
     }
     return false;
   }
 
   function inRangeCheck(currentDate, start, end) {
-    currentDate = stripTime(currentDate);
-    return currentDate >= stripTime(start) && currentDate <= stripTime(end);
+    return currentDate >= start && currentDate <= end;
   }
 
   /**
