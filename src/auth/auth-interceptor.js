@@ -33,9 +33,7 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
   ];
 
   var authPatterns = [].concat(authUrls, noAuthNoLunaQueryStringPatterns),
-    blacklistPatterns = [].concat(authUrls,
-      noAuthNoLunaQueryStringPatterns,
-      noAuthPatterns);
+      blacklistPatterns = [].concat(authUrls, noAuthNoLunaQueryStringPatterns, noAuthPatterns);
 
   // returns true if we should not send an auth token for this URI
   function isUriBlacklisted(uri) {
@@ -141,13 +139,21 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
 
     },
     responseError: function(response) {
-      if (response.status === 401 && !isUriBlacklisted(response.config.url)) {
-        if (token.isLogoutCondition(response)) {
-          token.logout();
-          return $q.reject(response);
-        }
+      if (response.status !== 401 && response.status !== 502){
+        return $q.reject(response);
+      }
 
-        // if we're requesting a new token, append the 401'd response to the retry queue, to be run
+      if (isUriBlacklisted(response.config.url)){
+        return $q.reject(response);
+      }
+
+      if (token.isLogoutCondition(response)) {
+        token.logout();
+        return $q.reject(response);
+      }
+
+      // if we're requesting a new token, append the response to the retry queue, to be run
+      if (token.isPending()) {
         return httpBuffer.appendResponse(response);
       }
 
