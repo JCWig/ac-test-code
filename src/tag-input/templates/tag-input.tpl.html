@@ -1,5 +1,5 @@
 <div class="akam-tag-input">
-  <ui-select multiple tagging tagging-label="{{::taggingLabel}}" tagging-tokens=",|ENTER" on-select="onSelect($item, $model)" 
+  <ui-select class="btn-group dropup" multiple tagging tagging-label="{{::taggingLabel}}" tagging-tokens=",|ENTER" on-select="onSelect($item, $model)"
     on-remove="onRemove($item, $model)" ng-model="data.items" theme="bootstrap" close-on-select="true" sortable="{{::dragDropable}}">
     <ui-select-match placeholder="{{placeholder}}">
       <span class="tag-input-selected-items">{{$item}}</span>
