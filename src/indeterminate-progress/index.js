@@ -7,6 +7,13 @@ const MODULE_NAME = 'akamai.components.indeterminate-progress';
  * @ngdoc module
  *
  * @name akamai.components.indeterminate-progress
+ * @guideline use this component blah
+ * @guideline use this component todo
+ * @guideline this
+ * is
+ * a
+ * multiline tag
+ *
  *
  * @description Provides a directive that creates Luna- and
  * Pulsar-compatible indeterminate progress elements. These
