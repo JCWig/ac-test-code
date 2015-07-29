@@ -3,6 +3,8 @@ $date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
 $date-range-in-range-color: #666666;
 $date-range-in-range-background-color: #CEE7FF;
 $date-range-width: 150px;
+$date-range-dash-width: 31px;
+$date-range-dash-space: 7px;
 .akam-date-picker.akam-date-range {
   width: 100%;
   vertical-align: middle;
@@ -20,24 +22,32 @@ $date-range-width: 150px;
       & ~ .button,
       & ~ .btn {
         min-width: 0;
-        margin-left: 340px;
+        margin-left: 2*$date-range-width + $date-range-dash-width;
         position: absolute;
         @include border-left-radius(0);
         i {
           @include disable-magic-sprite-selectors(calendar);
         }
       }
+
     }
-    .rang-start {
-      > span {}
+
+    .rang-start span {
+
     }
-    .range-end {
-      > span {
-        margin-left: 180px;
-        @include border-right-radius(0);
-      }
+    .range-end span {
+      margin-left: $date-range-width + $date-range-dash-width;
+      @include border-right-radius(0);
     }
-    span {
+  .date-range-dash span {
+    margin-left: $date-range-width + $date-range-dash-space;
+    font-size: 16px;
+    font-weight: bold;
+    width: 10%;
+    //line-height: 0;
+  }
+
+    span:not(.dash) {
       position: absolute;
       height: $input-height;
       padding: 6px $input-padding;

@@ -161,13 +161,15 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
         scope.setViewValue(range, start, end);
-        dr.opened = false;
+        $timeout(function() {
+          dr.opened = false;
+        }, 1500);
       } else { //assuming only start date has value, calendar stay open
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = end;
         $timeout(function() {
           dr.opened = true;
-        });
+        }, 50);
       }
     }
   }

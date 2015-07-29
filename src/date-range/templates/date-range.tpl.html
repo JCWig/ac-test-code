@@ -21,6 +21,7 @@
         title="{{dr.rangeStart.selectedValue}}">{{dr.rangeStart.selectedValue}}</span>
       <i class="luna-close clear-date" ng-show="dr.rangeStart.selectedValue && !dr.isDisabled" ng-click="dr.clearStartDate($event)"></i>
     </div>
+    <div class="range-dash"><span class="dash">&#0151;</span></div>
     <div class="range-end util-clickable">
       <span class="date-range-placeholder" ng-class="{disabled: dr.isDisabled}" ng-click="dr.toggle($event)" ng-if="!dr.rangeEnd.selectedValue">{{::dr.rangeEnd.placeholder}}</span>
       <span class="util-ellipsis selected"
