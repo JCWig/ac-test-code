@@ -50,13 +50,20 @@ function filterDocsProcessor() {
   };
 }
 
-function guideline() {
+function guidelineTagProcessor() {
   return {
     name: 'guideline',
     multi: true,
     docProperty: 'guidelines'
   };
 }
+
+function imageTagProcessor() {
+  return {
+    name: 'image'
+  };
+}
+
 
 gulp.task('docs', ['clean'], function() {
   var pkg = new Dgeni.Package('akamai-package', [
@@ -67,7 +74,7 @@ gulp.task('docs', ['clean'], function() {
   .config(configureIds)
   .config(configureTemplates)
   .config(function(parseTagsProcessor, getInjectables) {
-      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(  getInjectables([guideline]) );
+      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(  getInjectables([guidelineTagProcessor, imageTagProcessor]) );
   })
   .processor(filterDocsProcessor);
 
