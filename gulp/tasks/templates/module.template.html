@@ -1,0 +1,17 @@
+{% include "../../../node_modules/dgeni-packages/ngdoc/templates/lib/macros.html" -%}
+
+<h1>
+  {$ doc.name $}
+</h1>
+
+{% for page in doc.components %}
+<div>
+  <h2>{$ page.name | dashCase $}</h2>
+  {%- if page.params %}
+  <section class="api-section">
+      <h3>Arguments</h3>
+      {$ paramTable(page.params) $}
+    </section>
+    {%- endif -%}
+</div>
+{% endfor %}

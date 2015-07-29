@@ -7,7 +7,6 @@ const MODULE_NAME = 'akamai.components.indeterminate-progress';
  * @ngdoc module
  *
  * @name akamai.components.indeterminate-progress
- * @display Indeterminate Progress
  *
  * @description Provides a directive that creates Luna- and
  * Pulsar-compatible indeterminate progress elements. These
@@ -20,7 +19,8 @@ export default angular.module(MODULE_NAME, [])
 /**
  * @ngdoc directive
  *
- * @name akamai.components.indeterminate-progress.directive:akamIndeterminateProgress
+ * @name akamIndeterminateProgress
+ * @module akamai.components.indeterminate-progress
  *
  * @description Creates an indeterminate progress control
  *

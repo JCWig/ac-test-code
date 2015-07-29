@@ -33,7 +33,6 @@
     "moment": "^2.10.3"
   },
   "devDependencies": {
-    "akamai-docs" : "git+ssh://git@stash.akamai.com:7999/fee/akamai-documents.git#master",
     "angular-mocks": "~1.4.3",
     "angular-ui-utils": "git://github.com/angular-ui/ui-utils.git#4615f8e2449d95badf280a9820b8e6429ebb99ab",
     "babelify": "^6.1.2",
@@ -90,7 +89,9 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2",
-    "yargs": "^3.10.0"
+    "yargs": "^3.10.0",
+    "dgeni": "^0.4.1",
+    "dgeni-packages": "git://github.com/yleviel/dgeni-packages.git#26d6d8c06f39d3ce2687ae5cbd4a58b7138cf2f7"
   },
   "files": [
     "dist",
