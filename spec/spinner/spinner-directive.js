@@ -146,6 +146,15 @@ describe('akamai.components.spinner', function() {
       expect(scope.form.$valid).toBeFalsy();
     });
 
+    it("should verify intial value to be 0 if ng-model is undefined", function() {
+      var markup = '<akam-spinner ng-model="ngModel"></akam-spinner>';
+      scope.ngModel = undefined;
+      addElement(markup);
+      var inputElem = self.element.querySelector('.akam-spinner input');
+
+      expect(inputElem.value).toBe('0');
+    });
+
     it("should verify invalid class names when when input value under min value", function() {
       var markup = '<akam-spinner ng-model="ngModel" min={{::min}}></akam-spinner>';
       scope.ngModel = 3;
