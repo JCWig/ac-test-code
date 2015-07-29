@@ -8,5 +8,5 @@ var angular = require('angular');
  * @description Utility methods for the akamai components
  */
 module.exports = angular.module('akamai.components.utils', [])
-  //TODO: Remember to update this if the version in package.json ever changes
-  .constant('VERSION', '0.6.3');
+  //TODO: Remember to update this whenever the version in package.json changes
+  .constant('VERSION', '0.6.4');
