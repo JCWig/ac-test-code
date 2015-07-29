@@ -1,0 +1,9 @@
+{% macro moduleList(modules, selected) %}
+<ul class="modules">
+  {% for module in modules %}
+  <li class="{$ 'selected' if selected == module.module $}">
+    {$ module.module | titleCase $}
+  </li>
+  {% endfor %}
+</ul>
+{% endmacro %}
