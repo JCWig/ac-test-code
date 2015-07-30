@@ -39,12 +39,12 @@
 {% macro moduleList(modules, selected) -%}
 <ul class="modules">
   <li class="{$ 'selected' if selected == '' $}">
-    <a href="0.7.0/">Overview</a>
+    <a href="/ui/components/{$ doc.packageVersion $}/">Overview</a>
   </li>
   {% for module in modules %}
   {%- if module.docType == 'module' -%}
   <li class="{$ 'selected' if selected == module.module $}">
-    <a href="{$ module.outputPath $}">{$ module.module | titleCase $}</a>
+    <a href="/ui/components/{$ doc.packageVersion $}/{$ module.module $}/">{$ module.module | titleCase $}</a>
   </li>
   {%- endif %}
   {% endfor %}
