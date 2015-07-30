@@ -22,6 +22,7 @@ module.exports = {
       'content-panel/**/*.js',
       'date-picker/**/*.js',
       'dropdown/**/*.js',
+      'list-box/**/*.js',
       'switch-button/**/*.js',
       'menu-button/**/*.js',
       'indeterminate-progress/**/*.js',

@@ -4,7 +4,6 @@ require('angular-sanitize');
 
 /**
  * @ngdoc module
- * @display List Box
  * @name akamai.components.list-box
  *
  * @description Provides a directive that creates a Luna- and
@@ -21,14 +20,12 @@ module.exports = angular.module('akamai.components.list-box', [
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.list-box.directive:akamListBox
+ * @name akamListBox
+ * @restrict E
  *
  * @description Creates a list box control.
  *
- * @restrict E
- *
- * @param {Array|Promise} data The array of data to show within
+ * @param {Object[]|Promise} data The array of data to show within
  * the listbox.  If `data` is a promise, an indeterminate progress
  * control displays in place of the contents until the promise is
  * resolved or rejected. Note that the data is bound to the table
