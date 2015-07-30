@@ -14,7 +14,6 @@ var request;
 require('native-promise-only');
 
 /**
- * @ngdoc object
  * @name utils.ajax
  * @param {String} type request type
  * @param {String} url request url
@@ -72,7 +71,6 @@ request = function(type, url, opts, callback) {
 module.exports = {
 
   /**
-   * @ngdoc function
    * @name utils.ajax.get
    * @methodOf utils.ajax
    * @param {String} url The URL we should fetch
@@ -87,7 +85,6 @@ module.exports = {
   get: angular.bind(this, request, 'GET'),
 
   /**
-   * @ngdoc function
    * @name utils.ajax.post
    * @methodOf utils.ajax
    * @param {String} url The URL we should fetch
@@ -102,7 +99,6 @@ module.exports = {
   post: angular.bind(this, request, 'POST'),
 
   /**
-   * @ngdoc function
    * @name utils.ajax.put
    * @methodOf utils.ajax
    * @param {String} url The URL we should fetch
@@ -117,7 +113,6 @@ module.exports = {
   put: angular.bind(this, request, 'PUT'),
 
   /**
-   * @ngdoc function
    * @name utils.ajax.delete
    * @methodOf utils.ajax
    * @param {String} url The URL we should delete
@@ -131,7 +126,6 @@ module.exports = {
   'delete': angular.bind(this, request, 'DELETE'),
 
   /**
-   * @ngdoc function
    * @name utils.ajax.promiseGet
    * @methodOf utils.ajax
    * @description Performs an ajax get request but returns a promise

@@ -1,8 +1,7 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
  * @name akamai.components.status-message
  *
  * @description Provides a directive that creates Luna- and
@@ -10,13 +9,19 @@ var angular = require('angular');
  * unobtrusive, transient feedback on their actions and emerging
  * system conditions, but without interrupting their workflow.
  *
+ * @example status-message.js
+ *  var ctrlFunction = function($scope, statusMessage) {
+ *    var messageText = "Basic Message Text";
+ *    var messageTitle = "Message Title";
+ *    $scope.showStatus = function(){
+ *      statusMessage.showInformation({text : messageText, title : messageTitle });
+ *    };
+ *  };
  */
 module.exports = angular.module('akamai.components.status-message', [])
 
 /**
- * @ngdoc directive
- *
- * @name akamai.components.status-message.directive:akamStatusMessage
+ * @name akamStatusMessage
  *
  * @description Creates a status message control.
  *
@@ -28,9 +33,7 @@ module.exports = angular.module('akamai.components.status-message', [])
   .directive('akamStatusMessage', require('./status-message-directive'))
 
 /**
- * @ngdoc directive
- *
- * @name akamai.components.status-message.directive:akamStatusMessageGroup
+ * @name akamStatusMessageGroup
  *
  * @description Creates a status message group control.
  *
@@ -43,11 +46,9 @@ module.exports = angular.module('akamai.components.status-message', [])
   .directive('akamStatusMessageGroup', require('./status-message-group-directive'))
 
 /**
- * @ngdoc object
+ * @ngdoc service
  *
- * @name akamai.components.status-message.statusMessage
- *
- * @object
+ * @name statusMessage
  *
  * @description Displays an action's status.
  *

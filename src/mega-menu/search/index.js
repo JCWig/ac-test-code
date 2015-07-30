@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name search
  * @requires utils.ajax
  * @requires utils.renderer
@@ -377,7 +376,6 @@ function search(query) {
 }
 
 /**
- * @ngdoc function
  * @methodOf search
  * @name search.render
  * @param {Function} [callback] optional callback

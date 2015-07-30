@@ -51,8 +51,8 @@ function run($translate, i18nToken, i18nConfig) {
 run.$inject = ['$translate', 'i18nToken', 'i18nConfig'];
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @display Internationalization
  * @name akamai.components.i18n
  *
  * @requires angular-translate

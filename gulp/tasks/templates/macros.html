@@ -1,0 +1,90 @@
+{% macro typeList(types) %}
+{% for typeName in types -%}
+<code>{$ typeName | escape $}</code>
+{%- endfor %}
+{% endmacro %}
+
+
+{%- macro paramTable(params) %}
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%- for param in params %}
+    <tr>
+      <td>
+        <code>{$ param.name $}</code>
+        {%- if param.alias %}| {$ param.alias $}{% endif -%}
+        {%- if param.optional -%}<div><em>(optional)</em></div>{%- endif %}
+      </td>
+      <td>
+        {$ typeList(param.typeList) $}
+      </td>
+      <td>
+        {$ param.description | marked $}
+        {% if param.defaultValue %}<p><em>(default: {$ param.defaultValue $})</em></p>{% endif %}
+      </td>
+    </tr>
+    {% endfor -%}
+  </tbody>
+</table>
+{% endmacro -%}
+
+
+{% macro moduleList(modules, selected) -%}
+<ul class="modules">
+  <li class="{$ 'selected' if selected == '' $}">
+    <a href="/ui/components/{$ doc.packageVersion $}/">Overview</a>
+  </li>
+  {% for module in modules %}
+  {%- if module.docType == 'module' -%}
+  <li class="{$ 'selected' if selected == module.module $}">
+    <a href="/ui/components/{$ doc.packageVersion $}/{$ module.module $}/">{$ module.module | titleCase $}</a>
+  </li>
+  {%- endif %}
+  {% endfor %}
+</ul>
+{%- endmacro %}
+
+
+{% macro componentName(component) %}
+{% if component.docType == 'directive' %}
+&lt;{$ component.name | dashCase $}&gt;
+{% endif %}
+{% if component.docType != 'directive' %}
+{$ component.name $}
+{% endif %}
+{% endmacro %}
+
+
+{% macro directiveDocs(component) %}
+<h2>Attributes</h2>
+{$ paramTable(component.params) $}
+{% endmacro %}
+
+
+{% macro serviceDocs(component) %}
+{% if component.properties %}
+<h2>Properties</h2>
+{% endif %}
+{% if component.methods %}
+<h2>Methods</h2>
+{% for method in component.methods %}
+<section class="method">
+  <h1>{$ component.name $}#{$ method.name $}</h1>
+  <p>{$ method.description | marked $}</p>
+  <h2>Arguments</h2>
+  {$ paramTable(method.params) $}
+  {% if method.returns %}
+  <h2>Returns: <span>{$ typeList(method.returns.typeList) $}</span></h2>
+  <p>{$ method.returns.description | marked $}</p>
+  {% endif %}
+</section>
+{% endfor %}
+{% endif %}
+{% endmacro %}

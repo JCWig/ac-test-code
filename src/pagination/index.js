@@ -1,12 +1,19 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
  * @name akamai.components.pagination
  *
  * @description Enable a user to page through a set of results and set
  * the page size.
+ *
+ * @example index.html
+ * <akam-pagination
+ *   total-items="pager.totalItems"
+ *   current-page="pager.page"
+ *   page-size="pager.size"
+ *   onchangepage="pageChanged(page)">
+ * </akam-pagination>
  *
  */
 module.exports = angular.module('akamai.components.pagination', [
@@ -16,7 +23,7 @@ module.exports = angular.module('akamai.components.pagination', [
 /**
  * @ngdoc directive
  *
- * @name akamai.components.pagination.directive:akamPagination
+ * @name akamPagination
  *
  * @description Creates a pagination control to display pages of results.
  *

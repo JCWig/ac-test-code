@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
 /**
- * @ngdoc object
  * @name utils.open
  * @description Tiny wrapper around `window.open` to allow us to stub out tests properly.
  */

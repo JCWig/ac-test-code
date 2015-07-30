@@ -1,12 +1,17 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
  * @name akamai.components.switch-button
  *
  * @description Provides a directive that creates a Luna- and
  * Pulsar-compatible switch button.
+ *
+ * @example switch-button.html
+ * <akam-switch-button
+ *   ng-model="..."
+ *   size="medium">
+ * </akam-switch-button>
  */
 module.exports = angular.module('akamai.components.switch-button', [
   require('../i18n').name
@@ -15,7 +20,7 @@ module.exports = angular.module('akamai.components.switch-button', [
 /**
  * @ngdoc directive
  *
- * @name akamai.components.switch-button.directive:akamSwitchButton
+ * @name akamSwitchButton
  *
  * @description Creates a switch button control
  *

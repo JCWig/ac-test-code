@@ -3,12 +3,10 @@ var template = require('./tabs.hbs');
 var selector = '#modular-mega-menu-header .tabs';
 
 /**
- * @ngdoc object
  * @name menu.tabs
  */
 module.exports = {
   /**
-   * @ngdoc property
    * @name menu.tabs.selector
    * @propertyOf menu.tabs
    * @description
@@ -17,7 +15,6 @@ module.exports = {
   selector: selector,
 
   /**
-   * @ngdoc property
    * @name menu.tabs.template
    * @propertyOf menu.tabs
    * @description

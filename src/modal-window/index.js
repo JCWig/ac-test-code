@@ -1,12 +1,25 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
  * @name akamai.components.modal-window
  *
  * @description Presents a window requiring an action to continue the
- * application's workflow.
+ * application's workflow. For more information, see
+ * <a href="https://angular-ui.github.io/bootstrap/#/modal">Modal Window</a>
+ *
+ * @example index.js
+ * function MyController(modalWindow) {
+ *   modalWindow.open({
+ *    template: '...'
+ *   }).result
+ *    .then(() => {
+ *      // user clicked "ok"
+ *    });
+ *    .catch(() => {
+ *      // user clicked "cancel"
+ *    });
+ * }
  *
  */
 module.exports = angular.module('akamai.components.modal-window', [
@@ -17,20 +30,14 @@ module.exports = angular.module('akamai.components.modal-window', [
 
 /**
  * @ngdoc service
- *
- * @name akamai.components.modal-window.service:modalWindow
- *
+ * @name modalWindow
  * @description Provides a method to open new modal window instances.
  *
  */
   .factory('modalWindow', require('./modal-window-service'))
 
 /**
- * @ngdoc directive
- *
- * @name akamai.components.modal-window.directive:akamModalWindowBody
- *
+ * @name akamModalWindowBody
  * @description Provides directive to display content body section in html.
- *
  */
   .directive('akamModalWindowBody', require('./modal-window-body-directive'));

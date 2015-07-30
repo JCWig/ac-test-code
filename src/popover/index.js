@@ -1,6 +1,36 @@
 var angular = require('angular');
 var sanitize = require('angular-sanitize');
 
+/**
+ * @ngdoc module
+ * @name akamai.components.popover
+ *
+ * @description Enable popover/tooltip messages for a given element
+ *
+ * @example index.html
+ * <span akam-popover position="top"
+ *   popover-content="Text Content Only."
+ *   trigger="click">Click Here - Top
+ * </span>
+ *
+ * <span akam-popover position="left"
+ *   popover-content="Text Content Only."
+ *   trigger="hover">Hover Here - Left
+ * </span>
+ *
+ * <span akam-popover position="right"
+ *   header="Header Title"
+ *   custom-content="aTemplateId.html"
+ *   trigger="hover">Hover Here - Right
+ * </span>
+ *
+ * @example index.js
+ *
+ * function configFn($templateCache) {
+ *   $templateCache.put('aTemplateId.html', '...');
+ * }
+ *
+ */
 module.exports = angular.module('akamai.components.popover', [
   sanitize,
   require('angular-bootstrap-npm')
@@ -8,7 +38,7 @@ module.exports = angular.module('akamai.components.popover', [
 /**
  * @ngdoc directive
  *
- * @name akamai.components.popover.directive:akamPopover
+ * @name akamPopover
  *
  * @description Creates a tool tip for an element
  *

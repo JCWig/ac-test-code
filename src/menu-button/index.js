@@ -6,10 +6,23 @@ import menuButtonItem from './menu-button-item-directive';
 import menuButton from './menu-button-directive';
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name akamai.components.menu-button
  * @description Provides a set of directives to use in order to create Pulsar-compatible menu
  * buttons.
+ *
+ * @example menu-button.html
+ * <akam-menu-button>
+ *   <akam-menu-button-item text="an.i18n.key" ng-click="..."></akam-menu-button-item>
+ *   <akam-menu-button-item text="..." ng-click="..."></akam-menu-button-item>
+ *   <akam-menu-button-item text="..." ng-click="..."></akam-menu-button-item>
+ * </akam-menu-button>
+ *
+ *  <!-- and for a split button -->
+ *  <akam-menu-button default-text="examples.appNames.tq" on-click="vm.process('tq')">
+ *    <!-- same as above -->
+ *    <akam-menu-button-item></akam-menu-button-item>
+ *  </akam-menu-button>
  */
 export default angular.module('akamai.components.menu-button', [
   bootstrap,
@@ -18,7 +31,7 @@ export default angular.module('akamai.components.menu-button', [
 
 /**
  * @ngdoc directive
- * @name akamai.components.menu-button.directive:akamMenuButton
+ * @name akamMenuButton
  * @description Creates a menu button control.
  * @restrict E
  *
@@ -33,35 +46,11 @@ export default angular.module('akamai.components.menu-button', [
  *
  * @param {Function} [onClick] Callback for when the button is clicked.
  * @param {*} [isDisabled] Method or property that determines if this item should be disabled.
- *
- * @example
- * <pre>
- *   <akam-menu-button>
- *     <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')">
- *       </akam-menu-button-item>
- *     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')">
- *       </akam-menu-button-item>
- *     <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')">
- *       </akam-menu-button-item>
- *   </akam-menu-button>
- * </pre>
- *
- * And below is an example of a split button (note the presence of `default-action`).
- * <pre>
- *   <akam-menu-button default-text="examples.appNames.tq"on-click="vm.process('tq')">
- *     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')">
- *       </akam-menu-button-item>
- *     <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')">
- *       </akam-menu-button-item>
- *   </akam-menu-button>
- * </pre>
- *
  */
   .directive('akamMenuButton', menuButton)
 
-/**
- * @ngdoc directive
- * @name akamai.components.menu-button.directive:akamMenuButtonItem
+/**e
+ * @name akamMenuButtonItem
  * @restrict E
  *
  * @param {String} [text=""] The text to show for this menu item. It will be passed through the

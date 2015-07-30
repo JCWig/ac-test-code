@@ -2,7 +2,6 @@ var Handlebars = require('hbsfy/runtime'),
   highlightText = require('./highlightText');
 
 /**
- * @ngdoc object
  * @name helpers.highlightFirstMatch
  * @requires helpers.highlightText
  * @param {RegExp} regex The regex to search against the input string

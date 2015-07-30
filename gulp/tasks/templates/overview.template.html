@@ -1,0 +1,7 @@
+{% extends "base.template.html" %}
+
+{% block content %}
+{$ moduleList(docs, '') $}
+
+{$ doc.description | marked $}
+{% endblock %}

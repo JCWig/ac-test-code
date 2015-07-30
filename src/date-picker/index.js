@@ -1,13 +1,33 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
  * @name akamai.components.date-picker
  *
  * @description Provides a directive that creates Luna-
  * and Pulsar-compatible date picker elements.
  *
+ * @example day-picker.html
+ * <akam-date-picker
+ *   mode="day"
+ *   ng-model="..."
+ *   min="..."
+ *   max="..."
+ *   ng-change="..."
+ *   format="..."
+ *   is-disabled="...">
+ * </akam-date-picker>
+ *
+ * @example month-picker.html
+ * <akam-date-picker
+ *  mode="month"
+ *  ng-model="..."
+ *  min="..."
+ *  max="..."
+ *  ng-change="..."
+ *  format="..."
+ *  no-clear>
+ * </akam-date-picker>
  */
 module.exports = angular.module('akamai.components.date-picker', [
   require('angular-bootstrap-npm'),
@@ -22,7 +42,7 @@ module.exports = angular.module('akamai.components.date-picker', [
 /**
  * @ngdoc directive
  *
- * @name akamai.components.date-picker.directive:akamDatePicker
+ * @name akamDatePicker
  *
  * @description Creates a date picker control.
  *

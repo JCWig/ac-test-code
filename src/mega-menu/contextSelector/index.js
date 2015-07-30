@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name contextSelector
  * @requires utils.config
  * @requires utils.ajax
@@ -164,7 +163,6 @@ function toggleMenu() {
 }
 
 /**
- * @ngdoc function
  * @methodOf accountSelector
  * @name accountSelector.render
  * @param {Object} contextData required data from reading context.json

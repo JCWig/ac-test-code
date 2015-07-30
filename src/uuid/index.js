@@ -1,8 +1,8 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
+ * @Display Unique ID
  * @name akamai.components.uuid
  *
  * @description Provides a factory service that generates pseudo

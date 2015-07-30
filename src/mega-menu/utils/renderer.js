@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name utils.renderer
  * @requires utils.ajax
  * @description
@@ -8,7 +7,6 @@
 var ajax = require('./ajax');
 
 /**
- * @ngdoc function
  * @name utils.renderer.render
  * @methodOf utils.renderer
  * @param {String} selector DOM selector used
@@ -34,7 +32,6 @@ function render(selector, template, data) {
 }
 
 /**
- * @ngdoc function
  * @name util.renderer.fetchAndRender
  * @methodOf utils.renderer
  * @param {String} url The url to fetch
