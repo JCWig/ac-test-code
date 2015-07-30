@@ -109,7 +109,7 @@
     "test": "npm run clean && npm run compass && npm run gulp -- test --no-color --production",
     "start": "npm run compass && npm run gulp -- default --no-color",
     "jenkins-build": "./jenkins.sh build",
-    "build": "npm test -- --jenkins && npm run gulp -- build --no-color --production",
+    "build": "npm test -- --jenkins && npm run gulp -- build --no-color --production && npm run docs",
     "generic-build": "npm run compass && npm run gulp -- build --no-color --production",
     "netstorage": "./jenkins.sh deploy",
     "deploy": "npm run generic-build && npm run gulp -- deploy --no-color",
