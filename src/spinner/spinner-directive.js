@@ -101,19 +101,16 @@ module.exports = function($interval, uuid, spinnerService) {
     });
 
     function initialize() {
-      var maxlength,
-        valid = spinnerService.validateScopeVars(scope, ngModel);
+      var maxlength, valid;
 
-      if (!valid) {
-        return;
-      }
-
-      scope.max = spinnerService.isNumeric(scope.max) ? parseInt(scope.max, 10) : '';
-      scope.min = spinnerService.isNumeric(scope.min) ? parseInt(scope.min, 10) : '';
+      scope.max = isNaN(scope.max) ? '' : parseInt(scope.max, 10);
+      scope.min = isNaN(scope.max) ? '' : parseInt(scope.min, 10);
       scope.disabled = scope.$eval(scope.disabled) === true;
       scope.spinnerId = uuid.guid();
 
-      scope.dynamicMinWidth = {};
+      scope.dynamicMinWidth = {
+        'min-width': 'calc(1em+10px)'
+      };
       if (scope.max) {
         maxlength = String(scope.max).length;
         scope.dynamicMinWidth = {
@@ -122,7 +119,16 @@ module.exports = function($interval, uuid, spinnerService) {
       }
 
       if (angular.isUndefined(scope.inputValue)) {
-        scope.inputValue = defaults.VALUE;
+        if (!isNaN(scope.min)) {
+          scope.inputValue = parseInt(scope.min, 10);
+        } else {
+          scope.inputValue = defaults.VALUE;
+        }
+      }
+      valid = spinnerService.validateScopeVars(scope, ngModel);
+
+      if (!valid) {
+        return;
       }
 
       ngModel.$render();
