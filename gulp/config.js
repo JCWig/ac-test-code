@@ -24,6 +24,7 @@ module.exports = {
       'dropdown/**/*.js',
       'list-box/**/*.js',
       'mega-menu/**/*.js',
+      'message-box/**/*.js',
       'switch-button/**/*.js',
       'menu-button/**/*.js',
       'indeterminate-progress/**/*.js',
