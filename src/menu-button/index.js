@@ -7,10 +7,16 @@ import menuButton from './menu-button-directive';
 
 /**
  * @ngdoc module
- * @display Menu Button
  * @name akamai.components.menu-button
  * @description Provides a set of directives to use in order to create Pulsar-compatible menu
  * buttons.
+ *
+ * @example menu-button.html
+ <akam-menu-button>
+   <akam-menu-button-item text="examples.appNames.tq" ng-click="..."></akam-menu-button-item>
+   <akam-menu-button-item text="examples.appNames.bc" ng-click="..."></akam-menu-button-item>
+   <akam-menu-button-item text="examples.appNames.pm" ng-click="..."></akam-menu-button-item>
+ </akam-menu-button>
  */
 export default angular.module('akamai.components.menu-button', [
   bootstrap,

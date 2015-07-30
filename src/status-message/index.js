@@ -9,6 +9,14 @@ var angular = require('angular');
  * unobtrusive, transient feedback on their actions and emerging
  * system conditions, but without interrupting their workflow.
  *
+ * @example status-message.js
+    var ctrlFunction = function($scope, statusMessage) {
+      var messageText = "Basic Message Text";
+      var messageTitle = "Message Title";
+      $scope.showStatus = function(){
+        statusMessage.showInformation({text : messageText, title : messageTitle });
+      };
+    };
  */
 module.exports = angular.module('akamai.components.status-message', [])
 

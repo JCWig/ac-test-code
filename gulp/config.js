@@ -16,7 +16,15 @@ var jsFileName = packageName + '.js';
 module.exports = {
   productionBuild: production,
   docs: {
-    sources : ['akamai-core.js', 'indeterminate-progress/**/*.js', 'modal-window/**/*.js', 'status-message/**/*.js', 'table/**/*.js'],
+    sources : [
+      'akamai-core.js',
+      'switch-button/**/*.js',
+      'menu-button/**/*.js',
+      'indeterminate-progress/**/*.js',
+      'modal-window/**/*.js',
+      'status-message/**/*.js',
+      'table/**/*.js'
+    ],
     base: path.resolve(process.cwd(), src),
     outputDirectory: path.resolve(process.cwd(), docs)
   },
