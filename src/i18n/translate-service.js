@@ -21,8 +21,6 @@ module.exports = function($translate) {
      *
      * @name translate#async
      *
-     * @methodOf akamai.components.i18n.service:translate
-     *
      * @description Asynchronously translates a key or sets of
      * keys.
      *
@@ -84,8 +82,6 @@ module.exports = function($translate) {
      * @ngdoc method
      *
      * @name translate#sync
-     *
-     * @methodOf akamai.components.i18n.service:translate
      *
      * @description Translates a key string immediately.
      *

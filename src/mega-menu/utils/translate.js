@@ -51,7 +51,6 @@ var libTranslate = {
 
   /**
    * @name utils.translate.getTranslationFunction
-   * @methodOf utils.translate
    * @param {Object} messageObject translation data
    * @param {Object} [options] Options for this translate module
    * @param {Boolean} [options.debug] Whether or not to log errors. Default `false`

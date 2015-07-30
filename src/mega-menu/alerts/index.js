@@ -13,7 +13,6 @@ var config = require('../utils/config'),
 var selector = '#modular-mega-menu-header .alerts-count';
 
 /**
- * @methodOf alerts
  * @name alerts.render
  * @param {Function} [callback] optional callback to be invoked upon completion.
  * @description

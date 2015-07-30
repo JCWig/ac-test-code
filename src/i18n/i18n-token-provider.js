@@ -42,8 +42,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    *
    * @name i18nTokenProvider#setComponentLocalePath
    *
-   * @methodOf akamai.components.i18n.service:i18nTokenProvider
-   *
    * @param {String} url the path to replace default component locale file path
    *
    * @example of usage
@@ -68,8 +66,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    * @ngdoc method
    *
    * @name i18nTokenProvider#setAppLocalePath
-   *
-   * @methodOf akamai.components.i18n.service:i18nTokenProvider
    *
    * @param {String} url the path to replace default application locale file path
    *
@@ -102,8 +98,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    * @ngdoc method
    *
    * @name i18nTokenProvider#$get
-   *
-   * @methodOf akamai.components.i18n.service:i18nTokenProvider
    *
    * @description A service used by the `i18nTokenProvider` to pass
    * values set during the application's configuration phase. The
@@ -165,8 +159,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        *
        * @name i18nTokenProvider#getUrls
        *
-       * @methodOf akamai.components.i18n.service:i18nTokenProvider
-       *
        * @description get a list of URLs that reference locale
        * files.
        * @return {array} localeUrls
@@ -181,8 +173,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        * @ngdoc method
        *
        * @name i18nTokenProvider#getCurrentLocale
-       *
-       * @methodOf akamai.components.i18n.service:i18nTokenProvider
        *
        * @description Get the current locale value.
        * @return {string} locale

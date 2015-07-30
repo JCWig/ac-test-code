@@ -60,7 +60,6 @@ function bindEvents() {
 }
 
 /**
- * @methodOf accountSelector
  * @name accountSelector.render
  * @param {Function} [callback] optional callback to be invoked upon completion.
  * @description

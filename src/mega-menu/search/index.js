@@ -376,7 +376,6 @@ function search(query) {
 }
 
 /**
- * @methodOf search
  * @name search.render
  * @param {Function} [callback] optional callback
  * @description

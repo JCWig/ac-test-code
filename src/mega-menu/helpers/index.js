@@ -19,7 +19,6 @@ var Handlebars = require('hbsfy/runtime'),
 
 /**
  * @name helpers.register
- * @methodOf helpers
  * @description
  * Registers all of the helpers and partials in this module
  */

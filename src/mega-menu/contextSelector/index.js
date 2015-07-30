@@ -163,7 +163,6 @@ function toggleMenu() {
 }
 
 /**
- * @methodOf accountSelector
  * @name accountSelector.render
  * @param {Object} contextData required data from reading context.json
  * @param {Function} [callback] optional callback to be invoked upon completion.

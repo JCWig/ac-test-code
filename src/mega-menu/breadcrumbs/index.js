@@ -10,7 +10,6 @@ var renderer = require('../utils/renderer'),
 var selector = '#modular-mega-menu-header .mega-menu-breadcrumb';
 
 /**
- * @methodOf breadcrumbs
  * @name breadcrumbs.render
  * @param {Object} group Object representing the current group, or property
  * @description

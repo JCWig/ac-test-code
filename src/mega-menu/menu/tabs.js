@@ -8,7 +8,6 @@ var selector = '#modular-mega-menu-header .tabs';
 module.exports = {
   /**
    * @name menu.tabs.selector
-   * @propertyOf menu.tabs
    * @description
    * DOM selector for the mega menu tabs
    */
@@ -16,7 +15,6 @@ module.exports = {
 
   /**
    * @name menu.tabs.template
-   * @propertyOf menu.tabs
    * @description
    * Template for the mega menu tabs
    */
