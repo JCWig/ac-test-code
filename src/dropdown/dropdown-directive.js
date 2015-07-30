@@ -71,12 +71,12 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       scope.hasFilter = angular.isDefined(attrs.filterable);
       scope.isClearable = angular.isDefined(attrs.clearable);
 
-      if (angular.isDefined(attrs.keyProperty)) {
-        scope.keyProperty = attrs.keyProperty;
-        scope.keyPropertyFn = $parse(scope.keyProperty || 'id');
+      function createItemMap(items) {
+        var keyId;
+        itemSet = [];
 
-        angular.forEach(scope.items, function(item) {
-          var keyId = scope.keyPropertyFn(item);
+        angular.forEach(items, function(item) {
+          keyId = scope.keyPropertyFn(item);
 
           if (!itemSet[keyId]) {
             itemSet[keyId] = item;
@@ -84,6 +84,13 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
             throw new Error('Keys must be unique when using the key-property attribute');
           }
         });
+      }
+
+      if (angular.isDefined(attrs.keyProperty)) {
+        scope.keyProperty = attrs.keyProperty;
+        scope.keyPropertyFn = $parse(scope.keyProperty || 'id');
+
+        createItemMap(scope.items);
       }
 
       scope.filterProperty = attrs.filterable;
@@ -157,6 +164,10 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         if (typeof scope.onChange === 'function') {
           scope.onChange({item: modelValue});
         }
+      });
+
+      scope.$watchCollection('items', function(items) {
+        createItemMap(items);
       });
 
       selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);

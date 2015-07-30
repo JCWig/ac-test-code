@@ -142,7 +142,7 @@
     </div>
     <br/>
     <div>
-        <h2>Default dropdown with a list of objects with keys and a filter</h2>
+        <h2 ng-click="vm.addState('Florida');">Default dropdown with a list of objects with keys and a filter</h2>
         <span>
             <!--filterable="name"-->
             <akam-dropdown ng-model="vm.ex8.selectedState" text-property="state.name" key-property="state.key"
@@ -222,6 +222,12 @@
 
             vm.doChange = function(item) {
                 $log.log('selected item changed', item);
+            };
+
+            vm.addState = function() {
+                if (vm.stateObjectsWithKeys.length === 10) {
+                    vm.stateObjectsWithKeys.push({state: {key: 'key11', name: 'Florida'}});
+                }
             };
         }
 
