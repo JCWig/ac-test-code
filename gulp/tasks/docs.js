@@ -105,7 +105,7 @@ function exampleTagProcessor() {
 }
 
 
-gulp.task('docs', ['clean'], function() {
+gulp.task('docs', [], function() {
   var pkg = new Dgeni.Package('akamai-package', [
     require('dgeni-packages/ngdoc')
   ])
