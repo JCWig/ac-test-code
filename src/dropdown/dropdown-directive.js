@@ -96,8 +96,8 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
           ngModel.$setViewValue(scope.keyPropertyFn(item));
         } else {
           ngModel.$setViewValue(item);
-
         }
+        scope.isOpen = false;
       };
       scope.clearSelectedItem = function($event) {
         $event.stopPropagation();
@@ -153,7 +153,6 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         if (typeof selectedScope !== 'undefined') {
           selectedScope.selectedItem = modelValue;
         }
-        scope.isOpen = false;
 
         if (typeof scope.onChange === 'function') {
           scope.onChange({item: modelValue});
