@@ -8,13 +8,26 @@ var angular = require('angular');
  * and Pulsar-compatible date picker elements.
  *
  * @example day-picker.html
- <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day"
- ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
- </akam-date-picker>
+ * <akam-date-picker
+ *   mode="day"
+ *   ng-model="..."
+ *   min="..."
+ *   max="..."
+ *   ng-change="..."
+ *   format="..."
+ *   is-disabled="...">
+ * </akam-date-picker>
+ *
  * @example month-picker.html
- <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month"
- ng-change="monthChange()" format="{{formatMonth}}" no-clear>
- </akam-date-picker>
+ * <akam-date-picker
+ *  mode="month"
+ *  ng-model="..."
+ *  min="..."
+ *  max="..."
+ *  ng-change="..."
+ *  format="..."
+ *  no-clear>
+ * </akam-date-picker>
  */
 module.exports = angular.module('akamai.components.date-picker', [
   require('angular-bootstrap-npm'),
