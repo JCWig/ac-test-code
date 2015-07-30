@@ -5,6 +5,33 @@ var angular = require('angular');
  * @name akamai.components.navigation
  *
  * @description Provides a directive that creates a Pulsar-compatible tabbed navigation component
+ *
+ * @example app.js
+ * function configFunction($stateProvider) {
+ *
+ *   // ui-router $stateProvider
+ *   $stateProvider.state('health', {
+ *     url:         '/',
+ *     controller: 'SomeController',
+ *     controllerAs: 'some',
+ *     templateUrl: 'some.html'
+ *   });
+ * }
+ *
+ * function SomeController() {
+ *
+ *   this.tabData = [{
+ *     heading: 'A Heading',
+ *     route:   'some.state'
+ *   },{
+ *     heading: 'Another Heading',
+ *     route:   'some.otherState'
+ *   }];
+ * }
+ *
+ * @example some.html
+ * <akam-navigation data="some.tabData"></akam-navigation>
+ *
  */
 module.exports = angular.module('akamai.components.navigation', [
   require('angular-bootstrap-npm'),
