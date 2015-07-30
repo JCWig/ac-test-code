@@ -20,6 +20,7 @@ module.exports = {
       'akamai-core.js',
       'autocomplete/**/*.js',
       'content-panel/**/*.js',
+      'context/**/*.js',
       'date-picker/**/*.js',
       'dropdown/**/*.js',
       'indeterminate-progress/**/*.js',

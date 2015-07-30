@@ -10,7 +10,7 @@ var angular = require('angular');
  * @description Provides a service that creates a wizard.
  *
  * @example index.js
- * function MyController(wizard) {
+ * function MyController(wizard, translate) {
  *   wizard.open({
  *     scope: wizardScope,
  *     controller: WizardController,
@@ -26,27 +26,6 @@ var angular = require('angular');
  *       },
  *       {
  *         name: translate.sync('examples.wizard.step2'),
- *         templateId: 'step2',
- *         validate: function(scope) {
- *             return true;
- *         }
- *       },
- *       {
- *         name: translate.sync('examples.wizard.step3'),
- *         templateId: 'step3',
- *         validate: function(scope) {
- *             return scope.user != null && scope.user.length > 2;
- *         }
- *       },
- *       {
- *         name: translate.sync('examples.wizard.step4'),
- *         templateId: 'step4',
- *         validate: function(scope) {
- *             return true;
- *         }
- *       },
- *       {
- *         name: translate.sync('examples.wizard.step5'),
  *         templateId: 'step2',
  *         validate: function(scope) {
  *             return true;
