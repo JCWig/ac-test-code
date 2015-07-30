@@ -10,13 +10,13 @@ var angular = require('angular');
  * system conditions, but without interrupting their workflow.
  *
  * @example status-message.js
-    var ctrlFunction = function($scope, statusMessage) {
-      var messageText = "Basic Message Text";
-      var messageTitle = "Message Title";
-      $scope.showStatus = function(){
-        statusMessage.showInformation({text : messageText, title : messageTitle });
-      };
-    };
+ *  var ctrlFunction = function($scope, statusMessage) {
+ *    var messageText = "Basic Message Text";
+ *    var messageTitle = "Message Title";
+ *    $scope.showStatus = function(){
+ *      statusMessage.showInformation({text : messageText, title : messageTitle });
+ *    };
+ *  };
  */
 module.exports = angular.module('akamai.components.status-message', [])
 

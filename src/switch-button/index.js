@@ -8,7 +8,10 @@ var angular = require('angular');
  * Pulsar-compatible switch button.
  *
  * @example switch-button.html
-  <akam-switch-button ng-model="vm.on" size="medium"></akam-switch-button>
+ * <akam-switch-button
+ *   ng-model="..."
+ *   size="medium">
+ * </akam-switch-button>
  */
 module.exports = angular.module('akamai.components.switch-button', [
   require('../i18n').name
