@@ -47,7 +47,6 @@ module.exports = angular.module('akamai.components.content-panel', [
   .directive('akamContentPanel', require('./content-panel-directive'))
 
 /**
- * @ngdoc directive
  * @name akamContentPanelHeader
  *
  * @description Use inside of an `<akam-content-panel>` directive to specify panel header markup.
@@ -58,7 +57,6 @@ module.exports = angular.module('akamai.components.content-panel', [
   .directive('akamContentPanelHeader', require('./content-panel-header-directive'))
 
 /**
- * @ngdoc directive
  * @name akamContentPanelBody
  *
  * @description Use inside of an `<akam-content-panel>` directive to specify panel body markup.
