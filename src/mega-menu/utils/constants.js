@@ -1,4 +1,4 @@
-var VERSION = '0.7.0';
+var VERSION = '0.7.1';
 
 /**
  * @ngdoc object
