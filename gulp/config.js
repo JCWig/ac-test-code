@@ -16,8 +16,11 @@ var jsFileName = packageName + '.js';
 module.exports = {
   productionBuild: production,
   docs: {
-    sources : [
+    sources: [
       'akamai-core.js',
+      'autocomplete/**/*.js',
+      'content-panel/**/*.js',
+      'date-picker/**/*.js',
       'switch-button/**/*.js',
       'menu-button/**/*.js',
       'indeterminate-progress/**/*.js',

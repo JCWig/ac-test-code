@@ -2,13 +2,22 @@ var angular = require('angular');
 
 /**
  * @ngdoc module
- * @display Content Panel
- *
  * @name akamai.components.content-panel
  *
  * @description Provides a set of directives that create
  * Pulsar-compatible content panels.
  *
+ *
+ * @example index.html
+ *   <akam-content-panel header="Panel Title">
+ *     Panel Body
+ *   </akam-content-panel>
+ *
+ *  <!-- Or this if you need custom markup in your header: -->
+ *  <akam-content-panel>
+ *    <akam-content-panel-header><b>Panel</b> Title</akam-content-panel-header>
+ *    <akam-content-panel-body>Panel Body</akam-content-panel-body>
+ *  </akam-content-panel>
  */
 module.exports = angular.module('akamai.components.content-panel', [
   require('angular-bootstrap-npm'),
@@ -17,25 +26,8 @@ module.exports = angular.module('akamai.components.content-panel', [
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.content-panel.directive:akamContentPanel
- *
+ * @name akamContentPanel
  * @description Creates a content panel control.
- *
- * Use the following markup if your header is plain text:
- * <pre>
- *   <akam-content-panel header="Panel Title">
- *     Panel Body
- *   </akam-content-panel>
- * </pre>
- *
- * Or this if you need custom markup in your header:
- * <pre>
- *   <akam-content-panel>
- *     <akam-content-panel-header><b>Panel</b> Title</akam-content-panel-header>
- *     <akam-content-panel-body>Panel Body</akam-content-panel-body>
- *   </akam-content-panel>
- * </pre>
  *
  * @restrict E
  *
@@ -56,8 +48,7 @@ module.exports = angular.module('akamai.components.content-panel', [
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.content-panel.directive:akamContentPanelHeader
+ * @name akamContentPanelHeader
  *
  * @description Use inside of an `<akam-content-panel>` directive to specify panel header markup.
  * Do not use the `header` attribute on `<akam-content-panel>` if you use this directive.
@@ -68,8 +59,7 @@ module.exports = angular.module('akamai.components.content-panel', [
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.content-panel.directive:akamContentPanelBody
+ * @name akamContentPanelBody
  *
  * @description Use inside of an `<akam-content-panel>` directive to specify panel body markup.
  * Do not use the `header` attribute on `<akam-content-panel>` if you use this directive.
