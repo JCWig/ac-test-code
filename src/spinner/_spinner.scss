@@ -19,6 +19,7 @@ $spinner-button-active-gradient-top: #c8c8c8;
   input[type=number] {
     @include border-right-radius(0);
     @include appearance(textfield);
+    min-width: 28px;
 
     &:disabled {
       color: $spinner-disable-color;
@@ -28,10 +29,6 @@ $spinner-button-active-gradient-top: #c8c8c8;
 
     &::-ms-clear {
       display: none;
-    }
-
-    &[max]:not([max=""]) {
-      width: 0;
     }
   }
 
