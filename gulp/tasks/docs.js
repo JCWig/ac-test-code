@@ -1,8 +1,10 @@
 'use strict';
 
-var gulp = require('gulp');
-var path = require('path');
-var Dgeni = require('dgeni');
+var gulp   = require('gulp');
+var _      = require('lodash');
+var path   = require('path');
+var Dgeni  = require('dgeni');
+var config = require('../config');
 
 function configureDgeni(dgeni, log) {
   dgeni.stopOnValidationError = true;
@@ -12,9 +14,9 @@ function configureDgeni(dgeni, log) {
 }
 
 function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsProcessor) {
-  readFilesProcessor.basePath = './src';
-  readFilesProcessor.sourceFiles = ['indeterminate-progress/**/*.js', 'modal-window/**/*.js', 'status-message/**/*.js'];
-  writeFilesProcessor.outputFolder = '../docs';
+  readFilesProcessor.basePath = config.docs.base;
+  readFilesProcessor.sourceFiles = config.docs.sources;
+  writeFilesProcessor.outputFolder = config.docs.outputDirectory;
 
   computePathsProcessor.pathTemplates.push({
     docTypes: ['module'],
@@ -64,6 +66,44 @@ function imageTagProcessor() {
   };
 }
 
+function exampleTagProcessor() {
+  var languageConversion = {
+    'js' : 'javascript',
+    'jsx' : 'javascript',
+    'html' : 'html',
+    'css' : 'css',
+    'scss' : 'css'
+  };
+
+  return {
+    name: 'example',
+    multi: true,
+    docProperty: 'examples',
+    transforms: function(doc, tag, value) {
+      if(value){
+        var exampleRegex = /^([^\s]*)\s+([\S\s]*)/;
+        var match = exampleRegex.exec(value);
+        var exampleInfo = {
+          name : match[1],
+          content: match[2]
+        };
+        //get file extension
+        var fileExtension = _.last(exampleInfo.name.split('.'));
+        //and do lookup for the language highlight represented by the extension used
+        exampleInfo.language = languageConversion[fileExtension] || '';
+        exampleInfo.templateOutput = '{% highlight ' + exampleInfo.language + '%}' + exampleInfo.content + '{% endhighlight %}';
+
+        // Attach the example as an object to the doc
+        doc.exampleFiles = doc.exampleFiles || [];
+
+        doc.exampleFiles.push(exampleInfo);
+        // return the content
+        return match[2];
+      }
+    }
+  };
+}
+
 
 gulp.task('docs', ['clean'], function() {
   var pkg = new Dgeni.Package('akamai-package', [
@@ -74,7 +114,7 @@ gulp.task('docs', ['clean'], function() {
   .config(configureIds)
   .config(configureTemplates)
   .config(function(parseTagsProcessor, getInjectables) {
-      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(  getInjectables([guidelineTagProcessor, imageTagProcessor]) );
+      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(  getInjectables([guidelineTagProcessor, imageTagProcessor, exampleTagProcessor]) );
   })
   .processor(filterDocsProcessor);
 

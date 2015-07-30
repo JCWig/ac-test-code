@@ -43,5 +43,11 @@
 
   <section class="code-example">
     <h1>Code Example</h1>
+    {% for example in doc.exampleFiles %}
+    <label>{$ example.name $}</label>
+    <div>
+      {$ example.templateOutput $}
+    </div>
+    {% endfor %}
   </section>
 </section>

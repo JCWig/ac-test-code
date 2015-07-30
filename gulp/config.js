@@ -16,9 +16,9 @@ var jsFileName = packageName + '.js';
 module.exports = {
   productionBuild: production,
   docs: {
-    sources : ['indeterminate-progress/**/*.js', 'table/**/*.js', 'modal-window/**/*.js'],
-    base: src,
-    outputDirectory: docs
+    sources : ['indeterminate-progress/**/*.js', 'modal-window/**/*.js', 'status-message/**/*.js', 'table/**/*.js'],
+    base: path.resolve(process.cwd(), src),
+    outputDirectory: path.resolve(process.cwd(), docs)
   },
   browserSync: {
     server: {
