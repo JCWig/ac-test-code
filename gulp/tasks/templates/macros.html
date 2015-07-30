@@ -39,7 +39,7 @@
 {% macro moduleList(modules, selected) -%}
 <ul class="modules">
   <li class="{$ 'selected' if selected == '' $}">
-    <a href="index.html">Overview</a>
+    <a href="0.7.0/">Overview</a>
   </li>
   {% for module in modules %}
   {%- if module.docType == 'module' -%}

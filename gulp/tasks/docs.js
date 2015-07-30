@@ -30,7 +30,7 @@ function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsPro
     getPath: function(doc) {
       return path.dirname(doc.fileInfo.relativePath);
     },
-    outputPathTemplate: '${path}.html'
+    outputPathTemplate: packageJsonVersion + '/${path}.html'
   });
 
   computePathsProcessor.pathTemplates.push({
