@@ -1,7 +1,7 @@
 {% macro typeList(types) %}
-{% for typeName in types %}
+{% for typeName in types -%}
 <code>{$ typeName | escape $}</code>
-{% endfor %}
+{%- endfor %}
 {% endmacro %}
 
 
@@ -15,12 +15,12 @@
     </tr>
   </thead>
   <tbody>
-    {% for param in params %}
+    {%- for param in params %}
     <tr>
       <td>
         <code>{$ param.name $}</code>
-        {% if param.alias %}| {$ param.alias $}{% endif %}
-        {% if param.optional %}<div><em>(optional)</em></div>{% endif %}
+        {%- if param.alias %}| {$ param.alias $}{% endif -%}
+        {%- if param.optional -%}<div><em>(optional)</em></div>{%- endif %}
       </td>
       <td>
         {$ typeList(param.typeList) $}
@@ -30,21 +30,26 @@
         {% if param.defaultValue %}<p><em>(default: {$ param.defaultValue $})</em></p>{% endif %}
       </td>
     </tr>
-    {% endfor %}
+    {% endfor -%}
   </tbody>
 </table>
 {% endmacro -%}
 
 
-{% macro moduleList(modules, selected) %}
+{% macro moduleList(modules, selected) -%}
 <ul class="modules">
-  {% for module in modules %}
-  <li class="{$ 'selected' if selected == module.module $}">
-    {$ module.module | titleCase $}
+  <li class="{$ 'selected' if selected == '' $}">
+    <a href="/index.html">Overview</a>
   </li>
+  {% for module in modules %}
+  {%- if module.docType == 'module' -%}
+  <li class="{$ 'selected' if selected == module.module $}">
+    <a href="/{$ module.module $}/index.html">{$ module.module | titleCase $}</a>
+  </li>
+  {%- endif %}
   {% endfor %}
 </ul>
-{% endmacro %}
+{%- endmacro %}
 
 
 {% macro componentName(component) %}

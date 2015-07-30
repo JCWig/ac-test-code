@@ -25,6 +25,14 @@ function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsPro
     },
     outputPathTemplate: '${path}/index.html'
   });
+
+  computePathsProcessor.pathTemplates.push({
+    docTypes: ['overview'],
+    getPath: function(doc) {
+      return doc.fileInfo.baseName;
+    },
+    outputPathTemplate: 'index.html'
+  });
 }
 
 function configureIds(computeIdsProcessor) {
@@ -33,6 +41,12 @@ function configureIds(computeIdsProcessor) {
     getId: function(doc) {
       return path.dirname(doc.fileInfo.relativePath);
     }
+  });
+
+  computeIdsProcessor.idTemplates.push({
+    docTypes: ['overview'],
+    getId: function(doc) { return doc.fileInfo.baseName; },
+    getAliases: function(doc) { return [doc.id]; }
   });
 }
 
@@ -46,7 +60,7 @@ function filterDocsProcessor() {
     $runAfter: ['providerDocsProcessor'],
     $process: function(docs) {
       return docs.filter(function(doc) {
-        return doc.docType === 'module';
+        return doc.docType === 'module' || doc.docType === 'overview';
       });
     }
   };

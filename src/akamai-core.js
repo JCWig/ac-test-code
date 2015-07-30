@@ -1,5 +1,13 @@
 var angular = require('angular');
 
+/**
+ * @ngdoc overview
+ * @name akamai.components
+ *
+ * @description Akamai Core is represented by a set of modules under the namespace
+ * `akamai.components`.
+ *
+ */
 angular.module('akamai.components', [
   require('./uuid').name,
   require('./i18n').name,
