@@ -1,9 +1,10 @@
 'use strict';
 
-var gulp  = require('gulp');
-var _     = require('lodash');
-var path  = require('path');
-var Dgeni = require('dgeni');
+var gulp   = require('gulp');
+var _      = require('lodash');
+var path   = require('path');
+var Dgeni  = require('dgeni');
+var config = require('../config');
 
 function configureDgeni(dgeni, log) {
   dgeni.stopOnValidationError = true;
@@ -13,9 +14,9 @@ function configureDgeni(dgeni, log) {
 }
 
 function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsProcessor) {
-  readFilesProcessor.basePath = './src';
-  readFilesProcessor.sourceFiles = ['indeterminate-progress/**/*.js', 'modal-window/**/*.js', 'status-message/**/*.js'];
-  writeFilesProcessor.outputFolder = '../docs';
+  readFilesProcessor.basePath = config.docs.base;
+  readFilesProcessor.sourceFiles = config.docs.sources;
+  writeFilesProcessor.outputFolder = config.docs.outputDirectory;
 
   computePathsProcessor.pathTemplates.push({
     docTypes: ['module'],
