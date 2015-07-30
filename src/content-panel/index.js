@@ -9,15 +9,15 @@ var angular = require('angular');
  *
  *
  * @example index.html
- *   <akam-content-panel header="Panel Title">
- *     Panel Body
- *   </akam-content-panel>
+ * <akam-content-panel header="Panel Title">
+ *   Panel Body
+ * </akam-content-panel>
  *
- *  <!-- Or this if you need custom markup in your header: -->
- *  <akam-content-panel>
- *    <akam-content-panel-header><b>Panel</b> Title</akam-content-panel-header>
- *    <akam-content-panel-body>Panel Body</akam-content-panel-body>
- *  </akam-content-panel>
+ * <!-- Or this if you need custom markup in your header: -->
+ * <akam-content-panel>
+ *   <akam-content-panel-header><b>Panel</b> Title</akam-content-panel-header>
+ *   <akam-content-panel-body>Panel Body</akam-content-panel-body>
+ * </akam-content-panel>
  */
 module.exports = angular.module('akamai.components.content-panel', [
   require('angular-bootstrap-npm'),

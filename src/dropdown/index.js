@@ -4,11 +4,30 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 
 /**
  * @ngdoc overview
- *
  * @name akamai.components.dropdown
  *
- * @description Provides a directive that creates a Luna- and
- * Pulsar-compatible dropdown control.
+ * @description Provides a directive that creates a Luna and Pulsar-compatible dropdown control.
+ *
+ * @example index.html
+ * <akam-dropdown
+ *   ng-model="..."
+ *   items="vm.keys"
+ *   text-property="vm.state.name"
+ *   key-property="vm.state.key"
+ *   filterable="name"
+ *   clearable>
+ * </akam-dropdown>
+ *
+ * @example index.js
+ * // will be injected "as vm"
+ * function MyController() {
+ *   this.keys = [
+ *     {state: {key: 'key1', name: 'Colorado'}},
+ *     {state: {key: 'key2', name: 'Connecticut'}},
+ *     {state: {key: 'key3', name: 'Maryland'}}
+ *   ];
+ * }
+ *
  */
 module.exports = angular.module('akamai.components.dropdown', [
   require('angular-bootstrap-npm'),
@@ -20,14 +39,11 @@ module.exports = angular.module('akamai.components.dropdown', [
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.dropdown.directive:akamDropdown
- *
+ * @name akamDropdown
  * @description Creates a dropdown control
- *
  * @restrict E
  *
- * @param {Boolean} ngModel The dropdown's state
+ * @param {Boolean} ngModel The dropdown's selected item.
  *
  * @param {Object[]|String[]} items Option objects for the options displayed
  * in the dropdown's menu box
@@ -39,9 +55,9 @@ module.exports = angular.module('akamai.components.dropdown', [
  *
  * @param {String} [filterPlaceholder=Filter] The placeholder text for the filter field
  *
- * @param {String} [appendToBody] if present will append dropdown portion to the body
+ * @param {*} [appendToBody] if present will append dropdown portion to the body
  *
  * @param {Function} [onChange] A callback function that is executed when the
- * state of the dopdown changes
+ * state of the dropdown changes
  */
   .directive('akamDropdown', require('./dropdown-directive'));

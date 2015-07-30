@@ -21,6 +21,7 @@ module.exports = {
       'autocomplete/**/*.js',
       'content-panel/**/*.js',
       'date-picker/**/*.js',
+      'dropdown/**/*.js',
       'switch-button/**/*.js',
       'menu-button/**/*.js',
       'indeterminate-progress/**/*.js',

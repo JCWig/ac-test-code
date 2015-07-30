@@ -4,7 +4,7 @@ var angular = require('angular'),
 
 /**
  * @ngdoc module
- * @name table
+ * @name akamai.components.table
  * @requires module:ngSanitize
  * @requires module:akamai.components.uuid
  * @requires module:akamai.components.indeterminate-progress
@@ -14,27 +14,27 @@ var angular = require('angular'),
  * @requires module:akamai.components.utils
  * @description Provides a directive that creates a Luna-compatible data table.
  * @example table.html
-   <akam-table items="rows"
-     id-property="custom-id-field"
-     on-change="myRowSelectionCallback(selectedItems)"
-     selected-items="selectedItems">
-     <akam-table-toolbar>
-       <span>Custom toolbar markup here</span>
-       <i class="my-awesome-icon"></i>
-     </akam-table-toolbar>
-     <akam-table-row>
-       <akam-table-column row-property="id" header-name="my.id">
-         <span>CUSTOM MARKUP</span>{{ row.id }}
-       </akam-table-column>
-     <akam-table-column row-property="name" not-filterable not-sortable header-name="my.name">
-       {{ row.name }} is awesome
-     </akam-table-column>
-     <akam-table-column row-property="street" header-name="my.street"></akam-table-column>
-     <akam-table-column class="column-action" header-name="my.actions">
-      <akam-menu-button></akam-menu-button>
-     </akam-table-column>
-     </akam-table-row>
-   </akam-table>
+ * <akam-table items="rows"
+ *   id-property="custom-id-field"
+ *   on-change="myRowSelectionCallback(selectedItems)"
+ *   selected-items="selectedItems">
+ *   <akam-table-toolbar>
+ *     <span>Custom toolbar markup here</span>
+ *     <i class="my-awesome-icon"></i>
+ *   </akam-table-toolbar>
+ *   <akam-table-row>
+ *     <akam-table-column row-property="id" header-name="my.id">
+ *       <span>CUSTOM MARKUP</span>{{ row.id }}
+ *     </akam-table-column>
+ *   <akam-table-column row-property="name" not-filterable not-sortable header-name="my.name">
+ *     {{ row.name }} is awesome
+ *   </akam-table-column>
+ *   <akam-table-column row-property="street" header-name="my.street"></akam-table-column>
+ *   <akam-table-column class="column-action" header-name="my.actions">
+ *    <akam-menu-button></akam-menu-button>
+ *   </akam-table-column>
+ *   </akam-table-row>
+ * </akam-table>
  *
  */
 module.exports = angular.module('akamai.components.table', [

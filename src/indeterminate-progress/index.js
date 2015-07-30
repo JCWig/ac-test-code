@@ -17,24 +17,22 @@ const MODULE_NAME = 'akamai.components.indeterminate-progress';
  * status of which can't be accurately measured.
  *
  * @example index.html
-     <div class="common-css luna">
-       <div class="container" id="smallspinner">
-        <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}"
-          size="small" label="{{label}}"></akam-indeterminate-progress>
-       </div>
-     </div>
+ * <div class="common-css luna">
+ *   <div class="container" id="smallspinner">
+ *    <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}"
+ *      size="small" label="{{label}}"></akam-indeterminate-progress>
+ *   </div>
+ * </div>
  * @example index.js
-     <script>
-     var controllerFunction = function($scope) {
-        $scope.completed = false;
-        $scope.failed = false;
-     };
-     controllerFunction.$inject = ["$scope"];
-     var app = angular.module("indeterminateProgressDemo",
-      ["akamai.components.indeterminate-progress"]);
-
-     app.controller("Ctrl", controllerFunction);
-     </script>
+ * var controllerFunction = function($scope) {
+ *    $scope.completed = false;
+ *    $scope.failed = false;
+ * };
+ * controllerFunction.$inject = ["$scope"];
+ * var app = angular.module("indeterminateProgressDemo",
+ *  ["akamai.components.indeterminate-progress"]);
+ *
+ * app.controller("Ctrl", controllerFunction);
  */
 export default angular.module(MODULE_NAME, [])
 
