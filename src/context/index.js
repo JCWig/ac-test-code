@@ -82,6 +82,7 @@ module.exports = angular.module('akamai.components.context', [
  * @requires $q
  * @requires $window
  * @requires $cookies
+ * @id contextService
  * @name context
  * @description This service is primarily used to get and set information about the current
  * group and property. This allows for applications to change group or property information without
@@ -124,7 +125,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc property
- * @name context#account
+ * @name contextService#account
  * @description Gets or sets the current account. Currently, setting the account doesn't cause
  * anything special to happen on the backend. The Mega Menu will set the account on page load, by
  * reading the AKALASTMANAGED account cookie, so there is little reason for applications to change
@@ -142,7 +143,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc property
- * @name context#group
+ * @name contextService#group
  * @description Gets or sets information about the current group. See above for usage. A Luna group
  * has the following properties:
  *
@@ -160,7 +161,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc property
- * @name context#property
+ * @name contextService#property
  * @description Gets or sets information about the current property. See above for usage. A Luna
  * property object has the following properties
  *
@@ -173,7 +174,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name context#isGroupContext
+ * @name contextService#isGroupContext
  * @description
  * Convenience method to determine if this is a group aware application or not.
  *
@@ -182,7 +183,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name context#isAccountContext
+ * @name contextService#isAccountContext
  * @description
  * Convenience method to determine if this is a account aware application or not.
  *
@@ -191,7 +192,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name context#isOtherContext
+ * @name contextService#isOtherContext
  * @description
  * Convenience method to determine if this is neither group nor account aware (i.e. a non-Portal
  * application).
@@ -201,14 +202,14 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name context#getAccountFromCookie
+ * @name contextService#getAccountFromCookie
  * @description Parses the AKALASTMANAGEDACCOUNT cookie and returns the account object.
  * @returns {Object} the account object. Returns a null account object if the cookie doesn't exist.
  */
 
 /**
  * @ngdoc method
- * @name context#accountChanged
+ * @name contextService#accountChanged
  * @description Determines if the user has switched accounts.
  * @returns {Boolean} true if the account cookie has changed since the first time the account
  * object is set. Rendering the mega menu calls `getAccountFromCookie` if the application is
@@ -217,7 +218,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name context#resetAccount
+ * @name contextService#resetAccount
  * @description Resets the current account to the initial account.
  * @returns {HttpPromise} A promise to change the account
  */
