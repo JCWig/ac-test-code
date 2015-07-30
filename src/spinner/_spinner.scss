@@ -63,12 +63,12 @@ $spinner-button-active-gradient-top: #c8c8c8;
 
       &:first-child {
         border-bottom-width: 0;
-        &:hover {
+        &:hover:not([disabled]) {
           & + .btn {
             border-top-color: $spinner-border-color-hover;
           }
         }
-        &:active {
+        &:active:not([disabled]) {
           & + .btn {
             border-top-color: $spinner-button-color-active;
           }
@@ -79,14 +79,14 @@ $spinner-button-active-gradient-top: #c8c8c8;
         display: block;
       }
 
-      &:hover {
+      &:hover:not([disabled]) {
         margin-left: -1px;
         border-left-width: 1px;
         border-color: $spinner-border-color-hover;
         @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
       }
 
-      &:active {
+      &:active:not([disabled]) {
         margin-left: -1px;
         border-left-width: 1px;
         border-color: $spinner-button-color-active;
