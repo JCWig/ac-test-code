@@ -27,6 +27,7 @@ module.exports = {
       'message-box/**/*.js',
       'switch-button/**/*.js',
       'menu-button/**/*.js',
+      'navigation/**/*.js',
       'indeterminate-progress/**/*.js',
       'modal-window/**/*.js',
       'status-message/**/*.js',

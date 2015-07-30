@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name helpers
  * @description
  * A set of Handlebars helpers and partials for the Modular Mega Menu application.
@@ -19,7 +18,6 @@ var Handlebars = require('hbsfy/runtime'),
   footer = require('../footer/_footer.hbs');
 
 /**
- * @ngdoc function
  * @name helpers.register
  * @methodOf helpers
  * @description

@@ -2,7 +2,6 @@ var angular = require('angular');
 
 /**
  * @ngdoc module
- * @display Navigation
  * @name akamai.components.navigation
  *
  * @description Provides a directive that creates a Pulsar-compatible tabbed navigation component
@@ -13,12 +12,10 @@ module.exports = angular.module('akamai.components.navigation', [
 ])
 /**
  * @ngdoc directive
- *
- * @name akamai.components.navigation.directive:akamNavigation
+ * @name akamNavigation
+ * @restrict E
  *
  * @description Creates a navigation control
- *
- * @restrict E
  *
  * @param {Object[]} tabs An array of tab data objects
  *

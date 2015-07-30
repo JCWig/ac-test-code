@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name helpers.messageRead
  * @param {Object} message Message object to check
  * @description

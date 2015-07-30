@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name breadcrumbs
  * @requires utils.renderer
  * @description
@@ -11,7 +10,6 @@ var renderer = require('../utils/renderer'),
 var selector = '#modular-mega-menu-header .mega-menu-breadcrumb';
 
 /**
- * @ngdoc function
  * @methodOf breadcrumbs
  * @name breadcrumbs.render
  * @param {Object} group Object representing the current group, or property

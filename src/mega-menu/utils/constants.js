@@ -1,7 +1,6 @@
 var VERSION = '0.7.1';
 
 /**
- * @ngdoc object
  * @name utils.constants
  * @description
  * Collection of constants for this application
@@ -9,7 +8,6 @@ var VERSION = '0.7.1';
 
 module.exports = {
   /**
-   * @ngdoc property
    * @name utils.constants.HIDE_CLASS
    * @propertyOf utils.constants
    * @description
@@ -18,7 +16,6 @@ module.exports = {
   HIDE_CLASS: 'util-hide',
 
   /**
-   * @ngdoc property
    * @name utils.constants.SHOW_CLASS
    * @propertyOf utils.constants
    * @description
@@ -27,7 +24,6 @@ module.exports = {
   SHOW_CLASS: 'util-show',
 
   /**
-   * @ngdoc property
    * @name utils.constants.TIMEOUT_URL
    * @propertyOf utils.constants
    * @description
@@ -36,7 +32,6 @@ module.exports = {
   TIMEOUT_URL: '/EdgeAuth/login.jsp?reason=timeout',
 
   /**
-   * @ngdoc property
    * @name utils.constants.TIMEOUT_URL
    * @propertyOf utils.constants
    * @description
@@ -45,7 +40,6 @@ module.exports = {
   LOGIN_URL: '/EdgeAuth/login.jsp',
 
   /**
-   * @ngdoc property
    * @name utils.constants.VERSION
    * @propertyOf utils.constants
    * @returns {String} The current version number for this library.

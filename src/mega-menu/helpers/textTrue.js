@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name helpers.textTrue
  * @param {String} flag The text to check
  * @param {Object} options Handlebars block options. Includes `fn` and `inverse`

@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name helpers.withItem
  * @param {Object} object Object to inspect
  * @param {Object} options Handlebars block options.

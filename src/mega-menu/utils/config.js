@@ -1,7 +1,6 @@
 var CONFIG_KEY = 'akamai.components.mega-menu.config';
 
 /**
- * @ngdoc object
  * @name utils.config
  * @param {Function} cb Callback we should execute after fetching the config object. The callback
  * will be passed the following object:

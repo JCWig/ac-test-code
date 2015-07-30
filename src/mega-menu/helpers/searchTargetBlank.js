@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name helpers.searchTargetBlank
  * @param {String} category The search category to check
  * @description

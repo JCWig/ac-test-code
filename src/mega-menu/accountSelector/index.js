@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name accountSelector
  * @requires utils.config
  * @requires utils.renderer
@@ -61,7 +60,6 @@ function bindEvents() {
 }
 
 /**
- * @ngdoc function
  * @methodOf accountSelector
  * @name accountSelector.render
  * @param {Function} [callback] optional callback to be invoked upon completion.

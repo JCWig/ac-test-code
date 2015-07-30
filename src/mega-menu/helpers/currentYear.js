@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name helpers.currentYear
  * @description
  * Returns the current year.

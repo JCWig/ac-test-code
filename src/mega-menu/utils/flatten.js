@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name utils.flatten
  * @param {Object[]} array The context data that we need to flatten
  * @param {String} key the lookup key
