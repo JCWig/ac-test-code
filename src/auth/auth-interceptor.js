@@ -139,11 +139,11 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
 
     },
     responseError: function(response) {
-      if (response.status !== 401 && response.status !== 502){
+      if (response.status !== 401 && response.status !== 502) {
         return $q.reject(response);
       }
 
-      if (isUriBlacklisted(response.config.url)){
+      if (isUriBlacklisted(response.config.url)) {
         return $q.reject(response);
       }
 
