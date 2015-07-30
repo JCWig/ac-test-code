@@ -23,7 +23,7 @@ function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsPro
     getPath: function(doc) {
       return path.dirname(doc.fileInfo.relativePath);
     },
-    outputPathTemplate: '${path}/index.html'
+    outputPathTemplate: '${path}.html'
   });
 
   computePathsProcessor.pathTemplates.push({
@@ -105,7 +105,7 @@ function exampleTagProcessor() {
         var fileExtension = _.last(exampleInfo.name.split('.'));
         //and do lookup for the language highlight represented by the extension used
         exampleInfo.language = languageConversion[fileExtension] || '';
-        exampleInfo.templateOutput = '{% highlight ' + exampleInfo.language + '%}' + exampleInfo.content + '{% endhighlight %}';
+        exampleInfo.templateOutput = '{% highlight ' + exampleInfo.language + '%} \n' + exampleInfo.content + '\n{% endhighlight %}';
 
         // Attach the example as an object to the doc
         doc.exampleFiles = doc.exampleFiles || [];
