@@ -26,6 +26,25 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
     }
   }
 
+  function createItemMap(items, scope) {
+    var keyId, itemSet = [];
+
+    if (!scope.keyPropertyFn) {
+      return [];
+    }
+
+    angular.forEach(items, function(item) {
+      keyId = scope.keyPropertyFn(item);
+
+      if (!itemSet[keyId]) {
+        itemSet[keyId] = item;
+      } else {
+        throw new Error('Keys must be unique when using the key-property attribute');
+      }
+    });
+    return itemSet;
+  }
+
   return {
     restrict: 'E',
     require: '^ngModel',
@@ -71,26 +90,11 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       scope.hasFilter = angular.isDefined(attrs.filterable);
       scope.isClearable = angular.isDefined(attrs.clearable);
 
-      function createItemMap(items) {
-        var keyId;
-        itemSet = [];
-
-        angular.forEach(items, function(item) {
-          keyId = scope.keyPropertyFn(item);
-
-          if (!itemSet[keyId]) {
-            itemSet[keyId] = item;
-          } else {
-            throw new Error('Keys must be unique when using the key-property attribute');
-          }
-        });
-      }
-
       if (angular.isDefined(attrs.keyProperty)) {
         scope.keyProperty = attrs.keyProperty;
         scope.keyPropertyFn = $parse(scope.keyProperty || 'id');
 
-        createItemMap(scope.items);
+        itemSet = createItemMap(scope.items, scope);
       }
 
       scope.filterProperty = attrs.filterable;
@@ -167,7 +171,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       });
 
       scope.$watchCollection('items', function(items) {
-        createItemMap(items);
+        itemSet = createItemMap(items, scope);
       });
 
       selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);
