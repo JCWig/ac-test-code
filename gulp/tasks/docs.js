@@ -1,7 +1,8 @@
 'use strict';
 
-var gulp = require('gulp');
-var path = require('path');
+var gulp  = require('gulp');
+var _     = require('lodash');
+var path  = require('path');
 var Dgeni = require('dgeni');
 
 function configureDgeni(dgeni, log) {
@@ -65,6 +66,14 @@ function imageTagProcessor() {
 }
 
 function exampleTagProcessor() {
+  var languageConversion = {
+    'js' : 'javascript',
+    'jsx' : 'javascript',
+    'html' : 'html',
+    'css' : 'css',
+    'scss' : 'css'
+  };
+
   return {
     name: 'example',
     multi: true,
@@ -73,12 +82,20 @@ function exampleTagProcessor() {
       if(value){
         var exampleRegex = /^([^\s]*)\s+([\S\s]*)/;
         var match = exampleRegex.exec(value);
-        // Attach the example as an object to the doc
-        doc.exampleFiles = doc.exampleFiles || [];
-        doc.exampleFiles.push({
+        var exampleInfo = {
           name : match[1],
           content: match[2]
-        });
+        };
+        //get file extension
+        var fileExtension = _.last(exampleInfo.name.split('.'));
+        //and do lookup for the language highlight represented by the extension used
+        exampleInfo.language = languageConversion[fileExtension] || '';
+        exampleInfo.templateOutput = '{% highlight ' + exampleInfo.language + '%}' + exampleInfo.content + '{% endhighlight %}';
+
+        // Attach the example as an object to the doc
+        doc.exampleFiles = doc.exampleFiles || [];
+
+        doc.exampleFiles.push(exampleInfo);
         // return the content
         return match[2];
       }
