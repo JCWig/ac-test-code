@@ -1,0 +1,49 @@
+
+.navigation {
+  position: relative;
+
+  .tab > a {
+    font-weight: normal;
+  }
+
+  .nav-pills {
+    border-bottom: 1px solid $colors__gray6;
+    margin: 0 3px 20px;
+
+    & + .tab-content {
+      padding: 0 0.1em;
+    }
+
+    .tab {
+      position: relative;
+      float: none;
+      display: inline-block;
+      margin: 0 10px;
+
+      & > a {
+        color: $colors__gray2;
+        border-radius: 0;
+        // this is to move the highlighting line above the nav's border bottom
+        top: 2px;
+        background-color: white;
+        padding: 0 5px 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: white;
+        }
+      }
+
+      &.active > a {
+        color: $colors__blue1;
+        border-bottom: 4px solid $colors__blue1;
+        cursor: default;
+      }
+
+      &.disabled > a {
+        cursor: default;
+        color: $colors__gray7;
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Time Picker</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+</head>
+
+<body ng-app="example" ng-controller="ExampleController as vm" ng-strict-di class="common-css luna">
+  <div class="container">
+    <div class="page-header">
+      <h1>Time Picker Component Example</h1>
+    </div>
+    <br />
+    <form name='time-picker' role='form'>
+      <div class="container">
+        <akam-time-picker ng-model="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" is-disabled="vm.disabled" show-meridian="vm.showMeridian">
+        </akam-time-picker>
+      </div>
+      <br />
+      <div class="form-group" style="padding-top:100px;">
+        <input id="showMeridian" type="checkbox" name='showMeridian' ng-model='vm.showMeridian' />
+        <label class="label" for="showMeridian">Show meridian: </label>
+      </div>
+      <div class="form-group">
+        <input id="disableTimepicker" type="checkbox" name='disableTimepicker' ng-model='vm.disabled' />
+        <label class="label" for="disableTimepicker">To disabled timepicker: </label>
+      </div>
+      <div class="form-group">
+        <p>to change hour increment or decrement step value: </p>
+        <input id="hourStep" type="number" min="1" max="12" ng-model='vm.hourStep' />
+      </div>
+      <div class="form-group">
+        <p>to change minute increment or decrement step value: </p>
+        <input id="minuteStep" type="number" min="1" max="30" ng-model='vm.minuteStep' />
+      </div>
+      <div>
+        <p>Current time is: {{vm.time | date: 'shortTime'}}</p>
+        <p>Current UTC time is: {{vm.time | date: 'shortTime' : 'UTC'}}</p>
+        <p>Current date and time is: {{vm.time | date: 'medium'}}</p>
+        <p>Current date and time value is: {{vm.time}}</p>
+      </div>
+    </form>
+    <br />
+  </div>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  var ControllerFunction = function() {
+    var vm = this;
+    vm.disabled = false;
+    vm.showMeridian = true;
+    vm.minuteStep = 15;
+    vm.hourStep = 1;
+    vm.time = new Date();
+  };
+
+  angular.module('example', ['akamai.components.time-picker'])
+    .controller('ExampleController', ControllerFunction);
+  </script>
+</body>
+
+</html>

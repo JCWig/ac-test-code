@@ -1,6 +1,11 @@
 'use strict';
 
 module.exports = {
+
+  LIBRARY_PATH: /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
+
+  CONFIG_PATH: '/apps/appname/locales/en_US.json',
+
   find: function(obj) {
     var el;
     if (typeof obj === 'string' || obj instanceof String) {
@@ -11,30 +16,23 @@ module.exports = {
 
     return el;
   },
-  scroll: function(obj, distance){
-    var domEle = this.find(obj);
-
-    domEle.scrollTop = distance;
-    var element = angular.element(domEle);
-    element.triggerHandler('scroll');
+  triggerMouseEvent: function(obj, eventType) {
+    var el = this.find(obj);
+    var ev = document.createEvent('MouseEvent');
+    ev.initMouseEvent(eventType, true);
+    el.dispatchEvent(ev);
   },
   click: function(obj) {
-    var el = this.find(obj);
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('click', true);
-    el.dispatchEvent(ev);
+    this.triggerMouseEvent(obj, 'click');
+  },
+  dblClick: function(obj) {
+    this.triggerMouseEvent(obj, 'dblclick');
   },
   mouseHover: function(obj) {
-    var el = this.find(obj);
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('mouseover', true);
-    el.dispatchEvent(ev);
+    this.triggerMouseEvent(obj, 'mouseover');
   },
   mouseLeave: function(obj) {
-    var el = this.find(obj);
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent('mouseout', true);
-    el.dispatchEvent(ev);
+    this.triggerMouseEvent(obj, 'mouseout');
   },
   clickAwayCreationAndClick: function(ele) {
     var clickAwayArea = document.createElement(ele);
@@ -43,6 +41,13 @@ module.exports = {
     var clickAwayButton = document.querySelector('#click-away');
     this.click(clickAwayButton);
     document.body.removeChild(clickAwayArea);
+  },
+  scroll: function(obj, distance) {
+    var domEle = this.find(obj);
+
+    domEle.scrollTop = distance;
+    var element = angular.element(domEle);
+    element.triggerHandler('scroll');
   },
   getMonthInEnglish: function(num) {
     var date = new Date();

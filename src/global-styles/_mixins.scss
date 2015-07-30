@@ -1,3 +1,4 @@
+
 @mixin user-select($string: none) {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: $string;
@@ -153,6 +154,7 @@ $ie-ver: '' !default;
 @mixin ellipsis() {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @mixin list-type($type, $gutter: 2px) {

@@ -1,19 +1,25 @@
-'use strict';
+import template from './templates/menu-button.tpl.html';
 
-/* @ngInject */
-module.exports = function() {
+function menuButton() {
   return {
     restrict: 'E',
-    transclude: true,
     replace: true,
-    scope: {
-      label: '@',
-      iconOnly: '@',
-      position: '@'
+    transclude: true,
+    template: template,
+    scope: {},
+    bindToController: {
+      position: '@?',
+      size: '@?',
+      onClick: '&?',
+      defaultText: '@?',
+      isDisabled: '=?'
     },
-    template: require('./templates/menu-button.tpl.html'),
-    link: function(scope) {
-      scope.iconOnly = scope.iconOnly !== 'false' && !scope.label;
-    }
+
+    // there isn't actually any reason to have a controller other than to support the usage of
+    // 'controllerAs' for the "position" attribute.
+    controller: () => {},
+    controllerAs: 'menuButton'
   };
-};
+}
+
+export default menuButton;

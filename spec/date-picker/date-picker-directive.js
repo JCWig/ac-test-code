@@ -14,8 +14,7 @@ var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 var findCertainButton = function(buttonKey) {
   var calendar = document.querySelectorAll('td.ng-scope');
   for (var i = 0; i < calendar.length; i++) {
-    if (calendar[i].textContent.indexOf(buttonKey) >= 0 && 
-      !calendar[i].querySelector('span').classList.contains('text-muted')) {
+    if (calendar[i].textContent.indexOf(buttonKey) >= 0 && !calendar[i].querySelector('span').classList.contains('text-muted')) {
       return calendar[i];
     }
   }
@@ -24,15 +23,17 @@ var findCertainButton = function(buttonKey) {
 describe('akam-date-picker', function() {
   var compile = null;
   var scope = null;
+  var timeout = null;
   var self = this;
 
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/date-picker').name);
-    inject(function($compile, $rootScope, $httpBackend) {
+    inject(function($compile, $rootScope, $timeout, $httpBackend) {
       compile = $compile;
       scope = $rootScope.$new();
+      timeout = $timeout;
       $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
       $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
       $httpBackend.flush();
@@ -50,6 +51,7 @@ describe('akam-date-picker', function() {
   function addElement(markup) {
     self.el = compile(markup)(scope);
     scope.$digest();
+    timeout.flush();
     self.element = document.body.appendChild(self.el[0]);
   }
 
@@ -143,6 +145,28 @@ describe('akam-date-picker', function() {
 
       clearIcon = document.querySelector('.clear-date');
       expect(clearIcon).toBe(null);
+    });
+  });
+
+  describe('when is-disabled added', function() {
+    beforeEach(function() {
+      var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" no-clear is-disabled="disabled"></akam-date-picker></div>';
+      scope.disabled = false;
+      addElement(markup);
+    });
+
+    it('should date picker enabled when set to false', function() {
+      var inputDateField = document.querySelector('input');
+
+      expect(inputDateField.getAttribute('disabled')).toBe(null);
+    });
+
+    it('should date picker disabled when set to true', function() {
+      scope.disabled = true;
+      scope.$digest();
+      var inputDateField = document.querySelector('input');
+
+      expect(inputDateField.getAttribute('disabled')).toBe('disabled');
     });
   });
 
@@ -497,52 +521,57 @@ describe('akam-date-picker', function() {
     });
   });
 });
-describe('when given an i18n locale that does not exist', function(){
-    var compile, scope, self;
-    beforeEach(function() {
-      inject.strictDi(true);
-      self = this;
-      angular.mock.module(require('../../src/date-picker').name);
-      angular.mock.module(require('../../src/i18n').name);
-      angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
-        $translateProvider.useLoader('i18nCustomLoader');
-        $provide.decorator ('$cookies', function ($delegate) {
-            $delegate = {AKALOCALE:"eXpfUkU="};
-            return $delegate;
-        });
-      });
-      inject(function($compile, $rootScope, $httpBackend) {
-        compile = $compile;
-        scope = $rootScope.$new();
-        $httpBackend.when('GET', '/apps/appname/locales/yz_RE.json').respond({});
-        $httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/yz_RE.json/).respond({});
-        $httpBackend.flush();
-      });
+describe('when given an i18n locale that does not exist', function() {
+  var compile, scope, self, cookies, timeout;
+  beforeEach(function() {
+    inject.strictDi(true);
+    self = this;
+    angular.mock.module(require('../../src/date-picker').name);
+    angular.mock.module(require('../../src/i18n').name);
+    angular.mock.module(function($provide, $translateProvider) {
+      $translateProvider.useLoader('i18nCustomLoader');
     });
-    afterEach(function() {
-        if(this.element){
-            document.body.removeChild(this.element);
-            this.element = null;
-        }
+    inject(function($compile, $rootScope, $httpBackend, _$cookies_, $timeout) {
+      compile = $compile;
+      scope = $rootScope.$new();
+      _$cookies_.put('AKALOCALE', "eXpfUkU=");
+      cookies = _$cookies_;
+      timeout = $timeout;
+      $httpBackend.when('GET', '/apps/appname/locales/yz_RE.json').respond({});
+      $httpBackend.when('GET', /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/yz_RE.json/).respond({});
+      $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+      $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
+      $httpBackend.flush();
     });
-    function addElement(markup) {
-        self.el = compile(markup)(scope);
-        scope.$digest();
-        self.element = document.body.appendChild(self.el[0]);
+  });
+  afterEach(function() {
+    if (this.element) {
+      document.body.removeChild(this.element);
+      this.element = null;
     }
-    it('should default to english if time format non existant', function(){
-        var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1"></akam-date-picker></div>';
-        addElement(markup);
-        utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+    cookies.remove('AKALOCALE');
+  });
 
-        var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
-        utilities.click(firstDayOfMonthButton);
-        scope.$digest();
+  function addElement(markup) {
+    self.el = compile(markup)(scope);
+    scope.$digest();
+    timeout.flush();
+    self.element = document.body.appendChild(self.el[0]);
+  }
 
-        var dayString = utilities.getFormattedDate(utilities.getTodaysYear()+"-"+utilities.formatInteger(2,String(utilities.getTodaysMonth()+1))+"-01");
+  it('should default to english if time format non existant', function() {
+    var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1"></akam-date-picker></div>';
+    addElement(markup);
+    utilities.click(TOGGLE_DATE_PICKER_BUTTON);
 
-        var inputDateField = document.querySelector('input.ng-valid-date');
+    var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+    utilities.click(firstDayOfMonthButton);
+    scope.$digest();
 
-        expect(inputDateField.value).toEqual(dayString);
-    });
+    var dayString = utilities.getFormattedDate(utilities.getTodaysYear() + "-" + utilities.formatInteger(2, String(utilities.getTodaysMonth() + 1)) + "-01");
+
+    var inputDateField = document.querySelector('input.ng-valid-date');
+
+    expect(inputDateField.value).toEqual(dayString);
+  });
 });

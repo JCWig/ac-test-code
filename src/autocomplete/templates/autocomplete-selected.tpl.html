@@ -1,0 +1,6 @@
+<div class="input-toggle" ng-show="ac.itemSelected">
+  <span class="selected-option util-ellipsis form-control" ng-class="{disabled:ac.isDisabled}">
+    <i ng-show="ac.selectedItem && !ac.isDisabled" class="luna-small_close clear-selected" ng-click="ac.clearSelected($event)"></i>
+    <span class="selected" ng-model="ac.selectedItem" title="{{ac.selectedItem.selectedText}}">{{ac.selectedItem.selectedText}}</span>
+  </span>
+</div>

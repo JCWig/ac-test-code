@@ -1,11 +1,8 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
   var self = this,
-      cPath;
+    cPath;
 
   /**
    * @ngdoc service
@@ -117,10 +114,10 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    * for use by i18nCustomLoader.
    *
    */
+  this.$get = i18nTokenFactory;
 
-  /* @ngInject */
-  this.$get = function i18nTokenFactory($cookies, $location, $log) {
-    var cookieLocale = $cookies[i18nConfig.localeCookie],
+  function i18nTokenFactory($cookies, $location, $log) {
+    var cookieLocale = $cookies.get(i18nConfig.localeCookie),
       locale = i18nConfig.defaultLocale,
       localeUrls = [],
       appName, matchResults,
@@ -172,7 +169,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        *
        * @description get a list of URLs that reference locale
        * files.
-       * @return localeUrls
+       * @return {array} localeUrls
        *
        */
 
@@ -188,7 +185,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
        * @methodOf akamai.components.i18n.service:i18nTokenProvider
        *
        * @description Get the current locale value.
-       * @return locale
+       * @return {string} locale
        *
        */
 
@@ -196,5 +193,9 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
         return locale;
       }
     };
-  };
+  }
+
+  i18nTokenFactory.$inject = ['$cookies', '$location', '$log'];
 };
+
+module.exports.$inject = ['i18nConfig', 'VERSION'];

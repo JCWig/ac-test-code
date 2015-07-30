@@ -1,7 +1,5 @@
-'use strict';
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($document, $compile, $rootScope) {
 
   var body = $document.find('body').eq(0),
@@ -59,3 +57,4 @@ module.exports = function($document, $compile, $rootScope) {
     }
   };
 };
+module.exports.$inject = ['$document', '$compile', '$rootScope'];

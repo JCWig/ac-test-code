@@ -1,0 +1,70 @@
+$panel-gradient-top: #ffffff;
+$panel-gradient-bottom: #f8f8f8;
+$panel-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+$panel-body-wrapper-padding: 17px 15px;
+
+.akam-content-panel.panel {
+  @extend .panel-default;
+  @include box-shadow($panel-box-shadow);
+
+  & > .panel-heading {
+    position: relative;
+    background: linear-gradient($panel-gradient-top, $panel-gradient-bottom);
+    border-bottom-width: 0;
+    padding-left: 18px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    @include border-top-radius($panel-border-radius);
+
+    .toggle-icon {
+      position: absolute;
+      left: 12px;
+      top: calc(50% - 8px);
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  }
+
+  .panel-title {
+    padding-left: 15px;
+    font-size: 16px;
+    margin-bottom: -2px;
+    & > a {
+      text-decoration: none;
+    }
+  }
+
+  .panel-title:not(.is-collapsable) {
+    padding-left: 0;
+  }
+
+  .panel-body {
+    border-top-width: 1px;
+    border-top-style: solid;
+  }
+
+  .content-wrapper {
+    padding: $panel-body-wrapper-padding;
+  }
+}
+
+.panel-group {
+
+  .panel {
+    @include border-radius(0);
+
+    &:first-child {
+      @include border-top-radius($panel-border-radius);
+    }
+
+    &:last-child,
+    &:last-child > .panel-heading {
+      @include border-bottom-radius($panel-border-radius);
+    }
+  }
+
+  .panel + .panel {
+    margin-top: 0;
+    border-top: none;
+  }
+}

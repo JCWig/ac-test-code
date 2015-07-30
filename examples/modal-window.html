@@ -59,7 +59,9 @@
                     title: 'Regarding Your Subscription Information',
                     cancelLabel: 'Cancel',
                     submitLabel: 'OK',
-                    hideSubmit: false
+                    hideSubmit: false,
+                    successMessage: 'Success!',
+                    errorMessage: 'Error!'
                 };
 
                 var aController = function($scope) {
@@ -154,7 +156,8 @@
 
                         }, 3000);
 
-                    return deferral.promise;
+                    return 'HI';
+                    //return deferral.promise;
                 });
 
                 // Disable the save button by default

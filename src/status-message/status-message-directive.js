@@ -1,6 +1,3 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function($log, $timeout) {
   return {
     restrict: 'E',
@@ -63,3 +60,4 @@ module.exports = function($log, $timeout) {
     }
   };
 };
+module.exports.$inject = ['$log', '$timeout'];

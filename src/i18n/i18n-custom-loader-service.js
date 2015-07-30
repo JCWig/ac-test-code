@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
   var errorList = [],
     translationTable = [],
@@ -12,10 +9,10 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
   /**
    * @name loadTranslations
    * @private
-   * @description this custom loader implementaion function perform the following:
+   * @description this custom loader implementation function perform the following:
    * Loop through the list of url, store promise get to the array of deferreds,
    * when it completes, it will resolve the translation table
-   * If error occues, and the current locale is not the 'en_US' default one,
+   * If error occurs, and the current locale is not the 'en_US' default one,
    * then it will attempt to load with 'en_US' locale - fallback translation loading
    * If that fails, it will reject (basically we screw).
    * @param {string} locale current locale
@@ -89,9 +86,11 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
 
   function valid(r) {
     var src = r.data,
-        clone = src ? angular.copy(src) : {};
+      clone = src ? angular.copy(src) : {};
 
-    angular.extend(translationTable, clone);
+    angular.merge(translationTable, clone);
     return translationTable;
   }
 };
+
+module.exports.$inject = ['$http', '$q', '$log', 'i18nToken', 'i18nConfig'];

@@ -6,12 +6,12 @@ var SECOND_INTERNATIONALIZATION_JSON_PATH = SECOND_INTERNATIONALIZATION_PATH + '
 describe('i18nCustomLoader service', function() {
 
   var value, loader, config, translation, $translate, httpBackend, timeout, scope, provider, log, location;
-  var enUsMessagesResponse = require("./i18n_responses/messages_en_US.json");
-  var enUsResponse = require("./i18n_responses/en_US.json");
+  var enUsMessagesResponse = require('./i18n_responses/messages_en_US.json');
+  var enUsResponse = require('./i18n_responses/en_US.json');
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/i18n').name);
-    angular.mock.module(/*@ngInject*/function(i18nTokenProvider) {
+    angular.mock.module(function(i18nTokenProvider) {
       provider = i18nTokenProvider;
     });
     angular.mock.module(function($provide, $translateProvider) {
@@ -47,45 +47,53 @@ describe('i18nCustomLoader service', function() {
       expect(typeof promise.then).toEqual("function");
     });
 
-    it('should return csame key value if key not found from tranlsation table', function() {
-      expect(translation.sync("somekey.someotherkey")).toEqual("somekey.someotherkey");
+    it('should return correct translated value using the deep merge retrieval of the key from translation table', function() {
+      expect(translation.sync('contractselector.filter.products')).toEqual('Filter Products');
+    });
+    
+    it('should return same key value if key not found from translation table', function() {
+      expect(translation.sync('somekey.someotherkey')).toEqual('somekey.someotherkey');
+    });
+
+    it('should return the overridden value when translation uses multi-level object notation', function() {
+      expect(translation.sync('components.list-box.placeholder.filter')).toEqual('Filter This');
     });
 
     it('should return correct translated value given app locale key from combined translation table', function() {
-      expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
+      expect(translation.sync('billing-center.no-access')).toEqual('You have no access to Billing Center application.');
     });
 
     it('should return correct translated value given component locale key from combined translation table', function() {
-      expect(translation.sync("components.pagination.label.results")).toEqual("Results: ");
+      expect(translation.sync('components.pagination.label.results')).toEqual('Results: ');
     });
 
     it('should return correct translated value given locale key from combined translation table', function() {
-      expect(translation.sync("reseller-tools.incorrect-date")).toEqual("Incorrect date format. Please fix the date and try again.");
-      expect(translation.sync("components.pagination.label.results")).toEqual("Results: ");
+      expect(translation.sync('reseller-tools.incorrect-date')).toEqual('Incorrect date format. Please fix the date and try again.');
+      expect(translation.sync('components.pagination.label.results')).toEqual('Results: ');
     });
   });
 
   describe('when using custom loader service with url returning no data', function() {
     beforeEach(function() {
-      httpBackend.when('GET', LIBRARY_PATH).respond(404, "BAD PATH");
+      httpBackend.when('GET', LIBRARY_PATH).respond(404, 'BAD PATH');
       httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsMessagesResponse);
     });
     it('should ignore gracefully and continue to next url', function() {
-      spyOn(log, "error");
+      spyOn(log, 'error');
       httpBackend.flush();
       timeout.flush();
       expect(log.error).toHaveBeenCalled();
-      expect(translation.sync("billing-center.no-access")).toEqual("billing-center.no-access");
-      expect(translation.sync("components.name")).toEqual("components.name");
+      expect(translation.sync('billing-center.no-access')).toEqual('billing-center.no-access');
+      expect(translation.sync('components.name')).toEqual('components.name');
     });
   });
   describe('when using custom loader service with error response', function() {
     beforeEach(function() {
       httpBackend.when('GET', LIBRARY_PATH).respond({});
-      httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(404, "bad path");
+      httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(404, 'bad path');
     });
     it('should error and break ', function() {
-      spyOn(log, "error");
+      spyOn(log, 'error');
       scope.$digest();
       httpBackend.flush();
       expect(log.error).toHaveBeenCalled();
@@ -97,12 +105,12 @@ describe('i18nCustomLoader service', function() {
       httpBackend.when('GET', INTERNATIONALIZATION_PATH).respond(enUsMessagesResponse);
     });
     it('should ignore gracefully and continue to next url', function() {
-      spyOn(log, "error");
+      spyOn(log, 'error');
       scope.$digest();
       httpBackend.flush();
       expect(log.error).not.toHaveBeenCalled();
-      expect(translation.sync("billing-center.no-access")).toEqual("You have no access to Billing Center application.");
-      expect(translation.sync("components.name")).toEqual("components.name");
+      expect(translation.sync('billing-center.no-access')).toEqual('You have no access to Billing Center application.');
+      expect(translation.sync('components.name')).toEqual('components.name');
     });
   });
 });

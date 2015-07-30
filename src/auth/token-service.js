@@ -1,8 +1,5 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function(httpBuffer, $injector, $window, $location, authConfig, $log) {
   var pendingRequest = false;
   var $http;
@@ -14,7 +11,7 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
      *  Otherwise clear all pending requests and redirect to login page.
      */
     create: function() {
-      if ( this.isPending() ) {
+      if (this.isPending()) {
         return;
       }
 
@@ -52,12 +49,13 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
     },
     logout: function() {
       var currentUrl = $location.absUrl(),
-          currentHost = $location.host(),
-          hostPosition = currentUrl.indexOf(currentHost),
-          redirectPath = currentUrl.substring(hostPosition + currentHost.length),
-          encodedUrl = $window.btoa(redirectPath);
 
-      $window.location.replace( authConfig.lunaLogoutUrl + encodedUrl );
+        currentHost = $location.host(),
+        hostPosition = currentUrl.indexOf(currentHost),
+        redirectPath = currentUrl.substring(hostPosition + currentHost.length),
+        encodedUrl = $window.btoa(redirectPath);
+
+      $window.location.replace(authConfig.lunaLogoutUrl + encodedUrl);
     },
     isLogoutCondition: function(response) {
       var responseErrorCode;
@@ -78,13 +76,13 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
         responseErrorCode = response.data.code;
 
         // account for known cases where new token needs to be requested
-        if ( authConfig.newTokenRequestCodes.indexOf(responseErrorCode) > -1) {
+        if (authConfig.newTokenRequestCodes.indexOf(responseErrorCode) > -1) {
           this.create();
           return false;
         }
 
         // account for known cases to log out
-        if ( authConfig.logoutCodes.indexOf(responseErrorCode) > -1) {
+        if (authConfig.logoutCodes.indexOf(responseErrorCode) > -1) {
           return true;
         }
 
@@ -100,3 +98,5 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
 
   return service;
 };
+
+module.exports.$inject = ['httpBuffer', '$injector', '$window', '$location', 'authConfig', '$log'];

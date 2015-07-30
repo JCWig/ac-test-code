@@ -1,5 +1,9 @@
 {
     "components": {
+        "context": {
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
+            "accountChangedTitle": "Account Changed"
+        },
         "menu-button": {
             "label": "Label"
         },
@@ -17,13 +21,13 @@
             }
         },
         "modal-window": {
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
             "title": "Modal Window",
             "label": {
                 "cancel": "Cancel",
                 "save": "Save"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+            }
         },
         "pagination": {
             "label": {
@@ -49,6 +53,10 @@
         },
         "warning": {
             "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+        },
+        "switch-button": {
+            "onLabel": "On",
+            "offLabel": "Off"
         },
         "dialog": {},
         "error": {
@@ -85,6 +93,28 @@
             "warning": "WARNING",
             "success": "SUCCESS",
             "error": "ERROR"
+        },
+        "dropdown": {
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
+            }
+        },
+        "wizard": {
+            "label": {
+                "previous": "Previous",
+                "next": "Next",
+                "submit": "Submit"
+            },
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
+        },
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "tag-input": {
+            "placeholder": "Select Items",
+            "taggingLabel": "(new item)"
         }
     }
 }

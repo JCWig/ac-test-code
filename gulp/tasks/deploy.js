@@ -1,37 +1,60 @@
-var gulp  = require('gulp');
+'use strict';
+
+var gulp = require('gulp');
 var shell = require('shelljs');
 var rsync = require('rsyncwrapper').rsync;
 var bundleLogger = require('../util/bundle-logger');
+var maxTries = 3;
 
-gulp.task('deploy', function(){
-    var result = shell.exec('git branch -a --contains $GIT_COMMIT');
-    var symbolicName = result.output.trim();
-    bundleLogger.log('symbolic name', symbolicName);
+function doRsync(location, tries) {
+  tries = tries || 1;
 
-    var regex = /origin\/feature\/(.+)$/m;
+  //TODO: Handle scenarios where the folder needs to be generated on the server side
+  rsync({
+    ssh: true,
+    src: ['./dist', './examples'],
+    dest: 'sshacs@lunahome.upload.akamai.com:' + location,
+    recursive: true,
+    args: ['--copy-dirlinks', '--verbose', '--compress']
+    //dryRun: true
+  }, function(error, stdout, stderr, cmd) {
+    if (error != null) {
+      if ( tries >= maxTries ) {
+        bundleLogger.log('too many rsync tries failed.');
+        return;
+      }
+      bundleLogger.log('rsync attempt failed.', error, cmd);
+      doRsync(location, tries + 1);
+    } else {
+      bundleLogger.log('rsync success', stdout, cmd);
+    }
+  });
+}
 
-    var matches = symbolicName.match(regex);
+gulp.task('deploy', function() {
+  var result, symbolicName, regex, matches, branchName, cleanBranchName, longFolderName;
 
-    var branchName = matches[1];
-    
-    //clean up branch name:
-    var cleanBranchName = branchName.replace(' ', '_');
-    bundleLogger.log('clean branch name: '+ cleanBranchName);
-    
-    var longFolderName = '/315289/website/branches/' + cleanBranchName;
+  result = shell.exec('git branch -a --contains $GIT_COMMIT');
+  symbolicName = result.output.trim();
+  bundleLogger.log('symbolic name', symbolicName);
 
-    bundleLogger.log('rsync destination: '+ longFolderName);
-    
-    //TODO: Handle scenarios where the folder needs to be generated on the server side
-    rsync({
-      ssh: true,
-      src: ['./dist', './examples'],
-      dest: 'sshacs@lunahome.upload.akamai.com:' + longFolderName,
-      recursive: true,
-      args: ["--copy-dirlinks", "--verbose", "--compress"]
-      //dryRun: true
-    }, function(error, stdout, stderr, cmd) {
-        bundleLogger.log(error, stdout, cmd);
-    });
+  regex = /origin\/feature\/(.+)$/m;
+
+  matches = symbolicName.match(regex);
+
+  if (matches && matches.length > 1) {
+    branchName = matches[1];
+  } else {
+    branchName = 'develop';
+  }
+
+  //clean up branch name:
+  cleanBranchName = branchName.replace(' ', '_');
+  bundleLogger.log('clean branch name: ' + cleanBranchName);
+
+  longFolderName = '/315289/website/branches/' + cleanBranchName;
+  bundleLogger.log('rsync destination: ' + longFolderName);
+
+  doRsync(longFolderName, 1);
 });
 

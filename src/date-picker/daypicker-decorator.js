@@ -1,8 +1,5 @@
-'use strict';
-
-/* @ngInject */
 module.exports = function($provide) {
-  $provide.decorator('daypickerDirective', function($delegate) {
+  function datePickerDirective($delegate) {
     var link;
 
     // since: directives could potentially share names, the provider returns an array
@@ -23,7 +20,7 @@ module.exports = function($provide) {
         //disable navigation according to the range
         scope.daypickerNavPrevDisabled = function() {
           var firstDayOfMonth = new Date(ctrl.activeDate.getFullYear(),
-              ctrl.activeDate.getMonth(), 1);
+            ctrl.activeDate.getMonth(), 1);
 
           return ctrl.minDate && firstDayOfMonth <= ctrl.minDate;
         };
@@ -41,5 +38,11 @@ module.exports = function($provide) {
     };
 
     return $delegate;
-  });
+  }
+
+  datePickerDirective.$inject = ['$delegate'];
+
+  $provide.decorator('daypickerDirective', datePickerDirective);
 };
+
+module.exports.$inject = ['$provide'];

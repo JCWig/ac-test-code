@@ -7,8 +7,9 @@ describe('akam-modal-window-body directive', function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/modal-window').name);
-    angular.mock.module(/*@ngInject*/function($provide, $translateProvider) {
-      $provide.factory('i18nCustomLoader', function($q, $timeout) {
+    angular.mock.module(function($provide, $translateProvider) {
+
+      function i18nCustomLoader($q, $timeout) {
         return function(options) {
           var deferred = $q.defer();
           $timeout(function() {
@@ -16,10 +17,13 @@ describe('akam-modal-window-body directive', function() {
           });
           return deferred.promise;
         };
-      });
+      }
+      i18nCustomLoader.$inject = ['$q', '$timeout'];
+
+      $provide.factory('i18nCustomLoader', i18nCustomLoader);
       $translateProvider.useLoader('i18nCustomLoader');
     });
-    inject(function($compile, $rootScope, $httpBackend, $http, $templateCache, $q, $modal, translate, statusMessage, i18nConfig ) {
+    inject(function($compile, $rootScope, $httpBackend, $http, $templateCache, $q, $modal, translate, statusMessage, i18nConfig) {
       self.$httpBackend = $httpBackend;
       self.scope = $rootScope.$new();
       self.scope.modalWindow = {};

@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 /**
@@ -8,7 +6,6 @@ var angular = require('angular');
  * https://github.com/witoldsz/angular-http-auth
  */
 
-/* @ngInject */
 module.exports = function($injector, $q) {
   // Holds all the requests, so they can be re-requested in future.
   var buffer = [];
@@ -20,9 +17,11 @@ module.exports = function($injector, $q) {
     function successCallback(response) {
       deferred.resolve(response);
     }
+
     function errorCallback(response) {
       deferred.reject(response);
     }
+
     $http = $http || $injector.get('$http');
     $http(config).then(successCallback, errorCallback);
   }
@@ -104,3 +103,5 @@ module.exports = function($injector, $q) {
     }
   };
 };
+
+module.exports.$inject = ['$injector', '$q'];

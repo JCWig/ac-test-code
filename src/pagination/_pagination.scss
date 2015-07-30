@@ -1,0 +1,114 @@
+
+
+$pagination-height: 28px;
+$pagination-gutter: 10px;
+
+$pagination-gradient-top: #ffffff;
+$pagination-gradient-bottom: #f4f4f4;
+$pagination-border-color: #cccccc;
+
+$pagination-active-gradient-top: #e6e6e6;
+$pagination-active-gradient-bottom: #f4f4f4;
+
+$pagination-item-font-size: 12px;
+$pagination-item-font-color: #666666;
+$pagination-item-font-color-active: #0099cc;
+$pagination-item-font-color-disabled: #cccccc;
+
+$pagination-item-width: 40px;
+$pagination-ellipsis-width: 20px;
+
+.akam-pagination {
+  display: table;
+  width: 100%;
+  height: $pagination-height;
+  line-height: $pagination-height;
+  border: solid 1px $pagination-border-color;
+  text-align: center;
+  padding: 0;
+  padding-left: $pagination-gutter;
+  box-sizing: border-box;
+  font-size: $pagination-item-font-size;
+  @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
+
+  & > * {
+    display: table-cell !important;
+    width: 1px;
+    white-space: nowrap;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+
+    li {
+      display: inline-block;
+
+      a, span {
+        display: inline-block;
+        color: $pagination-item-font-color;
+        float: none;
+        padding: 0;
+        margin: 0;
+        line-height: inherit;
+        border: 0 none;
+        background-color: transparent;
+      }
+
+      a {
+        box-sizing: border-box;
+        padding: 0;
+        padding-left: 4px;
+        padding-right: 4px;
+        min-width: $pagination-item-width;
+
+        i {
+          vertical-align: middle;
+          margin-top: -1px;
+        }
+        
+        &:hover {
+          text-decoration: none;
+          border-radius: 0px;
+        }
+      }
+
+      span {
+        width: $pagination-ellipsis-width;
+      }
+
+      &.active a, &:hover a {
+        font-weight: bold;
+        @include background-image(linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom));
+        border: solid 1px $pagination-border-color;
+        border-width: 0 1px;
+      }
+
+      &:hover a {
+        color: $pagination-item-font-color-active;
+      }
+
+      &.disabled a {
+        color: $pagination-item-font-color-disabled;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .pagination {
+    width: auto;
+  }
+
+  .disabled i.luna-arrow_smLeft,
+  &.disabled i.luna-arrow_smLeft {
+    @include luna-sprite(arrow_smLeft_disabled);
+  }
+
+  .disabled i.luna-arrow_smRight,
+  &.disabled i.luna-arrow_smRight {
+    @include luna-sprite(arrow_smRight_disabled);
+  }
+}
+

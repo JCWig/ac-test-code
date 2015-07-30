@@ -1,3 +1,8 @@
+//UX defaults
+$global-light-gray-gradient: linear-gradient(#ffffff, #f8f8f8);
+$global-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15);
+$global-inset-box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
+
 // Typography
 $text-color: #666666;
 $text-font-family: Arial, sans-serif;
@@ -87,9 +92,9 @@ $button-border-color-hover: #cccccc;
 $button-gradient-top-hover: #f4f4f4;
 $button-gradient-bottom-hover: #c8c8c8;
 
-$button-background-color-disabled: #fff;
-$button-border-color-disabled: #eee;
-$button-text-color-disabled: #ccc;
+$button-background-color-disabled: #ffffff;
+$button-border-color-disabled: #e6e6e6;
+$button-text-color-disabled: #e6e6e6;
 
 $button-primary-text-color: #ffffff;
 $button-primary-background-color: #f46b29;
@@ -122,12 +127,12 @@ $bubble-help-arrow-size-inner-spread: 2px;
 $bubble-help-arrow-gutter: 5px;
 $bubble-help-arrow-position: $bubble-help-arrow-size + $bubble-help-arrow-gutter;
 
-//Tool Tip :
-$tooltip-background-color: #ebf6ff;
-$tooltip-max-width: 290px;
-$tooltip-min-width: 130px;
-$tooltip-max-height: 256;
-$tooltip-min-height: 72px;
+//Popover :
+$popover-background-color: #ebf6ff;
+$popover-max-width: 290px;
+$popover-min-width: 130px;
+$popover-max-height: 256;
+$popover-min-height: 72px;
 
 // svg icons
 $svg-icon-width: 16px;
@@ -140,7 +145,7 @@ $modal-window-zindex: 1050;
 $modal-window-backdrop-zindex: $modal-window-zindex - 10;
 $message-box-zindex: 1100;
 $message-box-backdrop-zindex: $message-box-zindex - 10;
-$tooltip-zindex: 900;
+$popover-zindex: 900;
 
 // Inputs
 
@@ -168,20 +173,26 @@ $input-border-color-focus: #0099cc;
 $input-border-color-invalid: $border-color-invalid;
 $input-border-color-disabled: #eeeeee;
 
-$input-box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.10);
+$input-box-shadow: $global-inset-box-shadow;
 $input-box-glow-focus: 0 0 1px 0 $input-border-color-focus;
 $input-box-glow-invalid: 0 0 1px 0 $input-border-color-invalid;
 
 // Dropdowns
 $dropdown-item-left-padding: 10px;
 $dropdown-item-right-padding: 15px;
-$dropdown-item-line-height: 32px;
+$dropdown-item-line-height: 28px;
+$dropdown-item-line-height-small: 24px;
+$dropdown-border-color-active: #999999;
+
+// Popups
+$popup-padding: 22px;
 
 // Modular Mega Menu
+// NOTE: Please do not use these variables in other components. The mega menu is a one-off
 $orange-caret-position: -214px;
 $caret-width: 5px;
 $caret-height: 16px;
-$arrow-up-height-large: 16px;
+$arrow-up-height-large: 15px;
 $arrow-down-height-small: 5px;
 $company-logo-height: 29px;
 $luna-logo-height: 25px;
@@ -191,13 +202,14 @@ $user-popup-padding: 2px 10px;
 $row-hover-color: #E1F3FF;
 
 $tab-row-width: 200px;
-$popup-padding: 10px;
+$context-popup-padding: 10px;
 
 $hoverable-border-size: 1px;
 $hoverable-vertical-padding: 8px;
 $hoverable-horizontal-padding: 4px;
 
 $nav-horizontal-padding: 10px;
+$context-popup-padding: 10px;
 
 $context-selector-color: #676D72;
 $context-selector-match-color: #f46b29;
@@ -229,6 +241,7 @@ $context-and-account-selector-width: 35%;
 // Bootstrap overrides
 $font-family-base: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $font-size-base: 12px;
+$border-radius-base: 3px;
 
 $line-height-base: 1.4;
 
@@ -255,12 +268,12 @@ $container-md: 990px;
 $container-lg: $container-md;
 
 $dropdown-bg: #fff;
-$dropdown-border: #ccc;
+$dropdown-border: #ccc; 
 $dropdown-link-color: #666666;
 $dropdown-link-hover-color: #666666;
 $dropdown-link-hover-bg: #e2f3fc;
 $dropdown-link-active-color: #666666;
-$dropdown-link-active-bg: darken($dropdown-link-hover-bg, 10%);
+$dropdown-link-active-bg: #CEE7FF;
 $dropdown-link-disabled-color: #ccc;
 
 $panel-bg: #fff;
@@ -268,5 +281,40 @@ $panel-body-padding: 0;
 $panel-heading-padding: 9px 15px;
 $panel-border-radius: 3px;
 $panel-default-text: #666;
-$panel-default-border: #ccc;
+$panel-default-border: #cccccc;
 $panel-default-heading-bg: #f8f8f8;
+
+$code-color: #0099cc;
+$code-bg: #ebf6ff;
+$kbd-color: #FFFFFF;
+$kbd-bg: #0099cc;
+
+$well-bg: #f4f4f4;
+$well-border: #e6e6e6;
+
+$list-group-bg: #FFFFFF;
+$list-group-border: #CCCCCC;
+$list-group-hover-bg: #EBF6FF;
+$list-group-active-color: #666666;
+$list-group-active-bg: #CEE7FF;
+$list-group-active-border: $list-group-border;
+$list-group-disabled-color: #E6E6E6;
+$list-group-disabled-bg: #F8F8F8;
+$list-group-link-color: #666;
+
+$state-success-bg: #70B36E;
+$state-success-text: #FFFFFF;
+$state-success-border: #388E35;
+$state-info-bg: #59B5DC;
+$state-info-text: #FFFFFF;
+$state-info-border: #2F79C9;
+$state-danger-bg: #DE6056;
+$state-danger-text: #FFFFFF;
+$state-danger-border: #AB2213;
+$state-warning-bg: #E9A751;
+$state-warning-text: #FFFFFF;
+$state-warning-border: #C97820;
+
+$breadcrumb-active-color: #666666;
+
+$pagination-active-color: inherit;

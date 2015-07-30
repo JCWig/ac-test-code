@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Components Examples - Tree View</title>
+        <link rel="stylesheet" href="../dist/akamai-core.css">
+        <style>
+            .div-overflow-auto {
+                max-width: 225px;
+                max-height: 225px;
+                overflow: auto;
+            }
+        </style>
+    </head>
+    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
+        <div class="container" >
+            <div class="page-header">
+                <h1>Tree View Component Examples</h1>
+            </div>
+            <h2>Hardcoded Data Example</h2>
+            <br />
+            <span>Example Data Layout:<br />
+                Expand Development to see a list of tree items (time delay of 2 seconds)
+                <br />
+                Under Development choose Hallie Jordan
+                <br />
+                Under Hallie Jordan choose Dinah Short (time delay of 5 seconds)
+                <br />
+                Sam Curry = Failed to get data<br />
+                All other items do not have child items<br />
+            </span>
+            <br />
+            <div class="div-overflow-auto">
+                <akam-tree-view akam-standalone item="contextData" on-change="triggerChange(item)"> </akam-tree-view>
+            </div>
+            <br />
+            <br />
+            <h2>JSON Data Example</h2>
+             <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
+            </span>
+             <div class="div-overflow-auto">
+                <akam-tree-view akam-standalone item="jsonFromHttpGet"> </akam-tree-view>
+            </div>
+            <br />
+            <br />
+            <h2>JSON Data Example Custom Properties</h2>
+             <span>NOTE: No child data nodes exist under the initial list of items in the tree<br />
+            </span>
+             <div class="div-overflow-auto">
+                <akam-tree-view akam-standalone item="jsonFromHttpGetSmall" on-change="triggerChangeJSONSmall(item)"
+                parent-property="department" children-property="employees" root-property="boss" text-property="name"> </akam-tree-view>
+            </div>
+            <br />
+            <br />
+            <h2>No Data Example</h2>
+            <span>NOTE: No data nodes exist<br /></span>
+            <div class="div-overflow-auto">
+                <akam-tree-view akam-standalone item="contextDataEmpty" on-change="triggerChange(item)"> </akam-tree-view>
+            </div>
+            <br />
+            <br />
+            <h2>Non-existant JSON Data File Example</h2>
+            <span>NOTE: This is a test of when the data file does not exist.  Should generate a 404<br /></span>
+            <div class="div-overflow-auto">
+                <akam-tree-view akam-standalone item="jsonFromHttpGetFAIL"> </akam-tree-view>
+            </div>
+            <br />
+            <br />   
+        </div>
+        <script src="../dist/akamai-core.js"></script>
+        <script>
+            var exampleController = function($scope, $log, $q, $timeout, $http) {
+                
+                // Load data from a json file to test out HTTP GET functionality
+                $scope.jsonFromHttpGet = $http.get('json/tree-view-data.json');
+                $scope.jsonFromHttpGetSmall = $http.get('json/small-tree-view-data.json');
+                
+                // Attempt to load data from a json file that does not exist
+                $scope.jsonFromHttpGetFAIL = $http.get('json/tree-view-dataxx.json');
+                
+                $scope.triggerChangeJSONSmall = function(clickedObj){
+                    $log.log("Clicked name " + clickedObj.name);
+                    $scope.jsonFromHttpGetSmall = {
+                        // return null since there are no children
+                        name: null
+                    };
+                };
+                
+                $scope.triggerChange = function(clickedObj){
+                    $log.log("clicked title " + clickedObj.title);
+                    if(clickedObj.title === 'Hallie Jordan'){
+                        $scope.contextData = {
+                            parent:{title:"Development"},
+                            children : [
+                                {title:"Dinah Short"},
+                                {title:"Helena Sky"},
+                                {title:"Selina Crow"}
+                            ]
+                        }
+                    } else if (clickedObj.title === 'Dinah Short') {
+                        var def = $q.defer();
+                        $timeout(function(){
+                            def.resolve({
+                                parent:{title:"Hallie Jordan"},
+                                children : [
+                                    {title:"Speedy McQueen"},
+                                    {title:"Mia Deardenton"},
+                                    {title:"Royce Brown"},
+                                    {title:"Shane McDowell"}
+                            ]});
+                        }, 5000);
+                        return def.promise;
+                    } else if (clickedObj.title === 'Sam Curry') {
+                        var def = $q.defer();
+                        $scope.contextData = def.promise;
+                        $timeout(function(){
+                            def.reject();
+                        }, 200);
+                    } else if (clickedObj.title === 'Kent Clarkson') {
+                        return {
+                            parent:{title:"Development"},
+                            children : null
+                        };
+                    }  else if (clickedObj.title === 'Bruce Hopper') {
+                        var def = $q.defer();
+                        $scope.contextData = {
+                            parent:{title:"Development"},
+                            children : []
+                        }
+                    } else if (clickedObj.title === 'Development') {
+                        var def = $q.defer();
+                        $scope.contextData = def.promise;
+                        $timeout(function(){
+                            def.resolve({
+                                parent:{title:"Employees"},
+                                children:[
+                                    {"title": "Bruce Hopper"},
+                                    {title: "Kent Clarkson"},
+                                    {title: "Hallie Jordan"},
+                                    {title: "Barry Jones"},
+                                    {title: "Sam Curry"},
+                                    {title: "Michael Prince"},
+                                    {title: "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" }
+                                ]
+                            });
+                        }, 2000);
+                    } else if (clickedObj.title === 'Employees') {
+                        $scope.contextData = {
+                            parent : null,
+                            children: [
+                                {title: "Development"},
+                                {title: "Quality Assurance"},
+                                {title: "Dev. Ops"},
+                                {title: "UXD"},
+                                {title: "Sales"},
+                                {title: "Help Desk"},
+                                {title: "Network Operations Command Center"}
+                            ]
+                        }
+                    } else {
+                        $scope.contextData = {
+                            children: null
+                        }
+                    }
+                };
+                
+                $scope.contextData = {
+                    parent:[{title:"Employees"}],
+                    title: "Development",
+                    children:[
+                        {"title": "Bruce Hopper"},
+                        {"title": "Kent Clarkson"},
+                        {"title": "Hallie Jordan"},
+                        {"title": "Barry Jones"},
+                        {"title": "Sam Curry"},
+                        {"title": "Michael Prince"},
+                        {"title": "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff" },
+                    ]
+                };
+                
+                $scope.contextDataEmpty = {
+                        parent: null,
+                        current: null,
+                        children: null
+                };
+            };
+            exampleController.$inject = ['$scope', '$log', '$q', '$timeout', '$http', '$httpBackend'];
+            angular.module('example', ['akamai.components.tree-view'])
+            
+
+            .controller('ExampleController', exampleController);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,232 @@
+
+$table__border: $base__border-style $base__border-width $colors__gray6;
+
+$table__tr-background--even: $colors__gray10;
+$table__tr-background--odd: $colors__white;
+$table__tr-background--hover: $colors__blue3;
+$table__tr-background--selected: $colors__blue2;
+$table__tr-height: 30px;
+
+$table__th-background: linear-gradient($colors__white, $colors__gray10);
+$table__th-background--hover: linear-gradient($colors__gray7, $colors__gray9);
+$table__th-height: $table__tr-height + $base__border-width;
+
+$table__td-border: $base__border-style $base__border-width $colors__gray8;
+
+$table__filter-icon-width: luna-sprite-width(close);
+$table__filter-icon-margin-left: -($table__filter-icon-width + 6px);
+$table__filter-padding-right: $table__filter-icon-width + 8px;
+
+$table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
+
+
+
+.akam-data-table {
+  font-size: $body-font-size;
+  color: $body-font-color;
+  background: $colors__white;
+  
+  table {
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 0;
+  }
+  
+  th {
+    text-align: left;
+    border-bottom: $table__border;
+    white-space: nowrap;
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: $table__th-height;
+    line-height: $table__th-height;
+    position: relative;
+    background-clip: padding-box; // bugzilla.mozilla.org/show_bug.cgi?id=688556
+
+    @include ellipsis();
+    @include background-image($table__th-background);
+    
+    & + th {
+      border-left: $table__border;
+    }
+    
+    &.column-sortable {
+      @extend .util-clickable;
+      padding-right: 20px;
+      
+      &.column-sorted {
+        @include background-image($table__th-background--hover);
+      }
+      
+      & > i {
+        position: absolute;
+        right: floor(luna-sprite-width(arrow-up) / 2);
+        top: 50%;
+        @include translateY(-50.01%);
+      }
+    }
+    
+    &.column-sortable:hover, 
+    &.column-sorted {
+      position: relative;
+      @include background-image($table__th-background--hover);
+  
+      i {
+        @extend .luna-arrow-up;
+        position: absolute;
+        right: 9px;
+        top: 38%;
+      }
+  
+      &.desc i {
+        @extend .luna-arrow-down;
+      }
+    }
+  }
+  
+  th, td {
+    @include ellipsis();
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 31px;
+    line-height: 31px;
+  }
+  
+  tbody {
+    tr:nth-child(even) {
+      background-color: $table__tr-background--even;
+    }
+    tr:nth-child(odd) {
+      background-color: $table__tr-background--odd;
+    }
+    tr:hover {
+      background-color: $table__tr-background--hover;
+      
+      td.column-action > * {
+        visibility: visible;
+      }
+    }
+    tr.row-selected {
+      background-color: $table__tr-background--selected;
+    }
+    tr:first-child td {
+      border-top: none;
+    }
+  }
+  
+  td {
+    border: $table__td-border;
+    border-width: 0;
+    border-top-width: 1px;
+    
+    &.column-action {
+      overflow: visible;
+      
+      & > * {
+        visibility: hidden;
+      }
+    }
+    
+    span.highlighted {
+      color: $colors__blue1;
+    }
+  }
+
+  .column-checkbox {
+    width: 30px;
+  }
+  
+  .column-action {
+    width: 80px;
+    text-align: center;
+  }
+  
+  .data {
+    position: relative;
+    min-height: $table__tbody-height + $table__th-height + ($base__border-width * 2);
+    border-top: $table__border;
+    border-bottom: $table__border;
+    border-top: 0 none;
+
+    &.basic-table {
+      min-height: initial;
+    }
+  }
+
+  .akam-pagination {
+    border: 0 none;
+  }
+  
+  .filter,
+  .toolbar {
+    height: 36px;
+    padding: 4px;
+
+    input {
+      width: 100%;
+      max-width: 298px;
+      padding-right: $table__filter-padding-right;
+    }
+
+    input + i {
+      vertical-align: middle;
+      margin-left: $table__filter-icon-margin-left;
+    }
+  }
+  
+  .toolbar {
+    border-bottom: $table__border;
+  }
+  
+  .dropdown {
+    i + .dropdown-menu {
+      margin-top: 3px;
+    }
+
+    > button {
+      border: none;
+      background: none;
+
+      &.btn-default.dropdown-toggle {
+
+        &.menu-button,
+        &.menu-button:hover,
+        &.menu-button:focus
+        &.menu-button:active {
+          border: none;
+          background: none;
+        }
+      }
+
+      > i {
+        @extend .icon-states;
+      }
+    }
+  }
+  
+  // TODO: this is shown in ng-messages, but form validation unilaterally sets that style to
+  // display: none. Ideally, we should be showing or hiding ng-message blocks with a ng-show
+  // to allow the user to have more control over when a validation is shown. ng-messages are likely
+  // to be used outside of a form context and this behavior
+  .empty-table-message {
+    display: block;
+    position: relative;
+    padding: 5px 10px 5px 36px;
+    color: inherit;
+
+    &.ng-inactive {
+      display: none;
+    }
+
+    i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      margin-top: -8px;
+    }
+  }
+}
+
+

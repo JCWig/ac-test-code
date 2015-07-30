@@ -1,35 +1,33 @@
+
+// Used on various pages in the portal
 .page-title {
   margin: .5em 0;
   font-weight: bold;
 }
 
-.page-header {
-  border-bottom-color: #ddd;
-}
 
-legend {
-  color: inherit;
-}
-
-a.list-group-item {
-
-  &:hover, &:focus {
-    background-color: #e2f3fc;
-  }
-}
-
+// Bootstrap sets outline to none for hover and active, but not focus
 a:focus {
-  text-decoration: none;
   outline: none;
 }
 
-a:hover {
-  text-decoration: underline;
+// Apply borders and box shadows to make the component look correct when its by itself
+.standalone {
+  border: 1px solid $base__border-color;
+  border-radius : $base__border-radius;
+  @include box-shadow($base__box-shadow);
+
+  &.akam-list-box,
+  &.akam-data-table {
+    margin: 0 0 16px;
+  }
 }
 
-.dropdown {
+// Misc
+.well {
+  @include box-shadow($base__box-shadow--inset);
+}
 
-  &.open > i.luna-gear {
-    @extend .luna-gear:hover;
-  }
+.ui-match {
+  color: $colors__blue1;
 }

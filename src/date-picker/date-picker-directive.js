@@ -1,9 +1,6 @@
-'use strict';
-
 var angular = require('angular');
 
-/* @ngInject */
-module.exports = function($filter, translate) {
+module.exports = function($filter, $timeout, translate) {
   var PICKER_TYPES = {
     day: 'day',
     month: 'month'
@@ -18,17 +15,18 @@ module.exports = function($filter, translate) {
       mode: '@',
       min: '@',
       max: '@',
-      format: '@'
+      format: '@',
+      isDisabled: '=?'
     },
     template: require('./templates/date-picker.tpl.html'),
     link: {
       pre: function(scope) {
+
         scope.opened = false;
         scope.mode = scope.mode in PICKER_TYPES ?
           scope.mode : PICKER_TYPES.day;
 
         if (scope.mode === PICKER_TYPES.day) {
-          scope.format = scope.format || 'EEE, MMM dd, yyyy';
           if (!scope.placeholder) {
             translate.async('components.date-picker.placeholder.date').then(function(value) {
               scope.placeholder = value;
@@ -42,7 +40,6 @@ module.exports = function($filter, translate) {
             maxMode: 'day'
           };
         } else {
-          scope.format = scope.format || 'MMM yyyy';
           if (!scope.placeholder) {
             translate.async('components.date-picker.placeholder.month').then(function(value) {
               scope.placeholder = value;
@@ -62,8 +59,6 @@ module.exports = function($filter, translate) {
       post: function(scope, element, attrs, ngModel) {
         var noClear = angular.isDefined(attrs.noClear) ? true : false;
 
-        //Code Coverage Ignoring becuause ngModel is always defined. Good defensive coding though.
-        /* istanbul ignore if */
         if (!ngModel) {
           return;
         }
@@ -85,7 +80,7 @@ module.exports = function($filter, translate) {
         };
 
         scope.showClear = function() {
-          return scope.value && !noClear;
+          return scope.value && !noClear && !scope.isDisabled;
         };
 
         scope.clearDate = function() {
@@ -96,7 +91,17 @@ module.exports = function($filter, translate) {
         scope.$watch('opened', function(newValue) {
           element.toggleClass('opened', newValue);
         });
+
+        $timeout(function() {
+          if (scope.mode === PICKER_TYPES.day) {
+            scope.format = scope.format || 'EEE, MMM dd, yyyy';
+          } else {
+            scope.format = scope.format || 'MMM yyyy';
+          }
+        });
       }
     }
   };
 };
+
+module.exports.$inject = ['$filter', '$timeout', 'translate'];

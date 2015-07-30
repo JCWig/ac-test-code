@@ -14,7 +14,6 @@ var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json")
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 var MAX_INITIALLY_DISPLAYED = 10;
 
-
 describe('akam-list-box', function() {
   var compile = null;
   var scope = null;
@@ -29,11 +28,14 @@ describe('akam-list-box', function() {
     self = this;
     angular.mock.module(require('../../src/list-box').name);
     angular.mock.module(function($provide) {
-      /*@ngInject*/
-      $provide.decorator('$http', function($delegate) {
+
+      function http($delegate) {
         $http = $delegate;
         return $delegate;
-      });
+      }
+      http.$inject = ['$delegate'];
+
+      $provide.decorator('$http', http);
     });
     inject(function($compile, $rootScope, $timeout, $q, $httpBackend, $sce) {
       compile = $compile;
@@ -312,29 +314,29 @@ describe('akam-list-box', function() {
     });
   });
   /* TODO: FIGURE OUT TESTING FOR SCROLLING/ ENSURE CSS IS APPLIED
-  describe('when data exceeds 10 items', function(){
-    it('should display more items as scrolling takes place', function() {
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
-        },
-        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
-      ];
-      scope.jsonData = require('./http-data/list-box-data.json');
-      var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
-      addElement(markup);
-      timeout.flush();
-      var totalRows = document.querySelectorAll(TABLE_ROW);
-      expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+   describe('when data exceeds 10 items', function(){
+   it('should display more items as scrolling takes place', function() {
+   scope.jsonColumns = [
+   {
+   content: function() {return this.first + ' ' + this.last;},
+   header: 'Full Name',
+   className: 'column-full-name'
+   },
+   {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
+   ];
+   scope.jsonData = require('./http-data/list-box-data.json');
+   var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
+   addElement(markup);
+   timeout.flush();
+   var totalRows = document.querySelectorAll(TABLE_ROW);
+   expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
 
-      document.querySelector('div.fixed-table-container-inner').scrollTop = 100;
-      scope.$digest();
+   document.querySelector('div.fixed-table-container-inner').scrollTop = 100;
+   scope.$digest();
 
-      expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
-    });
-  });*/
+   expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
+   });
+   });*/
   describe('when given selectedItems', function() {
     it('should not delete selectedItems on load', function() {
       scope.selectedItems = [{
@@ -1084,7 +1086,7 @@ describe('akam-list-box', function() {
       utilities.click(firstRowCheckbox);
       utilities.click(viewSelectOnlyCheckbox);
       utilities.click(selectAllCheckbox);
-      utilities.click(selectAllCheckbox);      
+      utilities.click(selectAllCheckbox);
 
       var viewSelectedOnlyCheckboxIfItsChecked = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX + ":checked");
       var rows = document.querySelectorAll(TABLE_ROW);
@@ -1261,7 +1263,7 @@ describe('akam-list-box', function() {
     });
   });
   describe('when data messes up', function() {
-    it('should recognize null content when redenring', function() {
+    it('should recognize null content when rendering', function() {
       scope.baddata = [
         {first: "Nick"},
         {first: "Kevin"}];
@@ -1307,10 +1309,12 @@ describe('akam-list-box', function() {
       var rowFourColumnTwo = document.querySelectorAll(TABLE_ROW)[3].querySelectorAll('td')[1];
       var rowFiveColumnTwo = document.querySelectorAll(TABLE_ROW)[4].querySelectorAll('td')[1];
 
-      expect(rowOneColumnTwo.textContent).toEqual('');
-      expect(rowTwoColumnTwo.textContent).toEqual('');
-      expect(rowFourColumnTwo.textContent).toContain('James');
-      expect(rowFiveColumnTwo.textContent).toContain('Kevin');
+      // as per https://github.com/angular/angular.js/pull/12072, angular now treats nulls lower
+      // than objects. This may be "broken" in a future angular change.
+      expect(rowOneColumnTwo.textContent).toContain('James');
+      expect(rowTwoColumnTwo.textContent).toContain('Kevin');
+      expect(rowFourColumnTwo.textContent).toEqual('');
+      expect(rowFiveColumnTwo.textContent).toEqual('');
     });
   });
   describe('when errors are thrown', function() {
@@ -1457,10 +1461,9 @@ describe('akam-list-box', function() {
 
       expect(rowOneColumnTwo.textContent).toContain('pwn3d');
     });
-  })
-
-  describe('when scrolling ', function(){
-    it('should load more data', function(){
+  });
+  describe('when scrolling ', function() {
+    it('should load more data', function() {
       scope.jsonColumns = [
         {
           content: function() {return this.first + ' ' + this.last;},
@@ -1469,7 +1472,7 @@ describe('akam-list-box', function() {
         },
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
-      scope.jsonData = require('./http-data/list-box-data.json').slice(0,30);
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0, 30);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1484,7 +1487,7 @@ describe('akam-list-box', function() {
       expect(scope.$$childTail.dataSource.length).toEqual(20);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
-    it('should stop loading data if end is reached', function(){
+    it('should stop loading data if end is reached', function() {
       scope.jsonColumns = [
         {
           content: function() {return this.first + ' ' + this.last;},
@@ -1493,7 +1496,7 @@ describe('akam-list-box', function() {
         },
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
-      scope.jsonData = require('./http-data/list-box-data.json').slice(0,25);
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0, 25);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1511,7 +1514,7 @@ describe('akam-list-box', function() {
       expect(scope.$$childTail.dataSource.length).toEqual(25);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
-    it('should leave data if rescrolled to top.', function(){
+    it('should leave data if rescrolled to top.', function() {
       scope.jsonColumns = [
         {
           content: function() {return this.first + ' ' + this.last;},
@@ -1520,7 +1523,7 @@ describe('akam-list-box', function() {
         },
         {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
       ];
-      scope.jsonData = require('./http-data/list-box-data.json').slice(0,25);
+      scope.jsonData = require('./http-data/list-box-data.json').slice(0, 25);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1533,7 +1536,7 @@ describe('akam-list-box', function() {
       expect(scope.$$childTail.dataSource.length).toEqual(20);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
-    it('should not scroll past max-height', function(){
+    it('should not scroll past max-height', function() {
       scope.jsonColumns = [
         {
           content: function() {return this.first + ' ' + this.last;},
@@ -1552,7 +1555,7 @@ describe('akam-list-box', function() {
 
       var element = angular.element(document.querySelector('div.fixed-table-container-inner'));
 
-      element.css({"max-height":'150px'})
+      element.css({"max-height": '150px'})
 
       element.scrollTop = 10000;
       element.triggerHandler('scroll');

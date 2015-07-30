@@ -14,7 +14,12 @@
     "month.9": "Septembre",
     "month.8": "Août",
     "notification.definition.date": "Date de définition",
-    "contractselector.filter.products": "Filtrer les produits",
+    "contractselector": {
+        "filter":
+        {
+            "products": "Filtrer les produits"
+        }
+    },
     "notification.create.error.contractsnotselected": "Sélectionnez des contrats",
     "internal-tools.recurring-report.event.eventStatus": "État",
     "internal-tools.menu.title": "Internal Tools",
@@ -229,5 +234,10 @@
     "invoice.amount.due": "Montant dû",
     "cp-codes.modal.title": "CP CODES",
     "recurring-report.empty": "Aucun rapport récurrent n''a été trouvé",
-    "report.edit.title": "MODIFIER LE RAPPORT RÉCURRENT"
+    "report.edit.title": "MODIFIER LE RAPPORT RÉCURRENT",
+    "examples.wizard.step1": "Step 1",
+    "examples.wizard.step2": "Step 2",
+    "examples.wizard.step3": "Step 3",
+    "examples.wizard.step4": "Step 4",
+    "examples.wizard.step5": "Step 5"
 }

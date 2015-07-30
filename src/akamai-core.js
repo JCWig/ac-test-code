@@ -1,5 +1,3 @@
-'use strict';
-
 var angular = require('angular');
 
 angular.module('akamai.components', [
@@ -14,8 +12,18 @@ angular.module('akamai.components', [
   require('./date-picker').name,
   require('./pagination').name,
   require('./list-box').name,
-  require('./data-table').name,
+  require('./table').name,
+  require('./spinner').name,
   require('./utils').name,
-  require('./tool-tip').name,
-  require('./auth').name
+  require('./switch-button').name,
+  require('./popover').name,
+  require('./tree-view').name,
+  require('./time-picker').name,
+  require('./tag-input').name,
+  require('./dropdown').name,
+  require('./auth').name,
+  require('./autocomplete').name,
+  require('./mega-menu').name,
+  require('./wizard').name,
+  require('./navigation').name
 ]);

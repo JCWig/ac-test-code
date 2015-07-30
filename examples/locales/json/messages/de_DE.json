@@ -14,7 +14,12 @@
     "month.9": "September",
     "month.8": "August",
     "notification.definition.date": "Definitionsdatum",
-    "contractselector.filter.products": "Produkte filtern",
+    "contractselector": {
+        "filter":
+        {
+            "products": "Produkte filtern"
+        }
+    },   
     "notification.create.error.contractsnotselected": "Wählen Sie Verträge aus",
     "internal-tools.recurring-report.event.eventStatus": "Status",
     "internal-tools.menu.title": "Interne Werkzeuge",
@@ -230,5 +235,19 @@
     "invoice.amount.due": "Fälliger Betrag",
     "cp-codes.modal.title": "CP-CODES",
     "recurring-report.empty": "Es wurden keine wiederkehrenden Berichte gefunden.",
-    "report.edit.title": "WIEDERKEHRENDEN BERICHT BEARBEITEN"
+    "report.edit.title": "WIEDERKEHRENDEN BERICHT BEARBEITEN",
+    "examples.wizard.step1": "Schritt 1",
+    "examples.wizard.step2": "Schritt 2",
+    "examples.wizard.step3": "Schritt 3",
+    "examples.wizard.step4": "Schritt 4",
+    "examples.wizard.step5": "Schritt 5",
+    "examples.autocomplete.search.states": "Suche nach Staaten",
+    "examples.appNames.tq": "Tranquility",
+    "examples.appNames.bc": "Billing Center",
+    "examples.appNames.pm": "Property Manager",
+    "examples.datepicker.choose.date": "Datum wählen",
+    "examples.datepicker.choose.month": "wählen Sie Monat",
+    "examples.switchbutton.custom.allow": "erlauben",
+    "examples.switchbutton.custom.deny": "verweigern",
+    "examples.dropdown.select.one": "Wähle eins"
 }

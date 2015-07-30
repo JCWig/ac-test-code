@@ -1,0 +1,117 @@
+
+/* angular form validation classes */
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="date"],
+input[type="month"],
+input[type="number"],
+textarea {
+
+  &.ng-invalid.ng-dirty.ng-touched {
+    border-color: $colors__red3;
+    border-width: 2px;
+  }
+}
+
+input[type="search"],
+input[type="date"],
+input[type="month"] {
+
+  &.ng-invalid.ng-dirty.ng-touched {
+
+    & ~ .button,
+    & ~ .btn {
+      border-left-color: $colors__red3;
+    }
+  }
+}
+
+[ng-messages] { 
+  display: none; // addresses FOUC
+  
+  color: $colors__red3;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ng-invalid.ng-dirty.ng-touched ~ [ng-messages] {
+  display: block;
+}
+
+
+
+/* tag input validation */
+akam-tag-input {
+  &.ng-invalid.ng-dirty.ng-touched {
+    .ui-select-container {
+      border-color: $colors__red3;
+      border-width: 2px;
+    }
+  }
+}
+
+
+
+/* dropdown menu validation */
+ul.dropdown-menu {
+
+  &.ng-invalid {
+    border-color: $colors__red3;
+  }
+
+}
+
+
+
+/* date picker validation */
+.akam-date-picker.ng-invalid {
+
+  &.ng-touched {
+    & > input {
+      border-color: $colors__red3;
+
+      & ~ .button,
+      & ~ .btn {
+        border-left-color: $colors__red3;
+      }
+    }
+  }
+
+  ul.dropdown-menu {
+    border-color: $colors__red3;
+  }
+}
+
+
+/* required/optional field marking */
+form:not(.show-required) {
+    
+  .form-group:not(.required) > label {
+    line-height: 1.2;
+    
+    &:after {
+      content: '\A(optional)';
+      font-weight: normal;
+      font-size: 10px;
+      white-space: pre;
+      color: $colors__gray4;
+    }
+  }
+}
+
+form.show-required {
+
+  .form-group.required > label {
+    line-height: 1.2;
+    
+    &:after {
+      content: '\A(required)';
+      font-weight: normal;
+      white-space: pre;
+      color: $colors__gray4;
+    }
+  }
+}
+
+

@@ -1,0 +1,21 @@
+<div class="akam-tree-view">
+    <div akam-text-overflow="treeview.current.title" class="tree-view-current">
+    	<i akam-tree-view-parent-selector items="treeview.parentTree" on-change="treeview.contextChangeNew" 
+    	ng-class="{'luna-parent_group_folder':treeview.hasParents(), 'luna-home':!treeview.hasParents(), 'icon-states': treeview.hasParents(), 'util-clickable': treeview.hasParents()}"></i>
+    	<span class="parents-indicator" ng-if="hasParents()"> &gt; </span> <span class="tree-view-current-title">{{treeview.current.title}} </span>
+    </div>
+	<div class="tree-view-children">
+		<div akam-text-overflow="::child.title" ng-click="treeview.contextChangeNew($index)" ng-if="treeview.retrievedData" ng-repeat="child in treeview.children" 
+			ng-if="!treeview.loading && !treeview.failed" 
+			class="tree-view-contents util-clickable">
+			<i class="luna-child_group_folder"></i>
+			<span>
+				{{child.title}}
+			</span>
+		</div>
+		<div class="tree-view-indeterminate-wrapper" ng-if="treeview.loading">
+			<akam-indeterminate-progress class="loading-data-table" size="small"  completed="{{!treeview.loading}}"
+				failed="{{ treeview.failed }}"></akam-indeterminate-progress>
+		</div>
+	</div>
+</div>

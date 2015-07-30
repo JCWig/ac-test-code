@@ -1,0 +1,97 @@
+
+
+$spinner-input-height: 28px;
+$spinner-border-color: #cccccc;
+$spinner-button-color-active: #0099cc;
+$spinner-disable-color: #e6e6e6;
+$spinner-button-hover-gradient-bottom: #e6e6e6;
+$spinner-button-hover-gradient-top: #ffffff;
+$spinner-border-color-hover: #999999;
+$spinner-button-hover-gradient-bottom: #c8c8c8;
+$spinner-button-hover-gradient-top: #f4f4f4;
+$spinner-button-active-gradient-bottom: #f4f4f4;
+$spinner-button-active-gradient-top: #c8c8c8;
+
+.akam-spinner {
+  position: relative;
+  font-size: 0px;
+
+  input[type=number] {
+    @include border-right-radius(0);
+    @include appearance(textfield);
+    min-width: 28px;
+
+    &:disabled {
+      color: $spinner-disable-color;
+      border-color: $spinner-disable-color;
+      cursor: default;
+    }
+
+    &::-ms-clear {
+      display: none;
+    }
+  }
+
+  input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+
+  .btn-group-vertical.number-input {
+    text-align: left;
+    font-size: 0px;
+    height: $spinner-input-height;
+    width: 32px;
+
+    .btn {
+      min-width: 20px;
+      height: $spinner-input-height/2;
+      width: auto;
+      border-left-width: 0;
+      display: block;
+      @include border-left-radius(0);
+      border-color: $spinner-border-color;
+
+      &[disabled] {
+        opacity: 1;
+        @include background-image(none);
+        border-color: $spinner-disable-color;
+      }
+
+      & + .btn {
+        margin-top: 0;
+      }
+
+      &:first-child {
+        border-bottom-width: 0;
+        &:hover:not([disabled]) {
+          & + .btn {
+            border-top-color: $spinner-border-color-hover;
+          }
+        }
+        &:active:not([disabled]) {
+          & + .btn {
+            border-top-color: $spinner-button-color-active;
+          }
+        }
+      }
+
+      i {
+        display: block;
+      }
+
+      &:hover:not([disabled]) {
+        margin-left: -1px;
+        border-left-width: 1px;
+        border-color: $spinner-border-color-hover;
+        @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
+      }
+
+      &:active:not([disabled]) {
+        margin-left: -1px;
+        border-left-width: 1px;
+        border-color: $spinner-button-color-active;
+        @include background-image(linear-gradient($spinner-button-active-gradient-top, $spinner-button-active-gradient-bottom));
+      }
+    }
+  }
+}

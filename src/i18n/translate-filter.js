@@ -1,7 +1,5 @@
-'use strict';
 var angular = require('angular');
 
-/* @ngInject */
 module.exports = function($parse, translate) {
   var akamTranslateFilter = function(translationId, params) {
     if (!angular.isObject(params)) {
@@ -13,3 +11,4 @@ module.exports = function($parse, translate) {
   akamTranslateFilter.$stateful = true;
   return akamTranslateFilter;
 };
+module.exports.$inject = ['$parse', 'translate'];

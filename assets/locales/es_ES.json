@@ -1,5 +1,9 @@
 {
     "components": {
+        "context": {
+            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
+            "accountChangedTitle": "Account Changed"
+        },
         "menu-button": {
             "label": "Etiqueta"
         },
@@ -7,30 +11,30 @@
             "title": "Información"
         },
         "determinate-progress": {},
-        "name": "Akamai Common Components",
+        "name": "Componentes comunes de Akamai",
         "indeterminate-progress": {},
         "date-picker": {
             "placeholder": {
-                "date": "Date Picker",
-                "year": "Year Picker",
-                "month": "Month Picker"
+                "date": "Selector de fechas",
+                "year": "Selector de año",
+                "month": "Selector de mes"
             }
         },
         "modal-window": {
-            "title": "Modal Window",
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed.",
+            "title": "Ventana modal",
             "label": {
                 "cancel": "Cancelar",
                 "save": "Guardar"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
+            }
         },
         "pagination": {
             "label": {
-                "show-entries": "Show Entries:",
-                "results": "Results:",
-                "total-items": "Total Items",
-                "current-page": "Current Page"
+                "show-entries": "Mostrar entradas",
+                "results": "Resultados",
+                "total-items": "Elementos totales",
+                "current-page": "Página actual"
             }
         },
         "tooltip": {},
@@ -48,21 +52,25 @@
             "no": "No"
         },
         "warning": {
-            "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
+            "browser-button": "Safari y FireFox en Mac no admiten el evento de foco en los elementos BUTTON. Utilice en su lugarla etiqueta delimitadora: A"
+        },
+        "switch-button": {
+            "onLabel": "Activado",
+            "offLabel": "Desactivado"
         },
         "dialog": {},
         "error": {
             "validation": {},
-            "data": "There was a problem loading the data."
+            "data": "Se produjo un problema al cargar los datos."
         },
         "list-box": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "viewSelectedOnly": "You have no items selected.",
-                "selected": "Selected:",
-                "viewSelected": "View Selected Only",
-                "noItem": "No Item Found",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "No hay resultados basados en su filtro.",
+                "viewSelectedOnly": "No ha seleccionado ningún elemento.",
+                "selected": "Seleccionado",
+                "viewSelected": "Ver solo seleccionados",
+                "noItem": "No se encontraron elementos.",
+                "noDataMessage": "No hay resultados basados en su criterio."
             },
             "placeholder": {
                 "filter": "Filtro"
@@ -70,8 +78,8 @@
         },
         "data-table": {
             "text": {
-                "noFilterResults": "There are no results based upon your filter.",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noFilterResults": "No hay resultados basados en su filtro.",
+                "noDataMessage": "No hay resultados basados en su criterio."
             },
             "placeholder": {
                 "filter": "Filtro"
@@ -81,10 +89,32 @@
             }
         },
         "notifications": {
-            "information": "INFORMATION",
+            "information": "INFORMACIÓN",
             "warning": "ADVERTENCIA",
             "success": "CORRECTO",
             "error": "ERROR"
+        },
+        "dropdown": {
+            "placeholder": {
+                "noSelection": "Select one",
+                "filter": "Filter"
+            }
+        },
+        "wizard": {
+            "label": {
+                "previous": "Previous",
+                "next": "Next",
+                "submit": "Submit"
+            },
+            "successMessage": "The action has been completed.",
+            "errorMessage": "The action can't be completed."
+        },
+        "autocomplete": {
+            "search-tip": "Type in text to display matching results"
+        },
+        "tag-input": {
+            "placeholder": "Select Items",
+            "taggingLabel": "(new item)"
         }
     }
 }
