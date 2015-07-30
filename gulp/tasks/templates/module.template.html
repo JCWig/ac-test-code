@@ -1,4 +1,3 @@
-{% include "../../../node_modules/dgeni-packages/ngdoc/templates/lib/macros.html" %}
 {% include "macros.html" %}
 
 {$ moduleList(docs, doc.module) $}
@@ -6,7 +5,7 @@
 <section class="module">
   <h1>{$ doc.module | titleCase $}</h1>
   <h2>{$ doc.name $}</h2>
-  <p>{$ doc.description $}</p>
+  <p>{$ doc.description | marked $}</p>
 
   {% if doc.image %}
   <section class="visual-example">
@@ -31,7 +30,13 @@
     {% for component in doc.components %}
     <section class="component">
       <h1>{$ component.docType $}:<span>{$ componentName(component) $}</span></h1>
-      <p>{$ component.description $}</p>
+      <p>{$ component.description | marked $}</p>
+      {% if component.docType == 'directive' %}
+      {$ directiveDocs(component) $}
+      {% endif %}
+      {% if component.docType == 'service' %}
+      {$ serviceDocs(component) $}
+      {% endif %}
     </section>
     {% endfor %}
   </section> 
