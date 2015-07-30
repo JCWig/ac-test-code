@@ -1,5 +1,6 @@
-{% include "macros.html" %}
+{% extends "base.template.html" %}
 
+{% block content %}
 {$ moduleList(docs, doc.module) $}
 
 <section class="module">
@@ -51,3 +52,4 @@
     {% endfor %}
   </section>
 </section>
+{% endblock %}

@@ -1,10 +1,17 @@
 'use strict';
 
-var gulp   = require('gulp');
-var _      = require('lodash');
-var path   = require('path');
-var Dgeni  = require('dgeni');
-var config = require('../config');
+var gulp    = require('gulp');
+var _       = require('lodash');
+var path    = require('path');
+var Dgeni   = require('dgeni');
+var config  = require('../config');
+var packageJson = require('../../package.json');
+var packageJsonVersion = getCleanVersion(packageJson.version);
+
+function getCleanVersion(version){
+  var dash = version.indexOf('-');
+  return dash === -1 ? version : version.substr(0, dash);
+}
 
 function configureDgeni(dgeni, log) {
   dgeni.stopOnValidationError = true;
@@ -31,7 +38,7 @@ function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsPro
     getPath: function(doc) {
       return doc.fileInfo.baseName;
     },
-    outputPathTemplate: 'index.html'
+    outputPathTemplate: packageJsonVersion + '.html'
   });
 }
 
@@ -61,6 +68,18 @@ function filterDocsProcessor() {
     $process: function(docs) {
       return docs.filter(function(doc) {
         return doc.docType === 'module' || doc.docType === 'overview';
+      });
+    }
+  };
+}
+
+function packageVersionProcessor() {
+  return {
+    $runBefore: ['computePathsProcessor'],
+    $runAfter: ['providerDocsProcessor'],
+    $process: function(docs) {
+      docs.forEach(function(doc) {
+        doc.packageVersion = packageJsonVersion;
       });
     }
   };
@@ -130,7 +149,9 @@ gulp.task('docs', [], function() {
   .config(function(parseTagsProcessor, getInjectables) {
       parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(  getInjectables([guidelineTagProcessor, imageTagProcessor, exampleTagProcessor]) );
   })
+  .processor(packageVersionProcessor)
   .processor(filterDocsProcessor);
+
 
   var dgeni = new Dgeni([pkg]);
 
