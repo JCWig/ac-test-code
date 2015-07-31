@@ -5,7 +5,14 @@ var sanitize = require('angular-sanitize');
  * @ngdoc module
  * @name akamai.components.popover
  *
- * @description Enable popover/tooltip messages for a given element
+ * @description
+ * Popover is a UI element that allows for content to be displayed on top of other content on
+ * a page. It is triggered by user behavior and is triggered by hover or by click events.
+ *
+ * @guideline Use popover when you need to communicate additional information about item or
+ * feature in interface
+ * @guideline Use popovers to communicate small to medium amounts of information to user.
+ * @guideline Do not use popovers for displaying large amounts of information to user.
  *
  * @example index.html
  * <span akam-popover position="top"

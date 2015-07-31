@@ -12,7 +12,20 @@ var angular = require('angular'),
  * @requires module:akamai.components.menu-button
  * @requires module:akamai.components.i18n
  * @requires module:akamai.components.utils
- * @description Provides a directive that creates a Luna-compatible data table.
+ *
+ * @description
+ * Data table uses labeled rows and columns used to display a collection of structured data.
+ * Rows alternate color for readability; this allows the user to follow a row without confusing
+ * it with another. Row content can include text, numbers, links, buttons, and images.The data
+ * table component can be adapted to specific needs by enabling and disabling functionality.
+ *
+ * @guideline When the user needs to view, inspect, and access moderate numbers of similarly
+ * structured items.
+ * @guideline When the user needs to find, filter, or select items.
+ * @guideline When you want the full representation of a simple item (e.g., a record with
+ * a few attributes) or a summary view of a more complex item
+ * (e.g., a grid of complex records identified by name and modification date).
+ *
  * @example table.html
  * <akam-table items="rows"
  *   id-property="custom-id-field"

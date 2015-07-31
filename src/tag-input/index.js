@@ -6,8 +6,19 @@ require('ui-select');
  * @ngdoc module
  * @name akamai.components.tag-input
  *
- * @description Provides a directive that creates a Luna- and
- * Pulsar-compatible tag input control.
+ * @description
+ * Tag input allows users to select pre-existing options, or create free form tags by entering text
+ * into input field and inserting space. The predefined input variant allows item selection from
+ * a predefined list, and supports autocomplete with tag values as text is entered.
+ * The free-form variant allows character entry in the text field and converts text to tags on
+ * entry of delimiter characters. It does not use a predefined list.
+ * In both variants the set of tags applied is shown in the input field.
+ *
+ * @guideline Use when content can be pulled from a manageable data set.
+ * @guideline Use when the total number of items would be too large to display in a
+ * standard drop-down box.
+ * @guideline Label the text box to match expectation of what field would be searched against.
+ * @guideline Default number of items displayed at one time is seven.
  *
  * @example index.html
  * <akam-tag-input

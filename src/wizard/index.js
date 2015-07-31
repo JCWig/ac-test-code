@@ -7,7 +7,14 @@ var angular = require('angular');
  * @requires module:ngSanitize
  * @requires module:akamai.components.status-message
  * @requires module:akamai.components.i18n
- * @description Provides a service that creates a wizard.
+ *
+ * @description Wizard is a type of modal window that presents a user with a sequence of
+ * dialog boxes that lead the user through a series of well-defined steps.
+ * Tasks that are complex, infrequently performed, or unfamiliar may be easier to perform using
+ * a wizard.
+ *
+ * @guideline Use wizards for muiltstep workflows that need to be displayed in isolation from
+ * parent page.
  *
  * @example index.js
  * function MyController(wizard, translate) {

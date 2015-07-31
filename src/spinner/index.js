@@ -4,8 +4,13 @@ var angular = require('angular');
  * @ngdoc module
  * @name akamai.components.spinner
  *
- * @description Presents a input spinner and
- * provides user ability to enter, edit, decrement and increment numeric values.
+ * @description
+ * Spinner box combines a numeric input field and arrow controls to increment or decrement the value
+ * in the field. It also accepts keyboard input with filtering to ensure that input is valid and
+ * within a defined range.
+ *
+ * @guideline Use spinner when you want user to be able to control a set of integers that can be
+ * incremented or decremented by one.
  *
  * @example index.html
  * <akam-spinner

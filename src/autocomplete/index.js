@@ -12,7 +12,18 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
  * @requires akamai.components.uuid
  * @requires ui.highlight
  *
- * @description Provides a directive that displays typeahead search result from input control.
+ * @description
+ * Autocomplete is a feature that enables users to quickly find and select information from a
+ * pre-populated list. As characters are entered,the system displays matching options in a
+ * dropdown menu. The autocomplete component is customizable to show results after one or more
+ * haracters are entered. Users have the ability to clear a selection. Dropdown menu has the
+ * ability to display icons and images in addition to alphanumeric characters.
+ *
+ * @guideline Use when content can be pulled from a manageable data set.
+ * @guideline Use when the total number of items would be too large to display in a standard
+ * dropdown box.
+ * @guideline Label the text box to match expectation of what field would be searched against.
+ * @guideline *Default number of items displayed at one time is seven.
  *
  * @example index.html
  * <akam-autocomplete ng-model="..." text-property="name"

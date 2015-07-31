@@ -4,8 +4,12 @@ var angular = require('angular');
  * @ngdoc module
  * @name akamai.components.tree-view
  *
- * @description Provides a directive that creates a Luna- and
- * Pulsar-compatible tree view.
+ * @description
+ * Tree views are used to browse and work with hierarchically organized collections of objects.
+ * It is conventional to refer to trees as consisting of nodes. Trees lend themselves naturally
+ * to use as a browsing interface for orderly and hierarchical collections of objects.
+ *
+ * @guideline Use tree views as navigational elements for highly structured collections of objects.
  *
  * @example index.html
  * <akam-tree-view
