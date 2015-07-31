@@ -6,7 +6,7 @@
 <section class="module">
   <h1>{$ doc.module | titleCase $}</h1>
   <h2>{$ doc.name $}</h2>
-  <p>{$ doc.description | marked $}</p>
+  {$ doc.description | marked $}
 
   {% if doc.image %}
   <section class="visual-example">
@@ -31,7 +31,7 @@
     {% for component in doc.components %}
     <section class="component">
       <h1>{$ component.docType $}:<span>{$ componentName(component) $}</span></h1>
-      <p>{$ component.description | marked $}</p>
+      {$ component.description | marked $}
       {% if component.docType == 'provider' %}
       {$ serviceDocs(component) $}
       {% endif %}

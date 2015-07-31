@@ -113,12 +113,12 @@
 {% for method in component.methods %}
 <section class="method">
   <h1>{$ component.name $}#{$ method.name $}</h1>
-  <p>{$ method.description | marked $}</p>
+  {$ method.description | marked $}
   <h2>Arguments</h2>
   {$ paramTable(method.params) $}
   {% if method.returns %}
   <h2>Returns: <span>{$ typeList(method.returns.typeList) $}</span></h2>
-  <p>{$ method.returns.description | marked $}</p>
+  {$ method.returns.description | marked $}
   {% endif %}
 </section>
 {% endfor %}
