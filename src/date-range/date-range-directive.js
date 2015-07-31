@@ -13,16 +13,6 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     format: 'EEE, MMM dd, yyyy'
   };
 
-  function notifyNewRange(scope, startValue, endValue, id) {
-    $timeout(function() {
-      scope.$broadcast('initialDateRange', {
-        startDate: startValue,
-        endDate: endValue,
-        id: id
-      });
-    });
-  }
-
   function DateRangeController($scope, $element, $attr) {
     var d = new Date();
 
@@ -107,11 +97,14 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
         scope.setViewValue(drService.getSelectedDateRange(start, end, dr.format), start, end);
       }
 
-      notifyNewRange(scope, start, end, dr.id);
-
       $timeout(function() {
         //interesting, have to wait for $digest completed
         dr.format = dr.format || config.format;
+        scope.$broadcast('initialDateRange', {
+          startDate: startValue,
+          endDate: endValue,
+          id: id
+        });
         initialized = true;
       });
     };
@@ -161,9 +154,11 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
         scope.setViewValue(range, start, end);
+
         $timeout(function() {
           dr.opened = false;
         }, 1500);
+
       } else { //assuming only start date has value, calendar stay open
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = end;
