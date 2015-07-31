@@ -69,7 +69,6 @@
 
 {% macro moduleList(modules, selected) -%}
 <nav class="components">
-  <h1><a href="/ui/components/{$ doc.packageVersion $}/">Overview</a></h1>
   <h1>Components</h1>
   <ul class="modules">
     {% for module in modules %}
@@ -96,8 +95,10 @@
 
 
 {% macro directiveDocs(component) %}
+{% if component.params %}
 <h2>Attributes</h2>
 {$ paramTable(component.params) $}
+{% endif %}
 {% endmacro %}
 
 
@@ -113,12 +114,14 @@
 {% for method in component.methods %}
 <section class="method">
   <h1>{$ component.name $}#{$ method.name $}</h1>
-  <p>{$ method.description | marked $}</p>
-  <h2>Arguments</h2>
+  {$ method.description | marked $}
+  {% if method.params %}
+  <h2 class="arguments">Arguments</h2>
   {$ paramTable(method.params) $}
+  {% endif %}
   {% if method.returns %}
-  <h2>Returns: <span>{$ typeList(method.returns.typeList) $}</span></h2>
-  <p>{$ method.returns.description | marked $}</p>
+  <h2 class="returns">Returns: <span>{$ typeList(method.returns.typeList) $}</span></h2>
+  {$ method.returns.description | marked $}
   {% endif %}
 </section>
 {% endfor %}

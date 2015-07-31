@@ -7,14 +7,16 @@ const MODULE_NAME = 'akamai.components.indeterminate-progress';
  * @ngdoc module
  *
  * @name akamai.components.indeterminate-progress
- * @guideline use this component blah
- * @guideline use this component todo
- * @guideline this is another guideline
  *
- * @description Provides a directive that creates Luna- and
- * Pulsar-compatible indeterminate progress elements. These
- * elements provide users feedback that an operation is in progress,
- * status of which can't be accurately measured.
+ * @description
+ * Indeterminate progress indicator provides feedback to the user that an operation is
+ * in progress when status information cannot be accurately measured.
+ * This component can be accompanied by a message about the ongoing activity.
+ *
+ * @guideline Use progress spinner that are appropriate in size for space that is
+ * waiting system response
+ * @guideline Set timeout for spinners used.
+ * @guideline Provide messaging to users when possible when there is an error with loading data.
  *
  * @example index.html
  * <div class="common-css luna">

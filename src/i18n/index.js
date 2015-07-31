@@ -112,7 +112,6 @@ module.exports = angular.module('akamai.components.i18n',
   ['pascalprecht.translate', 'ngCookies', require('../utils').name])
 
 /**
- * @ngdoc service
  *
  * @name i18nConfig
  *
@@ -202,9 +201,9 @@ module.exports = angular.module('akamai.components.i18n',
  * @description Inserts a translated key into the current DOM element.
  * For example:
  *
- * <pre>
+ * ```
  * <any akam-translate='any.optionally.nested.key'></any>
- * </pre>
+ * ```
  *
  * @restrict A
  *
@@ -220,19 +219,23 @@ module.exports = angular.module('akamai.components.i18n',
  * as there will be a race condition between when the i18n keys load and the filter is run for the
  * first time. For more info, see the translate service sync method.
  *
- * <pre>
+ * ```
+ * {% raw %}
  * <any>{{'translationId' | akamTranslate}}</any>
- * </pre>
+ * {% endraw %}
+ * ```
  *
- * <pre>
+ * ```
+ * {% raw %}
  * <any abc='{number: myNumber}''>{{'translationId' | akamTranslate : abc}}</any>
- * </pre>
+ * {% endraw %}
+ * ```
  *
+ * @param {string} translationId The key to translate
  */
   .filter('akamTranslate', require('./translate-filter'))
 
 /**
- * @ngdoc service
  * @name i18nToken
  *
  * @description Provides two getter methods that return values set by
@@ -254,7 +257,6 @@ module.exports = angular.module('akamai.components.i18n',
   .provider('i18nToken', require('./i18n-token-provider'))
 
 /**
- * @ngdoc service
  * @name i18nCustomLoader
  *
  * @requires $http
@@ -287,7 +289,6 @@ module.exports = angular.module('akamai.components.i18n',
   .config(config)
 
 /**
- * @ngdoc service
  * @name missingTranslationFactory
  *
  * @requires $log

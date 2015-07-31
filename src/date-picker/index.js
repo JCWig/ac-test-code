@@ -4,8 +4,11 @@ var angular = require('angular');
  * @ngdoc module
  * @name akamai.components.date-picker
  *
- * @description Provides a directive that creates Luna-
- * and Pulsar-compatible date picker elements.
+ * @description
+ * Date selector is an interactive calendar component that allows user to select a date
+ * from a month view. User has the ability to clear a selected date.
+ *
+ * @guideline When you want to include a date input that requires specific formatting.
  *
  * @example day-picker.html
  * <akam-date-picker

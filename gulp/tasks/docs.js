@@ -73,7 +73,7 @@ function filterDocsProcessor() {
     $runAfter: ['ids-computed'],
     $process: function(docs) {
       return docs.filter(function(doc) {
-        return doc.docType === 'module' || doc.docType === 'overview';
+        return doc.docType === 'module';
       });
     }
   };

@@ -4,8 +4,15 @@ var angular = require('angular');
  * @ngdoc module
  * @name akamai.components.switch-button
  *
- * @description Provides a directive that creates a Luna- and
- * Pulsar-compatible switch button.
+ * @description
+ * Switch button is similar to a radio button; it lets the user choose between two values.
+ * Traditionally, these values are binary operations: On | Off or Allow | Deny.
+ * The switch affordance lets users think of a real-world switch that can toggle between two states.
+ *
+ * @guideline Use the switch button when you want to provide the user with a simple binary choice.
+ * The two choices should be mutually exclusive, for example, color vs. black and white.
+ * @guideline Unlike radio buttons, switch buttons cannot operate in a group.
+ * If you need more than one switch button, try using groups of radio buttons or checkboxes instead.
  *
  * @example switch-button.html
  * <akam-switch-button

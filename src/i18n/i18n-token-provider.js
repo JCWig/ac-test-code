@@ -134,7 +134,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     return {
 
       /**
-       * @ngdoc method
        * @name i18nToken#getUrls
        *
        * @description get a list of URLs that reference locale files.
@@ -145,7 +144,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
       },
 
       /**
-       * @ngdoc method
        * @name i18nToken#getCurrentLocale
        *
        * @description Get the current locale value.

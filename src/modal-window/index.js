@@ -4,9 +4,17 @@ var angular = require('angular');
  * @ngdoc module
  * @name akamai.components.modal-window
  *
- * @description Presents a window requiring an action to continue the
- * application's workflow. For more information, see
- * <a href="https://angular-ui.github.io/bootstrap/#/modal">Modal Window</a>
+ * @description
+ * Modal window is a type of pop up dialog box overlaid on the current page.
+ * It contains a transparent background and a content panel with interactive elements.
+ * Modal windows are triggered by user action on the parent page and require user interaction
+ * before returning to previous workflow. Content to be presented in modal window is limited to
+ * one content panel. Typical usages of modal windows include collecting user input
+ * or deliberately interrupting a task flow to provide or collect information.
+ *
+ * @guideline Use modal windows for required input or a specific task that benefits from
+ * being viewed or worked with in isolation.
+ * @guideline Use wizard comonent for multi step tasks in workflow.
  *
  * @example index.js
  * function MyController(modalWindow) {

@@ -6,8 +6,18 @@ require('angular-sanitize');
  * @ngdoc module
  * @name akamai.components.list-box
  *
- * @description Provides a directive that creates a Luna- and
- * Pulsar-compatible list box.
+ * @description
+ * List box allows the user to select one or more items from a list contained within a static,
+ * multiple line text box. A list box can uses multiple columns and can present a large data set.
+ * It differs from the data grid in using infinite scroll for content rather than pagination.
+ * The user can filter the list with the built-in filter box and limit display to
+ * only selected items.
+ *
+ * @guideline Users have several items to manage and need to perform actions on them.
+ * @guideline The full list is long and space to display it is limited.
+ * @guideline Users need to perform operations on selected items and see the results.
+ * @guideline Certain operations can be done on many items at the same time while other operations
+ * can only be done on one item at a time.
  *
  * @example index.html
  * <akam-list-box

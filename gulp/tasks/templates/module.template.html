@@ -6,12 +6,12 @@
 <section class="module">
   <h1>{$ doc.module | titleCase $}</h1>
   <h2>{$ doc.name $}</h2>
-  <p>{$ doc.description | marked $}</p>
+  {$ doc.description | marked $}
 
   {% if doc.image %}
   <section class="visual-example">
     <h1>Visual Example</h1>
-    <img src="{$ doc.image $}">
+    <img src="/assets/components/{$ doc.id $}.png">
   </section>
   {% endif %}
 
@@ -31,7 +31,7 @@
     {% for component in doc.components %}
     <section class="component">
       <h1>{$ component.docType $}:<span>{$ componentName(component) $}</span></h1>
-      <p>{$ component.description | marked $}</p>
+      {$ component.description | marked $}
       {% if component.docType == 'provider' %}
       {$ serviceDocs(component) $}
       {% endif %}
@@ -43,10 +43,18 @@
       {% if component.docType == 'directive' %}
       {$ directiveDocs(component) $}
       {% endif %}
+
+      {% if component.docType == 'filter' %}
+        {% if component.params %}
+        <h2>Arguments</h2>
+        {$ paramTable(component.params) $}
+        {% endif %}
+      {% endif %}
     </section>
     {% endfor %}
   </section> 
 
+  {% if doc.exampleFiles %}
   <section class="code-example">
     <h1>Code Example</h1>
     {% for example in doc.exampleFiles %}
@@ -56,5 +64,6 @@
     </div>
     {% endfor %}
   </section>
+  {% endif %}
 </section>
 {% endblock %}

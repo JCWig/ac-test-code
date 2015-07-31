@@ -8,7 +8,7 @@ var angular = require('angular');
  * @example index.html
  * <span akam-text-overflow="vm.somethingWithALongValue">{{vm.somethingWithALongValue}}</span>
  *
- * <akam-table akam-standalone ...></akam-table>
+ * <akam-table akam-standalone></akam-table>
  */
 module.exports = angular.module('akamai.components.utils', [])
   //TODO: Remember to update this if the version in package.json ever changes

@@ -3,10 +3,21 @@ var angular = require('angular');
 require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name akamai.components.dropdown
  *
- * @description Provides a directive that creates a Luna and Pulsar-compatible dropdown control.
+ * @description
+ * Dropdown is a button type that on-click, reveals additional content. There are multiple
+ * configurations for dropdown that allow for customization based on use case.
+ * The default dropdown contains a menu with seven or less items to select from.
+ * For larger data sets, there is an dropdown with filter box embedded so users
+ * can filter the data set and make a selection. With this option,
+ * user also has ability to clear selection.
+ *
+ * @guideline Use basic dropdown when you have seven or less items to display to user.
+ * @guideline Use dropdown with filter and clearing functionality for larger datasets
+ * up to 100 items.
+ * @guideline When adding icons to dropdowns menu items, make sure icons are of same size.
  *
  * @example index.html
  * <akam-dropdown

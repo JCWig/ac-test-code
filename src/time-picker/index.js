@@ -4,8 +4,12 @@ var angular = require('angular');
  * @ngdoc module
  * @name akamai.components.time-picker
  *
- * @description Provides a directive that creates Luna-
- * and Pulsar-compatible time picker elements.
+ * @description
+ * Time selector is an interactive component that allows user to select a time from
+ * an interactive dropdown menu. User can select the hour, minute and time of day.
+ * The hour and minute controls are configurable and can be displayed in set intervals.
+ *
+ * @guideline The time picker element is best used when choosing a start or end time for an event.
  *
  * @example index.html
  * <akam-time-picker

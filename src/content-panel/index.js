@@ -3,10 +3,21 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.content-panel
+ * @image content-panel
  *
- * @description Provides a set of directives that create
- * Pulsar-compatible content panels.
+ * @description
+ * Basic panel is a building block of most user interfaces. Besides containing components,
+ * panels themselves can be placed within containers, which allows for orderly layouts.
+ * Panels can contain toolbars at the top or bottom of the panel, with separate header,
+ * footer, and body sections.
  *
+ * @guideline Use toolbars for secondary features, not for the main work or user tasks to
+ * be accomplished within the panel.
+ *
+ * @guideline Be sure to consider how the collapsible, expandable, and closable behaviors are used.
+ *
+ * @guideline For more sophisticated interfaces, take advantage of placing panels within containers
+ * or layouts to create the overall interface layout.
  *
  * @example index.html
  * <akam-content-panel header="Panel Title">

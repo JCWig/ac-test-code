@@ -8,8 +8,17 @@ import menuButton from './menu-button-directive';
 /**
  * @ngdoc module
  * @name akamai.components.menu-button
- * @description Provides a set of directives to use in order to create Pulsar-compatible menu
- * buttons.
+ * @description
+ * Menu button is similar to the action button. Like the action button,
+ * the menu button is used to initiate actions. A menu button on click has a dropdown menu
+ * with actions a user can take. Clicking a list item initiates an action.
+ *
+ * @guideline Like action buttons, the most important usage tip for a menu button is to initiate
+ * or complete actions, rather than to use as a navigational element.
+ * @guideline Use menu button for related actions—placing items in a menu implies
+ * that the actions are similar in some way.
+ * @guideline Do not confuse the menu button with the similar-looking combo box,
+ * which is used to select an option rather than to perform an action.
  *
  * @example menu-button.html
  * <akam-menu-button>
