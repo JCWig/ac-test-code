@@ -32,11 +32,16 @@
     <section class="component">
       <h1>{$ component.docType $}:<span>{$ componentName(component) $}</span></h1>
       <p>{$ component.description | marked $}</p>
-      {% if component.docType == 'directive' %}
-      {$ directiveDocs(component) $}
+      {% if component.docType == 'provider' %}
+      {$ serviceDocs(component) $}
       {% endif %}
+
       {% if component.docType == 'service' %}
       {$ serviceDocs(component) $}
+      {% endif %}
+
+      {% if component.docType == 'directive' %}
+      {$ directiveDocs(component) $}
       {% endif %}
     </section>
     {% endfor %}

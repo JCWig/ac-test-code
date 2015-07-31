@@ -64,7 +64,7 @@ module.exports = angular.module('akamai.components.context', [
  * @description Value for an application that is group aware. Applications that are group aware
  * must have a "gid" query parameter in all of their routes. Otherwise, an exception will be
  * thrown. Changes to this query parameter will change the current group. Also, any APIs that are
- * not in the {@link akamai.components.auth `auth`} blacklist will automatically have a "gid" and
+ * not in the {@link akamai.components.auth auth} blacklist will automatically have a "gid" and
  * "aid" query parameter appended to the request.
  * @type {String}
  */
