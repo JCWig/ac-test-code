@@ -26,7 +26,6 @@ function Popup(el, parent) {
 }
 
 /**
- * @methodOf popup
  * @name popup.show
  * @description
  * Shows this popup
@@ -37,7 +36,6 @@ Popup.prototype.show = function() {
 };
 
 /**
- * @methodOf popup
  * @name popup.toggle
  * @description
  * Toggles the shown state of this popup
@@ -58,7 +56,6 @@ Popup.prototype.toggle = function() {
 };
 
 /**
- * @methodOf popup
  * @name popup.hide
  * @description
  * Hides this popup

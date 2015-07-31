@@ -20,6 +20,11 @@ function configureDgeni(dgeni, log) {
   log.level = 'info';
 }
 
+function disableUnneededProcessors(checkAnchorLinksProcessor, providerDocsProcessor){
+  checkAnchorLinksProcessor.$enabled = false;
+  providerDocsProcessor.$enabled = false;
+}
+
 function configurePaths(readFilesProcessor, writeFilesProcessor, computePathsProcessor) {
   readFilesProcessor.basePath = config.docs.base;
   readFilesProcessor.sourceFiles = config.docs.sources;
@@ -64,7 +69,7 @@ function configureTemplates(templateFinder) {
 function filterDocsProcessor() {
   return {
     $runBefore: ['computePathsProcessor'],
-    $runAfter: ['providerDocsProcessor'],
+    $runAfter: ['ids-computed'],
     $process: function(docs) {
       return docs.filter(function(doc) {
         return doc.docType === 'module' || doc.docType === 'overview';
@@ -76,7 +81,7 @@ function filterDocsProcessor() {
 function packageVersionProcessor() {
   return {
     $runBefore: ['computePathsProcessor'],
-    $runAfter: ['providerDocsProcessor'],
+    $runAfter: ['filterDocsProcessor'],
     $process: function(docs) {
       docs.forEach(function(doc) {
         doc.packageVersion = packageJsonVersion;
@@ -143,6 +148,7 @@ gulp.task('docs', [], function() {
     require('dgeni-packages/ngdoc')
   ])
   .config(configureDgeni)
+  .config(disableUnneededProcessors)
   .config(configurePaths)
   .config(configureIds)
   .config(configureTemplates)

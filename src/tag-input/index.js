@@ -4,11 +4,23 @@ require('ui-select');
 
 /**
  * @ngdoc module
- * @display Tag Input
  * @name akamai.components.tag-input
  *
  * @description Provides a directive that creates a Luna- and
  * Pulsar-compatible tag input control.
+ *
+ * @example index.html
+ * <akam-tag-input
+ *   ng-model="..."
+ *   available-items="vm.items"
+ *   placeholder="An already translated string"
+ *   drag-dropable="true">
+ * </akam-tag-input>
+ *
+ * @example index.js
+ * function MyController() {
+ *   this.items = ['a', 'b', 'c'];
+ * }
  *
  */
 module.exports = angular.module('akamai.components.tag-input', [
@@ -19,15 +31,15 @@ module.exports = angular.module('akamai.components.tag-input', [
 /**
  * @ngdoc directive
  *
- * @name akamai.components.tag-input-directive:akamTagInput
+ * @name akamTagInput
  *
  * @description Creates a input designed for multiple tags
  *
  * @restrict E
  *
- * @param {Array} ngModel The strings that have been selected
+ * @param {String[]} ngModel The strings that have been selected
  *
- * @param {Array} availableItems The list of strings that
+ * @param {String[]} availableItems The list of strings that
  * will appear as selectable items in a dropdown
  *
  * @param {String} taggingLabel A string which will appear next to

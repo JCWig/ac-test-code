@@ -8,7 +8,6 @@ var ajax = require('./ajax');
 
 /**
  * @name utils.renderer.render
- * @methodOf utils.renderer
  * @param {String} selector DOM selector used
  * @param {Function|exports} template The Handlebars template function
  * @param {Object} data Data that should be passed to the template
@@ -33,7 +32,6 @@ function render(selector, template, data) {
 
 /**
  * @name util.renderer.fetchAndRender
- * @methodOf utils.renderer
  * @param {String} url The url to fetch
  * @param {String} selector DOM selector used
  * @param {Function} template The Handlebars template function

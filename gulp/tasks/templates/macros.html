@@ -1,9 +1,12 @@
 {% macro typeList(types) %}
 {% for typeName in types -%}
-<code>{$ typeName | escape $}</code>
+{$ genType(typeName) $}
 {%- endfor %}
 {% endmacro %}
 
+{% macro genType(typeName) %}
+<code>{$ typeName | escape $}</code>
+{% endmacro %}
 
 {%- macro paramTable(params) %}
 <table>
@@ -35,20 +38,50 @@
 </table>
 {% endmacro -%}
 
+{%- macro propertyTable(properties) %}
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Details</th>
+  </tr>
+  </thead>
+  <tbody>
+  {%- for prop in properties %}
+  <tr>
+    <td>
+      <code>{$ prop.name $}</code>
+    </td>
+    <td>
+      {$ typeList(prop.type.typeList) $}
+    </td>
+    <td>
+      {$ prop.description | marked $}
+    </td>
+  </tr>
+  {% endfor -%}
+  </tbody>
+</table>
+{% endmacro -%}
+
 
 {% macro moduleList(modules, selected) -%}
-<ul class="modules">
-  <li class="{$ 'selected' if selected == '' $}">
-    <a href="/ui/components/{$ doc.packageVersion $}/">Overview</a>
-  </li>
-  {% for module in modules %}
-  {%- if module.docType == 'module' -%}
-  <li class="{$ 'selected' if selected == module.module $}">
-    <a href="/ui/components/{$ doc.packageVersion $}/{$ module.module $}/">{$ module.module | titleCase $}</a>
-  </li>
-  {%- endif %}
-  {% endfor %}
-</ul>
+<nav class="components">
+  <h1><a href="/ui/components/{$ doc.packageVersion $}/">Overview</a></h1>
+  <h1>Components</h1>
+  <ul class="modules">
+    {% for module in modules %}
+    {%- if module.docType == 'module' -%}
+    <li class="{$ 'selected' if selected == module.module $}">
+      <a href="/ui/components/{$ doc.packageVersion $}/{$ module.module $}/">
+        {$ module.module | titleCase $}</a>
+    </li>
+    {%- endif %}
+    {% endfor %}
+  </ul>
+</nav>
 {%- endmacro %}
 
 
@@ -71,6 +104,9 @@
 {% macro serviceDocs(component) %}
 {% if component.properties %}
 <h2>Properties</h2>
+<section class="properties">
+  {$ propertyTable(component.properties) $}
+</section>
 {% endif %}
 {% if component.methods %}
 <h2>Methods</h2>

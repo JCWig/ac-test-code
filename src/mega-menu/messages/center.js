@@ -299,7 +299,6 @@ function deleteMessage() {
 }
 
 /**
- * @methodOf messages.center
  * @name messages.center.render
  * @param {Function} [callback] optional callback
  * @description

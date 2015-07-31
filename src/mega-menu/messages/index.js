@@ -15,7 +15,6 @@ var config = require('../utils/config'),
 var selector = '#modular-mega-menu-header .messages-count';
 
 /**
- * @methodOf messages
  * @name messages.render
  * @param {Function} [callback] optional callback
  * @description

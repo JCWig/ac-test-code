@@ -18,10 +18,13 @@ module.exports = {
   docs: {
     sources: [
       'akamai-core.js',
+      'auth/**/*.js',
       'autocomplete/**/*.js',
       'content-panel/**/*.js',
+      'context/**/*.js',
       'date-picker/**/*.js',
       'dropdown/**/*.js',
+      'i18n/**/*.js',
       'indeterminate-progress/**/*.js',
       'list-box/**/*.js',
       'mega-menu/**/*.js',
@@ -34,7 +37,12 @@ module.exports = {
       'spinner/**/*.js',
       'status-message/**/*.js',
       'switch-button/**/*.js',
-      'table/**/*.js'
+      'table/**/*.js',
+      'tag-input/**/*.js',
+      'time-picker/**/*.js',
+      'tree-view/**/*.js',
+      'utils/**/*.js',
+      'wizard/**/*.js'
     ],
     base: path.resolve(process.cwd(), src),
     outputDirectory: path.resolve(process.cwd(), docs)

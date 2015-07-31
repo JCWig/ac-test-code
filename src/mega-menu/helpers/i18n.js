@@ -11,7 +11,6 @@ var translateFn = null,
 
 /**
  * @name helpers.i18n.setData
- * @methodOf helpers.i18n
  * @description Sets data used to translate keys
  * @param {Object} newData data
  */
@@ -22,7 +21,6 @@ function setData(newData) {
 
 /**
  * @name helpers.i18n.i18n
- * @methodOf helpers.i18n
  * @description Method to translate keys
  * @param {String} key lookup key
  * @param {Object} [options] Options to send to i18n

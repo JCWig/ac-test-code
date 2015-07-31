@@ -2,11 +2,33 @@ var angular = require('angular');
 
 /**
  * @ngdoc module
- * @display Tree View
  * @name akamai.components.tree-view
  *
  * @description Provides a directive that creates a Luna- and
  * Pulsar-compatible tree view.
+ *
+ * @example index.html
+ * <akam-tree-view
+ *   item="vm.info"
+ *   children-property="children"
+ *   parent-property="parents"
+ *   text-property="name"
+ *   on-change="fn(item)">
+ * </akam-tree-view>
+ *
+ * @example index.js
+ *
+ * function MyController() {
+ *    this.info = {
+ *      name: 'Group Name',
+ *      children: [{
+ *        name: 'Child Group Name'
+ *      }],
+ *      parents: [{
+ *        name: 'Parent Group Name'
+ *      }]
+ *    }
+ * }
  *
  */
 module.exports = angular.module('akamai.components.tree-view', [
@@ -16,12 +38,10 @@ module.exports = angular.module('akamai.components.tree-view', [
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.tree-voew.directive:akamTreeView
+ * @name akamTreeView
+ * @restrict E
  *
  * @description Creates a naviagatable tree view
- *
- * @restrict E
  *
  * @param {JSON} item Contains information that will be displayed to the user
  *
@@ -46,15 +66,9 @@ module.exports = angular.module('akamai.components.tree-view', [
   .directive('akamTreeView', require('./tree-view-directive'))
 
 /**
- * @ngdoc directive
- *
- * @name akamai.components.tree-view.directive:akamTreeViewParentSelector
- *
+ * @name akamTreeViewParentSelector
  * @description Creates a popover like drop down to navigate up a tree view
- *
  * @restrict A
- *
- * requires akamTreeView and its controller
- *
+ * @requires akamTreeView
  */
   .directive('akamTreeViewParentSelector', require('./tree-view-parent-selector-directive'));

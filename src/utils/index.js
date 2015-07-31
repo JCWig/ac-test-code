@@ -2,9 +2,13 @@ var angular = require('angular');
 
 /**
  * @ngdoc module
- * @display Utilities
  * @name akamai.components.utils
  * @description Utility methods for the akamai components
+ *
+ * @example index.html
+ * <span akam-text-overflow="vm.somethingWithALongValue">{{vm.somethingWithALongValue}}</span>
+ *
+ * <akam-table akam-standalone ...></akam-table>
  */
 module.exports = angular.module('akamai.components.utils', [])
   //TODO: Remember to update this if the version in package.json ever changes
@@ -14,7 +18,7 @@ module.exports = angular.module('akamai.components.utils', [])
 /**
  * @ngdoc directive
  *
- * @name akamai.components.utils.directive:akamTextOverflow
+ * @name akamTextOverflow
  *
  * @description will add a html tooltip if needed to some text
  *
@@ -31,7 +35,7 @@ module.exports = angular.module('akamai.components.utils', [])
 /**
  * @ngdoc directive
  *
- * @name akamai.components.utils.directive:akamStandalone
+ * @name akamStandalone
  *
  * @description adds an css class (standalone) to the element
  *

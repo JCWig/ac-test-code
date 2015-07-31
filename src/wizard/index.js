@@ -2,13 +2,38 @@ var angular = require('angular');
 
 /**
  * @ngdoc module
- * @display Wizard
  * @name akamai.components.wizard
  * @requires module:angular-bootstrap-npm
  * @requires module:ngSanitize
  * @requires module:akamai.components.status-message
  * @requires module:akamai.components.i18n
  * @description Provides a service that creates a wizard.
+ *
+ * @example index.js
+ * function MyController(wizard, translate) {
+ *   wizard.open({
+ *     scope: wizardScope,
+ *     controller: WizardController,
+ *     title: 'Wizard Example',
+ *     steps: [
+ *       {
+ *         // Example of translated text for the wizard steps
+ *         name: translate.sync('examples.wizard.step1'),
+ *         templateId: 'step1',
+ *         validate: function(scope) {
+ *             return true;
+ *         }
+ *       },
+ *       {
+ *         name: translate.sync('examples.wizard.step2'),
+ *         templateId: 'step2',
+ *         validate: function(scope) {
+ *             return true;
+ *         }
+ *       }
+ *     ]
+ *   });
+ * }
  */
 module.exports = angular.module('akamai.components.wizard', [
   require('angular-bootstrap-npm'),
@@ -27,9 +52,7 @@ module.exports = angular.module('akamai.components.wizard', [
 
 /**
  * @private
- * @ngdoc directive
  * @name akamai.components.wizard.directive:akamWizardContent
- *
  * @description
  * A simple directive that injects step templates into the body of the wizard
  */

@@ -53,7 +53,7 @@ run.$inject = ['$window', '$location', 'context',
  *     <link href="/libs/akamai-core/0.7.0/akamai-core.min.css" rel="stylesheet" />
  *     <link href="app.min.css" rel="stylesheet" />
  *   </head>
- * <body ng-app="akamai.my-app-name">
+ * <body ng-app="akamai.my-app-name" translate-cloak ng-strict-di class="common-css luna">
  *
  *   <akamMenuHeader></akamMenuHeader>
  *

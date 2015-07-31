@@ -72,7 +72,6 @@ module.exports = {
 
   /**
    * @name utils.ajax.get
-   * @methodOf utils.ajax
    * @param {String} url The URL we should fetch
    * @param {Object} [opts] Options that should be sent to the server.
    * @param {Function} callback Callback function that we should call on completion. The `this`
@@ -86,7 +85,6 @@ module.exports = {
 
   /**
    * @name utils.ajax.post
-   * @methodOf utils.ajax
    * @param {String} url The URL we should fetch
    * @param {Object} [opts] Options that should be sent to the server.
    * @param {Function} callback Callback function that we should call on completion. The `this`
@@ -100,7 +98,6 @@ module.exports = {
 
   /**
    * @name utils.ajax.put
-   * @methodOf utils.ajax
    * @param {String} url The URL we should fetch
    * @param {Object} [opts] Options that should be sent to the server.
    * @param {Function} callback Callback function that we should call on completion. The `this`
@@ -114,7 +111,6 @@ module.exports = {
 
   /**
    * @name utils.ajax.delete
-   * @methodOf utils.ajax
    * @param {String} url The URL we should delete
    * @param {Function} callback Callback function that we should call on completion. The `this`
    * parameter is set to the xhr.
@@ -127,7 +123,6 @@ module.exports = {
 
   /**
    * @name utils.ajax.promiseGet
-   * @methodOf utils.ajax
    * @description Performs an ajax get request but returns a promise
    * @param {String} url The URL to fetch.
    * @returns {Promise} A Promise object
