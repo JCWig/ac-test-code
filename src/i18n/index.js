@@ -52,12 +52,7 @@ run.$inject = ['$translate', 'i18nToken', 'i18nConfig'];
 
 /**
  * @ngdoc module
- * @display Internationalization
  * @name akamai.components.i18n
- *
- * @requires angular-translate
- *
- * @requires ngCookies
  *
  * @description Provides services to configure internationalization
  * capabilities for any application.
@@ -69,7 +64,7 @@ module.exports = angular.module('akamai.components.i18n',
 /**
  * @ngdoc service
  *
- * @name akamai.components.i18n.service:i18nConfig
+ * @name i18nConfig
  *
  * @description A service that provides default configuration constant
  * values.
@@ -129,10 +124,7 @@ module.exports = angular.module('akamai.components.i18n',
   })
 
 /**
- * @ngdoc service
- *
- * @name akamai.components.i18n.service:LOCALE
- *
+ * @name LOCALE
  * @description A service that provides datetime and number locale constant values,
  * that includes 12 supported locales and sections based on locale names,
  * such as: 'en_US', 'de_DE'
@@ -142,27 +134,17 @@ module.exports = angular.module('akamai.components.i18n',
 
 /**
  * @ngdoc service
- *
- * @name akamai.components.i18n.service:translate
- *
+ * @name translate
  * @requires pascalprecht.translate.$translate
  *
  * @description A wrapper for the angular `$translate` service,
- * providing both
- * {@link akamai.components.i18n.service:translate#methods_async asynchronous}
- * and
- * {@link akamai.components.i18n.service:translate#methods_sync blocking}
- * methods to translate string keys.
- *
+ * providing both asynchronous and synchronous methods to translate string keys.
  */
   .factory('translate', require('./translate-service'))
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.i18n.directive:akamTranslate
- *
- * @requires translate
+ * @name akamTranslate
  *
  * @description Inserts a translated key into the current DOM element.
  * For example:
@@ -178,10 +160,7 @@ module.exports = angular.module('akamai.components.i18n',
 
 /**
  * @ngdoc filter
- *
- * @name akamai.components.i18n.filter:akamTranslate
- *
- * @requires translate
+ * @name akamTranslate
  *
  * @description A filter used in the DOM element and JavaScript where
  * you want to translate the key.  For example:
@@ -203,28 +182,17 @@ module.exports = angular.module('akamai.components.i18n',
 
 /**
  * @ngdoc service
- *
- * @name akamai.components.i18n.service:i18nToken
- *
- * @requires $location
- *
- * @requires $cookies
- *
- * @requires i18nConfig
+ * @name i18nToken
  *
  * @description Provides two getter methods that return values set by
- * {@link akamai.components.i18n.service:i18nTokenProvider i18nTokenProvider}
- * in an application's configuration phase.
+ * `i18nTokenProvider` in an application's configuration phase.
  *
  */
   .service('i18nToken')
 
 /**
- * @ngdoc service
- *
- * @name akamai.components.i18n.service:i18nTokenProvider
- *
- * @requires i18nConfig
+ * @ngdoc provider
+ * @name i18nTokenProvider
  *
  * @description Provides methods allow you to pass in application
  * locale path values during a configuration phase. It invokes the
@@ -236,15 +204,11 @@ module.exports = angular.module('akamai.components.i18n',
 
 /**
  * @ngdoc service
- *
- * @name akamai.components.i18n.service:i18nCustomLoader
+ * @name i18nCustomLoader
  *
  * @requires $http
- *
  * @requires $q
- *
  * @requires i18nToken
- *
  * @requires i18nConfig
  *
  * @description A factory service that adds loader methods to
@@ -257,15 +221,7 @@ module.exports = angular.module('akamai.components.i18n',
   .factory('i18nCustomLoader', require('./i18n-custom-loader-service'))
 
 /**
- * @ngdoc service
- *
- * @name akamai.components.i18n.config
- *
- * @requires pascalprecht.translate.$translateProvider
- *
- * @requires i18nConfig
- *
- * @description Adds methods to `$translateProvider` that load any
+ * Adds methods to `$translateProvider` that load any
  * locale resource files for an application's run phase.
  * Also a decorator for service of $locale to inject DATETIME_FORMATS and NUMBER_FORMATS
  *
@@ -276,14 +232,12 @@ module.exports = angular.module('akamai.components.i18n',
  * rendering problems, add a `translate-cloak` class on the `<body>`
  * tag, and pair it in CSS with `.translate-cloak {display:none
  * !important;}.`
- *
  */
   .config(config)
 
 /**
  * @ngdoc service
- *
- * @name akamai.components.i18n.service:missingTranslationFactory
+ * @name missingTranslationFactory
  *
  * @requires $log
  * @requires i18nToken

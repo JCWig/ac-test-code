@@ -86,9 +86,7 @@ module.exports = function($translate) {
      * @description Translates a key string immediately.
      *
      * Use this only once the translation table has loaded,
-     * otherwise the
-     * {@link akamai.components.i18n.service:translate#methods_async async}
-     * method is more appropriate.
+     * otherwise the async method is more appropriate.
      * When blocking the application is not a problem, best
      * practice is to assign return values to non-`$scope`
      * variables. For example:

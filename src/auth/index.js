@@ -5,9 +5,7 @@ var angular = require('angular'),
 
 /**
  * @ngdoc module
- * @display Authentication
  * @name akamai.components.auth
- *
  * @description Provides an interceptor for failed requests for auth purposes
  *
  */

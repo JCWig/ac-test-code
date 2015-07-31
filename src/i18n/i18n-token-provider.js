@@ -71,12 +71,12 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    *
    * __NOTE__: param url only a string value for the app, no multiple files allowed
    *
-   *@example of usage
+   * @example of usage
    * <pre>
    *     app.config(function(i18nTokenProvider) {
-     *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
-     *        i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
-     *     });
+   *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
+   *        i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
+   *     });
    * </pre>
    */
   this.setAppLocalePath = function(url) {

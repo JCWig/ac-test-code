@@ -18,11 +18,13 @@ module.exports = {
   docs: {
     sources: [
       'akamai-core.js',
+      'auth/**/*.js',
       'autocomplete/**/*.js',
       'content-panel/**/*.js',
       'context/**/*.js',
       'date-picker/**/*.js',
       'dropdown/**/*.js',
+      'i18n/**/*.js',
       'indeterminate-progress/**/*.js',
       'list-box/**/*.js',
       'mega-menu/**/*.js',
