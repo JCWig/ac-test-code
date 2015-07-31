@@ -11,7 +11,7 @@
   {% if doc.image %}
   <section class="visual-example">
     <h1>Visual Example</h1>
-    <img src="{$ doc.image $}">
+    <img src="/assets/components/{$ doc.id $}.png">
   </section>
   {% endif %}
 
@@ -47,6 +47,7 @@
     {% endfor %}
   </section> 
 
+  {% if doc.exampleFiles %}
   <section class="code-example">
     <h1>Code Example</h1>
     {% for example in doc.exampleFiles %}
@@ -56,5 +57,6 @@
     </div>
     {% endfor %}
   </section>
+  {% endif %}
 </section>
 {% endblock %}
