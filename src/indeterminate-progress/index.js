@@ -7,9 +7,6 @@ const MODULE_NAME = 'akamai.components.indeterminate-progress';
  * @ngdoc module
  *
  * @name akamai.components.indeterminate-progress
- * @guideline use this component blah
- * @guideline use this component todo
- * @guideline this is another guideline
  *
  * @description
  * Indeterminate progress indicator provides feedback to the user that an operation is
