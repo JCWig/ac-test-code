@@ -3,7 +3,7 @@ var angular = require('angular');
 require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name akamai.components.dropdown
  *
  * @description
