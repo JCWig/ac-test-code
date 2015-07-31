@@ -13,7 +13,7 @@ var angular = require('angular'),
  * still have to exist in Luna, so it is necessary to add them to the auth blacklist. This will
  * prevent the application from sending requesting JSON Web Tokens.
  *
- * ## Basic Workflow
+ * **Basic Workflow**
  *
  * Any API requests that are not ignored by the auth module will check for a valid JSON Web Token.
  * If one is not present, the application with automatically make a request for a new token,

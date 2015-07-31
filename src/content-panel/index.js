@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.content-panel
+ * @image content-panel
  *
  * @description
  * Basic panel is a building block of most user interfaces. Besides containing components,

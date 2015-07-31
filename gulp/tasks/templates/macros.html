@@ -117,11 +117,11 @@
   <h1>{$ component.name $}#{$ method.name $}</h1>
   {$ method.description | marked $}
   {% if method.params %}
-  <h2>Arguments</h2>
+  <h2 class="arguments">Arguments</h2>
   {$ paramTable(method.params) $}
   {% endif %}
   {% if method.returns %}
-  <h2>Returns: <span>{$ typeList(method.returns.typeList) $}</span></h2>
+  <h2 class="returns">Returns: <span>{$ typeList(method.returns.typeList) $}</span></h2>
   {$ method.returns.description | marked $}
   {% endif %}
 </section>
