@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.pagination
+ * @image pagination
  *
  * @description
  * Pagination is a page design pattern where a large amount of content is split into

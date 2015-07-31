@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.message-box
+ * @image message-box
  *
  * @description
  * Message box is a type of pop up overlaid on current page for feedback on user actions,

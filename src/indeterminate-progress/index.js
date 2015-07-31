@@ -5,8 +5,8 @@ const MODULE_NAME = 'akamai.components.indeterminate-progress';
 
 /**
  * @ngdoc module
- *
  * @name akamai.components.indeterminate-progress
+ * @image indeterminate-progress
  *
  * @description
  * Indeterminate progress indicator provides feedback to the user that an operation is

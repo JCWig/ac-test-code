@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.switch-button
+ * @image switch-button
  *
  * @description
  * Switch button is similar to a radio button; it lets the user choose between two values.
