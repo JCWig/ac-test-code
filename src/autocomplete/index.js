@@ -23,7 +23,7 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
  * @guideline Use when the total number of items would be too large to display in a standard
  * dropdown box.
  * @guideline Label the text box to match expectation of what field would be searched against.
- * @guideline *Default number of items displayed at one time is seven.
+ * @guideline Default number of items displayed at one time is seven.
  *
  * @example index.html
  * <akam-autocomplete ng-model="..." text-property="name"

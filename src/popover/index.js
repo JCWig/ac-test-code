@@ -10,7 +10,7 @@ var sanitize = require('angular-sanitize');
  * a page. It is triggered by user behavior and is triggered by hover or by click events.
  *
  * @guideline Use popover when you need to communicate additional information about item or
- * feature in interface
+ * feature in interface.
  * @guideline Use popovers to communicate small to medium amounts of information to user.
  * @guideline Do not use popovers for displaying large amounts of information to user.
  *
