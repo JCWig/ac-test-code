@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.status-message
+ * @image status-message
  *
  * @description
  * Status messages communicate general application information, success, errors or warnings.

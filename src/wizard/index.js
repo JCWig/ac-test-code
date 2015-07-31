@@ -3,6 +3,8 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.wizard
+ * @image wizard
+ *
  * @requires module:angular-bootstrap-npm
  * @requires module:ngSanitize
  * @requires module:akamai.components.status-message

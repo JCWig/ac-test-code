@@ -8,6 +8,7 @@ import menuButton from './menu-button-directive';
 /**
  * @ngdoc module
  * @name akamai.components.menu-button
+ * @image menu-button
  * @description
  * Menu button is similar to the action button. Like the action button,
  * the menu button is used to initiate actions. A menu button on click has a dropdown menu

@@ -6,6 +6,7 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 /**
  * @ngdoc module
  * @name akamai.components.autocomplete
+ * @image autocomplete
  *
  * @requires ngSanitize
  * @requires akamai.components.i18n

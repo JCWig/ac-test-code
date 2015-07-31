@@ -5,6 +5,7 @@ require('ui-select');
 /**
  * @ngdoc module
  * @name akamai.components.tag-input
+ * @image tag-input
  *
  * @description
  * Tag input allows users to select pre-existing options, or create free form tags by entering text

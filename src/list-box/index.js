@@ -5,6 +5,7 @@ require('angular-sanitize');
 /**
  * @ngdoc module
  * @name akamai.components.list-box
+ * @image list-box
  *
  * @description
  * List box allows the user to select one or more items from a list contained within a static,

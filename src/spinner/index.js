@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.spinner
+ * @image spinner
  *
  * @description
  * Spinner box combines a numeric input field and arrow controls to increment or decrement the value

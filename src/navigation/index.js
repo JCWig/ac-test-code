@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.navigation
+ * @image navigation
  *
  * @description Provides a directive that creates a Pulsar-compatible tabbed navigation component
  *

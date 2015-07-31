@@ -5,6 +5,8 @@ var angular = require('angular'),
 /**
  * @ngdoc module
  * @name akamai.components.table
+ * @image table
+ *
  * @requires module:ngSanitize
  * @requires module:akamai.components.uuid
  * @requires module:akamai.components.indeterminate-progress
