@@ -37,18 +37,20 @@
 
 
 {% macro moduleList(modules, selected) -%}
-<ul class="modules">
-  <li class="{$ 'selected' if selected == '' $}">
-    <a href="/ui/components/{$ doc.packageVersion $}/">Overview</a>
-  </li>
-  {% for module in modules %}
-  {%- if module.docType == 'module' -%}
-  <li class="{$ 'selected' if selected == module.module $}">
-    <a href="/ui/components/{$ doc.packageVersion $}/{$ module.module $}/">{$ module.module | titleCase $}</a>
-  </li>
-  {%- endif %}
-  {% endfor %}
-</ul>
+<nav class="components">
+  <h1><a href="/ui/components/{$ doc.packageVersion $}/">Overview</a></h1>
+  <h1>Components</h1>
+  <ul class="modules">
+    {% for module in modules %}
+    {%- if module.docType == 'module' -%}
+    <li class="{$ 'selected' if selected == module.module $}">
+      <a href="/ui/components/{$ doc.packageVersion $}/{$ module.module $}/">
+        {$ module.module | titleCase $}</a>
+    </li>
+    {%- endif %}
+    {% endfor %}
+  </ul>
+</nav>
 {%- endmacro %}
 
 
