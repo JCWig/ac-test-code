@@ -228,6 +228,7 @@ module.exports = angular.module('akamai.components.i18n',
  * <any abc='{number: myNumber}''>{{'translationId' | akamTranslate : abc}}</any>
  * </pre>
  *
+ * @param {string} translationId The key to translate
  */
   .filter('akamTranslate', require('./translate-filter'))
 

@@ -43,6 +43,13 @@
       {% if component.docType == 'directive' %}
       {$ directiveDocs(component) $}
       {% endif %}
+
+      {% if component.docType == 'filter' %}
+        {% if component.params %}
+        <h2>Arguments</h2>
+        {$ paramTable(component.params) $}
+        {% endif %}
+      {% endif %}
     </section>
     {% endfor %}
   </section> 
