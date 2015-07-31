@@ -151,7 +151,7 @@ module.exports = angular.module('akamai.components.context', [
  * - **cookieValue** - `String` - The raw, base64 encoded, cookie value. Includes the contract and
  * the ID.
  *
- * @returns {Object} The account object
+ * @type {Object} The account object
  */
 
 /**
