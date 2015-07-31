@@ -55,8 +55,58 @@ run.$inject = ['$translate', 'i18nToken', 'i18nConfig'];
  * @name akamai.components.i18n
  *
  * @description Provides services to configure internationalization
- * capabilities for any application.
+ * capabilities for any application. The methods described in this module extend
+ * `angular-translate`, so applications should use the methods described here instead of the ones
+ * made available in `angular-translate`. We provide auto reading of the AKALOCALE cooke to
+ * determine the locale that should be set and we also will auto load your translations,
+ * represented as JSON files, from a known location, and merge the results with the translation
+ * files for akamai-core.
  *
+ * Since application i18n keys are merged with keys for akamai-core it is **HIGHLY** recommended
+ * that applications surround all of their i18n keys with a root namespace, prefably one that is
+ * related to the name of their application. For example, in the Property Manager application we
+ * would have the following in their JSON files:
+ *
+ * <pre>
+ * {
+ *   "property-manager": {
+ *     ...
+ *   }
+ * }
+ * </pre>
+ *
+ * This will almost guarantee that there will be no conflicts between application translations and
+ * ones specific to the akamai-core component library.
+ *
+ * By default, i18n bundles for applications will be loaded from the URL
+ * `/apps/{appName}/locales/`. This is configurable via the `i18nTokenProvider#setAppLocalePath`
+ * method.
+ *
+ * Also note that locales will be read as `locale`.json where locale is something like "en_US".
+ * The filename is currently not configurable. Applications must name their locale files to match
+ * the list of supported locales in Luna. Currently the supported list of locales is:
+ *
+ * ```
+ * [de_DE, en_US, en_US_ATT, es_ES, es_LA, fr_FR, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW]
+ * ```
+ *
+ * @example index.html
+ *
+ * <!-- preferred usage -->
+ * <span akam-translate="a.i18n.key"></span>
+ *
+ * <!-- acceptable, but may cause performance issues, like all filters do -->
+ * <span>{{ 'another.i18n.key' | akamTranslate }}</span>
+ *
+ * <span>{{ vm.someLabel }}</span>
+ *
+ * @example app.js
+ * function MyController(translate) {
+ *   translate.async('some.i18n.key')
+ *     .then((value) => {
+ *       this.someLabel = value;
+ *     }
+ * }
  */
 module.exports = angular.module('akamai.components.i18n',
   ['pascalprecht.translate', 'ngCookies', require('../utils').name])
@@ -138,7 +188,10 @@ module.exports = angular.module('akamai.components.i18n',
  * @requires pascalprecht.translate.$translate
  *
  * @description A wrapper for the angular `$translate` service,
- * providing both asynchronous and synchronous methods to translate string keys.
+ * providing both asynchronous and synchronous methods to translate string keys. For the
+ * most part, we extend the methods provided in
+ * <a href="https://angular-translate.github.io/docs/#/api/pascalprecht.translate.$translate">
+ *   angular-translate</a>.
  */
   .factory('translate', require('./translate-service'))
 
@@ -162,8 +215,10 @@ module.exports = angular.module('akamai.components.i18n',
  * @ngdoc filter
  * @name akamTranslate
  *
- * @description A filter used in the DOM element and JavaScript where
- * you want to translate the key.  For example:
+ * @description A filter used to translate an i18n key. Note that this uses translate.sync so
+ * if the results is one-time bound then it is possible that the result will never be translated,
+ * as there will be a race condition between when the i18n keys load and the filter is run for the
+ * first time. For more info, see the translate service sync method.
  *
  * <pre>
  * <any>{{'translationId' | akamTranslate}}</any>
@@ -171,10 +226,6 @@ module.exports = angular.module('akamai.components.i18n',
  *
  * <pre>
  * <any abc='{number: myNumber}''>{{'translationId' | akamTranslate : abc}}</any>
- * </pre>
- *
- * <pre>
- * var translatedValue = $filter('akamTranslate')('translationId');
  * </pre>
  *
  */
@@ -243,8 +294,18 @@ module.exports = angular.module('akamai.components.i18n',
  * @requires i18nToken
  *
  * @description This service factory's sole purpose is to Intercept missing
- * translation key errors, and log the error in the console (non blocking operation)
+ * translation key errors, and log the error in the console (non blocking operation). By default,
+ * it will log all missing keys to the console. To turn that off, run the following in a config
+ * block:
  *
+ * <pre>
+ * function config($translateProvider) {
+ *   $translateProvider.useMissingTranslationHandler('noop');
+ * };
+ *
+ * angular.module('...', [])
+ *   .factory('noop', angular.noop);
+ * </pre>
  */
   .factory('missingTranslationFactory', missingTranslation)
 

@@ -10,17 +10,14 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
    * @name loadTranslations
    * @private
    * @description this custom loader implementation function perform the following:
-   * Loop through the list of url, store promise get to the array of deferreds,
+   * Loop through the list of url, store promise get to the array of deferred objects,
    * when it completes, it will resolve the translation table
    * If error occurs, and the current locale is not the 'en_US' default one,
    * then it will attempt to load with 'en_US' locale - fallback translation loading
    * If that fails, it will reject (basically we screw).
-   * @param {string} locale current locale
-   * @param {array} urls tht contains list of locale file url paths to be used in
    * $http.get function
-   * @return function loadTranslations()
+   * @return {Promise} A promise to load the translations
    */
-
   var loadTranslations = function() {
 
     var deferreds = [],
@@ -62,10 +59,9 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
    * @private
    * @description any error from get call will go through here, we log to console,
    * and we save error message to errorList array
-   * @param {object} r response object with error info
-   * @return errorList
+   * @param {Object} r response object with error info
+   * @return {Object[]} a list of error objects
    */
-
   function invalid(r) {
     $log.error({
       message: r.data,
@@ -80,10 +76,9 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
    * @private
    * @description any success response from get call will go through here,
    * we save data to translationTable; array
-   * @param {object} r response object with data info
-   * @return translationTable;
+   * @param {Object} r response object with data info
+   * @return {Object[]};
    */
-
   function valid(r) {
     var src = r.data,
       clone = src ? angular.copy(src) : {};

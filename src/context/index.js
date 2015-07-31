@@ -34,6 +34,19 @@ module.exports = angular.module('akamai.components.context', [
  * information in a Luna application. The provider is used to configure how the application will
  * behave with respect to Luna groups and properties. This is also used for applications that are
  * deployed outside of Luna. The default application type is `contextProvider.ACCOUNT_CONTEXT`.
+ *
+ * ## Unit Testing
+ *
+ * When unit testing, you may run into issues with unexpected HTTP requests being made and tests
+ * failing. This is because the context component does some things auto-magically depending on what
+ * context you define. Test modules should be defined to have the OTHER_CONTEXT. This can be
+ * accomplished with the following snippet being placed inside a `beforeEach` block.
+ *
+ * <pre>
+ * angular.mock.module(function(contextProvider) {
+ *   contextProvider.setApplicationContext(contextProvider.OTHER_CONTEXT);
+ * });
+ * </pre>
  */
 
 /**
