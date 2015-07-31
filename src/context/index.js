@@ -35,7 +35,7 @@ module.exports = angular.module('akamai.components.context', [
  * behave with respect to Luna groups and properties. This is also used for applications that are
  * deployed outside of Luna. The default application type is `contextProvider.ACCOUNT_CONTEXT`.
  *
- * ## Unit Testing
+ * **Unit Testing**
  *
  * When unit testing, you may run into issues with unexpected HTTP requests being made and tests
  * failing. This is because the context component does some things auto-magically depending on what
@@ -102,7 +102,8 @@ module.exports = angular.module('akamai.components.context', [
  * having to reload the page. It will also, under the hood, handle making the calls necessary to
  * switch the current group or property from a Luna perspective.
  *
- * ## General Usage
+ * **General Usage**
+ *
  * Typically, group or property information is fetched like the following:
  *
  * ```
