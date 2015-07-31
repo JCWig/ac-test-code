@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.time-picker
+ * @image time-picker
  *
  * @description
  * Time selector is an interactive component that allows user to select a time from

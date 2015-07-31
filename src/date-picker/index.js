@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.date-picker
+ * @image date-picker
  *
  * @description
  * Date selector is an interactive calendar component that allows user to select a date

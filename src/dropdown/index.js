@@ -5,6 +5,7 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
 /**
  * @ngdoc module
  * @name akamai.components.dropdown
+ * @image dropdown
  *
  * @description
  * Dropdown is a button type that on-click, reveals additional content. There are multiple

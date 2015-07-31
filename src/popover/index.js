@@ -4,6 +4,7 @@ var sanitize = require('angular-sanitize');
 /**
  * @ngdoc module
  * @name akamai.components.popover
+ * @image popover
  *
  * @description
  * Popover is a UI element that allows for content to be displayed on top of other content on

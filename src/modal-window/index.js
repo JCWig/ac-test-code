@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.modal-window
+ * @image modal-window
  *
  * @description
  * Modal window is a type of pop up dialog box overlaid on the current page.

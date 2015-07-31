@@ -3,6 +3,7 @@ var angular = require('angular');
 /**
  * @ngdoc module
  * @name akamai.components.tree-view
+ * @image tree-view
  *
  * @description
  * Tree views are used to browse and work with hierarchically organized collections of objects.
