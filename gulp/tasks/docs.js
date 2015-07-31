@@ -52,7 +52,8 @@ function configureIds(computeIdsProcessor) {
     docTypes: ['module'],
     getId: function(doc) {
       return path.dirname(doc.fileInfo.relativePath);
-    }
+    },
+    getAliases: function(doc) { return [doc.module, doc.fileInfo.relativePath, doc.name]; }
   });
 
   computeIdsProcessor.idTemplates.push({
