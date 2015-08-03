@@ -11,6 +11,7 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
         leaveHovering, popoverHover, enterTimeout, leaveTimeout, leavePopover,
         leavePopoverTimeout;
       var newScope = scope.$new();
+      var setCoordsDebounced = null;
 
       newScope.position = attrs.position;
       newScope.header = attrs.header;
@@ -164,20 +165,21 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           });
         }
 
-        var setCoordsDebounced = debounce(setCoords, 200);
+        setCoordsDebounced = debounce(setCoords, 200);
 
-        $window.addEventListener("resize", setCoordsDebounced);
+        $window.addEventListener('resize', setCoordsDebounced);
 
         $timeout(function() {
           setCoords();
         }, 0);
 
         scope.$on('$destroy', function() {
-          $window.removeEventListener("resize", setCoordsDebounced);
+          $window.removeEventListener('resize', setCoordsDebounced);
           newScope.$destroy();
         });
       }
     }
   };
 };
-module.exports.$inject = ['$log', '$position', '$compile', '$timeout', '$templateCache', '$parse', '$window'];
+module.exports.$inject = ['$log', '$position', '$compile', '$timeout', '$templateCache', '$parse',
+  '$window'];
