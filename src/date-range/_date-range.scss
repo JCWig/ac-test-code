@@ -1,143 +1,83 @@
 $date-range-disabled-color: #e6e6e6;
 $date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
+$date-range--dropdown-boxshadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.15);
 $date-range-in-range-color: #666666;
 $date-range-in-range-background-color: #CEE7FF;
-$date-range-width: 150px;
+$date-range-width: 145px;
 $date-range-dash-width: 31px;
-$date-range-dash-space: 7px;
+$date-range-dash-space: 9px;
 .akam-date-picker.akam-date-range {
   width: 100%;
   vertical-align: middle;
   height: $autocomplete-height;
   position: relative;
-  input {
+  .range-picker input {
     position: absolute;
   }
   div.range-selection {
     .range-start,
     .range-end {
-      //width: $date-range-width;
+      &.open-from span {
+        border: 1px solid $input-border-color-focus;
+        background-color: white;
+        @include box-shadow(none);
+      }
+    }
+  }
+  div.range-selection {
+    & span {
       position: absolute;
-      display: inline-block;
+    }
+    .range-start,
+    .range-end {
+      & > span {
+        //position: absolute;
+        display: inline-block;
+        height: $input-height;
+        padding: 6px $input-padding;
+        background-color: $input-background-color;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        //min-width: 160px;
+        width: $date-range-width;
+        @include box-shadow($date-range-boxshadow);
+      }
       & ~ .button,
       & ~ .btn {
         min-width: 0;
-        margin-left: 2*$date-range-width + $date-range-dash-width;
+        margin-left: 332px; //2*$date-range-width + $date-range-dash-width + $date-range-dash-space;
         position: absolute;
         @include border-left-radius(0);
         i {
           @include disable-magic-sprite-selectors(calendar);
         }
       }
-
+      & .date-range-placeholder {
+        color: #ccc;
+        font-style: italic;
+      }
     }
-
-    .rang-start span {
-
-    }
-    .range-end span {
+    .range-end > span {
       margin-left: $date-range-width + $date-range-dash-width;
-      @include border-right-radius(0);
     }
-  .date-range-dash span {
-    margin-left: $date-range-width + $date-range-dash-space;
-    font-size: 16px;
-    font-weight: bold;
-    width: 10%;
-    //line-height: 0;
-  }
-
-    span:not(.dash) {
-      position: absolute;
-      height: $input-height;
-      padding: 6px $input-padding;
-      background-color: $input-background-color;
-      border: 1px solid $border-color;
-      border-radius: $border-radius;
-      //min-width: 160px;
-      width: $date-range-width;
-      //@include border-right-radius(0);
-      @include box-shadow($date-range-boxshadow);
-      &.disabled {
-        @include placeholder-enhanced($autocomplete-disabled-color, italic);
-        color: $autocomplete-disabled-color;
+    .range-dash > span {
+      margin-left: $date-range-width + $date-range-dash-space;
+      margin-top: 6px;
+    }
+    .range-clear > span {
+      .clear-date {
+        margin-left: 376px;
+      }
+    }
+    &.disabled :not(.range-dash) {
+      & span{
+        @include placeholder-enhanced($date-range-disabled-color, italic);
+        color: $date-range-disabled-color;
         border-color: $input-border-color-disabled;
         background-color: $input-background-color-disabled;
         box-shadow: none;
         cursor: default;
         @include user-select(none);
-      }
-      /*&:first-child {
-        width: 160px;
-      }
-      &:last-child {
-        width: 160px;
-        margin-left: 224px;
-      }
-      */
-    }
-    & .date-range-placeholder {
-      color: #ccc;
-      font-style: italic;
-    }
-  }
-  & span.range-selection {
-    > span {
-      position: absolute;
-      height: $input-height;
-      padding: 6px $input-padding;
-      background-color: $input-background-color;
-      border: 1px solid $border-color;
-      border-radius: $border-radius;
-      min-width: 160px;
-      width: 100%;
-      @include border-right-radius(0);
-      @include box-shadow($date-range-boxshadow);
-      &:first-child {
-        width: 160px;
-      }
-      &:last-child {
-        width: 160px;
-        margin-left: 224px;
-      }
-    }
-  }
-  & span.range-start {
-    position: absolute;
-    ul.dropdown-menu {
-      //min-width: 225px;
-      border-right: none;
-      @include border-right-radius(0);
-    }
-  }
-  & span.range-end {
-    position: absolute;
-    margin-left: 224px;
-    ul.dropdown-menu {
-      min-width: 225px;
-      border-left: none;
-      @include border-left-radius(0);
-      @include box-shadow($date-range-boxshadow);
-    }
-  }
-  & span.range-selection {
-    > span {
-      position: absolute;
-      height: $input-height;
-      padding: 6px $input-padding;
-      background-color: $input-background-color;
-      border: 1px solid $border-color;
-      border-radius: $border-radius;
-      min-width: 160px;
-      width: 100%;
-      @include border-right-radius(0);
-      @include box-shadow($date-range-boxshadow);
-      &:first-child {
-        width: 160px;
-      }
-      &:last-child {
-        width: 160px;
-        margin-left: 224px;
       }
     }
   }
@@ -150,9 +90,8 @@ $date-range-dash-space: 7px;
     margin-top: 0;
     top: 29px;
     //min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
-    @include box-shadow($global-box-shadow);
+    @include box-shadow($date-range--dropdown-boxshadow);
     table {
-      //min-width: 400px;
       width: 100%;
       td.space {
         width: 5%;
@@ -172,7 +111,6 @@ $date-range-dash-space: 7px;
     &.selected-start,
     &.selected-end {
       background-color: #0099CC;
-      //color: white !important;
     }
     &.selected-start {
       border-top-right-radius: 40%;

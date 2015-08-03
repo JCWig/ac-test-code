@@ -10,8 +10,16 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       minMode: 'day',
       maxMode: 'day'
     },
-    format: 'EEE, MMM dd, yyyy'
+    FORMAT: 'EEE, MMM dd, yyyy',
+    DELAY_CLOSING: 5000
   };
+
+  function showRangePoint(scope, id, numberToSkip) {
+    scope.$broadcast('moveRangePoint', {
+      id: id,
+      moveValue: numberToSkip
+    });
+  }
 
   function DateRangeController($scope, $element, $attr) {
     var d = new Date();
@@ -21,6 +29,9 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
     this.rangeEnd = {};
     this.rangeStart.selectedValue = this.rangeEnd.selectedValue = '';
     this.rangeSelected = false;
+    this.lastCloseOnRangeStart = true;
+    this.openFromRangeStart = false;
+    this.openFromRangeEnd = false;
 
     this.options = config.options;
     this.id = 'akam-date-range-' + $scope.$id + '-' + uuid.guid();
@@ -42,16 +53,48 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       }
     };
 
-    this.clearStartDate = function(e) {
-      preventOtherEvents(e);
-      this.rangeStart.selectedValue = '';
-      this.rangeSelected = false;
+    this.rangeStartToggle = function(e) {
+      if (this.opened) { //to close
+        this.lastCloseOnRangeStart = true;
+        this.openFromRangeStart = false;
+        this.openFromRangeEnd = false;
+      } else {
+        if (!this.lastCloseOnRangeStart && this.rangeSelected) {
+          //showRangePoint($scope, this.id, -4);
+        }
+        this.openFromRangeStart = true;
+        this.openFromRangeEnd = false;
+      }
+
+      this.toggle(e);
     };
 
-    this.clearEndDate = function(e) {
+    this.rangeEndToggle = function(e) {
+      if (this.opened) { //to close
+        this.lastCloseOnRangeStart = false;
+        this.openFromRangeEnd = false;
+        this.openFromRangeEnd = false;
+      } else { //to open
+        if (this.lastCloseOnRangeStart && this.rangeSelected) {
+          //showRangePoint($scope, this.id, 4);
+
+        }
+        this.openFromRangeEnd = true;
+        this.openFromRangeStart = false;
+      }
+      this.toggle(e);
+    };
+
+    this.clearDateRange = function(e) {
       preventOtherEvents(e);
+      this.rangeStart.selectedValue = '';
       this.rangeEnd.selectedValue = '';
       this.rangeSelected = false;
+      this.lastCloseOnRangeStart = true;
+    };
+
+    this.showClearIcon = function() {
+      return (this.rangeStart.selectedValue || this.rangeEnd.selectedValue) && !this.isDisabled;
     };
 
     function preventOtherEvents(e) {
@@ -94,17 +137,22 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
 
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
+        dr.rangeSelected = true;
         scope.setViewValue(drService.getSelectedDateRange(start, end, dr.format), start, end);
       }
 
       $timeout(function() {
         //interesting, have to wait for $digest completed
-        dr.format = dr.format || config.format;
+        dr.format = dr.format || config.FORMAT;
+
+        //send the event to child directive to handle with those values
+        //use timeout to make sure the children directives are ready
         scope.$broadcast('initialDateRange', {
-          startDate: startValue,
-          endDate: endValue,
-          id: id
+          startDate: start,
+          endDate: end,
+          id: dr.id
         });
+
         initialized = true;
       });
     };
@@ -154,17 +202,20 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = dateFilter(end, dr.format);
         scope.setViewValue(range, start, end);
+        dr.rangeSelected = info.rangeSelected;
+        dr.closingRange = true;
 
         $timeout(function() {
           dr.opened = false;
-        }, 1500);
+          dr.closingRange = false;
+        }, config.DELAY_CLOSING);
 
       } else { //assuming only start date has value, calendar stay open
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = end;
         $timeout(function() {
           dr.opened = true;
-        }, 50);
+        });
       }
     }
   }

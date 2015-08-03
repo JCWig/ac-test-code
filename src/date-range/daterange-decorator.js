@@ -5,22 +5,26 @@ module.exports = function($provide) {
   function setRangeAndNotify(dt, scope, $rootScope) {
     var cloneDate = new Date();
 
+    //if has range, break the range, but select starting date
     if (scope.rangeSelected) {
       scope.selectedStart = dt;
       scope.selectedEnd = null;
       scope.rangeSelected = false;
+      //if range is not selected, but start date already selected
     } else if (angular.isDate(scope.selectedStart)) {
       scope.selectedEnd = dt;
       scope.rangeSelected = true;
+      //if slected start date greater than current selected date, then swap
       if (scope.selectedStart.getTime() > dt.getTime()) {
         cloneDate = angular.copy(scope.selectedStart);
         scope.selectedStart = dt;
         scope.selectedEnd = cloneDate;
       }
-    } else {
+    } else { //if first time selecting, then make satrt date as...
       scope.selectedStart = dt;
     }
 
+    //send event back to parent, the range done
     $rootScope.$emit('rangeSelected', {
       selectedStart: scope.selectedStart,
       selectedEnd: scope.selectedEnd,
@@ -67,7 +71,7 @@ module.exports = function($provide) {
 
     directive.compile = function() {
       return function(scope, element, attrs, ctrl) {
-        var initialDateRange;
+        var initialDateRange, moveRangePoint;
 
         link.apply(this, arguments);
         scope.rangeSelected = false;
@@ -89,7 +93,8 @@ module.exports = function($provide) {
           });
         });
 
-        //this event is received from initial data set from app, only once.
+        //this event is sent deom parent, only once, can be no range, can be initial range
+        //and also save the id for who is interested in receiving events
         initialDateRange = scope.$on('initialDateRange', function(event, info) {
           scope.selectedStart = info.startDate;
           scope.selectedEnd = info.endDate;
@@ -97,7 +102,17 @@ module.exports = function($provide) {
           scope.callerId = info.id;
         });
 
-        scope.$on('$destroy', initialDateRange);
+        moveRangePoint = scope.$on('moveRangePoint', function(event, info) {
+          if (info.id !== scope.callerId) {
+            return;
+          }
+          scope.move(info.moveValue);
+        });
+
+        scope.$on('$destroy', function() {
+          initialDateRange();
+          moveRangePoint();
+        });
 
         scope.isInRange = function(currentDate) {
           //if the date fall in the first date or the last date, consider it not in the range
