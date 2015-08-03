@@ -3,7 +3,7 @@ var includes = require('lodash/collection/includes');
 var debounce = require('lodash/function/debounce');
 var POPUP_DELAY = 300;
 
-module.exports = function($log, $position, $compile, $timeout, $templateCache, $parse) {
+module.exports = function($log, $position, $compile, $timeout, $templateCache, $parse, $window) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
@@ -163,12 +163,21 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
             }
           });
         }
-        angular.element(window).on('resize', debounce(setCoords, 200));
+
+        var setCoordsDebounced = debounce(setCoords, 200);
+
+        $window.addEventListener("resize", setCoordsDebounced);
+
         $timeout(function() {
           setCoords();
         }, 0);
+
+        scope.$on('$destroy', function() {
+          $window.removeEventListener("resize", setCoordsDebounced);
+          newScope.$destroy();
+        });
       }
     }
   };
 };
-module.exports.$inject = ['$log', '$position', '$compile', '$timeout', '$templateCache', '$parse'];
+module.exports.$inject = ['$log', '$position', '$compile', '$timeout', '$templateCache', '$parse', '$window'];
