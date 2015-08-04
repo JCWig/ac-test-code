@@ -80,7 +80,7 @@
     ul.dropdown-menu {
       table {
         tbody td {
-          position: relative;
+          //position: relative;
           height: 23px;
           border: none !important;
           &.space {
@@ -95,7 +95,7 @@
           }
         }
         tbody td button {
-
+          position: relative;
           &.in-range {
             color: $date-range-in-range-color;
             background-color: $date-range-in-range-background-color;
@@ -104,14 +104,35 @@
           &.selected-end {
             background-color: $date-range-startend-color;
             & > span {
-              color: white;
+              //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            position: absolute;
+              color: $input-background-color-focus;
+
+              &:hover {
+                color: $input-text-color;
+              }
             }
           }
-          &.selected-start {
-
+          &.selected-start:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 0;
+            border-top: 10px solid $date-range-in-range-background-color;
+            border-bottom: 10px solid $date-range-in-range-background-color;
+            border-left: 5px solid rgba(0,0,0,0);
           }
-          &.selected-end {
-
+          &.selected-end:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            border-top: 10px solid $date-range-in-range-background-color;
+            border-bottom: 10px solid $date-range-in-range-background-color;
+            border-right: 5px solid rgba(0,0,0,0);
           }
           span.text-info {
             -webkit-box-shadow: inset 0px 0px 0px 2px $date-range-startend-color;
