@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name menu
  * @requires querystring
  * @requires menu.currentAccount
@@ -29,8 +28,6 @@ var usersPopup;
 var OPEN_TAB = '-1';
 
 /**
- * @ngdoc function
- * @methodOf menu
  * @name menu.render
  * @param {Object} data data to render
  * @param {Function} [callback] optional callback to be invoked upon completion. Will be passed a

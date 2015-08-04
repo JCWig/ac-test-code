@@ -16,7 +16,6 @@
 @import "global-styles/_sprites";
 @import "global-styles/_svg";
 @import "global-styles/_utilities";
-@import "global-styles/_form_validation";
 
 
 /* These styles have no angular directive. They style an expected markup pattern */
@@ -25,6 +24,7 @@
   @import "global-styles/standalone/_checkboxes";
   @import "global-styles/standalone/_dropdowns";
   @import "global-styles/standalone/_forms";
+  @import "global-styles/standalone/_form_validation";
   @import "global-styles/standalone/_radios";
   @import "global-styles/standalone/_tabs";
   @import "global-styles/standalone/_text_elements";

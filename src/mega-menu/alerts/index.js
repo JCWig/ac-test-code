@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name alerts
  * @requires utils.config
  * @requires utils.renderer
@@ -14,8 +13,6 @@ var config = require('../utils/config'),
 var selector = '#modular-mega-menu-header .alerts-count';
 
 /**
- * @ngdoc function
- * @methodOf alerts
  * @name alerts.render
  * @param {Function} [callback] optional callback to be invoked upon completion.
  * @description

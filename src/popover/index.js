@@ -1,6 +1,44 @@
 var angular = require('angular');
 var sanitize = require('angular-sanitize');
 
+/**
+ * @ngdoc module
+ * @name akamai.components.popover
+ * @image popover
+ *
+ * @description
+ * Popover is a UI element that allows for content to be displayed on top of other content on
+ * a page. It is triggered by user behavior and is triggered by hover or by click events.
+ *
+ * @guideline Use popover when you need to communicate additional information about item or
+ * feature in interface.
+ * @guideline Use popovers to communicate small to medium amounts of information to user.
+ * @guideline Do not use popovers for displaying large amounts of information to user.
+ *
+ * @example index.html
+ * <span akam-popover position="top"
+ *   popover-content="Text Content Only."
+ *   trigger="click">Click Here - Top
+ * </span>
+ *
+ * <span akam-popover position="left"
+ *   popover-content="Text Content Only."
+ *   trigger="hover">Hover Here - Left
+ * </span>
+ *
+ * <span akam-popover position="right"
+ *   header="Header Title"
+ *   custom-content="aTemplateId.html"
+ *   trigger="hover">Hover Here - Right
+ * </span>
+ *
+ * @example index.js
+ *
+ * function configFn($templateCache) {
+ *   $templateCache.put('aTemplateId.html', '...');
+ * }
+ *
+ */
 module.exports = angular.module('akamai.components.popover', [
   sanitize,
   require('angular-bootstrap-npm')
@@ -8,7 +46,7 @@ module.exports = angular.module('akamai.components.popover', [
 /**
  * @ngdoc directive
  *
- * @name akamai.components.popover.directive:akamPopover
+ * @name akamPopover
  *
  * @description Creates a tool tip for an element
  *

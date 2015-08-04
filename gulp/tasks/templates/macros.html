@@ -1,0 +1,129 @@
+{% macro typeList(types) %}
+{% for typeName in types -%}
+{$ genType(typeName) $}
+{%- endfor %}
+{% endmacro %}
+
+{% macro genType(typeName) %}
+<code>{$ typeName | escape $}</code>
+{% endmacro %}
+
+{%- macro paramTable(params) %}
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%- for param in params %}
+    <tr>
+      <td>
+        <code>{$ param.name $}</code>
+        {%- if param.alias %}| {$ param.alias $}{% endif -%}
+        {%- if param.optional -%}<div><em>(optional)</em></div>{%- endif %}
+      </td>
+      <td>
+        {$ typeList(param.typeList) $}
+      </td>
+      <td>
+        {$ param.description | marked $}
+        {% if param.defaultValue %}<p><em>(default: {$ param.defaultValue $})</em></p>{% endif %}
+      </td>
+    </tr>
+    {% endfor -%}
+  </tbody>
+</table>
+{% endmacro -%}
+
+{%- macro propertyTable(properties) %}
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Details</th>
+  </tr>
+  </thead>
+  <tbody>
+  {%- for prop in properties %}
+  <tr>
+    <td>
+      <code>{$ prop.name $}</code>
+    </td>
+    <td>
+      {$ typeList(prop.type.typeList) $}
+    </td>
+    <td>
+      {$ prop.description | marked $}
+    </td>
+  </tr>
+  {% endfor -%}
+  </tbody>
+</table>
+{% endmacro -%}
+
+
+{% macro moduleList(modules, selected) -%}
+<nav class="components">
+  <h1>Components</h1>
+  <ul class="modules">
+    {% for module in modules %}
+    {%- if module.docType == 'module' -%}
+    <li class="{$ 'selected' if selected == module.module $}">
+      <a href="/ui/components/{$ doc.packageVersion $}/{$ module.module $}/">
+        {$ module.module | titleCase $}</a>
+    </li>
+    {%- endif %}
+    {% endfor %}
+  </ul>
+</nav>
+{%- endmacro %}
+
+
+{% macro componentName(component) %}
+{% if component.docType == 'directive' %}
+&lt;{$ component.name | dashCase $}&gt;
+{% endif %}
+{% if component.docType != 'directive' %}
+{$ component.name $}
+{% endif %}
+{% endmacro %}
+
+
+{% macro directiveDocs(component) %}
+{% if component.params %}
+<h2>Attributes</h2>
+{$ paramTable(component.params) $}
+{% endif %}
+{% endmacro %}
+
+
+{% macro serviceDocs(component) %}
+{% if component.properties %}
+<h2>Properties</h2>
+<section class="properties">
+  {$ propertyTable(component.properties) $}
+</section>
+{% endif %}
+{% if component.methods %}
+<h2>Methods</h2>
+{% for method in component.methods %}
+<section class="method">
+  <h1>{$ component.name $}#{$ method.name $}</h1>
+  {$ method.description | marked $}
+  {% if method.params %}
+  <h2 class="arguments">Arguments</h2>
+  {$ paramTable(method.params) $}
+  {% endif %}
+  {% if method.returns %}
+  <h2 class="returns">Returns: <span>{$ typeList(method.returns.typeList) $}</span></h2>
+  {$ method.returns.description | marked $}
+  {% endif %}
+</section>
+{% endfor %}
+{% endif %}
+{% endmacro %}

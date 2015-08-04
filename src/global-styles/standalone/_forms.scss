@@ -1,18 +1,10 @@
-
+/* take back the .label power! */
 label {
-  // Override TWBS
   margin: 0;
-
-  & + input[type="text"],
-  & + input[type="search"],
-  & + input[type="email"],
-  & + textarea {
-    margin-left: $input-label-spacing;
-  }
+  font-weight: normal;
 }
 
-label.label {
-  // Explicitly reset "label.label" to not use TWBS .label defaults
+.label {
   display: inline-block;
   padding: 0;
   font-size: 100%;
@@ -22,107 +14,159 @@ label.label {
   text-align: left;
   text-align: start;
   white-space: normal;
+  vertical-align: initial;
   border-radius: 0;
-  // Now style label.label as normal...
 }
 
-label.label,
-label.label-inline {
-  font-weight: bold;
-  font-size: 14px;
-  vertical-align: middle;
+.form-control {
+  @include transition(none);
 }
 
-label.label {
-  margin-bottom: 10px;
-}
 
-label.label-inline {
-  display: inline;
-  margin-right: 10px;
-}
-
-.form-group.required label,
-label.required {
-  &:after {
-    content: "*";
-    color: lighten($input-border-color-invalid, 10%);
-    margin-left: $input-validation-icon-gutter;
-  }
-}
-
-.form-group {
-  margin-bottom: 10px;
-
-  label + .form-control {
-    margin-top: $input-label-spacing;
-    margin-left: 0;
-  }
-}
-
-@media (min-width: $screen-sm-min) {
-  .navbar-form .form-group {
-    margin-bottom: 0;
-  }
-}
-
-.form-inline {
-
+/* address labels */
+.form-horizontal {
   .form-group {
-
     label {
-
-      & + .form-control {
-        margin-top: 0;
-        margin-left: $input-label-spacing;
+      text-align: right;
+      padding-right: 10px;
+      word-wrap: break-word;
+    }
+    
+    label:not(.long-label) {
+      line-height: 28px;
+    }
+    
+    .radio-inline,
+    .checkbox-inline,
+    .radio,
+    .checkbox {
+      padding-top: 0;
+      
+      input {
+        margin-left: 0;
+      }
+      
+      label {
+        padding-left: 0;
+        line-height: 1;
+      }
+    }
+    
+    .radio,
+    .checkbox {
+      min-height: 0;
+      
+      &:first-of-type {
+        margin-top: 5px;
+      }
+      
+      & + .radio,
+      & + .checkbox {
+        margin-top: 5px; // UXD tweak
       }
     }
   }
 }
 
+.show-required .form-group.required {
+  .radio:first-of-type,
+  .checkbox:first-of-type {
+    margin-top: 0;
+  }
+}
+
 .form-horizontal {
-
+  & + .form-horizontal {
+    margin-top: 20px;
+  }
+  
   .form-group {
+    margin-bottom: 8px;
+    
+    .form-group:first-of-type {
+      margin-top: 8px;
+    }
+  }
 
-    label {
+}
+
+
+/* legends */
+.form-horizontal {
+  legend {
+    border-bottom: 0 none;
+    margin-bottom: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    
+    & > * {
       display: block;
-    }
-
-    input[type="text"],
-    input[type="search"],
-    input[type="search"] + .button,
-    input[type="email"],
-    textarea {
-      margin-top: $input-label-spacing;
-      margin-left: 0;
+      
+      &:not(:first-child) {
+        font-size: 12px;
+        font-weight: normal;
+        margin-top: 5px;
+      }
     }
   }
 }
 
-&, &.luna label {
-  // Luna tweaks here
+
+
+/* switches */
+.form-horizontal .switch-button .switch-button-container label {
+    text-align: center;
+    padding-right: 0;
+    line-height: 16px;
 }
 
-&.pulsar label {
-  // Pulsar tweaks here
-}
 
 
-
-.radio,
-.checkbox {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-.radio-inline,
-.checkbox-inline {
-  padding-left: 0;
-
-  & + .radio-inline,
-  & + .checkbox-inline {
-    margin-left: 15px;
+/* status messages */
+.form-horizontal {
+  position: relative;
+  
+  .form-status-message {
+    width: 100%;
+    padding: 1em 0;
+    margin: 0;
+    margin-bottom: 8px;
+    position: relative;
+    
+    &:before {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      position: absolute;
+      top: 50%;
+      @include translateY(-50%);
+    }
+    
+    &.error {
+      background-color: $colors__red4;
+      color: darken($colors__red4, 60%);
+      padding-left: luna-sprite-width(warning_red_red) * 3;
+      
+      &:before {
+        @include luna-sprite(warning_red_red);
+        width: luna-sprite-width(warning_red_red);
+        height: luna-sprite-height(warning_red_red);
+        left: luna-sprite-width(warning_red_red);
+      }
+    }
+    
+    &.success {
+      background-color: $colors__green3;
+      color: darken($colors__green3, 60%);
+      padding-left: luna-sprite-width(checkmark_green) * 3;
+      
+      &:before {
+        @include luna-sprite(checkmark_green);
+        width: luna-sprite-width(checkmark_green);
+        height: luna-sprite-height(checkmark_green);
+        left: luna-sprite-width(checkmark_green);
+      }
+    }
   }
+
 }
-
-

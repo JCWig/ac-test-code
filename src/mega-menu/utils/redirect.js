@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle, no-console */
 
 /**
- * @ngdoc object
  * @name utils.redirect
  * @param {String} url The URL to redirect to
  * @description Tiny wrapper around `window.location` to allow us to stub out tests properly.

@@ -31,7 +31,8 @@
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
-            <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex1.selectedState" items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+            <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex1.selectedState"
+                           items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
         </span>
     </div>
     <br/>
@@ -45,7 +46,7 @@
                         <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
                             custom: {{selectedItem[textProperty]}}
                         </span>
-                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
+                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{vm.placeholder}}</span>
                     </span>
                 </akam-dropdown-selected>
 
@@ -92,7 +93,7 @@
                         <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
                             custom: {{selectedItem[textProperty]}}
                         </span>
-                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
+                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{vm.placeholder}}</span>
                     </span>
 
                 </akam-dropdown-selected>
@@ -125,7 +126,7 @@
                         <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
                             custom: {{selectedItem[textProperty]}}
                         </span>
-                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>
+                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{vm.placeholder}}</span>
                     </span>
 
                 </akam-dropdown-selected>
@@ -141,7 +142,7 @@
     </div>
     <br/>
     <div>
-        <h2>Default dropdown with a list of objects with keys and a filter</h2>
+        <h2 ng-click="vm.addState();">Default dropdown with a list of objects with keys and a filter</h2>
         <span>
             <!--filterable="name"-->
             <akam-dropdown ng-model="vm.ex8.selectedState" text-property="state.name" key-property="state.key"
@@ -159,12 +160,18 @@
                 .controller('DropdownAppController', DropdownAppController)
                 .config(configFunction);
 
-        DropdownAppController.$inject = ['$log'];
-        function DropdownAppController($log) {
+        DropdownAppController.$inject = ['$log', 'translate'];
+        function DropdownAppController($log, translate) {
             var vm = this;
             vm.test = 'test';
             vm.disabled = false;
-
+            
+            // localized string coming from the example locale file
+            vm.placeholder = translate.async('examples.dropdown.select.one').then(function(v){
+                vm.placeholder = v;
+                $log.log("placeholder text is " + vm.placeholder);
+            });
+            
             vm.stateObjects = [
                 {name: 'Colorado'},
                 {name: 'Connecticut'},
@@ -215,6 +222,12 @@
 
             vm.doChange = function(item) {
                 $log.log('selected item changed', item);
+            };
+
+            vm.addState = function() {
+                if (vm.stateObjectsWithKeys.length === 10) {
+                    vm.stateObjectsWithKeys.push({state: {key: 'key11', name: 'Florida'}});
+                }
             };
         }
 

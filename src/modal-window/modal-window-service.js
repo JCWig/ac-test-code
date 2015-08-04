@@ -8,8 +8,6 @@ module.exports = function($modal, $templateCache, $rootScope, $q, translate, sta
      *
      * @name modalWindow#open
      *
-     * @methodOf akamai.components.modal-window.service:modalWindow
-     *
      * @description Opens a new modal window.
      *
      * @param {object} options A hash with the options specified below.

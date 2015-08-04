@@ -3,8 +3,10 @@ var angular = require('angular'),
   sanitize = require('angular-sanitize');
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name akamai.components.table
+ * @image table
+ *
  * @requires module:ngSanitize
  * @requires module:akamai.components.uuid
  * @requires module:akamai.components.indeterminate-progress
@@ -12,7 +14,43 @@ var angular = require('angular'),
  * @requires module:akamai.components.menu-button
  * @requires module:akamai.components.i18n
  * @requires module:akamai.components.utils
- * @description Provides a directive that creates a Luna-compatible data table.
+ *
+ * @description
+ * Data table uses labeled rows and columns used to display a collection of structured data.
+ * Rows alternate color for readability; this allows the user to follow a row without confusing
+ * it with another. Row content can include text, numbers, links, buttons, and images.The data
+ * table component can be adapted to specific needs by enabling and disabling functionality.
+ *
+ * @guideline When the user needs to view, inspect, and access moderate numbers of similarly
+ * structured items.
+ * @guideline When the user needs to find, filter, or select items.
+ * @guideline When you want the full representation of a simple item (e.g., a record with
+ * a few attributes) or a summary view of a more complex item
+ * (e.g., a grid of complex records identified by name and modification date).
+ *
+ * @example table.html
+ * <akam-table items="rows"
+ *   id-property="custom-id-field"
+ *   on-change="myRowSelectionCallback(selectedItems)"
+ *   selected-items="selectedItems">
+ *   <akam-table-toolbar>
+ *     <span>Custom toolbar markup here</span>
+ *     <i class="my-awesome-icon"></i>
+ *   </akam-table-toolbar>
+ *   <akam-table-row>
+ *     <akam-table-column row-property="id" header-name="my.id">
+ *       <span>CUSTOM MARKUP</span>{{ row.id }}
+ *     </akam-table-column>
+ *   <akam-table-column row-property="name" not-filterable not-sortable header-name="my.name">
+ *     {{ row.name }} is awesome
+ *   </akam-table-column>
+ *   <akam-table-column row-property="street" header-name="my.street"></akam-table-column>
+ *   <akam-table-column class="column-action" header-name="my.actions">
+ *    <akam-menu-button></akam-menu-button>
+ *   </akam-table-column>
+ *   </akam-table-row>
+ * </akam-table>
+ *
  */
 module.exports = angular.module('akamai.components.table', [
   sanitize,
@@ -27,7 +65,7 @@ module.exports = angular.module('akamai.components.table', [
 
 /**
  * @ngdoc directive
- * @name akamai.components.table.directive:akamTable
+ * @name akamTable
  * @description Creates a data table control. NOTE: If you are using an `<akam-menu-button>`
  * inside of a data table row, then you must put the class ".column-action" on the
  * `<akam-table-column>` in order to achieve UXD approved behavior. See the data table example
@@ -70,35 +108,11 @@ module.exports = angular.module('akamai.components.table', [
  * @param {String} [no-filter-results-message] Optional string which is the message that will be
  * displayed when there is no data displayed based upon some filter
  *
- * @example
- *  <akam-table items="rows"
- *    id-property="custom-id-field"
- *    on-change="myRowSelectionCallback(selectedItems)"
- *    selected-items="selectedItems">
- *    <akam-table-toolbar>
- *      <span>Custom toolbar markup here</span>
- *      <i class="my-awesome-icon"></i>
- *    </akam-table-toolbar>
- *    <akam-table-row>
- *      <akam-table-column row-property="id" header-name="my.id">
- *        <span>CUSTOM MARKUP</span>{{ row.id }}
- *      </akam-table-column>
- *      <akam-table-column row-property="name" not-filterable not-sortable header-name="my.name">
- *        {{ row.name }} is awesome
- *      </akam-table-column>
- *      <akam-table-column row-property="street" header-name="my.street"></akam-table-column>
- *      <akam-table-column class="column-action" header-name="my.actions">
- *        <akam-menu-button></akam-menu-button>
- *      </akam-table-column>
- *    </akam-table-row>
- *  </akam-table>
  */
   .directive('akamTable', require('./table-directive'))
 
 /**
- * @private
- * @ngdoc service
- * @name akamai.components.table.service:akamTableTemplate
+ * @name akamTableTemplate
  *
  * @description
  * Minimal service to get the inner template, representing the `<table>` element for

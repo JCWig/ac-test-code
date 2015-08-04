@@ -18,7 +18,7 @@
 <div class="container">
   <h1 class="page-header">Menu Button Examples</h1>
 </div>
-
+<br />
 <div class="container">
   <h3>Menu Button</h3>
   <akam-menu-button>
@@ -27,17 +27,18 @@
     <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
   </akam-menu-button>
 </div>
-
+<br />
 <div class="container">
   <h3>Split Button</h3>
-  <akam-menu-button default-text="examples.appNames.pm" on-click="vm.process('pm')">
+  <akam-menu-button default-text="Choose Application">
+    <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
   </akam-menu-button>
 </div>
-
+<br />
 <div class="container">
-  <h3>Small button</h3>
+  <h3>Small Button</h3>
   <akam-menu-button size="small">
     <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
     </akam-menu-button-item>
@@ -47,22 +48,45 @@
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
   </akam-menu-button>
 </div>
-
+<br />
 <div class="container">
-  <h3>Disabled</h3>
+  <h3>Disabled Buttons</h3>
   <akam-menu-button is-disabled="vm.isDisabled">
     <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
     </akam-menu-button-item>
   </akam-menu-button>
   <akam-menu-button is-disabled="vm.isDisabled" default-text="examples.appNames.pm" on-click="vm.process('pm')">
-    <akam-menu-button-item text="This is a very long name name name name name" ng-click="vm.process('tq')"></akam-menu-button-item>
+    <akam-menu-button-item text="This is a very long name being used as a menu button item for Tranquility" ng-click="vm.process('tq')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
   </akam-menu-button>
-
+   
   <div class="form-group">
     <input id="disableSplitButton" type="checkbox" name="disableSplitButton" ng-model="vm.isDisabled" />
     <label class="label" for="disableSplitButton">Disable</label>
   </div>
+</div>
+<br />
+  <div class="container">
+      <h3>Available Button Sizes</h3>
+      <akam-menu-button size="small">
+        <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
+        </akam-menu-button-item>
+      </akam-menu-button>
+       <akam-menu-button size="medium">
+        <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
+        </akam-menu-button-item>
+      </akam-menu-button>
+      <br />
+      <akam-menu-button size="small" default-text="examples.appNames.pm" on-click="vm.process('pm')">
+        <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
+        <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+      </akam-menu-button>
+      <akam-menu-button size="medium" default-text="examples.appNames.pm" on-click="vm.process('pm')">
+        <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
+        <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+      </akam-menu-button>
+    </div>
+
 </div>
 
 <script src="../dist/akamai-core.js"></script>
@@ -77,6 +101,8 @@
       id: 'examples.appNames.tq'
     }, {
       id: 'examples.appNames.bc'
+    }, {
+      id: 'This is a very long name being used as a menu button item for Property Manager'
     }];
 
     this.isDisabled = true;

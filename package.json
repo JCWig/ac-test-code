@@ -1,6 +1,6 @@
 {
   "name": "akamai-core",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": "Akamai Technologies Inc.",
   "description": "Akamai Core provides a set of Angular.js directives and services as well as styles that implement UXD guidelines.",
   "license": "Apache-2.0",
@@ -85,14 +85,17 @@
     "shelljs": "^0.5.1",
     "sinon": "^1.15.3",
     "sync-locale": "0.1.3",
-    "ui-select": "git://github.com/kkotosky/ui-select.git#752283eb951bf64f32df50d2ea29d6f61e08a4f1",
+    "ui-select": "git://github.com/mbollar/ui-select#c13eb298e5d497e70e432b9b26926ffd25068bdf",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2",
-    "yargs": "^3.10.0"
+    "yargs": "^3.10.0",
+    "dgeni": "^0.4.1",
+    "dgeni-packages": "git://github.com/yleviel/dgeni-packages.git#5144a1d7fd167d815aae6143e86e56a12959c66a"
   },
   "files": [
-    "dist"
+    "dist",
+    "docs"
   ],
   "ignore": [
     "**/.*",
@@ -106,11 +109,12 @@
     "test": "npm run clean && npm run compass && npm run gulp -- test --no-color --production",
     "start": "npm run compass && npm run gulp -- default --no-color",
     "jenkins-build": "./jenkins.sh build",
-    "build": "npm test -- --jenkins && npm run gulp -- build --no-color --production",
+    "build": "npm test -- --jenkins && npm run gulp -- build --no-color --production && npm run docs",
     "generic-build": "npm run compass && npm run gulp -- build --no-color --production",
     "netstorage": "./jenkins.sh deploy",
     "deploy": "npm run generic-build && npm run gulp -- deploy --no-color",
     "locale": "./node_modules/.bin/sync-locale",
-    "locale-jenkins": "npm run locale -- --xunitreport --reportdir=./reports/unit/"
+    "locale-jenkins": "npm run locale -- --xunitreport --reportdir=./reports/unit/",
+    "docs": "npm run gulp -- docs"
   }
 }

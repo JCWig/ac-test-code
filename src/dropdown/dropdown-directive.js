@@ -26,6 +26,25 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
     }
   }
 
+  function createItemMap(items, scope) {
+    var keyId, itemSet = [];
+
+    if (!scope.keyPropertyFn) {
+      return [];
+    }
+
+    angular.forEach(items, function(item) {
+      keyId = scope.keyPropertyFn(item);
+
+      if (!itemSet[keyId]) {
+        itemSet[keyId] = item;
+      } else {
+        throw new Error('Keys must be unique when using the key-property attribute');
+      }
+    });
+    return itemSet;
+  }
+
   return {
     restrict: 'E',
     require: '^ngModel',
@@ -75,15 +94,7 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         scope.keyProperty = attrs.keyProperty;
         scope.keyPropertyFn = $parse(scope.keyProperty || 'id');
 
-        angular.forEach(scope.items, function(item) {
-          var keyId = scope.keyPropertyFn(item);
-
-          if (!itemSet[keyId]) {
-            itemSet[keyId] = item;
-          } else {
-            throw new Error('Keys must be unique when using the key-property attribute');
-          }
-        });
+        itemSet = createItemMap(scope.items, scope);
       }
 
       scope.filterProperty = attrs.filterable;
@@ -96,8 +107,8 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
           ngModel.$setViewValue(scope.keyPropertyFn(item));
         } else {
           ngModel.$setViewValue(item);
-
         }
+        scope.isOpen = false;
       };
       scope.clearSelectedItem = function($event) {
         $event.stopPropagation();
@@ -153,11 +164,14 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         if (typeof selectedScope !== 'undefined') {
           selectedScope.selectedItem = modelValue;
         }
-        scope.isOpen = false;
 
         if (typeof scope.onChange === 'function') {
           scope.onChange({item: modelValue});
         }
+      });
+
+      scope.$watchCollection('items', function(items) {
+        itemSet = createItemMap(items, scope);
       });
 
       selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);

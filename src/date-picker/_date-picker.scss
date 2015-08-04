@@ -9,8 +9,6 @@ $datepicker-text-color-disabled: #e6e6e6;
   position: relative;
 
   input {
-    //padding-top used to center text due to removal of border-shadow when date selected
-    padding-top: 2px;
     padding-right: #{$input-border-radius * 2};
     -webkit-appearance: textfield;
     outline: 0;
@@ -18,7 +16,7 @@ $datepicker-text-color-disabled: #e6e6e6;
     & ~ .button,
     & ~ .btn {
       min-width: 0;
-      margin-left: -#{$input-border-radius * 3};
+      margin-left: -#{$input-border-radius * 2};
       @include border-left-radius(0);
       i {
         @include disable-magic-sprite-selectors(calendar);

@@ -57,17 +57,12 @@ module.exports = function(modalWindow, translate, $rootScope) {
 
     /**
      * @ngdoc method
-     *
      * @name messageBox#showInfo
-     *
-     * @methodOf akamai.components.message-box.service:messageBox
      *
      * @description Opens a new message box to present general
      * information.
      *
-     * @param {object} options A hash supporting a subset of
-     * {@link akamai.components.modal-window `modalWindow`}
-     * options, along with:
+     * @param {object} options A hash supporting a subset of modalWindow options, along with:
      *
      * - `headline` (string) A required headline for the message
      *   box, limited to 25 characters.
@@ -78,9 +73,7 @@ module.exports = function(modalWindow, translate, $rootScope) {
      * - `details` (string) Optional additional text, which
      *   appears collapsed by default.
      *
-     * @return {object} A
-     * {@link akamai.components.modal-window `modalWindow`}
-     * instance.
+     * @return {Object} A modalWindow instance.
      *
      */
     showInfo: function(options) {
@@ -92,19 +85,14 @@ module.exports = function(modalWindow, translate, $rootScope) {
 
     /**
      * @ngdoc method
-     *
      * @name messageBox#showQuestion
-     *
-     * @methodOf akamai.components.message-box.service:messageBox
      *
      * @description Opens a new message box that asks a question.
      *
-     * @param {object} options A hash of options detailed above in
+     * @param {Object} options A hash of options detailed above in
      * `showInfo()`
      *
-     * @return {object} A
-     * {@link akamai.components.modal-window `modalWindow`}
-     * instance.
+     * @return {Object} A modalWindow instance.
      *
      */
     showQuestion: function(options) {
@@ -116,19 +104,14 @@ module.exports = function(modalWindow, translate, $rootScope) {
 
     /**
      * @ngdoc method
-     *
      * @name messageBox#showError
-     *
-     * @methodOf akamai.components.message-box.service:messageBox
      *
      * @description Opens a new message box to acknowledge errors.
      *
-     * @param {object} options A hash of options detailed below in
+     * @param {Object} options A hash of options detailed below in
      * `showInfo()`
      *
-     * @return {object} A
-     * {@link akamai.components.modal-window `modalWindow`}
-     * instance.
+     * @return {Object} A modalWindow instance
      *
      */
     showError: function(options) {

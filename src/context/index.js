@@ -3,7 +3,7 @@ var angular = require('angular'),
   contextProvider = require('./context-provider');
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name akamai.components.context
  * @requires ngCookies
  * @description a module that handles the various context switching methods in the portal.
@@ -14,16 +14,14 @@ module.exports = angular.module('akamai.components.context', [
 ])
 
 /**
- * @ngdoc service
- * @name akamai.components.context.service:LUNA_GROUP_QUERY_PARAM
+ * @name LUNA_GROUP_QUERY_PARAM
  * @description Constant value representing the query parameter that should be sent to set the
  * group ID.
  */
   .constant('LUNA_GROUP_QUERY_PARAM', 'gid')
 
 /**
- * @ngdoc service
- * @name akamai.components.context.service:LUNA_ASSET_QUERY_PARAM
+ * @name LUNA_ASSET_QUERY_PARAM
  * @description Constant value representing the query parameter that should be sent to set the
  * asset (property) ID.
  */
@@ -31,16 +29,29 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc provider
- * @name akamai.components.context.service:contextProvider
+ * @name contextProvider
  * @description A injectable object that is used to get and set account, group and property
  * information in a Luna application. The provider is used to configure how the application will
  * behave with respect to Luna groups and properties. This is also used for applications that are
  * deployed outside of Luna. The default application type is `contextProvider.ACCOUNT_CONTEXT`.
+ *
+ * **Unit Testing**
+ *
+ * When unit testing, you may run into issues with unexpected HTTP requests being made and tests
+ * failing. This is because the context component does some things auto-magically depending on what
+ * context you define. Test modules should be defined to have the OTHER_CONTEXT. This can be
+ * accomplished with the following snippet being placed inside a `beforeEach` block.
+ *
+ * <pre>
+ * angular.mock.module(function(contextProvider) {
+ *   contextProvider.setApplicationContext(contextProvider.OTHER_CONTEXT);
+ * });
+ * </pre>
  */
 
 /**
  * @ngdoc method
- * @name akamai.components.context.service:contextProvider#setApplicationContext
+ * @name contextProvider#setApplicationContext
  * @description Method to set the application context. It should be one of
  * `contextProvider.GROUP_CONTEXT`, `contextProvider.ACCOUNT_CONTEXT` or
  * `contextProvider.OTHER_CONTEXT`
@@ -49,18 +60,18 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc property
- * @name akamai.components.context.service:contextProvider#GROUP_CONTEXT
+ * @name contextProvider#GROUP_CONTEXT
  * @description Value for an application that is group aware. Applications that are group aware
  * must have a "gid" query parameter in all of their routes. Otherwise, an exception will be
  * thrown. Changes to this query parameter will change the current group. Also, any APIs that are
- * not in the {@link akamai.components.auth `auth`} blacklist will automatically have a "gid" and
+ * not in the {@link akamai.components.auth auth} blacklist will automatically have a "gid" and
  * "aid" query parameter appended to the request.
  * @type {String}
  */
 
 /**
  * @ngdoc property
- * @name akamai.components.context.service:contextProvider#ACCOUNT_CONTEXT
+ * @name contextProvider#ACCOUNT_CONTEXT
  * @description Value for an application that does not care about groups, but exists in Luna.
  * Applications that set this value do not need the "gid" query parameter. The Mega Menu will not
  * render the breadcrumb trail. Note, that since this behaves independently from the auth module,
@@ -71,7 +82,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc property
- * @name akamai.components.context.service:contextProvider#OTHER_CONTEXT
+ * @name contextProvider#OTHER_CONTEXT
  * @description Value for an application that is outside of Luna. This is used to prevent code
  * from running that doesn't make sense from outside of Luna. For example, this disables inclusion
  * of Google Analytics code, which is used for tracking purposes in Luna.
@@ -84,15 +95,15 @@ module.exports = angular.module('akamai.components.context', [
  * @requires $q
  * @requires $window
  * @requires $cookies
- * @requires akamai.components.context.service:LUNA_GROUP_QUERY_PARAM
- * @requires akamai.components.context.service:LUNA_ASSET_QUERY_PARAM
- * @name akamai.components.context.service:context
+ * @id contextService
+ * @name context
  * @description This service is primarily used to get and set information about the current
  * group and property. This allows for applications to change group or property information without
  * having to reload the page. It will also, under the hood, handle making the calls necessary to
  * switch the current group or property from a Luna perspective.
  *
- * ## General Usage
+ * **General Usage**
+ *
  * Typically, group or property information is fetched like the following:
  *
  * ```
@@ -128,7 +139,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc property
- * @name akamai.components.context.service:context#account
+ * @name contextService#account
  * @description Gets or sets the current account. Currently, setting the account doesn't cause
  * anything special to happen on the backend. The Mega Menu will set the account on page load, by
  * reading the AKALASTMANAGED account cookie, so there is little reason for applications to change
@@ -141,12 +152,12 @@ module.exports = angular.module('akamai.components.context', [
  * - **cookieValue** - `String` - The raw, base64 encoded, cookie value. Includes the contract and
  * the ID.
  *
- * @returns {Object} The account object
+ * @type {Object} The account object
  */
 
 /**
  * @ngdoc property
- * @name akamai.components.context.service:context#group
+ * @name contextService#group
  * @description Gets or sets information about the current group. See above for usage. A Luna group
  * has the following properties:
  *
@@ -164,7 +175,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc property
- * @name akamai.components.context.service:context#property
+ * @name contextService#property
  * @description Gets or sets information about the current property. See above for usage. A Luna
  * property object has the following properties
  *
@@ -177,7 +188,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name akamai.components.context.service:context#isGroupContext
+ * @name contextService#isGroupContext
  * @description
  * Convenience method to determine if this is a group aware application or not.
  *
@@ -186,7 +197,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name akamai.components.context.service:context#isAccountContext
+ * @name contextService#isAccountContext
  * @description
  * Convenience method to determine if this is a account aware application or not.
  *
@@ -195,7 +206,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name akamai.components.context.service:context#isOtherContext
+ * @name contextService#isOtherContext
  * @description
  * Convenience method to determine if this is neither group nor account aware (i.e. a non-Portal
  * application).
@@ -205,14 +216,14 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name akamai.components.context.service:context#getAccountFromCookie
+ * @name contextService#getAccountFromCookie
  * @description Parses the AKALASTMANAGEDACCOUNT cookie and returns the account object.
  * @returns {Object} the account object. Returns a null account object if the cookie doesn't exist.
  */
 
 /**
  * @ngdoc method
- * @name akamai.components.context.service:context#accountChanged
+ * @name contextService#accountChanged
  * @description Determines if the user has switched accounts.
  * @returns {Boolean} true if the account cookie has changed since the first time the account
  * object is set. Rendering the mega menu calls `getAccountFromCookie` if the application is
@@ -221,7 +232,7 @@ module.exports = angular.module('akamai.components.context', [
 
 /**
  * @ngdoc method
- * @name akamai.components.context.service:context#resetAccount
+ * @name contextService#resetAccount
  * @description Resets the current account to the initial account.
  * @returns {HttpPromise} A promise to change the account
  */
