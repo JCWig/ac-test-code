@@ -24,7 +24,7 @@
   <pre>selected start date: {{vm.start}}</pre>
   <pre>selected end Date: {{vm.end}}</pre>
   <h4 class="title">date range</h4>
-  <akam-date-range ng-model="vm.selectedRange" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+  <akam-date-range ng-model="vm.dateRange1" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <br/>
   <br/>
   <div class="form-group">
@@ -39,7 +39,7 @@
   </div>
   <br/>  <br/>  <br/>
   <h4 class="title">date range with initial values</h4>
-  <akam-date-range ng-model="vm.selectedRange" format="{{vm.format}}" start-date="vm.startDate" end-date="vm.endDate" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+  <akam-date-range ng-model="vm.dateRange2" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('dateRangeApp', ['akamai.components.date-range'])
@@ -50,12 +50,13 @@
 
   function DateRangeAppController($log) {
     var vm = this;
-    vm.range = "";
-    vm.start = "";
-    vm.end = "";
     var d = new Date();
-    vm.startDate = new Date(d.getFullYear(), d.getMonth(), 3);
-    vm.endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    var startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    var endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+
+    vm.dateRange1 = {startDate:'', endDate:''};
+    vm.dateRange2 = {startDate:startDate, endDate:endDate};
+
     vm.btnName = "preload dates";
 
     vm.formats = [{
@@ -79,6 +80,7 @@
       vm.range = range;
       vm.start = start;
       vm.end = end;
+      $log.log(range);
     }
   }
 

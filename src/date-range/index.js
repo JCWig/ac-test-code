@@ -30,13 +30,10 @@ module.exports = angular.module('akamai.components.date-range', [
    *
    * @name akamai.components.date-range.directive:akamDateRange
    *
-   * @description Creates a date range picker that wraps 2 angular bootstrap date picker
+   * @description Creates a date range picker that wraps one angular bootstrap date picker,
+   * expands 2 months view
    *
-   * @param {String} ng-model The selected date ranger
-   *
-   * @param {String} [start-date=''] value can be empty or pre populate the start date range value
-   *
-   * @param {String} [end-date=''] value can be empty or pre populate the end date range value
+   * @param {String} ng-model The dateRange hash contains startDate and endDate properties.
    *
    * @param {string} [format='EEE, MMM dd, yyyy'], format value can be passed in to
    * override the default value
@@ -49,9 +46,7 @@ module.exports = angular.module('akamai.components.date-range', [
    *
    * @param {Function} [onSelect] A callback function to parent scope once
    * any changes to start or end date, the value is appended selected date range text
-   *
-   * @param {Function} onSearch A async call function everytime input changes:
-   * keydown, paste and etc
+   * and start and end date objects
    *
    */
   .directive('akamDateRange', require('./date-range-directive'));

@@ -25,6 +25,11 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
   function DateRangeController($scope, $element, $attr) {
     var d = new Date();
 
+    if (!this.dateRange || !$attr.ngModel) {
+      $log.error('ng-model is required for date range component directive.');
+      return;
+    }
+
     this.opened = false;
     this.rangeStart = {};
     this.rangeEnd = {};
@@ -95,10 +100,10 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
 
       //tell date picker to clear up the range values
       $scope.$broadcast('initialDateRange', {
-          startDate: '',
-          endDate: '',
-          id: this.id
-        });
+        startDate: '',
+        endDate: '',
+        id: this.id
+      });
     };
 
     this.showClearIcon = function() {
@@ -115,6 +120,8 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
 
   function linkFn(scope, elem, attr, controller) {
     var initialized = false,
+      //controller = ctrls[0],
+      //ngModel = ctrls[1],
       range;
 
     function initialize() {
@@ -126,10 +133,8 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
         return;
       }
 
-      start = angular.isDefined(attr.startDate) && angular.isDate(controller.startDate) ?
-        controller.startDate : '';
-      end = angular.isDefined(attr.endDate) && angular.isDate(controller.endDate) ?
-        controller.endDate : '';
+      start = controller.dateRange.startDate;
+      end = controller.dateRange.endDate;
 
       if (start && end) {
         //if startDate greater then endDate, swap date value
@@ -163,7 +168,7 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
       });
     }
 
-    scope.$watch('dr.format', function() {
+    scope.$watch('dateRange.format', function() {
       var start = controller.rangeStart.selectedValue,
         end = controller.rangeEnd.selectedValue;
 
@@ -185,6 +190,9 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
     scope.$on('$destroy', setRangeValues);
 
     scope.setViewValue = function(value, start, end) {
+      controller.dateRange.startDate = start;
+      controller.dateRange.endDate = end;
+
       if (angular.isFunction(controller.onSelect) && attr.onSelect) {
         controller.onSelect({
           selectedDateRange: value,
@@ -239,10 +247,9 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
     controller: DateRangeController,
     controllerAs: 'dateRange',
     bindToController: {
+      dateRange: '=ngModel',
       onSelect: '&',
       placeholder: '@?',
-      startDate: '=?',
-      endDate: '=?',
       isDisabled: '=?',
       format: '@?'
     },
@@ -253,4 +260,5 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
 };
 
 module.exports.$inject = ['translate', 'uuid', '$log', '$timeout', 'dateFilter', '$rootScope',
-'dateRangeService'];
+  'dateRangeService'
+];
