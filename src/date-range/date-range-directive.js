@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilter, drService) {
+module.exports = function(translate, uuid, $log, $timeout, dateFilter, $rootScope, drService) {
 
   var config = {
     options: {
@@ -91,6 +91,13 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       this.rangeEnd.selectedValue = '';
       this.rangeSelected = false;
       this.lastCloseOnRangeStart = true;
+
+      //tell date picker to clear up the range values
+      $scope.$broadcast('initialDateRange', {
+          startDate: '',
+          endDate: '',
+          id: this.id
+        });
     };
 
     this.showClearIcon = function() {
@@ -145,7 +152,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
         //interesting, have to wait for $digest completed
         dr.format = dr.format || config.FORMAT;
 
-        //send the event to child directive to handle with those values
+        //send the event to child directive to handle with range values
         //use timeout to make sure the children directives are ready
         scope.$broadcast('initialDateRange', {
           startDate: start,
@@ -172,7 +179,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       }
     });
 
-    //it needs to listen unique id for identify correct instance
+    //this event is sent from date picker directive when range is selected
     $rootScope.$on('rangeSelected', setRangeValues);
     scope.$on('$destroy', setRangeValues);
 
@@ -213,6 +220,7 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
       } else { //assuming only start date has value, calendar stay open
         dr.rangeStart.selectedValue = dateFilter(start, dr.format);
         dr.rangeEnd.selectedValue = end;
+
         $timeout(function() {
           dr.opened = true;
         });
@@ -239,6 +247,5 @@ module.exports = function(translate, uuid, $log, $timeout, $rootScope, dateFilte
   };
 };
 
-module.exports.$inject = ['translate', 'uuid', '$log', '$timeout', '$rootScope', 'dateFilter',
-  'dateRangeService'
-];
+module.exports.$inject = ['translate', 'uuid', '$log', '$timeout', 'dateFilter', '$rootScope',
+'dateRangeService'];

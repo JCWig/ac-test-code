@@ -30,14 +30,14 @@
   <div class="form-group">
     <div>
       <input id="disableDateRange" type="checkbox" name='disableDateRange' ng-model='vm.disabled' />
-      <label class="label" for="disableDateRange">To disabled above component</label>
+      <label class="label" for="disableDateRange">To disabled component</label>
     </div>
     <div>
       <select id="DateRangeFormat" ng-options="format.value as format.label for format in vm.formats" ng-model="vm.format"></select>
-      <label class="label" for="DateRangeFormat">To select different formats</label>
+      <label class="label" for="DateRangeFormat">To select different date formats</label>
     </div>
   </div>
-  <br/>
+  <br/>  <br/>  <br/>
   <h4 class="title">date range with initial values</h4>
   <akam-date-range ng-model="vm.selectedRange" format="{{vm.format}}" start-date="vm.startDate" end-date="vm.endDate" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <script src="../dist/akamai-core.js"></script>

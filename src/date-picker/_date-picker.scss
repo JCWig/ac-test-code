@@ -5,7 +5,7 @@ $datepicker-cell-size: 27px;
 $monthpicker-cell-size: 60px;
 $datepicker-text-color-disabled: #e6e6e6;
 
-.akam-date-picker {
+.akam-date-picker.akam-date-picker {
   position: relative;
 
   input {
@@ -96,6 +96,7 @@ $datepicker-text-color-disabled: #e6e6e6;
     top: 100%;
     min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
     @include box-shadow($global-box-shadow);
+    overflow: inherit;
 
     // Override TWBS
     .btn,

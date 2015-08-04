@@ -24,7 +24,7 @@ module.exports = function($provide) {
       scope.selectedStart = dt;
     }
 
-    //send event back to parent, the range done
+    //send event back to parent dirctive with range values
     $rootScope.$emit('rangeSelected', {
       selectedStart: scope.selectedStart,
       selectedEnd: scope.selectedEnd,
@@ -93,8 +93,9 @@ module.exports = function($provide) {
           });
         });
 
-        //this event is sent deom parent, only once, can be no range, can be initial range
-        //and also save the id for who is interested in receiving events
+        //this event is sent from date range drective(parent) to tell date the range values.
+        //values can be empty or initial range values. it also saves unique id per directive,
+        //so it can be identified to whom is interested in receiving events
         initialDateRange = scope.$on('initialDateRange', function(event, info) {
           scope.selectedStart = info.startDate;
           scope.selectedEnd = info.endDate;
@@ -148,8 +149,8 @@ module.exports = function($provide) {
 
         scope.pairSelect = function(currentDate) {
           setRangeAndNotify(currentDate, scope, $rootScope);
-          //not to call scope.select(dt), it will make active as ...
-          //and let range directive to determine open or not
+          //not to call scope.select(dt), it will make this active when open
+          //let date range directive to determine whether or not open
         };
 
         //copied from datepicker.js

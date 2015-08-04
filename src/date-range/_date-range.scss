@@ -1,133 +1,130 @@
-$date-range-disabled-color: #e6e6e6;
-$date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
-$date-range--dropdown-boxshadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.15);
-$date-range-in-range-color: #666666;
-$date-range-in-range-background-color: #CEE7FF;
-$date-range-width: 145px;
-$date-range-dash-width: 31px;
-$date-range-dash-space: 9px;
-.akam-date-picker.akam-date-range {
-  width: 100%;
-  vertical-align: middle;
-  height: $autocomplete-height;
-  position: relative;
-  .range-picker input {
-    position: absolute;
-  }
-  div.range-selection {
-    .range-start,
-    .range-end {
-      &.open-from span {
-        border: 1px solid $input-border-color-focus;
-        background-color: white;
-        @include box-shadow(none);
-      }
-    }
-  }
-  div.range-selection {
-    & span {
+  $date-range-disabled-color: #e6e6e6;
+  $date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
+  $date-range--dropdown-boxshadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.15);
+  $date-range-in-range-color: #666666;
+  $date-range-in-range-background-color: #CEE7FF;
+  $date-range-width: 145px;
+  $date-range-dash-width: 31px;
+  $date-range-gap-space: 9px;
+  $date-range-startend-color: #0099CC;
+  .akam-date-picker.akam-date-range {
+    width: 100%;
+    vertical-align: middle;
+    height: $autocomplete-height;
+    position: relative;
+    .range-picker input {
       position: absolute;
     }
-    .range-start,
-    .range-end {
-      & > span {
-        //position: absolute;
-        display: inline-block;
-        height: $input-height;
-        padding: 6px $input-padding;
-        background-color: $input-background-color;
-        border: 1px solid $border-color;
-        border-radius: $border-radius;
-        //min-width: 160px;
-        width: $date-range-width;
-        @include box-shadow($date-range-boxshadow);
-      }
-      & ~ .button,
-      & ~ .btn {
-        min-width: 0;
-        margin-left: 332px; //2*$date-range-width + $date-range-dash-width + $date-range-dash-space;
-        position: absolute;
-        @include border-left-radius(0);
-        i {
-          @include disable-magic-sprite-selectors(calendar);
+    div.range-selection {
+      .range-start,
+      .range-end {
+        &.open-from span {
+          border: 1px solid $input-border-color-focus;
+          background-color: white;
+          @include box-shadow(none);
         }
       }
-      & .date-range-placeholder {
-        color: #ccc;
-        font-style: italic;
+    }
+    div.range-selection {
+      & span {
+        position: absolute;
+      }
+      .range-start,
+      .range-end {
+        & > span {
+          height: $input-height;
+          padding: 6px $input-padding;
+          background-color: $input-background-color;
+          border: 1px solid $border-color;
+          border-radius: $border-radius;
+          width: $date-range-width;
+          @include box-shadow($date-range-boxshadow);
+        }
+        & ~ .button,
+        & ~ .btn {
+          min-width: 0;
+          margin-left: 2*$date-range-width + $date-range-dash-width + $date-range-gap-space;
+          position: absolute;
+          @include border-left-radius(0);
+          i {
+            @include disable-magic-sprite-selectors(calendar);
+          }
+        }
+        & .date-range-placeholder {
+          color: #ccc;
+          font-style: italic;
+        }
+      }
+      div.range-end > span {
+        margin-left: $date-range-width + $date-range-dash-width;
+      }
+      div span.range-dash {
+        margin-left: $date-range-width + $date-range-gap-space;
+        margin-top: 6px;
+      }
+      .range-clear > i.clear-date {
+        margin-left: 2*$date-range-width + $date-range-dash-width + 2*$date-range-gap-space + 38px;
+      }
+      &.disabled {
+        & span:not(.range-dash) {
+          @include placeholder-enhanced($date-range-disabled-color, italic);
+          color: $date-range-disabled-color;
+          border-color: $input-border-color-disabled;
+          background-color: $input-background-color-disabled;
+          box-shadow: none;
+          cursor: default;
+          @include user-select(none);
+        }
       }
     }
-    .range-end > span {
-      margin-left: $date-range-width + $date-range-dash-width;
-    }
-    .range-dash > span {
-      margin-left: $date-range-width + $date-range-dash-space;
-      margin-top: 6px;
-    }
-    .range-clear > span {
-      .clear-date {
-        margin-left: 376px;
+    ul.dropdown-menu {
+      table {
+        tbody td {
+          position: relative;
+          height: 23px;
+          border: none !important;
+          &.space {
+            width: 5%;
+            border-width: 0;
+          }
+          table tr th[role="heading"] {
+            padding-bottom: 5px;
+          }
+          table tbody tr td[role="gridcell"] {
+            border: 1px solid #ccc !important;
+          }
+        }
+        tbody td button {
+
+          &.in-range {
+            color: $date-range-in-range-color;
+            background-color: $date-range-in-range-background-color;
+          }
+          &.selected-start,
+          &.selected-end {
+            background-color: $date-range-startend-color;
+            & > span {
+              color: white;
+            }
+          }
+          &.selected-start {
+
+          }
+          &.selected-end {
+
+          }
+          span.text-info {
+            -webkit-box-shadow: inset 0px 0px 0px 2px $date-range-startend-color;
+            -moz-box-shadow: inset 0px 0px 0px 2px $date-range-startend-color;
+            box-shadow: inset 0px 0px 0px 2px $date-range-startend-color;
+            background-color: $button-primary-text-color!important;
+          }
+        }
       }
-    }
-    &.disabled :not(.range-dash) {
-      & span{
-        @include placeholder-enhanced($date-range-disabled-color, italic);
-        color: $date-range-disabled-color;
-        border-color: $input-border-color-disabled;
-        background-color: $input-background-color-disabled;
-        box-shadow: none;
-        cursor: default;
-        @include user-select(none);
+      thead tr:first-child th {
+        padding-bottom: 15px;
+        text-align: center;
+        line-height: 2;
       }
     }
   }
-  ul.dropdown-menu {
-    min-width: 450px;
-    padding: $datepicker-padding;
-    outline: none;
-    border: 1px solid #ccc;
-    border-radius: $border-radius;
-    margin-top: 0;
-    top: 29px;
-    //min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
-    @include box-shadow($date-range--dropdown-boxshadow);
-    table {
-      width: 100%;
-      td.space {
-        width: 5%;
-        border-width: 0;
-      }
-    }
-  }
-  table tbody td button {
-    &.in-range {
-      color: $date-range-in-range-color;
-      background-color: $date-range-in-range-background-color;
-    }
-    &.selected-start.selected-end {
-      background-color: #0099CC;
-      border-radius: 8px/40%;
-    }
-    &.selected-start,
-    &.selected-end {
-      background-color: #0099CC;
-    }
-    &.selected-start {
-      border-top-right-radius: 40%;
-      border-bottom-right-radius: 40%;
-    }
-    &.selected-end {
-      border-top-left-radius: 40%;
-      border-bottom-left-radius: 40%;
-    }
-    span.text-info {
-      -webkit-box-shadow: inset 0px 0px 0px 2px #0099CC;
-      -moz-box-shadow: inset 0px 0px 0px 2px #0099CC;
-      box-shadow: inset 0px 0px 0px 2px #0099CC;
-      background-color: $button-primary-text-color!important;
-    }
-  }
-  ul.dropdown-menu tbody td {
-    height: 23px;
-  }
-}
