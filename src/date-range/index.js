@@ -16,7 +16,7 @@ module.exports = angular.module('akamai.components.date-range', [
     require('../i18n').name,
     require('../uuid').name
   ])
-  .config(require('./daterange-decorator'))
+  .config(require('./date-range-decorator'))
   /**
    * @ngdoc service
    *

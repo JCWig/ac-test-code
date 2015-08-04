@@ -34,7 +34,7 @@ module.exports = function(dateFilter) {
    */
   function compareDates(d1, d2) {
     if (angular.isDate(d1) && angular.isDate(d2)) {
-      //d2.setHours(d1.getHours());
+      d2.setHours(d1.getHours());
       return d1.getTime() === d2.getTime();
     }
     return false;

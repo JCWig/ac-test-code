@@ -5,7 +5,7 @@
   $date-range-in-range-background-color: #CEE7FF;
   $date-range-width: 145px;
   $date-range-dash-width: 31px;
-  $date-range-gap-space: 9px;
+  $date-range-gap-width: 9px;
   $date-range-startend-color: #0099CC;
   .akam-date-picker.akam-date-range {
     width: 100%;
@@ -43,7 +43,7 @@
         & ~ .button,
         & ~ .btn {
           min-width: 0;
-          margin-left: 2*$date-range-width + $date-range-dash-width + $date-range-gap-space;
+          margin-left: 2*$date-range-width + $date-range-dash-width + $date-range-gap-width;
           position: absolute;
           @include border-left-radius(0);
           i {
@@ -59,11 +59,11 @@
         margin-left: $date-range-width + $date-range-dash-width;
       }
       div span.range-dash {
-        margin-left: $date-range-width + $date-range-gap-space;
+        margin-left: $date-range-width + $date-range-gap-width;
         margin-top: 6px;
       }
       .range-clear > i.clear-date {
-        margin-left: 2*$date-range-width + $date-range-dash-width + 2*$date-range-gap-space + 38px;
+        margin-left: 2*$date-range-width + $date-range-dash-width + 2*$date-range-gap-width + 38px;
       }
       &.disabled {
         & span:not(.range-dash) {
