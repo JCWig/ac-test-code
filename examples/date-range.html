@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="../dist/akamai-core.css">
   <style type="text/css">
   .title {
-    margin-top: 30px;
+    margin-top: 40px;
+    margin-bottom: 20px;
   }
 
   .form-group div {
@@ -23,7 +24,7 @@
   <pre>selected Date Range: {{vm.range}}</pre>
   <pre>selected start date: {{vm.start}}</pre>
   <pre>selected end Date: {{vm.end}}</pre>
-  <h4 class="title">date range</h4>
+  <h4 class="title">An example of date range picker</h4>
   <akam-date-range ng-model="vm.dateRange1" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <br/>
   <br/>
@@ -38,7 +39,7 @@
     </div>
   </div>
   <br/>  <br/>  <br/>
-  <h4 class="title">date range with initial values</h4>
+  <h4 class="title">An example of date range picker with initial values</h4>
   <akam-date-range ng-model="vm.dateRange2" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <script src="../dist/akamai-core.js"></script>
   <script>

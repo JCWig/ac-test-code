@@ -1,11 +1,11 @@
   $date-range-disabled-color: #e6e6e6;
-  $date-range-boxshadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
-  $date-range--dropdown-boxshadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.15);
+  $date-range-boxshadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
   $date-range-in-range-color: #666666;
   $date-range-in-range-background-color: #CEE7FF;
   $date-range-width: 145px;
-  $date-range-dash-width: 31px;
-  $date-range-gap-width: 9px;
+  $date-range-from-width: 35px;
+  $date-range-to-width: 25px;
+  $date-range-gap-width: 7px;
   $date-range-startend-color: #0099CC;
   .akam-date-picker.akam-date-range {
     width: 100%;
@@ -14,16 +14,6 @@
     position: relative;
     .range-picker input {
       position: absolute;
-    }
-    div.range-selection {
-      .range-start,
-      .range-end {
-        &.open-from span {
-          border: 1px solid $input-border-color-focus;
-          background-color: white;
-          @include box-shadow(none);
-        }
-      }
     }
     div.range-selection {
       & span {
@@ -43,7 +33,8 @@
         & ~ .button,
         & ~ .btn {
           min-width: 0;
-          margin-left: 2*$date-range-width + $date-range-dash-width + $date-range-gap-width;
+          border-left: 0;
+          margin-left: 2*$date-range-width + $date-range-from-width + $date-range-to-width + 2*$date-range-gap-width;
           position: absolute;
           @include border-left-radius(0);
           i {
@@ -54,19 +45,41 @@
           color: #ccc;
           font-style: italic;
         }
+        &.opened {
+          & ~ .button,
+          & ~ .btn {
+            border-color: #999999;
+            border-left-color: $input-border-color-focus;
+            @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+          }
+          span {
+            border: 1px solid $input-border-color-focus;
+            background-color: white;
+            @include box-shadow(none);
+          }
+        }
+      }
+      div.range-start > span {
+        margin-left: $date-range-from-width + $date-range-gap-width;
       }
       div.range-end > span {
-        margin-left: $date-range-width + $date-range-dash-width;
+        @include border-right-radius(0);
+        margin-left: $date-range-width + 2*$date-range-gap-width + $date-range-to-width + $date-range-from-width;
       }
-      div span.range-dash {
-        margin-left: $date-range-width + $date-range-gap-width;
-        margin-top: 6px;
+      div.range-from,
+      div.range-to {
+        & > span {
+          margin-top: 6px;
+          font-size: $text-font-size;
+          font-weight: bold;
+          font-family: $text-font-family;
+        }
       }
-      .range-clear > i.clear-date {
-        margin-left: 2*$date-range-width + $date-range-dash-width + 2*$date-range-gap-width + 38px;
+      div.range-to > span {
+        margin-left: $date-range-width + 2*$date-range-gap-width + $date-range-from-width;
       }
       &.disabled {
-        & span:not(.range-dash) {
+        & span:not(.range-title) {
           @include placeholder-enhanced($date-range-disabled-color, italic);
           color: $date-range-disabled-color;
           border-color: $input-border-color-disabled;
@@ -75,12 +88,15 @@
           cursor: default;
           @include user-select(none);
         }
+        & span.range-title {
+          color: $icon-color_disabled
+        }
       }
     }
     ul.dropdown-menu {
+      margin-top: 28px;
       table {
         tbody td {
-          //position: relative;
           height: 23px;
           border: none !important;
           &.space {
@@ -103,12 +119,11 @@
           &.selected-start,
           &.selected-end {
             background-color: $date-range-startend-color;
+            color: $input-text-color;
             & > span {
-              //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            position: absolute;
               color: $input-background-color-focus;
-
               &:hover {
-                color: $input-text-color;
+                background-color: $date-range-startend-color;
               }
             }
           }
@@ -121,7 +136,7 @@
             width: 0;
             border-top: 10px solid $date-range-in-range-background-color;
             border-bottom: 10px solid $date-range-in-range-background-color;
-            border-left: 5px solid rgba(0,0,0,0);
+            border-left: 5px solid rgba(0, 0, 0, 0);
           }
           &.selected-end:before {
             content: '';
@@ -132,13 +147,19 @@
             width: 0;
             border-top: 10px solid $date-range-in-range-background-color;
             border-bottom: 10px solid $date-range-in-range-background-color;
-            border-right: 5px solid rgba(0,0,0,0);
+            border-right: 5px solid rgba(0, 0, 0, 0);
           }
-          span.text-info {
-            -webkit-box-shadow: inset 0px 0px 0px 2px $date-range-startend-color;
-            -moz-box-shadow: inset 0px 0px 0px 2px $date-range-startend-color;
-            box-shadow: inset 0px 0px 0px 2px $date-range-startend-color;
-            background-color: $button-primary-text-color!important;
+          &.selected-start.selected-end:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            border-top: 4px solid $date-range-in-range-background-color;
+            border-bottom: 4px solid $date-range-in-range-background-color;
+            border-right:12px solid rgba(0, 0, 0, 0);
+            border-left: 12px solid rgba(0, 0, 0, 0);
           }
         }
       }

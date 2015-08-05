@@ -12,7 +12,11 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
       maxMode: 'day'
     },
     FORMAT: 'EEE, MMM dd, yyyy',
-    DELAY_CLOSING: 5000
+    DELAY_CLOSING: 2400,
+    LABELS: {
+      FROM: 'From',
+      TO: 'To'
+    }
   };
 
   function showRangePoint(scope, id, numberToSkip) {
@@ -49,6 +53,12 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
         $scope.dateRange.rangeStart.placeholder = $scope.dateRange.rangeEnd.placeholder = value;
       });
     }
+
+    //they need to be getting from locale file
+    this.labels = {
+      from: config.LABELS.FROM,
+      to: config.LABELS.TO
+    };
 
     dateRangeService.setMinMaxDate(this.rangeStart, d);
 
@@ -90,7 +100,7 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
       }
       this.toggle(e);
     };
-
+/*
     this.clearDateRange = function(e) {
       preventOtherEvents(e);
       this.rangeStart.selectedValue = '';
@@ -105,11 +115,12 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
         id: this.id
       });
     };
-
+*/
+/*
     this.showClearIcon = function() {
       return (this.rangeStart.selectedValue || this.rangeEnd.selectedValue) && !this.isDisabled;
     };
-
+*/
     function preventOtherEvents(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -120,8 +131,6 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
 
   function linkFn(scope, elem, attr, controller) {
     var initialized = false,
-      //controller = ctrls[0],
-      //ngModel = ctrls[1],
       range;
 
     function initialize() {
