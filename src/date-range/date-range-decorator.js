@@ -2,26 +2,41 @@ var angular = require('angular');
 
 module.exports = function($provide) {
 
-  function setRangeAndNotify(dt, scope, $rootScope) {
-    var cloneDate = new Date();
-
-    //if has range, break the range, but select starting date
-    if (scope.rangeSelected) {
+  function firstTimeSelect(dt, scope) {
+    if (dt.getMonth() + 1 === scope.pairingMonth) {
+      scope.selectedEnd = dt;
+      scope.selectedStart = null;
+    } else {
       scope.selectedStart = dt;
       scope.selectedEnd = null;
-      scope.rangeSelected = false;
-      //if range is not selected, but start date already selected
-    } else if (angular.isDate(scope.selectedStart)) {
+    }
+    scope.rangeSelected = false;
+  }
+
+  function secondTimeSelect(dt, scope) {
+    var cloneDate = new Date();
+
+    if (angular.isDate(scope.selectedStart)) {
       scope.selectedEnd = dt;
-      scope.rangeSelected = true;
-      //if slected start date greater than current selected date, then swap
-      if (scope.selectedStart.getTime() > dt.getTime()) {
-        cloneDate = angular.copy(scope.selectedStart);
-        scope.selectedStart = dt;
-        scope.selectedEnd = cloneDate;
-      }
-    } else { //if first time selecting, then make satrt date as...
+    } else if (angular.isDate(scope.selectedEnd)) {
       scope.selectedStart = dt;
+    }
+    if (scope.selectedStart.getTime() > scope.selectedEnd.getTime()) {
+      cloneDate = angular.copy(scope.selectedStart);
+      scope.selectedStart = scope.selectedEnd;
+      scope.selectedEnd = cloneDate;
+    }
+    scope.rangeSelected = true;
+  }
+
+  function setRangeAndNotify(dt, scope, $rootScope) {
+    //if has range, break the range, but select starting date
+    if (scope.rangeSelected) {
+      firstTimeSelect(dt, scope);
+    } else if (!angular.isDate(scope.selectedStart) && !angular.isDate(scope.selectedEnd)) {
+      firstTimeSelect(dt, scope);
+    } else {
+      secondTimeSelect(dt, scope);
     }
 
     //send event back to parent dirctive with range values
@@ -99,8 +114,12 @@ module.exports = function($provide) {
         initialDateRange = scope.$on('initialDateRange', function(event, info) {
           scope.selectedStart = info.startDate;
           scope.selectedEnd = info.endDate;
-          scope.rangeSelected = true;
           scope.callerId = info.id;
+          if (angular.isDate(info.startDate) && angular.isDate(info.endDate)) {
+            scope.rangeSelected = true;
+          } else {
+            scope.rangeSelected = false;
+          }
         });
 
         moveRangePoint = scope.$on('moveRangePoint', function(event, info) {
@@ -142,15 +161,8 @@ module.exports = function($provide) {
           return false;
         };
 
-        scope.activeSelect = function(currentDate) {
+        scope.dateSelect = function(currentDate) {
           setRangeAndNotify(currentDate, scope, $rootScope);
-          return scope.select(currentDate);
-        };
-
-        scope.pairSelect = function(currentDate) {
-          setRangeAndNotify(currentDate, scope, $rootScope);
-          //not to call scope.select(dt), it will make this active when open
-          //let date range directive to determine whether or not open
         };
 
         //copied from datepicker.js
@@ -182,6 +194,8 @@ module.exports = function($provide) {
           }
           scope.pairTitle = dateFilter(firstDayOfMonth, ctrl.formatDayTitle);
           scope.pairRows = ctrl.split(days, 7);
+          scope.pairingMonth = month + 1;
+          scope.currentMonth = month;
         }
       };
     };

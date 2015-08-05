@@ -12,7 +12,7 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
       maxMode: 'day'
     },
     FORMAT: 'EEE, MMM dd, yyyy',
-    DELAY_CLOSING: 2400,
+    DELAY_CLOSING: 1800,
     LABELS: {
       FROM: 'From',
       TO: 'To'
@@ -100,27 +100,7 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
       }
       this.toggle(e);
     };
-/*
-    this.clearDateRange = function(e) {
-      preventOtherEvents(e);
-      this.rangeStart.selectedValue = '';
-      this.rangeEnd.selectedValue = '';
-      this.rangeSelected = false;
-      this.lastCloseOnRangeStart = true;
 
-      //tell date picker to clear up the range values
-      $scope.$broadcast('initialDateRange', {
-        startDate: '',
-        endDate: '',
-        id: this.id
-      });
-    };
-*/
-/*
-    this.showClearIcon = function() {
-      return (this.rangeStart.selectedValue || this.rangeEnd.selectedValue) && !this.isDisabled;
-    };
-*/
     function preventOtherEvents(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -216,7 +196,7 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
 
       //if it is not for you, don't handle it
       if (info.id && info.id !== controller.id) {
-        return;
+        return false;
       }
 
       start = info.selectedStart;
@@ -239,7 +219,7 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
 
       } else {
         controller.rangeStart.selectedValue = dateFilter(start, controller.format);
-        controller.rangeEnd.selectedValue = end;
+        controller.rangeEnd.selectedValue = dateFilter(end, controller.format);
 
         $timeout(function() {
           //assuming only start date has value, calendar stay open
@@ -247,7 +227,6 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
         });
       }
     }
-
     initialize();
   }
 

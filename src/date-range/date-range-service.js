@@ -61,8 +61,8 @@ module.exports = function(dateFilter) {
     var y = date.getFullYear(),
       m = date.getMonth();
 
-    rangeStart.minDate = new Date(y, m - 1, 1);
-    rangeStart.maxDate = new Date(y + 1, m + 1, 0);
+    rangeStart.minDate = new Date(y - 1, m - 1, 1);
+    rangeStart.maxDate = new Date(y + 1 + 1, m + 1, 0);
   }
 
   /**

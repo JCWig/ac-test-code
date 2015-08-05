@@ -23,8 +23,8 @@
           </tr>
           <tr ng-repeat="row in rows track by $index">
             <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{ dt.uid }}" aria-disabled="{{!!dt.disabled}}">
-              <button type="button" style="width:100%;" class="btn btn-default btn-sm" ng-class="{'in-range': isInRange(dt.date), 'selected-start': isStart(dt.date), 'selected-end': isEnd(dt.date)}" ng-click="activeSelect(dt.date)" ng-disabled="dt.disabled" tabindex="-1">
-                <span ng-class="{'text-muted': dt.secondary, 'text-info': dt.current}">{{ dt.label }}</span>
+              <button type="button" style="width:100%;" class="btn btn-default btn-sm" ng-class="{'in-range': isInRange(dt.date), 'selected-start': isStart(dt.date), 'selected-end': isEnd(dt.date)}" ng-click="dateSelect(dt.date)" ng-disabled="dt.disabled" tabindex="-1">
+                <span ng-class="{'text-muted': dt.secondary, 'text-info': dt.current && !isStart(dt.date) && !isEnd(dt.date)}">{{ dt.label }}</span>
               </button>
             </td>
           </tr>
@@ -40,7 +40,7 @@
           </tr>
           <tr ng-repeat="row in pairRows track by $index">
             <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{ dt.uid }}" aria-disabled="{{!!dt.disabled}}">
-              <button type="button" style="width:100%;" class="btn btn-default btn-sm" ng-class="{'in-range': isInRange(dt.date), 'selected-start': isStart(dt.date), 'selected-end': isEnd(dt.date)}" ng-click="pairSelect(dt.date)" ng-disabled="dt.disabled" tabindex="-1">
+              <button type="button" style="width:100%;" class="btn btn-default btn-sm" ng-class="{'in-range': isInRange(dt.date), 'selected-start': isStart(dt.date), 'selected-end': isEnd(dt.date)}" ng-click="dateSelect (dt.date)" ng-disabled="dt.disabled" tabindex="-1">
                 <span ng-class="{'text-muted': dt.secondary, 'text-info': dt.current}">{{ dt.label }}</span>
               </button>
             </td>
