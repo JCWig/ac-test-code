@@ -66,6 +66,8 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
       preventOtherEvents(e);
 
       if (this.rangeSelected) {
+        //send event to child directive
+        //if it needs to move to start or end month, depends on the direction
         moveRangePoint($scope, this.id, direction);
       }
       if (!this.isDisabled) {

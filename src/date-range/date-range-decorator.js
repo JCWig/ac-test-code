@@ -126,6 +126,10 @@ module.exports = function($provide) {
           if (info.id !== scope.callerId) {
             return;
           }
+          //logic:
+          //if month moved increases, but the direction to the previous month,
+          //then move back the view, and reset the tracking to the opposite number,
+          //so next time, it will move forward. vise versa.
           if (monthMovingTracking > 0 && info.direction === 'prev') {
             scope.move(-monthMovingTracking);
             monthMovingTracking = -monthMovingTracking;
