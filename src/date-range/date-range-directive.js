@@ -19,10 +19,10 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
     }
   };
 
-  function showRangePoint(scope, id, numberToSkip) {
+  function moveRangePoint(scope, id, direction) {
     scope.$broadcast('moveRangePoint', {
       id: id,
-      moveValue: numberToSkip
+      direction: direction
     });
   }
 
@@ -62,43 +62,23 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
 
     dateRangeService.setMinMaxDate(this.rangeStart, d);
 
-    this.toggle = function(e) {
+    this.toggle = function(e, direction) {
       preventOtherEvents(e);
+
+      if (this.rangeSelected) {
+        moveRangePoint($scope, this.id, direction);
+      }
       if (!this.isDisabled) {
         this.opened = !this.opened;
       }
     };
 
     this.rangeStartToggle = function(e) {
-      if (this.opened) { //to close
-        this.lastCloseOnRangeStart = true;
-        this.openFromRangeStart = false;
-        this.openFromRangeEnd = false;
-      } else {
-        if (!this.lastCloseOnRangeStart && this.rangeSelected) {
-          //showRangePoint($scope, this.id, -4);
-        }
-        this.openFromRangeStart = true;
-        this.openFromRangeEnd = false;
-      }
-
-      this.toggle(e);
+      this.toggle(e, 'prev');
     };
 
     this.rangeEndToggle = function(e) {
-      if (this.opened) { //to close
-        this.lastCloseOnRangeStart = false;
-        this.openFromRangeStart = false;
-        this.openFromRangeEnd = false;
-      } else { //to open
-        if (this.lastCloseOnRangeStart && this.rangeSelected) {
-          //showRangePoint($scope, this.id, 4);
-
-        }
-        this.openFromRangeEnd = true;
-        this.openFromRangeStart = false;
-      }
-      this.toggle(e);
+      this.toggle(e, 'next');
     };
 
     function preventOtherEvents(e) {

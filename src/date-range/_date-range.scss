@@ -14,6 +14,7 @@
     position: relative;
     .range-picker input {
       position: absolute;
+      margin-left: $date-range-from-width + $date-range-gap-width;
     }
     div.range-selection {
       & span {
@@ -94,7 +95,6 @@
       }
     }
     ul.dropdown-menu {
-      margin-top: 28px;
       table {
         tbody td {
           height: 23px;

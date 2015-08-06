@@ -86,7 +86,7 @@ module.exports = function($provide) {
 
     directive.compile = function() {
       return function(scope, element, attrs, ctrl) {
-        var initialDateRange, moveRangePoint;
+        var initialDateRange, moveRangePoint, monthMovingTracking = 0;
 
         link.apply(this, arguments);
         scope.rangeSelected = false;
@@ -126,7 +126,15 @@ module.exports = function($provide) {
           if (info.id !== scope.callerId) {
             return;
           }
-          scope.move(info.moveValue);
+          if (monthMovingTracking > 0 && info.direction === 'prev') {
+            scope.move(-monthMovingTracking);
+            monthMovingTracking = -monthMovingTracking;
+          }
+
+          if (monthMovingTracking < 0 && info.direction === 'next') {
+            scope.move(-monthMovingTracking);
+            monthMovingTracking = -monthMovingTracking;
+          }
         });
 
         scope.$on('$destroy', function() {
@@ -163,6 +171,16 @@ module.exports = function($provide) {
 
         scope.dateSelect = function(currentDate) {
           setRangeAndNotify(currentDate, scope, $rootScope);
+        };
+
+        scope.movePrev = function(n) {
+          monthMovingTracking = monthMovingTracking + n;
+          return scope.move(n);
+        };
+
+        scope.moveNext = function(n) {
+          monthMovingTracking = monthMovingTracking + n;
+          return scope.move(n);
         };
 
         //copied from datepicker.js
