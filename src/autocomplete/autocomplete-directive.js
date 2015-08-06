@@ -228,7 +228,7 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
 
   return {
     restrict: 'E',
-    require: 'akamAutocomplete',
+    require: ['akamAutocomplete', '^ngModel'],
     controller: AutocompleteController,
     controllerAs: 'ac',
     bindToController: {
