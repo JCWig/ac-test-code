@@ -55,7 +55,6 @@ class DateRangeService {
     return currentDate >= start && currentDate <= end;
   }
 
-
   /**
    * setStartMinMax set start date min and max values
    * @param {object} rangeStart start date object
@@ -102,5 +101,4 @@ function rangeServiceFactory(dateFilter) {
 }
 
 rangeServiceFactory.$inject = ['dateFilter'];
-
 export default rangeServiceFactory;

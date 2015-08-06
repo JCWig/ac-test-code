@@ -1,6 +1,8 @@
-var angular = require('angular');
+import angular from 'angular';
+import template from './templates/date-picker-day-popup.tpl.html';
 
-module.exports = function($provide) {
+function DateRangeDecorator($provide) {
+  const [PREV, NEXT] = ["prev", "next"];
 
   function firstTimeSelect(dt, scope) {
     if (dt.getMonth() + 1 === scope.pairingMonth) {
@@ -14,7 +16,7 @@ module.exports = function($provide) {
   }
 
   function secondTimeSelect(dt, scope) {
-    var cloneDate = new Date();
+    let cloneDate = new Date();
 
     if (angular.isDate(scope.selectedStart)) {
       scope.selectedEnd = dt;
@@ -50,13 +52,13 @@ module.exports = function($provide) {
 
   //folowing functions copied from datepicker.js
   function fixTimeZone(date) {
-    var hours = date.getHours();
+    let hours = date.getHours();
 
     date.setHours(hours === 23 ? hours + 2 : 0);
   }
 
   function getDates(startDate, n) {
-    var dates = new Array(n),
+    let dates = new Array(n),
       current = new Date(startDate),
       i = 0,
       date;
@@ -71,39 +73,39 @@ module.exports = function($provide) {
   }
 
   function datePickerDirective($delegate, $timeout, $rootScope, dateFilter, dateRangeService) {
-    var link;
+    let link;
 
     // since: directives could potentially share names, the provider returns an array
     // therefore: get the first item as we know we only have one.
-    var directive = $delegate[0];
+    let directive = $delegate[0];
 
     // override the default template for daypicker (template is evaluated before templateUrl)
-    directive.template = require('./templates/date-picker-day-popup.tpl.html');
+    directive.template = template;
     directive.templateUrl = undefined;
 
     // reference the original link function
     link = directive.link;
 
-    directive.compile = function() {
-      return function(scope, element, attrs, ctrl) {
-        var initialDateRange, moveRangePoint, monthMovingTracking = 0;
+    directive.compile = () => {
+      return function (scope, element, attrs, ctrl) {
+        let initialDateRange, moveRangePoint, monthMovingTracking = 0;
 
         link.apply(this, arguments);
         scope.rangeSelected = false;
 
         //show/hide nav previous button depend on the minDate
-        scope.showNavPrev = function() {
+        scope.showNavPrev = () => {
           return dateRangeService.isFirstDateExceedMinDate(ctrl.activeDate, ctrl.minDate);
         };
 
         //show/hide nav next button depend on the maxDate
-        scope.showNavNext = function() {
+        scope.showNavNext = () => {
           return dateRangeService.isLastDateNotOverMaxDate(ctrl.activeDate, ctrl.maxDate);
         };
 
-        scope.$watch('rows', function() {
+        scope.$watch('rows', () => {
           //timeout may not be needed, use for making sure the rows have been constructed
-          $timeout(function() {
+          $timeout(() => {
             createPairingRows();
           });
         });
@@ -111,7 +113,7 @@ module.exports = function($provide) {
         //this event is sent from date range drective(parent) to tell date the range values.
         //values can be empty or initial range values. it also saves unique id per directive,
         //so it can be identified to whom is interested in receiving events
-        initialDateRange = scope.$on('initialDateRange', function(event, info) {
+        initialDateRange = scope.$on('initialDateRange', (event, info) => {
           scope.selectedStart = info.startDate;
           scope.selectedEnd = info.endDate;
           scope.callerId = info.id;
@@ -122,7 +124,7 @@ module.exports = function($provide) {
           }
         });
 
-        moveRangePoint = scope.$on('moveRangePoint', function(event, info) {
+        moveRangePoint = scope.$on('moveRangePoint', (event, info) => {
           if (info.id !== scope.callerId) {
             return;
           }
@@ -130,23 +132,23 @@ module.exports = function($provide) {
           //if month moved increases, but the direction to the previous month,
           //then move back the view, and reset the tracking to the opposite number,
           //so next time, it will move forward. vise versa.
-          if (monthMovingTracking > 0 && info.direction === 'prev') {
+          if (monthMovingTracking > 0 && info.direction === PREV) {
             scope.move(-monthMovingTracking);
             monthMovingTracking = -monthMovingTracking;
           }
 
-          if (monthMovingTracking < 0 && info.direction === 'next') {
+          if (monthMovingTracking < 0 && info.direction === NEXT) {
             scope.move(-monthMovingTracking);
             monthMovingTracking = -monthMovingTracking;
           }
         });
 
-        scope.$on('$destroy', function() {
+        scope.$on('$destroy', () => {
           initialDateRange();
           moveRangePoint();
         });
 
-        scope.isInRange = function(currentDate) {
+        scope.isInRange = (currentDate) => {
           //if the date fall in the first date or the last date, consider it not in the range
           if (!scope.rangeSelected && scope.isStart(currentDate) || scope.isEnd(currentDate)) {
             return false;
@@ -159,30 +161,30 @@ module.exports = function($provide) {
           return false;
         };
 
-        scope.isStart = function(currentDate) {
+        scope.isStart = (currentDate) => {
           if (scope.selectedStart) {
             return dateRangeService.areDatesEqual(currentDate, scope.selectedStart);
           }
           return false;
         };
 
-        scope.isEnd = function(currentDate) {
+        scope.isEnd = (currentDate) => {
           if (scope.selectedEnd) {
             return dateRangeService.areDatesEqual(currentDate, scope.selectedEnd);
           }
           return false;
         };
 
-        scope.dateSelect = function(currentDate) {
+        scope.dateSelect = (currentDate) => {
           setRangeAndNotify(currentDate, scope, $rootScope);
         };
 
-        scope.movePrev = function(n) {
+        scope.movePrev = (n) => {
           monthMovingTracking = monthMovingTracking + n;
           return scope.move(n);
         };
 
-        scope.moveNext = function(n) {
+        scope.moveNext = (n) => {
           monthMovingTracking = monthMovingTracking + n;
           return scope.move(n);
         };
@@ -230,4 +232,5 @@ module.exports = function($provide) {
   $provide.decorator('daypickerDirective', datePickerDirective);
 };
 
-module.exports.$inject = ['$provide'];
+DateRangeDecorator.$inject = ['$provide'];
+export default DateRangeDecorator;
