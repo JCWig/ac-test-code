@@ -49,13 +49,13 @@
         &.opened {
           & ~ .button,
           & ~ .btn {
-            border-color: #999999;
+            border-color: #999;
             border-left-color: $input-border-color-focus;
             @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
           }
           span {
             border: 1px solid $input-border-color-focus;
-            background-color: white;
+            background-color: #FFFFFF;
             @include box-shadow(none);
           }
         }

@@ -39,7 +39,6 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
     this.rangeEnd = {};
     this.rangeStart.selectedValue = this.rangeEnd.selectedValue = '';
     this.rangeSelected = false;
-    this.lastCloseOnRangeStart = true;
     this.openFromRangeStart = false;
     this.openFromRangeEnd = false;
 
@@ -76,10 +75,14 @@ module.exports = function(translate, uuid, $log, $timeout, dateFilter,
     };
 
     this.rangeStartToggle = function(e) {
+      this.openFromRangeStart = true;
+      this.openFromRangeEnd = false;
       this.toggle(e, 'prev');
     };
 
     this.rangeEndToggle = function(e) {
+      this.openFromRangeStart = false;
+      this.openFromRangeEnd = true;
       this.toggle(e, 'next');
     };
 
