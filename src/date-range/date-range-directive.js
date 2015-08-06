@@ -25,10 +25,15 @@ function moveRangePoint(scope, id, direction) {
 }
 
 class DateRangeController {
-  constructor(scope, uuid, dateRangeService) {
+  constructor(scope, $log, $timeout, dateFilter, $rootScope, translate, uuid, dateRangeService) {
     this.dateRangeService = dateRangeService;
     this.uuid = uuid;
     this.scope = scope;
+    this.$log = $log;
+    this.$timeout = $timeout;
+    this.dateFilter = dateFilter;
+    this.$rootScope = $rootScope;
+    this.translate = translate;
 
     this.opened = false;
     this.rangeStart = {};
@@ -81,178 +86,162 @@ class DateRangeController {
     e.stopPropagation();
   }
 }
-DateRangeController.$inject = ['$scope', 'uuid', 'dateRangeService'];
+DateRangeController.$inject = ['$scope', '$log', '$timeout',
+  'dateFilter', '$rootScope', 'translate', 'uuid', 'dateRangeService'];
 
-class DateRangeDirective {
-  constructor($log, $timeout, dateFilter, $rootScope, translate, dateRangeService) {
-    this.$log = $log;
-    this.$timeout = $timeout;
-    this.dateFilter = dateFilter;
-    this.$rootScope = $rootScope;
-    this.translate = translate;
-    this.dateRangeService = dateRangeService;
+function linkFn(scope, elem, attr) {
 
-    this.restrict = 'E';
-    this.require = 'akamDateRange';
-    this.controller = DateRangeController;
-    this.controllerAs = 'dateRange';
-    this.bindToController = {
+  let initialized = false,
+    ctrl = scope.dateRange,
+    range;
+
+  if (!ctrl.dateRange || !attr.ngModel) {
+    ctrl.$log.error('ng-model is required for date range component directive.');
+    return;
+  }
+
+  if (attr.placeholder) {
+    ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = attr.placeholder;
+  } else {
+    ctrl.translate.async('components.date-range.placeholder').then((value) => {
+      ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
+    });
+  }
+
+  //this event is sent from date picker directive when range is selected
+  ctrl.$rootScope.$on('rangeSelected', setRangeValues);
+  scope.$on('$destroy', setRangeValues);
+
+  function setViewValue(value, start, end) {
+    ctrl.dateRange.startDate = start;
+    ctrl.dateRange.endDate = end;
+
+    if (angular.isFunction(ctrl.onSelect) && attr.onSelect) {
+      ctrl.onSelect({
+        selectedDateRange: value,
+        startDate: start,
+        endDate: end
+      });
+    }
+  }
+
+  function setRangeValues(e, info) {
+    let start, end;
+
+    //if it is not for you, don't handle it
+    if (info.id && info.id !== ctrl.id) {
+      return false;
+    }
+
+    start = info.selectedStart;
+    end = info.selectedEnd;
+
+    if (info.rangeSelected) {
+      ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
+      ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
+
+      range = ctrl.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
+      setViewValue(range, start, end);
+
+      ctrl.rangeSelected = info.rangeSelected;
+      ctrl.closingRange = true;
+
+      ctrl.$timeout(() => {
+        ctrl.opened = false;
+        ctrl.closingRange = false;
+      }, config.DELAY_CLOSING);
+
+    } else {
+      ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
+      ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
+
+      ctrl.$timeout(() => {
+        //assuming only start date has value, calendar stay open
+        ctrl.opened = true;
+      });
+    }
+  }
+
+  function initialize() {
+    let start = '',
+      end = '',
+      clone;
+
+    if (initialized) {
+      return;
+    }
+
+    start = ctrl.dateRange.startDate;
+    end = ctrl.dateRange.endDate;
+
+    if (start && end) {
+      //if startDate greater then endDate, swap date value
+      if (start > end) {
+        clone = new Date(end);
+        end = start;
+        start = clone;
+      }
+
+      ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
+      ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
+      ctrl.rangeSelected = true;
+
+      range = ctrl.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
+      setViewValue(range, start, end);
+    }
+
+    ctrl.$timeout(() => {
+      //interesting, have to wait for $digest completed
+      ctrl.format = ctrl.format || config.FORMAT;
+
+      //send the event to child directive to handle with range values
+      //use timeout to make sure the children directives are ready
+      scope.$broadcast('initialDateRange', {
+        startDate: start,
+        endDate: end,
+        id: ctrl.id
+      });
+
+      initialized = true;
+    });
+
+    //this event is sent from date picker directive when range is selected
+    scope.$watch('dateRange.format', () => {
+      start = ctrl.rangeStart.selectedValue;
+      end = ctrl.rangeEnd.selectedValue;
+
+      if (!initialized) {
+        return;
+      }
+
+      if (start) {
+        ctrl.rangeStart.selectedValue = ctrl.dateFilter(new Date(start), ctrl.format);
+      }
+
+      if (end) {
+        ctrl.rangeEnd.selectedValue = ctrl.dateFilter(new Date(end), ctrl.format);
+      }
+    });
+  }
+  initialize();
+}
+
+function DateRangeDirective() {
+  return {
+    restrict: 'E',
+    controller: DateRangeController,
+    controllerAs: 'dateRange',
+    bindToController: {
       dateRange: '=ngModel',
       onSelect: '&',
       placeholder: '@?',
       isDisabled: '=?',
       format: '@?'
-    };
-    this.scope = {};
-    //link: linkFn,
-    this.template = template;
-  }
-
-  static factory($log, $timeout, dateFilter, $rootScope, translate, dateRangeService) {
-    DateRangeDirective.instance =
-      new DateRangeDirective($log, $timeout, dateFilter, $rootScope, translate, dateRangeService);
-    return DateRangeDirective.instance;
-  }
-
-  link(scope, elem, attr, ctrl) {
-    let initialized = false,
-      instance = DateRangeDirective.instance,
-      range;
-
-    if (!ctrl.dateRange || !attr.ngModel) {
-      instance.$log.error('ng-model is required for date range component directive.');
-      return;
-    }
-
-    if (attr.placeholder) {
-      ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = attr.placeholder;
-    } else {
-      instance.translate.async('components.date-range.placeholder').then((value) => {
-        ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
-      });
-    }
-
-    //this event is sent from date picker directive when range is selected
-    instance.$rootScope.$on('rangeSelected', setRangeValues);
-    scope.$on('$destroy', setRangeValues);
-
-    function setViewValue(value, start, end) {
-      ctrl.dateRange.startDate = start;
-      ctrl.dateRange.endDate = end;
-
-      if (angular.isFunction(ctrl.onSelect) && attr.onSelect) {
-        ctrl.onSelect({
-          selectedDateRange: value,
-          startDate: start,
-          endDate: end
-        });
-      }
-    }
-
-    function setRangeValues(e, info) {
-      let start, end;
-
-      //if it is not for you, don't handle it
-      if (info.id && info.id !== ctrl.id) {
-        return false;
-      }
-
-      start = info.selectedStart;
-      end = info.selectedEnd;
-
-      if (info.rangeSelected) {
-        ctrl.rangeStart.selectedValue = instance.dateFilter(start, ctrl.format);
-        ctrl.rangeEnd.selectedValue = instance.dateFilter(end, ctrl.format);
-
-        range = instance.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
-        setViewValue(range, start, end);
-
-        ctrl.rangeSelected = info.rangeSelected;
-        ctrl.closingRange = true;
-
-        instance.$timeout(() => {
-          ctrl.opened = false;
-          ctrl.closingRange = false;
-        }, config.DELAY_CLOSING);
-
-      } else {
-        ctrl.rangeStart.selectedValue = instance.dateFilter(start, ctrl.format);
-        ctrl.rangeEnd.selectedValue = instance.dateFilter(end, ctrl.format);
-
-        instance.$timeout(() => {
-          //assuming only start date has value, calendar stay open
-          ctrl.opened = true;
-        });
-      }
-    }
-
-    function initialize() {
-      let start = '',
-        end = '',
-        clone;
-
-      if (initialized) {
-        return;
-      }
-
-      start = ctrl.dateRange.startDate;
-      end = ctrl.dateRange.endDate;
-
-      if (start && end) {
-        //if startDate greater then endDate, swap date value
-        if (start > end) {
-          clone = new Date(end);
-          end = start;
-          start = clone;
-        }
-
-        ctrl.rangeStart.selectedValue = instance.dateFilter(start, ctrl.format);
-        ctrl.rangeEnd.selectedValue = instance.dateFilter(end, ctrl.format);
-        ctrl.rangeSelected = true;
-
-        range = instance.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
-        setViewValue(range, start, end);
-      }
-
-      instance.$timeout(() => {
-        //interesting, have to wait for $digest completed
-        ctrl.format = ctrl.format || config.FORMAT;
-
-        //send the event to child directive to handle with range values
-        //use timeout to make sure the children directives are ready
-        scope.$broadcast('initialDateRange', {
-          startDate: start,
-          endDate: end,
-          id: ctrl.id
-        });
-
-        initialized = true;
-      });
-
-      //this event is sent from date picker directive when range is selected
-      //instance.$rootScope.$on('rangeSelected', _setRangeValues);
-      //scope.$on('$destroy', _setRangeValues);
-      scope.$watch('dateRange.format', () => {
-        start = ctrl.rangeStart.selectedValue;
-        end = ctrl.rangeEnd.selectedValue;
-
-        if (!initialized) {
-          return;
-        }
-
-        if (start) {
-          ctrl.rangeStart.selectedValue = instance.dateFilter(new Date(start), ctrl.format);
-        }
-
-        if (end) {
-          ctrl.rangeEnd.selectedValue = instance.dateFilter(new Date(end), ctrl.format);
-        }
-      });
-    }
-    initialize();
-  }
+    },
+    scope: {},
+    link: linkFn,
+    template: template
+  };
 }
 
-DateRangeDirective.factory.$inject = ['$log', '$timeout', 'dateFilter', '$rootScope',
-  'translate', 'dateRangeService'];
-export default DateRangeDirective.factory;
+export default DateRangeDirective;

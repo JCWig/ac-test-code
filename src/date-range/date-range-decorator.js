@@ -2,7 +2,7 @@ import angular from 'angular';
 import template from './templates/date-picker-day-popup.tpl.html';
 
 function DateRangeDecorator($provide) {
-  const [PREV, NEXT] = ["prev", "next"];
+  const [PREV, NEXT] = ['prev', 'next'];
 
   function firstTimeSelect(dt, scope) {
     if (dt.getMonth() + 1 === scope.pairingMonth) {
@@ -87,7 +87,7 @@ function DateRangeDecorator($provide) {
     link = directive.link;
 
     directive.compile = () => {
-      return function (scope, element, attrs, ctrl) {
+      return function(scope, element, attrs, ctrl) {
         let initialDateRange, moveRangePoint, monthMovingTracking = 0;
 
         link.apply(this, arguments);
@@ -230,7 +230,7 @@ function DateRangeDecorator($provide) {
     'dateRangeService'
   ];
   $provide.decorator('daypickerDirective', datePickerDirective);
-};
+}
 
 DateRangeDecorator.$inject = ['$provide'];
 export default DateRangeDecorator;
