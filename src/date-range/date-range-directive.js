@@ -127,7 +127,7 @@ class DateRangeDirective {
     if (attr.placeholder) {
       ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = attr.placeholder;
     } else {
-      instance.translate.async('components.date-range.placeholder').then(function(value) {
+      instance.translate.async('components.date-range.placeholder').then((value) => {
         ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
       });
     }
@@ -170,7 +170,7 @@ class DateRangeDirective {
         ctrl.rangeSelected = info.rangeSelected;
         ctrl.closingRange = true;
 
-        instance.$timeout(function() {
+        instance.$timeout(() => {
           ctrl.opened = false;
           ctrl.closingRange = false;
         }, config.DELAY_CLOSING);
@@ -179,7 +179,7 @@ class DateRangeDirective {
         ctrl.rangeStart.selectedValue = instance.dateFilter(start, ctrl.format);
         ctrl.rangeEnd.selectedValue = instance.dateFilter(end, ctrl.format);
 
-        instance.$timeout(function() {
+        instance.$timeout(() => {
           //assuming only start date has value, calendar stay open
           ctrl.opened = true;
         });
@@ -214,7 +214,7 @@ class DateRangeDirective {
         setViewValue(range, start, end);
       }
 
-      instance.$timeout(function() {
+      instance.$timeout(() => {
         //interesting, have to wait for $digest completed
         ctrl.format = ctrl.format || config.FORMAT;
 
