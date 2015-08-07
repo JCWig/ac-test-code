@@ -1,7 +1,12 @@
 /*global angular, inject*/
 'use strict';
+
+import dropdown from '../../src/dropdown';
+
 var util = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
+
+
 
 describe('akamai.components.dropdown', function() {
   var $scope, $compile, stateStrings, stateObjects, timeout;
@@ -18,8 +23,8 @@ describe('akamai.components.dropdown', function() {
     {name: 'Massachusetts'}
   ];
   beforeEach(function() {
-    inject.strictDi(true);
-    angular.mock.module(require('../../src/dropdown').name);
+    angular.mock.inject.strictDi(true);
+    angular.mock.module(dropdown.name);
     angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
@@ -62,6 +67,7 @@ describe('akamai.components.dropdown', function() {
       });
     });
   });
+
   describe('given an empty object bound to the ng-model attribute', function(){
     describe('when the dropdown is rendered', function(){
       describe('and a string is to the placeholder attribute', function(){
@@ -78,6 +84,7 @@ describe('akamai.components.dropdown', function() {
       });
     });
   });
+
   describe('given an object bound to the ng-model attribute', function(){
     describe('when the dropdown is rendered', function(){
       beforeEach(function(){
@@ -292,14 +299,15 @@ describe('akamai.components.dropdown', function() {
           '<akam-dropdown ng-model="selectedState" text-property="name" items="stateObjects" clearable>' +
             '<akam-dropdown-selected>' +
               '<span class="selected-option util-ellipsis">' +
-                '<span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">custom: {{selectedItem[textProperty]}}</span>' +
-                '<span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>' +
+                '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
+                '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
               '</span>' +
             '</akam-dropdown-selected>' +
             '<akam-dropdown-option>' +
-              '<span title="{{item[textProperty]}}">custom: {{item[textProperty]}}</span>' +
+              '<span title="{{item[dropdown.textProperty]}}">custom: {{item[dropdown.textProperty]}}</span>' +
             '</akam-dropdown-option>' +
           '</akam-dropdown>';
+
           $scope.selectedState = {name: 'Colorado'};
           $scope.stateObjects = stateObjects;
 
@@ -318,12 +326,12 @@ describe('akamai.components.dropdown', function() {
           '<akam-dropdown ng-model="selectedState" text-property="name" items="stateObjects" clearable>' +
             '<akam-dropdown-selected>' +
               '<span class="selected-option util-ellipsis">' +
-                '<span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">custom: {{selectedItem[textProperty]}}</span>' +
-                '<span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>' +
+                '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
+                '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
               '</span>' +
             '</akam-dropdown-selected>' +
             '<akam-dropdown-option>' +
-              '<span title="{{item[textProperty]}}">custom: {{item[textProperty]}}</span>' +
+          '<span title="{{item[dropdown.textProperty]}}">custom: {{item[dropdown.textProperty]}}</span>' +
             '</akam-dropdown-option>' +
           '</akam-dropdown>';
           $scope.selectedState = {name: 'Colorado'};
@@ -349,6 +357,7 @@ describe('akamai.components.dropdown', function() {
         var dropdownMenu = util.find('.dropdown-menu');
         util.click(dropdownMenu.querySelectorAll('li')[3].querySelector('a'));
         $scope.$digest();
+        delete $scope.stateStringsObjs[3].$$hashKey;
       });
       it('should invoke the callback with the bound ngModel as an argument', function(){
         expect($scope.onChange).toHaveBeenCalledWith($scope.stateStringsObjs[3]);
@@ -412,6 +421,7 @@ describe('akamai.components.dropdown', function() {
       });
     });
   });
+
 });
 
 
