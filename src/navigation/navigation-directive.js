@@ -1,11 +1,12 @@
 import angular from 'angular';
+import template from './templates/navigation.tpl.html';
 
 function navigation($rootScope) {
 
   class NavigationController {
     constructor($state) {
 
-      var currentStateEqualTo = function(tab) {
+      let currentStateEqualTo = (tab) => {
         return $state.is(tab.route, tab.params, tab.options);
       };
 
@@ -42,7 +43,7 @@ function navigation($rootScope) {
     },
     controller: NavigationController,
     controllerAs: 'navigation',
-    template: require('./templates/navigation.tpl.html'),
+    template: template,
     link: function(scope, elem, attrs, ctrl) {
 
       let updateTabs = () => {
