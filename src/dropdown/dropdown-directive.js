@@ -1,5 +1,6 @@
 import angular from 'angular';
 import debounce from 'lodash/function/debounce';
+import template from './templates/dropdown-directive.tpl.html';
 
 function dropdown($compile, dropdownTransformer, translate, $document, $timeout, $parse) {
 
@@ -67,11 +68,10 @@ function dropdown($compile, dropdownTransformer, translate, $document, $timeout,
   DropdownController.$inject = ['$scope'];
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
-    var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
+    let dropdownTemplateElem = angular.element(dropdownTemplate);
 
     if (tElem.find(tagName).length) {
-      customTemplate = tElem.find(tagName);
-      dropdownTemplateElem.find(tagName + '-placeholder').html(customTemplate.html());
+      dropdownTemplateElem.find(tagName + '-placeholder').html(tElem.find(tagName).html());
     }
     return dropdownTemplateElem[0].outerHTML;
   }
@@ -98,12 +98,9 @@ function dropdown($compile, dropdownTransformer, translate, $document, $timeout,
     controllerAs: 'dropdown',
 
     template: function(tElem) {
-      var dropdownTemplate = require('./templates/dropdown-directive.tpl.html');
+      let dropdownTemplate = updateTemplate(tElem, template, 'akam-dropdown-selected');
 
-      dropdownTemplate = updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-selected');
-      dropdownTemplate = updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-option');
-
-      return dropdownTemplate;
+      return updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-option');
     },
 
     link: function(scope, elem, attrs, ngModel) {
@@ -209,7 +206,7 @@ function dropdown($compile, dropdownTransformer, translate, $document, $timeout,
       }
 
       if (angular.isDefined(attrs.appendToBody)) {
-        $timeout(function() {
+        $timeout(() => {
           menuElem.addClass('append-body util-hide');
           menuElem.css({
             width: elem.children(0)[0].offsetWidth + 'px'
@@ -221,7 +218,7 @@ function dropdown($compile, dropdownTransformer, translate, $document, $timeout,
           elem.on('$destroy', function() {
             windowElement.off('resize');
           });
-          scope.$watch('dropdown.isOpen', function(isOpen) {
+          scope.$watch('dropdown.isOpen', (isOpen) => {
             toggleDropdown(isOpen);
             if (inputClick) {
               ctrl.isOpen = true;
