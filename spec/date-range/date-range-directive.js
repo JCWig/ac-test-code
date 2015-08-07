@@ -196,20 +196,6 @@ describe('akamai.components.date-range', function() {
       expect(angular.isFunction(dateRange.preventOtherEvents)).toBeTruthy();
     });
 
-    it('should verify selected property to truthy if preloaded data', function() {
-      let d = new Date();
-      let startDate = new Date(d.getFullYear(), d.getMonth(), 3);
-      let endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
-      this.$scope.dateRange = {
-        startDate: startDate,
-        endDate: endDate
-      };
-      let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
-      addElement.call(this, markup);
-      dateRange = this.el.isolateScope().dateRange;
-
-      expect(dateRange.rangeSelected).toBeTruthy();
-    });
 
     it('should verify the APIs value value if not provided in directive', function() {
       expect(dateRange.dateRange).not.toBe(undefined);
@@ -223,30 +209,6 @@ describe('akamai.components.date-range', function() {
       expect(angular.isFunction(dateRange.onSelect)).toBeTruthy();
     });
 
-    it('should verify the APIs value value if provided in directive', function() {
-      let dateRange;
-      let d = new Date();
-      let startDate = new Date(d.getFullYear(), d.getMonth(), 3);
-      let endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
-      this.$scope.dateRange = {
-        startDate: startDate,
-        endDate: endDate
-      };
-      this.$scope.disabled = true;
-      this.$scope.placeholder = "blah blah";
-      this.$scope.format = 'MMM dd, yyyy';
-      let markup = `<akam-date-range ng-model='dateRange'is-disabled='disabled' placeholder='placeholder' format='format'></akam-date-range>`;
-      addElement.call(this, markup);
-      dateRange = this.el.isolateScope().dateRange;
-
-      expect(dateRange.dateRange).not.toBe(undefined);
-      expect(angular.isObject(dateRange.dateRange)).toBeTruthy();
-      expect(angular.isObject(dateRange.dateRange.startDate)).not.toBe('');
-      expect(angular.isObject(dateRange.dateRange.endDate)).not.toBe('');
-      expect(dateRange.isDisabled).toBeTruthy();
-      expect(angular.isFunction(dateRange.onSelect)).toBeTruthy();
-    });
-
     it('should verify toggle function to be called if calendar button click', function() {
 
       let btnElem = this.element.querySelector('.range-selection button');
@@ -256,6 +218,55 @@ describe('akamai.components.date-range', function() {
       this.$scope.$digest();
 
       expect(toggleSpy).toHaveBeenCalled();
+    });
+
+  });
+  describe("Verify preload data from controller rangeSelectied ", function() {
+    let dateRange;
+    let d = new Date();
+    let startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    let endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    beforeEach(function() {
+      this.$scope.dateRange = {
+        startDate: startDate,
+        endDate: endDate
+      };
+      let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+      addElement.call(this, markup);
+      dateRange = this.el.isolateScope().dateRange;
+    });
+
+    it('should verify selected property to truthy if preloaded data', function() {
+      expect(dateRange.rangeSelected).toBeTruthy();
+    });
+  });
+  describe("Verify preload data from controller rangeSelectied ", function() {
+
+    let dateRange;
+    let d = new Date();
+    let startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    let endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    beforeEach(function() {
+      this.$scope.dateRange = {
+        startDate: startDate,
+        endDate: endDate
+      };
+      this.$scope.disabled = true;
+      this.$scope.placeholder = "blah blah";
+      this.$scope.format = 'MMM dd, yyyy';
+      let markup = `<akam-date-range ng-model='dateRange' is-disabled='disabled' placeholder='placeholder' format='format'></akam-date-range>`;
+      addElement.call(this, markup);
+      dateRange = this.el.isolateScope().dateRange;
+    });
+
+    it('should verify the APIs value value if provided in directive', function() {
+
+      expect(dateRange.dateRange).not.toBe(undefined);
+      expect(angular.isObject(dateRange.dateRange)).toBeTruthy();
+      expect(angular.isObject(dateRange.dateRange.startDate)).not.toBe('');
+      expect(angular.isObject(dateRange.dateRange.endDate)).not.toBe('');
+      expect(dateRange.isDisabled).toBeTruthy();
+      expect(angular.isFunction(dateRange.onSelect)).toBeTruthy();
     });
 
   });
