@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function($log, $compile) {
+module.exports = function($log) {
   return {
     restrict: 'E',
     transclude: true,
@@ -20,7 +20,7 @@ module.exports = function($log, $compile) {
       }
 
       return function(scope, iElement, iAttrs, controller, transclude) {
-        var hasHeaderTranscluded, customContentScope;
+        var hasHeaderTranscluded, customContentScope, transcludedContent;
 
         scope.collapsable = angular.isUndefined(tAttrs.notCollapsable);
         scope.isCollapsed = scope.isCollapsed === true;
@@ -45,11 +45,22 @@ module.exports = function($log, $compile) {
         });
 
         if (!iAttrs.header) {
-          customContentScope = scope.$parent.$new();
-          customContentScope.headerClick = scope.headerClick;
-          customContentScope.collapsable = scope.collapsable;
-          customContentScope.isCollapsed = scope.isCollapsed;
-          iElement.append($compile(transclude())(customContentScope));
+          transclude(function(clone, cloneScope) {
+            iElement.append(clone);
+            transcludedContent = clone;
+            customContentScope = cloneScope;
+            customContentScope.headerClick = scope.headerClick;
+            customContentScope.collapsable = scope.collapsable;
+            customContentScope.isCollapsed = scope.isCollapsed;
+          });
+
+          //This doesn't appear to be necessary but garbage clean up just in case,
+          // for added robustness against future issues.
+          //Chrome node/listener graphs appear the same whether or not this is done.
+          scope.$on('$destroy', function() {
+            transcludedContent.remove();
+            customContentScope.$destroy();
+          });
 
           hasHeaderTranscluded = !!iElement[0].querySelector('.panel-heading');
           if (!hasHeaderTranscluded) {
@@ -61,4 +72,4 @@ module.exports = function($log, $compile) {
   };
 };
 
-module.exports.$inject = ['$log', '$compile'];
+module.exports.$inject = ['$log'];
