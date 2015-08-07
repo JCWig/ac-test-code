@@ -5,7 +5,8 @@ module.exports = function($document, $compile, $rootScope) {
   var body = $document.find('body').eq(0),
     items = [],
     itemCount = 0,
-    initialized = false;
+    initialized = false,
+    removeItemByItemId;
 
   /**
    * @name initializeStatusMessageGroup
@@ -20,6 +21,8 @@ module.exports = function($document, $compile, $rootScope) {
     scope.items = items;
     wrapper =
       $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
+
+    removeItemByItemId = wrapper.scope().$$childHead.removeItemByItemId;
     body.prepend(wrapper);
     return true;
   }
@@ -35,7 +38,25 @@ module.exports = function($document, $compile, $rootScope) {
     return options.itemId;
   }
 
+  function clear(statusTypes){
+    statusTypes = statusTypes || [];
+    if( angular.isString( statusTypes ) ){
+      statusTypes = [statusTypes];
+    }
+
+    var itemMatches = items.filter( (item) => {
+        return statusTypes.indexOf(item.status) > -1;
+      }
+    );
+
+    itemMatches.forEach((item) => {
+      removeItemByItemId(item.itemId);
+    });
+  }
+
   return {
+    clear : clear,
+
     /**
      * @ngdoc method
      * @name statusMessage#show

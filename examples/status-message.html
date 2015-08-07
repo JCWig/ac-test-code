@@ -44,6 +44,7 @@
                     <textarea id="messageText" type="text" class="form-control" ng-model="messageText" rows="3" cols="25"></textarea>
                 </div>
                 <button class="btn" ng-click="showStatus()">Show Status Message</button>
+                <button class="btn" ng-click="clearErrorsAndWarnings()">Clear Errors and Warnings</button>
             </form>
         </div>
         <script src="../dist/akamai-core.js"></script>
@@ -56,6 +57,10 @@
         
                 $scope.showStatus = function(){
                     statusMessage["show" + $scope.status]({text : $scope.messageText, timeout: $scope.messageTimeout});
+                };
+
+                $scope.clearErrorsAndWarnings = function(){
+                    statusMessage.clear(['error', 'warning']);
                 };
             };
             ctrlFunction.$inject = ["$scope", "statusMessage"];

@@ -2,7 +2,8 @@ module.exports = function() {
   return {
     restrict: 'E',
     scope: {
-      items: '='
+      items: '=',
+      removeItemByItemId: '&'
     },
     replace: true,
     template: require('./templates/status-message-group-directive.tpl.html'),
@@ -20,6 +21,7 @@ module.exports = function() {
         }
       }
 
+      scope.removeItemByItemId = removeItemByItemId;
       scope.$on('akam-status-message-destroyed', function(event, itemId) {
         removeItemByItemId(itemId);
       });
