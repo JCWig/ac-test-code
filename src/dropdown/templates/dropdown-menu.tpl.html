@@ -1,15 +1,15 @@
 <div class="dropdown-menu">
-    <div class="fixed-header" ng-show="hasFilter">
-        <input ng-click="setInputAsClicked()" ng-show="hasFilter" type="text" ng-model="dropdownFilter" placeholder="{{::filterPlaceholder}}" />
-        <i ng-show="dropdownFilter" class="luna-small_close_light_gray util-clickable clear-filter"
-           ng-click="dropdownFilter = undefined"></i>
+    <div class="fixed-header" ng-show="dropdown.hasFilter">
+        <input ng-click="dropdown.setInputAsClicked()" ng-show="dropdown.hasFilter" type="text" ng-model="dropdownFilter" placeholder="{{::dropdown.filterPlaceholder}}" />
+        <i ng-show="dropdown.dropdownFilter" class="luna-small_close_light_gray util-clickable clear-filter"
+           ng-click="dropdown.dropdownFilter = undefined"></i>
     </div>
     <ul class="dropdown-menu">
-        <li ng-repeat="item in items | filter:dropdownFilter">
-            <a ng-click="setSelectedItem(item)">
-                <span ng-if="textProperty" title="{{ textPropertyFn(item) }}"
-                      ng-bind-html="textPropertyFn(item) | highlight:dropdownFilter"></span>
-                <span ng-if="!textProperty" title="{{item}}"
+        <li ng-repeat="item in dropdown.items | filter:dropdownFilter">
+            <a ng-click="dropdown.setSelectedItem(item)">
+                <span ng-if="dropdown.textProperty" title="{{ dropdown.textPropertyFn(item) }}"
+                      ng-bind-html="dropdown.textPropertyFn(item) | highlight:dropdownFilter"></span>
+                <span ng-if="!dropdown.textProperty" title="{{item}}"
                       ng-bind-html="item | highlight:dropdownFilter"></span>
             </a>
         </li>

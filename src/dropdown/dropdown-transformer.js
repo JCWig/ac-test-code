@@ -1,24 +1,26 @@
-var angular = require('angular');
+import angular from 'angular';
+import selectedElemTemplate from './templates/dropdown-selected.tpl.html';
+import menuElemTemplate from './templates/dropdown-menu.tpl.html';
 
-module.exports = function() {
+export default function() {
 
   return {
     getSelected: function(selectedTemplate) {
-      var selectedElem = angular.element(require('./templates/dropdown-selected.tpl.html'));
+      let selectedElem = angular.element(selectedElemTemplate);
 
-      if (typeof selectedTemplate !== 'undefined') {
+      if (angular.isDefined(selectedTemplate)) {
         selectedElem[0] = angular.element(selectedTemplate)[0];
       }
       return selectedElem;
     },
 
     getMenu: function(optionTemplate) {
-      var menuElem = angular.element(require('./templates/dropdown-menu.tpl.html'));
+      let menuElem = angular.element(menuElemTemplate);
 
-      if (typeof optionTemplate !== 'undefined') {
+      if (angular.isDefined(optionTemplate)) {
         angular.element(menuElem[0].querySelector('a')).html(optionTemplate);
       }
       return menuElem;
     }
   };
-};
+}
