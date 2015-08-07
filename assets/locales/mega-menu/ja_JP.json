@@ -9,16 +9,16 @@
     "search": {
         "kb": "KB",
         "search": "検索",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "ロード中",
+        "seeAll": "{category} のすべての結果を表示",
         "users": "ユーザー",
-        "searchFor": "Search for {category}",
+        "searchFor": "{category} の検索",
         "docs": "ドキュメント",
         "documentation": "ドキュメント",
-        "noResults": "no results found",
+        "noResults": "結果が見つかりませんでした",
         "all": "すべて",
         "applications": "アプリケーション",
-        "allResults": "All Results",
+        "allResults": "すべての結果",
         "accounts": "アカウント",
         "groups": "グループ",
         "knowledgeBase": "Knowledge Base English Only",
@@ -41,7 +41,7 @@
         "on_demand_staream_configuration": "On Demand Streams 設定",
         "message_center_publisher": "メッセージセンターパブリッシャー",
         "charaka_manage_questions": "Charaka 管理の質問",
-        "cp_codes": "CPｺｰﾄﾞの管理",
+        "cp_codes": "CP コード",
         "gss_policy_compliance": "GSS ﾎﾟﾘｼｰ準拠",
         "charaka_manager_questionnaires": "Charaka 管理の質問",
         "configure_ghost_logging": "GHost ロギングの設定",
@@ -62,12 +62,12 @@
     "timeout": {
         "buttonText": "延長",
         "contents": "Luna Control Center セッションがタイムアウト間近です。セッションを延長するには、[延長] をクリックしてください。",
-        "title": "Session Timeout Imminent"
+        "title": "もうすぐセッションタイムアウトです"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "トラフィックセグメント",
         "arl": "デジタルプロパティ",
-        "noMatches": "No Matches Found"
+        "noMatches": "一致項目は見つかりませんでした"
     },
     "footer": {
         "policy": "プライバシー＆ポリシー",
@@ -87,19 +87,19 @@
         "7": "8 月",
         "6": "7 月",
         "9": "10 月",
-        "8": "Sept"
+        "8": "9 月"
     },
     "messages": {
         "forwardEmailValidation": "有効な E メールを入力してください",
         "previewTitle": "メッセージセンター",
         "assigned": "割当先",
-        "header": "{count} MESSAGES",
+        "header": "{count} 件のメッセージ",
         "cancel": "キャンセル",
         "close": "閉じる",
         "deleteMessage": "このメッセージを削除してもよろしいですか？この操作を元に戻すことはできません。",
-        "previous": "前へ",
+        "previous": "前",
         "forwardSend": "送信",
-        "next": "次に",
+        "next": "次へ",
         "casesTitle": "お問い合わせの発行",
         "messagesTitle": "メッセージ",
         "eventsTitle": "今後予定されているイベント",
@@ -114,7 +114,7 @@
         "forwardMessage": "選択したメッセージを次の E メールに転送します：",
         "list": "リスト",
         "no-cases": "案件は見つかりませんでした。",
-        "unread": "{count} Unread",
+        "unread": "未読 {count} 件",
         "delete": "メッセージの削除"
     },
     "policies": {

@@ -9,16 +9,16 @@
     "search": {
         "kb": "KB",
         "search": "Ricerca",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "caricamento in corso",
+        "seeAll": "Vedi tutti i risultati {category}",
         "users": "utenti",
-        "searchFor": "Search for {category}",
+        "searchFor": "Cerca {category}",
         "docs": "documenti",
         "documentation": "Documentazione",
-        "noResults": "no results found",
+        "noResults": "nessun risultato trovato",
         "all": "TUTTO",
         "applications": "applicazioni",
-        "allResults": "All Results",
+        "allResults": "Tutti i risultati",
         "accounts": "account",
         "groups": "gruppi",
         "knowledgeBase": "Knowledge Base English Only",
@@ -62,18 +62,18 @@
     "timeout": {
         "buttonText": "Estendi",
         "contents": "La sessione di Luna Control Center scadrà a breve. Fare clic su Estendi per prolungare la sessione.",
-        "title": "Session Timeout Imminent"
+        "title": "Timeout sessione imminente"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "Segmento di traffico",
         "arl": "Proprietà digitale",
-        "noMatches": "No Matches Found"
+        "noMatches": "Nessuna corrispondenza trovata"
     },
     "footer": {
         "policy": "Note legali e informativa sulla privacy",
         "contact": "Contattaci",
         "feedback": "Come possiamo migliorare il servizio?",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. Tutti i diritti riservati"
     },
     "shortMonths": {
         "11": "Dic",
@@ -87,13 +87,13 @@
         "7": "Ago",
         "6": "Lug",
         "9": "Ott",
-        "8": "Sept"
+        "8": "Set"
     },
     "messages": {
-        "forwardEmailValidation": "Immettere un''e-mail valida",
+        "forwardEmailValidation": "Immettere un'e-mail valida",
         "previewTitle": "Centro messaggi",
         "assigned": "Assegnati a",
-        "header": "{count} MESSAGES",
+        "header": "{count} MESSAGGI",
         "cancel": "Annulla",
         "close": "Chiudi",
         "deleteMessage": "Eliminare questo messaggio? Impossibile annullare questa azione.",
@@ -114,7 +114,7 @@
         "forwardMessage": "Invia messaggio selezionato ai seguenti indirizzi e-mail:",
         "list": "Elenco",
         "no-cases": "Non sono stati trovati interventi.",
-        "unread": "{count} Unread",
+        "unread": "{count} Non letti",
         "delete": "Elimina messaggio EDGE"
     },
     "policies": {

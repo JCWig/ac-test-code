@@ -1,44 +1,13 @@
 {
     "components": {
-        "context": {
-            "accountChanged": "We have detected that the current account has changed to: {{name}}. Would you like to switch back to the original account?'",
-            "accountChangedTitle": "Account Changed"
+        "indeterminate-progress": {},
+        "tag-input": {
+            "placeholder": "項目を選択",
+            "taggingLabel": "(新規項目)"
         },
         "menu-button": {
             "label": "ラベル"
         },
-        "bubblehelp": {
-            "title": "情報"
-        },
-        "determinate-progress": {},
-        "name": "Akamai 共通コンポーネント",
-        "indeterminate-progress": {},
-        "date-picker": {
-            "placeholder": {
-                "date": "日付ピッカー",
-                "year": "年ピッカー",
-                "month": "月ピッカー"
-            }
-        },
-        "modal-window": {
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed.",
-            "title": "モーダルウィンドウ",
-            "label": {
-                "cancel": "キャンセル",
-                "save": "保存"
-            }
-        },
-        "pagination": {
-            "label": {
-                "show-entries": "エントリを表示",
-                "results": "結果",
-                "total-items": "合計アイテム数",
-                "current-page": "現在のページ"
-            }
-        },
-        "tooltip": {},
-        "multiselect-listbox": {},
         "message-box": {
             "yes": "はい",
             "title": {
@@ -54,15 +23,6 @@
         "warning": {
             "browser-button": "Mac 版の Safari と FireFox は、BUTTON エレメントのフォーカスイベントをサポートしていません。代わりにアンカータグ A を使用してください"
         },
-        "switch-button": {
-            "onLabel": "オン",
-            "offLabel": "オフ"
-        },
-        "dialog": {},
-        "error": {
-            "validation": {},
-            "data": "データの読み込み時に問題が発生しました。"
-        },
         "list-box": {
             "text": {
                 "noFilterResults": "フィルタに基づいた結果はありません。",
@@ -76,6 +36,29 @@
                 "filter": "フィルタ"
             }
         },
+        "bubblehelp": {
+            "title": "情報"
+        },
+        "wizard": {
+            "successMessage": "アクションが完了しました。",
+            "errorMessage": "アクションを完了できませんでした。",
+            "label": {
+                "next": "次に",
+                "submit": "提出",
+                "previous": "前へ"
+            }
+        },
+        "modal-window": {
+            "successMessage": "アクションが完了しました。",
+            "errorMessage": "アクションを完了できませんでした。",
+            "title": "モーダルウィンドウ",
+            "label": {
+                "cancel": "キャンセル",
+                "save": "保存"
+            }
+        },
+        "tooltip": {},
+        "multiselect-listbox": {},
         "data-table": {
             "text": {
                 "noFilterResults": "フィルタに基づいた結果はありません。",
@@ -88,33 +71,50 @@
                 "action": "アクション"
             }
         },
+        "determinate-progress": {},
+        "context": {
+            "accountChangedTitle": "アカウントが変更されました",
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?'"
+        },
+        "dropdown": {
+            "placeholder": {
+                "filter": "フィルタ",
+                "noSelection": "1 つ選択"
+            }
+        },
+        "date-picker": {
+            "placeholder": {
+                "date": "日付ピッカー",
+                "year": "年ピッカー",
+                "month": "月ピッカー"
+            }
+        },
         "notifications": {
             "information": "情報",
             "warning": "警告",
             "success": "成功",
             "error": "エラー"
         },
-        "dropdown": {
-            "placeholder": {
-                "noSelection": "Select one",
-                "filter": "Filter"
+        "pagination": {
+            "label": {
+                "show-entries": "エントリを表示",
+                "results": "結果",
+                "total-items": "合計アイテム数",
+                "current-page": "現在のページ"
             }
         },
-        "wizard": {
-            "label": {
-                "previous": "Previous",
-                "next": "Next",
-                "submit": "Submit"
-            },
-            "successMessage": "The action has been completed.",
-            "errorMessage": "The action can't be completed."
-        },
+        "name": "Akamai 共通コンポーネント",
         "autocomplete": {
             "search-tip": "Type in text to display matching results"
         },
-        "tag-input": {
-            "placeholder": "Select Items",
-            "taggingLabel": "(new item)"
+        "switch-button": {
+            "onLabel": "オン",
+            "offLabel": "オフ"
+        },
+        "dialog": {},
+        "error": {
+            "validation": {},
+            "data": "データの読み込み時に問題が発生しました。"
         }
     }
 }

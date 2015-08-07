@@ -9,16 +9,16 @@
     "search": {
         "kb": "KB",
         "search": "검색",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "로드 중",
+        "seeAll": "모든 {category} 결과 보기",
         "users": "사용자",
-        "searchFor": "Search for {category}",
+        "searchFor": "{category} 검색",
         "docs": "문서",
         "documentation": "문서",
-        "noResults": "no results found",
+        "noResults": "검색된 결과 없음",
         "all": "모두",
         "applications": "응용 프로그램",
-        "allResults": "All Results",
+        "allResults": "모든 결과",
         "accounts": "계정",
         "groups": "그룹",
         "knowledgeBase": "Knowledge Base English Only",
@@ -62,12 +62,12 @@
     "timeout": {
         "buttonText": "연장",
         "contents": "Luna Control Center 세션이 만료될 예정입니다. 세션을 연장하려면 연장을 클릭하십시오.",
-        "title": "Session Timeout Imminent"
+        "title": "세션 시간이 곧 초과됨"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "트래픽 세그먼트",
         "arl": "디지털 속성",
-        "noMatches": "No Matches Found"
+        "noMatches": "일치 항목 없음"
     },
     "footer": {
         "policy": "법률 및 개인 정보 보호",
@@ -87,13 +87,13 @@
         "7": "8월",
         "6": "7월",
         "9": "10월",
-        "8": "Sept"
+        "8": "9월"
     },
     "messages": {
         "forwardEmailValidation": "올바른 이메일을 입력하십시오.",
         "previewTitle": "메시지 센터",
         "assigned": "할당 대상",
-        "header": "{count} MESSAGES",
+        "header": "{count}개 메시지",
         "cancel": "취소",
         "close": "닫기",
         "deleteMessage": "이 메시지를 삭제하시겠습니까? 이 작업은 실행 취소할 수 없습니다.",
@@ -114,7 +114,7 @@
         "forwardMessage": "선택한 메시지를 다음 이메일로 전달합니다.",
         "list": "목록",
         "no-cases": "사례를 찾을 수 없습니다.",
-        "unread": "{count} Unread",
+        "unread": "{count}개 읽지 않음",
         "delete": "메시지 삭제"
     },
     "policies": {

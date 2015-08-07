@@ -9,16 +9,16 @@
     "search": {
         "kb": "KB",
         "search": "搜尋",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "載入",
+        "seeAll": "查看所有 {category} 結果",
         "users": "使用者",
-        "searchFor": "Search for {category}",
+        "searchFor": "搜尋 {category}",
         "docs": "文件",
         "documentation": "文件",
-        "noResults": "no results found",
+        "noResults": "找不到結果",
         "all": "全部",
         "applications": "應用程式",
-        "allResults": "All Results",
+        "allResults": "所有結果",
         "accounts": "帳戶",
         "groups": "群組",
         "knowledgeBase": "Knowledge Base English Only",
@@ -41,7 +41,7 @@
         "on_demand_staream_configuration": "隨選串流組態",
         "message_center_publisher": "訊息中心發佈者",
         "charaka_manage_questions": "Charaka 管理問題",
-        "cp_codes": "內容提供者代碼",
+        "cp_codes": "CP Code",
         "gss_policy_compliance": "符合 GSS 原則的規範",
         "charaka_manager_questionnaires": "Charaka 管理問卷",
         "configure_ghost_logging": "設定 GHost 記錄",
@@ -62,18 +62,18 @@
     "timeout": {
         "buttonText": "延長",
         "contents": "您的 Luna Control Center 工作階段即將過期。按一下 [延長] 將延長您的工作階段。",
-        "title": "Session Timeout Imminent"
+        "title": "工作階段即將逾時"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "流量區段",
         "arl": "數位內容",
-        "noMatches": "No Matches Found"
+        "noMatches": "找不到相符項目"
     },
     "footer": {
         "policy": "法律與隱私權",
         "contact": "與我們連絡",
         "feedback": "我們該如何為您提供更優質的服務？",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. 保留一切權利"
     },
     "shortMonths": {
         "11": "十二月",
@@ -87,13 +87,13 @@
         "7": "八月",
         "6": "七月",
         "9": "十月",
-        "8": "Sept"
+        "8": "9 月"
     },
     "messages": {
         "forwardEmailValidation": "輸入有效的電子郵件",
         "previewTitle": "訊息中心",
         "assigned": "指派至",
-        "header": "{count} MESSAGES",
+        "header": "{count} 封訊息",
         "cancel": "取消",
         "close": "關閉",
         "deleteMessage": "您確定要刪除這個訊息嗎？此動作將無法復原。",
@@ -114,7 +114,7 @@
         "forwardMessage": "轉寄選擇的訊息至下列電子郵件：",
         "list": "清單",
         "no-cases": "找不到案例。",
-        "unread": "{count} Unread",
+        "unread": "{count} 封未讀",
         "delete": "刪除訊息"
     },
     "policies": {
