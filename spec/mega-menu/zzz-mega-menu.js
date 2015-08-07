@@ -51,22 +51,12 @@ describe('akamai.components.mega-menu', function() {
   function commonBeforeEach(isGroup, isValid) {
     angular.mock.inject.strictDi(true);
     angular.mock.module(megaMenuModule.name);
-    angular.mock.module(function(contextProvider, $provide) {
+    angular.mock.module(function(contextProvider) {
       if (isGroup) {
         contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
       } else {
         contextProvider.setApplicationContext(contextProvider.ACCOUNT_CONTEXT);
       }
-      $provide.factory('$location', function() {
-        return {
-          search: function() {
-            if (isValid) {
-              return {gid: 123, aid: null};
-            }
-            return {};
-          }
-        };
-      });
     });
     angular.mock.inject(function(_$rootScope_, _$httpBackend_, _$cookies_, _$compile_,
                                  _context_, _megaMenuData_, $location, _$window_) {
@@ -128,6 +118,12 @@ describe('akamai.components.mega-menu', function() {
           ]
         }
       });
+
+      if (isValid) {
+        $rootScope.$emit('$stateChangeStart', {}, {gid: 123, aid: null});
+      } else {
+        $rootScope.$emit('$stateChangeStart', {}, {});
+      }
       $rootScope.$digest();
     });
   }
