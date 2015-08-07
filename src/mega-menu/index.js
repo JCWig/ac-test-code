@@ -21,6 +21,7 @@ function run($rootScope, $window, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QU
         if (assetId) {
           context.property = assetId;
         } else {
+          context.property = null;
           context.group = $window.parseInt(toParams[LUNA_GROUP_QUERY_PARAM], 10);
         }
       }
