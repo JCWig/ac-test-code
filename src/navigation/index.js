@@ -1,4 +1,7 @@
-var angular = require('angular');
+import angular from 'angular';
+import angularBootstrap from 'angular-bootstrap-npm';
+import router from 'angular-ui-router';
+import navigationDirective from './navigation-directive';
 
 /**
  * @ngdoc module
@@ -34,9 +37,9 @@ var angular = require('angular');
  * <akam-navigation data="some.tabData"></akam-navigation>
  *
  */
-module.exports = angular.module('akamai.components.navigation', [
-  require('angular-bootstrap-npm'),
-  require('angular-ui-router')
+export default angular.module('akamai.components.navigation', [
+  angularBootstrap,
+  router
 ])
 /**
  * @ngdoc directive
@@ -52,4 +55,4 @@ module.exports = angular.module('akamai.components.navigation', [
  * @param {Boolean} [justified=false] Whether tabs fill the container and have a consistent width.
  *
  */
-  .directive('akamNavigation', require('./navigation-directive'));
+  .directive('akamNavigation', navigationDirective);
