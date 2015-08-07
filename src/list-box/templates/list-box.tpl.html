@@ -2,19 +2,19 @@
 
   <div class="filter">
     <input type="search"
-           ng-model="state.filter"
-           ng-disabled="loading"
-           ng-change="updateSearchFilter()"
-           placeholder="{{::messages.filterPlaceholder}}"> <i
+           ng-model="listBox.state.filter"
+           ng-disabled="listBox.loading"
+           ng-change="listBox.updateSearchFilter()"
+           placeholder="{{::listBox.messages.filterPlaceholder}}"> <i
     class="luna-close clear-filter icon-states util-clickable"
-    ng-if="state.filter"
-    ng-click="state.filter = ''; updateSearchFilter()"></i>
+    ng-if="listBox.state.filter"
+    ng-click="listBox.state.filter = ''; listBox.updateSearchFilter()"></i>
   </div>
 
   <akam-indeterminate-progress class="loading-data-table"
-                               ng-if="loading"
-                               completed="{{!loading}}"
-                               failed="{{ failed }}"></akam-indeterminate-progress>
+                               ng-if="listBox.loading"
+                               completed="{{!listBox.loading}}"
+                               failed="{{ listBox.failed }}"></akam-indeterminate-progress>
     <div class="data fixed-table-container sort-decoration">
         <div akam-infinite-scroll class="fixed-table-container-inner">
             <table class="tablesorter" cellspacing="0">
@@ -22,14 +22,14 @@
                     <tr>
                         <th class="column-checkbox header first">
                                 <span><input type="checkbox"
-                                             ng-model="state.allSelected"
-                                             ng-change="selectAll()"
-                                             id="{{::(tableId + 'allSelected')}}"><label for="{{::(tableId + 'allSelected')}}"></label></span>
+                                             ng-model="listBox.state.allSelected"
+                                             ng-change="listBox.selectAll()"
+                                             id="{{::(listBox.tableId + 'allSelected')}}"><label for="{{::(listBox.tableId + 'allSelected')}}"></label></span>
                         </th>
 
-                        <th ng-repeat="column in ::columns"
-                            ng-class="getColumnClasses(column, true, state)"
-                            ng-click="sortColumn(column)"
+                        <th ng-repeat="column in ::listBox.columns"
+                            ng-class="listBox.getColumnClasses(column, true, listBox.state)"
+                            ng-click="listBox.sortColumn(column)"
                             title="{{ column.header | akamTranslate }}"
                             class="header">
                                 <span>{{column.header | akamTranslate}}</span>
@@ -38,17 +38,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in dataSource track by item.id"
+                    <tr ng-repeat="item in listBox.dataSource track by item.id"
                         ng-class="{ 'row-selected' : item.selected }">
                         <td class="column-checkbox">
                             <input type="checkbox"
                                    ng-model="item.selected"
-                                   ng-change="updateChanged(item)"
-                                   id="{{ ::(tableId + '_item_' + $index )}}"><label
-                                for="{{ ::(tableId + '_item_' + $index) }}"></label>
+                                   ng-change="listBox.updateChanged(item)"
+                                   id="{{ ::(listBox.tableId + '_item_' + $index )}}">
+                            <label for="{{ ::(listBox.tableId + '_item_' + $index) }}"></label>
                         </td>
-                        <td ng-repeat="column in ::columns track by item.cells[$index].id"
-                            ng-class="::getColumnClasses(column, false, state)"
+                        <td ng-repeat="column in ::listBox.columns track by item.cells[$index].id"
+                            ng-class="::listBox.getColumnClasses(column, false, listBox.state)"
                             ng-bind-html="item.cells[$index].content"
                             title="{{ item.titles[$index]}}">
                         </td>
@@ -56,33 +56,33 @@
                 </tbody>
             </table>
         </div>
-    <div ng-if="dataTable.length === 0 && totalCount > 0 && !state.viewSelectedOnly && !loading"
+    <div ng-if="listBox.dataTable.length === 0 && listBox.totalCount > 0 && !listBox.state.viewSelectedOnly && !listBox.loading"
          class="empty-table-message">
-      <i class="luna-alert"></i> <span>{{::messages.noFilterResultsMessage}}</span>
+      <i class="luna-alert"></i> <span>{{::listBox.messages.noFilterResultsMessage}}</span>
     </div>
 
-    <div ng-if="dataTable.length === 0 && totalCount > 0 && state.viewSelectedOnly && !loading"
+    <div ng-if="listBox.dataTable.length === 0 && listBox.totalCount > 0 && listBox.state.viewSelectedOnly && !listBox.loading"
          class="empty-table-message">
-      <i class="luna-alert"></i> <span>{{::messages.noneSelectedMessage}}</span>
+      <i class="luna-alert"></i> <span>{{::listBox.messages.noneSelectedMessage}}</span>
     </div>
 
-    <div ng-if="totalCount === 0 && !loading"
+    <div ng-if="listBox.totalCount === 0 && !listBox.loading"
          class="empty-table-message">
-      <i class="luna-alert"></i> <span>{{noDataMessage}}</span>
+      <i class="luna-alert"></i> <span>{{listBox.noDataMessage}}</span>
     </div>
   </div>
 
   <div class="list-box-footer">
     <span class="util-pull-left">
-      {{::messages.selectedText}}{{ selectedItems.length }}
+      {{::listBox.messages.selectedText}}{{ listBox.selectedItems.length }}
     </span>
     <span class="util-pull-right">
       <input type="checkbox"
-             ng-model="state.viewSelectedOnly"
-             ng-change="updateSearchFilter();"
-             ng-disabled="!hasSelectedItems()"
-             id="{{::(tableId + 'viewSelectedOnly')}}"><label
-      for="{{::(tableId + 'viewSelectedOnly')}}"
+             ng-model="listBox.state.viewSelectedOnly"
+             ng-change="listBox.updateSearchFilter();"
+             ng-disabled="!listBox.hasSelectedItems()"
+             id="{{::(listBox.tableId + 'viewSelectedOnly')}}"><label
+      for="{{::(listBox.tableId + 'viewSelectedOnly')}}"
       akam-translate="components.list-box.text.viewSelected"></label>
     </span>
   </div>
