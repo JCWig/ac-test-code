@@ -13,6 +13,11 @@ function DateRangeDecorator($provide) {
       scope.selectedEnd = null;
     }
     scope.rangeSelected = false;
+
+    scope.isStepSet = false;
+    scope.lastTouch = NEXT;
+    scope.trackingPrev = 0;
+    scope.trackingNext = 0;
   }
 
   function secondTimeSelect(dt, scope) {
@@ -88,10 +93,14 @@ function DateRangeDecorator($provide) {
 
     directive.compile = () => {
       return function(scope, element, attrs, ctrl) {
-        let initialDateRange, moveRangePoint, monthMovingTracking = 0;
+        let initialDateRange, moveRangePoint, movingStep;
 
         link.apply(this, arguments);
         scope.rangeSelected = false;
+        scope.isStepSet = false;
+        scope.lastTouch = NEXT;
+        scope.trackingPrev = 0;
+        scope.trackingNext = 0;
 
         //show/hide nav previous button depend on the minDate
         scope.showNavPrev = () => {
@@ -128,18 +137,23 @@ function DateRangeDecorator($provide) {
           if (info.id !== scope.callerId) {
             return;
           }
-          //logic:
-          //if month moved increases, but the direction to the previous month,
-          //then move back the view, and reset the tracking to the opposite number,
-          //so next time, it will move forward. vise versa.
-          if (monthMovingTracking > 0 && info.direction === PREV) {
-            scope.move(-monthMovingTracking);
-            monthMovingTracking = -monthMovingTracking;
+
+          if (scope.lastTouch === PREV && !scope.isStepSet) {
+            movingStep = scope.trackingPrev;
+            scope.isStepSet = true;
+          } else if (scope.lastTouch === NEXT && !scope.isStepSet) {
+            movingStep = scope.trackingNext;
+            scope.isStepSet = true;
           }
 
-          if (monthMovingTracking < 0 && info.direction === NEXT) {
-            scope.move(-monthMovingTracking);
-            monthMovingTracking = -monthMovingTracking;
+          if (scope.lastTouch === PREV && info.direction === NEXT) {
+            scope.move(movingStep);
+            scope.lastTouch = NEXT;
+          }
+
+          if (scope.lastTouch === NEXT && info.direction === PREV) {
+            scope.move(-movingStep);
+            scope.lastTouch = PREV;
           }
         });
 
@@ -180,12 +194,14 @@ function DateRangeDecorator($provide) {
         };
 
         scope.movePrev = (n) => {
-          monthMovingTracking = monthMovingTracking + n;
+          scope.lastTouch = PREV;
+          scope.trackingPrev = scope.trackingPrev - n;
           return scope.move(n);
         };
 
         scope.moveNext = (n) => {
-          monthMovingTracking = monthMovingTracking + n;
+          scope.lastTouch = NEXT;
+          scope.trackingNext = scope.trackingNext + n;
           return scope.move(n);
         };
 
