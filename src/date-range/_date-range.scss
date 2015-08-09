@@ -2,18 +2,27 @@
   $date-range-boxshadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
   $date-range-in-range-color: #666666;
   $date-range-in-range-background-color: #CEE7FF;
-  $date-range-width: 143px;
-  $date-range-from-width: 35px;
-  $date-range-to-width: 25px;
-  $date-range-gap-width: 4px;
+  $date-range-width: 145px;
+  $date-range-from-width: 40px;
+  $date-range-to-width: 30px;
+  $date-range-gap-width: 8px;
   $date-range-startend-color: #0099CC;
+  $button-positions: ( content: '', top: 0, bottom: 0, width: 0, position: absolute, );
+  @mixin arrow-map-set($map) {
+    @each $property,
+    $value in $map {
+      #{$property}: $value;
+    }
+  }
+
   .akam-date-picker.akam-date-range {
-    width: 2*$date-range-width + 29*$date-range-gap-width + 1px; //403px
-    //vertical-align: middle;
+    width: 2*$date-range-width + 17*$date-range-gap-width;
     height: $input-height + 12px; //border + top|bottom padding
     border: 1px solid $border-color;
-    padding: 5px;
+    padding: 5px 5px;
     background-color: #FFF;
+    border-radius: $border-radius;
+    vertical-align: middle;
     position: relative;
     .range-picker input {
       position: absolute;
@@ -99,12 +108,14 @@
       }
     }
     ul.dropdown-menu {
+      top: 38px !important;
+      left: 0 !important;
       table {
         tbody td {
           height: 23px;
           border: none !important;
           &.space {
-            width: 5%;
+            width: 3%;
             border-width: 0;
           }
           table tr th[role="heading"] {
@@ -122,48 +133,27 @@
           }
           &.selected-start,
           &.selected-end {
-            background-color: $date-range-startend-color;
-            color: $input-text-color;
             & > span {
+              background-color: $date-range-startend-color;
               color: $input-background-color-focus;
-              &:hover {
-                background-color: $date-range-startend-color;
-              }
             }
           }
           &.selected-start:before {
-            content: '';
-            position: absolute;
-            top: 0;
             right: 0;
-            bottom: 0;
-            width: 0;
-            border-top: 10px solid $date-range-in-range-background-color;
-            border-bottom: 10px solid $date-range-in-range-background-color;
-            border-left: 5px solid rgba(0, 0, 0, 0);
+            $border-positions: ( border-top: 10px solid $date-range-in-range-background-color, border-bottom: 10px solid $date-range-in-range-background-color, border-left: 5px solid rgba(0, 0, 0, 0), );
+            @include arrow-map-set($button-positions);
+            @include arrow-map-set($border-positions);
           }
           &.selected-end:before {
-            content: '';
-            position: absolute;
-            top: 0;
             left: 0;
-            bottom: 0;
-            width: 0;
-            border-top: 10px solid $date-range-in-range-background-color;
-            border-bottom: 10px solid $date-range-in-range-background-color;
-            border-right: 5px solid rgba(0, 0, 0, 0);
+            $border-positions: ( border-top: 10px solid $date-range-in-range-background-color, border-bottom: 10px solid $date-range-in-range-background-color, border-right: 5px solid rgba(0, 0, 0, 0), );
+            @include arrow-map-set($button-positions);
+            @include arrow-map-set($border-positions);
           }
           &.selected-start.selected-end:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            border-top: 4px solid $date-range-in-range-background-color;
-            border-bottom: 4px solid $date-range-in-range-background-color;
-            border-right:13px solid rgba(0, 0, 0, 0);
-            border-left: 13px solid rgba(0, 0, 0, 0);
+            $border-positions: ( border-top: 4px solid $date-range-in-range-background-color, border-bottom: 4px solid $date-range-in-range-background-color, border-right: 13px solid rgba(0, 0, 0, 0), border-left: 13px solid rgba(0, 0, 0, 0), );
+            @include arrow-map-set($button-positions);
+            @include arrow-map-set($border-positions);
           }
         }
       }

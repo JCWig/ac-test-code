@@ -14,7 +14,7 @@ const config = {
 };
 
 function moveRangePoint(scope, id, direction) {
-  scope.$broadcast('moveRangePoint', {
+  scope.$broadcast('dateRange.moveRangePoint', {
     id: id,
     direction: direction
   });
@@ -42,8 +42,8 @@ class DateRangeController {
     this.openFromRangeEnd = false;
     this.options = config.options;
 
-    this.dateRangeService.setMinMaxDate(this.rangeStart, new Date());
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
+    this.dateRangeService.setMinMaxDate(this);
   }
 
   toggle(e, direction) {
@@ -108,7 +108,7 @@ function linkFn(scope, elem, attr) {
   });
 
   //this event is sent from date picker directive when range is selected
-  ctrl.$rootScope.$on('rangeSelected', setRangeValues);
+  ctrl.$rootScope.$on('dateRange.rangeSelected', setRangeValues);
   scope.$on('$destroy', setRangeValues);
 
   function setViewValue(value, start, end) {
@@ -193,13 +193,33 @@ function linkFn(scope, elem, attr) {
 
       //send the event to child directive to handle with range values
       //use timeout to make sure the children directives are ready
-      scope.$broadcast('initialDateRange', {
+      scope.$broadcast('dateRange.updateSelected', {
         startDate: start,
         endDate: end,
         id: ctrl.id
       });
 
       initialized = true;
+    });
+
+    scope.$watch('dateRange.maxDate', (newValue) => {
+      if (!newValue) {
+        return;
+      }
+      scope.$broadcast('dateRange.resetMax', {
+        id: ctrl.id,
+        maxValue: new Date(newValue)
+      });
+    });
+
+    scope.$watch('dateRange.minDate', (newValue) => {
+      if (!newValue) {
+        return;
+      }
+      scope.$broadcast('dateRange.resetMin', {
+        id: ctrl.id,
+        minValue: new Date(newValue)
+      });
     });
 
     //this event is sent from date picker directive when range is selected
@@ -233,7 +253,9 @@ function DateRangeDirective() {
       onSelect: '&',
       placeholder: '@?',
       isDisabled: '=?',
-      format: '@?'
+      format: '@?',
+      minDate: '@?',
+      maxDate: '@?'
     },
     scope: {},
     link: linkFn,

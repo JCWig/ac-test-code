@@ -25,7 +25,7 @@
   <pre>selected start date: {{vm.start}}</pre>
   <pre>selected end Date: {{vm.end}}</pre>
   <h4 class="title">An example of date range picker</h4>
-  <akam-date-range ng-model="vm.dateRange1" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+  <akam-date-range ng-model="vm.dateRange1" min-date="{{vm.min | date: 'yyyy-MM-dd'}}" max-date="{{vm.max | date: 'yyyy-MM-dd'}}" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <br/>
   <br/>
   <div class="form-group">
@@ -36,6 +36,14 @@
     <div>
       <select id="DateRangeFormat" ng-options="format.value as format.label for format in vm.formats" ng-model="vm.format"></select>
       <label class="label" for="DateRangeFormat">To select different date formats</label>
+    </div>
+    <div>
+      <input id="minDate" type="checkbox" name='minDate' ng-model='vm.minUpdated' ng-click="vm.updateMin()"/>
+      <label class="label" for="minDate">to change this min date value to prior 3 years (currently using: {{vm.min}})</label>
+    </div>
+    <div>
+      <input id="maxDate" type="checkbox" name='maxDate' ng-model='vm.maxUpdated' ng-click="vm.updateMax()"/>
+      <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{vm.max}})</label>
     </div>
   </div>
   <br/>  <br/>  <br/>
@@ -54,9 +62,22 @@
     var d = new Date();
     var startDate = new Date(d.getFullYear(), d.getMonth(), 3);
     var endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    var defaultMin = new Date(d.getFullYear()-2, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear()+2, d.getMonth(), 0);
 
     vm.dateRange1 = {startDate:'', endDate:''};
     vm.dateRange2 = {startDate:startDate, endDate:endDate};
+
+    vm.min = defaultMin;
+    vm.max = defaultMax;
+
+    vm.updateMax = function() {
+      vm.max = vm.maxUpdated ? new Date(d.getFullYear()+3, d.getMonth(), 0) : defaultMax;
+    }
+
+    vm.updateMin = function() {
+      vm.min = vm.minUpdated ? new Date(d.getFullYear()-3, d.getMonth(), 1) : defaultMin;
+    }
 
     vm.btnName = "preload dates";
 

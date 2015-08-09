@@ -9,12 +9,13 @@ class DateRangeService {
    * isFirstDateExceedMinDate service method to compare range first date to min date
    * @param {Date} d first date
    * @param {Date} min predefined min date
-   * @return {Boolean} true if first date is same or greater then min date, false is otherwise
+   * @return {Boolean} true if first date is greater then min date, false is otherwise
    */
   isFirstDateExceedMinDate(d, min) {
-    let firstDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+    let firstActiveDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1),
+      firstMinDayOfMonth = new Date(min.getFullYear(), min.getMonth(), 1);
 
-    return min && firstDayOfMonth >= min;
+    return firstActiveDayOfMonth > firstMinDayOfMonth;
   }
 
   /**
@@ -24,9 +25,10 @@ class DateRangeService {
    * @return {Boolean} true if last date is less then max date, false is otherwise
    */
   isLastDateNotOverMaxDate(d, max) {
-    let lastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+    let lastActiveDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0),
+      lastMaxDayOfMonth = new Date(max.getFullYear(), max.getMonth(), 0);
 
-    return max && lastDayOfMonth < max;
+    return lastActiveDayOfMonth < lastMaxDayOfMonth;
   }
 
   /**
@@ -56,16 +58,35 @@ class DateRangeService {
   }
 
   /**
-   * setStartMinMax set start date min and max values
-   * @param {object} rangeStart start date object
-   * @param {Date} date Date value
+   * setMinMaxDate set date picker min-date and max-date values
+   * By defaults: min-date is 2 years before and first day of month,
+   * max-date is 2 years after and last of of the month
+   * @param {object} dateRange date object
+   * @param {Number} [backforwarYears=2] configuable number set for back or forward years
    */
-  setMinMaxDate(rangeStart, date) {
-    let y = date.getFullYear(),
-      m = date.getMonth();
+  setMinMaxDate(dateRange, backforwarYears = 2) {
+    let date = new Date(),
+      minYr = date.getFullYear() - backforwarYears,
+      maxYr = date.getFullYear() + backforwarYears,
+      minMo = date.getMonth(),
+      maxMo = date.getMonth();
 
-    rangeStart.minDate = new Date(y - 1, m - 1, 1);
-    rangeStart.maxDate = new Date(y + 1 + 1, m + 1, 0);
+    if (dateRange.minDate) {
+      date = new Date(dateRange.minDate);
+      if (angular.isDate(date)) {
+        minYr = date.getFullYear();
+        minMo = date.getMonth();
+      }
+    }
+    if (dateRange.maxDate) {
+      date = new Date(dateRange.maxDate);
+      if (angular.isDate(date)) {
+        maxYr = date.getFullYear();
+        maxMo = date.getMonth();
+      }
+    }
+    dateRange.minDate = new Date(minYr, minMo, 1);
+    dateRange.maxDate = new Date(maxYr, maxMo + 1, 0);
   }
 
   /**

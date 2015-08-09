@@ -47,7 +47,7 @@ function DateRangeDecorator($provide) {
     }
 
     //send event back to parent dirctive with range values
-    $rootScope.$emit('rangeSelected', {
+    $rootScope.$emit('dateRange.rangeSelected', {
       selectedStart: scope.selectedStart,
       selectedEnd: scope.selectedEnd,
       rangeSelected: scope.rangeSelected,
@@ -93,7 +93,7 @@ function DateRangeDecorator($provide) {
 
     directive.compile = () => {
       return function(scope, element, attrs, ctrl) {
-        let initialDateRange, moveRangePoint, movingStep;
+        let initialDateRange, moveRangePoint, resetMin, resetMax, movingStep;
 
         link.apply(this, arguments);
         scope.rangeSelected = false;
@@ -122,7 +122,7 @@ function DateRangeDecorator($provide) {
         //this event is sent from date range drective(parent) to tell date the range values.
         //values can be empty or initial range values. it also saves unique id per directive,
         //so it can be identified to whom is interested in receiving events
-        initialDateRange = scope.$on('initialDateRange', (event, info) => {
+        initialDateRange = scope.$on('dateRange.updateSelected', (event, info) => {
           scope.selectedStart = info.startDate;
           scope.selectedEnd = info.endDate;
           scope.callerId = info.id;
@@ -133,7 +133,15 @@ function DateRangeDecorator($provide) {
           }
         });
 
-        moveRangePoint = scope.$on('moveRangePoint', (event, info) => {
+        resetMax = scope.$on('dateRange.resetMax', (e, info) => {
+          ctrl.maxDate = info.maxValue;
+        });
+
+        resetMin = scope.$on('dateRange.resetMin', (e, info) => {
+          ctrl.minDate = info.minValue;
+        });
+
+        moveRangePoint = scope.$on('dateRange.moveRangePoint', (e, info) => {
           if (info.id !== scope.callerId) {
             return;
           }
@@ -160,6 +168,8 @@ function DateRangeDecorator($provide) {
         scope.$on('$destroy', () => {
           initialDateRange();
           moveRangePoint();
+          resetMin();
+          resetMax();
         });
 
         scope.isInRange = (currentDate) => {

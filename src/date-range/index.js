@@ -23,8 +23,10 @@ import dateRangeDecorator from './date-range-decorator';
  *   ng-model="vm.dateRange"
  *   format="{vm.format}"
  *   is-disabled="vm.disabled"
+ *   min-date="vm.min"
+ *   max-date="vm.max"
  *   on-select="cb(range, start, end)">
- * </akam-date-range></akam-date-range>
+ * </akam-date-range>
  *
  */
 export default angular.module('akamai.components.date-range', [
@@ -60,6 +62,12 @@ export default angular.module('akamai.components.date-range', [
  *
  * @param {String} [placeholder='Select Dates'] The placeholder text for the search input field,
  * default value is localized
+ *
+ * @param {String} The min date is iso format date string (2015-8-1),
+ * it can dynamically change min date calendar setting.
+ *
+ * @param {String} The min date is iso format date string (2017-7-31),
+ * it can dynamically change max date calendar setting.
  *
  * @param {Function} [onSelect] A callback function to parent scope once
  * any changes to start or end date, the value is appended selected date range text

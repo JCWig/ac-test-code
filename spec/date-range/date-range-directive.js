@@ -197,7 +197,7 @@ describe('akamai.components.date-range', function() {
     });
 
 
-    it('should verify the APIs value value if not provided in directive', function() {
+    it('should verify the APIs values if not provided in directive', function() {
       expect(dateRange.dateRange).not.toBe(undefined);
       expect(angular.isObject(dateRange.dateRange)).toBeTruthy();
       expect(angular.isObject(dateRange.dateRange.startDate)).toBeFalsy();
@@ -206,6 +206,8 @@ describe('akamai.components.date-range', function() {
       expect(dateRange.placeholder).toBe(undefined);
       expect(dateRange.format).not.toBe(undefined);
       expect(dateRange.format).toEqual('EEE, MMM dd, yyyy');
+      expect(dateRange.minDate).toBe(undefined);
+      expect(dateRange.maxDate).toBe(undefined);
       expect(angular.isFunction(dateRange.onSelect)).toBeTruthy();
     });
 
@@ -294,6 +296,48 @@ describe('akamai.components.date-range', function() {
 
       expect(dateBtnElem1).toBe(null);
       expect(dateBtnElem2).toBe(null);
+    });
+
+  });
+
+  describe("Verify minDate and maxDate updates dynamically...", function() {
+    let dateRange;
+    let d = new Date("08/09/2015");
+    let min = new Date(d.getFullYear()-2, d.getMonth(), 1);
+    let max = new Date(d.getFullYear()+2, d.getMonth(), 0);
+    beforeEach(function() {
+      this.$scope.dateRange = {
+        startDate: '',
+        endDate: ''
+      };
+      this.$scope.min = min;
+      this.$scope.max = max
+      let markup = `<akam-date-range ng-model='dateRange' min-date="{{min | date: 'yyyy-MM-dd'}}" max-date="{{max | date: 'yyyy-MM-dd'}}"></akam-date-range>`;
+      addElement.call(this, markup);
+      dateRange = this.el.isolateScope().dateRange;
+    });
+
+    it('should verify min-date and max-date values from input element', function() {
+      let inputElem = this.element.querySelector('.range-picker input');
+      let minDateString = inputElem.getAttribute('min-date');
+      let maxDateString = inputElem.getAttribute('max-date');
+
+      expect(minDateString).not.toBe(null);
+      expect(maxDateString).not.toBe(null);
+
+      expect(minDateString).toBe('2013-08-01');
+      expect(maxDateString).toBe('2017-07-31');
+
+    });
+
+    it('should verify controller minDate and maxDate values', function() {
+
+      expect(dateRange.minDate).not.toBe(null);
+      expect(dateRange.maxDate).not.toBe(null);
+
+      expect(dateRange.minDate).toBe('2013-08-01');
+      expect(dateRange.maxDate).toBe('2017-07-31');
+
     });
 
   });
