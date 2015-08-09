@@ -87,7 +87,8 @@ class DateRangeController {
   }
 }
 DateRangeController.$inject = ['$scope', '$log', '$timeout',
-  'dateFilter', '$rootScope', 'translate', 'uuid', 'dateRangeService'];
+  'dateFilter', '$rootScope', 'translate', 'uuid', 'dateRangeService'
+];
 
 function linkFn(scope, elem, attr) {
 
@@ -107,6 +108,14 @@ function linkFn(scope, elem, attr) {
       ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
     });
   }
+
+  ctrl.translate.async('components.date-range.labels.from').then((value) => {
+    ctrl.labels.from = value;
+  });
+
+  ctrl.translate.async('components.date-range.labels.to').then((value) => {
+    ctrl.labels.to = value;
+  });
 
   //this event is sent from date picker directive when range is selected
   ctrl.$rootScope.$on('rangeSelected', setRangeValues);
@@ -144,11 +153,9 @@ function linkFn(scope, elem, attr) {
       setViewValue(range, start, end);
 
       ctrl.rangeSelected = info.rangeSelected;
-      ctrl.closingRange = true;
 
       ctrl.$timeout(() => {
         ctrl.opened = false;
-        ctrl.closingRange = false;
       }, config.DELAY_CLOSING);
 
     } else {
@@ -207,19 +214,19 @@ function linkFn(scope, elem, attr) {
 
     //this event is sent from date picker directive when range is selected
     scope.$watch('dateRange.format', () => {
-      start = ctrl.rangeStart.selectedValue;
-      end = ctrl.rangeEnd.selectedValue;
+      let sd = ctrl.rangeStart.selectedValue;
+      let ed = ctrl.rangeEnd.selectedValue;
 
       if (!initialized) {
         return;
       }
 
-      if (start) {
-        ctrl.rangeStart.selectedValue = ctrl.dateFilter(new Date(start), ctrl.format);
+      if (sd) {
+        ctrl.rangeStart.selectedValue = ctrl.dateFilter(new Date(sd), ctrl.format);
       }
 
-      if (end) {
-        ctrl.rangeEnd.selectedValue = ctrl.dateFilter(new Date(end), ctrl.format);
+      if (ed) {
+        ctrl.rangeEnd.selectedValue = ctrl.dateFilter(new Date(ed), ctrl.format);
       }
     });
   }

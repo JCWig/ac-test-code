@@ -21,7 +21,11 @@
             }
         },
         "date-range": {
-            "placeholder": "Select Dates"
+            "placeholder": "Select Dates",
+            "labels": {
+                "from": "From",
+                "to": "To"
+            }
         },
         "modal-window": {
             "successMessage": "The action has been completed.",
