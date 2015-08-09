@@ -7,7 +7,7 @@ class DateRangeService {
 
   /**
    * isFirstDateExceedMinDate service method to compare range first date to min date
-   * @param {Date} d first date
+   * @param {Date} d to be evaluated date
    * @param {Date} min predefined min date
    * @return {Boolean} true if first date is greater then min date, false is otherwise
    */
@@ -20,7 +20,7 @@ class DateRangeService {
 
   /**
    * isLastDateNotOverMaxDate service method to compare range lase date to max date
-   * @param {Date} d first date
+   * @param {Date} d to be evaluated date
    * @param {Date} max predefined max date
    * @return {Boolean} true if last date is less then max date, false is otherwise
    */

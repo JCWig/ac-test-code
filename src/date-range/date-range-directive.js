@@ -46,7 +46,7 @@ class DateRangeController {
     this.dateRangeService.setMinMaxDate(this);
   }
 
-  toggle(e, direction) {
+  toggle(e, direction='prev') {
     this.preventOtherEvents(e);
 
     if (this.rangeSelected) {
@@ -62,7 +62,7 @@ class DateRangeController {
   rangeStartToggle(e) {
     this.openFromRangeStart = true;
     this.openFromRangeEnd = false;
-    this.toggle(e, 'prev');
+    this.toggle(e);
   }
 
   rangeEndToggle(e) {
@@ -243,7 +243,7 @@ function linkFn(scope, elem, attr) {
   initialize();
 }
 
-function DateRangeDirective() {
+export default () => {
   return {
     restrict: 'E',
     controller: DateRangeController,
@@ -261,6 +261,4 @@ function DateRangeDirective() {
     link: linkFn,
     template: template
   };
-}
-
-export default DateRangeDirective;
+};
