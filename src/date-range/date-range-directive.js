@@ -10,11 +10,7 @@ const config = {
     maxMode: 'day'
   },
   FORMAT: 'EEE, MMM dd, yyyy',
-  DELAY_CLOSING: 1800,
-  LABELS: {
-    FROM: 'From',
-    TO: 'To'
-  }
+  DELAY_CLOSING: 2000
 };
 
 function moveRangePoint(scope, id, direction) {
@@ -38,6 +34,7 @@ class DateRangeController {
     this.opened = false;
     this.rangeStart = {};
     this.rangeEnd = {};
+    this.labels = {};
     this.rangeStart.selectedValue = '';
     this.rangeEnd.selectedValue = '';
     this.rangeSelected = false;
@@ -45,15 +42,8 @@ class DateRangeController {
     this.openFromRangeEnd = false;
     this.options = config.options;
 
-    //they need to be getting from locale file
-    this.labels = {
-      from: config.LABELS.FROM,
-      to: config.LABELS.TO
-    };
-
     this.dateRangeService.setMinMaxDate(this.rangeStart, new Date());
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
-
   }
 
   toggle(e, direction) {
