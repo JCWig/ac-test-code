@@ -1,7 +1,7 @@
 import angular from 'angular';
 import template from './templates/list-box.tpl.html';
 
-module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
+function listBox($log, $q, $timeout, uuid, $filter, translate) {
 
   class ListBoxController {
 
@@ -408,4 +408,6 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
 
   };
 };
-module.exports.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', 'translate'];
+listBox.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', 'translate'];
+
+export default listBox;
