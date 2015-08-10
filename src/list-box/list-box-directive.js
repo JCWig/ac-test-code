@@ -407,7 +407,7 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
     template: template
 
   };
-};
+}
 listBox.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', 'translate'];
 
 export default listBox;
