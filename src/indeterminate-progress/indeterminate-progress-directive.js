@@ -1,3 +1,5 @@
+import template from './templates/indeterminate-progress-directive.tpl.html';
+
 const WRAPPER_CLASS_NAME = 'indeterminate-progress-wrapper',
   CLASS_NAME = 'indeterminate-progress',
   SIZE_SMALL = 'small',
@@ -41,7 +43,7 @@ class IndeterminateProgressController {
   }
 }
 
-export default () => {
+export default function() {
 
   return {
     restrict: 'AE',
@@ -54,16 +56,17 @@ export default () => {
     },
     controller: IndeterminateProgressController,
     controllerAs: 'indeterminateProgress',
-    link: ($scope, element) => {
+    link: (scope, element) => {
+      let ctrl = scope.indeterminateProgress;
 
       //add or remove the class based on whether or not the element is "completed".
-      $scope.$watch('indeterminateProgress.stateFailed', () => {
-        element.toggleClass('failed', $scope.indeterminateProgress.failed);
+      scope.$watch('indeterminateProgress.stateFailed', () => {
+        element.toggleClass('failed', ctrl.failed);
       }, true);
 
       //add or remove the class based on whether or not the element is "completed".
-      $scope.$watch('indeterminateProgress.stateCompleted', () => {
-        element.parent().toggleClass(CLASS_NAME, !$scope.indeterminateProgress.completed);
+      scope.$watch('indeterminateProgress.stateCompleted', () => {
+        element.parent().toggleClass(CLASS_NAME, !ctrl.completed);
       }, true);
 
       //remove the indeterminate progress if the element is removed.
@@ -72,10 +75,8 @@ export default () => {
       });
 
       element.addClass(WRAPPER_CLASS_NAME);
-      element.addClass($scope.indeterminateProgress.size);
+      element.addClass(ctrl.size);
     },
-    template: `<div class="indeterminate-progress-spinner"></div>
-    <label ng-if="indeterminateProgress.label"
-      class="indeterminate-progress-label">{{ indeterminateProgress.label }}</label>`
+    template: template
   };
-};
+}
