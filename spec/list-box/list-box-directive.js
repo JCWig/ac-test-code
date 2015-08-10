@@ -1230,23 +1230,15 @@ describe('akam-list-box', function() {
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
     });
     it('should be able to change the no data messages', function() {
-      scope.baddata = [];
-      scope.columns = [
-        {
-          content: "name",
-          header: 'Name'
-        }
-      ];
+
       var dataTableRow = document.querySelector('.empty-table-message span');
       var NEW_MESSAGE = 'new message';
-
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
-      console.log(dataTableRow);
+
       scope.myNoDataMessage = NEW_MESSAGE;
       scope.$digest();
-      console.log(dataTableRow);
-
       expect(dataTableRow.textContent).toContain(NEW_MESSAGE);
+
     });
     it('should present the "no data" message when no data is available and filtered', function() {
       self.listBox.state.filter = "Oliver";

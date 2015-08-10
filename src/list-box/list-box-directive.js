@@ -39,6 +39,16 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
         this.messages = this.staticMessages;
       });
 
+      this.loadMoreData = function() {
+        for (let i = this.page * 10; i < this.page * 10 + 10; i++) {
+          if (!this.dataTable || !this.dataTable[i]) {
+            break;
+          }
+          this.dataSource.push(this.dataTable[i]);
+        }
+        this.page++;
+      };
+
       $scope.$watch('listBox.dataTable', (newData) => {
         let sourceData = [];
 
@@ -124,16 +134,6 @@ module.exports = function($log, $q, $timeout, uuid, $filter, translate) {
           this.updateSearchFilter();
         }
       }
-    }
-
-    loadMoreData() {
-      for (let i = this.page * 10; i < this.page * 10 + 10; i++) {
-        if (!this.dataTable || !this.dataTable[i]) {
-          break;
-        }
-        this.dataSource.push(this.dataTable[i]);
-      }
-      this.page++;
     }
 
     processDataTable() {
