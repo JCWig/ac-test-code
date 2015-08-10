@@ -1,11 +1,11 @@
-<div class="switch-button" ng-class="{'switch-button-on': on, 'switch-button-off': !on}">
+<div class="switch-button" ng-class="{'switch-button-on': switchButton.on, 'switch-button-off': !switchButton.on}">
     <div class="switch-button-container">
-        <span>{{ onLabel }}</span>
+        <span>{{ switchButton.onLabel }}</span>
         <label>
             <span></span>
             <span></span>
             <span></span>
         </label>
-        <span>{{ offLabel }}</span>
+        <span>{{ switchButton.offLabel }}</span>
     </div>
 </div>
