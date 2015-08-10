@@ -43,7 +43,7 @@ function switchButton(translate) {
     controllerAs: 'switchButton',
     template: template,
     link: function(scope, elem, attrs, ngModel) {
-      const ctrl = scope.switchButton;
+      let ctrl = scope.switchButton;
       let size = attrs.size !== SIZE_SMALL && attrs.size !== SIZE_MEDIUM ? SIZE_SMALL : attrs.size;
       let theme = attrs.theme === GRAYSCALE ? attrs.theme : COLOR;
       let element = elem.children(0);
