@@ -1,4 +1,6 @@
-var angular = require('angular');
+import angular from 'angular';
+import textOverflowDirective from './text-overflow-directive.js';
+import standaloneDirective from './standalone-directive.js';
 
 /**
  * @ngdoc module
@@ -31,7 +33,7 @@ module.exports = angular.module('akamai.components.utils', [])
  * additional watches.
  *
  */
-  .directive('akamTextOverflow', require('./text-overflow-directive.js'))
+  .directive('akamTextOverflow', textOverflowDirective)
 /**
  * @ngdoc directive
  *
@@ -42,4 +44,4 @@ module.exports = angular.module('akamai.components.utils', [])
  * @restrict A
  *
  */
-  .directive('akamStandalone', require('./standalone-directive.js'));
+  .directive('akamStandalone', standaloneDirective);

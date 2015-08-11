@@ -1,20 +1,25 @@
-var debounce = require('lodash/function/debounce');
-var angular = require('angular');
+import debounce from 'lodash/function/debounce';
+import angular from 'angular';
 
-module.exports = function($timeout) {
+function textOverflowDirective($timeout, $window) {
   return {
     restrict: 'A',
-    scope: {
+    scope: {},
+    bindToController: {
       akamTextOverflow: '='
     },
+    controller: () => {},
+    controllerAs: 'textOverflow',
     link: function(scope, element) {
+      let ctrl = scope.textOverflow;
+
       function giveTitles() {
         $timeout(function() {
-          var scrollWidth = element[0].scrollWidth;
-          var width = element[0].offsetWidth;
+          let scrollWidth = element[0].scrollWidth;
+          let width = element[0].offsetWidth;
 
           if (scrollWidth > width) {
-            element.prop('title', scope.akamTextOverflow.trim());
+            element.prop('title', ctrl.akamTextOverflow.trim());
           } else {
             element.removeAttr('title');
           }
@@ -26,7 +31,14 @@ module.exports = function($timeout) {
         giveTitles();
       });
       giveTitles();
+
+      scope.$on('$destroy', function() {
+        $window.removeEventListener('resize', giveTitles);
+      });
     }
   };
-};
-module.exports.$inject = ['$timeout'];
+}
+
+textOverflowDirective.$inject = ['$timeout', '$window'];
+
+export default textOverflowDirective;

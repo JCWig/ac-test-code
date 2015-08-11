@@ -1,14 +1,14 @@
-var angular = require('angular');
+import angular from 'angular';
 
-module.exports = function() {
+function standaloneDirective() {
   return {
     restrict: 'A',
     link: function(scope, element) {
-      var wrapperDiv;
-      var regex = /^akam-/;
+      let wrapperDiv;
+      let regex = /^akam-/;
 
-      angular.forEach(element[0].classList, function(className) {
-        //Needed for directives with replace = true
+      angular.forEach(element[0].classList, className => {
+        // Needed for directives with replace = true
         if (className.match(regex)) {
           wrapperDiv = element[0];
         }
@@ -19,4 +19,6 @@ module.exports = function() {
       angular.element(wrapperDiv).addClass('standalone');
     }
   };
-};
+}
+
+export default standaloneDirective;
