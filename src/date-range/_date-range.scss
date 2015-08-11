@@ -7,19 +7,12 @@
   $date-range-to-width: 17px;
   $date-range-gap-width: 10px;
   $date-range-startend-color: #0099CC;
-  $button-positions: ( content: '', top: 0, bottom: 0, width: 0, position: absolute, );
-  @mixin arrow-map-set($map) {
-    @each $property,
-    $value in $map {
-      #{$property}: $value;
-    }
-  }
 
   .akam-date-picker.akam-date-range {
     width: 2*$date-range-width + 5*$date-range-gap-width + $date-range-from-width + $date-range-to-width + 46px;
     height: $input-height + 12px; //border + top|bottom padding
     border: 1px solid $border-color;
-    padding: 5px 5px;
+    padding: 5px;
     background-color: #FFF;
     border-radius: $border-radius;
     vertical-align: middle;
@@ -51,9 +44,6 @@
           margin-left: 2*$date-range-width + $date-range-from-width + $date-range-to-width + 4*$date-range-gap-width;
           position: absolute;
           @include border-left-radius(0);
-          i {
-            @include disable-magic-sprite-selectors(calendar);
-          }
         }
         & .date-range-placeholder {
           color: #ccc;
@@ -146,21 +136,38 @@
             }
           }
           &.selected-start:before {
+            content: '';
+            position: absolute;
+            top: 0;
             right: 0;
-            $border-positions: ( border-top: 10px solid $date-range-in-range-background-color, border-bottom: 10px solid $date-range-in-range-background-color, border-left: 5px solid rgba(0, 0, 0, 0), );
-            @include arrow-map-set($button-positions);
-            @include arrow-map-set($border-positions);
+            bottom: 0;
+            width: 0;
+            border-top: 10px solid $date-range-in-range-background-color;
+            border-bottom: 10px solid $date-range-in-range-background-color;
+            border-left: 5px solid rgba(0, 0, 0, 0);
           }
           &.selected-end:before {
+            content: '';
+            position: absolute;
+            top: 0;
             left: 0;
-            $border-positions: ( border-top: 10px solid $date-range-in-range-background-color, border-bottom: 10px solid $date-range-in-range-background-color, border-right: 5px solid rgba(0, 0, 0, 0), );
-            @include arrow-map-set($button-positions);
-            @include arrow-map-set($border-positions);
+            bottom: 0;
+            width: 0;
+            border-top: 10px solid $date-range-in-range-background-color;
+            border-bottom: 10px solid $date-range-in-range-background-color;
+            border-right: 5px solid rgba(0, 0, 0, 0);
           }
           &.selected-start.selected-end:before {
-            $border-positions: ( border-top: 4px solid $date-range-in-range-background-color, border-bottom: 4px solid $date-range-in-range-background-color, border-right: 13px solid rgba(0, 0, 0, 0), border-left: 13px solid rgba(0, 0, 0, 0), );
-            @include arrow-map-set($button-positions);
-            @include arrow-map-set($border-positions);
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            border-top: 4px solid $date-range-in-range-background-color;
+            border-bottom: 4px solid $date-range-in-range-background-color;
+            border-right:13px solid rgba(0, 0, 0, 0);
+            border-left: 13px solid rgba(0, 0, 0, 0);
           }
         }
       }

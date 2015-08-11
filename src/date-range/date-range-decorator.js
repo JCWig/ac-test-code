@@ -72,7 +72,7 @@ function DateRangeDecorator($provide) {
     return dates;
   }
 
-  function datePickerDirective($delegate, $timeout, $rootScope, dateFilter, dateRangeService) {
+  function datepickerDirective($delegate, $timeout, $rootScope, dateFilter, dateRangeService) {
     let link;
 
     // since: directives could potentially share names, the provider returns an array
@@ -258,10 +258,10 @@ function DateRangeDecorator($provide) {
     return $delegate;
   }
 
-  datePickerDirective.$inject = ['$delegate', '$timeout', '$rootScope', 'dateFilter',
+  datepickerDirective.$inject = ['$delegate', '$timeout', '$rootScope', 'dateFilter',
     'dateRangeService'
   ];
-  $provide.decorator('daypickerDirective', datePickerDirective);
+  $provide.decorator('daypickerDirective', datepickerDirective);
 }
 
 DateRangeDecorator.$inject = ['$provide'];
