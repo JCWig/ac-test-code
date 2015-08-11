@@ -214,28 +214,41 @@ describe('akamai.components.tag-input', function() {
                       'sort-function="sortFunction"></akam-tag-input>';
         addElement(markup);
         var originalLength = scope.items.length;
-        var isoScope = self.el.isolateScope();
-        isoScope.onSelect(undefined);
-        isoScope.onSelect(undefined);
+        var tagInput = self.el.controller('akamTagInput');
+        self.el.isolateScope().onSelect(undefined);
         expect(scope.items.length).toEqual(originalLength);
-        expect(isoScope.data.items.length).toEqual(originalLength);
+        expect(tagInput.data.items.length).toEqual(originalLength);
       });
       it('should not allow selected items that do not pass a given validation function', function(){
-        scope.validateFunction = function(item){ // dont allow strings with only one character
+        /*scope.validateFunction = function(item){ // dont allow strings with only one character
           if(!item || item.type === 'string' || item.length > 1){
+            console.log('valid true');
             return true;
           }
+          console.log('valid false');
+          return false;
+        };*/
+        scope.validateFunction = function(item){ // dont allow strings with only one character
+          if(item.type === 'string' && item.length > 1){
+            console.log('valid true');
+            return true;
+          }
+          console.log('valid false');
           return false;
         };
         var markup = '<akam-tag-input ng-model="items" available-items="availableItems" tagging-label="new item"'+
                       'sort-function="sortFunction" validate-function="validateFunction"></akam-tag-input>';
         addElement(markup);
         var originalLength = scope.items.length;
-        var isoScope = self.el.isolateScope();
-        isoScope.data.items.push('1');
+        var tagInput = self.el.controller('akamTagInput');
+        // tagInput.data.items.push('1');
+        tagInput.availableItems.push('1');
+
         scope.$digest();
-        isoScope.onSelect('1');
-        scope.$digest();
+        console.log(tagInput.availableItems);
+        self.el.isolateScope().onSelect('1');
+
+        // scope.$digest();
         var invalidActivatedDirective = document.querySelector('.invalid-tag');
         expect(invalidActivatedDirective).not.toBe(null);
       });
@@ -244,13 +257,13 @@ describe('akamai.components.tag-input', function() {
                       'sort-function="sortFunction" restricted="true"></akam-tag-input>';
         addElement(markup);
         var originalLength = scope.items.length;
-        var isoScope = self.el.isolateScope();
+        var isoScope = self.el.controller('akamTagInput');
         isoScope.data.items.push('DOES NOT EXIST'); 
-        isoScope.onSelect('DOES NOT EXIST');
+        self.el.isolateScope().onSelect('DOES NOT EXIST');
         expect(scope.items.length).toEqual(originalLength);
         expect(isoScope.data.items.length).toEqual(originalLength);
         isoScope.data.items.push('Dick Grayson');
-        isoScope.onSelect('Dick Grayson');
+        self.el.isolateScope().onSelect('Dick Grayson');
         expect(scope.items.length).toEqual(originalLength + 1);
         expect(isoScope.data.items.length).toEqual(originalLength + 1);
       });
