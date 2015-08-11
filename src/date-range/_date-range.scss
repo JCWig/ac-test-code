@@ -44,6 +44,9 @@
           margin-left: 2*$date-range-width + $date-range-from-width + $date-range-to-width + 4*$date-range-gap-width;
           position: absolute;
           @include border-left-radius(0);
+          i {
+            @include disable-magic-sprite-selectors(calendar);
+          }
         }
         & .date-range-placeholder {
           color: #ccc;
