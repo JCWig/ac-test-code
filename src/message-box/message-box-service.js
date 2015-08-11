@@ -1,5 +1,5 @@
 import angular from 'angular';
-import template from './templates/message-box-directive.tpl.html';
+import template from './templates/message-box.tpl.html';
 
 function messageBox(modalWindow, translate, $rootScope) {
 

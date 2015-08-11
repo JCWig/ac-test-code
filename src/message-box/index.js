@@ -2,7 +2,7 @@ import angular from 'angular';
 import angularBootstrapNpm from 'angular-bootstrap-npm';
 import modalWindow from '../modal-window';
 import i18n from '../i18n';
-import messageBoxService from './message-box-directive-service';
+import messageBoxService from './message-box-service';
 
 /**
  * @ngdoc module
