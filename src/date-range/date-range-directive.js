@@ -56,27 +56,32 @@ class DateRangeController {
         id: this.id,
         rangePoint: rangePoint
       });
+
+      if (rangePoint === 'start') {
+        this.setFocusState(true);
+      } else if (rangePoint === 'end') {
+        this.setFocusState(false);
+      }
+    } else {
+      this.setFocusState(true);
     }
 
-    if (rangePoint === 'start') {
-      this.openFromRangeStart = true;
-      this.openFromRangeEnd = false;
-    }
     if (!this.isDisabled) {
       this.opened = !this.opened;
     }
   }
 
   rangeStartToggle(e) {
-    this.openFromRangeStart = true;
-    this.openFromRangeEnd = false;
     this.toggle(e);
   }
 
   rangeEndToggle(e) {
-    this.openFromRangeStart = false;
-    this.openFromRangeEnd = true;
     this.toggle(e, 'end');
+  }
+
+  setFocusState(startBlankToFocus) {
+    this.openFromRangeStart = startBlankToFocus;
+    this.openFromRangeEnd = !startBlankToFocus;
   }
 
   setMinMaxDate(configuredYearSpan = 2) {
@@ -113,7 +118,7 @@ DateRangeController.$inject = ['$scope', '$log', '$timeout',
   'dateFilter', '$rootScope', 'translate', 'uuid', 'dateRangeService'
 ];
 
-function linkFn(scope, elem, attr) {
+function linkFn(scope, elem, attr, ngModel) {
 
   let initialized = false,
     ctrl = scope.dateRange,
@@ -147,6 +152,10 @@ function linkFn(scope, elem, attr) {
         endDate: end
       });
     }
+    ngModel.$setViewValue({
+      startDate: start,
+      endDate: end
+    });
   }
 
   function setRangeValues(e, info) {
@@ -178,9 +187,15 @@ function linkFn(scope, elem, attr) {
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
 
       ctrl.$timeout(() => {
-        //assuming only start date has value, calendar stay open
+        //assuming only start date has value, calendar stay open - forced
         ctrl.opened = true;
       });
+
+      if (start) {
+        ctrl.setFocusState(false);
+      } else {
+        ctrl.setFocusState(true);
+      }
     }
     e.stopPropagation();
   }
@@ -272,6 +287,7 @@ function linkFn(scope, elem, attr) {
 export default () => {
   return {
     restrict: 'E',
+    require: '^ngModel',
     controller: DateRangeController,
     controllerAs: 'dateRange',
     bindToController: {
