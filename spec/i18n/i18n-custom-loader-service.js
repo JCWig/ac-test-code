@@ -50,7 +50,7 @@ describe('i18nCustomLoader service', function() {
     it('should return correct translated value using the deep merge retrieval of the key from translation table', function() {
       expect(translation.sync('contractselector.filter.products')).toEqual('Filter Products');
     });
-    
+
     it('should return same key value if key not found from translation table', function() {
       expect(translation.sync('somekey.someotherkey')).toEqual('somekey.someotherkey');
     });

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   /*eslint-disable camelcase */
   en_US: {
     DATETIME_FORMATS: {

@@ -1,7 +1,7 @@
-var angular = require('angular');
+import angular from 'angular';
 
-module.exports = function($parse, translate) {
-  var akamTranslateFilter = function(translationId, params) {
+function translateFilter($parse, translate) {
+  let akamTranslateFilter = (translationId, params) => {
     if (!angular.isObject(params)) {
       params = $parse(params)(this);
     }
@@ -10,5 +10,7 @@ module.exports = function($parse, translate) {
 
   akamTranslateFilter.$stateful = true;
   return akamTranslateFilter;
-};
-module.exports.$inject = ['$parse', 'translate'];
+}
+
+translateFilter.$inject = ['$parse', 'translate'];
+export default translateFilter;
