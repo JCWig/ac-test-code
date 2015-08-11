@@ -2,7 +2,7 @@ import angular from 'angular';
 import template from './templates/date-picker-day-popup.tpl.html';
 
 function DateRangeDecorator($provide) {
-  const [PREV, NEXT] = ['prev', 'next'];
+  const [START, END] = ['start', 'end'];
 
   function firstTimeSelect(dt, scope) {
     if (dt.getMonth() + 1 === scope.pairingMonth) {
@@ -13,11 +13,6 @@ function DateRangeDecorator($provide) {
       scope.selectedEnd = null;
     }
     scope.rangeSelected = false;
-
-    scope.isStepSet = false;
-    scope.lastTouch = NEXT;
-    scope.trackingPrev = 0;
-    scope.trackingNext = 0;
   }
 
   function secondTimeSelect(dt, scope) {
@@ -93,14 +88,10 @@ function DateRangeDecorator($provide) {
 
     directive.compile = () => {
       return function(scope, element, attrs, ctrl) {
-        let initialDateRange, moveRangePoint, resetMin, resetMax, movingStep;
+        let initialDateRange, moveRangePoint, resetMin, resetMax;
 
         link.apply(this, arguments);
         scope.rangeSelected = false;
-        scope.isStepSet = false;
-        scope.lastTouch = NEXT;
-        scope.trackingPrev = 0;
-        scope.trackingNext = 0;
 
         //show/hide nav previous button depend on the minDate
         scope.showNavPrev = () => {
@@ -142,27 +133,45 @@ function DateRangeDecorator($provide) {
         });
 
         moveRangePoint = scope.$on('dateRange.moveRangePoint', (e, info) => {
-          if (info.id !== scope.callerId) {
+          if (info.id !== scope.callerId || !scope.rangeSelected) {
             return;
           }
 
-          if (scope.lastTouch === PREV && !scope.isStepSet) {
-            movingStep = scope.trackingPrev;
-            scope.isStepSet = true;
-          } else if (scope.lastTouch === NEXT && !scope.isStepSet) {
-            movingStep = scope.trackingNext;
-            scope.isStepSet = true;
+          let moveStep = 0,
+            currentMonth = scope.currentMonth,
+            siblingMonth = currentMonth + 1,
+            month, year, diff;
+
+          if (info.rangePoint === START) {
+            month = scope.selectedStart.getMonth() + 1;
+            year = scope.selectedStart.getFullYear();
+          } else if (info.rangePoint === END) {
+            month = scope.selectedEnd.getMonth() + 1;
+            year = scope.selectedEnd.getFullYear();
+          }
+          diff = scope.currentYear - year;
+
+          if (currentMonth !== month && siblingMonth !== month) {
+            if (currentMonth < month || currentMonth > month) {
+              moveStep = month - currentMonth;
+            }
           }
 
-          if (scope.lastTouch === PREV && info.direction === NEXT) {
-            scope.move(movingStep);
-            scope.lastTouch = NEXT;
+          if (moveStep === -1 && info.rangePoint === END) {
+            moveStep = moveStep - 1;
           }
 
-          if (scope.lastTouch === NEXT && info.direction === PREV) {
-            scope.move(-movingStep);
-            scope.lastTouch = PREV;
+          if (moveStep > 2 || moveStep < -2) {
+            if (moveStep % 2 !== 0) {
+              moveStep = moveStep - 1; //sibling month not count
+            }
           }
+
+          if (diff < 0 || diff > 0) {
+            moveStep = -diff * 12 + moveStep;
+          }
+          scope.move(moveStep);
+
         });
 
         scope.$on('$destroy', () => {
@@ -204,14 +213,10 @@ function DateRangeDecorator($provide) {
         };
 
         scope.movePrev = (n) => {
-          scope.lastTouch = PREV;
-          scope.trackingPrev = scope.trackingPrev - n;
           return scope.move(n);
         };
 
         scope.moveNext = (n) => {
-          scope.lastTouch = NEXT;
-          scope.trackingNext = scope.trackingNext + n;
           return scope.move(n);
         };
 
@@ -246,6 +251,7 @@ function DateRangeDecorator($provide) {
           scope.pairRows = ctrl.split(days, 7);
           scope.pairingMonth = month + 1;
           scope.currentMonth = month;
+          scope.currentYear = year;
         }
       };
     };

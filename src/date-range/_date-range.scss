@@ -4,7 +4,7 @@
   $date-range-in-range-background-color: #CEE7FF;
   $date-range-width: 145px;
   $date-range-from-width: 32px;
-  $date-range-to-width: 16px;
+  $date-range-to-width: 17px;
   $date-range-gap-width: 10px;
   $date-range-startend-color: #0099CC;
   $button-positions: ( content: '', top: 0, bottom: 0, width: 0, position: absolute, );
@@ -16,7 +16,7 @@
   }
 
   .akam-date-picker.akam-date-range {
-    width: 2*$date-range-width + 5*$date-range-gap-width + $date-range-from-width + $date-range-to-width + 45px;
+    width: 2*$date-range-width + 5*$date-range-gap-width + $date-range-from-width + $date-range-to-width + 46px;
     height: $input-height + 12px; //border + top|bottom padding
     border: 1px solid $border-color;
     padding: 5px 5px;
@@ -122,7 +122,7 @@
           height: 23px;
           border: none !important;
           &.space {
-            width: 4%;
+            width: 5%;
             border-width: 0;
           }
           table tr th[role="heading"] {
