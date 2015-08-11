@@ -58,38 +58,6 @@ class DateRangeService {
   }
 
   /**
-   * setMinMaxDate set date picker min-date and max-date values
-   * By defaults: min-date is 2 years before and first day of month,
-   * max-date is 2 years after and last of of the month
-   * @param {object} dateRange date object
-   * @param {Number} [configuredYearSpan=2] configuable number set for back or forward years
-   */
-  setMinMaxDate(dateRange, configuredYearSpan = 2) {
-    let date = new Date(),
-      minYr = date.getFullYear() - configuredYearSpan,
-      maxYr = date.getFullYear() + configuredYearSpan,
-      minMo = date.getMonth(),
-      maxMo = date.getMonth();
-
-    if (dateRange.minDate) {
-      date = new Date(dateRange.minDate);
-      if (angular.isDate(date)) {
-        minYr = date.getFullYear();
-        minMo = date.getMonth();
-      }
-    }
-    if (dateRange.maxDate) {
-      date = new Date(dateRange.maxDate);
-      if (angular.isDate(date)) {
-        maxYr = date.getFullYear();
-        maxMo = date.getMonth();
-      }
-    }
-    dateRange.minDate = new Date(minYr, minMo, 1);
-    dateRange.maxDate = new Date(maxYr, maxMo + 1, 0);
-  }
-
-  /**
    * getSelectedDateRange get selected date range string
    * @param  {Date} startDate start date object
    * @param  {Date} endDate end date object

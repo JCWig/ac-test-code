@@ -10,15 +10,8 @@ const config = {
     maxMode: 'day'
   },
   FORMAT: 'EEE, MMM dd, yyyy',
-  DELAY_CLOSING: 2000
+  DELAY_CLOSING: 600
 };
-
-function moveRangePoint(scope, id, rangePoint) {
-  scope.$broadcast('dateRange.moveRangePoint', {
-    id: id,
-    rangePoint: rangePoint
-  });
-}
 
 class DateRangeController {
   constructor(scope, $log, $timeout, dateFilter, $rootScope, translate, uuid, dateRangeService) {
@@ -43,16 +36,26 @@ class DateRangeController {
     this.options = config.options;
 
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
-    this.dateRangeService.setMinMaxDate(this);
+
+    this.translate.async('components.date-range.labels.from').then((value) => {
+      this.labels.from = value;
+    });
+
+    this.translate.async('components.date-range.labels.to').then((value) => {
+      this.labels.to = value;
+    });
+
+    this.setMinMaxDate();
   }
 
   toggle(e, rangePoint = 'start') {
     this.preventOtherEvents(e);
 
     if (this.rangeSelected) {
-      //send event to child directive
-      //if it needs to move to start or end month, depends on the direction
-      moveRangePoint(this.scope, this.id, rangePoint);
+      this.scope.$broadcast('dateRange.moveRangePoint', {
+        id: this.id,
+        rangePoint: rangePoint
+      });
     }
 
     if (rangePoint === 'start') {
@@ -74,6 +77,31 @@ class DateRangeController {
     this.openFromRangeStart = false;
     this.openFromRangeEnd = true;
     this.toggle(e, 'end');
+  }
+
+  setMinMaxDate(configuredYearSpan = 2) {
+    let date = new Date(),
+      minYr = date.getFullYear() - configuredYearSpan,
+      maxYr = date.getFullYear() + configuredYearSpan,
+      minMo = date.getMonth(),
+      maxMo = date.getMonth();
+
+    if (this.minDate) {
+      date = new Date(this.minDate);
+      if (angular.isDate(date)) {
+        minYr = date.getFullYear();
+        minMo = date.getMonth();
+      }
+    }
+    if (this.maxDate) {
+      date = new Date(this.maxDate);
+      if (angular.isDate(date)) {
+        maxYr = date.getFullYear();
+        maxMo = date.getMonth();
+      }
+    }
+    this.minDate = new Date(minYr, minMo, 1);
+    this.maxDate = new Date(maxYr, maxMo + 1, 0);
   }
 
   preventOtherEvents(e) {
@@ -103,14 +131,6 @@ function linkFn(scope, elem, attr) {
       ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
     });
   }
-
-  ctrl.translate.async('components.date-range.labels.from').then((value) => {
-    ctrl.labels.from = value;
-  });
-
-  ctrl.translate.async('components.date-range.labels.to').then((value) => {
-    ctrl.labels.to = value;
-  });
 
   //this event is sent from date picker directive when range is selected
   ctrl.$rootScope.$on('dateRange.rangeSelected', setRangeValues);
@@ -162,6 +182,7 @@ function linkFn(scope, elem, attr) {
         ctrl.opened = true;
       });
     }
+    e.stopPropagation();
   }
 
   function initialize() {
