@@ -13,8 +13,6 @@ const config = {
   DELAY_CLOSING: 2000
 };
 
-const [START] = 'start';
-
 function moveRangePoint(scope, id, rangePoint) {
   scope.$broadcast('dateRange.moveRangePoint', {
     id: id,
@@ -48,7 +46,7 @@ class DateRangeController {
     this.dateRangeService.setMinMaxDate(this);
   }
 
-  toggle(e, rangePoint = START) {
+  toggle(e, rangePoint = 'start') {
     this.preventOtherEvents(e);
 
     if (this.rangeSelected) {
@@ -56,7 +54,8 @@ class DateRangeController {
       //if it needs to move to start or end month, depends on the direction
       moveRangePoint(this.scope, this.id, rangePoint);
     }
-    if (rangePoint === START) {
+
+    if (rangePoint === 'start') {
       this.openFromRangeStart = true;
       this.openFromRangeEnd = false;
     }
