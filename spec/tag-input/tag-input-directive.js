@@ -220,20 +220,10 @@ describe('akamai.components.tag-input', function() {
         expect(tagInput.data.items.length).toEqual(originalLength);
       });
       it('should not allow selected items that do not pass a given validation function', function(){
-        /*scope.validateFunction = function(item){ // dont allow strings with only one character
-          if(!item || item.type === 'string' || item.length > 1){
-            console.log('valid true');
-            return true;
-          }
-          console.log('valid false');
-          return false;
-        };*/
         scope.validateFunction = function(item){ // dont allow strings with only one character
-          if(item.type === 'string' && item.length > 1){
-            console.log('valid true');
+          if(!item || item.type === 'string' || item.length > 1){
             return true;
           }
-          console.log('valid false');
           return false;
         };
         var markup = '<akam-tag-input ng-model="items" available-items="availableItems" tagging-label="new item"'+
@@ -241,14 +231,10 @@ describe('akamai.components.tag-input', function() {
         addElement(markup);
         var originalLength = scope.items.length;
         var tagInput = self.el.controller('akamTagInput');
-        // tagInput.data.items.push('1');
-        tagInput.availableItems.push('1');
-
+        tagInput.data.items.push('1');
         scope.$digest();
-        console.log(tagInput.availableItems);
         self.el.isolateScope().onSelect('1');
-
-        // scope.$digest();
+        scope.$digest();
         var invalidActivatedDirective = document.querySelector('.invalid-tag');
         expect(invalidActivatedDirective).not.toBe(null);
       });

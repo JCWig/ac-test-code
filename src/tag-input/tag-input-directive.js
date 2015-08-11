@@ -87,7 +87,7 @@ function tagInput(translate) {
         let tags = element.querySelectorAll('.ui-select-match-item');
 
         if (tags.length) {
-          angular.forEach(scope.invalidInputs, index => {
+          angular.forEach(ctrl.invalidInputs, index => {
             if (tags[index]) {
               tags[index].classList.add('invalid-tag');
             }
@@ -101,7 +101,7 @@ function tagInput(translate) {
       };
       scope.onSelect = function(item) {
         let index = ctrl.availableItems.indexOf(item);
-        // console.log(index);
+
         if (!item) {
           ctrl.removeItem(item);
         } else if (ctrl.restricted && ctrl.restricted === 'true' &&
