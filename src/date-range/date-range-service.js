@@ -46,8 +46,8 @@ class DateRangeService {
   }
 
   /**
-   * inRangeCheck service method to check if
-   * a date is fall into the range od first date and last date
+   * isDateInDateRange service method to check if
+   * a date is fall into the range of first date and last date
    * @param  {Date} currentDate Current date
    * @param  {Date} start a date object
    * @param  {Date} end a date object
@@ -62,12 +62,12 @@ class DateRangeService {
    * By defaults: min-date is 2 years before and first day of month,
    * max-date is 2 years after and last of of the month
    * @param {object} dateRange date object
-   * @param {Number} [backforwarYears=2] configuable number set for back or forward years
+   * @param {Number} [configuredYearSpan=2] configuable number set for back or forward years
    */
-  setMinMaxDate(dateRange, backforwarYears = 2) {
+  setMinMaxDate(dateRange, configuredYearSpan = 2) {
     let date = new Date(),
-      minYr = date.getFullYear() - backforwarYears,
-      maxYr = date.getFullYear() + backforwarYears,
+      minYr = date.getFullYear() - configuredYearSpan,
+      maxYr = date.getFullYear() + configuredYearSpan,
       minMo = date.getMonth(),
       maxMo = date.getMonth();
 
@@ -90,11 +90,11 @@ class DateRangeService {
   }
 
   /**
-   * selectedRange set selected date range string
+   * getSelectedDateRange get selected date range string
    * @param  {Date} startDate start date object
    * @param  {Date} endDate end date object
    * @param  {String} format date format
-   * @return {String} appended string
+   * @return {String} appended two days string
    */
   getSelectedDateRange(startDate, endDate, format) {
     let d1 = angular.isDate(startDate) ? this.dateFilter(startDate, format) : '',
