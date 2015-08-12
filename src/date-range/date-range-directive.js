@@ -63,7 +63,13 @@ class DateRangeController {
         this.setFocusState(false);
       }
     } else {
-      this.setFocusState(true);
+      if (this.rangeStart.selectedValue) {
+        this.setFocusState(false);
+      } else if (this.rangeStart.selectedEnd) {
+        this.setFocusState(true);
+      } else {
+        this.setFocusState(true);
+      }
     }
 
     if (!this.isDisabled) {

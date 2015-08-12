@@ -1,6 +1,6 @@
 <div id="{{::dateRange.id}}" class="akam-date-range akam-date-picker day" ng-class="{opened:dateRange.opened}">
   <span class="range-picker">
-    <input
+    <input ng-hide="true"
       type="text"
       datepicker-popup="{{dateRange.format}}"
       ng-model="dateRange.startDate"
