@@ -1,161 +1,169 @@
-var angular = require('angular');
-var treeViewTemplate = require('./templates/tree-view.tpl.html');
+import angular from 'angular';
+import template from './templates/tree-view.tpl.html';
 
-module.exports = function($q, $compile, $log, $timeout, $parse) {
+class TreeViewController {
 
-  function TreeviewController($scope) {
-    var haveParentsFlag, childrenGetter, parentGetter,
-      inputParents, inputChildren, inputCurrent;
+  static get $inject() {
+    return ['$scope', '$q', '$timeout', '$parse'];
+  }
 
-    var rootProperty = this.rootProperty || 'root';
-    var parentProperty = this.parentProperty || 'parent';
-    var childrenProperty = this.childrenProperty || 'children';
-    var textProperty = this.textProperty || 'title';
+  constructor($scope, $q, $timeout, $parse) {
 
-    childrenGetter = $parse(childrenProperty);
-    parentGetter = $parse(parentProperty);
+    this.$timeout = $timeout;
+    this.$q = $q;
+    this.$parse = $parse;
 
+    this.rootProperty = this.rootProperty || 'root';
+    this.parentProperty = this.parentProperty || 'parent';
+    this.childrenProperty = this.childrenProperty || 'children';
+    this.textProperty = this.textProperty || 'title';
+    this.ships = 'ships';
+
+    console.log(this.textProperty);
+
+    this.childrenGetter = this.$parse(this.childrenProperty);
+    this.parentGetter = this.$parse(this.parentProperty);
+
+    this.haveParentsFlag = null;
+    this.inputCurrent = null;
+    this.inputChildren = null;
+    this.inputParents = null;
     this.loading = true;
-    this.items = this.items;
     this.parentTree = [];
     this.children = [];
+    this.hasParents = () => !!this.parentTree.length;
 
-    this.contextChangeNew = function(index, up) {
-      var spliceIndex = inputParents.length - 1 - index;
-      var self = this;
+    //this.itemChangeFn();
 
-      haveParentsFlag = true;
-      if (up) {
-        inputCurrent = inputParents[spliceIndex];
-        this.current = this.parentTree[spliceIndex];
-        inputParents.splice(spliceIndex, inputParents.length);
-        this.parentTree.splice(spliceIndex, this.parentTree.length);
-        if (this.parentTree.length === 0) {
-          haveParentsFlag = false;
-        }
-      } else {
-        inputParents.push(inputCurrent);
-        this.parentTree.push(this.current);
-        this.current = this.children[index];
-        inputCurrent = inputChildren[index];
+    $scope.$watch('treeview.item', () => this.itemChangeFn());
+  }
+
+  contextChangeNew(index, up) {
+    let spliceIndex = this.inputParents.length - 1 - index;
+
+    this.haveParentsFlag = true;
+    if (up) {
+      this.inputCurrent = this.inputParents[spliceIndex];
+      this.current = this.parentTree[spliceIndex];
+      this.inputParents.splice(spliceIndex, this.inputParents.length);
+      this.parentTree.splice(spliceIndex, this.parentTree.length);
+      if (this.parentTree.length === 0) {
+        this.haveParentsFlag = false;
       }
-      this.retrievedData = false;
-      $timeout(function() {
-        if (!self.retrievedData) {
-          self.loading = true;
-        }
-      }, 300);
-      this.failed = false;
-      $q.when(self.onChange({item: inputCurrent})).then(function(resp) {
-        var data;
-
+    } else {
+      this.inputParents.push(this.inputCurrent);
+      this.parentTree.push(this.current);
+      this.current = this.children[index];
+      this.inputCurrent = this.inputChildren[index];
+    }
+    this.retrievedData = false;
+    this.$timeout(() => {
+      if (!this.retrievedData) {
+        this.loading = true;
+      }
+    }, 300);
+    this.failed = false;
+    this.$q.when(this.onChange({item: this.inputCurrent})).then(
+      (resp) => {
         if (resp) {
-          data = resp.data ? resp.data : resp;
-          self.retrieveAndHandleNewChildrenAndParents(data);
+          this.retrieveAndHandleNewChildrenAndParents(resp.data ? resp.data : resp);
         }
-      }).catch(function() {
-        self.failed = true;
-      });
-    };
-    $scope.$watch('treeview.item', angular.bind(this, itemChangeFn));
-    function itemChangeFn() {
-      var self = this;
+      }).catch(() => this.failed = true);
+  }
 
-      this.retrievedData = false;
-      $timeout(function() {
-        if (!self.retrievedData) {
-          self.loading = true;
+  itemChangeFn() {
+    this.retrievedData = false;
+    this.$timeout(() => {
+      if (!this.retrievedData) {
+        this.loading = true;
+      }
+    }, 300);
+    this.failed = false;
+    if (this.item) {
+      this.$q.when(this.item).then((resp) => {
+        let data = resp.data ? resp.data : resp;
+
+        if (!this.current) {
+          this.inputCurrent = data;
+          this.current = {title: this.$parse(this.textProperty)(data)};
         }
-      }, 300);
-      this.failed = false;
-      if (this.item) {
-        $q.when(this.item).then(function(resp) {
-          var data = resp.data ? resp.data : resp;
+        var t = 1;
+        this.retrieveAndHandleNewChildrenAndParents(data);
+        console.log(this);
+      }).catch(() => this.failed = true);
+    }
+  }
 
-          if (!self.current) {
-            inputCurrent = data;
-            self.current = {title: $parse(textProperty)(data)};
-          }
-          self.retrieveAndHandleNewChildrenAndParents(data);
-        }).catch(function() {
-          self.failed = true;
-        });
+  retrieveAndHandleNewChildrenAndParents(data) {
+    var value;
+
+    this.inputChildren = this.childrenGetter(data);
+
+    if (!this.haveParentsFlag) {
+      this.inputParents = this.parentGetter(data);
+      this.parentTree = this.parentTree.concat(
+        this.convertData(this.inputParents, this.parentProperty, data));
+      if (this.inputParents && !angular.isArray(this.inputParents)) {
+        value = this.inputParents;
+        this.inputParents = [value];
+      }
+      if (this.parentTree.length === 0) {
+        this.inputParents = [];
+        this.current.root = true;
       }
     }
 
-    this.hasParents = function() {
-      return !!this.parentTree.length;
-    };
-    this.retrieveAndHandleNewChildrenAndParents = function(data) {
-      var value;
+    if (this.inputChildren) {
+      this.children = this.convertData(this.inputChildren, this.childrenProperty, data);
+    } else {
+      this.children = [];
+    }
 
-      inputChildren = childrenGetter(data);
-
-      if (!haveParentsFlag) {
-        inputParents = parentGetter(data);
-        this.parentTree = this.parentTree.concat(
-          this.convertData(inputParents, parentProperty, data));
-        if (inputParents && !angular.isArray(inputParents)) {
-          value = inputParents;
-          inputParents = [value];
-        }
-        if (this.parentTree.length === 0) {
-          inputParents = [];
-          this.current.root = true;
-        }
-      }
-
-      if (inputChildren) {
-        this.children = this.convertData(inputChildren, childrenProperty, data);
-      } else {
-        this.children = [];
-      }
-
-      this.loading = false;
-      this.retrievedData = true;
-    };
-    this.convertData = function(data, prop, convertFrom) {
-      var converted, i;
-
-      if (angular.isArray(data)) {
-        converted = [];
-        for (i = 0; i < data.length; i++) {
-          converted.push({
-            title: $parse(prop + '[' + i + '].' + textProperty)(convertFrom),
-            root: $parse(prop + '[' + i + '].' + rootProperty)(convertFrom)
-          });
-        }
-        return converted;
-      } else if (data) {
-        return [{
-          title: $parse(prop + '.' + textProperty)(convertFrom),
-          root: $parse(prop + '.' + rootProperty)(convertFrom)
-        }];
-      } else {
-        return [];
-      }
-    };
-    this.maintainParentTree = function(obj) {
-      this.parentTree = this.parentTree.concat(obj);
-    };
+    this.loading = false;
+    this.retrievedData = true;
   }
 
-  TreeviewController.$inject = ['$scope'];
+  convertData(data, prop, convertFrom) {
+    let converted = [];
 
+    if (angular.isArray(data)) {
+      for (let i = 0; i < data.length; i++) {
+        converted.push({
+          title: this.$parse(prop + '[' + i + '].' + this.textProperty)(convertFrom),
+          root: this.$parse(prop + '[' + i + '].' + this.rootProperty)(convertFrom)
+        });
+      }
+      return converted;
+    } else if (data) {
+      return [{
+        title: this.$parse(prop + '.' + this.textProperty)(convertFrom),
+        root: this.$parse(prop + '.' + this.rootProperty)(convertFrom)
+      }];
+    } else {
+      return [];
+    }
+  }
+
+  maintainParentTree(obj) {
+    this.parentTree = this.parentTree.concat(obj);
+  }
+
+}
+
+export default function() {
   return {
     restrict: 'E',
     scope: {},
     bindToController: {
       item: '=',
-      rootProperty: '@',
-      parentProperty: '@',
-      childrenProperty: '@',
-      textProperty: '@',
-      onChange: '&'
+      rootProperty: '@?',
+      parentProperty: '@?',
+      childrenProperty: '@?',
+      textProperty: '@?',
+      onChange: '&?'
     },
-    controller: TreeviewController,
+    controller: TreeViewController,
     controllerAs: 'treeview',
-    template: treeViewTemplate
+    template: template
   };
-};
-module.exports.$inject = ['$q', '$compile', '$log', '$timeout', '$parse'];
+}
