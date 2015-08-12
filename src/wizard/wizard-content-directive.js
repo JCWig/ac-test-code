@@ -1,4 +1,4 @@
-module.exports = function($compile, $templateCache, $http, $q) {
+function wizardContent($compile, $templateCache, $http, $q) {
 
   var backwashTemplate = '<div ng-if="processing" class="backwash"></div>';
 
@@ -7,9 +7,7 @@ module.exports = function($compile, $templateCache, $http, $q) {
       return $q.when(step.template);
     } else {
       return $http.get(step.templateUrl, {cache: $templateCache})
-        .then(function(result) {
-          return result.data;
-        });
+        .then(result => result.data);
     }
   }
 
@@ -17,17 +15,20 @@ module.exports = function($compile, $templateCache, $http, $q) {
     restrict: 'E',
     template: '<div class="modal-body"></div>',
     link: function(scope, element) {
-      scope.$watch('stepIndex', function(stepIndex) {
-        getStepTemplate(scope.steps[stepIndex])
-          .then(function(content) {
+      scope.$watch('wizard.stepIndex', function(stepIndex) {
+        getStepTemplate(scope.wizard.steps[stepIndex])
+          .then((content) => {
             var modalBodyElem = element.children(0);
 
             modalBodyElem.empty();
-            modalBodyElem.append($compile(backwashTemplate + content)(scope.contentScope));
+            modalBodyElem.append($compile(backwashTemplate + content)(scope.wizard.contentScope));
           });
       });
 
     }
   };
-};
-module.exports.$inject = ['$compile', '$templateCache', '$http', '$q'];
+}
+
+wizardContent.$inject = ['$compile', '$templateCache', '$http', '$q'];
+
+export default wizardContent;
