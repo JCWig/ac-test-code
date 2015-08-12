@@ -6,23 +6,35 @@ var jenkins = !!args.jenkins;
 
 module.exports = function(config) {
 
-  var baseFileList = ['node_modules/angular/angular.js',
-    'node_modules/angular-mocks/angular-mocks.js',
-    'dist/akamai-core.min.css',
+  var baseFileList = [
+    {pattern: 'node_modules/angular/angular.js', watched: false },
+    {pattern: 'node_modules/angular-mocks/angular-mocks.js', watched: false },
+    {pattern: 'dist/akamai-core.min.css', watched: false },
     {pattern: 'dist/images/*', included: false, served: true},
-    'node_modules/moment/moment.js'];
+    {pattern: 'node_modules/moment/moment.js', watched: false }
+  ];
 
   var allSourceFiles = [
-    {pattern: 'spec/!(mega-menu)/**/*.js', watched: false},
+    'spec/!(mega-menu)/**/*.js',
 
     // load the mega menu tests last because they seem to not clean up the environment
     // properly and several message-box and modal-window tests end up failing
-    {pattern: 'spec/mega-menu/**/*.js', watched : false}
+    'spec/mega-menu/**/*.js'
   ];
 
-  var filesToTest = filesToTest = baseFileList.concat(
-    args.testDir ? [{pattern: 'spec/'+ args.testDir+'/**/*.js', watched: false}] : allSourceFiles
+  var preprocessorPattern = args.testDir ? 'spec/'+ args.testDir+'/**/*.js' : 'spec/**/*.js';
+
+  var filesToTest = baseFileList.concat(
+    args.testDir ? [
+      {
+        pattern: preprocessorPattern,
+        watched: false
+      }
+    ] : allSourceFiles
   );
+
+  var preProcessors = {};
+  preProcessors[preprocessorPattern] = ['browserify'];
 
   config.set({
     colors: !jenkins,
@@ -30,9 +42,7 @@ module.exports = function(config) {
     files: filesToTest,
     logLevel: config.LOG_ERROR,
     frameworks: ['browserify', 'jasmine', 'jquery-2.1.0', 'sinon'],
-    preprocessors: {
-      'spec/**/*.js': ['browserify']
-    },
+    preprocessors: preProcessors,
     browsers: ['PhantomJS'],
     reporters: ['spec', 'junit', 'coverage'],
     browserify: {
@@ -53,6 +63,17 @@ module.exports = function(config) {
         { type: 'cobertura' },
         { type: 'text-summary' }
       ]
-    }
+    },
+    plugins: [
+      // Karma will only require() these plugins
+      'karma-browserify',
+      'karma-jasmine',
+      'karma-jquery',
+      'karma-sinon',
+      'karma-junit-reporter',
+      'karma-coverage',
+      'karma-phantomjs-launcher',
+      'karma-spec-reporter'
+    ]
   });
 };

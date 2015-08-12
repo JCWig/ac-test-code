@@ -8,7 +8,7 @@ var production = require('../config').productionBuild;
 gulp.task('test', ['lint', 'sync-locale'], function(done) {
   karma.server.start({
     configFile: path.resolve('./karma.conf.js'),
-    singleRun: true
+    singleRun: production
   },
   // the karma run is always asynchronous,
   // make sure to declare it's finished only when it executes the callback
