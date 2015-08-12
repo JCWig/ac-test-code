@@ -46,9 +46,31 @@ class DateRangeController {
     });
 
     this.setMinMaxDate();
+
+    this.scope.$watch('dateRange.maxDate', (newValue) => {
+      if (!newValue) {
+        return;
+      }
+      this.scope.$broadcast('dateRange.resetMax', {
+        id: this.id,
+        maxValue: new Date(newValue)
+      });
+    });
+
+    this.scope.$watch('dateRange.minDate', (newValue) => {
+      if (!newValue) {
+        return;
+      }
+      this.scope.$broadcast('dateRange.resetMin', {
+        id: this.id,
+        minValue: new Date(newValue)
+      });
+    });
   }
 
   toggle(e, rangePoint = 'start') {
+    let focusState = true;
+
     this.preventOtherEvents(e);
 
     if (this.rangeSelected) {
@@ -57,20 +79,22 @@ class DateRangeController {
         rangePoint: rangePoint
       });
 
-      if (rangePoint === 'start') {
-        this.setFocusState(true);
-      } else if (rangePoint === 'end') {
-        this.setFocusState(false);
+      if (rangePoint === 'end') {
+        focusState = false;
       }
     } else {
-      if (this.rangeStart.selectedValue) {
-        this.setFocusState(false);
-      } else if (this.rangeStart.selectedEnd) {
-        this.setFocusState(true);
-      } else {
-        this.setFocusState(true);
+      let sdValue = this.rangeStart.selectedValue,
+        edValue = this.rangeEnd.selectedValue;
+
+      if (!sdValue && !edValue) {
+        if (rangePoint === 'end') {
+          focusState = false;
+        }
+      } else if (sdValue) {
+        focusState = false;
       }
     }
+    this.setFocusState(focusState);
 
     if (!this.isDisabled) {
       this.opened = !this.opened;
@@ -120,6 +144,7 @@ class DateRangeController {
     e.stopPropagation();
   }
 }
+
 DateRangeController.$inject = ['$scope', '$log', '$timeout',
   'dateFilter', '$rootScope', 'translate', 'uuid', 'dateRangeService'
 ];
@@ -247,26 +272,6 @@ function linkFn(scope, elem, attr, ngModel) {
       });
 
       initialized = true;
-    });
-
-    scope.$watch('dateRange.maxDate', (newValue) => {
-      if (!newValue) {
-        return;
-      }
-      scope.$broadcast('dateRange.resetMax', {
-        id: ctrl.id,
-        maxValue: new Date(newValue)
-      });
-    });
-
-    scope.$watch('dateRange.minDate', (newValue) => {
-      if (!newValue) {
-        return;
-      }
-      scope.$broadcast('dateRange.resetMin', {
-        id: ctrl.id,
-        minValue: new Date(newValue)
-      });
     });
 
     //this event is sent from date picker directive when range is selected
