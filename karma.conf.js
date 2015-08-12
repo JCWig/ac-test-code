@@ -46,6 +46,7 @@ module.exports = function(config) {
     browsers: ['PhantomJS'],
     reporters: ['spec', 'junit', 'coverage'],
     browserify: {
+      fast: true,
       transform: [
         'babelify',
         istanbul({
