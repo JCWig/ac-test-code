@@ -13,13 +13,11 @@ class TreeViewController {
     this.$q = $q;
     this.$parse = $parse;
 
+    // here are the issues
     this.rootProperty = this.rootProperty || 'root';
     this.parentProperty = this.parentProperty || 'parent';
     this.childrenProperty = this.childrenProperty || 'children';
     this.textProperty = this.textProperty || 'title';
-    this.ships = 'ships';
-
-    console.log(this.textProperty);
 
     this.childrenGetter = this.$parse(this.childrenProperty);
     this.parentGetter = this.$parse(this.parentProperty);
