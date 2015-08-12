@@ -182,12 +182,8 @@ function ContextProvider() {
       let oldGroup = currentGroup;
 
       currentGroup = getAccountContext()
-        .then(() => {
-          return findGroupById(groupId);
-        })
-        .catch(() => {
-          return oldGroup;
-        });
+        .then( () => findGroupById(groupId) )
+        .catch( () => oldGroup );
 
       // potentially reset property
       currentProperty.then((property) => {
@@ -226,9 +222,9 @@ function ContextProvider() {
           let group = items[0], property = items[1], match;
 
           // determine if the current property is contained within the current group
-          match = property.group.parents.filter((p) => {
+          match = property.group.id === group.id || property.group.parents.filter((p) => {
             return p.id === group.id;
-          }).length || property.group.id === group.id;
+          }).length;
 
           // change group to be the direct parent of the current property
           if (!match) {
@@ -266,9 +262,7 @@ function ContextProvider() {
     }
 
     function findGenericById(list, id) {
-      return list.filter((item) => {
-        return item.id === id;
-      })[0];
+      return list.filter( item => item.id === id )[0];
     }
 
     // simple factory method to make a group from the context.json schema
@@ -308,7 +302,7 @@ function ContextProvider() {
 
     // helper methods
     function isGroup(item) {
-      return item.itemId !== 0;
+      return !isProperty(item);
     }
 
     function isProperty(item) {
@@ -333,11 +327,11 @@ function ContextProvider() {
 
           group.children = (item.subMenuItems || [])
             .filter(isGroup)
-            .map(angular.bind(this, makeGroup, group));
+            .map( (subMenuItem) => makeGroup(group, subMenuItem) );
 
           group.properties = (item.subMenuItems || [])
             .filter(isProperty)
-            .map(angular.bind(this, makeProperty, group));
+            .map( (subMenuItem) => makeProperty(group, subMenuItem));
 
           totalItems.groups.push(group);
         }
@@ -350,7 +344,6 @@ function ContextProvider() {
       });
       return totalItems;
     }
-
   }
 
   Context.$inject = ['$injector', '$q', '$window', '$cookies', 'LUNA_GROUP_QUERY_PARAM',
