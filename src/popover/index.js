@@ -1,5 +1,7 @@
-var angular = require('angular');
-var sanitize = require('angular-sanitize');
+import angular from 'angular';
+import sanitize from 'angular-sanitize';
+import angularBootstrapNpm from 'angular-bootstrap-npm';
+import popoverDirective from './popover-directive';
 
 /**
  * @ngdoc module
@@ -41,7 +43,7 @@ var sanitize = require('angular-sanitize');
  */
 module.exports = angular.module('akamai.components.popover', [
   sanitize,
-  require('angular-bootstrap-npm')
+  angularBootstrapNpm
 ])
 /**
  * @ngdoc directive
@@ -78,4 +80,4 @@ module.exports = angular.module('akamai.components.popover', [
  * @param {String} button-function What function should
  * fire when button is pressed
  */
-  .directive('akamPopover', require('./popover-directive'));
+  .directive('akamPopover', popoverDirective);

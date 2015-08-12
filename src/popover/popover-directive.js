@@ -1,17 +1,17 @@
-var angular = require('angular');
-var includes = require('lodash/collection/includes');
-var debounce = require('lodash/function/debounce');
-var POPUP_DELAY = 300;
+import angular from 'angular';
+import debounce from 'lodash/function/debounce';
+import template from './templates/popover.tpl.html';
 
-module.exports = function($log, $position, $compile, $timeout, $templateCache, $parse, $window) {
+const POPUP_DELAY = 300;
+
+function popoverDirective($log, $position, $compile, $timeout, $templateCache, $parse, $window) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      var template, popover, triggerElement, customTemplate, triggerHovering,
-        leaveHovering, popoverHover, enterTimeout, leaveTimeout, leavePopover,
-        leavePopoverTimeout;
-      var newScope = scope.$new();
-      var setCoordsDebounced = null;
+      let popover, triggerElement, customTemplate, triggerHovering,
+        enterTimeout, leaveTimeout, leavePopover, leavePopoverTimeout;
+      let newScope = scope.$new();
+      let setCoordsDebounced = null;
 
       newScope.position = attrs.position;
       newScope.header = attrs.header;
@@ -43,17 +43,17 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
         newScope.buttonFunction(newScope);
       };
       function setCoords() {
-        var pageMidCoords = document.body.clientWidth / 2;
-        var triggerElementOffsetLeft = triggerElement[0].offsetLeft;
-        var isOnLeftSide = triggerElementOffsetLeft < pageMidCoords;
-        var elementOffsetTop = triggerElement[0].offsetTop;
-        var popoverWidth = popover[0].offsetWidth;
-        var popoverHeight = popover[0].offsetHeight;
-        var triggerElementWidth = triggerElement[0].offsetWidth;
-        var triggerElementHeight = triggerElement[0].offsetHeight;
-        var arrowWidth = 16;
-        var arrowHeight = 10;
-        var popoverArrowOffset = 21;
+        let pageMidCoords = document.body.clientWidth / 2;
+        let triggerElementOffsetLeft = triggerElement[0].offsetLeft;
+        let isOnLeftSide = triggerElementOffsetLeft < pageMidCoords;
+        let elementOffsetTop = triggerElement[0].offsetTop;
+        let popoverWidth = popover[0].offsetWidth;
+        let popoverHeight = popover[0].offsetHeight;
+        let triggerElementWidth = triggerElement[0].offsetWidth;
+        let triggerElementHeight = triggerElement[0].offsetHeight;
+        let arrowWidth = 16;
+        let arrowHeight = 10;
+        let popoverArrowOffset = 21;
 
         if (newScope.position === 'right') {
           newScope.popoverLeft = triggerElementOffsetLeft + arrowHeight + triggerElementWidth;
@@ -67,42 +67,39 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
           newScope.arrowLeft = popoverWidth - 1;
         } else if (newScope.position === 'bottom') {
           newScope.popoverLeft = isOnLeftSide ?
-          triggerElementOffsetLeft - popoverArrowOffset :
-          triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
+            triggerElementOffsetLeft - popoverArrowOffset :
+            triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
           newScope.popoverTop = elementOffsetTop + arrowHeight + triggerElementHeight;
           newScope.arrowLeft = isOnLeftSide ?
             popoverArrowOffset :
-          popoverWidth - popoverArrowOffset - arrowWidth;
+            popoverWidth - popoverArrowOffset - arrowWidth;
           newScope.arrowTop = -arrowHeight;
         } else {
           newScope.popoverLeft = isOnLeftSide ?
-          triggerElementOffsetLeft - popoverArrowOffset :
-          triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
+            triggerElementOffsetLeft - popoverArrowOffset :
+            triggerElementOffsetLeft - popoverWidth + triggerElementWidth + popoverArrowOffset;
           newScope.popoverTop = elementOffsetTop - popoverHeight - arrowHeight;
           newScope.arrowTop = popoverHeight;
           newScope.arrowLeft = isOnLeftSide ?
             popoverArrowOffset :
-          popoverWidth - arrowWidth - popoverArrowOffset;
+            popoverWidth - arrowWidth - popoverArrowOffset;
         }
 
-        newScope.popoverTop = newScope.popoverTop + 'px';
-        newScope.popoverLeft = newScope.popoverLeft + 'px';
-        newScope.arrowTop = newScope.arrowTop + 'px';
-        newScope.arrowLeft = newScope.arrowLeft + 'px';
+        newScope.popoverTop += 'px';
+        newScope.popoverLeft += 'px';
+        newScope.arrowTop += 'px';
+        newScope.arrowLeft += 'px';
       }
 
       function validParameters() {
-        var validPositions = ['right', 'left', 'top', 'bottom'];
+        let validPositions = ['right', 'left', 'top', 'bottom'];
+        let valid = validPositions.filter(el => el === newScope.position);
 
-        if (!newScope.position || !includes(validPositions, newScope.position)) {
-          return false;
-        }
-        return true;
+        return valid.length > 0;
       }
 
       if (validParameters()) {
         newScope.opened = false;
-        template = require('./templates/popover.tpl.html');
         popover = $compile(template)(newScope);
         if (newScope.useCustomContent) {
           customTemplate = $templateCache.get(attrs.customContent);
@@ -141,7 +138,6 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
             if (triggerHovering) {
               $timeout.cancel(enterTimeout);
             } else {
-              leaveHovering = true;
               leaveTimeout = $timeout(function() {
                 newScope.toggle();
               }, POPUP_DELAY);
@@ -149,19 +145,14 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
             triggerHovering = false;
           });
           popover.on('mouseover', function() {
-            if (leaveHovering) {
-              popoverHover = true;
-              $timeout.cancel(leaveTimeout);
-            }
+            $timeout.cancel(leaveTimeout);
           });
           popover.on('mouseleave', function() {
-            if (popoverHover) {
-              leavePopover = true;
-              leavePopoverTimeout = $timeout(function() {
-                newScope.toggle();
-                leavePopover = false;
-              }, POPUP_DELAY);
-            }
+            leavePopover = true;
+            leavePopoverTimeout = $timeout(function() {
+              newScope.toggle();
+              leavePopover = false;
+            }, POPUP_DELAY);
           });
         }
 
@@ -180,6 +171,9 @@ module.exports = function($log, $position, $compile, $timeout, $templateCache, $
       }
     }
   };
-};
-module.exports.$inject = ['$log', '$position', '$compile', '$timeout', '$templateCache', '$parse',
+}
+
+popoverDirective.$inject = ['$log', '$position', '$compile', '$timeout', '$templateCache', '$parse',
   '$window'];
+
+export default popoverDirective;
