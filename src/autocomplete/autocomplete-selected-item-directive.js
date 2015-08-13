@@ -1,19 +1,29 @@
-module.exports = function(autocompleteService, autocompleteConfig) {
+class AutocompleteSelectedItemController {
+  constructor(autocompleteService, autocompleteConfig, $transclude) {
+    this.autocompleteService = autocompleteService;
+    this.autocompleteConfig = autocompleteConfig;
+    this.$transclude = $transclude;
 
-  function AutocompleteSelectedItemController($transclude) {
-    var content = autocompleteService.extractContent($transclude);
-
-    this.name = autocompleteConfig.SELECTED_ITEM_TEMPLATE_NAME;
-    this.getContent = function() {
-      return content;
-    };
-  }
-  AutocompleteSelectedItemController.$inject = ['$transclude'];
-
-  function linkFn($scope, $element, $attrs, ctrls) {
-    autocompleteService.addToParent(ctrls);
+    this.name = this.autocompleteConfig.SELECTED_ITEM_TEMPLATE_NAME;
+    this.content = this.autocompleteService.extractContent(this.$transclude);
   }
 
+  getContent() {
+    return this.content;
+  }
+}
+
+AutocompleteSelectedItemController.$inject = ['autocompleteService', 'autocompleteConfig',
+  '$transclude'];
+
+function linkFn($scope, $element, $attrs, ctrls) {
+  let ctrl = ctrls[0],
+    parentCtrl = ctrls[1];
+
+  parentCtrl.childControls.push(ctrl);
+}
+
+export default () => {
   return {
     transclude: true,
     require: ['akamAutocompleteSelectedItem', '^akamAutocomplete'],
@@ -21,6 +31,3 @@ module.exports = function(autocompleteService, autocompleteConfig) {
     link: linkFn
   };
 };
-
-module.exports.$inject = ['autocompleteService', 'autocompleteConfig'];
-
