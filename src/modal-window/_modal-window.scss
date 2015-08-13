@@ -178,15 +178,6 @@
     .button + .btn,
     .btn + .button {
       margin-left: $dialog-footer-button-gutter;
-
-      .submit-button-spinner {
-        background-image: inline-svg-image("svg/spinner-orange.svg");
-        @include animation(spin360 1s infinite steps(8));
-        height: 90%;
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
     }
   }
 }
