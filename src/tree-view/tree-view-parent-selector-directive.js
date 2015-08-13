@@ -1,5 +1,6 @@
 import debounce from 'lodash/function/debounce';
 import template from './templates/tree-view-parent-selector.tpl.html';
+import angular from 'angular';
 
 class TreeViewParentSelectorController {
 
@@ -82,10 +83,10 @@ function treeViewParentSelector($timeout, $compile, $window) {
         }
       });
 
-      let setCoordsDebounced = debounce(ctrl.setCoords, 200);
+      let setCoords = debounce(angular.bind(ctrl, ctrl.setCoords));
 
-      $window.addEventListener('resize', setCoordsDebounced);
-      scope.$on('$destroy', () => $window.removeEventListener('resize', setCoordsDebounced));
+      $window.addEventListener('resize', setCoords);
+      scope.$on('$destroy', () => $window.removeEventListener('resize', setCoords));
 
       $timeout(() => ctrl.setCoords(), 0);
     }
