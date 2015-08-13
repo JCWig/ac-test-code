@@ -1,4 +1,9 @@
-var angular = require('angular');
+import angular from 'angular';
+import angularBootstrap from 'angular-bootstrap-npm';
+import statusMessage from '../status-message';
+import i18n from '../i18n';
+import wizardService from './wizard-service';
+import wizardContentDirective from './wizard-content-directive';
 
 /**
  * @ngdoc module
@@ -45,9 +50,9 @@ var angular = require('angular');
  * }
  */
 module.exports = angular.module('akamai.components.wizard', [
-  require('angular-bootstrap-npm'),
-  require('../status-message').name,
-  require('../i18n').name
+  angularBootstrap,
+  statusMessage.name,
+  i18n.name
 ])
 
 /**
@@ -57,7 +62,7 @@ module.exports = angular.module('akamai.components.wizard', [
  * @description
  * A service that opens a wizard
  */
-  .factory('wizard', require('./wizard-service'))
+  .factory('wizard', wizardService)
 
 /**
  * @private
@@ -65,4 +70,4 @@ module.exports = angular.module('akamai.components.wizard', [
  * @description
  * A simple directive that injects step templates into the body of the wizard
  */
-  .directive('akamWizardContent', require('./wizard-content-directive'));
+  .directive('akamWizardContent', wizardContentDirective);

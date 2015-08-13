@@ -138,20 +138,18 @@
 
             WizardController.$inject = ['$scope', '$log'];
             function WizardController($scope, $log) {
-                if (angular.isFunction($scope.setOnSubmit)) {
-                    $scope.setOnSubmit(function(){
-                        var deferral = $q.defer();
-                        $timeout(function() {
-                            if (times % 2 === 0) {
-                                deferral.reject();
-                            } else{
-                                deferral.resolve();
-                            }
-                            times++;
-                        }, 1000);
-                        return deferral.promise;
-                    });
-                }
+                $scope.setOnSubmit(function(){
+                    var deferral = $q.defer();
+                    $timeout(function() {
+                        if (times % 2 === 0) {
+                            deferral.reject();
+                        } else{
+                            deferral.resolve();
+                        }
+                        times++;
+                    }, 1000);
+                    return deferral.promise;
+                });
             };
 
             vm.launchWizard = function() {

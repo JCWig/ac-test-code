@@ -46,13 +46,13 @@ describe('akamai.components.wizard', function() {
       it('should render the inline template', function() {
 
         var markup = '<akam-wizard-content></akam-wizard-content>';
+        $scope.wizard = {};
+        $scope.wizard.contentScope = $scope.$new();
+        $scope.wizard.contentScope.foo = 'bar'
+        $scope.wizard.stepIndex = 0;
 
-        $scope.contentScope = $scope.$new();
-        $scope.contentScope.foo = 'bar'
-        $scope.stepIndex = 0;
-
-        $scope.steps = [{
-          template: '<span>Hello {{ foo }}</span>',
+        $scope.wizard.steps = [{
+          template: '<span>Hello {{ foo }}</span>'
         }];
 
         addElement(markup);
@@ -70,12 +70,13 @@ describe('akamai.components.wizard', function() {
         var template = '<span>Hello {{ foo }}</span>';
         var url = 'wizard/template.html';
 
-        $scope.contentScope = $scope.$new();
-        $scope.contentScope.foo = 'bar'
-        $scope.stepIndex = 0;
+        $scope.wizard = {};
+        $scope.wizard.contentScope = $scope.$new();
+        $scope.wizard.contentScope.foo = 'bar'
+        $scope.wizard.stepIndex = 0;
 
-        $scope.steps = [{
-          templateUrl: url,
+        $scope.wizard.steps = [{
+          templateUrl: url
         }];
 
         $httpBackend.whenGET(url).respond(template);
