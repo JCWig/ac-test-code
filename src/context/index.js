@@ -1,6 +1,6 @@
-var angular = require('angular'),
-  cookies = require('angular-cookies'),
-  contextProvider = require('./context-provider');
+import angular from 'angular';
+import cookies from 'angular-cookies';
+import contextProvider from './context-provider';
 
 /**
  * @ngdoc module
@@ -9,7 +9,7 @@ var angular = require('angular'),
  * @description a module that handles the various context switching methods in the portal.
  * For this version, we only handle group context switching.
  */
-module.exports = angular.module('akamai.components.context', [
+export default angular.module('akamai.components.context', [
   cookies
 ])
 

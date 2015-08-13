@@ -45,6 +45,7 @@ describe('akamai.components.spinner', function() {
     self.el = compile(tpl)(scope);
     self.spinnerEl = self.el.find("akam-spinner");
     self.isoScope = self.spinnerEl.isolateScope();
+    self.spinner = self.spinnerEl.isolateScope().spinner;
     scope.$digest();
 
     self.element = document.body.appendChild(self.el[0]);
@@ -121,10 +122,10 @@ describe('akamai.components.spinner', function() {
   describe('when instantiating directive, the isolated scope...', function() {
     it("should functions to be defined", function() {
       addElement();
-      expect(self.isoScope.isDisabled).toBeDefined();
+      expect(self.spinner.isDisabled).toBeDefined();
       expect(self.isoScope.changed).toBeDefined();
-      expect(self.isoScope.isUnderMin).toBeDefined();
-      expect(self.isoScope.isOverMax).toBeDefined();
+      expect(self.spinner.isUnderMin).toBeDefined();
+      expect(self.spinner.isOverMax).toBeDefined();
       expect(self.isoScope.startStepUp).toBeDefined();
       expect(self.isoScope.stopStepUp).toBeDefined();
       expect(self.isoScope.startStepDown).toBeDefined();
@@ -134,7 +135,7 @@ describe('akamai.components.spinner', function() {
 
     it("should verify correct min value and form $valid", function() {
       addElement();
-      expect(self.isoScope.isUnderMin()).toBeFalsy();
+      expect(self.spinner.isUnderMin()).toBeFalsy();
       expect(scope.form.$valid).toBeTruthy();
 
       var markup = '<akam-spinner ng-model="ngModel" min={{::min}}></akam-spinner>';
@@ -179,7 +180,7 @@ describe('akamai.components.spinner', function() {
 
     it("should verify correct max value and form $valid", function() {
       addElement();
-      expect(self.isoScope.isOverMax()).toBeFalsy();
+      expect(self.spinner.isOverMax()).toBeFalsy();
       expect(scope.form.$valid).toBeTruthy();
 
       var markup = '<akam-spinner ng-model="ngModel" max={{::max}}></akam-spinner>';
@@ -191,15 +192,15 @@ describe('akamai.components.spinner', function() {
 
     it("should verify correct disabled state", function() {
       addElement();
-      expect(self.isoScope.disabled).toBeFalsy();
+      expect(self.spinner.disabled).toBeFalsy();
 
       var markup = '<akam-spinner ng-model="ngModel" disabled="disabled"></akam-spinner>';
       scope.ngModel = 5;
       scope.disabled = true;
       addElement(markup);
 
-      expect(self.isoScope.disabled).toBeTruthy();
-      expect(self.isoScope.disabled).toBeTruthy();
+      expect(self.spinner.disabled).toBeTruthy();
+      expect(self.spinner.disabled).toBeTruthy();
     });
   });
 
