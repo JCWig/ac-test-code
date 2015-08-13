@@ -116,54 +116,6 @@ class WizardController {
 
 function wizard($modal, $rootScope, $q, statusMessage) {
 
-/*
-  function initializeScope(options) {
-    var scope = $rootScope.$new();
-
-    scope.contentScope = options.scope ? options.scope : $rootScope.$new();
-
-    if (angular.isDefined(options.controller)) {
-      $controller(options.controller, {$scope: scope.contentScope});
-    }
-
-    scope.processing = false;
-    scope.contentScope.process = scope.processing;
-
-    scope.title = options.title;
-    scope.icon = options.icon;
-    scope.previousLabel = options.previousLabel ||
-      translate.sync('components.wizard.label.previous');
-    scope.nextLabel = options.nextLabel || translate.sync('components.wizard.label.next');
-    scope.submitLabel = options.submitLabel || translate.sync('components.wizard.label.submit');
-    scope.successMessage = options.successMessage ||
-      translate.sync('components.wizard.successMessage');
-    scope.errorMessage = options.errorMessage || translate.sync('components.wizard.errorMessage');
-
-    scope.showSubmitError = false;
-
-    angular.forEach(options.steps, function(step, i) {
-      step.id = i;
-      if (!step.template && step.templateId) {
-        step.template = $templateCache.get(step.templateId);
-      }
-
-      if (!(angular.isDefined(step.template) ||
-        angular.isDefined(step.templateUrl))) {
-        throw new Error('Wizard template or templateUrl option required');
-      }
-
-      if (i === 0) {
-        step.visited = true;
-      }
-    });
-
-    scope.steps = options.steps;
-    scope.stepIndex = 0;
-
-    return scope;
-  }
-*/
-
   return {
 
     /**
@@ -237,13 +189,25 @@ function wizard($modal, $rootScope, $q, statusMessage) {
     open: function(options) {
       let scope = $rootScope.$new();
       let onSubmit = angular.noop;
+      let instance;
 
       options.appController = options.controller ? options.controller : undefined;
-      options.contentScope = options.scope ? options.scope : undefined;
+
+      if (options.scope) {
+        options.contentScope = options.scope ? options.scope : undefined;
+
+        options.contentScope.setOnSubmit = fn => onSubmit = fn;
+
+        options.contentScope.close = () => {
+          if (angular.isDefined(instance)) {
+            instance.dismiss();
+          }
+        };
+      }
+
       scope.options = options;
 
-      // TODO: Time permitting, add controller and controllerAs
-      let instance = $modal.open(angular.extend(options, {
+      instance = $modal.open(angular.extend(options, {
         scope: scope,
         backdrop: 'static',
         windowClass: 'wizard',
@@ -252,14 +216,6 @@ function wizard($modal, $rootScope, $q, statusMessage) {
         controllarAs: 'wizard',
         bindToController: true
       }));
-
-      scope.setOnSubmit = function(fn) {
-        onSubmit = fn;
-      };
-
-      scope.close = function() {
-        instance.dismiss();
-      };
 
       scope.submit = function(wizardController) {
         let result;
