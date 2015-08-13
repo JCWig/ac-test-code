@@ -53,7 +53,8 @@ describe('timeFormatter directive', function() {
     tpl = '<div><form name="form">' + tpl + '</form></div>';
     self.el = compile(tpl)(scope);
     self.timepickerElem = self.el.find("akam-time-picker");
-    self.isoScope = self.timepickerElem.isolateScope().timepicker;
+    self.isolateScope = self.timepickerElem.isolateScope();
+    self.timepicker = self.timepickerElem.isolateScope().timepicker;
     scope.$digest();
 
     self.element = document.body.appendChild(self.el[0]);
@@ -79,7 +80,7 @@ describe('timeFormatter directive', function() {
       var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
 
       expect(timepickerInputElem.value).toBe("01:20 PM");
-      expect(self.isoScope.showMeridian).toBeTruthy();
+      expect(self.timepicker.showMeridian).toBeTruthy();
     });
 
     it('has initially the correct time & meridian is off', function() {
@@ -92,7 +93,7 @@ describe('timeFormatter directive', function() {
       var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
 
       expect(timepickerInputElem.value).toBe("13:20");
-      expect(self.isoScope.showMeridian).toBeFalsy();
+      expect(self.timepicker.showMeridian).toBeFalsy();
     });
 
     describe("validate input state...", function() {
@@ -115,13 +116,6 @@ describe('timeFormatter directive', function() {
 
         expect(timepickerInputElem.classList.contains("ng-invalid")).toBeTruthy();
         expect(timepickerInputElem.classList.contains("ng-invalid-time")).toBeTruthy();
-
-        scope.inputTime = "12:20 PM";
-        scope.showMeridian = true;
-        scope.$digest();
-
-        expect(timepickerInputElem.classList.contains("ng-valid")).toBeTruthy();
-        expect(timepickerInputElem.classList.contains("ng-valid-time")).toBeTruthy();
       });
 
       it("any date type will be valid", function() {
@@ -151,14 +145,6 @@ describe('timeFormatter directive', function() {
 
         expect(timepickerInputElem.classList.contains("ng-invalid")).toEqual(matched === null);
         expect(timepickerInputElem.classList.contains("ng-invalid-time")).toEqual(matched === null);
-
-        scope.inputTime = "11:20 am";
-        scope.showMeridian = true;
-        matched = scope.inputTime.match(formatterConfig.TIME_MERIDIAN_REGEX);
-        scope.$digest();
-
-        expect(timepickerInputElem.classList.contains("ng-valid")).toEqual(matched.length > 0);
-        expect(timepickerInputElem.classList.contains("ng-valid-time")).toEqual(matched.length > 0);
 
         scope.inputTime = "11:20 am";
         scope.showMeridian = false;

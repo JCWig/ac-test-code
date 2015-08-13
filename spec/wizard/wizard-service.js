@@ -193,7 +193,7 @@ describe('akamai.components.wizard', function() {
 
   describe('given a scope', function() {
     describe('when a step template is provided', function() {
-      it('should the step template should be compiled using the provided scope', function() {
+      it('should compile the step template using the provided scope', function() {
         var wizardScope = $scope.$new();
         wizardScope.foo = 'bar';
 
