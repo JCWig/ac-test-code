@@ -18,7 +18,7 @@ class AutocompleteController {
 
     //scope vars
     this.isOpen = false;
-    this.autocompleteId = 'akam-autocomplete-' + $scope.$id + '-' + uuid.guid();
+    this.autocompleteId = `akam-autocomplete-${this.$scope.$id}-${this.uuid.guid()}`;
     this.searchLength = this.autocompleteConfig.SEARCH_MINIMUM;
     this.placeholder = this.placeholder || '';
     this.showSearchTip = this.showSearchTip || true;
