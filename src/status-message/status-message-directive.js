@@ -1,3 +1,33 @@
+import template from './templates/status-message-directive.tpl.html';
+
+class StatusMessageController {
+  constructor() {
+
+  }
+}
+
+function linkFn() {
+
+}
+
+export default () => {
+  return {
+    restrict: 'E',
+    scope: {},
+    replace: true,
+    template: template,
+    linkFn,
+    controller: StatusMessageController,
+    controllerAs: 'statusMessage',
+    bindToController: {
+      itemId: '@',
+      text: '@',
+      status: '@'
+    }
+  };
+};
+
+
 module.exports = function($log, $timeout) {
   return {
     restrict: 'E',
@@ -7,7 +37,7 @@ module.exports = function($log, $timeout) {
       status: '@'
     },
     replace: true,
-    template: require('./templates/status-message-directive.tpl.html'),
+    template: template,
     link: function(scope, element, attrs) {
       var defaultTimeout = 2000;
       var timer = null;
