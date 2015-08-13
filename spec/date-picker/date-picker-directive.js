@@ -307,14 +307,6 @@ describe('akam-date-picker', function() {
       expect(novemberMonthButton).not.toBe(null);
       expect(decemberMonthButton).not.toBe(null);
     });
-    it('should translate placeholder text if non-provided', function() {
-      document.body.removeChild(self.element);
-      self.element = null;
-      var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="picked1"></akam-date-picker></div>';
-      addElement(markup);
-      var inputDateField = document.querySelector('input.ng-valid-date');
-      expect(inputDateField.placeholder).toEqual("components.date-picker.placeholder.month");
-    });
   });
   describe('when interacting with month picker', function() {
     beforeEach(function() {
