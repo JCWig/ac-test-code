@@ -8,7 +8,7 @@ function authInterceptor($injector, $q, $window, httpBuffer, token, authConfig, 
   let accountSwitchPromise;
 
   // patterns that should neither get API tokens nor luna "gid" and "aid" params
-  let noAuthNoLunaQueryStringPatterns = [
+  const noAuthNoLunaQueryStringPatterns = [
     /^\/ui\/services\/nav\/megamenu\/.*\/context.json.*$/i,
     /^\/core\/services\/session\/.*$/i,
     /^\/svcs\/messagecenter\/.*$/i,
@@ -21,7 +21,7 @@ function authInterceptor($injector, $q, $window, httpBuffer, token, authConfig, 
   ];
 
   // patterns that should not get auth API tokens but should get "gid" and "aid" params
-  let noAuthPatterns = [
+  const noAuthPatterns = [
     /^\/ui\/services\/nav\/megamenu\/.*\/grp.json.*$/i,
     /^\/ui\/services\/nav\/megamenu\/.*\/asset.json.*$/i
   ];

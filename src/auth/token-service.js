@@ -48,7 +48,7 @@ function tokenService(httpBuffer, $injector, $window, $location, authConfig, $lo
       return pendingRequest;
     },
     logout: function() {
-      let currentUrl = $location.absUrl(),
+      const currentUrl = $location.absUrl(),
 
         currentHost = $location.host(),
         hostPosition = currentUrl.indexOf(currentHost),
@@ -68,7 +68,7 @@ function tokenService(httpBuffer, $injector, $window, $location, authConfig, $lo
         return true;
       }
 
-      if (response.data === null || !angular.isObject(response.data)) {
+      if (!angular.isObject(response.data)) {
         // TODO: Explicitly recognize (back to server), that error code structure is missing
         $log.warn(response.status, 'response returned without proper error code structure:',
           response.data, response.config.url);
