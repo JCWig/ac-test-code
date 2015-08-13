@@ -1,4 +1,5 @@
-var angular = require('angular');
+import angular from 'angular';
+import template from './templates/content-panel.tpl.html';
 
 module.exports = function($log) {
   return {
@@ -10,9 +11,9 @@ module.exports = function($log) {
       isCollapsed: '=?',
       onToggle: '&?'
     },
-    template: require('./templates/content-panel.tpl.html'),
+    template: template,
     compile: function compile(tElement, tAttrs) {
-      //If the header attribute is not specified, assume
+      // If the header attribute is not specified, assume
       // the developer provided their own akam-content-panel-header
       // and akam-content-panel-body inner directives.
       if (!tAttrs.header) {
@@ -20,12 +21,12 @@ module.exports = function($log) {
       }
 
       return function(scope, iElement, iAttrs, controller, transclude) {
-        var hasHeaderTranscluded, customContentScope, transcludedContent;
+        let hasHeaderTranscluded, customContentScope, transcludedContent;
 
         scope.collapsable = angular.isUndefined(tAttrs.notCollapsable);
         scope.isCollapsed = scope.isCollapsed === true;
 
-        scope.headerClick = function(e) {
+        scope.headerClick = (e) => {
           if (scope.collapsable) {
             scope.isCollapsed = !scope.isCollapsed;
             if (customContentScope) {
@@ -36,7 +37,7 @@ module.exports = function($log) {
           e.stopPropagation();
         };
 
-        scope.$watch('isCollapsed', function(newValue, oldValue) {
+        scope.$watch('isCollapsed', (newValue, oldValue) => {
           if (newValue !== oldValue && typeof scope.onToggle === 'function') {
             scope.onToggle({
               value: newValue
@@ -45,7 +46,7 @@ module.exports = function($log) {
         });
 
         if (!iAttrs.header) {
-          transclude(function(clone, cloneScope) {
+          transclude( (clone, cloneScope) => {
             iElement.append(clone);
             transcludedContent = clone;
             customContentScope = cloneScope;
@@ -57,7 +58,7 @@ module.exports = function($log) {
           //This doesn't appear to be necessary but garbage clean up just in case,
           // for added robustness against future issues.
           //Chrome node/listener graphs appear the same whether or not this is done.
-          scope.$on('$destroy', function() {
+          scope.$on('$destroy', () => {
             transcludedContent.remove();
             customContentScope.$destroy();
           });
