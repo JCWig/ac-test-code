@@ -101,22 +101,25 @@
         }
       }
     }
+    & span.range-picker ul.dropdown-menu {
+      table tbody tr td {
+        border: none;
+      }
+      table tbody tr td[role="gridcell"] {
+        border: 1px solid #ccc;
+      }
+    }
     ul.dropdown-menu {
-      top: 38px !important;
-      left: 0 !important;
+      top: 38px !important; //override inline style
       table {
         tbody td {
           height: 23px;
-          border: none !important;
           &.space {
             width: 5%;
             border-width: 0;
           }
           table tr th[role="heading"] {
             padding-bottom: 5px;
-          }
-          table tbody tr td[role="gridcell"] {
-            border: 1px solid #ccc !important;
           }
         }
         tbody td button {
