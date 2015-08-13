@@ -580,6 +580,7 @@ describe('akam-pagination directive', function() {
       self.scope.$digest();
 
       totalNumberOfItemsSpan = self.element.querySelector(TOTAL_ITEMS_SPAN);
+      console.log(totalNumberOfItemsSpan)
       expect(totalNumberOfItemsSpan.textContent).toContain('Results: ');
     });
 

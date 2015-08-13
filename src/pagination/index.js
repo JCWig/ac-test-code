@@ -1,4 +1,6 @@
-var angular = require('angular');
+import angular from 'angular';
+import i18n from '../i18n';
+import paginationDirective from './pagination-directive';
 
 /**
  * @ngdoc module
@@ -26,7 +28,7 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.pagination', [
-  require('../i18n').name
+  i18n.name
 ])
 
 /**
@@ -54,4 +56,4 @@ module.exports = angular.module('akamai.components.pagination', [
  * `size`.
  *
  */
-  .directive('akamPagination', require('./pagination-directive'));
+  .directive('akamPagination', paginationDirective);

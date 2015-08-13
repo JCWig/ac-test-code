@@ -1,134 +1,155 @@
-module.exports = function(translate) {
+import template from './templates/pagination.tpl.html';
+
+const [MAX_PAGES, DEFAULT_SIZE] = [7, 10];
+const SIZES = [10, 25, 50];
+
+class PaginationController {
+  constructor(scope, translate) {
+    this.translate = translate;
+    this.scope = scope;
+    this.sizes = SIZES;
+    this.maxPages = MAX_PAGES;
+    this.pages = [];
+    this.resultText = '';
+
+    this.translate.async('components.pagination.label.results')
+      .then((value) => {
+        scope.pagination.resultText = value;
+      });
+
+    //watch collections?
+    this.scope.$watch(
+      '[pagination.totalItems, pagination.currentPage, pagination.pageSize]', (val, old) => {
+        if (val[0] < 0) {
+          this.totalItems = 0;
+          val = [0, val[1], val[2]];
+        }
+        if (val !== old) {
+          this.update();
+        }
+      });
+
+    this.update();
+  }
+
+  inBounds(page) {
+    return page >= 1 && page <= this.totalPages;
+  }
+
+  isValidSize(size) {
+    return this.sizes.some((item) => {
+      return size === item;
+    });
+  }
+
+  // TODO look at eliminating double update when setting default values
+  update() {
+    let start, count;
+
+    // setup page size
+    this.pageSize = parseInt(this.pageSize, 10);
+    if (this.pageSize == null || !this.isValidSize(this.pageSize)) {
+      this.pageSize = DEFAULT_SIZE;
+    }
+
+    // setup total page count
+    this.totalPages = Math.ceil(
+      parseInt(this.totalItems, 10) / this.pageSize);
+    if (isNaN(this.totalPages) || this.totalPages <= 0) {
+      this.totalPages = 1;
+    }
+    // setup current page
+    this.currentPage = parseInt(this.currentPage, 10);
+    if (isNaN(this.currentPage) || this.currentPage < 1) {
+      this.currentPage = 1;
+    } else if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
+
+      // this handles the case where the user increases the page size, thus decreasing the
+      // number of pages. If the user is on a very high page number, they need to be notified
+      // that a page change has occurred.
+      this.onchangepage({
+        page: this.totalPages
+      });
+    }
+
+    // calculate the starting page and number of pages to display
+    start = this.currentPage - Math.floor((this.maxPages - 2) / 2);
+    count = this.totalPages > this.maxPages ?
+      this.maxPages - 2 : this.totalPages - 2;
+    // check bounds for pages
+    start = start + count > this.totalPages ?
+      this.totalPages - (this.maxPages - 2) : start;
+    start = start >= 2 ? start : 2;
+    // setup the page objects for rendering
+    this.pages = [];
+    for (let i = 0; i < count; i++) {
+      this.pages.push({
+        number: start + i,
+        active: start + i === this.currentPage
+      });
+    }
+  }
+
+  isSizeActive(size) {
+    return size === this.pageSize;
+  }
+
+  isFirstPageActive() {
+    return this.currentPage === 1;
+  }
+
+  isLastPageActive() {
+    return this.currentPage === this.totalPages;
+  }
+
+  showFirstPageEllipsis() {
+    return this.currentPage - 1 > 3 && this.totalPages > this.maxPages;
+  }
+
+  showLastPageEllipsis() {
+    return this.totalPages - this.currentPage > 3 &&
+      this.totalPages > this.maxPages;
+  }
+
+  selectPage(page) {
+    if (page !== this.currentPage && this.inBounds(page)) {
+      this.currentPage = page;
+      this.onchangepage({
+        page: page
+      });
+    }
+  }
+
+  selectSize(size) {
+    if (size !== this.pageSize) {
+      this.pageSize = size;
+      this.onchangesize({
+        size: size
+      });
+    }
+  }
+
+  hasOnlyOnePage() {
+    return this.totalPages === 1;
+  }
+}
+
+PaginationController.$inject = ['$scope', 'translate'];
+
+export default () => {
   return {
     restrict: 'E',
-    scope: {
+    scope: {},
+    bindToController: {
       totalItems: '=',
       currentPage: '=',
       pageSize: '=',
       onchangepage: '&',
       onchangesize: '&'
     },
-    template: require('./templates/pagination.tpl.html'),
-    link: function(scope) {
-      var maxPages = 7;
-      var defaultSize = 10;
-      var i;
-
-      scope.sizes = [10, 25, 50];
-
-      translate.async('components.pagination.label.results')
-        .then(function(value) {
-          scope.resultText = value;
-        });
-
-      function inBounds(page) {
-        return page >= 1 && page <= scope.totalPages;
-      }
-
-      function isValidSize(size) {
-        return scope.sizes.some(function(item) {
-          return size === item;
-        });
-      }
-
-      // TODO look at eliminating double update when setting default values
-      function update() {
-        var start;
-        var count;
-
-        // setup page size
-        scope.pageSize = parseInt(scope.pageSize, 10);
-        if (scope.pageSize == null || !isValidSize(scope.pageSize)) {
-          scope.pageSize = defaultSize;
-        }
-
-        // setup total page count
-        scope.totalPages = Math.ceil(
-          parseInt(scope.totalItems, 10) / scope.pageSize);
-        if (isNaN(scope.totalPages) || scope.totalPages <= 0) {
-          scope.totalPages = 1;
-        }
-        // setup current page
-        scope.currentPage = parseInt(scope.currentPage, 10);
-        if (isNaN(scope.currentPage) || scope.currentPage < 1) {
-          scope.currentPage = 1;
-        } else if (scope.currentPage > scope.totalPages) {
-          scope.currentPage = scope.totalPages;
-
-          // this handles the case where the user increases the page size, thus decreasing the
-          // number of pages. If the user is on a very high page number, they need to be notified
-          // that a page change has occurred.
-          scope.onchangepage({page: scope.totalPages});
-        }
-
-        // calculate the starting page and number of pages to display
-        start = scope.currentPage - Math.floor((maxPages - 2) / 2);
-        count = scope.totalPages > maxPages ?
-        maxPages - 2 : scope.totalPages - 2;
-        // check bounds for pages
-        start = start + count > scope.totalPages ?
-        scope.totalPages - (maxPages - 2) : start;
-        start = start >= 2 ? start : 2;
-        // setup the page objects for rendering
-        scope.pages = [];
-        for (i = 0; i < count; i++) {
-          scope.pages.push({
-            number: start + i,
-            active: start + i === scope.currentPage
-          });
-        }
-      }
-
-      scope.isSizeActive = function(size) {
-        return size === scope.pageSize;
-      };
-
-      scope.isFirstPageActive = function() {
-        return scope.currentPage === 1;
-      };
-
-      scope.isLastPageActive = function() {
-        return scope.currentPage === scope.totalPages;
-      };
-
-      scope.showFirstPageEllipsis = function() {
-        return scope.currentPage - 1 > 3 && scope.totalPages > maxPages;
-      };
-
-      scope.showLastPageEllipsis = function() {
-        return scope.totalPages - scope.currentPage > 3 &&
-          scope.totalPages > maxPages;
-      };
-
-      scope.selectPage = function(page) {
-        if (page !== scope.currentPage && inBounds(page)) {
-          scope.currentPage = page;
-          scope.onchangepage({page: page});
-        }
-      };
-
-      scope.selectSize = function(size) {
-        if (size !== scope.pageSize) {
-          scope.pageSize = size;
-          scope.onchangesize({size: size});
-        }
-      };
-      scope.hasOnlyOnePage = function() {
-        return scope.totalPages === 1;
-      };
-
-      scope.$watch('[totalItems, currentPage, pageSize]', function(val, old) {
-        if (val[0] < 0) {
-          scope.totalItems = 0;
-          val = [0, val[1], val[2]];
-        }
-        if (val !== old) {
-          update();
-        }
-      });
-
-      update();
-    }
+    controller: PaginationController,
+    controllerAs: 'pagination',
+    template: template
   };
 };
-module.exports.$inject = ['translate'];
