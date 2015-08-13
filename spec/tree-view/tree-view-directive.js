@@ -181,12 +181,12 @@ describe('akamai.components.tree-view', function() {
         expect(currentContext.textContent).toContain('Bruce Wayne');
         expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
       });
-      xit('should display the items children', function(){
+      it('should display the items children', function(){
         var treeContents = document.querySelectorAll(CHILD_CONTENTS);
         expect(treeContents.length).toEqual(8);
         expect(treeContents[0].textContent).toContain('Dick Grayson');
       });
-      xit('should add the items parents to the selector', function(){
+      it('should add the items parents to the selector', function(){
         var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
         expect(parentSelectorRows.length).toEqual(1);
         expect(parentSelectorRows[0].querySelector('span').textContent).toContain('Justice League');
