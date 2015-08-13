@@ -1,4 +1,8 @@
-var angular = require('angular');
+import angular from 'angular';
+import uuid from '../uuid';
+
+import spinnerDirective from './spinner-directive';
+import spinnerService from './spinner-service';
 
 /**
  * @ngdoc module
@@ -21,7 +25,9 @@ var angular = require('angular');
  * </akam-spinner>
  *
  */
-module.exports = angular.module('akamai.components.spinner', [require('../uuid').name])
+module.exports = angular.module('akamai.components.spinner', [
+  uuid.name
+])
 
 /**
  * @ngdoc directive
@@ -42,11 +48,11 @@ module.exports = angular.module('akamai.components.spinner', [require('../uuid')
  * Default is other than String of "disabled". This value is two way bound.
  *
  */
-  .directive('akamSpinner', require('./spinner-directive'))
+  .directive('akamSpinner', spinnerDirective)
 
 /**
  * @name spinnerService
  * @description a factory service implements the logic of validation of inputs
  * and max | min checking for akamSpinner directive
  */
-  .factory('spinnerService', require('./spinner-service'));
+  .factory('spinnerService', spinnerService);
