@@ -206,11 +206,17 @@ module.exports = function ContextProvider() {
     }
 
     /**
-     * Sets the new property based on an asset id
-     * @param {Number} propertyId the id for the property
+     * Sets the new property based on an asset id. Set the property to null to reset it to the
+     * null property.
+     * @param {Number|null} propertyId the id for the property
      */
     function setProperty(propertyId) {
       var oldProperty = currentProperty;
+
+      if (!propertyId) {
+        currentProperty = initialProperty;
+        return;
+      }
 
       currentProperty = getAccountContext()
         .then(function() {
