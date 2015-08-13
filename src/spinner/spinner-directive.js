@@ -1,159 +1,181 @@
-var angular = require('angular');
+import angular from 'angular';
+import template from './templates/spinner.tpl.html';
 
-module.exports = function($interval, uuid, spinnerService) {
-
-  var defaults = {
-      VALUE: 0,
-      STEP: 1
-    },
-    directive = {
-      require: 'ngModel',
-      restrict: 'E',
-      template: require('./templates/spinner.tpl.html'),
-      link: link,
-      scope: {
-        min: '@?',
-        max: '@?',
-        disabled: '@?',
-        inputValue: '=ngModel'
-      }
-    };
-
-  return directive;
-
-  function link(scope, element, attrs, ngModel) {
-    var upMouseDownPromise, downMouseDownPromise;
-
-    initialize();
-
-    scope.changed = function() {
-
-      if (angular.isUndefined(scope.inputValue)) {
-        scope.inputValue = ngModel.$viewValue;
-      }
-    };
-
-    scope.isDisabled = function() {
-      return scope.disabled === true || scope.$eval(scope.disabled) === true;
-    };
-
-    scope.isUnderMin = function(offset) {
-      return spinnerService.isOutOfBounds(scope.inputValue, scope.min, false, offset);
-    };
-
-    scope.isOverMax = function(offset) {
-      return spinnerService.isOutOfBounds(scope.inputValue, scope.max, true, offset);
-    };
-
-    scope.startStepUp = function(event) {
-      event.stopPropagation();
-      if (angular.isDefined(upMouseDownPromise)) {
-        return;
-      }
-      upMouseDownPromise = $interval(function() {
-        if (scope.isOverMax()) {
-          scope.stopStepUp(event);
-        } else {
-          updateInput(+defaults.STEP);
-        }
-      }, 80);
-    };
-
-    scope.stopStepUp = function(event) {
-      event.stopPropagation();
-      if (angular.isDefined(upMouseDownPromise)) {
-        $interval.cancel(upMouseDownPromise);
-        upMouseDownPromise = undefined;
-      }
-    };
-
-    scope.startStepDown = function(event) {
-      event.stopPropagation();
-      if (angular.isDefined(downMouseDownPromise)) {
-        return;
-      }
-
-      downMouseDownPromise = $interval(function() {
-        if (scope.isUnderMin()) {
-          scope.stopStepDown(event);
-        } else {
-          updateInput(-defaults.STEP);
-        }
-      }, 80);
-    };
-
-    scope.stopStepDown = function(event) {
-      event.stopPropagation();
-      if (angular.isDefined(downMouseDownPromise)) {
-        $interval.cancel(downMouseDownPromise);
-        downMouseDownPromise = undefined;
-      }
-    };
-
-    // when model change, parse to integer, this sets up to the ngModelController
-    ngModel.$formatters.push(function(value) {
-      return parseInt(value, 10);
-    });
-
-    // when view change, parse to integer, this sets up to the ngModelController
-    ngModel.$parsers.push(function(value) {
-      return parseInt(value, 10);
-    });
-
-    function initialize() {
-      var maxlength, valid;
-
-      scope.max = isNaN(scope.max) ? '' : parseInt(scope.max, 10);
-      scope.min = isNaN(scope.max) ? '' : parseInt(scope.min, 10);
-      scope.disabled = scope.$eval(scope.disabled) === true;
-      scope.spinnerId = uuid.guid();
-
-      scope.dynamicMinWidth = {
-        'min-width': 'calc(1em+10px)'
-      };
-      if (scope.max) {
-        maxlength = String(scope.max).length;
-        scope.dynamicMinWidth = {
-          'min-width': 'calc(' + maxlength + 'em + 10px)'
-        };
-      }
-
-      if (angular.isUndefined(scope.inputValue)) {
-        if (!isNaN(scope.min)) {
-          scope.inputValue = parseInt(scope.min, 10);
-        } else {
-          scope.inputValue = defaults.VALUE;
-        }
-      }
-      valid = spinnerService.validateScopeVars(scope, ngModel);
-
-      if (!valid) {
-        return;
-      }
-
-      ngModel.$render();
-
-      scope.$watch('inputValue', function(newValue, oldValue) {
-        var isValueUnderMin, isValueOverMax;
-
-        isValueUnderMin = spinnerService.isOutOfBounds(scope.inputValue, scope.min, false, 1);
-        if (isValueUnderMin) {
-          scope.inputValue = oldValue;
-          return;
-        }
-
-        isValueOverMax = spinnerService.isOutOfBounds(scope.inputValue, scope.max, true, 1);
-        if (isValueOverMax) {
-          scope.inputValue = oldValue;
-        }
-
-      });
-    }
-
-    function updateInput(offset) {
-      ngModel.$setViewValue(scope.inputValue + offset);
-      ngModel.$setTouched();
-    }
-  }
+const defaults = {
+  VALUE: 0,
+  STEP: 1,
+  INTERVAL: 80
 };
-module.exports.$inject = ['$interval', 'uuid', 'spinnerService'];
+
+class SpinnerController {
+  constructor(scope, $interval, uuid, $log, spinnerService) {
+    this.scope = scope;
+    this.$interval = $interval;
+    this.uuid = uuid;
+    this.$log = $log;
+    this.spinnerService = spinnerService;
+
+    this.initialize();
+  }
+
+  initialize() {
+    let maxlength;
+
+    this.max = isNaN(this.max) ? '' : parseInt(this.max, 10);
+    this.min = isNaN(this.max) ? '' : parseInt(this.min, 10);
+    this.disabled = this.scope.$eval(this.disabled) === true;
+    this.spinnerId = this.uuid.guid();
+
+    this.dynamicMinWidth = {
+      'min-width': 'calc(1em+10px)'
+    };
+    if (this.max) {
+      maxlength = String(this.max).length;
+      this.dynamicMinWidth = {
+        'min-width': 'calc(' + maxlength + 'em + 10px)'
+      };
+    }
+
+    if (angular.isUndefined(this.inputValue)) {
+      if (!isNaN(this.min)) {
+        this.inputValue = parseInt(this.min, 10);
+      } else {
+        this.inputValue = defaults.VALUE;
+      }
+    }
+
+    this.scope.$watch('spinner.inputValue', (newValue, oldValue) => {
+      let isValueUnderMin, isValueOverMax;
+
+      isValueUnderMin = this.spinnerService.isOutOfBounds(
+        this.inputValue, this.min, false, 1);
+      if (isValueUnderMin) {
+        this.inputValue = oldValue;
+        return;
+      }
+
+      isValueOverMax = this.spinnerService.isOutOfBounds(
+        this.inputValue, this.max, true, 1);
+      if (isValueOverMax) {
+        this.inputValue = oldValue;
+      }
+    });
+  }
+
+  isDisabled() {
+    return this.disabled === true || this.scope.$eval(this.disabled) === true;
+  }
+
+  isUnderMin(offset) {
+    return this.spinnerService.isOutOfBounds(this.inputValue, this.min, false, offset);
+  }
+
+  isOverMax(offset) {
+    return this.spinnerService.isOutOfBounds(this.inputValue, this.max, true, offset);
+  }
+}
+
+SpinnerController.$inject = ['$scope', '$interval', 'uuid', '$log', 'spinnerService'];
+
+function linkFn(scope, element, attrs, ngModel) {
+  let valid, upMouseDownPromise, downMouseDownPromise,
+    ctrl = scope.spinner;
+
+  if (!ngModel) {
+    ctrl.$log.error('The model controller is undefined.');
+    return;
+  }
+
+  valid = ctrl.spinnerService.validateScopeVars(ctrl);
+
+  if (!valid) {
+    ctrl.$log.error('Initial validation failed.');
+    return;
+  }
+
+  ngModel.$render();
+
+  // when model change, parse to integer, this sets up to the ngModelController
+  ngModel.$formatters.push(function(value) {
+    return parseInt(value, 10);
+  });
+
+  // when view change, parse to integer, this sets up to the ngModelController
+  ngModel.$parsers.push(function(value) {
+    return parseInt(value, 10);
+  });
+
+  scope.changed = () => {
+    if (angular.isUndefined(ctrl.inputValue)) {
+      ctrl.inputValue = ngModel.$viewValue;
+    }
+  };
+
+  function updateInput(offset) {
+    ngModel.$setViewValue(ctrl.inputValue + offset);
+    ngModel.$setTouched();
+  }
+
+  scope.startStepUp = (event) => {
+    event.stopPropagation();
+    if (angular.isDefined(upMouseDownPromise)) {
+      return;
+    }
+    upMouseDownPromise = ctrl.$interval(() => {
+      if (ctrl.isOverMax()) {
+        scope.stopStepUp(event);
+      } else {
+        updateInput(+defaults.STEP);
+      }
+    }, defaults.INTERVAL);
+  };
+
+  scope.stopStepUp = (event) => {
+    event.stopPropagation();
+    if (angular.isDefined(upMouseDownPromise)) {
+      ctrl.$interval.cancel(upMouseDownPromise);
+      upMouseDownPromise = undefined;
+    }
+  };
+
+  scope.startStepDown = (event) => {
+    event.stopPropagation();
+    if (angular.isDefined(downMouseDownPromise)) {
+      return;
+    }
+
+    downMouseDownPromise = ctrl.$interval(() => {
+      if (ctrl.isUnderMin()) {
+        scope.stopStepDown(event);
+      } else {
+        updateInput(-defaults.STEP);
+      }
+    }, defaults.INTERVAL);
+  };
+
+  scope.stopStepDown = (event) => {
+    event.stopPropagation();
+    if (angular.isDefined(downMouseDownPromise)) {
+      ctrl.$interval.cancel(downMouseDownPromise);
+      downMouseDownPromise = undefined;
+    }
+  };
+}
+
+export default () => {
+  return {
+    require: 'ngModel',
+    restrict: 'E',
+    template: template,
+    link: linkFn,
+    controller: SpinnerController,
+    controllerAs: 'spinner',
+    bindToController: {
+      min: '@?',
+      max: '@?',
+      disabled: '@?',
+      inputValue: '=ngModel'
+    },
+    scope: {}
+  };
+};
