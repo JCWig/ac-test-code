@@ -13,9 +13,7 @@ class PaginationController {
     this.resultText = '';
 
     this.translate.async('components.pagination.label.results')
-      .then((value) => {
-        scope.pagination.resultText = value;
-      });
+      .then((value) => scope.pagination.resultText = value);
 
     //watch collections?
     this.scope.$watch(
