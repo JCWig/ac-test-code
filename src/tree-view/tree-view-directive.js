@@ -13,14 +13,15 @@ class TreeViewController {
     this.$q = $q;
     this.$parse = $parse;
 
-    // here are the issues
-    this.rootProperty = this.rootProperty || 'root';
-    this.parentProperty = this.parentProperty || 'parent';
-    this.childrenProperty = this.childrenProperty || 'children';
-    this.textProperty = this.textProperty || 'title';
+    this.properties = {
+      rootProperty: this.rootProperty || 'root',
+      parentProperty: this.parentProperty || 'parent',
+      childrenProperty: this.childrenProperty || 'children',
+      textProperty: this.textProperty || 'title'
+    };
 
-    this.childrenGetter = this.$parse(this.childrenProperty);
-    this.parentGetter = this.$parse(this.parentProperty);
+    this.childrenGetter = this.$parse(this.properties.childrenProperty);
+    this.parentGetter = this.$parse(this.properties.parentProperty);
 
     this.haveParentsFlag = null;
     this.inputCurrent = null;
@@ -30,8 +31,6 @@ class TreeViewController {
     this.parentTree = [];
     this.children = [];
     this.hasParents = () => !!this.parentTree.length;
-
-    //this.itemChangeFn();
 
     $scope.$watch('treeview.item', () => this.itemChangeFn());
   }
@@ -62,6 +61,7 @@ class TreeViewController {
     }, 300);
     this.failed = false;
     this.$q.when(this.onChange({item: this.inputCurrent})).then(
+
       (resp) => {
         if (resp) {
           this.retrieveAndHandleNewChildrenAndParents(resp.data ? resp.data : resp);
@@ -83,11 +83,9 @@ class TreeViewController {
 
         if (!this.current) {
           this.inputCurrent = data;
-          this.current = {title: this.$parse(this.textProperty)(data)};
+          this.current = {title: this.$parse(this.properties.textProperty)(data)};
         }
-        var t = 1;
         this.retrieveAndHandleNewChildrenAndParents(data);
-        console.log(this);
       }).catch(() => this.failed = true);
     }
   }
@@ -100,7 +98,7 @@ class TreeViewController {
     if (!this.haveParentsFlag) {
       this.inputParents = this.parentGetter(data);
       this.parentTree = this.parentTree.concat(
-        this.convertData(this.inputParents, this.parentProperty, data));
+        this.convertData(this.inputParents, this.properties.parentProperty, data));
       if (this.inputParents && !angular.isArray(this.inputParents)) {
         value = this.inputParents;
         this.inputParents = [value];
@@ -112,7 +110,7 @@ class TreeViewController {
     }
 
     if (this.inputChildren) {
-      this.children = this.convertData(this.inputChildren, this.childrenProperty, data);
+      this.children = this.convertData(this.inputChildren, this.properties.childrenProperty, data);
     } else {
       this.children = [];
     }
@@ -127,15 +125,15 @@ class TreeViewController {
     if (angular.isArray(data)) {
       for (let i = 0; i < data.length; i++) {
         converted.push({
-          title: this.$parse(prop + '[' + i + '].' + this.textProperty)(convertFrom),
-          root: this.$parse(prop + '[' + i + '].' + this.rootProperty)(convertFrom)
+          title: this.$parse(prop + '[' + i + '].' + this.properties.textProperty)(convertFrom),
+          root: this.$parse(prop + '[' + i + '].' + this.properties.rootProperty)(convertFrom)
         });
       }
       return converted;
     } else if (data) {
       return [{
-        title: this.$parse(prop + '.' + this.textProperty)(convertFrom),
-        root: this.$parse(prop + '.' + this.rootProperty)(convertFrom)
+        title: this.$parse(prop + '.' + this.properties.textProperty)(convertFrom),
+        root: this.$parse(prop + '.' + this.properties.rootProperty)(convertFrom)
       }];
     } else {
       return [];

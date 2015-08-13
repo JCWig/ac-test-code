@@ -20,22 +20,23 @@ class TreeViewParentSelectorController {
     this.opened = !this.opened;
     this.parentSelector.toggleClass('in', this.opened);
     this.triggerElement.toggleClass('opened', this.opened);
+
+    let documentClickBind = (e) => {
+      if (this.opened && e.currentTarget !== this.parentSelector[0]) {
+        this.toggle();
+      }
+    };
+
     if (!this.opened) {
-      this.$document.unbind('click', this.documentClickBind);
+      this.$document.unbind('click', documentClickBind);
     } else {
-      this.$document.bind('click', this.documentClickBind);
+      this.$document.bind('click', documentClickBind);
     }
   }
 
   triggerParentChange(index) {
     this.toggle();
     this.treeViewCtrl.contextChangeNew(index, true);
-  }
-
-  documentClickBind(e) {
-    if (this.opened && e.currentTarget !== this.parentSelector[0]) {
-      this.toggle();
-    }
   }
 
   setCoords() {

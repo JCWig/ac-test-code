@@ -176,7 +176,6 @@ describe('akamai.components.tree-view', function() {
         addElement(markup);
       });
       it('should display the items title', function(){
-        console.log(self.el[0]);
         var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
         var currentContextIcon = document.querySelector(PARENT_ICON);
         expect(currentContext.textContent).toContain('Bruce Wayne');
@@ -194,7 +193,7 @@ describe('akamai.components.tree-view', function() {
       });
     });
   });
-/*  describe('given a promise bound to the item attribute', function(){
+  describe('given a promise bound to the item attribute', function(){
     describe('when the tree view is rendered', function(){
       it('should display an indeterminate progress indicator', function(){
         
@@ -542,7 +541,7 @@ describe('akamai.components.tree-view', function() {
         });
       });
     });
-  });*/
+  });
 });
 
 
