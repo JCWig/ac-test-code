@@ -26,7 +26,7 @@ import timepickerFormatter from './time-formatter-directive';
  </akam-time-picker>
  *
  */
-module.exports = angular.module('akamai.components.time-picker', [
+export default angular.module('akamai.components.time-picker', [
   angularBootstrapNpm
 ])
 

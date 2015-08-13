@@ -13,15 +13,13 @@ class TimepickerController {
     this.$scope = $scope;
     this.$document = $document;
     this.$parse = $parse;
-    TimepickerController.$scope = $scope;
 
     this.isOpen = false;
 
-    this.$document.on('click', this.clickHandler);
+    this.clickHandler = () => this.$scope.$apply('timepicker.isOpen=false');
 
-    this.$scope.$on('$destroy', () => {
-      this.$document.off('click', this.clickHandler);
-    });
+    this.$document.on('click', this.clickHandler);
+    this.$scope.$on('$destroy', () => this.$document.off('click', this.clickHandler));
   }
 
   clickHandler() {

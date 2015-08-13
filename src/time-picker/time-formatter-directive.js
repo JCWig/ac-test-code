@@ -27,7 +27,7 @@ class TimepickerFormatterController {
     });
   }
 
-  parse(value) {
+  static parse(value) {
     let sp = value.split(':'),
       apm = sp[1].match(formatterConfig.APM_REGEX),
       hr;
@@ -105,7 +105,7 @@ function linkFn(scope, element, attrs, ngModel) {
       return undefined;
     }
 
-    if (!scope.showMeridian) {
+    if (!ctrl.showMeridian) {
       timeRegex = formatterConfig.TIME_REGEX;
     }
 
@@ -115,7 +115,7 @@ function linkFn(scope, element, attrs, ngModel) {
     }
 
     setTimepickerValidState(true);
-    sp = ctrl.parse(value);
+    sp = TimepickerFormatterController.parse(value);
     date.setHours(sp[0], sp[1]);
     return date;
   }
@@ -132,7 +132,7 @@ function linkFn(scope, element, attrs, ngModel) {
     ngModel.$setValidity('time', state);
   }
 
-  ctrl.$timeout(function() {
+  ctrl.$timeout(() => {
     if (!initialized) {
       initialized = true;
     }
