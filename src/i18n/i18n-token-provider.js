@@ -52,7 +52,7 @@ function I18nTokenProvider(i18nConfig, VERSION) {
    */
   this.setComponentLocalePath = (url) => {
     //no validate the param url, assuming it is valid
-    angular.forEach(self.rawUrls, function(item) {
+    angular.forEach(self.rawUrls, (item) => {
       if (item.path === self.i18nConfig.localeComponentPath) {
         item.path = url;
         item.overridden = true;
@@ -78,7 +78,7 @@ function I18nTokenProvider(i18nConfig, VERSION) {
    */
   this.setAppLocalePath = (url) => {
     //no validate the param url, assuming it is valid
-    angular.forEach(self.rawUrls, function(item) {
+    angular.forEach(self.rawUrls, (item) => {
       if (item.path === self.i18nConfig.localeAppPath) {
         item.path = url;
         item.overridden = true;

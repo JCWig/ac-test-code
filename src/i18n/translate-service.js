@@ -111,8 +111,6 @@ class TranslateService {
    * @return {String} translated string
    */
   sync(key, args) {
-    let result = this.$translate.instant(key, args);
-    console.log(result)
     return this.$translate.instant(key, args);
   }
 }

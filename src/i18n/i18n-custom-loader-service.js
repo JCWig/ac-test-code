@@ -1,7 +1,8 @@
 import angular from 'angular';
 
 class I18nLoader {
-  constructor($http, $log, i18nToken, i18nConfig) {
+  constructor($q, $http, $log, i18nToken, i18nConfig) {
+    this.$q = $q;
     this.$http = $http;
     this.$log = $log;
     this.locale = i18nToken.getCurrentLocale();
@@ -23,7 +24,8 @@ class I18nLoader {
    */
   loadTranslations(table = [], errors = [], promises = []) {
     let $log = this.$log,
-      n = this.endpoints.length;
+      n = this.endpoints.length,
+      deferred = this.$q.defer();
 
     /**
      * @name logErrors
@@ -61,31 +63,29 @@ class I18nLoader {
       n--;
     }
 
-    return new Promise((resolve, reject) => {
-      Promise.all(promises)
-        .then(() => {
-          if (errors.length) {
-            if (this.locale !== this.config.DEFAULT_LOCALE) {
-              this.locale = this.config.DEFAULT_LOCALE;
-              resolve(this.loadTranslations());
-            } else {
-              reject(errors);
-            }
+    this.$q.all(promises)
+      .then(() => {
+        if (errors.length) {
+          if (this.locale !== this.config.defaultLocale) {
+            this.locale = this.config.defaultLocale;
+            deferred.resolve(this.loadTranslations());
           } else {
-            resolve([table]);
+            deferred.reject(errors);
           }
-        })
-        .catch(reason => reject(reason));
-    });
+        } else {
+          deferred.resolve([table]);
+        }
+      });
+    return deferred.promise;
   }
 }
 
-function i18nLoaderFactory($http, $log, i18nToken, i18nConfig) {
+function i18nLoaderFactory($q, $http, $log, i18nToken, i18nConfig) {
   return () => {
-    return (new I18nLoader($http, $log, i18nToken, i18nConfig)).loadTranslations();
+    return (new I18nLoader($q, $http, $log, i18nToken, i18nConfig)).loadTranslations();
   };
 }
 
-i18nLoaderFactory.$inject = ['$http', '$log', 'i18nToken', 'i18nConfig'];
+i18nLoaderFactory.$inject = ['$q', '$http', '$log', 'i18nToken', 'i18nConfig'];
 
 export default i18nLoaderFactory;

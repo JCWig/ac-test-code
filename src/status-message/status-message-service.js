@@ -92,7 +92,7 @@ class StatusMessageService {
    * @returns {string} id of status message being shown on the screen
    */
   showInformation(options) {
-    this.showMessage(angular.extend({}, options || {}, {
+    return this.showMessage(angular.extend({}, options || {}, {
       status: 'information'
     }));
   }
