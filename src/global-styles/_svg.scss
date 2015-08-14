@@ -29,6 +29,14 @@
   @include svg('warning');
 }
 
+.svg-error-white {
+  @include svg('error-white');
+}
+
+.svg-information-white {
+  @include svg('information-white');
+}
+
 .svg-x {
   @include svg('x');
 
