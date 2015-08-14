@@ -85,7 +85,7 @@
     "shelljs": "^0.5.1",
     "sinon": "^1.15.3",
     "sync-locale": "0.1.3",
-    "ui-select": "git://github.com/mbollar/ui-select#ebe6dc4acf9c6ddbbf2d8eb2449050c21e558e92",
+    "ui-select": "git://github.com/mbollar/ui-select#77c9106ed20f91f9bf3845f018477e6927f0c4b7",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2",
