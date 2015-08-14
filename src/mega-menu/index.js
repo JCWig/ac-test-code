@@ -4,32 +4,36 @@ var angular = require('angular'),
   header = require('./mega-menu-header-directive'),
   footer = require('./mega-menu-footer-directive');
 
-function run($window, $location, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
-  var qs = $location.search(), assetId;
+function run($rootScope, $window, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
+
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+    var assetId;
+
+    if (context.isGroupContext()) {
+      if (!toParams[LUNA_GROUP_QUERY_PARAM]) {
+        throw Error('Required query param "' + LUNA_GROUP_QUERY_PARAM + '" missing from URL');
+      } else {
+        assetId = $window.parseInt(toParams[LUNA_ASSET_QUERY_PARAM], 10);
+
+        // set the property, which will implicitly set the group to the parent property for the
+        // group this assumes that a property can only exist in one group. If that is not the case,
+        // then the API will have to be adjusted to do lookups by both GID and AID.
+        if (assetId) {
+          context.property = assetId;
+        } else {
+          context.property = null;
+          context.group = $window.parseInt(toParams[LUNA_GROUP_QUERY_PARAM], 10);
+        }
+      }
+    }
+  });
 
   if (!context.isOtherContext()) {
     require('./utils/ga');
     context.account = context.getAccountFromCookie();
   }
-
-  if (context.isGroupContext()) {
-    if (!qs[LUNA_GROUP_QUERY_PARAM]) {
-      throw Error('Required query param "' + LUNA_GROUP_QUERY_PARAM + '" missing from URL');
-    } else {
-      assetId = $window.parseInt(qs[LUNA_ASSET_QUERY_PARAM], 10);
-
-      // set the property, which will implicitly set the group to the parent property for the group
-      // this assumes that a property can only exist in one group. If that is not the case, then
-      // the API will have to be adjusted to do lookups by both GID and AID.
-      if (assetId) {
-        context.property = assetId;
-      } else {
-        context.group = $window.parseInt(qs[LUNA_GROUP_QUERY_PARAM], 10);
-      }
-    }
-  }
 }
-run.$inject = ['$window', '$location', 'context',
+run.$inject = ['$rootScope', '$window', 'context',
   'LUNA_GROUP_QUERY_PARAM', 'LUNA_ASSET_QUERY_PARAM'];
 
 /**

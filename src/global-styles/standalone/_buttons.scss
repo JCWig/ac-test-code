@@ -66,6 +66,15 @@
     border-color: #999999;
   }
 
+  .submit-button-spinner {
+    background-image: inline-svg-image("svg/spinner-orange.svg");
+    @include animation(spin360 1s infinite steps(8));
+    height: 90%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
   &.primary, &.btn-primary {
     color: $button-primary-text-color;
     background-color: $button-primary-background-color;

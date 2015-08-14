@@ -1,4 +1,8 @@
-var angular = require('angular');
+import angular from 'angular';
+import angularBootstrapNpm from 'angular-bootstrap-npm';
+import timepickerDecorator from './timepicker-decorator';
+import timepickerDirective from './time-picker-directive';
+import timepickerFormatter from './time-formatter-directive';
 
 /**
  * @ngdoc module
@@ -22,12 +26,12 @@ var angular = require('angular');
  </akam-time-picker>
  *
  */
-module.exports = angular.module('akamai.components.time-picker', [
-  require('angular-bootstrap-npm')
+export default angular.module('akamai.components.time-picker', [
+  angularBootstrapNpm
 ])
 
   // decorator for incepting Angular UI time picker to use our custom template
-  .config(require('./timepicker-decorator'))
+  .config(timepickerDecorator)
 
 /**
  * @ngdoc directive
@@ -47,7 +51,7 @@ module.exports = angular.module('akamai.components.time-picker', [
  * @param {Number} [minuteStep=15] - increment or decrement the minute value.
  *
  */
-  .directive('akamTimePicker', require('./time-picker-directive'))
+  .directive('akamTimePicker', timepickerDirective)
 
 /**
  * @name timeFormatter
@@ -55,4 +59,4 @@ module.exports = angular.module('akamai.components.time-picker', [
  * @restrict A
  * @param {boolean} showMeridian - bind this value and update view accordingly
  */
-  .directive('timeFormatter', require('./time-formatter-directive'));
+  .directive('timeFormatter', timepickerFormatter);

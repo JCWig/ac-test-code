@@ -59,6 +59,20 @@ execute the tests in a headless browser (PhantomJS), run:
 This will lint the source code and execute the full test suite reporting to
 the console the passed/failed specs and code coverage summary.
 
+### Individual Folder Testing
+
+When working on a single component, you may notice that running the entire suite is a pain
+and may take a considerable amount of time.  Instead, you can use the the testDir argument
+as follows:
+
+`npm run gulp -- test --testDir=spinner --production`
+
+OR:
+
+`npm test -- --testDir=spinner`
+
+This will run the tests for only the folder with the pattern `spec/${testDir}/**/*.js`
+
 ### API Documentation
 
 Documentation is written alongside source code using [ngdoc][1].
