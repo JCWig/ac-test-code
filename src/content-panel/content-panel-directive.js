@@ -6,11 +6,14 @@ module.exports = function($log) {
     restrict: 'E',
     transclude: true,
     replace: true,
-    scope: {
+    scope: {},
+    bindToController: {
       header: '@?',
       isCollapsed: '=?',
       onToggle: '&?'
     },
+    controller: () => {},
+    controllerAs: 'contentPanel',
     template: template,
     compile: function compile(tElement, tAttrs) {
       // If the header attribute is not specified, assume
@@ -21,14 +24,15 @@ module.exports = function($log) {
       }
 
       return function(scope, iElement, iAttrs, controller, transclude) {
+        let ctrl = scope.contentPanel;
         let hasHeaderTranscluded, customContentScope, transcludedContent;
 
-        scope.collapsable = angular.isUndefined(tAttrs.notCollapsable);
-        scope.isCollapsed = scope.isCollapsed === true;
+        ctrl.collapsable = angular.isUndefined(tAttrs.notCollapsable);
+        ctrl.isCollapsed = ctrl.isCollapsed === true;
 
         scope.headerClick = (e) => {
-          if (scope.collapsable) {
-            scope.isCollapsed = !scope.isCollapsed;
+          if (ctrl.collapsable) {
+            ctrl.isCollapsed = !ctrl.isCollapsed;
             if (customContentScope) {
               customContentScope.isCollapsed = !customContentScope.isCollapsed;
             }
@@ -37,9 +41,9 @@ module.exports = function($log) {
           e.stopPropagation();
         };
 
-        scope.$watch('isCollapsed', (newValue, oldValue) => {
-          if (newValue !== oldValue && typeof scope.onToggle === 'function') {
-            scope.onToggle({
+        scope.$watch('contentPanel.isCollapsed', (newValue, oldValue) => {
+          if (newValue !== oldValue && typeof ctrl.onToggle === 'function') {
+            ctrl.onToggle({
               value: newValue
             });
           }
@@ -51,13 +55,13 @@ module.exports = function($log) {
             transcludedContent = clone;
             customContentScope = cloneScope;
             customContentScope.headerClick = scope.headerClick;
-            customContentScope.collapsable = scope.collapsable;
-            customContentScope.isCollapsed = scope.isCollapsed;
+            customContentScope.collapsable = ctrl.collapsable;
+            customContentScope.isCollapsed = ctrl.isCollapsed;
           });
 
-          //This doesn't appear to be necessary but garbage clean up just in case,
+          // This doesn't appear to be necessary but garbage clean up just in case,
           // for added robustness against future issues.
-          //Chrome node/listener graphs appear the same whether or not this is done.
+          // Chrome node/listener graphs appear the same whether or not this is done.
           scope.$on('$destroy', () => {
             transcludedContent.remove();
             customContentScope.$destroy();

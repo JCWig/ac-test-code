@@ -334,11 +334,12 @@ describe('akam-content-panel', function() {
     utilities.click(headerIcon);
     scope.$digest();
 
-    var isoScope = self.el.isolateScope();
+    var isolateScope = self.el.isolateScope();
+    var ctrl = self.el.isolateScope().contentPanel;
 
-    expect(isoScope.collapsable).toBe(true);
-    expect(isoScope.isCollapsed).toBe(true);
-    expect(typeof isoScope.headerClick).toBe('function');
+    expect(ctrl.collapsable).toBe(true);
+    expect(ctrl.isCollapsed).toBe(true);
+    expect(typeof isolateScope.headerClick).toBe('function');
 
   });
   it('should verify new isolated scope using not-collapsable', function() {
@@ -357,7 +358,7 @@ describe('akam-content-panel', function() {
     utilities.click(headerIcon);
     scope.$digest();
 
-    var isoScope = self.el.isolateScope();
+    var isoScope = self.el.isolateScope().contentPanel;
 
     expect(isoScope.collapsable).toBe(false);
   });
@@ -367,7 +368,8 @@ describe('akam-content-panel', function() {
       scope.process = jasmine.createSpy('spy');
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">' +
         '<div>Gandalf the Grey</div><div>Gandalf the White</div>' +
-        '</akam-content-panel>'
+        '</akam-content-panel>';
+
       addElement(markup);
 
       var headerDiv = document.querySelector(PANEL_HEADER);
