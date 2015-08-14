@@ -377,7 +377,7 @@ describe('akamai.components.context', function() {
 
   describe('given the getAccountFromCookie method', function() {
 
-    describe('and a not-quote-so base64 encoded cookie', function() {
+    describe('and a not-quite-so base64 encoded cookie', function() {
 
       describe('when called', function() {
 
