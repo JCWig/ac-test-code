@@ -9,16 +9,16 @@
     "search": {
         "kb": "KB",
         "search": "Buscar",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "Cargando",
+        "seeAll": "Ver todos los resultados de {category}",
         "users": "usuarios",
-        "searchFor": "Search for {category}",
+        "searchFor": "Buscar {category}",
         "docs": "documentos",
         "documentation": "Documentación",
-        "noResults": "no results found",
+        "noResults": "No se encontraron resultados",
         "all": "TODO",
         "applications": "aplicaciones",
-        "allResults": "All Results",
+        "allResults": "Todos los resultados",
         "accounts": "cuentas",
         "groups": "grupos",
         "knowledgeBase": "Knowledge Base English Only",
@@ -62,18 +62,18 @@
     "timeout": {
         "buttonText": "Extender",
         "contents": "Su sesión en el Luna Control Center está a punto de vencer. Haga clic en Extender para extender la sesión.",
-        "title": "Session Timeout Imminent"
+        "title": "Está por agotarse el tiempo de espera de la sesión"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "Segmento de tráfico",
         "arl": "Propiedades digitales",
-        "noMatches": "No Matches Found"
+        "noMatches": "No se encontraron coincidencias"
     },
     "footer": {
         "policy": "Avisos legales y de privacidad",
         "contact": "Póngase en contacto con nosotros",
         "feedback": "¿Cómo podemos ofrecerle un servicio mejor?",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. Todos los derechos reservados"
     },
     "shortMonths": {
         "11": "Dic",
@@ -93,7 +93,7 @@
         "forwardEmailValidation": "Introduzca una dirección de correo electrónico válida",
         "previewTitle": "Centro de mensajes",
         "assigned": "Asignado a",
-        "header": "{count} MESSAGES",
+        "header": "{count} MENSAJES",
         "cancel": "Cancelar",
         "close": "Cerrar",
         "deleteMessage": "¿Está seguro de que desea eliminar este mensaje? Esta acción no se puede deshacer.",
@@ -114,7 +114,7 @@
         "forwardMessage": "Reenviar el mensaje seleccionado a los siguientes correos electrónicos:",
         "list": "Lista",
         "no-cases": "No se encontraron casos.",
-        "unread": "{count} Unread",
+        "unread": "{count} no leídos",
         "delete": "Eliminar mensaje"
     },
     "policies": {

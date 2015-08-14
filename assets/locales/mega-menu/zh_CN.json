@@ -8,17 +8,17 @@
     },
     "search": {
         "kb": "KB",
-        "search": "搜索",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "search": "搜寻",
+        "loading": "正在加载",
+        "seeAll": "查看所有 {category} 结果",
         "users": "用户",
-        "searchFor": "Search for {category}",
+        "searchFor": "搜索 {category}",
         "docs": "文档",
         "documentation": "文件",
-        "noResults": "no results found",
+        "noResults": "找不到结果",
         "all": "全部",
         "applications": "应用程序",
-        "allResults": "All Results",
+        "allResults": "全部结果",
         "accounts": "帐户",
         "groups": "群组",
         "knowledgeBase": "Knowledge Base English Only",
@@ -62,18 +62,18 @@
     "timeout": {
         "buttonText": "扩展",
         "contents": "您的 Luna Control Center 会话即将过期。点击“扩展”以扩展您的对话。",
-        "title": "Session Timeout Imminent"
+        "title": "会话即将超时"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "流量区段",
         "arl": "数字属性",
-        "noMatches": "No Matches Found"
+        "noMatches": "找不到匹配项"
     },
     "footer": {
         "policy": "法律和隐私声明",
         "contact": "联系我们",
         "feedback": "我们将如何更好地为您服务？",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "版权所有 &copy;{currentYear} Akamai Technologies, Inc. 保留所有权利"
     },
     "shortMonths": {
         "11": "十二月",
@@ -87,13 +87,13 @@
         "7": "八月",
         "6": "七月",
         "9": "十月",
-        "8": "Sept"
+        "8": "9 月"
     },
     "messages": {
         "forwardEmailValidation": "输入有效电子邮件",
         "previewTitle": "消息中心",
         "assigned": "指派至",
-        "header": "{count} MESSAGES",
+        "header": "{count} 条消息",
         "cancel": "取消",
         "close": "关闭",
         "deleteMessage": "确定要删除此消息？此操作不可撤消。",
@@ -114,7 +114,7 @@
         "forwardMessage": "将选定邮件转发到以下电子邮件地址:",
         "list": "列表",
         "no-cases": "找不到任何案例。",
-        "unread": "{count} Unread",
+        "unread": "{count} 条未读",
         "delete": "删除消息"
     },
     "policies": {

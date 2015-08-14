@@ -9,16 +9,16 @@
     "search": {
         "kb": "KB",
         "search": "Pesquisar",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "carregando",
+        "seeAll": "Ver todos os resultados de {category}",
         "users": "usuários",
-        "searchFor": "Search for {category}",
+        "searchFor": "Pesquisar por {category}",
         "docs": "documentos",
         "documentation": "Documentação",
-        "noResults": "no results found",
+        "noResults": "nenhum resultado encontrado.",
         "all": "TODOS",
         "applications": "aplicativos",
-        "allResults": "All Results",
+        "allResults": "Todos os resultados",
         "accounts": "contas",
         "groups": "grupos",
         "knowledgeBase": "Knowledge Base English Only",
@@ -62,18 +62,18 @@
     "timeout": {
         "buttonText": "Estendido",
         "contents": "Sua sessão do Luna Control Center está prestes a expirar. Clique em Estender para estender a sua sessão.",
-        "title": "Session Timeout Imminent"
+        "title": "Tempo de espera da sessão iminente"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "Segmento de tráfego",
         "arl": "Propriedade Digital",
-        "noMatches": "No Matches Found"
+        "noMatches": "Nenhuma correspondência encontrada"
     },
     "footer": {
         "policy": "Jurídico e Privacidade",
         "contact": "Fale Conosco",
         "feedback": "Como podemos atendê-lo melhor?",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. Todos os Direitos Reservados"
     },
     "shortMonths": {
         "11": "Dez",
@@ -87,13 +87,13 @@
         "7": "Ago",
         "6": "Jul",
         "9": "Out",
-        "8": "Sept"
+        "8": "Set"
     },
     "messages": {
         "forwardEmailValidation": "Informe e-mail válido",
         "previewTitle": "Central de Mensagens",
         "assigned": "Atribuído a",
-        "header": "{count} MESSAGES",
+        "header": "{count} MENSAGENS",
         "cancel": "Cancelar",
         "close": "Fechar",
         "deleteMessage": "Tem certeza de que deseja excluir esta mensagem? Essa ação não pode ser desfeita.",
@@ -114,7 +114,7 @@
         "forwardMessage": "Encaminhar mensagem selecionada para o(s) seguinte(s) e-mail(s):",
         "list": "Lista",
         "no-cases": "Nenhum caso encontrado.",
-        "unread": "{count} Unread",
+        "unread": "{count} não lidos",
         "delete": "Excluir mensagem"
     },
     "policies": {
