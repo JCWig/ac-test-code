@@ -25,7 +25,7 @@ import spinnerService from './spinner-service';
  * </akam-spinner>
  *
  */
-module.exports = angular.module('akamai.components.spinner', [
+export default angular.module('akamai.components.spinner', [
   uuid.name
 ])
 

@@ -102,6 +102,13 @@
                 "year": "Year Picker"
             }
         },
+        "date-range": {
+            "placeholder": "Select Dates",
+            "labels": {
+                "from": "From",
+                "to": "To"
+            }
+        },
         "tooltip": {
 
         },

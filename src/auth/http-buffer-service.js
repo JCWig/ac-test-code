@@ -1,17 +1,15 @@
-var angular = require('angular');
-
 /**
  * httpBuffer
  * Based on the HTTP Auth Interceptor Module for Angular by Witold Szczerba
  * https://github.com/witoldsz/angular-http-auth
  */
 
-module.exports = function($injector, $q) {
+function httpBufferService($injector, $q) {
   // Holds all the requests, so they can be re-requested in future.
-  var buffer = [];
+  let buffer = [];
 
   // Service initialized later because of circular dependency problem.
-  var $http;
+  let $http;
 
   function retryHttpRequest(config, deferred) {
     function successCallback(response) {
@@ -36,7 +34,7 @@ module.exports = function($injector, $q) {
      * @return {promise} The promise to use to for the deferred request
      */
     appendRequest: function(requestConfig) {
-      var deferred = $q.defer();
+      let deferred = $q.defer();
 
       this.append(requestConfig, deferred);
       return deferred.promise;
@@ -51,7 +49,7 @@ module.exports = function($injector, $q) {
      * @return {promise} The promise to use to for the retried request
      */
     appendResponse: function(response) {
-      var deferred = $q.defer();
+      let deferred = $q.defer();
 
       this.append(response.config, deferred);
       return deferred.promise;
@@ -77,11 +75,10 @@ module.exports = function($injector, $q) {
      * @description Retries all the buffered requests clears the buffer.
      */
     retryAll: function() {
-      angular.forEach(buffer, function(value) {
+      buffer.forEach((value) => {
         value.config.retriedRequest = true;
         retryHttpRequest(value.config, value.deferred);
       });
-
       this.clear();
     },
 
@@ -102,6 +99,8 @@ module.exports = function($injector, $q) {
       return buffer.length;
     }
   };
-};
+}
 
-module.exports.$inject = ['$injector', '$q'];
+httpBufferService.$inject = ['$injector', '$q'];
+
+export default httpBufferService;
