@@ -22,7 +22,7 @@ module.exports = function(config) {
     'spec/mega-menu/**/*.js'
   ];
 
-  var preprocessorPattern = args.testDir ? 'spec/'+ args.testDir+'/**/*.js' : 'spec/**/*.js';
+  var preprocessorPattern = args.testDir ? 'spec/' + args.testDir + '/**/*.js' : 'spec/**/*.js';
 
   var filesToTest = baseFileList.concat(
     args.testDir ? [

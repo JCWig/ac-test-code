@@ -114,7 +114,7 @@ module.exports = function ContextProvider() {
         base64EncodedCookie, id = null, name = '';
 
       if (cookie) {
-        base64EncodedCookie = $window.atob(cookie).split('~~');
+        base64EncodedCookie = $window.atob(cookie.replace(/^"|"$/g, '')).split('~~');
         id = base64EncodedCookie[1];
         name = base64EncodedCookie[0];
       }
