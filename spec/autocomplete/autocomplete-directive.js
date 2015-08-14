@@ -144,24 +144,21 @@ describe('akamAutocomplete directive', function() {
 
         expect(tip.text()).toContain("matching results")
       });
+      it("should verify search term not found", function() {
+        var markup = '<akam-autocomplete ng-model="selectedItem" minimum-search="1" text-property="first" on-search="onSearch(term)"></akam-autocomplete>';
+        scope.term = "";
+        scope.onSearch = function(term) {}
+        spyOn(scope, "onSearch");
+        addElement(markup);
 
-      /*
-            it("should verify search term not found", function() {
-              var markup = '<akam-autocomplete ng-model="selectedItem" minimum-search="1" text-property="first" on-search="onSearch(term)"></akam-autocomplete>';
-              scope.term = "";
-              scope.onSearch = function(term) {}
-              spyOn(scope, "onSearch");
-              addElement(markup);
+        var dirEl = document.querySelector(selectors.ac);
+        var el = angular.element(dirEl).find("input");
+        el.val("abcd");
+        el.trigger('input');
+        scope.$digest();
 
-              var dirEl = document.querySelector(selectors.ac);
-              var el = angular.element(dirEl).find("input");
-              el.val("abcd");
-              el.trigger('input');
-              scope.$digest();
-
-              expect(dirEl.classList.contains("open")).toBeFalsy();
-            });
-      */
+        expect(dirEl.classList.contains("open")).toBeFalsy();
+      });
       it("should verify minimum-search value correctly", function() {
         var markup = '<akam-autocomplete ng-model="selectedItem" minimum-search="5" text-property="first" on-search="onSearch(term)"></akam-autocomplete>';
         scope.term = "";

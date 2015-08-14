@@ -5,6 +5,7 @@ import selectedItemTemplate from './templates/autocomplete-selected.tpl.html';
 class AutocompleteService {
   constructor($q, $log, $templateCache, autocompleteConfig) {
     this.$q = $q;
+    this.Promise = Promise;
     this.$log = $log;
     this.$templateCache = $templateCache;
     this.autocompleteConfig = autocompleteConfig;
@@ -40,7 +41,7 @@ class AutocompleteService {
    * @return {object} a promise object
    */
   asyncSearch(ctrl, term) {
-    return new Promise((resolve, reject) => {
+    return new this.Promise((resolve, reject) => {
       let asyncSearch = ctrl.onSearch({
         term: term
       });
