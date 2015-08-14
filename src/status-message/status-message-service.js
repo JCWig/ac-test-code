@@ -21,8 +21,6 @@ module.exports = function($document, $compile, $rootScope) {
     scope.items = items;
     wrapper =
       $compile('<akam-status-message-group items="items"></akam-status-message-group>')(scope);
-
-    removeItemByItemId = wrapper.scope().$$childHead.removeItemByItemId;
     body.prepend(wrapper);
     return true;
   }
@@ -38,20 +36,20 @@ module.exports = function($document, $compile, $rootScope) {
     return options.itemId;
   }
 
-  function clear(statusTypes){
-    statusTypes = statusTypes || [];
-    if( angular.isString( statusTypes ) ){
-      statusTypes = [statusTypes];
-    }
+  function clear(itemId) {
+    var i;
 
-    var itemMatches = items.filter( (item) => {
-        return statusTypes.indexOf(item.status) > -1;
+    if (!angular.isDefined(itemId)) {
+      items.splice(0);
+    } 
+    else {
+      for (i = 0; i < items.length; i++) {
+        if (items[i].itemId === itemId) {
+          items.splice(i, 1);
+          return;
+        }
       }
-    );
-
-    itemMatches.forEach((item) => {
-      removeItemByItemId(item.itemId);
-    });
+    }
   }
 
   return {
