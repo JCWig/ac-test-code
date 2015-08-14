@@ -44,6 +44,21 @@ class DatepickerController {
         formatMonth: 'MMM'
       };
     }
+
+    this.$timeout(() => {
+      if (this.mode === DAY) {
+        this.format = this.format || DEFAULT_MORMAT.DAY;
+      } else {
+        this.format = this.format || DEFAULT_MORMAT.MONTH;
+      }
+    });
+  }
+
+  toggle(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.opened = !this.opened;
   }
 }
 
@@ -67,13 +82,6 @@ function linkFn(scope, element, attrs, ngModel) {
     ngModel.$setTouched();
   };
 
-  scope.toggle = ($event) => {
-    $event.preventDefault();
-    $event.stopPropagation();
-
-    ctrl.opened = !ctrl.opened;
-  };
-
   scope.showClear = () => {
     return ctrl.value && !noClear && !ctrl.isDisabled;
   };
@@ -84,14 +92,6 @@ function linkFn(scope, element, attrs, ngModel) {
   };
 
   scope.$watch('datepicker.opened', (newValue) => element.toggleClass('opened', newValue));
-
-  ctrl.$timeout(() => {
-    if (ctrl.mode === DAY) {
-      ctrl.format = ctrl.format || DEFAULT_MORMAT.DAY;
-    } else {
-      ctrl.format = ctrl.format || DEFAULT_MORMAT.MONTH;
-    }
-  });
 }
 
 export default () => {
