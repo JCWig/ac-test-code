@@ -10,7 +10,7 @@ function config($provide, $translateProvider, i18nConfig) {
     .useMissingTranslationHandler('missingTranslationFactory');
 
   /**
-   * a decorator to intercept $locale service and add datetime abd number
+   * a decorator to intercept $locale service and add datetime and number
    * values specific for current locale
    * @param  {object} $delegate original $locale service object
    * @param  {object} i18nToken a factory service holds value of current locale

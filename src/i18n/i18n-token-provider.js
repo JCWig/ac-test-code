@@ -1,40 +1,30 @@
 import angular from 'angular';
 
 function I18nTokenProvider(i18nConfig, VERSION) {
-  let cPath, self = this;
-
   this.i18nConfig = i18nConfig;
   this.VERSION = VERSION;
   this.rawUrls = [];
 
   /**
-   * Constructs a URLs array in the Path class for use
-   * in the `i18nCustomLoader` service. Paths include
-   * `/libs/akamai-core/{version}/locales/` for components and
-   * `/apps/{appname}/locales/` for apps, where `{version}` and
-   * `{appname}` are replaced by their proper values in the `$get`
-   * constructor.
-   *
+   * resolveLocalePath function adds 2 default endpoints path of locale
+   * files to rawUrls array one for the component and one for the app
+   * `/libs/akamai-core/{version}/locales/` for components
+   * `/apps/{appname}/locales/` for apps, where `{version}`
+   * `{appname}` are replaced by their proper values in the `$get..'
+   * @private
    */
-  function Path() {
-    /**
-     * resolve function adds 2 default endpoints path of locale
-     * files to rawUrls array one for the component and one for the app
-     * @private
-     */
-    this.resolve = () => {
-      self.rawUrls.push({
-        path: self.i18nConfig.localeComponentPath,
-        app: false,
-        overridden: false
-      });
-      self.rawUrls.push({
-        path: self.i18nConfig.localeAppPath,
-        app: true,
-        overridden: false
-      });
-    };
-  }
+  this.resolveLocalePath = () => {
+    this.rawUrls.push({
+      path: this.i18nConfig.localeComponentPath,
+      app: false,
+      overridden: false
+    });
+    this.rawUrls.push({
+      path: this.i18nConfig.localeAppPath,
+      app: true,
+      overridden: false
+    });
+  };
 
   /**
    * @ngdoc method
@@ -52,8 +42,8 @@ function I18nTokenProvider(i18nConfig, VERSION) {
    */
   this.setComponentLocalePath = (url) => {
     //no validate the param url, assuming it is valid
-    angular.forEach(self.rawUrls, (item) => {
-      if (item.path === self.i18nConfig.localeComponentPath) {
+    angular.forEach(this.rawUrls, (item) => {
+      if (item.path === this.i18nConfig.localeComponentPath) {
         item.path = url;
         item.overridden = true;
       }
@@ -78,16 +68,15 @@ function I18nTokenProvider(i18nConfig, VERSION) {
    */
   this.setAppLocalePath = (url) => {
     //no validate the param url, assuming it is valid
-    angular.forEach(self.rawUrls, (item) => {
-      if (item.path === self.i18nConfig.localeAppPath) {
+    angular.forEach(this.rawUrls, (item) => {
+      if (item.path === this.i18nConfig.localeAppPath) {
         item.path = url;
         item.overridden = true;
       }
     });
   };
 
-  cPath = new Path();
-  cPath.resolve();
+  this.resolveLocalePath();
 
   this.$get = i18nTokenFactory;
 
@@ -97,7 +86,7 @@ function I18nTokenProvider(i18nConfig, VERSION) {
       localeUrls = [],
       appName, matchResults,
       normalizedPath,
-    // valid chars: lower case alpha, digits, and hyphen for possible appName from url
+      // valid chars: lower case alpha, digits, and hyphen for possible appName from url
       appUrlRx = /[^/]\/apps\/([a-z0-9-]+)?[/?]?/;
 
     //just to prevent from improperly encoded cookies
