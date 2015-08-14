@@ -4,11 +4,10 @@ import template from './templates/content-panel.tpl.html';
 module.exports = function($log) {
   return {
     restrict: 'E',
-    transclude: true,
+    transclude: 'true',
     replace: true,
-    scope: {},
-    bindToController: {
-      header: '@?',
+    scope: {
+        header: '@?',
       isCollapsed: '=?',
       onToggle: '&?'
     },
@@ -19,18 +18,21 @@ module.exports = function($log) {
       // If the header attribute is not specified, assume
       // the developer provided their own akam-content-panel-header
       // and akam-content-panel-body inner directives.
+      let parentElement = tElement.parent();
+
       if (!tAttrs.header) {
         tElement.empty();
+        console.log('parentElement', parentElement);
       }
 
       return function(scope, iElement, iAttrs, controller, transclude) {
-        let ctrl = scope.contentPanel;
+        let ctrl = scope;
         let hasHeaderTranscluded, customContentScope, transcludedContent;
 
         ctrl.collapsable = angular.isUndefined(tAttrs.notCollapsable);
         ctrl.isCollapsed = ctrl.isCollapsed === true;
 
-        scope.headerClick = (e) => {
+        ctrl.headerClick = (e) => {
           if (ctrl.collapsable) {
             ctrl.isCollapsed = !ctrl.isCollapsed;
             if (customContentScope) {
@@ -50,11 +52,13 @@ module.exports = function($log) {
         });
 
         if (!iAttrs.header) {
-          transclude( (clone, cloneScope) => {
+
+          transclude((clone, cloneScope) => {
+            console.log(cloneScope)
             iElement.append(clone);
             transcludedContent = clone;
             customContentScope = cloneScope;
-            customContentScope.headerClick = scope.headerClick;
+            customContentScope.headerClick = ctrl.headerClick;
             customContentScope.collapsable = ctrl.collapsable;
             customContentScope.isCollapsed = ctrl.isCollapsed;
           });

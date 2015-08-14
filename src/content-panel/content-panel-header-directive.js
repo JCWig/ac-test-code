@@ -7,7 +7,7 @@ export default () => {
     replace: true,
     template: template,
     link: function(scope, elem, attrs, ctrl, transclude) {
-      transclude(function(transcludeEl) {
+      transclude(scope, function(transcludeEl) {
         elem.append(transcludeEl);
       });
     }
