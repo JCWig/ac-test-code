@@ -8,8 +8,7 @@ const DEFAULT_MORMAT = {
 };
 
 class DatepickerController {
-  constructor(scope, $filter, $timeout, translate) {
-    this.scope = scope;
+  constructor($filter, $timeout, translate) {
     this.$filter = $filter;
     this.$timeout = $timeout;
     this.translate = translate;
@@ -32,7 +31,7 @@ class DatepickerController {
     } else {
       if (!this.placeholder) {
         this.translate.async('components.date-picker.placeholder.month')
-          .then((value) => scope.placeholder = value);
+          .then((value) => this.placeholder = value);
       }
       this.dateOptions = {
         startingDay: 0,
@@ -62,7 +61,7 @@ class DatepickerController {
   }
 }
 
-DatepickerController.$inject = ['$scope', '$filter', '$timeout', 'translate'];
+DatepickerController.$inject = ['$filter', '$timeout', 'translate'];
 
 function linkFn(scope, element, attrs, ngModel) {
   let noClear = angular.isDefined(attrs.noClear),
