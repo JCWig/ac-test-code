@@ -11517,8 +11517,8 @@
     },
     "ui-select": {
       "version": "0.12.0",
-      "from": "git://github.com/mbollar/ui-select.git#fixes",
-      "resolved": "git://github.com/mbollar/ui-select.git#c13eb298e5d497e70e432b9b26926ffd25068bdf"
+      "from": "git://github.com/mbollar/ui-select.git#ebe6dc4acf9c6ddbbf2d8eb2449050c21e558e92",
+      "resolved": "git://github.com/mbollar/ui-select.git#ebe6dc4acf9c6ddbbf2d8eb2449050c21e558e92"
     },
     "vinyl-buffer": {
       "version": "1.0.0",
