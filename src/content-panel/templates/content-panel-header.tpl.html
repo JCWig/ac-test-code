@@ -1,4 +1,4 @@
-<div class="panel-heading" ng-class="{'util-clickable':collapsable}" ng-click="headerClick($event);">
-    <i ng-show="collapsable" class="toggle-icon icon-states" ng-class="{'luna-arrow_smDown' : !isCollapsed, 'luna-arrow_smRight': isCollapsed}"></i>
+<div class="panel-heading" ng-class="{'util-clickable':collapsable}" ng-click="contentPanel.headerClick($event);">
+    <i ng-show="collapsable" class="toggle-icon icon-states" ng-class="{'luna-arrow_smDown' : !contentPanel.isCollapsed, 'luna-arrow_smRight': contentPanel.isCollapsed}"></i>
 
 </div>
