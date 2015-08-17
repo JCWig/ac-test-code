@@ -64,11 +64,20 @@
             <akam-content-panel not-collapsable>
                 <akam-content-panel-header>
                     <div class="panel-title">
-                        <i class="luna-world_map mm"></i> {{foo}}
+                        <i class="luna-world_map mm"></i> Custom {{foo}}
                     </div>
                 </akam-content-panel-header>
                 <akam-content-panel-body>
                     Custom Body
+                </akam-content-panel-body>
+            </akam-content-panel>
+
+            <akam-content-panel>
+                <akam-content-panel-header>
+                    <span class="uniqueContent"> Custom Header </span>
+                </akam-content-panel-header>
+                <akam-content-panel-body>
+                    <i class="luna-world_map"></i> Panel content
                 </akam-content-panel-body>
             </akam-content-panel>
         </div>
@@ -77,7 +86,7 @@
             var controllerFunction = function($scope, $log) {
                 $scope.isCollapsed1 = false;
                 $scope.isCollapsed2 = true;
-                $scope.foo = 'bar';
+                $scope.foo = 'Foo Bar';
 
                 $scope.process = function(value){
                     $log.log('Toggle of panel:', value);

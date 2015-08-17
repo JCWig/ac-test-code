@@ -330,16 +330,14 @@ describe('akam-content-panel', function() {
     addElement(markup);
 
     var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+    var ctrl = self.el.isolateScope().contentPanel;
 
     utilities.click(headerIcon);
     scope.$digest();
 
-    var ctrl = self.el.isolateScope().contentPanel;
-
     expect(ctrl.collapsable).toBe(true);
     expect(ctrl.isCollapsed).toBe(true);
     expect(typeof ctrl.headerClick).toBe('function');
-
   });
   it('should verify new isolated scope using not-collapsable', function() {
     var markup = '<akam-content-panel not-collapsable>' +
