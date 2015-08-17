@@ -50,10 +50,7 @@ $dropdown-button-disabled-color: #e6e6e6;
         border-color: $input-border-color-disabled;
         box-shadow: none;
         cursor: default;
-        span:first-child {
-          @include placeholder-enhanced($dropdown-button-disabled-color, italic);
-          color: $dropdown-button-disabled-color;
-        }
+        color: $dropdown-button-disabled-color;
         & + span {
           background: $arrow-disabled-background;
           border-color: $button-border-color-disabled;
