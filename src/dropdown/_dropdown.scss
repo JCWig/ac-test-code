@@ -8,47 +8,15 @@ $dropdown-selected-option-background-color: #f4f4f4;
 $dropdown-button-active-hover-border-color: #999;
 $dropdown-button-disabled-color: #e6e6e6;
 
-.dropdown-menu.append-body {
-  position: absolute;
-  border: 0 none;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  margin-top: 0;
-  
-  div.fixed-header {
-    padding: 4px 5px;
-    @include ellipsis();
-
-    & input {
-      width: 100%;
-      padding-right: 23px;
-
-      &::-ms-clear {
-        display: none;
-      }
-    }
-
-    & i.clear-filter {
-      position: absolute;
-      top: 12px;
-      right: 13px;
-    }
-  }
-  a {
-    -webkit-transform: translate3d(0, 0, 0);
-    cursor: pointer;
-  }
-}
 
 .dropdown.akam-dropdown {
   min-width: 180px;
   width: 100%;
 
   .dropdown-menu {
-    max-width: 100%;
-
-    > li > a,
-    > .fixed-header {
-      @include ellipsis();
+    > li > a {
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -82,10 +50,7 @@ $dropdown-button-disabled-color: #e6e6e6;
         border-color: $input-border-color-disabled;
         box-shadow: none;
         cursor: default;
-        span:first-child {
-          @include placeholder-enhanced($dropdown-button-disabled-color, italic);
-          color: $dropdown-button-disabled-color;
-        }
+        color: $dropdown-button-disabled-color;
         & + span {
           background: $arrow-disabled-background;
           border-color: $button-border-color-disabled;
@@ -128,13 +93,10 @@ $dropdown-button-disabled-color: #e6e6e6;
   }
 
   & div.dropdown-menu {
-    width: calc(100% - 1px);
-    border-top: none;
-    margin-top: 0;
+    min-width: 100%;
 
     & div.fixed-header {
       padding: 4px 5px;
-      @include ellipsis();
 
       & input {
         width: 100%;
@@ -166,3 +128,32 @@ $dropdown-button-disabled-color: #e6e6e6;
   }
 
 }
+
+.dropdown-menu.append-body {
+  position: absolute;
+
+    div.fixed-header {
+      padding: 4px 5px;
+      @include ellipsis();
+
+      & input {
+        width: 100%;
+        padding-right: 23px;
+
+        &::-ms-clear {
+          display: none;
+        }
+      }
+
+      & i.clear-filter {
+        position: absolute;
+        top: 12px;
+        right: 13px;
+      }
+    }
+    a {
+      -webkit-transform: translate3d(0, 0, 0);
+      cursor: pointer;
+    }
+}
+
