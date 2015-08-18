@@ -1,5 +1,4 @@
 import angular from 'angular';
-import template from './templates/content-panel.tpl.html';
 
 class ContentPanelController {
 
@@ -10,15 +9,15 @@ class ContentPanelController {
   constructor($scope, $log) {
     this.$scope = $scope;
     this.$log = $log;
+    this.collapsable = null;
     this.transcludedContent = null;
     this.customContentScope = null;
 
-    this.$scope.$watch('contentPanel.isCollapsed', (newValue, oldValue) => {
+    $scope.$watch('contentPanel.isCollapsed', (newValue, oldValue) => {
       if (newValue !== oldValue && typeof this.onToggle === 'function') {
         this.onToggle({ value: newValue});
       }
     });
-
   }
 
   initialize(element, attrs, transclude) {
@@ -26,33 +25,30 @@ class ContentPanelController {
       throw new Error('Element, attrs and transclude function required to initialize.');
     }
 
+    let transcludedContent;
+
     this.collapsable = angular.isUndefined(attrs.notCollapsable);
     this.isCollapsed = this.isCollapsed === true;
 
     if (!attrs.header) {
       transclude((clone, cloneScope) => {
         element.append(clone);
-        this.transcludedContent = clone;
+        transcludedContent = clone;
         this.customContentScope = cloneScope;
-        this.customContentScope.contentPanel = {};
-        this.customContentScope.contentPanel.headerClick = this.headerClick;
-        this.customContentScope.contentPanel.collapsable = this.collapsable;
-        this.customContentScope.contentPanel.isCollapsed = this.isCollapsed;
-        this.customContentScope.contentPanel.onToggle = this.onToggle;
-        this.$scope.$watch('contentPanel.isCollapsed', (newValue, oldValue) => {
-          console.log(this);
-          if (newValue !== oldValue && typeof this.onToggle === 'function') {
-            this.onToggle({ value: newValue});
-          }
-        });
-      });
+        this.customContentScope.headerClick = this.headerClick;
 
+        this.customContentScope.contentPanel = {
+          headerClick: angular.bind(this, this.headerClick),
+          collapsable: this.collapsable,
+          isCollapsed: this.isCollapsed
+        };
+      });
 
       //This doesn't appear to be necessary but garbage clean up just in case,
       // for added robustness against future issues.
       //Chrome node/listener graphs appear the same whether or not this is done.
       this.$scope.$on('$destroy', function() {
-        this.transcludedContent.remove();
+        transcludedContent.remove();
         this.customContentScope.$destroy();
       });
 
@@ -66,10 +62,15 @@ class ContentPanelController {
   headerClick(e) {
     if (this.collapsable) {
       this.isCollapsed = !this.isCollapsed;
+      if (this.customContentScope) {
+        this.customContentScope.contentPanel.isCollapsed =
+          !this.customContentScope.contentPanel.isCollapsed;
+      }
     }
     e.preventDefault();
     e.stopPropagation();
   }
+
 }
 
 function contentPanelDirective() {
@@ -86,7 +87,7 @@ function contentPanelDirective() {
     },
     controller: ContentPanelController,
     controllerAs: 'contentPanel',
-    template: template,
+    template: require('./templates/content-panel.tpl.html'),
     compile: function compile(tElement, tAttrs) {
       // If the header attribute is not specified, assume
       // the developer provided their own akam-content-panel-header
