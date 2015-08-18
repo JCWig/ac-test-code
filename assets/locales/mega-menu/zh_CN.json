@@ -25,6 +25,7 @@
         "properties": "属性"
     },
     "footer_context": {
+        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorage移除",
         "reports_dashboard": "报告仪表板",
         "configure_ads": "配置广告",
