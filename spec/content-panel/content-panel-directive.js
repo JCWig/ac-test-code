@@ -147,7 +147,7 @@ describe('akam-content-panel', function() {
       expect(header3).toMatch(/Header 3/);
     });
     it('should be able to render with custom content with only text node (content)', function() {
-      scope.randomText = "Here is some random text"
+      scope.randomText = "Here is some random text";
       var markup = '<akam-content-panel>' +
         '<akam-content-panel-header>' +
         '<i class="luna-world_map"></i> Custom Header' +
@@ -355,9 +355,7 @@ describe('akam-content-panel', function() {
     utilities.click(headerIcon);
     scope.$digest();
 
-    var isoScope = self.el.isolateScope().contentPanel;
-
-    expect(isoScope.collapsable).toBe(false);
+    expect(self.el.isolateScope().contentPanel.collapsable).toBe(false);
   });
   describe('when rendered', function() {
     it('should be able to toggle visibility of content', function() {
