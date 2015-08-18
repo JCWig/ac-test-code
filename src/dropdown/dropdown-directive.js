@@ -208,9 +208,6 @@ function dropdown($compile, dropdownTransformer, translate, $document, $timeout,
       if (angular.isDefined(attrs.appendToBody)) {
         $timeout(() => {
           menuElem.addClass('append-body util-hide');
-          menuElem.css({
-            width: elem.children(0)[0].offsetWidth + 'px'
-          });
           setAppendToBodyCoords();
           angular.element($document.find('body')).append(menuElem);
           windowElement = angular.element(window);
