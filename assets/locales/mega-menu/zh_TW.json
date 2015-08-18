@@ -25,6 +25,7 @@
         "properties": "內容"
     },
     "footer_context": {
+        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "取消 NetStorage 佈建",
         "reports_dashboard": "儀表板的報告",
         "configure_ads": "設定 ADS",
