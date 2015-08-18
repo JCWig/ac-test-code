@@ -94,6 +94,7 @@ $datepicker-text-color-disabled: #e6e6e6;
     top: 100%;
     min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
     @include box-shadow($global-box-shadow);
+    overflow: inherit;
 
     // Override TWBS
     .btn,
