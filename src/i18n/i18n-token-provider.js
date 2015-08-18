@@ -5,11 +5,7 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     cPath;
 
   /**
-   * @ngdoc service
-   *
-   * @name Path
-   *
-   * @description Constructs a URLs array in the Path class for use
+   * Constructs a URLs array in the Path class for use
    * in the `i18nCustomLoader` service. Paths include
    * `/libs/akamai-core/{version}/locales/` for components and
    * `/apps/{appname}/locales/` for apps, where `{version}` and
@@ -39,19 +35,16 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
 
   /**
    * @ngdoc method
-   *
    * @name i18nTokenProvider#setComponentLocalePath
-   *
-   * @methodOf akamai.components.i18n.service:i18nTokenProvider
    *
    * @param {String} url the path to replace default component locale file path
    *
    * @example of usage
    * <pre>
-   *     app.config(function(i18nTokenProvider) {
-     *        i18nTokenProvider.setComponentLocalePath('/libs/akamai-core/0.6.1/locales/'');
-     *        i18nTokenProvider.setAppLocalePath('/apps/appname/locales/'');
-     *     });
+   * app.config(function(i18nTokenProvider) {
+   *   i18nTokenProvider.setComponentLocalePath('/libs/akamai-core/0.6.1/locales/'');
+   *   i18nTokenProvider.setAppLocalePath('/apps/appname/locales/'');
+   * });
    * </pre>
    */
   this.setComponentLocalePath = function(url) {
@@ -66,21 +59,18 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
 
   /**
    * @ngdoc method
-   *
    * @name i18nTokenProvider#setAppLocalePath
-   *
-   * @methodOf akamai.components.i18n.service:i18nTokenProvider
    *
    * @param {String} url the path to replace default application locale file path
    *
    * __NOTE__: param url only a string value for the app, no multiple files allowed
    *
-   *@example of usage
+   * @example of usage
    * <pre>
    *     app.config(function(i18nTokenProvider) {
-     *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
-     *        i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
-     *     });
+   *        i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/0.6.1/locales/");
+   *        i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
+   *     });
    * </pre>
    */
   this.setAppLocalePath = function(url) {
@@ -97,23 +87,6 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
   cPath = new Path();
   cPath.resolve();
 
-  /**
-   *
-   * @ngdoc method
-   *
-   * @name i18nTokenProvider#$get
-   *
-   * @methodOf akamai.components.i18n.service:i18nTokenProvider
-   *
-   * @description A service used by the `i18nTokenProvider` to pass
-   * values set during the application's configuration phase. The
-   * `locale` value is determined by the `AKALOCALE` cookie set by
-   * Luna portal, otherwise the fallback value is `en_US`.
-   *
-   * @return {object} A hash containing two getter methods, mainly
-   * for use by i18nCustomLoader.
-   *
-   */
   this.$get = i18nTokenFactory;
 
   function i18nTokenFactory($cookies, $location, $log) {
@@ -161,34 +134,21 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
     return {
 
       /**
-       * @ngdoc method
+       * @name i18nToken#getUrls
        *
-       * @name i18nTokenProvider#getUrls
-       *
-       * @methodOf akamai.components.i18n.service:i18nTokenProvider
-       *
-       * @description get a list of URLs that reference locale
-       * files.
-       * @return {array} localeUrls
-       *
+       * @description get a list of URLs that reference locale files.
+       * @return {String[]} List of locale urls.
        */
-
       getUrls: function() {
         return localeUrls;
       },
 
       /**
-       * @ngdoc method
-       *
-       * @name i18nTokenProvider#getCurrentLocale
-       *
-       * @methodOf akamai.components.i18n.service:i18nTokenProvider
+       * @name i18nToken#getCurrentLocale
        *
        * @description Get the current locale value.
-       * @return {string} locale
-       *
+       * @return {String} The current locale, in a Java readable format (i.e. "en_US")
        */
-
       getCurrentLocale: function() {
         return locale;
       }

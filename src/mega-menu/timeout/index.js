@@ -115,7 +115,6 @@ function unbindEvents() {
 }
 
 /**
- * @ngdoc function
  * @name timeout
  * @requires utils.config
  * @requires utils.constants

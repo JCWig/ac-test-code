@@ -22,6 +22,7 @@
   },
 
   "footer_context": {
+    "advanced_search": "Advanced Search",
     "akamai_internal": "Akamai Internal",
     "account_team": "Account Team",
     "review_contract": "Review Contracts",

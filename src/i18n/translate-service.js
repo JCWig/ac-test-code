@@ -21,8 +21,6 @@ module.exports = function($translate) {
      *
      * @name translate#async
      *
-     * @methodOf akamai.components.i18n.service:translate
-     *
      * @description Asynchronously translates a key or sets of
      * keys.
      *
@@ -32,8 +30,8 @@ module.exports = function($translate) {
      *
      * <pre>
      * akamTranslate.async('key').then(function(value){
-         *     $scope.var = value;
-         * })
+     *   $scope.var = value;
+     * })
      * </pre>
      *
      * This passes in a key and a variable that replaces any
@@ -41,8 +39,8 @@ module.exports = function($translate) {
      *
      * <pre>
      * akamTranslate.async('key', {name:"xxx"}).then(function(value){
-         *     $scope.var = value;
-         * })
+     *   $scope.var = value;
+     * })
      * </pre>
      *
      * This passes in keys as an array, in which case variable
@@ -50,10 +48,10 @@ module.exports = function($translate) {
      *
      * <pre>
      * akamTranslate.async([key1, key2, key3]).then(function(values){
-         *     $scope.var1 = values[key1];
-         *     $scope.var2 = values[key2];
-         *     $scope.var3 = values[key3];
-         * })
+     *   $scope.var1 = values[key1];
+     *   $scope.var2 = values[key2];
+     *   $scope.var3 = values[key3];
+     * })
      * </pre>
      *
      * If two-way binding is necessary, wrap the method within
@@ -63,17 +61,17 @@ module.exports = function($translate) {
      *
      * <pre>
      * $rootScope.$on('$translateChangeEnd', function() {
-         *     akamTranslate.async('key').then(function(value){
-         *         $scope.var = value;
-         *     })
-         * });
+     *   akamTranslate.async('key').then(function(value){
+     *     $scope.var = value;
+     *   })
+     * });
      * </pre>
      *
-     * @param {array | string} keys String key or array of keys.
+     * @param {String[] | String} keys String key or array of keys.
      * If it is an array, return values are available in
      * `values[key[index]]`.
      *
-     * @param {object=} args A hash containing variable
+     * @param {Object} [args] A hash containing variable
      * replacements. This option is only available when the `key`
      * is a string.
      *
@@ -82,20 +80,19 @@ module.exports = function($translate) {
 
     /**
      * @ngdoc method
-     *
      * @name translate#sync
-     *
-     * @methodOf akamai.components.i18n.service:translate
      *
      * @description Translates a key string immediately.
      *
-     * Use this only once the translation table has loaded,
-     * otherwise the
-     * {@link akamai.components.i18n.service:translate#methods_async async}
-     * method is more appropriate.
-     * When blocking the application is not a problem, best
-     * practice is to assign return values to non-`$scope`
-     * variables. For example:
+     * **NOTE** If this method is called before the translations has been loaded, then the return
+     * value will simply be the key that is input as an argument. By itself, this isn't so bad, but
+     * if your application assigns the result of this call to a value that is only one-time bound
+     * then it is possible to see untranslated values inside of your application. When possible,
+     * favor the asynchronous method.
+     *
+     * Use this only once the translation table has loaded, otherwise the async method is more
+     * appropriate. When blocking the application is not a problem, best practice is to assign
+     * return values to non-`$scope` variables. For example:
      *
      * <pre>
      * var value = akamTranslate.sync(key, args);
@@ -108,14 +105,14 @@ module.exports = function($translate) {
      *
      * <pre>
      * $rootScope.$on('$translateChangeEnd', function() {
-         *     var value = akamTranslate.sync(key, args);
-         *     // ...
-         * });
+     *   var value = akamTranslate.sync(key, args);
+     *   // ...
+     * });
      * </pre>
      *
-     * @param {string} key string of key name.
+     * @param {String} key string of key name.
      *
-     * @param {object=} args is hash that contains variable
+     * @param {Object} [args] is hash that contains variable
      * replacements.
      *
      */

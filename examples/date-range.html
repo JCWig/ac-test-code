@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Date Range</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+  <style type="text/css">
+  .title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  .form-group div {
+    margin: 15px 0;
+  }
+  </style>
+</head>
+
+<body class="common-css luna" ng-app="dateRangeApp" ng-strict-di ng-controller="DateRangeAppController as vm">
+  <br/>
+  <h2>Date Range Component Example</h2>
+  <br/>
+  <pre>selected Date Range: {{vm.range}}</pre>
+  <pre>selected start date: {{vm.start}}</pre>
+  <pre>selected end Date: {{vm.end}}</pre>
+  <h4 class="title">An example of date range picker</h4>
+  <akam-date-range ng-model="vm.dateRange1" min-date="{{vm.min | date: 'yyyy-MM-dd'}}" max-date="{{vm.max | date: 'yyyy-MM-dd'}}" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+  <br/>
+  <br/>
+  <div class="form-group">
+    <div>
+      <input id="disableDateRange" type="checkbox" name='disableDateRange' ng-model='vm.disabled' />
+      <label class="label" for="disableDateRange">To disabled component</label>
+    </div>
+    <div>
+      <select id="DateRangeFormat" ng-options="format.value as format.label for format in vm.formats" ng-model="vm.format"></select>
+      <label class="label" for="DateRangeFormat">To select different date formats</label>
+    </div>
+    <div>
+      <input id="minDate" type="checkbox" name='minDate' ng-model='vm.minUpdated' ng-click="vm.updateMin()"/>
+      <label class="label" for="minDate">to change this min date value to prior 3 years (currently using: {{vm.min}})</label>
+    </div>
+    <div>
+      <input id="maxDate" type="checkbox" name='maxDate' ng-model='vm.maxUpdated' ng-click="vm.updateMax()"/>
+      <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{vm.max}})</label>
+    </div>
+  </div>
+  <br/>  <br/>  <br/>
+  <h4 class="title">An example of date range picker with initial values</h4>
+  <akam-date-range ng-model="vm.dateRange2" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  angular.module('dateRangeApp', ['akamai.components.date-range'])
+    .controller('DateRangeAppController', DateRangeAppController)
+    .config(configFunction);
+
+  DateRangeAppController.$inject = ['$log'];
+
+  function DateRangeAppController($log) {
+    var vm = this;
+    var d = new Date();
+    var startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    var endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    var defaultMin = new Date(d.getFullYear()-2, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear()+2, d.getMonth(), 0);
+
+    vm.dateRange1 = {startDate:'', endDate:''};
+    vm.dateRange2 = {startDate:startDate, endDate:endDate};
+
+    vm.min = defaultMin;
+    vm.max = defaultMax;
+
+    vm.updateMax = function() {
+      vm.max = vm.maxUpdated ? new Date(d.getFullYear()+3, d.getMonth(), 0) : defaultMax;
+    }
+
+    vm.updateMin = function() {
+      vm.min = vm.minUpdated ? new Date(d.getFullYear()-3, d.getMonth(), 1) : defaultMin;
+    }
+
+    vm.btnName = "preload dates";
+
+    vm.formats = [{
+      value: 'EEE, MMM d, y',
+      label: 'FullDate1'
+    }, {
+      value: 'MMMM d, y',
+      label: 'longDate'
+    }, {
+      value: 'MMM d, y',
+      label: 'mediumDate'
+    }, {
+      value: 'M/d/yy',
+      label: 'shortDate'
+    }, {
+      value: 'EEEE, MMMM d, y',
+      label: 'FullDate2'
+    }];
+
+    vm.onSelectCallback = function(range, start, end) {
+      vm.range = range;
+      vm.start = start;
+      vm.end = end;
+      $log.log(range);
+    }
+  }
+
+  configFunction.$inject = ['i18nTokenProvider'];
+
+  function configFunction(i18nTokenProvider) {
+    // need to overwrite locales path on fee.akamai.com
+    if (window.location.host == 'fee.akamai.com') {
+      i18nTokenProvider.setComponentLocalePath("../dist/locales/");
+      i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+    }
+  }
+  </script>
+</body>
+
+</html>

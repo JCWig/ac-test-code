@@ -1,7 +1,6 @@
 var i18n = require('../helpers/i18n').i18n;
 
 /**
- * @ngdoc object
  * @name helpers.dateFormat
  * @param {String} date Epoch date string
  * @description

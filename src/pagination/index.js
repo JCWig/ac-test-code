@@ -1,12 +1,28 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
  * @name akamai.components.pagination
+ * @image pagination
  *
- * @description Enable a user to page through a set of results and set
- * the page size.
+ * @description
+ * Pagination is a page design pattern where a large amount of content is split into
+ * smaller "chunks,"
+ * decreasing the load on the server to deliver a complete set of data at one request.
+ * This pattern is familiar from interfaces (like search) that manage large numbers of items and
+ * is often combined with a data table presentation.
+ *
+ * @guideline Use large targets for the next and previous buttons so they are easy to click.
+ * @guideline Make sure the selected page is easy to scan.
+ * @guideline Disable buttons if they cannot be clicked, rather than removing them.
+ *
+ * @example index.html
+ * <akam-pagination
+ *   total-items="pager.totalItems"
+ *   current-page="pager.page"
+ *   page-size="pager.size"
+ *   onchangepage="pageChanged(page)">
+ * </akam-pagination>
  *
  */
 module.exports = angular.module('akamai.components.pagination', [
@@ -16,7 +32,7 @@ module.exports = angular.module('akamai.components.pagination', [
 /**
  * @ngdoc directive
  *
- * @name akamai.components.pagination.directive:akamPagination
+ * @name akamPagination
  *
  * @description Creates a pagination control to display pages of results.
  *

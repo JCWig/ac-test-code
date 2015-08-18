@@ -1,7 +1,6 @@
 var HIDE_CLASS = require('../utils/constants').HIDE_CLASS;
 
 /**
- * @ngdoc function
  * @name popup
  * @requires util.constants
  * @description
@@ -27,8 +26,6 @@ function Popup(el, parent) {
 }
 
 /**
- * @ngdoc function
- * @methodOf popup
  * @name popup.show
  * @description
  * Shows this popup
@@ -39,8 +36,6 @@ Popup.prototype.show = function() {
 };
 
 /**
- * @ngdoc function
- * @methodOf popup
  * @name popup.toggle
  * @description
  * Toggles the shown state of this popup
@@ -61,8 +56,6 @@ Popup.prototype.toggle = function() {
 };
 
 /**
- * @ngdoc function
- * @methodOf popup
  * @name popup.hide
  * @description
  * Hides this popup

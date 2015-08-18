@@ -1,7 +1,6 @@
 // gratuitously borrowed from https://remysharp.com/2010/07/21/throttling-function-calls
 
 /**
- * @ngdoc object
  * @name utils.debounce
  * @param {Function} fn The function to debounce
  * @param {Integer} delay Amount of time, in ms, to delay before calling the function.

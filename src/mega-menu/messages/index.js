@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name messages
  * @requires utils.config
  * @requires utils.renderer
@@ -16,8 +15,6 @@ var config = require('../utils/config'),
 var selector = '#modular-mega-menu-header .messages-count';
 
 /**
- * @ngdoc function
- * @methodOf messages
  * @name messages.render
  * @param {Function} [callback] optional callback
  * @description

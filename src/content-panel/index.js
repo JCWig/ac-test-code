@@ -1,13 +1,34 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
  * @name akamai.components.content-panel
+ * @image content-panel
  *
- * @description Provides a set of directives that create
- * Pulsar-compatible content panels.
+ * @description
+ * Basic panel is a building block of most user interfaces. Besides containing components,
+ * panels themselves can be placed within containers, which allows for orderly layouts.
+ * Panels can contain toolbars at the top or bottom of the panel, with separate header,
+ * footer, and body sections.
  *
+ * @guideline Use toolbars for secondary features, not for the main work or user tasks to
+ * be accomplished within the panel.
+ *
+ * @guideline Be sure to consider how the collapsible, expandable, and closable behaviors are used.
+ *
+ * @guideline For more sophisticated interfaces, take advantage of placing panels within containers
+ * or layouts to create the overall interface layout.
+ *
+ * @example index.html
+ * <akam-content-panel header="Panel Title">
+ *   Panel Body
+ * </akam-content-panel>
+ *
+ * <!-- Or this if you need custom markup in your header: -->
+ * <akam-content-panel>
+ *   <akam-content-panel-header><b>Panel</b> Title</akam-content-panel-header>
+ *   <akam-content-panel-body>Panel Body</akam-content-panel-body>
+ * </akam-content-panel>
  */
 module.exports = angular.module('akamai.components.content-panel', [
   require('angular-bootstrap-npm'),
@@ -16,25 +37,8 @@ module.exports = angular.module('akamai.components.content-panel', [
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.content-panel.directive:akamContentPanel
- *
+ * @name akamContentPanel
  * @description Creates a content panel control.
- *
- * Use the following markup if your header is plain text:
- * <pre>
- *   <akam-content-panel header="Panel Title">
- *     Panel Body
- *   </akam-content-panel>
- * </pre>
- *
- * Or this if you need custom markup in your header:
- * <pre>
- *   <akam-content-panel>
- *     <akam-content-panel-header><b>Panel</b> Title</akam-content-panel-header>
- *     <akam-content-panel-body>Panel Body</akam-content-panel-body>
- *   </akam-content-panel>
- * </pre>
  *
  * @restrict E
  *
@@ -54,9 +58,7 @@ module.exports = angular.module('akamai.components.content-panel', [
   .directive('akamContentPanel', require('./content-panel-directive'))
 
 /**
- * @ngdoc directive
- *
- * @name akamai.components.content-panel.directive:akamContentPanelHeader
+ * @name akamContentPanelHeader
  *
  * @description Use inside of an `<akam-content-panel>` directive to specify panel header markup.
  * Do not use the `header` attribute on `<akam-content-panel>` if you use this directive.
@@ -66,9 +68,7 @@ module.exports = angular.module('akamai.components.content-panel', [
   .directive('akamContentPanelHeader', require('./content-panel-header-directive'))
 
 /**
- * @ngdoc directive
- *
- * @name akamai.components.content-panel.directive:akamContentPanelBody
+ * @name akamContentPanelBody
  *
  * @description Use inside of an `<akam-content-panel>` directive to specify panel body markup.
  * Do not use the `header` attribute on `<akam-content-panel>` if you use this directive.

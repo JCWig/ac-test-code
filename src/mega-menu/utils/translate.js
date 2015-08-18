@@ -20,7 +20,6 @@ var log = function(debug) {
 };
 
 /**
- * @ngdoc object
  * @name utils.translate
  * @see https://github.com/musterknabe/translate.js
  * @description
@@ -51,9 +50,7 @@ var log = function(debug) {
 var libTranslate = {
 
   /**
-   * @ngdoc function
    * @name utils.translate.getTranslationFunction
-   * @methodOf utils.translate
    * @param {Object} messageObject translation data
    * @param {Object} [options] Options for this translate module
    * @param {Boolean} [options.debug] Whether or not to log errors. Default `false`

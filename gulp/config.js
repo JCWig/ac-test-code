@@ -7,6 +7,7 @@ var dest = './dist';
 var src = './src';
 var assets = './assets';
 var reports = './reports';
+var docs = './docs';
 var production = !!require('yargs').argv.production;
 var packageName = pkg.name;
 
@@ -14,6 +15,38 @@ var jsFileName = packageName + '.js';
 
 module.exports = {
   productionBuild: production,
+  docs: {
+    sources: [
+      'akamai-core.js',
+      'auth/**/*.js',
+      'autocomplete/**/*.js',
+      'content-panel/**/*.js',
+      'context/**/*.js',
+      'date-picker/**/*.js',
+      'dropdown/**/*.js',
+      'i18n/**/*.js',
+      'indeterminate-progress/**/*.js',
+      'list-box/**/*.js',
+      'mega-menu/**/*.js',
+      'message-box/**/*.js',
+      'modal-window/**/*.js',
+      'menu-button/**/*.js',
+      'navigation/**/*.js',
+      'pagination/**/*.js',
+      'popover/**/*.js',
+      'spinner/**/*.js',
+      'status-message/**/*.js',
+      'switch-button/**/*.js',
+      'table/**/*.js',
+      'tag-input/**/*.js',
+      'time-picker/**/*.js',
+      'tree-view/**/*.js',
+      'utils/**/*.js',
+      'wizard/**/*.js'
+    ],
+    base: path.resolve(process.cwd(), src),
+    outputDirectory: path.resolve(process.cwd(), docs)
+  },
   browserSync: {
     server: {
       // Serve up our build folder
@@ -48,6 +81,7 @@ module.exports = {
     jsMinMap: packageName + '.min.js.map',
     dest: dest,
     reports: reports,
+    docs: docs,
     packageName: pkg.name
   }
 };

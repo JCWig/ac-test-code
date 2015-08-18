@@ -60,7 +60,11 @@ var browserifyTask = function(devMode) {
           suffix: '.min'
         }))
         .pipe(gulpif(bundleConfig.debug, sourcemaps.init({loadMaps: true})))
-        .pipe(gulpif(config.productionBuild, uglify()))
+        .pipe(gulpif(config.productionBuild, uglify({
+          compress: {
+            sequences: false
+          }
+        })))
         .pipe(gulpif(config.productionBuild && bundleConfig.debug, sourcemaps.write('./')))
         .pipe(gulpif(config.productionBuild, gulp.dest(bundleConfig.dest)))
         .on('end', function() {

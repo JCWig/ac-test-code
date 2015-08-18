@@ -1,7 +1,6 @@
 // gratuitously borrowed from https://remysharp.com/2010/07/21/throttling-function-calls
 
 /**
- * @ngdoc object
  * @name utils.throttle
  * @param {Function} fn The function to throttle
  * @param {Integer} threshold Amount of time, in ms, used to limit the function from being called.

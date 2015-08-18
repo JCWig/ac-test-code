@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name messages.center
  * @requires utils.config
  * @requires utils.ajax
@@ -300,8 +299,6 @@ function deleteMessage() {
 }
 
 /**
- * @ngdoc function
- * @methodOf messages.center
  * @name messages.center.render
  * @param {Function} [callback] optional callback
  * @description

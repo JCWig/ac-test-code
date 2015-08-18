@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name utils.renderer
  * @requires utils.ajax
  * @description
@@ -8,9 +7,7 @@
 var ajax = require('./ajax');
 
 /**
- * @ngdoc function
  * @name utils.renderer.render
- * @methodOf utils.renderer
  * @param {String} selector DOM selector used
  * @param {Function|exports} template The Handlebars template function
  * @param {Object} data Data that should be passed to the template
@@ -34,9 +31,7 @@ function render(selector, template, data) {
 }
 
 /**
- * @ngdoc function
  * @name util.renderer.fetchAndRender
- * @methodOf utils.renderer
  * @param {String} url The url to fetch
  * @param {String} selector DOM selector used
  * @param {Function} template The Handlebars template function

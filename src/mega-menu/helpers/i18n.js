@@ -1,5 +1,4 @@
 /**
- * @ngdoc object
  * @name helpers.i18n
  * @description Translates keys. Assumes data has been loaded. Handlebars doesn't have async
  * partials so calling this method before the data is loaded will result in untranslated keys.
@@ -11,9 +10,7 @@ var translateFn = null,
   data = [];
 
 /**
- * @ngdoc object
  * @name helpers.i18n.setData
- * @methodOf helpers.i18n
  * @description Sets data used to translate keys
  * @param {Object} newData data
  */
@@ -23,9 +20,7 @@ function setData(newData) {
 }
 
 /**
- * @ngdoc function
  * @name helpers.i18n.i18n
- * @methodOf helpers.i18n
  * @description Method to translate keys
  * @param {String} key lookup key
  * @param {Object} [options] Options to send to i18n

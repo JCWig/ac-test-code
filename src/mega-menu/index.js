@@ -4,46 +4,80 @@ var angular = require('angular'),
   header = require('./mega-menu-header-directive'),
   footer = require('./mega-menu-footer-directive');
 
-function run($window, $location, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
-  var qs = $location.search(), assetId;
+function run($rootScope, $window, context, LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
+
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+    var assetId;
+
+    if (context.isGroupContext()) {
+      if (!toParams[LUNA_GROUP_QUERY_PARAM]) {
+        throw Error('Required query param "' + LUNA_GROUP_QUERY_PARAM + '" missing from URL');
+      } else {
+        assetId = $window.parseInt(toParams[LUNA_ASSET_QUERY_PARAM], 10);
+
+        // set the property, which will implicitly set the group to the parent property for the
+        // group this assumes that a property can only exist in one group. If that is not the case,
+        // then the API will have to be adjusted to do lookups by both GID and AID.
+        if (assetId) {
+          context.property = assetId;
+        } else {
+          context.property = null;
+          context.group = $window.parseInt(toParams[LUNA_GROUP_QUERY_PARAM], 10);
+        }
+      }
+    }
+  });
 
   if (!context.isOtherContext()) {
     require('./utils/ga');
     context.account = context.getAccountFromCookie();
   }
-
-  if (context.isGroupContext()) {
-    if (!qs[LUNA_GROUP_QUERY_PARAM]) {
-      throw Error('Required query param "' + LUNA_GROUP_QUERY_PARAM + '" missing from URL');
-    } else {
-      assetId = $window.parseInt(qs[LUNA_ASSET_QUERY_PARAM], 10);
-
-      // set the property, which will implicitly set the group to the parent property for the group
-      // this assumes that a property can only exist in one group. If that is not the case, then
-      // the API will have to be adjusted to do lookups by both GID and AID.
-      if (assetId) {
-        context.property = assetId;
-      } else {
-        context.group = $window.parseInt(qs[LUNA_GROUP_QUERY_PARAM], 10);
-      }
-    }
-  }
 }
-run.$inject = ['$window', '$location', 'context',
+run.$inject = ['$rootScope', '$window', 'context',
   'LUNA_GROUP_QUERY_PARAM', 'LUNA_ASSET_QUERY_PARAM'];
 
 /**
- * @ngdoc overview
+ * @ngdoc module
  * @name akamai.components.mega-menu
  * @requires akamai.components.context
- * @description a module for the old mega menu.
+ * @description a module for the old mega menu. Below is how you should structure your main file.
+ *
+ * @example index.html
+ * <!DOCTYPE html>
+ *   <html lang="en">
+ *   <head>
+ *     <base href="/apps/my-app-name/">
+ *     <title>Luna Control Center</title>
+ *     <meta charset="utf-8">
+ *     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ *     <meta name="viewport" content="width=device-width, initial-scale=1">
+ *     <link rel="shortcut icon" type="image/x-icon"
+ *        href="/totem/static/pulsar/megamenu/favicon.ico">
+ *     <link rel="stylesheet" href="/totem/static/pulsar/megamenu/branding.css" />
+ *     <link href="/libs/akamai-core/0.7.0/akamai-core.min.css" rel="stylesheet" />
+ *     <link href="app.min.css" rel="stylesheet" />
+ *   </head>
+ * <body ng-app="akamai.my-app-name" translate-cloak ng-strict-di class="common-css luna">
+ *
+ *   <akamMenuHeader></akamMenuHeader>
+ *
+ *   <div class="container my-app-name">
+ *     <div ui-view></div>
+ *   </div>
+ *
+ *   <akamMenuFooter></akamMenuFooter>
+ *
+ *   <script src="/libs/akamai-core/0.7.0/akamai-core.js"></script>
+ *   <script src="app.min.js"></script>
+ * </body>
+ * </html>
+ *
  */
 module.exports = angular.module('akamai.components.mega-menu', [
   contextModule.name
 ])
 /**
- * @ngdoc service
- * @name akamai.components.mega-menu.service:megaMenuData
+ * @name megaMenuData
  * @description Private service. Used to fetch data needed to render the mega menu
  * @private
  */
@@ -51,7 +85,7 @@ module.exports = angular.module('akamai.components.mega-menu', [
 
 /**
  * @ngdoc directive
- * @name akamai.components.mega-menu.directive:akamMenuHeader
+ * @name akamMenuHeader
  * @restrict E
  * @description Renders the mega menu header
  */
@@ -59,7 +93,7 @@ module.exports = angular.module('akamai.components.mega-menu', [
 
 /**
  * @ngdoc directive
- * @name akamai.components.mega-menu.directive:akamMenuFooter
+ * @name akamMenuFooter
  * @restrict E
  * @description Renders the mega menu footer
  */

@@ -1,12 +1,25 @@
 var angular = require('angular');
 
 /**
- * @ngdoc overview
- *
+ * @ngdoc module
  * @name akamai.components.time-picker
+ * @image time-picker
  *
- * @description Provides a directive that creates Luna-
- * and Pulsar-compatible time picker elements.
+ * @description
+ * Time selector is an interactive component that allows user to select a time from
+ * an interactive dropdown menu. User can select the hour, minute and time of day.
+ * The hour and minute controls are configurable and can be displayed in set intervals.
+ *
+ * @guideline The time picker element is best used when choosing a start or end time for an event.
+ *
+ * @example index.html
+ * <akam-time-picker
+ *   ng-model="..."
+ *   minute-step="..."
+ *   hour-step="..."
+ *   is-disabled="..."
+ *   show-meridian="...">
+ </akam-time-picker>
  *
  */
 module.exports = angular.module('akamai.components.time-picker', [
@@ -18,14 +31,12 @@ module.exports = angular.module('akamai.components.time-picker', [
 
 /**
  * @ngdoc directive
- *
- * @name akamai.components.time-picker.directive:akamTimePicker
+ * @name akamTimePicker
+ * @restrict E
  *
  * @description Creates a time picker control.
  *
- * @restrict E
- *
- * @param {String} inputTime - the time value.
+ * @param {String} ngModel - the time value.
  *
  * @param {boolean} [showMeridian=true] - Whether to display 12H or 24H mode.
  *
@@ -39,17 +50,9 @@ module.exports = angular.module('akamai.components.time-picker', [
   .directive('akamTimePicker', require('./time-picker-directive'))
 
 /**
- * @ngdoc directive
- *
- * @name akamai.components.time-picker.directive:timeFormatter
- *
+ * @name timeFormatter
  * @description validate and format the correct display value in input field.
- *
  * @restrict A
- *
  * @param {boolean} showMeridian - bind this value and update view accordingly
- *
- * @private
- *
  */
   .directive('timeFormatter', require('./time-formatter-directive'));

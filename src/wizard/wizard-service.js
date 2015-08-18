@@ -56,8 +56,6 @@ module.exports = function($templateCache, $log, $modal, $controller,
      *
      * @name wizard#open
      *
-     * @methodOf akamai.components.wizard.service:wizard
-     *
      * @description Opens a wizard in a modal window
      *
      * @param {Object} options A hash with the options specified below.
