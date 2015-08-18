@@ -214,7 +214,7 @@ describe('akam-content-panel', function() {
       scope.randomText = 'Here is some random text';
       var markup = '<akam-content-panel>' +
         '<akam-content-panel-header>' +
-        'Here is some random text' +
+        '{{randomText}}' +
         '</akam-content-panel-header>' +
         '<akam-content-panel-body>' +
         '<i class="luna-world_map"></i> Custom Header' +
