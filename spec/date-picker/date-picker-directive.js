@@ -253,6 +253,14 @@ describe('akam-date-picker', function() {
       expect(inputDateField.value).toEqual('');
       expect(scope.value).toEqual(undefined);
     });
+    it('should translate placeholder text if non-provided', function() {
+      document.body.removeChild(self.element);
+      self.element = null;
+      var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1"></akam-date-picker></div>';
+      addElement(markup);
+      var inputDateField = document.querySelector('input.ng-valid-date');
+      expect(inputDateField.placeholder).toEqual("components.date-picker.placeholder.date");
+    });
   });
   describe('when rendering month picker', function() {
     beforeEach(function() {
