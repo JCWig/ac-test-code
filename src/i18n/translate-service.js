@@ -72,13 +72,9 @@ class TranslateService {
   async(keys, args, defaultKey) {
     if (angular.isArray(keys)) {
       return this.$translate(keys);
-    }
-
-    if (angular.isDefined(keys) && keys !== '') {
+    } else if (angular.isDefined(keys) && keys !== '') {
       return this.$translate(keys, args);
-    }
-
-    if (angular.isDefined(defaultKey) && defaultKey !== '') {
+    } else if (angular.isDefined(defaultKey) && defaultKey !== '') {
       return this.$translate(defaultKey);
     }
 

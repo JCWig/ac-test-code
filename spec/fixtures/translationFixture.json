@@ -28,5 +28,6 @@
     }
   },
   "examples.switchbutton.custom.allow": "Allow",
-  "examples.switchbutton.custom.deny": "Deny"
+  "examples.switchbutton.custom.deny": "Deny",
+  "examples.autocomplete.search.states": "Search States"
 }

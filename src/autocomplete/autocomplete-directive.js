@@ -28,8 +28,11 @@ class AutocompleteController {
     this.searchTerm = '';
     this.selectItem = '';
 
+    translate.async(this.placeholder)
+      .then(value => this.placeholder = value);
+
     translate.async('components.autocomplete.search-tip')
-      .then((value) => {
+      .then(value => {
         this.searchTip = value;
       });
 
