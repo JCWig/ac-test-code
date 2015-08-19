@@ -1,6 +1,15 @@
-var angular = require('angular'),
-  messages = require('angular-messages'),
-  sanitize = require('angular-sanitize');
+import angular from 'angular';
+import messages from 'angular-messages';
+import sanitize from 'angular-sanitize';
+import uuid from '../uuid';
+import indeterminateProgress from '../indeterminate-progress';
+import pagination from '../pagination';
+import menuButton from '../menu-button';
+import i18n from '../i18n';
+import utils from '../utils';
+
+import tableDirective from './table-directive';
+import tableTemplateService from './table-template-service';
 
 /**
  * @ngdoc module
@@ -55,12 +64,12 @@ var angular = require('angular'),
 module.exports = angular.module('akamai.components.table', [
   sanitize,
   messages,
-  require('../uuid').name,
-  require('../indeterminate-progress').name,
-  require('../pagination').name,
-  require('../menu-button').name,
-  require('../i18n').name,
-  require('../utils').name
+  uuid.name,
+  indeterminateProgress.name,
+  pagination.name,
+  menuButton.name,
+  i18n.name,
+  utils.name
 ])
 
 /**
@@ -109,7 +118,7 @@ module.exports = angular.module('akamai.components.table', [
  * displayed when there is no data displayed based upon some filter
  *
  */
-  .directive('akamTable', require('./table-directive'))
+  .directive('akamTable', tableDirective)
 
 /**
  * @name akamTableTemplate
@@ -118,4 +127,4 @@ module.exports = angular.module('akamai.components.table', [
  * Minimal service to get the inner template, representing the `<table>` element for
  * an akam-data-table.
  */
-  .service('akamTableTemplate', require('./table-template-service'));
+  .factory('akamTableTemplate', tableTemplateService);

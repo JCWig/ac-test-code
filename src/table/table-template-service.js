@@ -2,38 +2,9 @@ import angular from 'angular';
 
 const sortableClass = 'column-sortable';
 
+function TableTemplateService($log) {
 
-export default class TableTemplateService {
-
-  static get $inject() {
-    return ['$log'];
-  }
-
-  constructor($log) {
-    this.$log = $log;
-  }
-
-  /**
-   * Configures the template for the table header, including `th` elements. This will strip out
-   * ng-click and ng-class from the akam-table-column.
-   * @param {HTMLElement} element the `akam-table-row` element to compile.
-   * @param {Object} attributes attributes given to the `akam-table` directive.
-   * @param {Boolean} selectable Whether or not to add checkbox columns
-   * @returns {String} the template string to compile for the header
-   */
-  template(element, attributes, selectable) {
-    return `<table>
-              <thead><tr>${this.getHeaderTemplate(element[0], attributes, selectable)}</tr></thead>
-              <tbody>
-                <tr ng-repeat="row in table.filtered track by table.idPropertyFn(row)"
-                    ng-class="table.rowSelectedClass(table.idPropertyFn(row))">
-                    ${this.getRowTemplate(element[0], attributes, selectable)}
-                </tr>
-              </tbody>
-            </table>`;
-  }
-
-  getHeaderTemplate(element, attributes, selectable) {
+  function getHeaderTemplate(element, attributes, selectable) {
     let template = '', headerHtml;
 
     // add select all checkbox
@@ -42,20 +13,20 @@ export default class TableTemplateService {
     }
 
     if (!element || element.children.length === 0) {
-      this.$log.warn('Expected "akam-table-column" tag found nothing');
+      $log.warn('Expected "akam-table-column" tag found nothing');
     } else {
       angular.forEach(element.children, (elem) => {
         // clone the element because we will be modifying it with setAttribute and classList
         let elemClone = angular.element(elem).clone()[0];
 
         if (elemClone.nodeName.toLowerCase() !== 'akam-table-column') {
-          this.$log.warn('Expected "akam-table-column" tag, found',
+          $log.warn('Expected "akam-table-column" tag, found',
             elemClone.nodeName.toLowerCase());
           return;
         }
 
         // set up ng-click and ng-class for handling sorting
-        if (this.isSortable(elemClone, attributes)) {
+        if (isSortable(elemClone, attributes)) {
           elemClone.classList.add(sortableClass);
 
           elemClone.setAttribute('ng-class',
@@ -99,7 +70,7 @@ export default class TableTemplateService {
    * @param {Boolean} selectable Whether or not to add checkbox columns
    * @returns {String} the template string to compile for the header
    */
-  getRowTemplate(element, attributes, selectable) {
+  function getRowTemplate(element, attributes, selectable) {
     let template = '';
 
     if (selectable) {
@@ -112,13 +83,13 @@ export default class TableTemplateService {
     }
 
     if (!element || element.children.length === 0) {
-      this.$log.warn('Expected "akam-table-row" tag found nothing');
+      $log.warn('Expected "akam-table-row" tag found nothing');
     } else {
       angular.forEach(element.children, (elem) => {
         let tpl, content;
 
         if (elem.nodeName.toLowerCase() !== 'akam-table-column') {
-          this.$log.warn('Expected "akam-table-column" tag, found', elem.nodeName.toLowerCase());
+          $log.warn('Expected "akam-table-column" tag, found', elem.nodeName.toLowerCase());
           return;
         }
 
@@ -128,7 +99,7 @@ export default class TableTemplateService {
           (!angular.isDefined(attributes.notSortable) && !elem.hasAttribute('not-sortable') ||
           !angular.isDefined(attributes.notFilterable) && !elem.hasAttribute('not-filterable'))) {
 
-          this.$log.debug('', elem, ' has no "row-property" attribute defined. The column will' +
+          $log.debug('', elem, ' has no "row-property" attribute defined. The column will' +
             'be neither filterable nor sortable. Add "not-filterable" and "not-sortable"' +
             'to suppress this message.');
         }
@@ -150,9 +121,29 @@ export default class TableTemplateService {
     return template;
   }
 
-  isSortable(element, attributes) {
+  function isSortable(element, attributes) {
     return !angular.isDefined(attributes.notSortable) && !element.hasAttribute('not-sortable') &&
       element.hasAttribute('row-property');
   }
 
+  return {
+    template: function(element, attributes, selectable) {
+      return `<table>
+              <thead><tr>${getHeaderTemplate(element[0], attributes, selectable)}</tr></thead>
+              <tbody>
+                <tr ng-repeat="row in table.filtered track by table.idPropertyFn(row)"
+                    ng-class="table.rowSelectedClass(table.idPropertyFn(row))">
+                    ${getRowTemplate(element[0], attributes, selectable)}
+                </tr>
+              </tbody>
+            </table>`;
+    }
+  };
+
 }
+
+TableTemplateService.$inject = ['$log'];
+
+export default TableTemplateService;
+
+
