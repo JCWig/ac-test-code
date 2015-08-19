@@ -56,7 +56,7 @@ class TableController {
     // row is selected
     this.selectedItemsMap = {};
 
-    this.translateMessages.call(this);
+    this.translateMessages();
 
     $scope.$watchCollection('table.items', angular.bind(this, this.loadingFn));
     $scope.$watchCollection('table.selectedItems', angular.bind(this, this.setSelectedItems));
@@ -254,17 +254,17 @@ class TableController {
   translateMessages() {
     if (!angular.isDefined(this.filterPlaceholder)) {
       this.translate.async('components.data-table.placeholder.filter')
-        .then(angular.bind(this, this.setTranslatedValue, 'filterPlaceholder'));
+        .then(() => this.setTranslatedValue('filterPlaceholder'));
     }
 
     if (!angular.isDefined(this.noFilterResultsMessage)) {
       this.translate.async('components.data-table.text.noFilterResults')
-        .then(angular.bind(this, this.setTranslatedValue, 'noFilterResultsMessage'));
+        .then(() => this.setTranslatedValue('noFilterResultsMessage'));
     }
 
     if (!angular.isDefined(this.noItemsMessage)) {
       this.translate.async('components.data-table.text.noDataMessage')
-        .then(angular.bind(this, this.setTranslatedValue, 'noItemsMessage'));
+        .then(() => this.setTranslatedValue('noItemsMessage'));
     }
   }
 
@@ -437,7 +437,7 @@ function tableDirective($log, akamTableTemplate, $compile) {
       defaultSortColumn = '';
       // handle setting sorting and filtering state based on the 'not-sortable'
       //and 'not-filterable' attrs this will potentially modify the scope.table.state object
-      angular.forEach(element.find('th'), (header) => {
+      angular.forEach(element.find('th'), function(header) {
         TableController.addDefaultSort(scope, attributes, header, $log);
         TableController.addFilterableColumns(scope, attributes, header);
       });
