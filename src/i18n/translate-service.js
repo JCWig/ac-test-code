@@ -64,11 +64,25 @@ class TranslateService {
    * replacements. This option is only available when the `key`
    * is a string.
    *
+   * @param {String} [defaultKey] if [keys] is an undefined string
+   * and [defaultKey] is a defined string, translate defaultKey
+   *
    * @return {String} translated string
    */
-  async(keys, args) {
-    return angular.isArray(keys) ?
-      this.$translate(keys) : this.$translate(keys, args);
+  async(keys, args, defaultKey) {
+    if (angular.isArray(keys)) {
+      return this.$translate(keys);
+    }
+
+    if (angular.isDefined(keys) && keys !== '') {
+      return this.$translate(keys, args);
+    }
+
+    if (angular.isDefined(defaultKey) && defaultKey !== '') {
+      return this.$translate(defaultKey);
+    }
+
+    return this.$translate(keys, args);
   }
 
   /**
@@ -108,9 +122,18 @@ class TranslateService {
    * @param {Object} [args] is hash that contains variable
    * replacements.
    *
+   * @param {String} [defaultKey] if [key] is an undefined string
+   * and [defaultKey] is a defined string, translate defaultKey
+   *
    * @return {String} translated string
    */
-  sync(key, args) {
+  sync(key, args, defaultKey) {
+    if(angular.isDefined(key) && key !== '') {
+      return this.$translate.instant(key, args);
+    } else if (angular.isDefined(defaultKey) && defaultKey !== '') {
+      return this.$translate.instant(defaultKey, args);
+    }
+
     return this.$translate.instant(key, args);
   }
 }
