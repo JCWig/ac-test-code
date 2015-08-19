@@ -128,7 +128,7 @@ class TranslateService {
    * @return {String} translated string
    */
   sync(key, args, defaultKey) {
-    if(angular.isDefined(key) && key !== '') {
+    if (angular.isDefined(key) && key !== '') {
       return this.$translate.instant(key, args);
     } else if (angular.isDefined(defaultKey) && defaultKey !== '') {
       return this.$translate.instant(defaultKey, args);

@@ -15,20 +15,15 @@ function switchButton(translate) {
     }
 
     setDefaultScopeValues() {
-      console.log('default b', this.onLabel, this.offLabel);
-
       translate.async(this.onLabel, null, 'components.switch-button.onLabel')
         .then(value => {
           this.onLabel = value;
-          console.log('on', this.onLabel);
         });
 
       translate.async(this.offLabel, null, 'components.switch-button.offLabel')
         .then(value => {
           this.offLabel = value;
-          console.log('off', this.offLabel);
         });
-      console.log('default a', this.onLabel, this.offLabel);
       this.disabled = this.filterDisabled(this.disabled);
     }
   }
