@@ -1,15 +1,128 @@
 import angular from 'angular';
 import template from './templates/modal-window.tpl.html';
 
-class ModalWindowService {
+class ModalWindowController {
 
-  constructor($modal, $templateCache, $rootScope, $q, translate, statusMessage) {
+  static get $inject() {
+    return ['$scope', '$modal', '$templateCache', '$rootScope', 'translate', '$controller',
+      'statusMessage', '$q'];
+  }
+
+  constructor($scope, $modal, $templateCache, $rootScope, translate, $controller,
+              statusMessage, $q) {
+    //$scope.modalWindow = this;
+
     this.$modal = $modal;
     this.$templateCache = $templateCache;
     this.$rootScope = $rootScope;
-    this.$q = $q;
     this.translate = translate;
+    this.$controller = $controller;
+    this.$scope = $scope;
     this.statusMessage = statusMessage;
+    this.$modal = $modal;
+    this.$q = $q;
+
+    this.disabled = false;
+    this.processing = false;
+    this.showSubmitError = false;
+    this.onSubmit = angular.noop;
+
+    this.options = $scope.options;
+
+    this.initializeContent();
+
+    this.setProperty('title', 'components.modal-window.title');
+    this.setProperty('cancelLabel', 'components.modal-window.label.cancel');
+    this.setProperty('submitLabel', 'components.modal-window.label.save');
+    this.setProperty('errorMessage', 'components.modal-window.errorMessage');
+    this.setProperty('successMessage', 'components.modal-window.successMessage');
+    this.setProperty('icon');
+    this.setProperty('template');
+    this.setProperty('templateUrl');
+    this.setProperty('hideSubmit');
+    this.setProperty('doNotShowMessage');
+    this.setProperty('instance');
+
+    this.templateModel = {
+      template: this.options.contentTemplate,
+      templateUrl: this.options.contentTemplateUrl
+    };
+  }
+
+  initializeContent() {
+    let contentController;
+
+    this.contentScope = this.options.contentScope ?
+      this.options.contentScope : this.$rootScope.$new();
+
+    this.contentScope.setOnSubmit = fn => this.onSubmit = fn;
+    this.contentScope.disableSubmit = () => this.disabled = true;
+    this.contentScope.enableSubmit = () => this.disabled = false;
+
+    this.contentScope.isSubmitDisabled = angular.bind(this, this.isSubmitDisabled);
+
+    if (this.options.contentController) {
+      contentController = this.$controller(
+        this.options.contentController, {$scope: this.contentScope}
+      );
+    }
+
+    if (this.options.contentControllerAs && contentController) {
+      this.contentScope[this.options.contentControllerAs] = contentController;
+    }
+  }
+
+  isSubmitDisabled() {
+    return this.disabled || this.processing;
+  }
+
+  setProperty(key, defaultKey) {
+    if (defaultKey) {
+      this[key] = this.options[key] ?
+        this.translate.sync(this.options[key]) : this.translate.sync(defaultKey);
+    } else {
+      this[key] = this.options[key];
+    }
+  }
+
+  submit() {
+    let result;
+
+    this.showSubmitError = false;
+
+    if (angular.isFunction(this.onSubmit)) {
+      result = this.onSubmit();
+    } else {
+      result = this.onSubmit;
+    }
+
+    // check to see if the onSubmit returns a promise
+    if (result && angular.isFunction(result.then)) {
+      this.processing = true;
+    }
+
+    this.$q.when(result).then((returnValue) => {
+      this.instance.close(returnValue);
+      if (!this.doNotShowMessage) {
+        this.statusMessage.showSuccess({text: this.successMessage});
+      }
+    }).catch(() => {
+      this.processing = false;
+      this.showSubmitError = true;
+    });
+  }
+
+}
+
+export default class ModalWindowService {
+
+  static get $inject() {
+    return ['$modal', '$rootScope'];
+  }
+
+  constructor($modal, $rootScope) {
+    this.$modal = $modal;
+    this.$rootScope = $rootScope;
   }
 
   /**
@@ -62,115 +175,35 @@ class ModalWindowService {
    *
    */
   open(options) {
-    let scope = (options.scope || this.$rootScope).$new(),
-      onSubmit = angular.noop,
-      disabled = false,
-    //variable used to determine if the submit is clicked, but promise has not resolved
-      processing = false,
-      instance,
-      $q = this.$q,
-      statusMessage = this.statusMessage;
 
-    scope.showSubmitError = false;
+    if (!angular.isObject(options)) {
+      throw new Error('An options object was not passed to modelWindow.open');
+    }
 
-    // check that a template was provided
-    if (!(angular.isDefined(options.template) ||
-      angular.isDefined(options.templateUrl))) {
+    if (!(angular.isString(options.template) || angular.isString(options.templateUrl))) {
       throw new Error('Modal Window template or templateUrl option required');
     }
 
-    // setup options specific for the modal window
-    scope.modalWindow = {
-      title: options.title || this.translate.sync('components.modal-window.title'),
-      icon: options.icon,
-      cancelLabel: options.cancelLabel ||
-      this.translate.sync('components.modal-window.label.cancel'),
-      submitLabel: options.submitLabel ||
-      this.translate.sync('components.modal-window.label.save'),
-      template: options.template,
-      templateUrl: options.templateUrl,
-      errorMessage: options.errorMessage ||
-      this.translate.sync('components.modal-window.errorMessage'),
-      successMessage: options.successMessage ||
-      this.translate.sync('components.modal-window.successMessage')
-    };
+    let scope = this.$rootScope.$new();
 
-    scope.isSubmitHidden = function() {
-      return angular.isDefined(options.hideSubmit) ?
-        options.hideSubmit : false;
-    };
+    scope.options = options;
 
-    // provide methods to control submit button disabled state
-    scope.disableSubmit = function() {
-      disabled = true;
-    };
-    scope.enableSubmit = function() {
-      disabled = false;
-    };
-    scope.isSubmitDisabled = function() {
-      return disabled || processing;
-    };
-
-    scope.isProcessing = function() {
-      return processing;
-    };
+    options.contentController = options.controller;
+    options.contentScope = options.scope;
+    options.contentControllerAs = options.controllerAs;
+    options.contentTemplate = options.template;
+    options.contentTemplateUrl = options.templateUrl;
 
     // create a new bootstrap ui modal instance with akamai options
-    instance = this.$modal.open(angular.extend(options, {
+    options.instance = this.$modal.open(angular.extend(options, {
       scope: scope,
-      template: template
+      template: template,
+      controller: ModalWindowController,
+      controllerAs: 'modalWindow'
     }));
 
-    scope.close = function() {
-      instance.dismiss();
-    };
-
-    // setup promise that will resolve when submit button is clicked
-    scope.setOnSubmit = function(fn) {
-      onSubmit = fn;
-    };
-
-    scope.submit = function() {
-      let result;
-
-      scope.showSubmitError = false;
-
-      if (angular.isFunction(onSubmit)) {
-        result = onSubmit();
-      } else {
-        result = onSubmit;
-      }
-
-      // check to see if the onSubmit returns a promise
-      if (result && angular.isFunction(result.then)) {
-        processing = true;
-      }
-
-      $q.when(result).then(
-        function(returnValue) {
-          instance.close(returnValue);
-          if (!options.doNotShowMessage) {
-            statusMessage.showSuccess({text: scope.modalWindow.successMessage});
-          }
-        }
-      ).catch(
-        function() {
-          processing = false;
-          scope.showSubmitError = true;
-        }
-      );
-    };
-    return instance;
+    return options.instance;
   }
 
 }
 
-function ModalWindowServiceFactory($modal, $templateCache, $rootScope, $q, translate,
-                                   statusMessage) {
-  return new ModalWindowService($modal, $templateCache, $rootScope, $q, translate, statusMessage);
-}
-
-ModalWindowServiceFactory.$inject = ['$modal', '$templateCache', '$rootScope', '$q', 'translate',
-                                     'statusMessage'];
-
-export default ModalWindowServiceFactory;

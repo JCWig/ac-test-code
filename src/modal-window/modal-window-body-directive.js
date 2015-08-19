@@ -1,6 +1,7 @@
 function modalWindowBody($compile, $http, $templateCache, $q) {
 
   function getBodyTemplate(modal) {
+
     if (modal.template) {
       return $q.when(modal.template);
     } else {
@@ -12,10 +13,12 @@ function modalWindowBody($compile, $http, $templateCache, $q) {
   return {
     restrict: 'E',
     replace: true,
-    template: '<div class="modal-body"><div ng-if="isProcessing()" class="backwash"></div></div>',
+    template: `<div class="modal-body">
+                   <div ng-if="modalWindow.processing" class="backwash"></div>
+               </div>`,
     link: function(scope, element) {
-      getBodyTemplate(scope.modalWindow)
-        .then(content => element.append($compile(content)(scope)));
+      getBodyTemplate(scope.modalWindow.templateModel)
+        .then(content => element.append($compile(content)(scope.modalWindow.contentScope)));
     }
   };
 }

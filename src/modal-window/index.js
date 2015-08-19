@@ -49,7 +49,7 @@ module.exports = angular.module('akamai.components.modal-window', [
  * @description Provides a method to open new modal window instances.
  *
  */
-  .factory('modalWindow', modalWindowService)
+  .service('modalWindow', modalWindowService)
 
 /**
  * @name akamModalWindowBody
