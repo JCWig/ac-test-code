@@ -1,32 +1,16 @@
-var angular = require('angular');
+import angular from 'angular';
 
-var sortableClass = 'column-sortable';
+const sortableClass = 'column-sortable';
 
-module.exports = function($log) {
-  return {
-    template: getTableTemplate
-  };
 
-  /**
-   * Method to fetch the template string representing the <table> element contained inside of
-   * a data table. Transforms an `akam-table-row` into a HTML table
-   *
-   * @param {HTMLElement} element the DOM element to operate on
-   * @param {Object} attributes attributes given to the `akam-table` directive.
-   * @param {Boolean} selectable Whether or not to add checkbox columns
-   * @returns {String} The template to compile
-   */
-  function getTableTemplate(element, attributes, selectable) {
-    var template;
+export default class TableTemplateService {
 
-    template = '<table><thead><tr>' +
-    getHeaderTemplate(element[0], attributes, selectable) +
-    '</tr></thead><tbody><tr ng-repeat="row in table.filtered track by table.idPropertyFn(row)" ' +
-    'ng-class="table.rowSelectedClass(table.idPropertyFn(row))">' +
-    getRowTemplate(element[0], attributes, selectable) +
-    '</tr></tbody></table>';
+  static get $inject() {
+    return ['$log'];
+  }
 
-    return template;
+  constructor($log) {
+    this.$log = $log;
   }
 
   /**
@@ -37,8 +21,20 @@ module.exports = function($log) {
    * @param {Boolean} selectable Whether or not to add checkbox columns
    * @returns {String} the template string to compile for the header
    */
-  function getHeaderTemplate(element, attributes, selectable) {
-    var template = '', headerHtml;
+  template(element, attributes, selectable) {
+    return `<table>
+              <thead><tr>${this.getHeaderTemplate(element[0], attributes, selectable)}</tr></thead>
+              <tbody>
+                <tr ng-repeat="row in table.filtered track by table.idPropertyFn(row)"
+                    ng-class="table.rowSelectedClass(table.idPropertyFn(row))">
+                    ${this.getRowTemplate(element[0], attributes, selectable)}
+                </tr>
+              </tbody>
+            </table>`;
+  }
+
+  getHeaderTemplate(element, attributes, selectable) {
+    let template = '', headerHtml;
 
     // add select all checkbox
     if (selectable) {
@@ -46,27 +42,27 @@ module.exports = function($log) {
     }
 
     if (!element || element.children.length === 0) {
-      $log.warn('Expected "akam-table-column" tag found nothing');
+      this.$log.warn('Expected "akam-table-column" tag found nothing');
     } else {
-      angular.forEach(element.children, function(elem) {
+      angular.forEach(element.children, (elem) => {
         // clone the element because we will be modifying it with setAttribute and classList
-        var elemClone = angular.element(elem).clone()[0],
-          tpl;
+        let elemClone = angular.element(elem).clone()[0];
 
         if (elemClone.nodeName.toLowerCase() !== 'akam-table-column') {
-          $log.warn('Expected "akam-table-column" tag, found', elemClone.nodeName.toLowerCase());
+          this.$log.warn('Expected "akam-table-column" tag, found',
+            elemClone.nodeName.toLowerCase());
           return;
         }
 
         // set up ng-click and ng-class for handling sorting
-        if (isSortable(elemClone, attributes)) {
+        if (this.isSortable(elemClone, attributes)) {
           elemClone.classList.add(sortableClass);
 
-          elemClone.setAttribute('ng-class', 'table.sortDirectionClass("' +
-          elemClone.getAttribute('row-property') + '")');
+          elemClone.setAttribute('ng-class',
+            `table.sortDirectionClass("${elemClone.getAttribute('row-property')}")`);
 
-          elemClone.setAttribute('ng-click', 'table.sortColumn("' +
-          elemClone.getAttribute('row-property') + '")');
+          elemClone.setAttribute('ng-click',
+            `table.sortColumn("${elemClone.getAttribute('row-property')}")`);
 
           // akam-text-overflow expects a fully translated string already, so if the user
           // defines an akam-text-overflow for a table row, we will replace it with a title tag
@@ -77,16 +73,16 @@ module.exports = function($log) {
             elemClone.removeAttribute('akam-text-overflow');
 
             elemClone.setAttribute('title',
-              '{{ \'' + elemClone.getAttribute('header-name') + '\' | akamTranslate}}');
+              `{{ \'${elemClone.getAttribute('header-name')}\' | akamTranslate}}`);
           }
 
         }
 
-        headerHtml = '<span akam-translate="' +
-        elemClone.getAttribute('header-name') +
-        '"></span><i></i>';
+        headerHtml = `<span akam-translate="${elemClone.getAttribute('header-name')}"></span>
+                      <i></i>`;
 
-        tpl = elemClone.outerHTML.replace('<akam-table-column', '<th');
+        let tpl = elemClone.outerHTML.replace('<akam-table-column', '<th');
+
         tpl = tpl.replace('akam-table-column>', 'th>');
         tpl = angular.element(tpl).html(headerHtml)[0].outerHTML;
 
@@ -103,24 +99,26 @@ module.exports = function($log) {
    * @param {Boolean} selectable Whether or not to add checkbox columns
    * @returns {String} the template string to compile for the header
    */
-  function getRowTemplate(element, attributes, selectable) {
-    var template = '';
+  getRowTemplate(element, attributes, selectable) {
+    let template = '';
 
     if (selectable) {
-      template += '<td class="column-checkbox">' +
-      '<input type="checkbox" ng-model="table.selectedItemsMap[table.idPropertyFn(row)]" ' +
-      'ng-change="table.toggleSelected(row)" id="{{ table.id + \'-item-\' + $index }}">' +
-      '<label for="{{ table.id + \'-item-\' + $index }}"></label></td>';
+      template += `
+        <td class="column-checkbox">
+          <input type="checkbox" ng-model="table.selectedItemsMap[table.idPropertyFn(row)]"
+                 ng-change="table.toggleSelected(row)" id="{{ table.id + \'-item-\' + $index }}">
+          <label for="{{ table.id + \'-item-\' + $index }}"></label>
+        </td>`;
     }
 
     if (!element || element.children.length === 0) {
-      $log.warn('Expected "akam-table-row" tag found nothing');
+      this.$log.warn('Expected "akam-table-row" tag found nothing');
     } else {
-      angular.forEach(element.children, function(elem) {
-        var tpl, content;
+      angular.forEach(element.children, (elem) => {
+        let tpl, content;
 
         if (elem.nodeName.toLowerCase() !== 'akam-table-column') {
-          $log.warn('Expected "akam-table-column" tag, found', elem.nodeName.toLowerCase());
+          this.$log.warn('Expected "akam-table-column" tag, found', elem.nodeName.toLowerCase());
           return;
         }
 
@@ -130,9 +128,9 @@ module.exports = function($log) {
           (!angular.isDefined(attributes.notSortable) && !elem.hasAttribute('not-sortable') ||
           !angular.isDefined(attributes.notFilterable) && !elem.hasAttribute('not-filterable'))) {
 
-          $log.debug('', elem, ' has no "row-property" attribute defined. The column will' +
-          'be neither filterable nor sortable. Add "not-filterable" and "not-sortable"' +
-          'to suppress this message.');
+          this.$log.debug('', elem, ' has no "row-property" attribute defined. The column will' +
+            'be neither filterable nor sortable. Add "not-filterable" and "not-sortable"' +
+            'to suppress this message.');
         }
 
         tpl = elem.outerHTML.replace('<akam-table-column', '<td');
@@ -141,7 +139,7 @@ module.exports = function($log) {
         if (elem.innerHTML.trim()) {
           content = elem.innerHTML;
         } else {
-          content = '{{ row.' + elem.getAttribute('row-property') + '}}';
+          content = `{{ row.${elem.getAttribute('row-property')}}}`;
         }
 
         tpl = angular.element(tpl).html(content)[0].outerHTML;
@@ -152,9 +150,9 @@ module.exports = function($log) {
     return template;
   }
 
-  function isSortable(element, attributes) {
+  isSortable(element, attributes) {
     return !angular.isDefined(attributes.notSortable) && !element.hasAttribute('not-sortable') &&
       element.hasAttribute('row-property');
   }
-};
-module.exports.$inject = ['$log'];
+
+}
