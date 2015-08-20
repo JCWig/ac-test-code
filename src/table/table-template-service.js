@@ -86,7 +86,7 @@ function TableTemplateService($log) {
       $log.warn('Expected "akam-table-row" tag found nothing');
     } else {
       angular.forEach(element.children, (elem) => {
-        let tpl, content;
+        let content;
 
         if (elem.nodeName.toLowerCase() !== 'akam-table-column') {
           $log.warn('Expected "akam-table-column" tag, found', elem.nodeName.toLowerCase());
@@ -104,7 +104,8 @@ function TableTemplateService($log) {
             'to suppress this message.');
         }
 
-        tpl = elem.outerHTML.replace('<akam-table-column', '<td');
+        let tpl = elem.outerHTML.replace('<akam-table-column', '<td');
+
         tpl = tpl.replace('akam-table-column>', 'td>');
 
         if (elem.innerHTML.trim()) {

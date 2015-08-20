@@ -165,9 +165,8 @@ class TableController {
    * @this TableController
    */
   applyState() {
-    var newData;
 
-    newData = this.filterFilter(this.pristine, angular.bind(this, this.filterFn));
+    let newData = this.filterFilter(this.pristine, angular.bind(this, this.filterFn));
 
     newData = this.orderByFilter(newData, this.state.sortColumn,
       this.state.sortDirection === SORT_DIRECTIONS.desc);
@@ -220,12 +219,12 @@ class TableController {
    * @param {Object} row the row that has been selected or de-selected
    */
   toggleSelected(row) {
-    var index;
 
     if (this.selectedItemsMap[this.idPropertyFn(row)]) {
       this.selectedItems.push(row);
     } else {
-      index = this.selectedItems.indexOf(row);
+      let index = this.selectedItems.indexOf(row);
+
       if (index > -1) {
         this.selectedItems.splice(index, 1);
       }
