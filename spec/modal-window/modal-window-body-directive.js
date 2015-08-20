@@ -26,8 +26,11 @@ describe('akam-modal-window-body directive', function() {
     inject(function($compile, $rootScope, $httpBackend, $http, $templateCache, $q, $modal, translate, statusMessage, i18nConfig) {
       self.$httpBackend = $httpBackend;
       self.scope = $rootScope.$new();
-      self.scope.modalWindow = {};
-      self.scope.name = 'Akamai';
+      self.scope.modalWindow = {
+        templateModel: {},
+        contentScope: $rootScope.$new()
+      };
+      self.scope.modalWindow.contentScope.name = 'Akamai';
       self.http = $http;
       self.templateCache = $templateCache;
       self.q = $q;
@@ -47,7 +50,7 @@ describe('akam-modal-window-body directive', function() {
   function addElement(markup) {
     self.el = compile(markup)(self.scope);
     self.element = self.el[0];
-    self.scope.$digest();
+    self.scope.$apply();
     document.body.appendChild(self.element);
   }
 
@@ -56,11 +59,10 @@ describe('akam-modal-window-body directive', function() {
       var markup = '<akam-modal-window-body></akam-modal-window-body>';
       var template = '<span>Hello {{ name }}</span>';
 
-      this.scope.modalWindow.template = template;
+      this.scope.modalWindow.templateModel.template = template;
       addElement(markup);
 
-      expect(self.element.childNodes.length).toEqual(2);
-      expect(self.element.textContent).toEqual('Hello Akamai');
+      expect(self.element.textContent.trim()).toEqual('Hello Akamai');
     });
 
     it('should render a template url', function() {
@@ -69,13 +71,12 @@ describe('akam-modal-window-body directive', function() {
       var url = 'modal-window/template.html';
 
       this.$httpBackend.whenGET(url).respond(template);
-      this.scope.modalWindow.templateUrl = url;
+      this.scope.modalWindow.templateModel.templateUrl = url;
       addElement(markup);
       this.$httpBackend.flush();
 
       this.$httpBackend.verifyNoOutstandingRequest();
-      expect(self.element.childNodes.length).toEqual(2);
-      expect(self.element.textContent).toEqual('Hello Akamai');
+      expect(self.element.textContent.trim()).toContain('Hello Akamai');
     });
   });
 });

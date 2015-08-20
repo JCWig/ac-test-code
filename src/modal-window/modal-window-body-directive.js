@@ -1,25 +1,28 @@
-module.exports = function($compile, $http, $templateCache, $q) {
+function modalWindowBody($compile, $http, $templateCache, $q) {
+
   function getBodyTemplate(modal) {
+
     if (modal.template) {
       return $q.when(modal.template);
     } else {
       return $http.get(modal.templateUrl, {cache: $templateCache})
-        .then(function(result) {
-          return result.data;
-        });
+        .then(result => result.data);
     }
   }
 
   return {
     restrict: 'E',
     replace: true,
-    template: '<div class="modal-body"><div ng-if="isProcessing()" class="backwash"></div></div>',
+    template: `<div class="modal-body">
+                   <div ng-if="modalWindow.processing" class="backwash"></div>
+               </div>`,
     link: function(scope, element) {
-      getBodyTemplate(scope.modalWindow)
-        .then(function(content) {
-          element.append($compile(content)(scope));
-        });
+      getBodyTemplate(scope.modalWindow.templateModel)
+        .then(content => element.append($compile(content)(scope.modalWindow.contentScope)));
     }
   };
-};
-module.exports.$inject = ['$compile', '$http', '$templateCache', '$q'];
+}
+
+modalWindowBody.$inject = ['$compile', '$http', '$templateCache', '$q'];
+
+export default modalWindowBody;

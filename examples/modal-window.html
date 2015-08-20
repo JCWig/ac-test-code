@@ -65,6 +65,11 @@
                 };
 
                 var aController = function($scope) {
+                    this.descriptionLabel = 'Description:';
+                    this.reasonLabel = 'Reason:';
+                    this.exemptionLabel = 'Exemption:';
+                    this.otherLabel = 'Other:';
+
                     $scope.setOnSubmit(function(){
                         var deferral = $q.defer();
                         $timeout(function() {
@@ -96,19 +101,21 @@
                         scope: modalScope,
                         template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
                                     '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!' +
-                                    '<div class="label-group"><label class="label" for="description">Description:</label><br>' +
+                                    '<div class="label-group"><label class="label" for="description">{{templateExample.descriptionLabel}}</label><br>' +
                                     '<textarea id="description" type="text" rows="4" cols="75"></textarea>' +
                                     '</div><br />' +
-                                    '<div class="label-group"><label class="label" for="reason">Reason:</label><br>' +
+                                    '<div class="label-group"><label class="label" for="reason">{{templateExample.reasonLabel}}</label><br>' +
                                     '<textarea id="reason" type="text" rows="4" cols="75"></textarea>' +
                                     '</div><br />' +
-                                    '<div class="label-group"><label class="label" for="exemption">Exemption:</label><br>' +
+                                    '<div class="label-group"><label class="label" for="exemption">{{templateExample.exemptionLabel}}</label><br>' +
                                     '<textarea id="exemption" type="text" rows="4" cols="75"></textarea>' +
                                     '</div><br />' +
-                                    '<div class="label-group"><label class="label" for="other">Other:</label><br>' +
+                                    '<div class="label-group"><label class="label" for="other">{{templateExample.otherLabel}}</label><br>' +
                                     '<textarea id="other" type="text" rows="4" cols="75"></textarea>' +
                                     '</div><br />' ,
-                        controller: aController
+                        controller: aController,
+                        controllerAs: 'templateExample'
+
                     }));
 
                     // Listen for the result returned by the modal window
@@ -161,7 +168,7 @@
                 });
 
                 // Disable the save button by default
-                $scope.disableSubmit();
+                $scope.disabled = true;
 
                 $scope.customValue = 'Custom Value returned';
 
