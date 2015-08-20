@@ -47,22 +47,17 @@ function dropdown($compile, dropdownTransformer, translate, $document, $timeout,
     }
 
     setPlaceholder(placeholderProp, customMarkupScope, key) {
-
       let setCustomMarkupPlaceholder = () => {
         if (angular.isDefined(customMarkupScope)) {
           customMarkupScope[placeholderProp] = this[placeholderProp];
         }
       };
 
-      if (!angular.isString(this[placeholderProp])) {
-        translate.async(key)
-          .then((value) => {
-            this[placeholderProp] = value;
-            setCustomMarkupPlaceholder();
-          });
-      } else {
-        setCustomMarkupPlaceholder();
-      }
+      translate.async(this[placeholderProp], null, key)
+        .then(value => {
+          this[placeholderProp] = value;
+          setCustomMarkupPlaceholder();
+        });
     }
   }
   DropdownController.$inject = ['$scope'];
