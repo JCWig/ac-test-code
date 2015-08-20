@@ -5,7 +5,8 @@ angular.module('akamai.components.examples.table', [
   'akamai.components.table',
   'akamai.components.i18n'
 ])
-  .controller('ExampleController', ExampleController);
+  .controller('ExampleController', ExampleController)
+  .config(configFunction);
 
 function ExampleController($http, $q, $log) {
   var vm = this;
@@ -69,3 +70,13 @@ function ExampleController($http, $q, $log) {
 
 }
 ExampleController.$inject = ['$http', '$q', '$log'];
+
+function configFunction(i18nTokenProvider) {
+
+  // need to overwrite locales path on fee.akamai.com
+  if (window.location.host === 'fee.akamai.com') {
+    i18nTokenProvider.setComponentLocalePath('../dist/locales/');
+    i18nTokenProvider.setAppLocalePath('locales/json/messages/');
+  }
+}
+configFunction.$inject = ['i18nTokenProvider'];
