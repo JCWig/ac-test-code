@@ -145,5 +145,3 @@ function TableTemplateService($log) {
 TableTemplateService.$inject = ['$log'];
 
 export default TableTemplateService;
-
-
