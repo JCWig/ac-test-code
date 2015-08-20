@@ -1,3 +1,4 @@
+import angular from 'angular';
 import template from './templates/indeterminate-progress-directive.tpl.html';
 
 const WRAPPER_CLASS_NAME = 'indeterminate-progress-wrapper',
@@ -43,7 +44,7 @@ class IndeterminateProgressController {
   }
 }
 
-export default function() {
+function indeterminateProgressDirective(translate) {
 
   return {
     restrict: 'AE',
@@ -58,6 +59,11 @@ export default function() {
     controllerAs: 'indeterminateProgress',
     link: (scope, element) => {
       let ctrl = scope.indeterminateProgress;
+
+      if (angular.isDefined(ctrl.label) && ctrl.label !== '') {
+        translate.async(ctrl.label)
+          .then(value => ctrl.label = value);
+      }
 
       //add or remove the class based on whether or not the element is "completed".
       scope.$watch('indeterminateProgress.stateFailed', () => {
@@ -80,3 +86,7 @@ export default function() {
     template: template
   };
 }
+
+indeterminateProgressDirective.$inject = ['translate'];
+
+export default indeterminateProgressDirective;
