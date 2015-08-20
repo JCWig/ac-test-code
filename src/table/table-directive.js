@@ -254,17 +254,17 @@ class TableController {
   translateMessages() {
     if (!angular.isDefined(this.filterPlaceholder)) {
       this.translate.async('components.data-table.placeholder.filter')
-        .then(() => this.setTranslatedValue('filterPlaceholder'));
+        .then(angular.bind(this, this.setTranslatedValue, 'filterPlaceholder'));
     }
 
     if (!angular.isDefined(this.noFilterResultsMessage)) {
       this.translate.async('components.data-table.text.noFilterResults')
-        .then(() => this.setTranslatedValue('noFilterResultsMessage'));
+        .then(angular.bind(this, this.setTranslatedValue, 'noFilterResultsMessage'));
     }
 
     if (!angular.isDefined(this.noItemsMessage)) {
       this.translate.async('components.data-table.text.noDataMessage')
-        .then(() => this.setTranslatedValue('noItemsMessage'));
+        .then(angular.bind(this, this.setTranslatedValue, 'noItemsMessage'));
     }
   }
 
