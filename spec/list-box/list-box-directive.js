@@ -1561,4 +1561,51 @@ describe('akam-list-box', function() {
       expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
     });
   });
+
+  // TODO (tpatel@akamai.com 8/21/15): Write tests to test i18n translation
+  // describe('when translating filter-placeholder', function() {
+  //   it('should translate to default filter-placeholder value when key not provided', function() {
+  //     var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder=""></akam-list-box>';
+  //     addElement(markup);
+  //     httpBackend.flush();
+
+  //     var filterBox = document.querySelector(FILTER_BOX);
+  //     console.log(self.listBox);
+  //     expect(filterBox.value).toEqual('');
+  //     expect(filterBox.placeholder).toEqual('Filter This');
+  //   });
+  //   it('should translate filter-placeholder and display translation when key is found', function() {
+  //     var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="components.list-box.placeholder.filter"></akam-list-box>';
+  //     addElement(markup);
+  //     httpBackend.flush();
+
+  //     var filterBox = document.querySelector(FILTER_BOX);
+
+  //     expect(filterBox.value).toEqual('');
+  //     expect(filterBox.placeholder).toEqual('Filter This');
+  //   });
+  //   it('should translate filter-placeholder and display key when key not found', function() {
+  //     var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
+  //     addElement(markup);
+  //     httpBackend.flush();
+
+  //     var filterBox = document.querySelector(FILTER_BOX);
+
+  //     expect(filterBox.value).toEqual('');
+  //     expect(filterBox.placeholder).toEqual('placeholder');
+  //   });
+  //   it('should translate to default no-filter-results-message value when key not provided', function() {
+  //     var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message=""></akam-list-box>';
+  //     addElement(markup);
+  //     httpBackend.flush();
+
+  //     self.listBox.state.filter = "Oliverasdf";
+  //     self.listBox.updateSearchFilter();
+  //     scope.$digest();
+
+  //     var dataTableRow = document.querySelector('.empty-table-message span');
+  //     console.log(dataTableRow.textContent);
+  //     expect(dataTableRow.textContent).toContain('');
+  //   });
+  // });
 });
