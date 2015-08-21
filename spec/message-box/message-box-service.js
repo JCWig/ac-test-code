@@ -11,7 +11,8 @@ describe('messageBox service', function() {
       "message-box": {
         "no": "No",
         "yes": "Yes"
-      }
+      },
+      "name": "Msg box title"
     }
   };
   beforeEach(function() {
@@ -125,6 +126,26 @@ describe('messageBox service', function() {
       expect(cancelModalButton.textContent).toContain(cancelLabelKey);
     });
 
+    it('should cancelLabel display translation key if provided', function() {
+      var cancelLabelKey = 'Yes';
+
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
+
+      this.messageBox.show({
+        headline: 'headline',
+        text: 'Message',
+        cancelLabel: "components.message-box.yes"
+      });
+      this.$rootScope.$digest();
+
+      var cancelModalButton = document.querySelector('.modal .button:not(.primary)');
+      expect(cancelModalButton.textContent).toContain(cancelLabelKey);
+    });
+
     it('should submitLabel display translation key if not provide one', function() {
       var submitLabelKey = 'Yes';
 
@@ -144,6 +165,44 @@ describe('messageBox service', function() {
       var okayModalButton = document.querySelector('.modal button.primary');
       expect(okayModalButton.textContent).toContain(submitLabelKey);
     });
+    it('should submitLabel display translation key if provided', function() {
+      var submitLabelKey = 'No';
+
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
+
+      this.messageBox.show({
+        headline: 'headline',
+        text: 'Message',
+        submitLabel: 'components.message-box.no'
+      });
+      this.$rootScope.$digest();
+
+      var okayModalButton = document.querySelector('.modal button.primary');
+      expect(okayModalButton.textContent).toContain(submitLabelKey);
+    });
+
+    it('should title display translation key if provided', function() {
+      var title = 'Msg box title';
+
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
+
+      this.messageBox.show({
+        title: 'components.name',
+        headline: 'Headline',
+        text: 'Message'
+      });
+      this.$rootScope.$digest();
+      var modalHeadline = document.querySelector('.modal .modal-title');
+      expect(modalHeadline.textContent).toEqual(title);
+    });
 
     it('should limit the headline to 48 characters', function() {
       var headline = 'A very long headline that will be truncated to 48 chars';
@@ -155,7 +214,6 @@ describe('messageBox service', function() {
       this.$rootScope.$digest();
       var modalHeadline = document.querySelector('.modal .message-box-headline');
       expect(modalHeadline.textContent.length).toEqual(48);
-
     });
 
     it('should support a text option', function() {
@@ -261,7 +319,7 @@ describe('messageBox service', function() {
         expect(messageBoxDetails.classList).not.toContain('in');
         utilities.click(messageBoxDetailsTrigger);
         this.$rootScope.$digest();
-        
+
         expect(messageBoxDetails.classList).toContain('in');
       });
     });
