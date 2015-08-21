@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="../dist/akamai-core.css">
         <style>
             div.container-div { width: 500px; }
-        </style>            
+        </style>
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container" >
@@ -16,20 +16,20 @@
             <h2>Drag/Drop Tag Order Example</h2>
             <div class="container-div"; >
                 <akam-tag-input ng-model="items1" available-items="availableItems"
-                                placeholder="{{placeholder}}" drag-dropable="true"> 
+                                placeholder="{{placeholder}}" drag-dropable="true">
                 </akam-tag-input>
             </div>
             <br/><br/><br/>
             <div class="container-div";>
                 <h2>Sorted Selected Tag Example</h2>
                 <akam-tag-input ng-model="items2" available-items="availableItems" restricted="false"
-                                sort-function="sortFunction"> 
+                                sort-function="sortFunction">
                 </akam-tag-input>
             </div>
             <br/><br/><br/>
             <div class="container-div";>
                 <h2>Adding New Items Disallowed Example</h2>
-                <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true"> 
+                <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true">
                 </akam-tag-input>
             </div>
             <br/><br/><br/>
@@ -38,7 +38,7 @@
                     <h2>Tag Character Limit Validation Example</h2>
                     <akam-tag-input name="tagInput" ng-model="items4" available-items="availableItems"
                                     tagging-label="(add new item)" placeholder="{{placeholder}}"
-                                    drag-dropable="true" validate-function="validateFunction"> 
+                                    drag-dropable="true" validate-function="validateFunction">
                     </akam-tag-input>
                 </div>
             </form>
@@ -48,7 +48,7 @@
             <br/><br/><br/>
             <div class="container-div";>
                 <h2>Large Available Items List Example</h2>
-                <akam-tag-input ng-model="items5" available-items="availableItemsLarge"> 
+                <akam-tag-input ng-model="items5" available-items="availableItemsLarge">
                 </akam-tag-input>
                 <button ng-click="logTagInputData(items5)">Send tag input data to browser log</button>
             </div>
@@ -56,22 +56,22 @@
         <script src="../dist/akamai-core.js"></script>
         <script>
             var exampleController = function($scope, $log, translate) {
-                
+
                 // Data for the Drag/Drop Tag Order Example
                 $scope.items1 = [".png",".jpg", ".svg"];
-                
+
                 // Data for the Sorted Selected Tag Example
                 $scope.items2 = [".xls",".log", ".gif"];
-                
+
                 // Data for the Adding New Items Disallowed Example
                 $scope.items3 = [".txt",".jpg", ".csv", ".tiff"];
-                
+
                 // Data for the tag component with validation
                 $scope.items4 = [".png",".jpg", ".svg", ".pdf", ".xls", ".exe", ".app"];
-                
+
                 // Data for the Large Available Items List Example
                 $scope.items5 = [".exe",".doc", ".rtf"];
-                
+
                 // List of all possible tag items
                 $scope.availableItems = [
                     ".exe",
@@ -93,7 +93,7 @@
                     ".gif",
                     ".csv"
                 ];
-                
+
                 $scope.availableItemsLarge = [
                     ".a",
                     ".asm",
@@ -257,23 +257,22 @@
                     ".y",
                     ".yxx",
                     ".zip" ];
-                
+
                 // localized string coming from the example locale file
-                $scope.placeholder = translate.async('examples.autocomplete.search.states').then(function(v){
-                    $scope.placeholder = v;
-                    $log.log("placeholder text is " + $scope.placeholder);
-                });
-                
+                // $scope.placeholder = translate.async('examples.autocomplete.search.states').then(function(v){
+                //     $scope.placeholder = v;
+                // });
+                $scope.placeholder = 'examples.autocomplete.search.states';
                 // Sort the tag data
                 $scope.sortFunction = function(input){
                     return input.sort();
                 };
-                
+
                 // Write the items from the tag input component to the browser log
                 $scope.logTagInputData = function(data){
                     $log.log(data);
                 };
-                
+
                 // Validate that the tag is at least two characters
                 $scope.validateFunction = function(item) {
                     if(!item || item.type === 'string' || item.length > 1){
@@ -282,9 +281,9 @@
                     return false;
                 };
             };
-            
+
             exampleController.$inject = ['$scope', '$log', 'translate'];
-            
+
             angular.module('example', ['akamai.components.tag-input', 'ngMessages'])
             .controller('ExampleController', exampleController);
         </script>
