@@ -107,6 +107,22 @@ describe('modalWindow service', function() {
       expect(modalTitle.textContent).toEqual(title);
     });
 
+    it('should translate title if key is provided', function() {
+      var title = 'Akamai Common Components';
+
+      this.timeout.flush();
+
+      this.modalWindowService.open({
+        scope: this.scope,
+        title: 'components.name',
+        template: '<p></p>'
+      });
+      this.scope.$digest();
+
+      var modalTitle = document.querySelector(MODAL_TITLE);
+      expect(modalTitle.textContent).toEqual(title);
+    });
+
     it('should support a private icon option', function() {
       var icon = 'svg-information';
 
@@ -488,6 +504,23 @@ describe('modalWindow service', function() {
         expect(cancelButton.textContent).toContain(cancelLabel);
       });
 
+      it('should display translated cancel button text if key provided', function() {
+        var cancelLabel = 'Akamai Common Components';
+        var cancelButton;
+
+        this.timeout.flush();
+
+        this.modalWindowService.open({
+          scope: this.scope,
+          cancelLabel: "components.name",
+          template: '<p></p>'
+        });
+        this.scope.$digest();
+
+        cancelButton = document.querySelector(CANCEL_BUTTON);
+        expect(cancelButton.textContent).toContain(cancelLabel);
+      });
+
       it('should display translated default submit button text', function() {
         var submitLabel = 'Save';
         var submitButton;
@@ -504,6 +537,24 @@ describe('modalWindow service', function() {
         submitButton = document.querySelector(SUBMIT_BUTTON);
         expect(submitButton.textContent).toContain(submitLabel);
       });
+
+      it('should display translated default submit button text if key provided', function() {
+        var submitLabel = 'Akamai Common Components';
+        var submitButton;
+
+        this.timeout.flush();
+
+        this.modalWindowService.open({
+          scope: this.scope,
+          submitLabel: "components.name",
+          template: '<p></p>'
+        });
+        this.scope.$digest();
+
+        submitButton = document.querySelector(SUBMIT_BUTTON);
+        expect(submitButton.textContent).toContain(submitLabel);
+      });
+
     });
   });
 });
