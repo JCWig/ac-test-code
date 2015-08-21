@@ -269,20 +269,15 @@ module.exports = function($log, uuid, $q, akamTableTemplate, $compile, $parse, t
      * @this TableController
      */
     function translateMessages() {
-      if (!angular.isDefined(this.filterPlaceholder)) {
-        translate.async('components.data-table.placeholder.filter')
-          .then(angular.bind(this, setTranslatedValue, 'filterPlaceholder'));
-      }
+      translate.async(this.filterPlaceholder, null, 'components.data-table.placeholder.filter')
+        .then(angular.bind(this, setTranslatedValue, 'filterPlaceholder'));
 
-      if (!angular.isDefined(this.noFilterResultsMessage)) {
-        translate.async('components.data-table.text.noFilterResults')
+      translate.async(this.noFilterResultsMessage,
+        null, 'components.data-table.text.noFilterResults')
           .then(angular.bind(this, setTranslatedValue, 'noFilterResultsMessage'));
-      }
 
-      if (!angular.isDefined(this.noItemsMessage)) {
-        translate.async('components.data-table.text.noDataMessage')
-          .then(angular.bind(this, setTranslatedValue, 'noItemsMessage'));
-      }
+      translate.async(this.noItemsMessage, null, 'components.data-table.text.noDataMessage')
+        .then(angular.bind(this, setTranslatedValue, 'noItemsMessage'));
     }
 
     /**
