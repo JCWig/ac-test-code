@@ -70,6 +70,7 @@ export default angular.module('akamai.components.dropdown', [
  * this is the property of those objects used in the dropdown menu
  *
  * @param {String} [placeholder=Select one] The placeholder text for the dropdown.
+ * Placeholder attribute value can be text or translation key.
  * When using custom markup, include <pre>{{dropdown.placeholder}}</pre>
  * to display default placeholder text.
  * If not included, placeholder text will be empty.
