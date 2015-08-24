@@ -14,7 +14,7 @@ var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json")
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 var MAX_INITIALLY_DISPLAYED = 10;
 
-describe('akam-list-box', function() {
+describe('akam-list-box', function(){
   var compile = null;
   var scope = null;
   var self = this;
@@ -1562,50 +1562,224 @@ describe('akam-list-box', function() {
     });
   });
 
-  // TODO (tpatel@akamai.com 8/21/15): Write tests to test i18n translation
-  // describe('when translating filter-placeholder', function() {
-  //   it('should translate to default filter-placeholder value when key not provided', function() {
-  //     var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder=""></akam-list-box>';
-  //     addElement(markup);
-  //     httpBackend.flush();
+  describe('given filter-placeholder attribute', function() {
+    describe('and a filter-placeholder attribute is not provided', function(){
+      describe('when the list-box is rendered', function(){
+        it('should render default filter-placeholder', function() {
+          var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder=""></akam-list-box>';
+          addElement(markup);
+          httpBackend.flush();
 
-  //     var filterBox = document.querySelector(FILTER_BOX);
-  //     console.log(self.listBox);
-  //     expect(filterBox.value).toEqual('');
-  //     expect(filterBox.placeholder).toEqual('Filter This');
+          var filterBox = document.querySelector(FILTER_BOX);
+
+          expect(filterBox.placeholder).toEqual('Filter This');
+        });
+      });
+    });
+  });
+
+  describe('given filter-placeholder attribute', function() {
+    describe('and a filter-placeholder attribute is provided', function(){
+      describe('when the list-box is rendered', function(){
+        it('should translate filter-placeholder for the list-box if key is valid', function() {
+          var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="table.full-name"></akam-list-box>';
+          addElement(markup);
+          httpBackend.flush();
+
+          var filterBox = document.querySelector(FILTER_BOX);
+
+          expect(filterBox.value).toEqual('');
+          expect(filterBox.placeholder).toEqual('Full Name');
+        });
+        it('should translate and display key if key is invalid', function() {
+          var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
+          addElement(markup);
+          httpBackend.flush();
+
+          var filterBox = document.querySelector(FILTER_BOX);
+
+          expect(filterBox.placeholder).toEqual('placeholder');
+        });
+      });
+    });
+  });
+
+  describe('when list-box is rendered with no data', function() {
+    describe('and no-data-message attribute not provided', function() {
+      beforeEach(function() {
+        scope.mydata = [];
+        scope.columns = [
+          {
+            content: 'name',
+            header: 'Name'
+          }
+        ];
+        var markup = '<akam-list-box data="mydata" schema="columns" no-data-message=""></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+      });
+      it('should render default no-data-message placeholder', function() {
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
+      });
+    });
+    describe('and no-data-message attribute is provided', function() {
+      beforeEach(function() {
+        scope.mydata = [];
+        scope.columns = [
+          {
+            content: 'name',
+            header: 'Name'
+          }
+        ];
+      });
+      it('should translate no-data-message for the list-box if key is valid', function() {
+        var markup = '<akam-list-box data="mydata" schema="columns" no-data-message="table.full-name"></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/Full Name/);
+      });
+      it('should translate and display key if key is invalid', function() {
+        var markup = '<akam-list-box data="mydata" schema="columns" no-data-message="placeholder"></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/placeholder/);
+      });
+    });
+  });
+
+  describe('when list-box is rendered with data', function() {
+    describe('and no-filter-results-message attribute not provided', function() {
+      beforeEach(function() {
+        scope.mydata = [
+          {'name': "Roy Harper"},
+          {'name': "Dinah Laurel Lance"},
+          {'name': "Oliver Queen"}
+        ];
+        scope.columns = [
+          {
+            content: 'name',
+            header: 'Name'
+          }
+        ];
+        var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message=""></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+      });
+      it('should render default no-filter-results-message placeholder', function() {
+        self.listBox.state.filter = "Jennifer";
+        self.listBox.updateSearchFilter();
+        scope.$digest();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/There are no results based upon your filter/);
+      });
+    });
+    describe('and no-filter-results-message attribute is provided', function() {
+      beforeEach(function() {
+        scope.mydata = [
+          {'name': "Roy Harper"},
+          {'name': "Dinah Laurel Lance"},
+          {'name': "Oliver Queen"}
+        ];
+        scope.columns = [
+          {
+            content: 'name',
+            header: 'Name'
+          }
+        ];
+      });
+      it('should translate no-filter-results-message for the list-box if key is valid', function() {
+        var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message="table.full-name"></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+        self.listBox.state.filter = "Jennifer";
+        self.listBox.updateSearchFilter();
+        scope.$digest();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/Full Name/);
+      });
+      it('should translate and display key if key is invalid', function() {
+        var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message="placeholder"></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+        self.listBox.state.filter = "Jennifer";
+        self.listBox.updateSearchFilter();
+        scope.$digest();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/placeholder/);
+      });
+    });
+  });
+
+
+  // describe('when there is no data can provide messages', function() {
+  //   var NO_DATA_MESSAGE = 'oh noes!11!!!';
+  //   var NONE_SELECTED_MESSAGE = 'none selected!!!!!!';
+  //   var NO_FILTER_RESULTS_MESSAGE = "zero filter results";
+  //   beforeEach(function() {
+  //     scope.baddata = [];
+  //     scope.badcolumns = [
+  //       {
+  //         content: "name",
+  //         header: 'Name'
+  //       }
+  //     ];
+  //     httpBackend.flush();
+  //     scope.myNoDataMessage = NO_DATA_MESSAGE;
+  //     scope.myNoneSelectedMessage = NONE_SELECTED_MESSAGE;
+  //     scope.myNoFilterResultsMessage = NO_FILTER_RESULTS_MESSAGE;
+  //     var markup = '<akam-list-box data="baddata" schema="badcolumns" no-data-message="{{myNoDataMessage}}" no-filter-results-message="zero filter results"' +
+  //       'none-selected-message="none selected!!!!!!"></akam-list-box>';
+  //     addElement(markup);
+  //     timeout.flush();
   //   });
-  //   it('should translate filter-placeholder and display translation when key is found', function() {
-  //     var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="components.list-box.placeholder.filter"></akam-list-box>';
-  //     addElement(markup);
-  //     httpBackend.flush();
-
-  //     var filterBox = document.querySelector(FILTER_BOX);
-
-  //     expect(filterBox.value).toEqual('');
-  //     expect(filterBox.placeholder).toEqual('Filter This');
+  //   it('should present the "no data" message when no data is available and no filters that can be provided', function() {
+  //     scope.baddata = [];
+  //     scope.columns = [
+  //       {
+  //         content: "name",
+  //         header: 'Name'
+  //       }
+  //     ];
+  //     var dataTableRow = document.querySelector('.empty-table-message span');
+  //     expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
   //   });
-  //   it('should translate filter-placeholder and display key when key not found', function() {
-  //     var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
-  //     addElement(markup);
-  //     httpBackend.flush();
+  //   it('should be able to change the no data messages', function() {
 
-  //     var filterBox = document.querySelector(FILTER_BOX);
+  //     var dataTableRow = document.querySelector('.empty-table-message span');
+  //     var NEW_MESSAGE = 'new message';
+  //     expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
 
-  //     expect(filterBox.value).toEqual('');
-  //     expect(filterBox.placeholder).toEqual('placeholder');
+  //     scope.myNoDataMessage = NEW_MESSAGE;
+  //     scope.$digest();
+  //     expect(dataTableRow.textContent).toContain(NEW_MESSAGE);
+
   //   });
-  //   it('should translate to default no-filter-results-message value when key not provided', function() {
-  //     var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message=""></akam-list-box>';
-  //     addElement(markup);
-  //     httpBackend.flush();
-
-  //     self.listBox.state.filter = "Oliverasdf";
+  //   it('should present the "no data" message when no data is available and filtered', function() {
+  //     self.listBox.state.filter = "Oliver";
   //     self.listBox.updateSearchFilter();
   //     scope.$digest();
 
   //     var dataTableRow = document.querySelector('.empty-table-message span');
-  //     console.log(dataTableRow.textContent);
-  //     expect(dataTableRow.textContent).toContain('');
+
+  //     expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
+  //   });
+  //   it('should present a the no data message when no data is available not filtered and view selected only on', function() {
+  //     var viewSelectOnlyCheckbox = document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX);
+  //     utilities.click(viewSelectOnlyCheckbox);
+  //     scope.$digest();
+
+  //     var dataTableRow = document.querySelector('.empty-table-message span');
+
+  //     expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
   //   });
   // });
 });
