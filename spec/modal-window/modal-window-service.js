@@ -300,7 +300,6 @@ describe('modalWindow service', function() {
         this.scope.$digest();
         submitButton = document.querySelector(SUBMIT_BUTTON);
         modalHeaderEl = angular.element(document.querySelector(".modal-header"));
-
         utilities.click(submitButton);
         this.scope.$digest();
         expect(modalHeaderEl.hasClass('error')).toBe(false);
@@ -554,7 +553,293 @@ describe('modalWindow service', function() {
         submitButton = document.querySelector(SUBMIT_BUTTON);
         expect(submitButton.textContent).toContain(submitLabel);
       });
+    });
+  });
+  describe('when modal window is open', function(){
+    describe('and cancel label value is not provided', function(){
+      it('should render default value for cancel label', function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<p></p>'
+        });
+        this.scope.$digest();
 
+        var cancelButton = document.querySelector(CANCEL_BUTTON);
+        expect(cancelButton.textContent).toMatch(/Cancel/);
+      });
+    });
+    describe('and cancel label value is provided', function(){
+      it('should translate cancelLabel if key is valid', function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          cancelLabel: "components.modal-window.title",
+          template: '<p></p>'
+        });
+        this.scope.$digest();
+
+        var cancelButton = document.querySelector(CANCEL_BUTTON);
+        expect(cancelButton.textContent).toMatch(/Modal Window/);
+      });
+      it('should translate and display key if key is invalid', function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          cancelLabel: "invalidKey",
+          template: '<p></p>'
+        });
+        this.scope.$digest();
+
+        var cancelButton = document.querySelector(CANCEL_BUTTON);
+        expect(cancelButton.textContent).toMatch(/invalidKey/);
+      });
+    });
+
+    describe('and submit label value is not provided', function(){
+      it('should render default value for submit label', function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<p></p>'
+        });
+        this.scope.$digest();
+
+        var submitButton = document.querySelector(SUBMIT_BUTTON);
+        expect(submitButton.textContent).toMatch(/Save/);
+      });
+    });
+    describe('and submit label value is provided', function(){
+      it('should translate submitLabel if key is valid', function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          submitLabel: "components.modal-window.title",
+          template: '<p></p>'
+        });
+        this.scope.$digest();
+
+        var submitButton = document.querySelector(SUBMIT_BUTTON);
+        expect(submitButton.textContent).toMatch(/Modal Window/);
+      });
+      it('should translate and display key if key is invalid', function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          submitLabel: "invalidKey",
+          template: '<p></p>'
+        });
+        this.scope.$digest();
+
+        var submitButton = document.querySelector(SUBMIT_BUTTON);
+        expect(submitButton.textContent).toMatch(/invalidKey/);
+      });
+    });
+    describe('and submit button is clicked', function(){
+      describe('and error message is displayed', function(){
+        describe('and errorMessage attribute is not provided', function(){
+          it('should render default value for error message', function() {
+            var submitButton,
+              deferral = this.q.defer();
+
+            function Controller($scope, $q) {
+              $scope.setOnSubmit(
+                function() {
+                  return deferral.promise;
+                }
+              );
+            }
+            Controller.$inject = ['$scope', '$q'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              controller: Controller
+            });
+            this.scope.$digest();
+            submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            deferral.reject();
+            this.timeout.flush();
+            this.scope.$digest();
+
+            var messageContentEl = document.querySelector(".status-message-content");
+            expect(messageContentEl.textContent).toContain("The action can't be completed.");
+          });
+        });
+        describe('and errorMessage attribute is provided', function(){
+          it('should translate error message if key is valid', function() {
+            var submitButton,
+              deferral = this.q.defer();
+
+            function Controller($scope, $q) {
+              $scope.setOnSubmit(
+                function() {
+                  return deferral.promise;
+                }
+              );
+            }
+            Controller.$inject = ['$scope', '$q'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              controller: Controller,
+              errorMessage: "components.modal-window.successMessage"
+            });
+            this.scope.$digest();
+            submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            deferral.reject();
+            this.timeout.flush();
+            this.scope.$digest();
+
+            var messageContentEl = document.querySelector(".status-message-content");
+            expect(messageContentEl.textContent).toContain("The action has been completed.");
+          });
+          it('should translate and display key if key is invalid', function() {
+            var submitButton,
+              deferral = this.q.defer();
+
+            function Controller($scope, $q) {
+              $scope.setOnSubmit(
+                function() {
+                  return deferral.promise;
+                }
+              );
+            }
+            Controller.$inject = ['$scope', '$q'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              controller: Controller,
+              errorMessage: "invalidKey"
+            });
+            this.scope.$digest();
+            submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            deferral.reject();
+            this.timeout.flush();
+            this.scope.$digest();
+
+            var messageContentEl = document.querySelector(".status-message-content");
+            expect(messageContentEl.textContent).toContain("invalidKey");
+          });
+        });
+      });
+    });
+
+
+
+    describe('and submit button is clicked', function(){
+      describe('and success message is displayed', function(){
+        describe('and sucessMessage attribute is not provided', function(){
+          it('should render default value for success message', function() {
+            var submitButton,
+              deferral = this.q.defer();
+
+            function Controller($scope, $q) {
+              $scope.setOnSubmit(
+                function() {
+                  return deferral.promise;
+                }
+              );
+            }
+            Controller.$inject = ['$scope', '$q'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              controller: Controller
+            });
+
+            this.scope.$digest();
+            submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            deferral.resolve();
+            this.scope.$digest();
+
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            var messageContentEl = document.querySelector(".status-message-content");
+            expect(messageContentEl.textContent).toContain("The action has been completed");
+          });
+        });
+        describe('and sucessMessage attribute is provided', function(){
+          it('should translate success message if key is valid', function() {
+            var submitButton,
+              deferral = this.q.defer();
+
+            function Controller($scope, $q) {
+              $scope.setOnSubmit(
+                function() {
+                  return deferral.promise;
+                }
+              );
+            }
+            Controller.$inject = ['$scope', '$q'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              controller: Controller,
+              successMessage: "components.modal-window.title"
+            });
+
+            this.scope.$digest();
+            submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            deferral.resolve();
+            this.scope.$digest();
+
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            var messageContentEl = document.querySelector(".status-message-content");
+            expect(messageContentEl.textContent).toContain("Modal Window");
+          });
+          it('should translate and display key if key is invalid', function() {
+            var submitButton,
+              deferral = this.q.defer();
+
+            function Controller($scope, $q) {
+              $scope.setOnSubmit(
+                function() {
+                  return deferral.promise;
+                }
+              );
+            }
+            Controller.$inject = ['$scope', '$q'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              controller: Controller,
+              successMessage: "invalidKey"
+            });
+
+            this.scope.$digest();
+            submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            deferral.resolve();
+            this.scope.$digest();
+
+            utilities.click(submitButton);
+            this.scope.$digest();
+
+            var messageContentEl = document.querySelector(".status-message-content");
+            expect(messageContentEl.textContent).toContain("invalidKey");
+          });
+        });
+      });
     });
   });
 });
