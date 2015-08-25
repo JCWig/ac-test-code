@@ -28,6 +28,7 @@
       "error": "ERROR"
     },
     "table": {
+      "filterPlaceholder": "Filter"
     },
     "menu-button": {
       "label": "Label"
