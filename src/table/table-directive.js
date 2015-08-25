@@ -63,27 +63,6 @@ class TableController {
 
   }
 
-  static addDefaultSort(scope, attributes, header, log) {
-    if (header.hasAttribute('default-sort')) {
-      if (!angular.isDefined(attributes.notSortable) && !header.hasAttribute('not-sortable') &&
-        header.hasAttribute('row-property')) {
-        scope.table.state.sortColumn = header.getAttribute('row-property');
-        defaultSortColumn = header.getAttribute('row-property');
-      } else {
-        log.debug('Tried to set default sort column as', header.getAttribute('row-property'),
-          'but it is not sortable');
-      }
-    }
-  }
-
-  static addFilterableColumns(scope, attributes, header) {
-    if (!angular.isDefined(attributes.notFilterable) && !header.hasAttribute('not-filterable') &&
-      header.hasAttribute('row-property')) {
-
-      scope.table.state.filterableColumns.push(header.getAttribute('row-property'));
-    }
-  }
-
   /**
    * Determines the selection class for a selectable column
    * @this TableController
@@ -356,6 +335,27 @@ class TableController {
 
 function tableDirective($log, akamTableTemplate, $compile) {
 
+  function addDefaultSort(scope, attributes, header) {
+    if (header.hasAttribute('default-sort')) {
+      if (!angular.isDefined(attributes.notSortable) && !header.hasAttribute('not-sortable') &&
+        header.hasAttribute('row-property')) {
+        scope.table.state.sortColumn = header.getAttribute('row-property');
+        defaultSortColumn = header.getAttribute('row-property');
+      } else {
+        $log.debug('Tried to set default sort column as', header.getAttribute('row-property'),
+          'but it is not sortable');
+      }
+    }
+  }
+
+  function addFilterableColumns(scope, attributes, header) {
+    if (!angular.isDefined(attributes.notFilterable) && !header.hasAttribute('not-filterable') &&
+      header.hasAttribute('row-property')) {
+
+      scope.table.state.filterableColumns.push(header.getAttribute('row-property'));
+    }
+  }
+
   return {
     restrict: 'E',
     scope: {},
@@ -437,8 +437,8 @@ function tableDirective($log, akamTableTemplate, $compile) {
       // handle setting sorting and filtering state based on the 'not-sortable'
       //and 'not-filterable' attrs this will potentially modify the scope.table.state object
       angular.forEach(element.find('th'), function(header) {
-        TableController.addDefaultSort(scope, attributes, header, $log);
-        TableController.addFilterableColumns(scope, attributes, header);
+        addDefaultSort(scope, attributes, header, $log);
+        addFilterableColumns(scope, attributes, header);
       });
     }
   };
