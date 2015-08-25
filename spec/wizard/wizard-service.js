@@ -240,7 +240,21 @@ describe('akamai.components.wizard', function() {
 
   describe('given a label for the next button', function() {
     describe('when the wizard is opened', function() {
-      it('should display the next button with the label', function() {
+      it('should display default value for next button if nextLabel attr is not provided', function() {
+        wizard.open({steps: steps, });
+        $scope.$digest();
+
+        var nextButton = document.querySelector('span.button-switch > button');
+        expect(_.trim(nextButton.textContent)).toBe('Next');
+      });
+      it('should translate next button if nextLabel attr is provided', function() {
+        wizard.open({steps: steps, nextLabel: 'components.wizard.label.next'});
+        $scope.$digest();
+
+        var nextButton = document.querySelector('span.button-switch > button');
+        expect(_.trim(nextButton.textContent)).toBe('Next');
+      });
+      it('should translate nextLabel and display key if key is invalid', function() {
         wizard.open({steps: steps, nextLabel: 'Continue'});
         $scope.$digest();
 
@@ -252,7 +266,21 @@ describe('akamai.components.wizard', function() {
 
   describe('given a label for the previous button', function() {
     describe('when the wizard is opened', function() {
-      it('should display the previous button with the label', function() {
+      it('should display default value for previous button if previousLabel attr is not provided', function() {
+        wizard.open({steps: steps});
+        $scope.$digest();
+
+        var previousButton = document.querySelector('.modal-footer button:first-child');
+        expect(_.trim(previousButton.textContent)).toBe('Previous');
+      });
+      it('should translate previousLabel if previousLabel attr is provided', function() {
+        wizard.open({steps: steps, previousLabel: 'components.wizard.label.next'});
+        $scope.$digest();
+
+        var previousButton = document.querySelector('.modal-footer button:first-child');
+        expect(_.trim(previousButton.textContent)).toBe('Next');
+      });
+      it('should translate previousLabel and display key if key is invalid', function() {
         wizard.open({steps: steps, previousLabel: 'Back'});
         $scope.$digest();
 
@@ -265,7 +293,21 @@ describe('akamai.components.wizard', function() {
 
   describe('given a label for the submit button', function() {
     describe('when the wizard is opened', function() {
-      it('should display the submit button with the label', function() {
+      it('should display default value for submit button if submitLabel attr is not provided', function() {
+        wizard.open({steps: [steps[0]]});
+        $scope.$digest();
+
+        var submitButton = document.querySelector('span.button-switch > button');
+        expect(_.trim(submitButton.textContent)).toBe('Submit');
+      });
+      it('should translate submitLabel if submitLabel attr is provided', function() {
+        wizard.open({steps: [steps[0]], submitLabel: 'components.wizard.label.next'});
+        $scope.$digest();
+
+        var submitButton = document.querySelector('span.button-switch > button');
+        expect(_.trim(submitButton.textContent)).toBe('Next');
+      });
+      it('should translate submitLabel and display key if key is invalid', function() {
         wizard.open({steps: [steps[0]], submitLabel: 'Enter'});
         $scope.$digest();
 
@@ -277,7 +319,27 @@ describe('akamai.components.wizard', function() {
 
   describe('given a success message', function() {
     describe('when the wizard is submitted', function() {
-      it('should display the success message as a status message on the page', function() {
+      it('should display default success message as a status message on the page if successMessage attr is not provided', function() {
+        wizard.open({steps: [steps[0]]});
+        $scope.$digest();
+
+        var submitButton = document.querySelector('span.button-switch > button');
+        util.click(submitButton);
+
+        var statusMessage = document.querySelector('.status-message-content');
+        expect(_.trim(statusMessage.textContent)).toBe('The action has been completed.');
+      });
+      it('should translate success message as a status message on the page if successMessage attr is provided', function() {
+        wizard.open({steps: [steps[0]], successMessage:'components.wizard.label.next'});
+        $scope.$digest();
+
+        var submitButton = document.querySelector('span.button-switch > button');
+        util.click(submitButton);
+
+        var statusMessage = document.querySelector('.status-message-content');
+        expect(_.trim(statusMessage.textContent)).toBe('Next');
+      });
+      it('should translate success message as a status message on the page and display key if key is invalid', function() {
         wizard.open({steps: [steps[0]], successMessage:'Success'});
         $scope.$digest();
 
@@ -292,8 +354,38 @@ describe('akamai.components.wizard', function() {
 
   describe('given an error message', function() {
     describe('when an error occurs when submitting the wizard', function() {
-      it('should display the error message at the top of the wizard', function() {
+      it('should display default error message at the top of the wizard if errorMessage attr is not provided', function() {
+        var wizardScope = $scope.$new();
+        wizardScope.successfulSubmit = false;
+        wizard.open({
+          steps: [steps[0]],
+          scope: wizardScope, controller: 'Controller2'
+        });
+        $scope.$digest();
 
+        var submitButton = document.querySelector('span.button-switch > button');
+        util.click(submitButton);
+
+        var errorMessage = document.querySelector('.modal-header .status-message-content');
+        expect(errorMessage.textContent).toMatch(/The action can't be completed/);
+      });
+      it('should translate error message at the top of the wizard if errorMessage attr is provided', function() {
+        var wizardScope = $scope.$new();
+        wizardScope.successfulSubmit = false;
+        wizard.open({
+          steps: [steps[0]],
+          scope: wizardScope, controller: 'Controller2',
+          errorMessage: 'components.wizard.label.next'
+        });
+        $scope.$digest();
+
+        var submitButton = document.querySelector('span.button-switch > button');
+        util.click(submitButton);
+
+        var errorMessage = document.querySelector('.modal-header .status-message-content');
+        expect(_.trim(errorMessage.textContent)).toBe('Next');
+      });
+      it('should translate error message at the top of the wizard and display key if key if invalid', function() {
         var wizardScope = $scope.$new();
         wizardScope.successfulSubmit = false;
         wizard.open({
