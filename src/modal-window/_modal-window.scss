@@ -1,4 +1,3 @@
-
 .modal {
   position: fixed;
   top: 0;
@@ -47,6 +46,15 @@
 }
 
 .modal-content {
+  position: inherit;
+  background-color: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: 0;
+}
+
+.modal-container {
   background-color: $dialog-background-color;
   border: 0 solid $dialog-border-color;
   border-radius: $dialog-border-radius;
@@ -60,6 +68,19 @@
   height: $dialog-height;
   min-height: $dialog-min-height;
   max-height: $dialog-max-height;
+
+  &.max {
+    width: 100%;
+    max-width: none;
+
+    height: 100%;
+    max-height: none;
+
+    .modal-header .max-min-icon {
+      background: inline-svg-image("svg/restore.svg");
+      background-size: contain;
+    }
+  }
 
   position: absolute;
   top: 50%;
@@ -137,6 +158,16 @@
 
     .close-icon {
       right: $dialog-right-padding;
+    }
+
+    .max-min-icon {
+      cursor: pointer;
+      background: transparent center center no-repeat;
+      background: inline-svg-image("svg/fullscreen.svg");
+      background-size: contain;
+      width: 12px;
+      height: 12px;
+      right: $dialog-right-padding * 2 + 10px;
     }
 
     &.error + .modal-body {

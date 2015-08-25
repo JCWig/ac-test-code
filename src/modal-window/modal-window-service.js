@@ -10,8 +10,6 @@ class ModalWindowController {
 
   constructor($scope, $modal, $templateCache, $rootScope, translate, $controller,
               statusMessage, $q) {
-    //$scope.modalWindow = this;
-
     this.$modal = $modal;
     this.$templateCache = $templateCache;
     this.$rootScope = $rootScope;
@@ -42,11 +40,16 @@ class ModalWindowController {
     this.setProperty('hideSubmit');
     this.setProperty('doNotShowMessage');
     this.setProperty('instance');
+    this.setProperty('showMaxToggle');
 
     this.templateModel = {
       template: this.options.contentTemplate,
       templateUrl: this.options.contentTemplateUrl
     };
+  }
+
+  toggleMinMax() {
+    this.isMax = !this.isMax;
   }
 
   initializeContent() {
