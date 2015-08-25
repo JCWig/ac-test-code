@@ -2,70 +2,71 @@ import angular from 'angular';
 import debounce from 'lodash/function/debounce';
 import template from './templates/dropdown-directive.tpl.html';
 
-function dropdown($compile, dropdownTransformer, translate, $document, $timeout, $parse) {
+class DropdownController {
+  constructor($scope, $parse, translate) {
+    this.textPropertyFn = $parse(this.textProperty);
+    this.isOpen = false;
+    this.itemSet = [];
+    this.translate = translate;
 
-  class DropdownController {
-    constructor($scope) {
-      this.textPropertyFn = $parse(this.textProperty);
-      this.isOpen = false;
-      this.itemSet = [];
+    $scope.$watchCollection('dropdown.items', (items) => {
+      this.createItemMap(items);
+    });
+  }
 
-      $scope.$watchCollection('dropdown.items', (items) => {
-        this.createItemMap(items);
-      });
-    }
-
-    getSelectedItemText() {
-      if (this.keyProperty && this.selectedItem) {
-        return this.textPropertyFn(this.itemSet[this.selectedItem]);
-      } else if (this.textProperty) {
-        return this.textPropertyFn(this.selectedItem);
-      } else if (angular.isString(this.selectedItem)) {
-        return this.selectedItem;
-      }
-    }
-
-    setOpen(isOpen) {
-      this.isOpen = isOpen;
-    }
-
-    createItemMap(items) {
-      this.itemSet = [];
-      if (!this.keyPropertyFn) {
-        return [];
-      }
-
-      angular.forEach(items, (item) => {
-        let keyId = this.keyPropertyFn(item);
-
-        if (!this.itemSet[keyId]) {
-          this.itemSet[keyId] = item;
-        } else {
-          throw new Error('Keys must be unique when using the key-property attribute');
-        }
-      });
-    }
-
-    setPlaceholder(placeholderProp, customMarkupScope, key) {
-
-      let setCustomMarkupPlaceholder = () => {
-        if (angular.isDefined(customMarkupScope)) {
-          customMarkupScope[placeholderProp] = this[placeholderProp];
-        }
-      };
-
-      if (!angular.isString(this[placeholderProp])) {
-        translate.async(key)
-          .then((value) => {
-            this[placeholderProp] = value;
-            setCustomMarkupPlaceholder();
-          });
-      } else {
-        setCustomMarkupPlaceholder();
-      }
+  getSelectedItemText() {
+    if (this.keyProperty && this.selectedItem) {
+      return this.textPropertyFn(this.itemSet[this.selectedItem]);
+    } else if (this.textProperty) {
+      return this.textPropertyFn(this.selectedItem);
+    } else if (angular.isString(this.selectedItem)) {
+      return this.selectedItem;
     }
   }
-  DropdownController.$inject = ['$scope'];
+
+  setOpen(isOpen) {
+    this.isOpen = isOpen;
+  }
+
+  createItemMap(items) {
+    this.itemSet = [];
+    if (!this.keyPropertyFn) {
+      return [];
+    }
+
+    angular.forEach(items, (item) => {
+      let keyId = this.keyPropertyFn(item);
+
+      if (!this.itemSet[keyId]) {
+        this.itemSet[keyId] = item;
+      } else {
+        throw new Error('Keys must be unique when using the key-property attribute');
+      }
+    });
+  }
+
+  setPlaceholder(placeholderProp, customMarkupScope, key) {
+
+    let setCustomMarkupPlaceholder = () => {
+      if (angular.isDefined(customMarkupScope)) {
+        customMarkupScope[placeholderProp] = this[placeholderProp];
+      }
+    };
+
+    if (!angular.isString(this[placeholderProp])) {
+      this.translate.async(key)
+        .then((value) => {
+          this[placeholderProp] = value;
+          setCustomMarkupPlaceholder();
+        });
+    } else {
+      setCustomMarkupPlaceholder();
+    }
+  }
+}
+DropdownController.$inject = ['$scope', '$parse', 'translate'];
+
+function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
     let dropdownTemplateElem = angular.element(dropdownTemplate);
@@ -230,7 +231,6 @@ function dropdown($compile, dropdownTransformer, translate, $document, $timeout,
   };
 }
 
-dropdown.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout',
-  '$parse'];
+dropdown.$inject = ['$compile', 'dropdownTransformer', '$document', '$timeout', '$parse'];
 
 export default dropdown;
