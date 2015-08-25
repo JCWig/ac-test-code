@@ -1,20 +1,21 @@
-var angular = require('angular');
+import angular from 'angular';
+import template from './templates/time-picker-popup.tpl.html';
 
-module.exports = function($provide) {
+function timepickerDecorator($provide) {
 
   function timepickerDirective($delegate, $interval) {
-    var directive = $delegate[0],
+    let directive = $delegate[0],
       link,
       minuteUpPromise, minuteDownPromise, hourUpPromise, hourDownPromise,
       DELAY = 200;
 
     // override the default template for timepicker
-    directive.template = require('./templates/time-picker-popup.tpl.html');
+    directive.template = template;
     directive.templateUrl = undefined;
 
     link = directive.link;
 
-    directive.compile = function() {
+    directive.compile = () => {
       return function(scope) {
         link.apply(this, arguments);
 
@@ -26,65 +27,65 @@ module.exports = function($provide) {
         }
 
         //minute up arrow handlers
-        scope.minuteUpMouseUp = function(e) {
+        scope.minuteUpMouseUp = (e) => {
           stop(e, minuteUpPromise);
           minuteUpPromise = undefined;
         };
 
-        scope.minuteUpMouseDown = function(e) {
+        scope.minuteUpMouseDown = (e) => {
           e.stopPropagation();
           if (angular.isDefined(minuteUpPromise)) {
             return;
           }
-          minuteUpPromise = $interval(function() {
+          minuteUpPromise = $interval(() => {
             scope.incrementMinutes();
           }, DELAY);
         };
 
         //minute down arrow handlers
-        scope.minuteDownMouseUp = function(e) {
+        scope.minuteDownMouseUp = (e) => {
           stop(e, minuteDownPromise);
           minuteDownPromise = undefined;
         };
 
-        scope.minuteDownMouseDown = function(e) {
+        scope.minuteDownMouseDown = (e) => {
           e.stopPropagation();
           if (angular.isDefined(minuteDownPromise)) {
             return;
           }
-          minuteDownPromise = $interval(function() {
+          minuteDownPromise = $interval(() => {
             scope.decrementMinutes();
           }, DELAY);
         };
 
         //hour up arrow handlers
-        scope.hourUpMouseUp = function(e) {
+        scope.hourUpMouseUp = (e) => {
           stop(e, hourUpPromise);
           hourUpPromise = undefined;
         };
 
-        scope.hourUpMouseDown = function(e) {
+        scope.hourUpMouseDown = (e) => {
           e.stopPropagation();
           if (angular.isDefined(hourUpPromise)) {
             return;
           }
-          hourUpPromise = $interval(function() {
+          hourUpPromise = $interval(() => {
             scope.incrementHours();
           }, DELAY);
         };
 
         //hour down arrow handlers
-        scope.hourDownMouseUp = function(e) {
+        scope.hourDownMouseUp = (e) => {
           stop(e, hourDownPromise);
           hourDownPromise = undefined;
         };
 
-        scope.hourDownMouseDown = function(e) {
+        scope.hourDownMouseDown = (e) => {
           e.stopPropagation();
           if (angular.isDefined(hourDownPromise)) {
             return;
           }
-          hourDownPromise = $interval(function() {
+          hourDownPromise = $interval(() => {
             scope.decrementHours();
           }, DELAY);
         };
@@ -97,5 +98,7 @@ module.exports = function($provide) {
   timepickerDirective.$inject = ['$delegate', '$interval'];
 
   $provide.decorator('timepickerDirective', timepickerDirective);
-};
-module.exports.$inject = ['$provide'];
+}
+
+timepickerDecorator.$inject = ['$provide'];
+export default timepickerDecorator;

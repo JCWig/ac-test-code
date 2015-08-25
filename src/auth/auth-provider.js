@@ -1,10 +1,5 @@
-var angular = require('angular');
-var isRegExp = function(re) {
-  return Object.prototype.toString.call(re) === '[object RegExp]';
-};
-
-module.exports = function() {
-  var blackListedUris = [];
+function authProvider() {
+  let blackListedUris = [];
 
   this.$get = function() {
     return {
@@ -28,10 +23,13 @@ module.exports = function() {
    * when deciding whether or not to send requests for a JSON Web Token.
    */
   this.setBlacklistedUris = function(uris) {
-    if (angular.isArray(uris)) {
+    if (Array.isArray(uris)) {
       blackListedUris = uris;
-    } else if (angular.isString(uris) || isRegExp(uris)) {
+    } else if (typeof uris === 'string' ||
+        Object.prototype.toString.call(uris) === '[object RegExp]') {
       blackListedUris = [uris];
     }
   };
-};
+}
+
+export default authProvider;

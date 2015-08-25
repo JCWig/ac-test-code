@@ -1,78 +1,79 @@
-module.exports = function(translate) {
+import template from './templates/switch-button-directive.tpl.html';
 
-  var c = {
-    SMALL: 'small',
-    MEDIUM: 'medium',
-    GRAYSCALE: 'grayscale',
-    COLOR: 'color',
-    ON: 'On',
-    OFF: 'Off',
-    DISABLED: 'disabled'
-  };
+const SIZE_SMALL = 'small',
+  SIZE_MEDIUM = 'medium',
+  STATE_DISABLED = 'disabled',
+  // STATE_ON = 'On', // never used
+  // STATE_OFF = 'Off', // never used
+  GRAYSCALE = 'grayscale',
+  COLOR = 'color';
 
-  function filterDisabled(disabled) {
-    return disabled === 'true' ? disabled : 'false';
-  }
-
-  function setDefaultScopeValues(scope) {
-
-    if (typeof scope.onLabel !== 'string') {
-      translate.async('components.switch-button.onLabel')
-        .then(function(value) {
-          scope.onLabel = value;
-        });
+function switchButton(translate) {
+  class SwitchButtonController {
+    filterDisabled(disabled) {
+      return disabled === 'true' ? disabled : 'false';
     }
 
-    if (typeof scope.offLabel !== 'string') {
-      translate.async('components.switch-button.offLabel')
-        .then(function(value) {
-          scope.offLabel = value;
-        });
-    }
+    setDefaultScopeValues() {
+      if (typeof this.onLabel !== 'string') {
+        translate.async('components.switch-button.onLabel')
+          .then(value => this.onLabel = value);
+      }
 
-    scope.disabled = filterDisabled(scope.disabled);
+      if (typeof this.offLabel !== 'string') {
+        translate.async('components.switch-button.offLabel')
+          .then(value => this.offLabel = value);
+      }
+
+      this.disabled = this.filterDisabled(this.disabled);
+    }
   }
 
   return {
     restrict: 'E',
     require: 'ngModel',
-    scope: {
+    scope: {},
+    bindToController: {
       on: '=ngModel',
       disabled: '@?',
       onLabel: '@?',
       offLabel: '@?'
     },
-    template: require('./templates/switch-button-directive.tpl.html'),
-
+    controller: SwitchButtonController,
+    controllerAs: 'switchButton',
+    template: template,
     link: function(scope, elem, attrs, ngModel) {
-      var size = attrs.size !== c.SMALL && attrs.size !== c.MEDIUM ? c.SMALL : attrs.size;
-      var theme = attrs.theme === c.GRAYSCALE ? attrs.theme : c.COLOR;
-      var element = elem.children(0);
-      var clickBound = false;
+      let ctrl = scope.switchButton;
+      let size = attrs.size !== SIZE_SMALL && attrs.size !== SIZE_MEDIUM ? SIZE_SMALL : attrs.size;
+      let theme = attrs.theme === GRAYSCALE ? attrs.theme : COLOR;
+      let element = elem.children(0);
+      let clickBound = false;
 
       function switchClick() {
         ngModel.$setViewValue(!ngModel.$viewValue);
       }
 
-      setDefaultScopeValues(scope);
+      ctrl.setDefaultScopeValues();
 
-      element.toggleClass(c.MEDIUM, size === c.MEDIUM);
-      element.toggleClass(c.GRAYSCALE, theme === c.GRAYSCALE);
+      element.toggleClass(SIZE_MEDIUM, size === SIZE_MEDIUM);
+      element.toggleClass(GRAYSCALE, theme === GRAYSCALE);
 
-      scope.$watch('disabled', function(disabled) {
-        scope.disabled = filterDisabled(disabled);
-        element.toggleClass(c.DISABLED, scope.disabled === 'true');
+      scope.$watch('switchButton.disabled', function(disabled) {
+        ctrl.disabled = ctrl.filterDisabled(disabled);
+        element.toggleClass(STATE_DISABLED, ctrl.disabled === 'true');
 
-        if (scope.disabled === 'false' && !clickBound) {
+        if (ctrl.disabled === 'false' && !clickBound) {
           clickBound = true;
           elem.on('click', switchClick);
-        } else if (scope.disabled === 'true') {
+        } else if (ctrl.disabled === 'true') {
           clickBound = false;
           elem.off('click', switchClick);
         }
       });
-
     }
   };
-};
-module.exports.$inject = ['translate'];
+}
+
+switchButton.$inject = ['translate'];
+
+export default switchButton;

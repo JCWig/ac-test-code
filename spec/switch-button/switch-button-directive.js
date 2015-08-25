@@ -46,7 +46,7 @@ describe('akamai.components.switch-button', function() {
       $scope.val = true;
       addElement(basicTemplate);
 
-      elementScope = self.el.isolateScope();
+      elementScope = self.el.isolateScope().switchButton;
       expect(elementScope.on).toBe(true);
       expect(elementScope.onLabel).toBe('On');
       expect(elementScope.offLabel).toBe('Off');
@@ -94,10 +94,10 @@ describe('akamai.components.switch-button', function() {
       expect(elem.classList.contains(ON_CLASS)).toBe(false);
 
       expect($scope.val).toBe(false);
-      expect(self.el.isolateScope().on).toBe(false);
+      expect(self.el.isolateScope().switchButton.on).toBe(false);
       utilities.click(self.element);
       expect($scope.val).toBe(true);
-      expect(self.el.isolateScope().on).toBe(true);
+      expect(self.el.isolateScope().switchButton.on).toBe(true);
     });
   });
 

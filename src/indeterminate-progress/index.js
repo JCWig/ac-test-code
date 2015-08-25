@@ -1,7 +1,5 @@
 import angular from 'angular';
-import indeterminateProgress from './indeterminate-progress';
-
-const MODULE_NAME = 'akamai.components.indeterminate-progress';
+import indeterminateProgress from './indeterminate-progress-directive';
 
 /**
  * @ngdoc module
@@ -36,7 +34,7 @@ const MODULE_NAME = 'akamai.components.indeterminate-progress';
  *
  * app.controller("Ctrl", controllerFunction);
  */
-export default angular.module(MODULE_NAME, [])
+export default angular.module('akamai.components.indeterminate-progress', [])
 
 /**
  * @ngdoc directive

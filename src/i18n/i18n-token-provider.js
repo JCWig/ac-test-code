@@ -1,36 +1,29 @@
-var angular = require('angular');
+import angular from 'angular';
 
-module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
-  var self = this,
-    cPath;
+function I18nTokenProvider(i18nConfig, VERSION) {
+  this.i18nConfig = i18nConfig;
+  this.VERSION = VERSION;
+  this.rawUrls = [];
 
   /**
-   * Constructs a URLs array in the Path class for use
-   * in the `i18nCustomLoader` service. Paths include
-   * `/libs/akamai-core/{version}/locales/` for components and
-   * `/apps/{appname}/locales/` for apps, where `{version}` and
-   * `{appname}` are replaced by their proper values in the `$get`
-   * constructor.
-   *
+   * resolveLocalePath function adds 2 default endpoints path of locale
+   * files to rawUrls array one for the component and one for the app
+   * `/libs/akamai-core/{version}/locales/` for components
+   * `/apps/{appname}/locales/` for apps, where `{version}`
+   * `{appname}` are replaced by their proper values in the `$get..'
+   * @private
    */
-  var Path = function() {
-    /**
-     * resolve function adds 2 default endpoints path of locale
-     * files to rawUrls array one for the component and one for the app
-     * @private
-     */
-    this.resolve = function() {
-      self.rawUrls.push({
-        path: i18nConfig.localeComponentPath,
-        app: false,
-        overridden: false
-      });
-      self.rawUrls.push({
-        path: i18nConfig.localeAppPath,
-        app: true,
-        overridden: false
-      });
-    };
+  this.resolveLocalePath = () => {
+    this.rawUrls.push({
+      path: this.i18nConfig.localeComponentPath,
+      app: false,
+      overridden: false
+    });
+    this.rawUrls.push({
+      path: this.i18nConfig.localeAppPath,
+      app: true,
+      overridden: false
+    });
   };
 
   /**
@@ -47,10 +40,10 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    * });
    * </pre>
    */
-  this.setComponentLocalePath = function(url) {
+  this.setComponentLocalePath = (url) => {
     //no validate the param url, assuming it is valid
-    angular.forEach(this.rawUrls, function(item) {
-      if (item.path === i18nConfig.localeComponentPath) {
+    angular.forEach(this.rawUrls, (item) => {
+      if (item.path === this.i18nConfig.localeComponentPath) {
         item.path = url;
         item.overridden = true;
       }
@@ -73,29 +66,27 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
    *     });
    * </pre>
    */
-  this.setAppLocalePath = function(url) {
+  this.setAppLocalePath = (url) => {
     //no validate the param url, assuming it is valid
-    angular.forEach(this.rawUrls, function(item) {
-      if (item.path === i18nConfig.localeAppPath) {
+    angular.forEach(this.rawUrls, (item) => {
+      if (item.path === this.i18nConfig.localeAppPath) {
         item.path = url;
         item.overridden = true;
       }
     });
   };
 
-  this.rawUrls = [];
-  cPath = new Path();
-  cPath.resolve();
+  this.resolveLocalePath();
 
   this.$get = i18nTokenFactory;
 
   function i18nTokenFactory($cookies, $location, $log) {
-    var cookieLocale = $cookies.get(i18nConfig.localeCookie),
-      locale = i18nConfig.defaultLocale,
+    let cookieLocale = $cookies.get(this.i18nConfig.localeCookie),
+      locale = this.i18nConfig.defaultLocale,
       localeUrls = [],
       appName, matchResults,
       normalizedPath,
-    // valid chars: lower case alpha, digits, and hyphen for possible appName from url
+      // valid chars: lower case alpha, digits, and hyphen for possible appName from url
       appUrlRx = /[^/]\/apps\/([a-z0-9-]+)?[/?]?/;
 
     //just to prevent from improperly encoded cookies
@@ -105,11 +96,11 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
         //non digits and non underscore
         locale = atob(cookieLocale).split(/(?![A-Za-z0-9-_])/)[0];
       } catch (e) {
-        $log.warn('Decode cookie failed: ' + cookieLocale);
+        $log.warn(`Decode cookie failed: ${cookieLocale}`);
       }
     }
 
-    angular.forEach(this.rawUrls, function(raw) {
+    angular.forEach(this.rawUrls, (raw) => {
       if (raw.overridden) {
         localeUrls.push(raw.path);
       } else {
@@ -125,37 +116,29 @@ module.exports = function i18nTokenProvider(i18nConfig, VERSION) {
           }
           normalizedPath = raw.path.replace(/\{appname\}/g, appName);
         } else {
-          normalizedPath = raw.path.replace(/\{version\}/g, VERSION);
+          normalizedPath = raw.path.replace(/\{version\}/g, this.VERSION);
         }
         localeUrls.push(normalizedPath);
       }
     });
-
     return {
-
       /**
        * @name i18nToken#getUrls
        *
        * @description get a list of URLs that reference locale files.
-       * @return {String[]} List of locale urls.
        */
-      getUrls: function() {
-        return localeUrls;
-      },
+      getUrls: () => localeUrls,
 
       /**
        * @name i18nToken#getCurrentLocale
        *
        * @description Get the current locale value.
-       * @return {String} The current locale, in a Java readable format (i.e. "en_US")
        */
-      getCurrentLocale: function() {
-        return locale;
-      }
+      getCurrentLocale: () => locale
     };
   }
-
   i18nTokenFactory.$inject = ['$cookies', '$location', '$log'];
-};
+}
 
-module.exports.$inject = ['i18nConfig', 'VERSION'];
+I18nTokenProvider.$inject = ['i18nConfig', 'VERSION'];
+export default I18nTokenProvider;

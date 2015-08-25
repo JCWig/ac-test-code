@@ -1,6 +1,11 @@
-var angular = require('angular');
-
-require('angular-sanitize');
+import angular from 'angular';
+import sanitize from 'angular-sanitize';
+import uuid from '../uuid';
+import indeterminateProgress from '../indeterminate-progress';
+import i18n from '../i18n';
+import utils from '../utils';
+import listBoxDirective from './list-box-directive';
+import infiniteScrollDirective from './infinite-scroll-directive';
 
 /**
  * @ngdoc module
@@ -53,11 +58,11 @@ require('angular-sanitize');
  * }
  */
 module.exports = angular.module('akamai.components.list-box', [
-  'ngSanitize',
-  require('../uuid').name,
-  require('../indeterminate-progress').name,
-  require('../i18n').name,
-  require('../utils').name
+  sanitize,
+  uuid.name,
+  indeterminateProgress.name,
+  i18n.name,
+  utils.name
 ])
 
 /**
@@ -79,6 +84,6 @@ module.exports = angular.module('akamai.components.list-box', [
  * schema to the list box layout and formatting.
  *
  */
-  .directive('akamListBox', require('./list-box-directive'))
+  .directive('akamListBox', listBoxDirective)
 
-  .directive('akamInfiniteScroll', require('./infinite-scroll-directive'));
+  .directive('akamInfiniteScroll', infiniteScrollDirective);

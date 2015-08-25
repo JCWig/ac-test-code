@@ -1,4 +1,6 @@
-var angular = require('angular');
+import angular from 'angular';
+import i18n from '../i18n';
+import switchButtonDirective from './switch-button-directive';
 
 /**
  * @ngdoc module
@@ -21,8 +23,8 @@ var angular = require('angular');
  *   size="medium">
  * </akam-switch-button>
  */
-module.exports = angular.module('akamai.components.switch-button', [
-  require('../i18n').name
+export default angular.module('akamai.components.switch-button', [
+  i18n.name
 ])
 
 /**
@@ -51,4 +53,4 @@ module.exports = angular.module('akamai.components.switch-button', [
  * @param {String} [size=small] The size of the switch-button. Can be
  * either 'small' or 'medium'
  */
-  .directive('akamSwitchButton', require('./switch-button-directive'));
+  .directive('akamSwitchButton', switchButtonDirective);

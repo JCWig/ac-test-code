@@ -1,14 +1,14 @@
-var angular = require('angular');
+import angular from 'angular';
 
-module.exports = function($injector, $q, $window, httpBuffer, token, authConfig, auth, context) {
+function authInterceptor($injector, $q, $window, httpBuffer, token, authConfig, auth, context) {
   // dynamically injected message box and translate to get around circular dependency issue
-  var messageBox, translate;
+  let messageBox, translate;
 
   // used to enforce that only one message box is shown at a time.
-  var accountSwitchPromise;
+  let accountSwitchPromise;
 
   // patterns that should neither get API tokens nor luna "gid" and "aid" params
-  var noAuthNoLunaQueryStringPatterns = [
+  const noAuthNoLunaQueryStringPatterns = [
     /^\/ui\/services\/nav\/megamenu\/.*\/context.json.*$/i,
     /^\/core\/services\/session\/.*$/i,
     /^\/svcs\/messagecenter\/.*$/i,
@@ -21,23 +21,23 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
   ];
 
   // patterns that should not get auth API tokens but should get "gid" and "aid" params
-  var noAuthPatterns = [
+  const noAuthPatterns = [
     /^\/ui\/services\/nav\/megamenu\/.*\/grp.json.*$/i,
     /^\/ui\/services\/nav\/megamenu\/.*\/asset.json.*$/i
   ];
 
   // patterns that should get the auth API token but not "gid" and "aid"
-  var authUrls = [
+  let authUrls = [
     authConfig.introspectionUrl,
     authConfig.tokenUrl
   ];
 
-  var authPatterns = [].concat(authUrls, noAuthNoLunaQueryStringPatterns),
+  let authPatterns = [].concat(authUrls, noAuthNoLunaQueryStringPatterns),
       blacklistPatterns = [].concat(authUrls, noAuthNoLunaQueryStringPatterns, noAuthPatterns);
 
   // returns true if we should not send an auth token for this URI
   function isUriBlacklisted(uri) {
-    var searchFn = angular.bind(this, foundPatternInArray, uri);
+    let searchFn = angular.bind(this, foundPatternInArray, uri);
 
     return blacklistPatterns.some(searchFn) ||
       auth.getBlacklistedUris().some(searchFn);
@@ -49,21 +49,22 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
 
   // get current group and property and then set query string params
   function addGroupAndPropertyConfig(requestConfig) {
-    return $q.all([context.group, context.property]).then(function(items) {
-      var group = items[0], property = items[1];
+    return $q.all([context.group, context.property])
+      .then( (items) => {
+        let group = items[0], property = items[1];
 
-      requestConfig.params = requestConfig.params || {};
+        requestConfig.params = requestConfig.params || {};
 
-      if (angular.isDefined(group)) {
-        requestConfig.params.gid = group.id || undefined;
-      }
+        if (angular.isDefined(group)) {
+          requestConfig.params.gid = group.id || undefined;
+        }
 
-      if (angular.isDefined(property)) {
-        requestConfig.params.aid = property.id || undefined;
-      }
+        if (angular.isDefined(property)) {
+          requestConfig.params.aid = property.id || undefined;
+        }
 
-      return requestConfig;
-    });
+        return requestConfig;
+      });
   }
 
   // shows the message box asking the user if they wish to switch accounts. We try to ensure that
@@ -80,7 +81,7 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
         oldName: context.account.name
       }),
       translate.async('components.context.accountChangedTitle')
-    ]).then(function(values) {
+    ]).then( (values) => {
       return messageBox.showQuestion({
         title: values[1],
         headline: '',
@@ -160,7 +161,9 @@ module.exports = function($injector, $q, $window, httpBuffer, token, authConfig,
       return $q.reject(response);
     }
   };
-};
+}
 
-module.exports.$inject = ['$injector', '$q', '$window', 'httpBuffer', 'token', 'authConfig',
+authInterceptor.$inject = ['$injector', '$q', '$window', 'httpBuffer', 'token', 'authConfig',
   'auth', 'context'];
+
+export default authInterceptor;

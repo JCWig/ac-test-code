@@ -1,4 +1,10 @@
-var angular = require('angular');
+import angular from 'angular';
+import angularUI from 'angular-bootstrap-npm';
+import statusMessage from '../status-message';
+import i18n from '../i18n';
+
+import modalWindowService from './modal-window-service';
+import modalWindowBodyDirective from './modal-window-body-directive';
 
 /**
  * @ngdoc module
@@ -32,9 +38,9 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.modal-window', [
-  require('angular-bootstrap-npm'),
-  require('../status-message').name,
-  require('../i18n').name
+  angularUI,
+  statusMessage.name,
+  i18n.name
 ])
 
 /**
@@ -43,10 +49,10 @@ module.exports = angular.module('akamai.components.modal-window', [
  * @description Provides a method to open new modal window instances.
  *
  */
-  .factory('modalWindow', require('./modal-window-service'))
+  .service('modalWindow', modalWindowService)
 
 /**
  * @name akamModalWindowBody
  * @description Provides directive to display content body section in html.
  */
-  .directive('akamModalWindowBody', require('./modal-window-body-directive'));
+  .directive('akamModalWindowBody', modalWindowBodyDirective);
