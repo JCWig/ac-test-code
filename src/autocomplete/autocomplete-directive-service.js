@@ -1,28 +1,19 @@
-import angular from 'angular';
-import itemsTemplate from './templates/autocomplete-items.tpl.html';
-import selectedItemTemplate from './templates/autocomplete-selected.tpl.html';
+var angular = require('angular');
 
-class AutocompleteService {
-  constructor($q, $log, $templateCache, autocompleteConfig) {
-    this.$q = $q;
-    this.Promise = Promise;
-    this.$log = $log;
-    this.$templateCache = $templateCache;
-    this.autocompleteConfig = autocompleteConfig;
-  }
+module.exports = function($q, $log, $templateCache, autocompleteConfig) {
 
   /**
-   * extractContent a common method used in child directive to
+   * extract a common method used in child directive to
    * get content element from trnasclude clone element
    * @param  {function} transcludeFn a clone attched function
    * @return {element} return cloned element
    */
-  extractContent(transcludeFn) {
-    let content = '',
+  function extract(transcludeFn) {
+    var content = '',
       contentElem;
 
-    transcludeFn((cloneElements) => {
-      angular.forEach(cloneElements, (elem) => {
+    transcludeFn(function(cloneElements) {
+      angular.forEach(cloneElements, function(elem) {
         if (elem.nodeType === 1) { //only interested in element node
           contentElem = elem;
         }
@@ -35,24 +26,44 @@ class AutocompleteService {
   }
 
   /**
-   * asyncSearch a method used for async server call
+   * addTo a method adds a child controller to parent controller list
+   * use this way to access child controler in linkFn function to get content
+   * @param {array} arrCtrls array of controller list
+   * @param {string} name child contrller name
+   */
+  function addTo(arrCtrls) {
+    var childCtrl, parentCtrl;
+
+    if (arrCtrls && arrCtrls.length) {
+      childCtrl = arrCtrls[0];
+      parentCtrl = arrCtrls[1];
+
+      if (childCtrl.name === autocompleteConfig.ITEMS_TEMPLATE_NAME ||
+        childCtrl.name === autocompleteConfig.SELECTED_ITEM_TEMPLATE_NAME) {
+        parentCtrl.register(childCtrl);
+      }
+    }
+  }
+
+  /**
+   * search a method used for async server call
    * @param  {object} ctrl directive controller
    * @param  {string} term search term
    * @return {object} a promise object
    */
-  asyncSearch(ctrl, term) {
-    return new this.Promise((resolve, reject) => {
-      let asyncSearch = ctrl.onSearch({
+  function search(ctrl, term) {
+    return new Promise(function(resolve, reject) {
+      var asyncSearch = ctrl.onSearch({
         term: term
       });
 
-      this.$q.when(asyncSearch)
-        .then((rawData) => {
-          resolve(this.normalizeData(ctrl, rawData));
+      $q.when(asyncSearch)
+        .then(function(rawData) {
+          resolve(normalizeData(ctrl, rawData));
         })
-        .catch((reason) => {
+        .catch(function(reason) {
           ctrl.items = [];
-          this.$log.error(`onSearch call to the server return error: ${reason.message}`);
+          $log.error('onSearch call to the server return error: ' + reason.message);
           reject(reason.message);
         });
     });
@@ -64,8 +75,8 @@ class AutocompleteService {
    * @param  {Array} rawData data return from server
    * @return {Array} modified data
    */
-  normalizeData(ctrl, rawData) {
-    let data = rawData,
+  function normalizeData(ctrl, rawData) {
+    var data = rawData,
       hasData = false,
       names = [];
 
@@ -82,9 +93,9 @@ class AutocompleteService {
 
     //add new property to be used as combined display text
     //and text-property is required
-    angular.forEach(data, (item) => {
+    angular.forEach(data, function(item) {
       if (ctrl.textProperties && ctrl.textProperties.length) {
-        angular.forEach(ctrl.textProperties, (name, i) => {
+        angular.forEach(ctrl.textProperties, function(name, i) {
           names.push(item[name]);
           if (ctrl.textProperties.length - 1 === i) {
             item.selectedText = names.join(' ');
@@ -97,28 +108,27 @@ class AutocompleteService {
   }
 
   /**
-   * setItemsTemplate a method that determines 2 things depends on where custom content
-   * provided or not. if provided, it will use provided one, else use from default static
-   * file as basic format
+   * setItems a method that determines 2 things depends on where custom content provided or not
+   * if provided, it will use provided, else use from default static file as basic format
    * @param {object} ctrl directive controller
    * @param {string} contentHtml html items content from child directive
    */
-  setItemsTemplate(ctrl, contentHtml) {
-    let contentUrl = this.autocompleteConfig.ITEM_TEMPLATE_URL_PARTIAL +
-      this.autocompleteConfig.DEFAULT_TEMPLATE_NAME;
+  function setItems(ctrl, contentHtml) {
+    var contentUrl = autocompleteConfig.ITEM_TEMPLATE_URL_PARTIAL +
+      autocompleteConfig.DEFAULT_TEMPLATE_NAME;
 
     if (contentHtml.length) {
-      contentUrl = this.autocompleteConfig.ITEM_TEMPLATE_URL_PARTIAL +
+      contentUrl = autocompleteConfig.ITEM_TEMPLATE_URL_PARTIAL +
         ctrl.autocompleteId + '.html';
     } else {
-      contentHtml = itemsTemplate;
+      contentHtml = require('./templates/autocomplete-items.tpl.html');
     }
-    this.$templateCache.put(contentUrl, contentHtml.trim());
+    $templateCache.put(contentUrl, contentHtml.trim());
     ctrl.contentTemplateUrl = contentUrl;
   }
 
   /**
-   * setSelectedItemTemplate a method do a few tsks here:
+   * setSelected a method do a few tsks here:
    * 1. Add hasContentProvided state to directive controller for render purpose
    * 2. Insert custom content to selected span's innerHTML
    * 3. Return selected element to caller for insert to main element
@@ -126,9 +136,9 @@ class AutocompleteService {
    * @param {type} contentHtml html item content from child directive
    * @return {element} selectedContentElement
    */
-  setSelectedItemTemplate(ctrl, contentHtml) {
+  function setSelected(ctrl, contentHtml) {
     var selectedContentElement =
-      angular.element(selectedItemTemplate),
+      angular.element(require('./templates/autocomplete-selected.tpl.html')),
       customSelectedElem;
 
     if (contentHtml.length) {
@@ -142,15 +152,14 @@ class AutocompleteService {
 
     return selectedContentElement;
   }
-}
 
-function autocompleteServiceFactory($q, $log, $templateCache, autocompleteConfig) {
-  if (angular.isUndefined(AutocompleteService.instance)) {
-    AutocompleteService.instance =
-      new AutocompleteService($q, $log, $templateCache, autocompleteConfig);
-  }
-  return AutocompleteService.instance;
-}
+  return {
+    extractContent: extract,
+    addToParent: addTo,
+    asyncSearch: search,
+    setItemsTemplate: setItems,
+    setSelectedItemTemplate: setSelected
+  };
+};
 
-autocompleteServiceFactory.$inject = ['$q', '$log', '$templateCache', 'autocompleteConfig'];
-export default autocompleteServiceFactory;
+module.exports.$inject = ['$q', '$log', '$templateCache', 'autocompleteConfig'];
