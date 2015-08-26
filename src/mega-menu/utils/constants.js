@@ -1,4 +1,4 @@
-var VERSION = '8.0.0';
+var VERSION = '0.8.0';
 
 /**
  * @name utils.constants
