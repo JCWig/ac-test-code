@@ -15,7 +15,7 @@ module.exports = function(config) {
   ];
 
   var allSourceFiles = [
-    'spec/!(mega-menu|date-range)/**/*.js',
+    'spec/!(mega-menu)/**/*.js',
 
     // load the mega menu tests last because they seem to not clean up the environment
     // properly and several message-box and modal-window tests end up failing
