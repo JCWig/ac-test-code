@@ -30,7 +30,7 @@ function ContextProvider() {
   function Context($injector, $q, $window, $cookies,
                    LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
 
-    let $http = $http || $injector.get('$http');
+    let $http;
 
     let currentAccount = {
       id: null,
@@ -96,6 +96,8 @@ function ContextProvider() {
     }
 
     function resetAccount() {
+      $http = $http || $injector.get('$http');
+
       $cookies.put(ACCOUNT_COOKIE, initialAccount.cookieValue, { path: '/' });
       currentAccount = initialAccount;
       return $http.get(ACCOUNT_CHANGE_URL + initialAccount.name)
@@ -129,6 +131,8 @@ function ContextProvider() {
 
     function fetchGroupContext() {
       // prevent a circular reference in the auth component
+      $http = $http || $injector.get('$http');
+
       return $http.get(GROUPS_URL, {cache: true})
         .then(function(data) {
           let parsed;
@@ -244,6 +248,7 @@ function ContextProvider() {
     // backwards compatibility method to set group and property cookies for luna applications
     function changeGroupOrPropertyForLuna(gid, aid) {
       let url = `${CHANGE_GROUP_URL}?${LUNA_GROUP_QUERY_PARAM}=${gid}`;
+      $http = $http || $injector.get('$http');
 
       if (aid) {
         url += `&${LUNA_ASSET_QUERY_PARAM}=${aid}`;
