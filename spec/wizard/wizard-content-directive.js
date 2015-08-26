@@ -2,7 +2,6 @@
 'use strict';
 var util = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
-var _ = require('lodash');
 
 describe('akamai.components.wizard', function() {
   var $scope, $compile, $httpBackend, self = this;
@@ -13,18 +12,14 @@ describe('akamai.components.wizard', function() {
     angular.mock.module(require('../../src/wizard').name);
 
     angular.mock.module(function($translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
 
-
-    inject(function($rootScope, _$compile_, _$httpBackend_, _wizard_) {
+    inject(function($rootScope, _$compile_, _$httpBackend_) {
       $scope = $rootScope;
       $compile = _$compile_;
       $httpBackend = _$httpBackend_;
-
-      $httpBackend.when('GET', util.LIBRARY_PATH).respond(translationMock);
-      $httpBackend.when('GET', util.CONFIG_PATH).respond({});
-      $httpBackend.flush();
     });
   });
 
@@ -46,6 +41,7 @@ describe('akamai.components.wizard', function() {
       it('should render the inline template', function() {
 
         var markup = '<akam-wizard-content></akam-wizard-content>';
+
         $scope.wizard = {};
         $scope.wizard.contentScope = $scope.$new();
         $scope.wizard.contentScope.foo = 'bar'
@@ -85,21 +81,10 @@ describe('akamai.components.wizard', function() {
 
         $httpBackend.verifyNoOutstandingRequest();
 
-
         var wizardBodyContent = document.querySelector('.modal-body span');
         expect(wizardBodyContent.textContent).toBe('Hello bar');
       });
     });
   });
 
-
-
 });
-
-
-
-
-
-
-
-

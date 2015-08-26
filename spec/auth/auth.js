@@ -4,9 +4,6 @@
 
 var utilities = require('../utilities');
 
-var enUsMessagesResponse = require('../i18n/i18n_responses/messages_en_US.json');
-var enUsResponse = require('../i18n/i18n_responses/en_US.json');
-
 describe('akamai.components.auth', function() {
   var http,
     httpBackend,
@@ -121,8 +118,6 @@ describe('akamai.components.auth', function() {
       messageBox = _messageBox_;
       $rootScope = _$rootScope_;
       translate = _translate_;
-      $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(enUsMessagesResponse);
-      $httpBackend.when('GET', utilities.CONFIG_PATH).respond(enUsResponse);
       $httpBackend.when('GET', /grp.json/).respond({});
     });
     spyOn(tokenService, 'logout').and.callThrough();

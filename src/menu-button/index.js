@@ -51,7 +51,7 @@ export default angular.module('akamai.components.menu-button', [
  *
  * @param {String} [defaultText] The presence of this attribute will cause the menu button to be
  * rendered as a split button. Note that this means that the default item will not be rendered in
- * the dropdown. This item will be passed through the akam-translate directive so it will be
+ * the dropdown. This item will be passed through the translate directive so it will be
  * translated.
  *
  * @param {Function} [onClick] Callback for when the button is clicked.

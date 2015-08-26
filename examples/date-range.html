@@ -106,15 +106,19 @@
     }
   }
 
-  configFunction.$inject = ['i18nTokenProvider'];
+  function configFunction($translatePartialLoaderProvider) {
 
-  function configFunction(i18nTokenProvider) {
     // need to overwrite locales path on fee.akamai.com
     if (window.location.host == 'fee.akamai.com') {
-      i18nTokenProvider.setComponentLocalePath("../dist/locales/");
-      i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+      $translatePartialLoaderProvider.addPart('../dist/locales/');
+      $translatePartialLoaderProvider.addPart('locales/json/messages/');
+    } else {
+      $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
     }
   }
+  configFunction.$inject = ['$translatePartialLoaderProvider'];
+
   </script>
 </body>
 

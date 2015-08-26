@@ -30,7 +30,7 @@
   <div>
     <h2>No Custom Content (localized placeholder text)</h2>
     <akam-autocomplete ng-model="vm.selectedState" text-property="name"
-                       placeholder='{{"examples.autocomplete.search.states" | akamTranslate}}'
+                       placeholder='{{"examples.autocomplete.search.states" | translate}}'
                        on-select="vm.selectCallback(item, displayText)"
                        on-search="vm.asyncSearchMatches1(term)">
     </akam-autocomplete>
@@ -270,13 +270,16 @@
       return deferred.promise;
     }
   };
-  configFunction.$inject = ['i18nTokenProvider'];
+  configFunction.$inject = ['$translatePartialLoaderProvider'];
 
-  function configFunction(i18nTokenProvider) {
+  function configFunction($translatePartialLoaderProvider) {
     // need to overwrite locales path on fee.akamai.com
     if (window.location.host == 'fee.akamai.com') {
-      i18nTokenProvider.setComponentLocalePath("../dist/locales/");
-      i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+      $translatePartialLoaderProvider.addPart('../dist/locales/');
+      $translatePartialLoaderProvider.addPart('locales/json/messages/');
+    } else {
+      $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
     }
   }
   </script>

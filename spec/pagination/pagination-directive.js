@@ -10,8 +10,6 @@ var translationMock = {
     }
   }
 };
-var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
-var CONFIG_PATH = '/apps/appname/locales/en_US.json';
 var PREVIOUS_BUTTON = '.pagination li:first-child';
 var NEXT_BUTTON = '.pagination li:last-child';
 var TOTAL_ITEMS_SPAN = '.total-items';
@@ -34,16 +32,14 @@ describe('akam-pagination directive', function() {
 
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/pagination').name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
     angular.mock.inject(function($compile, $rootScope, $timeout, $httpBackend) {
       self.scope = $rootScope.$new();
       self.timeout = $timeout;
       compile = $compile;
-      $httpBackend.when('GET', LIBRARY_PATH).respond(translationMock);
-      $httpBackend.when('GET', CONFIG_PATH).respond({});
-      $httpBackend.flush();
     });
 
     self.scope.onchangepage = function() {};

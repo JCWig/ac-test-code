@@ -71,7 +71,7 @@ module.exports = angular.module('akamai.components.autocomplete', [
    * to turn on and off the autocomplete component
    *
    * @param {String} [placeholder=""] The placeholder text for the search input field. This is not
-   * run through akamTranslate so the user has to translate this value manually.
+   * run through translate so the user has to translate this value manually.
    *
    * @param {Function} [onSelect] A callback function to parent scope once
    * search result item selected,the call back param will be
