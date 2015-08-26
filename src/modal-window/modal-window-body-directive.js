@@ -18,7 +18,12 @@ function modalWindowBody($compile, $http, $templateCache, $q) {
                </div>`,
     link: function(scope, element) {
       getBodyTemplate(scope.modalWindow.templateModel)
-        .then(content => element.append($compile(content)(scope.modalWindow.contentScope)));
+        .then(content => {
+          element.append($compile(content)(scope.modalWindow.contentScope));
+          console.log(element[0]);
+        });
+
+
     }
   };
 }

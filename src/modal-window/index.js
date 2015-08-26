@@ -21,7 +21,7 @@ import modalWindowBodyDirective from './modal-window-body-directive';
  *
  * @guideline Use modal windows for required input or a specific task that benefits from
  * being viewed or worked with in isolation.
- * @guideline Use wizard comonent for multi step tasks in workflow.
+ * @guideline Use wizard component for multi step tasks in workflow.
  *
  * @example index.js
  * function MyController(modalWindow) {

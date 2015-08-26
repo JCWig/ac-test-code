@@ -80,7 +80,7 @@
                             }
 
                             times++;
-                        }, 1000);
+                        }, 30000);
                         return deferral.promise;
                     });
 
@@ -129,7 +129,7 @@
                 };
 
                 $scope.openWithTemplateUrl = function() {
-                    
+
                     // Create a new modal window instance with a specific template url
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
@@ -183,7 +183,7 @@
             };
 
             exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
-            modalController.$inject = ['$scope', '$q', '$timeout']; 
+            modalController.$inject = ['$scope', '$q', '$timeout'];
 
             angular.module('example', ['akamai.components.modal-window'])
 
