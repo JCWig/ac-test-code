@@ -85,6 +85,50 @@ describe('modalWindow service', function() {
     }
   });
 
+  describe("given a modal window", function(){
+    describe("when showFullscreenToggle option is set to true", function(){
+      beforeEach(function(){
+        this.scope.showFullscreenToggle = true;
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<p></p>',
+          showFullscreenToggle: true
+        });
+        this.scope.$apply();
+
+        this.result = document.querySelector('i.max-min-icon');
+      });
+
+      it('should confirm the max min icon is visible', function() {
+        expect(this.result != null).toBe(true);
+      });
+
+      it('should confirm the max min icon icon shows full screen', function() {
+        expect(this.result.classList.contains('pulsar-fullscreen')).toBe(true);
+      });
+    })
+  });
+
+  describe("given a modal window", function(){
+    describe("when showFullscreenToggle option is set to false", function(){
+      beforeEach(function(){
+        this.scope.showFullscreenToggle = true;
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<p></p>',
+          showFullscreenToggle: false
+        });
+        this.scope.$apply();
+
+        this.result = document.querySelector('i.max-min-icon');
+      });
+
+      it('should confirm the max min icon is not visible', function() {
+        expect(this.result == null).toBe(true);
+      });
+    })
+  });
+
   describe('open()', function() {
     describe('when no template option is provided', function() {
       it('should throw an error', function() {
@@ -119,32 +163,6 @@ describe('modalWindow service', function() {
 
       var modalPrivateIcon = document.querySelector('.modal-header i:first-child');
       expect(modalPrivateIcon.classList.contains(icon)).toBe(true);
-    });
-
-    it('should support showFullscreenToggle option', function() {
-      this.scope.showFullscreenToggle = true;
-      this.modalWindowService.open({
-        scope: this.scope,
-        template: '<p></p>',
-        showFullscreenToggle: true
-      });
-      this.scope.$apply();
-
-      var modalToggleIcon = document.querySelector('i.max-min-icon');
-      expect(modalToggleIcon.classList.contains('pulsar-fullscreen')).toBe(true);
-    });
-
-    it('should support showFullscreenToggle option being set false', function() {
-      this.scope.showFullscreenToggle = true;
-      this.modalWindowService.open({
-        scope: this.scope,
-        template: '<p></p>',
-        showFullscreenToggle: false
-      });
-      this.scope.$apply();
-
-      var modalToggleIcon = document.querySelector('i.max-min-icon');
-      expect(modalToggleIcon == null).toBe(true);
     });
 
     it('should support a cancel label option', function() {
