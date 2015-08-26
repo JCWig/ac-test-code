@@ -25,6 +25,7 @@ import megaMenu from './mega-menu';
 import wizard from './wizard';
 import navigation from './navigation';
 import dateRange from './date-range';
+import spinnerButton from './spinner-button';
 
 /**
  * @ngdoc overview
@@ -65,5 +66,6 @@ angular.module('akamai.components', [
   megaMenu.name,
   wizard.name,
   dateRange.name,
-  navigation.name
+  navigation.name,
+  spinnerButton.name
 ]);

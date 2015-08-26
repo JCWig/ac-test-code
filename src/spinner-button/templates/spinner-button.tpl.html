@@ -1,0 +1,7 @@
+<button
+    class="btn btn-primary"
+    ng-class="{'has-spinner': spinnerButton.processing}"
+    ng-disabled="spinnerButton.processing || spinnerButton.disabled">
+  <span ng-if="!spinnerButton.processing">{{spinnerButton.text}}</span>
+  <div class="submit-button-spinner" ng-if="spinnerButton.processing"></div>
+</button>
