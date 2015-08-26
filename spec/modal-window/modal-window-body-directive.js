@@ -79,4 +79,23 @@ describe('akam-modal-window-body directive', function() {
       expect(self.element.textContent.trim()).toContain('Hello Akamai');
     });
   });
+  describe('when modalWindow is processing', function() {
+    it('should hide overflow on div.modal-body', function() {
+      var markup = '<akam-modal-window-body></akam-modal-window-body>';
+      var template = '<span>Hello {{ name }}</span>';
+      var url = 'modal-window/template.html';
+      var el;
+      self.scope.modalWindow.processing = true;
+
+      this.$httpBackend.whenGET(url).respond(template);
+      this.scope.modalWindow.templateModel.templateUrl = url;
+      addElement(markup);
+      this.$httpBackend.flush();
+      this.$httpBackend.verifyNoOutstandingRequest();
+
+      el = document.querySelector('.util-hidden-overflow');
+
+      expect(el).not.toBe(null);
+    });
+  });
 });

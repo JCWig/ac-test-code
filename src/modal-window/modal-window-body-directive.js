@@ -13,17 +13,12 @@ function modalWindowBody($compile, $http, $templateCache, $q) {
   return {
     restrict: 'E',
     replace: true,
-    template: `<div class="modal-body">
+    template: `<div class="modal-body" ng-class="{'util-hidden-overflow': modalWindow.processing}">
                    <div ng-if="modalWindow.processing" class="backwash"></div>
                </div>`,
     link: function(scope, element) {
       getBodyTemplate(scope.modalWindow.templateModel)
-        .then(content => {
-          element.append($compile(content)(scope.modalWindow.contentScope));
-          console.log(element[0]);
-        });
-
-
+        .then(content => element.append($compile(content)(scope.modalWindow.contentScope)));
     }
   };
 }
