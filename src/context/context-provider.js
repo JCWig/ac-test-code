@@ -248,6 +248,7 @@ function ContextProvider() {
     // backwards compatibility method to set group and property cookies for luna applications
     function changeGroupOrPropertyForLuna(gid, aid) {
       let url = `${CHANGE_GROUP_URL}?${LUNA_GROUP_QUERY_PARAM}=${gid}`;
+
       $http = $http || $injector.get('$http');
 
       if (aid) {
