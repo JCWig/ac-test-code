@@ -121,6 +121,32 @@ describe('modalWindow service', function() {
       expect(modalPrivateIcon.classList.contains(icon)).toBe(true);
     });
 
+    it('should support showFullscreenToggle option', function() {
+      this.scope.showFullscreenToggle = true;
+      this.modalWindowService.open({
+        scope: this.scope,
+        template: '<p></p>',
+        showFullscreenToggle: true
+      });
+      this.scope.$apply();
+
+      var modalToggleIcon = document.querySelector('i.max-min-icon');
+      expect(modalToggleIcon.classList.contains('pulsar-fullscreen')).toBe(true);
+    });
+
+    it('should support showFullscreenToggle option being set false', function() {
+      this.scope.showFullscreenToggle = true;
+      this.modalWindowService.open({
+        scope: this.scope,
+        template: '<p></p>',
+        showFullscreenToggle: false
+      });
+      this.scope.$apply();
+
+      var modalToggleIcon = document.querySelector('i.max-min-icon');
+      expect(modalToggleIcon == null).toBe(true);
+    });
+
     it('should support a cancel label option', function() {
       var label = 'Close';
 

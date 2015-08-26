@@ -40,16 +40,12 @@ class ModalWindowController {
     this.setProperty('hideSubmit');
     this.setProperty('doNotShowMessage');
     this.setProperty('instance');
-    this.setProperty('showMaxToggle');
+    this.setProperty('showFullscreenToggle');
 
     this.templateModel = {
       template: this.options.contentTemplate,
       templateUrl: this.options.contentTemplateUrl
     };
-  }
-
-  toggleMinMax() {
-    this.isMax = !this.isMax;
   }
 
   initializeContent() {
@@ -137,35 +133,33 @@ export default class ModalWindowService {
    *
    * @param {object} options A hash with the options specified below.
    *
-   * @param {string} [options.cancelLabel=Cancel] A label for
-   * the cancel button.
+   * @param {string} [options.cancelLabel=Cancel] A label for the cancel button.
    *
-   * @param {Function|string} options.controller A controller
-   * for the modal instance that can initialize scope.
+   * @param {Function|string} options.controller A controller for the modal instance that can
+   * initialize scope.
    *
-   * @param {boolean} [options.hideSubmit=false] A flag to hide
-   * the submit button and only allow the modal to be dismissed.
+   * @param {boolean} [options.hideSubmit=false] A flag to hide the submit button and only allow
+   * the modal to be dismissed.
    *
-   * @param {string} options.icon A CSS class representing an
-   * icon to display to the left of the modal window title.
+   * @param {string} options.icon A CSS class representing an icon to display to the left of the
+   * modal window title.
    *
-   * @param {Scope} [options.scope=$rootScope] A scope
-   * instance to use for the modal body content.
+   * @param {Scope} [options.scope=$rootScope] A scope instance to use for the modal body content.
    *
-   * @param {string} [options.submitLabel=Save] A label for the
-   * submit button.
+   * @param {string} [options.submitLabel=Save] A label for the submit button.
    *
-   * @param {string} options.template An inline template to
-   * render within the body of the modal window.
+   * @param {string} options.template An inline template to render within the body of the
+   * modal window.
    *
-   * @param {string} options.templateUrl A URL referencing a
-   * template to render within the body of the modal window.
+   * @param {string} options.templateUrl A URL referencing a template to render within the body of
+   * the modal window.
    *
-   * @param {string} [options.title=Modal Window Title] A
-   * title for the modal window.
+   * @param {string} [options.title=Modal Window Title] A title for the modal window.
    *
-   * @return {object} An instance of the modal with the following
-   * properties:
+   * @param {boolean} [options.showFullscreenToggle] Allows for the modal to be maximized and
+   * restored via user toggling the full screen/restore icon
+   *
+   * @return {object} An instance of the modal with the following properties:
    *
    * - `close` (Function) A method to close the modal window
    *   that accepts a result as an argument.
@@ -209,4 +203,3 @@ export default class ModalWindowService {
   }
 
 }
-
