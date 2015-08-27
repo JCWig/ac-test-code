@@ -7,7 +7,7 @@ export default () => {
     controller: () => {},
     controllerAs: 'spinnerButton',
     bindToController: {
-      text: '@?',
+      textContent: '@?',
       disabled: '=?',
       processing: '=?'
     },

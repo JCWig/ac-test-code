@@ -49,12 +49,12 @@ describe('akam-spinner-button', function() {
 
   describe('given a spinner button', function() {
 
-    describe('when text property is set to "hello"', function() {
+    describe('when textContent property is set to "hello"', function() {
 
       describe('when rendered', function() {
 
         beforeEach(function() {
-          var markup = '<akam-spinner-button text="hello"></akam-spinner-button>';
+          var markup = '<akam-spinner-button text-content="hello"></akam-spinner-button>';
           let el = compile(markup)(scope);
           scope.$digest();
           this.element = document.body.appendChild(el[0]);
@@ -78,7 +78,7 @@ describe('akam-spinner-button', function() {
 
         beforeEach(function() {
           scope.disabled = true;
-          var markup = '<akam-spinner-button text="hello" disabled="disabled"></akam-spinner-button>';
+          var markup = '<akam-spinner-button text-content="hello" disabled="disabled"></akam-spinner-button>';
           let el = compile(markup)(scope);
           scope.$digest();
           this.element = document.body.appendChild(el[0]);
@@ -102,7 +102,7 @@ describe('akam-spinner-button', function() {
 
         beforeEach(function() {
           scope.disabled = false;
-          var markup = '<akam-spinner-button text="hello" disabled="disabled"></akam-spinner-button>';
+          var markup = '<akam-spinner-button text-content="hello" disabled="disabled"></akam-spinner-button>';
           let el = compile(markup)(scope);
           scope.$digest();
           this.element = document.body.appendChild(el[0]);
@@ -126,7 +126,7 @@ describe('akam-spinner-button', function() {
 
         beforeEach(function() {
           scope.processing = true;
-          var markup = '<akam-spinner-button text="hello" processing="processing"></akam-spinner-button>';
+          var markup = '<akam-spinner-button text-content="hello" processing="processing"></akam-spinner-button>';
           let el = compile(markup)(scope);
           scope.$digest();
           this.element = document.body.appendChild(el[0]);
