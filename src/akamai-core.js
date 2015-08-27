@@ -24,6 +24,7 @@ import autocomplete from './autocomplete';
 import megaMenu from './mega-menu';
 import wizard from './wizard';
 import navigation from './navigation';
+import dateRange from './date-range';
 
 /**
  * @ngdoc overview
@@ -63,5 +64,6 @@ angular.module('akamai.components', [
   autocomplete.name,
   megaMenu.name,
   wizard.name,
+  dateRange.name,
   navigation.name
 ]);
