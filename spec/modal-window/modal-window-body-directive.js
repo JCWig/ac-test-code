@@ -54,48 +54,58 @@ describe('akam-modal-window-body directive', function() {
     document.body.appendChild(self.element);
   }
 
-  describe('when rendering', function() {
-    it('should render an inline template', function() {
-      var markup = '<akam-modal-window-body></akam-modal-window-body>';
-      var template = '<span>Hello {{ name }}</span>';
+  describe('given a modal window', function(){
+    describe('when rendering inline template', function(){
+      beforeEach(function(){
+        var markup = '<akam-modal-window-body></akam-modal-window-body>';
+        var template = '<span>Hello {{ name }}</span>';
 
-      this.scope.modalWindow.templateModel.template = template;
-      addElement(markup);
-
-      expect(self.element.textContent.trim()).toEqual('Hello Akamai');
+        this.scope.modalWindow.templateModel.template = template;
+        addElement(markup);
+      });
+      it('should render inline template', function(){
+        expect(self.element.textContent.trim()).toEqual('Hello Akamai');
+      });
     });
 
-    it('should render a template url', function() {
-      var markup = '<akam-modal-window-body></akam-modal-window-body>';
-      var template = '<span>Hello {{ name }}</span>';
-      var url = 'modal-window/template.html';
+    describe('when rendering a template url', function(){
+      beforeEach(function(){
+        var markup = '<akam-modal-window-body></akam-modal-window-body>';
+        var template = '<span>Hello {{ name }}</span>';
+        var url = 'modal-window/template.html';
 
-      this.$httpBackend.whenGET(url).respond(template);
-      this.scope.modalWindow.templateModel.templateUrl = url;
-      addElement(markup);
-      this.$httpBackend.flush();
+        this.$httpBackend.whenGET(url).respond(template);
+        this.scope.modalWindow.templateModel.templateUrl = url;
+        addElement(markup);
+        this.$httpBackend.flush();
 
-      this.$httpBackend.verifyNoOutstandingRequest();
-      expect(self.element.textContent.trim()).toContain('Hello Akamai');
+        this.$httpBackend.verifyNoOutstandingRequest();
+      });
+      it('should render a temple url', function(){
+        expect(self.element.textContent.trim()).toContain('Hello Akamai');
+      });
     });
   });
-  describe('when modalWindow is processing', function() {
-    it('should hide overflow on div.modal-body', function() {
-      var markup = '<akam-modal-window-body></akam-modal-window-body>';
-      var template = '<span>Hello {{ name }}</span>';
-      var url = 'modal-window/template.html';
-      var el;
-      self.scope.modalWindow.processing = true;
 
-      this.$httpBackend.whenGET(url).respond(template);
-      this.scope.modalWindow.templateModel.templateUrl = url;
-      addElement(markup);
-      this.$httpBackend.flush();
-      this.$httpBackend.verifyNoOutstandingRequest();
+  describe('given an open modal window', function(){
+    describe('when modal window is processing', function(){
+      beforeEach(function(){
+        var markup = '<akam-modal-window-body></akam-modal-window-body>';
+        var template = '<span>Hello {{ name }}</span>';
+        var url = 'modal-window/template.html';
 
-      el = document.querySelector('.util-hidden-overflow');
+        self.scope.modalWindow.processing = true;
 
-      expect(el).not.toBe(null);
+        this.$httpBackend.whenGET(url).respond(template);
+        this.scope.modalWindow.templateModel.templateUrl = url;
+        addElement(markup);
+        this.$httpBackend.flush();
+        this.$httpBackend.verifyNoOutstandingRequest();
+      });
+      it('should hide overflow on div.modal-body', function(){
+        var el = document.querySelector('.util-hidden-overflow');
+        expect(el).not.toBe(null);
+      });
     });
   });
 });
