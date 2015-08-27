@@ -1,0 +1,29 @@
+<div id="{{::dateRange.id}}" class="akam-date-range akam-date-picker day" ng-class="{opened:dateRange.opened}">
+  <span class="range-picker">
+    <input ng-hide="true"
+      type="text"
+      datepicker-popup="{{dateRange.format}}"
+      ng-model="dateRange.startDate"
+      is-open="dateRange.opened"
+      min-date="{{dateRange.minDate}}"
+      max-date="{{dateRange.maxDate}}"
+      datepicker-options="{{::dateRange.options}}"
+      readonly="readonly"
+      show-button-bar="false">
+  </span>
+  <div class="range-selection" ng-class="{'disabled': dateRange.isDisabled}">
+    <div class="range-from"><span class="range-title">{{::dateRange.labels.from}}:</span></div>
+    <div class="range-start util-clickable" ng-click="dateRange.rangeStartToggle($event)" ng-class="{'opened': dateRange.openFromRangeStart && dateRange.opened}">
+      <span ng-if="!dateRange.rangeStart.selectedValue" class="date-range-placeholder">{{::dateRange.rangeStart.placeholder}}</span>
+      <span ng-if="dateRange.rangeStart.selectedValue" class="util-ellipsis" title="{{dateRange.rangeStart.selectedValue}}">{{dateRange.rangeStart.selectedValue}}</span>
+    </div>
+    <div class="range-to"><span class="range-title">{{::dateRange.labels.to}}:</span></div>
+    <div class="range-end util-clickable" ng-click="dateRange.rangeEndToggle($event)" ng-class="{'opened': dateRange.openFromRangeEnd && dateRange.opened}">
+      <span ng-if="!dateRange.rangeEnd.selectedValue" class="date-range-placeholder">{{::dateRange.rangeEnd.placeholder}}</span>
+      <span ng-if="dateRange.rangeEnd.selectedValue" class="util-ellipsis" title="{{dateRange.rangeEnd.selectedValue}}">{{dateRange.rangeEnd.selectedValue}}</span>
+    </div>
+    <button class="button" type="button" ng-click="dateRange.toggle($event)" ng-disabled="dateRange.isDisabled">
+      <i class="luna-calendar icon-states" ng-disabled="dateRange.isDisabled"></i>
+    </button>
+  </div>
+</div>

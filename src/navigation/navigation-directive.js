@@ -1,36 +1,37 @@
 import angular from 'angular';
+import template from './templates/navigation.tpl.html';
+
+class NavigationController {
+  constructor($state) {
+
+    let currentStateEqualTo = (tab) => {
+      return $state.is(tab.route, tab.params, tab.options);
+    };
+
+    this.go = function(tab) {
+      if (!currentStateEqualTo(tab) && !tab.disabled) {
+        $state.go(tab.route, tab.params, tab.options);
+      }
+    };
+
+    this.active = (tab) => {
+      return $state.includes(tab.route, tab.params, tab.options);
+    };
+
+    this.updateTabs = () => {
+      angular.forEach(this.tabs, (tab) => {
+        tab.params = tab.params || {};
+        tab.options = tab.options || {};
+        tab.active = this.active(tab);
+      });
+    };
+
+    this.updateTabs();
+  }
+}
+NavigationController.$inject = ['$state'];
 
 function navigation($rootScope) {
-
-  class NavigationController {
-    constructor($state) {
-
-      var currentStateEqualTo = function(tab) {
-        return $state.is(tab.route, tab.params, tab.options);
-      };
-
-      this.go = function(tab) {
-        if (!currentStateEqualTo(tab) && !tab.disabled) {
-          $state.go(tab.route, tab.params, tab.options);
-        }
-      };
-
-      this.active = (tab) => {
-        return $state.includes(tab.route, tab.params, tab.options);
-      };
-
-      this.updateTabs = () => {
-        angular.forEach(this.tabs, (tab) => {
-          tab.params = tab.params || {};
-          tab.options = tab.options || {};
-          tab.active = this.active(tab);
-        });
-      };
-
-      this.updateTabs();
-    }
-  }
-  NavigationController.$inject = ['$state'];
 
   return {
     restrict: 'E',
@@ -42,7 +43,7 @@ function navigation($rootScope) {
     },
     controller: NavigationController,
     controllerAs: 'navigation',
-    template: require('./templates/navigation.tpl.html'),
+    template: template,
     link: function(scope, elem, attrs, ctrl) {
 
       let updateTabs = () => {

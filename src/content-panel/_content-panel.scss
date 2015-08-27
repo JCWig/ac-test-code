@@ -5,7 +5,6 @@ $panel-body-wrapper-padding: 17px 15px;
 
 .akam-content-panel.panel {
   @extend .panel-default;
-  @include box-shadow($panel-box-shadow);
 
   & > .panel-heading {
     $panel-left-padding: 18px;

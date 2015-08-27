@@ -61,11 +61,6 @@
     // font-weight: bold;
   }
 
-  &.has-spinner {
-    background: #e6e6e6;
-    border-color: #999999;
-  }
-
   &.primary, &.btn-primary {
     color: $button-primary-text-color;
     background-color: $button-primary-background-color;
@@ -89,11 +84,6 @@
       background: $button-primary-background-color-disabled;
       border-color: $button-primary-border-color-disabled;
       color: $button-primary-text-color-disabled;
-    }
-
-    &.has-spinner {
-      background: #f46b29;
-      border-color: #ab4d09;
     }
   }
 

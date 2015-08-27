@@ -37,8 +37,9 @@
   @import "autocomplete/_autocomplete";
   @import "content-panel/_content-panel";
   @import "date-picker/_date-picker";
+  @import "date-range/_date-range";
   @import "dropdown/_dropdown";
-  @import "indeterminate-progress/_indeterminate-progress";
+  @import "indeterminate-progress/_indeterminate-progress-directive";
   @import "list-box/_list-box";
   @import "message-box/_message-box";
   @import "modal-window/_modal-window"; // $dialog variables are in _message-box
@@ -53,6 +54,8 @@
   @import "tree-view/_tree-view";
   @import "wizard/_wizard";
   @import "navigation/_navigation";
+
+  @import "spinner-button/_spinner-button";
 }
 
 

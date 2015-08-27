@@ -25,6 +25,7 @@
         "properties": "properties"
     },
     "footer_context": {
+        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorage Deprovisioning",
         "reports_dashboard": "Reports Dashboard",
         "configure_ads": "Configure ADS",

@@ -6,7 +6,8 @@ var contextModule = require('../../src/context');
 
 var ACCOUNT_COOKIE = 'QWthbWFpIEludGVybmFsX0FrYW1haSBJbnRlcm5hbH5+MS03S0xHSA==',
   COOKIE_NAME = 'AKALASTMANAGEDACCOUNT',
-  CHANGED_COOKIE = 'Rml4dHVyZSBTZXJ2ZXJfRmFrZSBDb250cmFjdH5+MS0yMzQ1';
+  CHANGED_COOKIE = 'Rml4dHVyZSBTZXJ2ZXJfRmFrZSBDb250cmFjdH5+MS0yMzQ1',
+  NOT_SO_GOOD_COOKIE = '"QWthbWFpIEludGVybmFsX0FrYW1haSBJbnRlcm5hbH5+MS03S0xHSA=="';
 
 describe('akamai.components.context', function() {
 
@@ -348,6 +349,47 @@ describe('akamai.components.context', function() {
       it('should send a request to update the current account', function() {
         context.resetAccount();
         $httpBackend.flush();
+      });
+
+    });
+
+  });
+
+  describe('given the getAccountFromCookie method', function() {
+
+    describe('and a properly base64 encoded cookie', function() {
+
+      describe('when called', function() {
+
+        beforeEach(function() {
+          this.result = context.getAccountFromCookie();
+        });
+
+        it('should return the account', function() {
+          expect(this.result.id).toEqual('1-7KLGH');
+        });
+
+      });
+
+    });
+
+  });
+
+  describe('given the getAccountFromCookie method', function() {
+
+    describe('and a not-quite-so base64 encoded cookie', function() {
+
+      describe('when called', function() {
+
+        beforeEach(function() {
+          $cookies.put(COOKIE_NAME, NOT_SO_GOOD_COOKIE);
+          this.result = context.getAccountFromCookie();
+        });
+
+        it('should return the account', function() {
+          expect(this.result.id).toEqual('1-7KLGH');
+        });
+
       });
 
     });

@@ -1,30 +1,44 @@
-module.exports = function() {
+import template from './templates/status-message-group-directive.tpl.html';
+
+
+class StatusMessageGroup {
+  static get $inject(){
+    return ['$scope'];
+  }
+
+  constructor(scope) {
+    this.items = this.items || [];
+    this.scope = scope;
+
+    this.scope.$on('akam-status-message-destroyed', (event, itemId) => {
+      this.remove(itemId);
+    });
+  }
+
+  remove(itemId){
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].itemId === itemId) {
+        this.items.splice(i, 1);
+        return;
+      }
+    }
+  }
+
+  clear() {
+    this.items.splice(0);
+  }
+}
+
+export default () => {
   return {
     restrict: 'E',
-    scope: {
-      items: '=',
-      removeItemByItemId: '&'
-    },
     replace: true,
-    template: require('./templates/status-message-group-directive.tpl.html'),
-    link: function(scope) {
-      scope.items = scope.items || [];
-
-      function removeItemByItemId(itemId) {
-        var i;
-
-        for (i = 0; i < scope.items.length; i++) {
-          if (scope.items[i].itemId === itemId) {
-            scope.items.splice(i, 1);
-            return;
-          }
-        }
-      }
-
-      scope.removeItemByItemId = removeItemByItemId;
-      scope.$on('akam-status-message-destroyed', function(event, itemId) {
-        removeItemByItemId(itemId);
-      });
-    }
+    template: template,
+    controller: StatusMessageGroup,
+    controllerAs: 'statusMessageGroup',
+    bindToController: {
+      items: '='
+    },
+    scope: {}
   };
 };

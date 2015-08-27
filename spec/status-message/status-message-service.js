@@ -1,5 +1,4 @@
-'use strict';
-var utilities = require('../utilities');
+import utilities from '../utilities';
 
 var STATUS_MESSAGE_WRAPPER = '.akam-status-message-item-wrapper';
 var ID_OF_FIRST_STATUS_MESSAGE = '#akam-status-message-1';

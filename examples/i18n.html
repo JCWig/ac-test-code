@@ -132,14 +132,14 @@
             };
             configFunction.$inject = ['i18nTokenProvider', 'VERSION'];
             controllerFunction.$inject = ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log'];
-            
+
             angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
 
             // Override the location of the Component and Application locale files
             angular.module('i18nDemo3')
             .config(configFunction)
             .controller('TranslationPageController', controllerFunction);
-                            
+
     </script>
     </body>
 </html>

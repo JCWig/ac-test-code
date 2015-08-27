@@ -147,7 +147,7 @@ describe('akam-content-panel', function() {
       expect(header3).toMatch(/Header 3/);
     });
     it('should be able to render with custom content with only text node (content)', function() {
-      scope.randomText = "Here is some random text"
+      scope.randomText = "Here is some random text";
       var markup = '<akam-content-panel>' +
         '<akam-content-panel-header>' +
         '<i class="luna-world_map"></i> Custom Header' +
@@ -206,12 +206,12 @@ describe('akam-content-panel', function() {
       expect(headerDiv).not.toBe(null);
       expect(uniqueIcon).not.toBe(null);
       expect(uniqueContent1).not.toBe(null);
-      expect(uniqueContent1.textContent.trim()).toBe("Panel content");
+      expect(uniqueContent1.textContent.trim()).toBe('Panel content');
       expect(uniqueContent2).not.toBe(null);
-      expect(uniqueContent2.textContent.trim()).toBe("Panel content 2");
+      expect(uniqueContent2.textContent.trim()).toBe('Panel content 2');
     });
     it('should be able to render with custom content with only text node (header)', function() {
-      scope.randomText = "Here is some random text"
+      scope.randomText = 'Here is some random text';
       var markup = '<akam-content-panel>' +
         '<akam-content-panel-header>' +
         '{{randomText}}' +
@@ -224,7 +224,7 @@ describe('akam-content-panel', function() {
 
       var headerDiv = document.querySelector(PANEL_HEADER_WRAPPER);
       var uniqueIcon = document.querySelector('.luna-world_map');
-      var contents = document.querySelectorAll(ALL_PANEL_CONTENT);;
+      var contents = document.querySelectorAll(ALL_PANEL_CONTENT);
 
       expect(headerDiv).not.toBe(null);
       expect(headerDiv.textContent.trim()).toBe(scope.randomText);
@@ -330,16 +330,14 @@ describe('akam-content-panel', function() {
     addElement(markup);
 
     var headerIcon = document.querySelector(PANEL_HEADER_ICON);
+    var ctrl = self.el.isolateScope().contentPanel;
 
     utilities.click(headerIcon);
     scope.$digest();
 
-    var isoScope = self.el.isolateScope();
-
-    expect(isoScope.collapsable).toBe(true);
-    expect(isoScope.isCollapsed).toBe(true);
-    expect(typeof isoScope.headerClick).toBe('function');
-
+    expect(ctrl.collapsable).toBe(true);
+    expect(ctrl.isCollapsed).toBe(true);
+    expect(typeof ctrl.headerClick).toBe('function');
   });
   it('should verify new isolated scope using not-collapsable', function() {
     var markup = '<akam-content-panel not-collapsable>' +
@@ -357,9 +355,7 @@ describe('akam-content-panel', function() {
     utilities.click(headerIcon);
     scope.$digest();
 
-    var isoScope = self.el.isolateScope();
-
-    expect(isoScope.collapsable).toBe(false);
+    expect(self.el.isolateScope().contentPanel.collapsable).toBe(false);
   });
   describe('when rendered', function() {
     it('should be able to toggle visibility of content', function() {
@@ -367,7 +363,8 @@ describe('akam-content-panel', function() {
       scope.process = jasmine.createSpy('spy');
       var markup = '<akam-content-panel is-collapsed="isCollapsed" on-toggle="process()" header="Header 1">' +
         '<div>Gandalf the Grey</div><div>Gandalf the White</div>' +
-        '</akam-content-panel>'
+        '</akam-content-panel>';
+
       addElement(markup);
 
       var headerDiv = document.querySelector(PANEL_HEADER);

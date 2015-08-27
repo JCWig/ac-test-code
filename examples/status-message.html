@@ -44,8 +44,8 @@
                     <textarea id="messageText" type="text" class="form-control" ng-model="messageText" rows="3" cols="25"></textarea>
                 </div>
                 <button class="btn" ng-click="showStatus()">Show Status Message</button>
-                <button class="btn" ng-click="clear()">Clear Last Message</button>
-                <button class="btn" ng-click="clearAll()">Clear All Messages</button>
+                <button class="btn" ng-click="remove()">Clear Last Message</button>
+                <button class="btn" ng-click="clear()">Clear All Messages</button>
             </form>
         </div>
         <script src="../dist/akamai-core.js"></script>
@@ -62,11 +62,11 @@
                     id = statusMessage["show" + $scope.status]({text : $scope.messageText, timeout: $scope.messageTimeout});
                 };
 
-                $scope.clear = function(){
-                    statusMessage.clear(id);
+                $scope.remove = function(){
+                    statusMessage.remove(id);
                 };
 
-                $scope.clearAll = function(){
+                $scope.clear = function(){
                     statusMessage.clear();
                 };
             };

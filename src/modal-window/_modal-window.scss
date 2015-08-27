@@ -1,4 +1,3 @@
-
 .modal {
   position: fixed;
   top: 0;
@@ -47,6 +46,15 @@
 }
 
 .modal-content {
+  position: inherit;
+  background-color: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: 0;
+}
+
+.modal-container {
   background-color: $dialog-background-color;
   border: 0 solid $dialog-border-color;
   border-radius: $dialog-border-radius;
@@ -60,6 +68,14 @@
   height: $dialog-height;
   min-height: $dialog-min-height;
   max-height: $dialog-max-height;
+
+  &.max {
+    width: 100%;
+    max-width: none;
+
+    height: 100%;
+    max-height: none;
+  }
 
   position: absolute;
   top: 50%;
@@ -139,6 +155,11 @@
       right: $dialog-right-padding;
     }
 
+    .max-min-icon {
+      cursor: pointer;
+      right: $dialog-right-padding * 2 + 20px;
+    }
+
     &.error + .modal-body {
       margin-top: $dialog-header-error-height;
       @include for("IE10+") {
@@ -154,6 +175,7 @@
     color: $dialog-text-color;
     line-height: 140%;
     position: relative;
+    @include flex-grow(1);
 
     .backwash {
       position: absolute;
@@ -171,6 +193,7 @@
     border-top: 1px solid $dialog-separator-color_luna;
     border-radius: 0 0 $dialog-border-radius $dialog-border-radius;
     background: $dialog-background-color;
+    margin-top: 1px; //fixes issue in Chrome where body content hovers over the border
 
     .button + .button,
     .button + .button-switch > .button,
@@ -178,15 +201,6 @@
     .button + .btn,
     .btn + .button {
       margin-left: $dialog-footer-button-gutter;
-
-      .submit-button-spinner {
-        background-image: inline-svg-image("svg/spinner-orange.svg");
-        @include animation(spin360 1s infinite steps(8));
-        height: 90%;
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
     }
   }
 }

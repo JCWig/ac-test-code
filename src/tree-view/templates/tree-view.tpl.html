@@ -1,6 +1,6 @@
 <div class="akam-tree-view">
     <div akam-text-overflow="treeview.current.title" class="tree-view-current">
-    	<i akam-tree-view-parent-selector items="treeview.parentTree" on-change="treeview.contextChangeNew" 
+    	<i akam-tree-view-parent-selector items="treeview.parentTree" on-change="treeview.contextChangeNew"
     	ng-class="{'luna-parent_group_folder':treeview.hasParents(), 'luna-home':!treeview.hasParents(), 'icon-states': treeview.hasParents(), 'util-clickable': treeview.hasParents()}"></i>
     	<span class="parents-indicator" ng-if="hasParents()"> &gt; </span> <span class="tree-view-current-title">{{treeview.current.title}} </span>
     </div>

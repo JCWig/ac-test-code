@@ -164,8 +164,9 @@ describe('akamai.components.tree-view', function() {
     self.element = document.createElement('div');
     self.element.innerHTML = markup;
     document.body.appendChild(self.element);
-    compile(document.body)(scope);
     scope.$digest();
+    self.el = compile(document.body)(scope);
+
     timeout.flush();
   };
   describe('given a conforming object bound to the item attribute', function(){

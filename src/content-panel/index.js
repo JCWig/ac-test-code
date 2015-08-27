@@ -1,4 +1,9 @@
-var angular = require('angular');
+import angular from 'angular';
+import angularBootstrapNpm from 'angular-bootstrap-npm';
+import utils from '../utils';
+import contentPanelDirective from './content-panel-directive';
+import contentPanelHeaderDirective from './content-panel-header-directive';
+import contentPanelBodyDirective from './content-panel-body-directive';
 
 /**
  * @ngdoc module
@@ -30,9 +35,9 @@ var angular = require('angular');
  *   <akam-content-panel-body>Panel Body</akam-content-panel-body>
  * </akam-content-panel>
  */
-module.exports = angular.module('akamai.components.content-panel', [
-  require('angular-bootstrap-npm'),
-  require('../utils').name
+export default angular.module('akamai.components.content-panel', [
+  angularBootstrapNpm,
+  utils.name
 ])
 
 /**
@@ -55,7 +60,7 @@ module.exports = angular.module('akamai.components.content-panel', [
  * @param {Function} [on-toggle] A callback function when user clicks expanded and collapsed icon
  *
  */
-  .directive('akamContentPanel', require('./content-panel-directive'))
+  .directive('akamContentPanel', contentPanelDirective)
 
 /**
  * @name akamContentPanelHeader
@@ -65,7 +70,7 @@ module.exports = angular.module('akamai.components.content-panel', [
  *
  * @restrict E
  */
-  .directive('akamContentPanelHeader', require('./content-panel-header-directive'))
+  .directive('akamContentPanelHeader', contentPanelHeaderDirective)
 
 /**
  * @name akamContentPanelBody
@@ -75,4 +80,4 @@ module.exports = angular.module('akamai.components.content-panel', [
  *
  * @restrict E
  */
-  .directive('akamContentPanelBody', require('./content-panel-body-directive'));
+  .directive('akamContentPanelBody', contentPanelBodyDirective);

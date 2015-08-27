@@ -92,8 +92,10 @@ $datepicker-text-color-disabled: #e6e6e6;
     border-radius: $border-radius;
     margin-top: 0;
     top: 100%;
+    overflow-x: inherit;
     min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
     @include box-shadow($global-box-shadow);
+    overflow: inherit;
 
     // Override TWBS
     .btn,
@@ -173,15 +175,17 @@ $datepicker-text-color-disabled: #e6e6e6;
       }
     }
 
-    thead th button[role="heading"] {
-      &,
-      &:hover,
-      &:active,
-      &:focus {
-        border: none;
-        outline: 0;
-        background: #FFFFFF;
-        box-shadow: none;
+    thead th {
+      button[role="heading"] {
+        &,
+        &:hover,
+        &:active,
+        &:focus {
+          border: none;
+          outline: 0;
+          background: #FFFFFF;
+          box-shadow: none;
+        }
       }
 
       strong {
@@ -206,14 +210,14 @@ $datepicker-text-color-disabled: #e6e6e6;
 
       &:hover {
         color: $button-text-color;
-        border-color: $button-border-color-hover;
+        border-color: $dropdown-border-color-active;
         text-decoration: none;
         @include background-image(linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover));
       }
 
       &:active, &:visited {
         color: $button-text-color;
-        border-color: $button-border-color-hover;
+        border-color: $dropdown-border-color-active;
         @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
       }
 
