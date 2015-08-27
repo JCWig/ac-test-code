@@ -22,10 +22,13 @@
     <button type="button" class="button large" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
       {{ modalWindow.cancelLabel }}
     </button>
-    <button type="button" class="button large primary" ng-class="{'has-spinner': modalWindow.processing}" ng-if="!modalWindow.hideSubmit"
-            ng-disabled="modalWindow.isSubmitDisabled()" ng-click="modalWindow.submit()">
-      {{ !modalWindow.processing ? modalWindow.submitLabel : '' }}
-      <div class='submit-button-spinner' ng-if='modalWindow.processing'></div>
-    </button>
+    <akam-spinner-button
+        class="large"
+        ng-if="!modalWindow.hideSubmit"
+        disabled="modalWindow.isSubmitDisabled()"
+        processing="modalWindow.processing"
+        ng-click="modalWindow.submit()"
+        text-content="{{modalWindow.submitLabel}}">
+    </akam-spinner-button>
   </div>
 </div>

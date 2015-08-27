@@ -269,7 +269,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], submitLabel: 'Enter'});
         $scope.$digest();
 
-        var submitButton = document.querySelector('span.button-switch > button');
+        var submitButton = document.querySelector('span.button-switch .spinner-button');
         expect(_.trim(submitButton.textContent)).toBe('Enter');
       });
     });
