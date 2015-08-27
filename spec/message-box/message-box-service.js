@@ -243,7 +243,10 @@ describe('messageBox service', function() {
       } catch (e) {
         this.$timeout.flush();
       }
-      expect(document.querySelector('.modal-content')).toBe(null);
+
+      this.$timeout(function(){
+        expect(document.querySelector('.modal-content')).toBe(null);
+      }, 0);
     });
 
     describe('when view details is clicked', function() {
@@ -261,7 +264,7 @@ describe('messageBox service', function() {
         expect(messageBoxDetails.classList).not.toContain('in');
         utilities.click(messageBoxDetailsTrigger);
         this.$rootScope.$digest();
-        
+
         expect(messageBoxDetails.classList).toContain('in');
       });
     });
@@ -307,7 +310,11 @@ describe('messageBox service', function() {
         } catch (e) {
           this.$timeout.flush();
         }
-        expect(document.querySelector('.modal-content')).toBe(null);
+
+        this.$timeout(function(){
+          expect(document.querySelector('.modal-content')).toBe(null);
+        }, 0);
+
         expect(spy).not.toHaveBeenCalled();
       });
     });
@@ -338,10 +345,11 @@ describe('messageBox service', function() {
         var modalTitle = document.querySelector('.modal .modal-title');
         var modalHeadline = document.querySelector('.modal .message-box-headline');
         var modalMessageBoxText = document.querySelector('.modal .message-box-text');
-
-        expect(modalTitle.textContent).toEqual('I am a very differen');
-        expect(modalHeadline.textContent).toEqual('a new headline');
-        expect(modalMessageBoxText.textContent).toEqual('All the messages');
+        this.$timeout(function(){
+          expect(modalTitle.textContent).toEqual('I am a very differen');
+          expect(modalHeadline.textContent).toEqual('a new headline');
+          expect(modalMessageBoxText.textContent).toEqual('All the messages');
+        }, 0);
       });
     });
   });
