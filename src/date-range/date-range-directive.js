@@ -127,6 +127,8 @@ class DateRangeController {
         minYr = date.getFullYear();
         minMo = date.getMonth();
       }
+
+      this.minDate = new Date(minYr, minMo, 1);
     }
     if (this.maxDate) {
       date = new Date(this.maxDate);
@@ -134,9 +136,9 @@ class DateRangeController {
         maxYr = date.getFullYear();
         maxMo = date.getMonth();
       }
+
+      this.maxDate = new Date(maxYr, maxMo + 1, 0);
     }
-    this.minDate = new Date(minYr, minMo, 1);
-    this.maxDate = new Date(maxYr, maxMo + 1, 0);
   }
 
   preventOtherEvents(e) {
