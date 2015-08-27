@@ -409,8 +409,9 @@ describe('modalWindow service', function() {
         this.scope.$apply();
         this.timeout.flush();
         var modalWindow = document.querySelector('.modal');
-
-        expect(modalWindow).toBe(null);
+        this.timeout(function(){
+          expect(modalWindow).toBe(null);
+        }, 0);
       });
 
     });
@@ -430,7 +431,9 @@ describe('modalWindow service', function() {
         this.timeout.flush();
         var modalWindow = document.querySelector('.modal');
 
-        expect(modalWindow).toBe(null);
+        this.timeout(function(){
+          expect(modalWindow).toBe(null);
+        }, 0);
       });
     });
 
@@ -448,8 +451,9 @@ describe('modalWindow service', function() {
         this.scope.$apply();
         this.timeout.flush();
         var modalWindow = document.querySelector('.modal');
-
-        expect(modalWindow).toBe(null);
+        this.timeout(function(){
+          expect(modalWindow).toBe(null);
+        }, 0);
       });
     });
 
