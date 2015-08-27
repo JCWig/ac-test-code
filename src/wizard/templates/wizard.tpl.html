@@ -31,7 +31,7 @@
             {{ ::wizard.previousLabel }}
         </button>
 
-        <button type="button" class="button large primary" ng-click="wizard.goForward()" ng-disabled="!wizard.isValid() || wizard.processing">
+        <button type="button" class="btn btn-large btn-primary" ng-click="wizard.goForward()" ng-disabled="!wizard.isValid() || wizard.processing">
             <span ng-class="wizard.processing ? 'loading' : ''">{{ wizard.getNextLabel() }}</span>
             <div class='submit-button-spinner' ng-if='wizard.processing'></div>
         </button>
