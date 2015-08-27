@@ -40,7 +40,6 @@ class WizardController {
     this.submitErrorMessage = options.errorMessage ||
                               translate.sync('components.wizard.errorMessage');
 
-    this.showError = false;
     this.instance = options.instance;
 
     options.steps.forEach((step, i) => {
@@ -62,6 +61,10 @@ class WizardController {
     this.stepIndex = 0;
 
     this.$scope = $scope;
+  }
+
+  get showError() {
+      return this.errorMessage;
   }
 
   getNextLabel() {
@@ -132,8 +135,7 @@ class WizardController {
       this.currentStep().visited = true;
 
       this.stopProcessing();
-      this.errorMessage = '';
-      this.showError = false;
+      this.errorMessage = null;
     };
 
     // If a prepare function is supplied for the step, execute it and process the
@@ -147,7 +149,6 @@ class WizardController {
       nextStepPromise.then(angular.bind(this, goToStep), reason => {
         this.stopProcessing();
         this.errorMessage = reason;
-        this.showError = true;
       });
     } else {
       goToStep();
@@ -189,8 +190,6 @@ class WizardController {
   submit() {
     let result;
 
-    this.showError = true;
-    this.errorMessage = this.submitErrorMessage;
 
     if (angular.isFunction(this.onSubmit)) {
       result = this.onSubmit();
@@ -202,7 +201,6 @@ class WizardController {
     if (result && angular.isFunction(result.then)) {
       this.startProcessing();
     } else if (!result) {
-      this.showError = true;
       this.stopProcessing();
       return;
     }
@@ -217,7 +215,7 @@ class WizardController {
     ).catch(
       () => {
         this.stopProcessing();
-        this.showError = true;
+        this.errorMessage = this.submitErrorMessage;
       }
     );
   }
