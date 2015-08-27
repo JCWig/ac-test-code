@@ -1,11 +1,11 @@
-<div class="modal-header" ng-class="{'error': wizard.showSubmitError}">
+<div class="modal-header" ng-class="{'error': wizard.showError}">
     <i ng-if="icon" class="title-icon" ng-class="icon"></i>
 
     <h3 class="modal-title">{{ wizard.title }}</h3>
-    <i class="close-icon" ng-click="close()" ng-if="!wizard.processing"></i>
+    <i class="close-icon" ng-click="wizard.close()" ng-if="!wizard.processing"></i>
 
-    <div class="akam-status-message-wrapper" ng-if='wizard.showSubmitError'>
-        <div class="akam-status-message-item-wrapper" ng-class="{'error': wizard.showSubmitError}">
+    <div class="akam-status-message-wrapper" ng-if='wizard.showError'>
+        <div class="akam-status-message-item-wrapper" ng-class="{'error': wizard.showError}">
             <div class="akam-status-message-item">
                 <div class="status-message-content">{{ wizard.errorMessage }}</div>
             </div>
@@ -13,9 +13,9 @@
     </div>
 </div>
 
-<div class="wizard-steps" ng-class="{'error': wizard.showSubmitError}" data-number-of-steps="{{wizard.steps.length}}">
+<div class="wizard-steps" ng-class="{'error': wizard.showError}" data-number-of-steps="{{wizard.steps.length}}">
     <ul>
-        <li ng-class="wizard.stepClasses(step.id)" ng-repeat="step in ::wizard.steps" ng-click="wizard.activateStep(step.id)">
+        <li ng-class="wizard.stepClasses(step.id)" ng-repeat="step in ::wizard.steps" ng-click="wizard.jumptToVisitedStep(step.id)">
             <div>{{ $index + 1 }}</div>
             <br/>
             <span>{{ ::step.name }}</span>
@@ -30,15 +30,14 @@
         {{ ::wizard.previousLabel }}
     </button>
 
-    <span ng-switch on="wizard.stepIndex === wizard.steps.length - 1" class="button-switch">
-        <button ng-switch-when="true" type="button" class="button large primary" ng-click="submit(wizard)" ng-disabled="!wizard.isValid() || wizard.processing">
-            <span ng-class="wizard.processing ? 'loading' : ''">{{ ::wizard.submitLabel }}</span>
-            <div class='submit-button-spinner' ng-if='wizard.processing'></div>
-        </button>
+    <button type="button" class="button large primary" ng-click="wizard.goForward()" ng-disabled="!wizard.isValid() || wizard.processing">
+        <span ng-class="wizard.processing ? 'loading' : ''">{{ wizard.getNextLabel() }}</span>
+        <div class='submit-button-spinner' ng-if='wizard.processing'></div>
+    </button>
 
-        <button ng-switch-default type="button" class="button large primary" ng-click="wizard.nextStep()" ng-disabled="!wizard.isValid()">
-            {{ ::wizard.nextLabel }}
-        </button>
+<!--
+    <span class="button-switch">
     </span>
+-->
 </div>
 

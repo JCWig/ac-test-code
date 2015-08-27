@@ -136,19 +136,28 @@
             var wizardScope = $rootScope.$new();
             var times = 0;
 
+            function deferredProcess(rejectReason) {
+                var deferral = $q.defer();
+
+                $timeout(function() {
+                    if (times % 2 === 0) {
+                        deferral.reject(rejectReason);
+                        times++;
+                    } else {
+                        deferral.resolve();
+                        times = 0;
+                    }
+                }, 500);
+
+                return deferral.promise;
+            }
+
             WizardController.$inject = ['$scope', '$log'];
             function WizardController($scope, $log) {
-                $scope.setOnSubmit(function(){
+
+                $scope.setOnSubmit(function() {
                     var deferral = $q.defer();
-                    $timeout(function() {
-                        if (times % 2 === 0) {
-                            deferral.reject();
-                        } else{
-                            deferral.resolve();
-                        }
-                        times++;
-                    }, 1000);
-                    return deferral.promise;
+                    return deferredProcess();
                 });
             };
 
@@ -171,8 +180,8 @@
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
-                            }
-
+                            },
+                            initialize: angular.bind(this, deferredProcess, "Step 2 Failed to initialize.")
                         },
                         {
                             name: translate.sync('examples.wizard.step3'),
@@ -187,7 +196,6 @@
                             validate: function(scope) {
                                 return true;
                             }
-
                         },
                         {
                             name: translate.sync('examples.wizard.step5'),
