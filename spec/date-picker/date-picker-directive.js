@@ -67,12 +67,30 @@ describe('akam-date-picker', function() {
 
       expect(inputDateField).not.toBe(null);
       expect(toggleDatePickerButton).not.toBe(null);
-      expect(datePicker).not.toBe(null);
+
+      /*
+       * 0.13.3 changed markup for date picker
+       * ul.dropdown is now shown only when datePicker isOpen
+       *
+       * changing test to expect datePicker to be null
+       *
+       * see: https://github.com/angular-ui/bootstrap/commit/9f73d240
+      */
+      expect(datePicker).toBe(null);
       expect(inputDateField.placeholder).toEqual("placeholder");
     });
+
+    /*
+       * 0.13.3 changed markup for date picker
+       * ul.dropdown is now shown only when datePicker isOpen
+       *
+       * changing test to expect datePicker to be null
+       *
+       * see: https://github.com/angular-ui/bootstrap/commit/9f73d240
+      */
     it('should default hide the picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
-      expect(datePicker.getAttribute('style')).toContain('display: none');
+      expect(datePicker).toBe(null);
     });
   });
   describe('when pressing the open button', function() {
@@ -94,8 +112,9 @@ describe('akam-date-picker', function() {
 
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
       datePicker = document.querySelector(DATE_PICKER);
-      expect(datePicker.getAttribute('style')).toContain('display: none');
 
+      // when datepicker is closed, markup will be removed by ng
+      expect(datePicker).toBe(null);
     });
   });
   describe('when date picker is loaded', function() {
@@ -112,7 +131,7 @@ describe('akam-date-picker', function() {
       utilities.clickAwayCreationAndClick('div');
       datePicker = document.querySelector(DATE_PICKER);
 
-      expect(datePicker.getAttribute('style')).toContain('display: none');
+      expect(datePicker).toBe(null);
     });
     it('should start on todays month', function() {
       var todaysDate = utilities.getMonthInEnglish() + " " + utilities.getTodaysYear();
@@ -209,7 +228,8 @@ describe('akam-date-picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
 
       expect(inputDateField.value).toEqual(dayString);
-      expect(datePicker.getAttribute('style')).toContain('display: none');
+      // selecting date closes datePicker and datePicker should be null since markup is removed
+      expect(datePicker).toBe(null);
     });
     it('should be able to open and change date', function() {
       var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
@@ -228,7 +248,8 @@ describe('akam-date-picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
 
       expect(inputDateField.value).toEqual(dayString);
-      expect(datePicker.getAttribute('style')).toContain('display: none');
+      // selecting date closes datePicker and datePicker should be null since markup is removed
+      expect(datePicker).toBe(null);
     });
     it('should hide clear icon when no date has been picked', function() {
       var clearIcon = document.querySelector('.clear-date');
@@ -266,15 +287,18 @@ describe('akam-date-picker', function() {
 
       expect(inputDateField).not.toBe(null);
       expect(toggleDatePickerButton).not.toBe(null);
-      expect(datePicker).not.toBe(null);
+      // datePicker will be null since it is closed and markup is removed
+      expect(datePicker).toBe(null);
     });
     it('should default hide the picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
-
-      expect(datePicker.getAttribute('style')).toContain('display: none');
+      // datepicker is hidden by default, markup is removed
+      expect(datePicker).toBe(null);
     });
     it('should have todays month highlighted', function() {
       var thisMonth = utilities.getMonthInEnglish(utilities.getTodaysMonth()).slice(0, 3);
+      // need to open date picker since markup is added only when isOpen is true
+      utilities.click(TOGGLE_DATE_PICKER_BUTTON);
       var todaysMonthButton = findCertainButton(thisMonth).querySelector('span');
       expect(todaysMonthButton.classList.contains('text-info')).toBe(true);
     });
@@ -283,6 +307,9 @@ describe('akam-date-picker', function() {
       expect(inputDateField.placeholder).toEqual("placeholder");
     });
     it('should have every month', function() {
+      // need to open date picker since markup is added only when isOpen is true
+      utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+
       var januaryMonthButton = findCertainButton("Jan").querySelector('button');
       var februaryMonthButton = findCertainButton("Feb").querySelector('button');
       var marchMonthButton = findCertainButton("Mar").querySelector('button');
@@ -350,7 +377,9 @@ describe('akam-date-picker', function() {
 
       expect(scope.mychange).toHaveBeenCalled();
       expect(inputDateField.value).toEqual(firstMonthOfThisYearString);
-      expect(datePicker.getAttribute('style')).toContain('display: none');
+
+      // datePicker will be null since it is closed and markup is removed
+      expect(datePicker).toBe(null);
     });
     it('should be able to open and change month', function() {
       var januaryMonthButton = findCertainButton("Jan").querySelector('button');
@@ -369,7 +398,8 @@ describe('akam-date-picker', function() {
 
       expect(scope.mychange).toHaveBeenCalled();
       expect(inputDateField.value).toEqual(secondMonthOfThisYearString);
-      expect(datePicker.getAttribute('style')).toContain('display: none');
+      // datePicker will be null since it is closed and markup is removed
+      expect(datePicker).toBe(null);
     });
   });
   describe('when interacting with min and max date date-picker', function() {
