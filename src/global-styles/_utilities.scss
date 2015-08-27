@@ -1,216 +1,214 @@
-$utility-prefix: util-;
-
-.#{$utility-prefix}pull-right, .pull-right {
+.util-pull-right, .pull-right {
   float: right !important;
 }
 
-.#{$utility-prefix}pull-left, .pull-left {
+.util-pull-left, .pull-left {
   float: left !important;
 }
 
-.#{$utility-prefix}clearfix {
+.util-clearfix {
   @include clearfix();
 }
 
-.#{$utility-prefix}clear {
+.util-clear {
   clear: both;
 }
 
-.#{$utility-prefix}hide {
+.util-hide {
   display: none !important;
 }
 
-.#{$utility-prefix}show {
+.util-show {
   display: block !important;
 }
 
-.#{$utility-prefix}show-inline {
+.util-show-inline {
   display: inline;
 }
 
-.#{$utility-prefix}show-inline-block {
+.util-show-inline-block {
   display: inline-block;
 }
 
-.#{$utility-prefix}invisible {
+.util-invisible {
   visibility: hidden !important;
 }
 
-.#{$utility-prefix}visible {
+.util-visible {
   visibility: visible !important;
 }
 
-.#{$utility-prefix}hidden-overflow {
-  overflow: hidden;
+.util-hidden-overflow {
+  overflow: hidden !important;
 }
 
-.#{$utility-prefix}visible-overflow {
+.util-visible-overflow {
   overflow: visible;
 }
 
-.#{$utility-prefix}auto-overflow {
+.util-auto-overflow {
   overflow: auto;
 }
 
-.#{$utility-prefix}ellipsis {
+.util-ellipsis {
   @include ellipsis();
 }
 
 // TODO: review view makes heavy use of @include ellipsis
-.#{$utility-prefix}ellipsis-block {
-  @extend .#{$utility-prefix}ellipsis;
+.util-ellipsis-block {
+  @extend .util-ellipsis;
   display: block;
 }
 
-.#{$utility-prefix}border-box {
+.util-border-box {
   @include box-sizing(border-box);
 }
 
-.#{$utility-prefix}full-width {
-  @extend .#{$utility-prefix}border-box;
+.util-full-width {
+  @extend .util-border-box;
   width: 100%;
 }
 
-.#{$utility-prefix}half-width {
-  @extend .#{$utility-prefix}border-box;
+.util-half-width {
+  @extend .util-border-box;
   width: 50%;
 }
 
-.#{$utility-prefix}no-resize {
+.util-no-resize {
   @include resizable(none);
 }
 
-.#{$utility-prefix}no-wrap {
+.util-no-wrap {
   white-space: nowrap;
 }
 
-.#{$utility-prefix}no-fade {
+.util-no-fade {
   @include no-fade();
 }
 
-.#{$utility-prefix}fade {
+.util-fade {
   @include fade();
 }
 
-ul.#{$utility-prefix}list {
+ul.util-list {
   @include list-type(disc);
 }
 
-ol.#{$utility-prefix}list {
+ol.util-list {
   @include list-type(decimal);
 }
 
-ul.#{$utility-prefix}checkmark {
+ul.util-checkmark {
   @include list-type(checkmark);
 }
 
-.#{$utility-prefix}text-right {
+.util-text-right {
   text-align: right;
   * {
-    @extend .#{$utility-prefix}text-right;
+    @extend .util-text-right;
   }
 }
 
-.#{$utility-prefix}text-left {
+.util-text-left {
   text-align: left;
   * {
-    @extend .#{$utility-prefix}text-left;
+    @extend .util-text-left;
   }
 }
 
-.#{$utility-prefix}text-center {
+.util-text-center {
   text-align: center;
   * {
-    @extend .#{$utility-prefix}text-center;
+    @extend .util-text-center;
   }
 }
 
-.#{$utility-prefix}text-justify {
+.util-text-justify {
   text-align: justify;
   * {
-    @extend .#{$utility-prefix}text-justify;
+    @extend .util-text-justify;
   }
 }
 
-.#{$utility-prefix}monospace {
+.util-monospace {
   font-family: monospace;
 }
 
-.#{$utility-prefix}pre-wrap {
-  @extend .#{$utility-prefix}monospace;
+.util-pre-wrap {
+  @extend .util-monospace;
   @include force-wrap;
 }
 
-.#{$utility-prefix}bold {
+.util-bold {
   font-weight: bold;
 }
 
-.#{$utility-prefix}italicize {
+.util-italicize {
   font-style: italic;
 }
 
-.#{$utility-prefix}underline {
+.util-underline {
   text-decoration: underline;
 }
 
-.#{$utility-prefix}align-top {
+.util-align-top {
   vertical-align: top;
 }
 
-.#{$utility-prefix}align-middle {
+.util-align-middle {
   vertical-align: middle;
 }
 
-.#{$utility-prefix}text-top {
+.util-text-top {
   vertical-align: text-top;
 }
 
-.#{$utility-prefix}draggable {
+.util-draggable {
   @include grab-icon();
 }
 
-.#{$utility-prefix}clickable {
+.util-clickable {
   cursor: pointer;
 }
 
-.#{$utility-prefix}scrollable-y {
+.util-scrollable-y {
   @include scrollable(hidden, auto);
 }
 
-.#{$utility-prefix}scrollable-x {
+.util-scrollable-x {
   @include scrollable(auto, hidden);
 }
 
-.#{$utility-prefix}scrolling-table {
-  @extend .#{$utility-prefix}scrollable-y;
+.util-scrolling-table {
+  @extend .util-scrollable-y;
 }
 
-.#{$utility-prefix}transform-layer {
+.util-transform-layer {
   @include translateZ(0);
 }
 
-.#{$utility-prefix}opaque {
+.util-opaque {
   opacity: 1;
 }
 
-.#{$utility-prefix}transparent {
+.util-transparent {
   opacity: 0;
 }
 
-.#{$utility-prefix}screen-center-box {
+.util-screen-center-box {
   position: absolute;
   top: 50%;
   left: 50%;
   @include translate(-50%, -50.01%); // See FEE-436 for reason behind decimal places
 }
 
-.#{$utility-prefix}vertical-center-box {
+.util-vertical-center-box {
   position: relative;
   top: 50%;
   @include translateY(-50.01%); // See FEE-436 for reason behind decimal places
 }
 
-.#{$utility-prefix}horiztonal-center-box {
+.util-horiztonal-center-box {
   margin: 0 auto;
 }
 
@@ -223,7 +221,7 @@ ul.#{$utility-prefix}checkmark {
 }
 
 // used as the arrow next to the customer name and the account-selector
-.#{$utility-prefix}arrow-down {
+.util-arrow-down {
   @extend %arrow;
   border-width: $arrow-down-height-small $arrow-down-height-small 0 $arrow-down-height-small !important;
   border-color: #3c4c5b transparent transparent transparent;
@@ -231,7 +229,7 @@ ul.#{$utility-prefix}checkmark {
 }
 
 // used as the pointer from the nav popups
-.#{$utility-prefix}arrow-up {
+.util-arrow-up {
   @extend %arrow;
   border-width: 0 $arrow-up-height-large $arrow-up-height-large $arrow-up-height-large !important;
   border-color: transparent transparent #97a4b1 transparent;
