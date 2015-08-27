@@ -2,6 +2,7 @@ import angular from 'angular';
 import angularUI from 'angular-bootstrap-npm';
 import statusMessage from '../status-message';
 import i18n from '../i18n';
+import spinnerButton from '../spinner-button';
 
 import modalWindowService from './modal-window-service';
 import modalWindowBodyDirective from './modal-window-body-directive';
@@ -40,7 +41,8 @@ import modalWindowBodyDirective from './modal-window-body-directive';
 module.exports = angular.module('akamai.components.modal-window', [
   angularUI,
   statusMessage.name,
-  i18n.name
+  i18n.name,
+  spinnerButton.name
 ])
 
 /**

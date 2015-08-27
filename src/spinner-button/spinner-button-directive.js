@@ -1,4 +1,3 @@
-import angular from 'angular';
 import template from './templates/spinner-button.tpl.html';
 
 class SpinnerButtonController {}
@@ -18,4 +17,3 @@ export default () => {
     replace: true
   };
 };
-
