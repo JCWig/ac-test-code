@@ -35,7 +35,7 @@ class StatusMessageService {
     this.items.splice(0);
   }
 
-  remove(itemId){
+  remove(itemId) {
     for (let i = 0; i < this.items.length; i++) {
       if (this.items[i].itemId === itemId) {
         this.items.splice(i, 1);

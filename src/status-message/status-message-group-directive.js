@@ -1,8 +1,7 @@
 import template from './templates/status-message-group-directive.tpl.html';
 
-
 class StatusMessageGroup {
-  static get $inject(){
+  static get $inject() {
     return ['$scope'];
   }
 
@@ -15,7 +14,7 @@ class StatusMessageGroup {
     });
   }
 
-  remove(itemId){
+  remove(itemId) {
     for (let i = 0; i < this.items.length; i++) {
       if (this.items[i].itemId === itemId) {
         this.items.splice(i, 1);
