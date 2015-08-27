@@ -130,8 +130,9 @@ describe('akam-date-picker', function() {
 
       utilities.clickAwayCreationAndClick('div');
       datePicker = document.querySelector(DATE_PICKER);
-
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(datePicker).toBe(null);
+      }, 0);
     });
     it('should start on todays month', function() {
       var todaysDate = utilities.getMonthInEnglish() + " " + utilities.getTodaysYear();
