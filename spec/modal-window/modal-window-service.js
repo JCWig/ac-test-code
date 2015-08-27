@@ -85,6 +85,50 @@ describe('modalWindow service', function() {
     }
   });
 
+  describe("given a modal window", function(){
+    describe("when showFullscreenToggle option is set to true", function(){
+      beforeEach(function(){
+        this.scope.showFullscreenToggle = true;
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<p></p>',
+          showFullscreenToggle: true
+        });
+        this.scope.$apply();
+
+        this.result = document.querySelector('i.max-min-icon');
+      });
+
+      it('should confirm the max min icon is visible', function() {
+        expect(this.result != null).toBe(true);
+      });
+
+      it('should confirm the max min icon icon shows full screen', function() {
+        expect(this.result.classList.contains('pulsar-fullscreen')).toBe(true);
+      });
+    })
+  });
+
+  describe("given a modal window", function(){
+    describe("when showFullscreenToggle option is set to false", function(){
+      beforeEach(function(){
+        this.scope.showFullscreenToggle = true;
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<p></p>',
+          showFullscreenToggle: false
+        });
+        this.scope.$apply();
+
+        this.result = document.querySelector('i.max-min-icon');
+      });
+
+      it('should confirm the max min icon is not visible', function() {
+        expect(this.result == null).toBe(true);
+      });
+    })
+  });
+
   describe('open()', function() {
     describe('when no template option is provided', function() {
       it('should throw an error', function() {
@@ -358,7 +402,7 @@ describe('modalWindow service', function() {
         expect(closeIcon).toBe(null);
       });
 
-      it('should verify submit-button-spinner class when processing', function() {
+      it('should verify in-progress class when processing', function() {
         var submitButton;
         var deferral = this.q.defer();
 
@@ -382,9 +426,7 @@ describe('modalWindow service', function() {
 
         utilities.click(submitButton);
         this.scope.$apply();
-        var spinnerEl = angular.element(document.querySelector(SUBMIT_BUTTON + ' div:first-child'));
-        expect(spinnerEl.hasClass('submit-button-spinner')).toBe(true);
-        expect(submitButton.textContent.trim()).toBe('');
+        expect(submitButton.classList.contains('in-progress')).toBe(true);
       });
 
       it('should handle onSubmit being set to a value', function() {

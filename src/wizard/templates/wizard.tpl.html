@@ -31,11 +31,10 @@
     </button>
 
     <span ng-switch on="wizard.stepIndex === wizard.steps.length - 1" class="button-switch">
-        <button ng-switch-when="true" type="button" class="button large primary" ng-click="submit(wizard)" ng-disabled="!wizard.isValid() || wizard.processing">
-            <span ng-class="wizard.processing ? 'loading' : ''">{{ ::wizard.submitLabel }}</span>
-            <div class='submit-button-spinner' ng-if='wizard.processing'></div>
-        </button>
-
+        <akam-spinner-button ng-switch-when="true" class="large" ng-click="submit(wizard)"
+                             disabled="!wizard.isValid()"
+                             processing="wizard.processing"
+                             text-content="{{ ::wizard.submitLabel }}"></akam-spinner-button>
         <button ng-switch-default type="button" class="button large primary" ng-click="wizard.nextStep()" ng-disabled="!wizard.isValid()">
             {{ ::wizard.nextLabel }}
         </button>

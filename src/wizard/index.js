@@ -4,6 +4,7 @@ import statusMessage from '../status-message';
 import i18n from '../i18n';
 import wizardService from './wizard-service';
 import wizardContentDirective from './wizard-content-directive';
+import spinnerButton from '../spinner-button';
 
 /**
  * @ngdoc module
@@ -52,7 +53,8 @@ import wizardContentDirective from './wizard-content-directive';
 module.exports = angular.module('akamai.components.wizard', [
   angularBootstrap,
   statusMessage.name,
-  i18n.name
+  i18n.name,
+  spinnerButton.name
 ])
 
 /**

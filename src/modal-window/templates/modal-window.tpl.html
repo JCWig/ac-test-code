@@ -1,25 +1,34 @@
-<div class="modal-header" ng-class="{'error': modalWindow.showSubmitError}">
-  <i ng-if="modalWindow.icon" class="title-icon" ng-class="modalWindow.icon"></i>
+<div class="modal-container" ng-class="{'max' : modalWindow.isMax}">
+  <div class="modal-header" ng-class="{'error': modalWindow.showSubmitError}">
+    <i ng-if="modalWindow.icon" class="title-icon" ng-class="modalWindow.icon"></i>
 
-  <h3 class="modal-title">{{ modalWindow.title }}</h3>
-  <i class="close-icon" ng-click="modalWindow.instance.dismiss()" ng-if="!modalWindow.processing"></i>
+    <h3 class="modal-title">{{ modalWindow.title }}</h3>
+    <i class="max-min-icon icon-states"
+       ng-class="{ 'pulsar-fullscreen' : !modalWindow.isMax, 'pulsar-restore' : modalWindow.isMax}"
+       ng-click="modalWindow.isMax = !modalWindow.isMax;"
+       ng-if="modalWindow.showFullscreenToggle"></i>
+    <i class="close-icon" ng-click="modalWindow.instance.dismiss()" ng-if="!modalWindow.processing"></i>
 
-  <div class="akam-status-message-wrapper" ng-if='modalWindow.showSubmitError'>
-    <div class="akam-status-message-item-wrapper" ng-class="{'error': modalWindow.showSubmitError}">
-      <div class="akam-status-message-item">
-        <div class="status-message-content">{{ modalWindow.errorMessage }}</div>
+    <div class="akam-status-message-wrapper" ng-if='modalWindow.showSubmitError'>
+      <div class="akam-status-message-item-wrapper" ng-class="{'error': modalWindow.showSubmitError}">
+        <div class="akam-status-message-item">
+          <div class="status-message-content">{{ modalWindow.errorMessage }}</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<akam-modal-window-body></akam-modal-window-body>
-<div class="modal-footer">
-  <button type="button" class="button large" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
-    {{ modalWindow.cancelLabel }}
-  </button>
-  <button type="button" class="button large primary" ng-class="{'has-spinner': modalWindow.processing}" ng-if="!modalWindow.hideSubmit"
-          ng-disabled="modalWindow.isSubmitDisabled()" ng-click="modalWindow.submit()">
-    {{ !modalWindow.processing ? modalWindow.submitLabel : '' }}
-    <div class='submit-button-spinner' ng-if='modalWindow.processing'></div>
-  </button>
+  <akam-modal-window-body></akam-modal-window-body>
+  <div class="modal-footer">
+    <button type="button" class="button large" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
+      {{ modalWindow.cancelLabel }}
+    </button>
+    <akam-spinner-button
+        class="large"
+        ng-if="!modalWindow.hideSubmit"
+        disabled="modalWindow.isSubmitDisabled()"
+        processing="modalWindow.processing"
+        ng-click="modalWindow.submit()"
+        text-content="{{modalWindow.submitLabel}}">
+    </akam-spinner-button>
+  </div>
 </div>

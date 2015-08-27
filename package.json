@@ -23,17 +23,17 @@
   },
   "browserify-shim": {},
   "dependencies": {
-    "angular": "~1.4.3",
     "angular-bootstrap-npm": "^0.13.3",
-    "angular-cookies": "~1.4.3",
-    "angular-messages": "~1.4.3",
-    "angular-sanitize": "~1.4.3",
+    "angular": "~1.4.4",
+    "angular-cookies": "~1.4.4",
+    "angular-messages": "~1.4.4",
+    "angular-sanitize": "~1.4.4",
     "angular-translate": "^2.7.2",
     "angular-ui-router": "^0.2.15",
     "moment": "^2.10.3"
   },
   "devDependencies": {
-    "angular-mocks": "~1.4.3",
+    "angular-mocks": "~1.4.4",
     "angular-ui-utils": "git://github.com/angular-ui/ui-utils.git#4615f8e2449d95badf280a9820b8e6429ebb99ab",
     "babelify": "^6.1.2",
     "bootstrap": "^3.3.4",
@@ -44,6 +44,8 @@
     "browserify-istanbul": "^0.2.1",
     "browserify-shim": "^3.8.8",
     "del": "^1.2.0",
+    "dgeni": "^0.4.1",
+    "dgeni-packages": "git://github.com/yleviel/dgeni-packages.git#5144a1d7fd167d815aae6143e86e56a12959c66a",
     "event-stream": "^3.3.1",
     "gulp": "^3.9.0",
     "gulp-compass": "^2.1.0",
@@ -89,9 +91,7 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2",
-    "yargs": "^3.10.0",
-    "dgeni": "^0.4.1",
-    "dgeni-packages": "git://github.com/yleviel/dgeni-packages.git#5144a1d7fd167d815aae6143e86e56a12959c66a"
+    "yargs": "^3.10.0"
   },
   "files": [
     "dist",

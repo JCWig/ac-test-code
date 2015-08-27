@@ -184,17 +184,6 @@ $wizard-border: 1px solid #e6e6e6;
       border-top: $wizard-border;
       .button-switch > .button {
         position: relative;
-
-        & .submit-button-spinner {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-        }
-
-        & span.loading {
-          visibility: hidden;
-        }
       }
     }
   }
