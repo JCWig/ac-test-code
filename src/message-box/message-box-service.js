@@ -74,6 +74,9 @@ function messageBox(modalWindow, translate, $rootScope) {
      * - `details` (string) Optional additional text, which
      *   appears collapsed by default.
      *
+     * - `hideSubmit` (boolean) Optional A flag to hide the submit button and only allow
+     *    the message box to be dismissed.
+     *
      * @return {Object} A modalWindow instance.
      *
      */
