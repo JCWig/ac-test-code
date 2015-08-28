@@ -549,7 +549,7 @@ describe('modalWindow service', function() {
     });
 
     describe('given an open modal window with content scope', function(){
-      describe('when the modal is closed', function(){
+      describe('when the modal is dismissed', function(){
         beforeEach(function() {
           spyOn(this.scope, '$destroy');
 
@@ -568,6 +568,27 @@ describe('modalWindow service', function() {
           expect(this.scope.$destroy).toHaveBeenCalled();
         });
       });
+
+      describe('when the modal is closed', function(){
+        beforeEach(function() {
+          spyOn(this.scope, '$destroy');
+
+          this.modalWindowService.open({
+            scope: this.scope,
+            template: '<p></p>',
+            controller: 'Controller'
+          });
+          this.scope.$apply();
+
+          var submitButton = document.querySelector(SUBMIT_BUTTON);
+          utilities.click(submitButton);
+        });
+
+        it('should destroy the provided scope', function() {
+          expect(this.scope.$destroy).toHaveBeenCalled();
+        });
+      });
+
     });
 
   });
