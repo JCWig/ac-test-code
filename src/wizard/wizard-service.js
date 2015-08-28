@@ -63,10 +63,6 @@ class WizardController {
     this.$scope = $scope;
   }
 
-  get showError() {
-      return this.errorMessage;
-  }
-
   getNextLabel() {
     // if last step, return submitLabel
     if (this.stepIndex === this.steps.length - 1) {
@@ -190,7 +186,6 @@ class WizardController {
   submit() {
     let result;
 
-
     if (angular.isFunction(this.onSubmit)) {
       result = this.onSubmit();
     } else {
@@ -202,6 +197,7 @@ class WizardController {
       this.startProcessing();
     } else if (!result) {
       this.stopProcessing();
+      this.errorMessage = this.submitErrorMessage;
       return;
     }
 

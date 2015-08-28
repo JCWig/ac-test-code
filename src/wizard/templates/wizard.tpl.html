@@ -1,12 +1,12 @@
 <div class="modal-container">
-    <div class="modal-header" ng-class="{'error': wizard.showError}">
+    <div class="modal-header" ng-class="{'error': wizard.errorMessage}">
         <i ng-if="icon" class="title-icon" ng-class="icon"></i>
 
         <h3 class="modal-title">{{ wizard.title }}</h3>
         <i class="close-icon" ng-click="wizard.close()" ng-if="!wizard.processing"></i>
 
-        <div class="akam-status-message-wrapper" ng-if='wizard.showError'>
-            <div class="akam-status-message-item-wrapper" ng-class="{'error': wizard.showError}">
+        <div class="akam-status-message-wrapper" ng-if='wizard.errorMessage'>
+            <div class="akam-status-message-item-wrapper" ng-class="{'error': wizard.errorMessage}">
                 <div class="akam-status-message-item">
                     <div class="status-message-content">{{ wizard.errorMessage }}</div>
                 </div>
@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div class="wizard-steps" ng-class="{'error': wizard.showError}" data-number-of-steps="{{wizard.steps.length}}">
+    <div class="wizard-steps" ng-class="{'error': wizard.errorMessage}" data-number-of-steps="{{wizard.steps.length}}">
         <ul>
             <li ng-class="wizard.stepClasses(step.id)" ng-repeat="step in ::wizard.steps" ng-click="wizard.jumptToVisitedStep(step.id)">
                 <div>{{ $index + 1 }}</div>
