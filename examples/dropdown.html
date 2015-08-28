@@ -37,21 +37,6 @@
     <br/>
     <div>
         <span>
-            <!-- TODO: MODIFY DOC FOR DROPDOWN
-              -- To provide component default value for placeholder using custom markup::
-              -- <pre>
-              -- <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
-              -- </pre>
-              -- defining placeholder attr is not required but {{dropdown.placerholder}} is required. if blank, there will be no placeholder text displayed
-              --
-              -- To provide custom placeholder using custom markup:
-              -- <pre>
-              -- <akam-dropdown placeholder="KEY TO TRANSLATE">
-              --    <akam-dropdown-selected>
-              --        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
-              --    </akam-dropdown-selected>
-              -- </akam-dropdown>
-              -->
             <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex2.selectedState" text-property="name"
                            items="vm.stateObjects" clearable on-change="vm.doChange(item)">
 
