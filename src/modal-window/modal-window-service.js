@@ -42,7 +42,7 @@ class ModalWindowController {
     this.setProperty('instance');
     this.setProperty('showFullscreenToggle');
 
-    this.decorateInstance();
+    this.instance.result.finally(() => this.contentScope.$destroy());
 
     this.templateModel = {
       template: this.options.contentTemplate,
@@ -71,23 +71,6 @@ class ModalWindowController {
     if (this.options.contentControllerAs && contentController) {
       this.contentScope[this.options.contentControllerAs] = contentController;
     }
-  }
-
-  decorateInstance() {
-    (() => {
-      let instanceDismiss = this.instance.dismiss;
-      let instanceClose = this.instance.close;
-
-      this.instance.dismiss = () => {
-        this.contentScope.$destroy();
-        return instanceDismiss();
-      };
-
-      this.instance.close = returnValue => {
-        this.contentScope.$destroy();
-        return instanceClose(returnValue);
-      };
-    })();
   }
 
   isSubmitDisabled() {
