@@ -4,67 +4,72 @@ const DEFAULT_TIMEOUT = 2000;
 const [SUCCESS] = ['success'];
 
 class StatusMessageController {
-  constructor($log, $timeout) {
+
+  static get $inject() {
+    return ['$log', '$timeout', 'statusMessage'];
+  }
+
+  constructor($log, $timeout, statusMessage) {
+    this.statusMessage = statusMessage;
     this.$log = $log;
     this.$timeout = $timeout;
-
-    this.timeout = null;
     this.closing = false;
+    this.timeout = null;
 
     if (!this.status) {
       this.status = SUCCESS;
     }
   }
+
+  enableTimer() {
+    if (this.timeout && this.timeout > 0) {
+      this.timer = this.$timeout(() => {
+        this.close();
+      }, this.timeout);
+    }
+  }
+
+  close() {
+    //make sure we're not allowing the callback to (also) occur if the user clicked close
+    this.cancelTimer();
+    this.closing = true;
+    this.$timeout(() => {
+      this.statusMessage.remove(this.itemId);
+      this.closing = false;
+    }, 500);
+  }
+
+  cancelTimer() {
+    if (this.timer != null) {
+      this.$timeout.cancel(this.timer);
+      this.timer = null;
+    }
+  }
 }
 
-StatusMessageController.$inject = ['$log', '$timeout'];
-
-function linkFn(scope, element, attrs) {
-  let timer = null,
-    ctrl = scope.statusMessage;
-
+function linkFn(scope, element, attrs, ctrl) {
   element.addClass(ctrl.status);
 
-  ctrl.timeout = !attrs.timeout ? DEFAULT_TIMEOUT : window.parseInt(attrs.timeout, 10);
-  if (isNaN(ctrl.timeout) || ctrl.timeout < 0) {
-    ctrl.timeout = DEFAULT_TIMEOUT;
+  let timeoutValue = attrs.timeout;
+
+  timeoutValue = !timeoutValue ? DEFAULT_TIMEOUT : parseInt(timeoutValue, 10);
+
+  if (isNaN(timeoutValue) || timeoutValue < 0) {
+    timeoutValue = DEFAULT_TIMEOUT;
   }
 
-  scope.close = function() {
-    //make sure we're not allowing the callback to (also) occur if the user clicked close
-    cancelTimer();
-    ctrl.closing = true;
-    ctrl.$timeout(() => {
-      element.remove();
-      ctrl.closing = false;
-    }, 500);
-  };
+  ctrl.timeout = timeoutValue;
 
   element.on('$destroy', () => {
-    scope.$emit('akam-status-message-destroyed', ctrl.itemId);
-    element.off('mouseenter', cancelTimer);
-    element.off('mouseleave', enableTimer);
+    ctrl.close();
+    element.off('mouseenter', () => ctrl.cancelTimer());
+    element.off('mouseleave', () => ctrl.enableTimer());
   });
 
-  function enableTimer() {
-    if (ctrl.timeout > 0) {
-      timer = ctrl.$timeout(() => {
-        scope.close();
-      }, ctrl.timeout);
-    }
-  }
+  element.on('mouseenter', () => ctrl.cancelTimer());
+  element.on('mouseleave', () => ctrl.enableTimer());
 
-  function cancelTimer() {
-    if (timer != null) {
-      ctrl.$timeout.cancel(timer);
-      timer = null;
-    }
-  }
-
-  element.on('mouseenter', cancelTimer);
-  element.on('mouseleave', enableTimer);
-
-  enableTimer();
+  ctrl.enableTimer();
 }
 
 export default () => {

@@ -42,7 +42,7 @@ describe('akamai.components.wizard', function() {
       $controllerProvider.register('Controller2', Controller2);
     });
 
-    inject(function($rootScope, _$compile_, $httpBackend, _wizard_, _$q_, $timeout) {
+    inject(function($rootScope, _$compile_, $httpBackend, _wizard_, _$q_, $timeout, statusMessage) {
       $scope = $rootScope;
       $compile = _$compile_;
       wizard = _wizard_;
@@ -57,6 +57,8 @@ describe('akamai.components.wizard', function() {
         { name: 'Step 2', template: '<p>Step 2 Content</p>' },
         { name: 'Step 3', template: '<p>Step 3 Content</p>' }
       ];
+
+      statusMessage.clear();
     });
   });
 
