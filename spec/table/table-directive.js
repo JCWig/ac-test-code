@@ -1196,7 +1196,9 @@ describe('akam-table', function() {
         addElement(markup);
 
         var filterbox = document.querySelector(FILTER_BOX);
-        expect(filterbox.placeholder).toContain("Filter");
+        timeout(function(){
+          expect(filterbox.placeholder).toContain("Filter");
+        },0);
       });
       it('should translate and display key if key is invalid', function(){
         var markup =  '<akam-table items="mydata" akam-standalone filter-placeholder="invalidKey"'+
@@ -1269,7 +1271,9 @@ describe('akam-table', function() {
         tableController.filterRows();
         scope.$digest();
         var emptyMessage = document.querySelector('.empty-table-message');
-        expect(emptyMessage.textContent).toContain("Filter");
+        timeout(function(){
+          expect(emptyMessage.textContent).toContain("Filter");
+        },0);
       });
       it('should translate and display key if key is invalid', function(){
         var markup =  '<akam-table items="mydata" akam-standalone no-filter-results-message="invalidKey"'+

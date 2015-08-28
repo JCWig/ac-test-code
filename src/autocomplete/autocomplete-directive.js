@@ -1,25 +1,27 @@
-import angular from 'angular';
-import template from './templates/autocomplete.tpl.html';
+var angular = require('angular');
 
-class AutocompleteController {
+module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $document,
+  autocompleteService, autocompleteConfig) {
 
-  constructor($scope, translate, uuid, $q, $log, $compile, $timeout, $document,
-    autocompleteService, autocompleteConfig) {
+  /**
+   * buildStaticQuery builds a query string to tell typeahead to call async method that specified
+   * @param  {object} ctrl a controller
+   */
+  function buildStaticQuery(ctrl) {
+    var itemAsText = 'item';
 
-    this.$scope = $scope;
-    this.translate = translate;
-    this.uuid = uuid;
-    this.$q = $q;
-    this.$compile = $compile;
-    this.$timeout = $timeout;
-    this.$document = $document;
-    this.autocompleteService = autocompleteService;
-    this.autocompleteConfig = autocompleteConfig;
+    if (ctrl.textProperty) {
+      itemAsText = 'item.selectedText';
+    }
+    ctrl.query = 'item as ' + itemAsText + ' for item in ac.searchMatches($viewValue)';
+  }
+
+  function AutocompleteController($scope, $element, $attrs) {
 
     //scope vars
     this.isOpen = false;
-    this.autocompleteId = `akam-autocomplete-${this.$scope.$id}-${this.uuid.guid()}`;
-    this.searchLength = this.autocompleteConfig.SEARCH_MINIMUM;
+    this.autocompleteId = 'akam-autocomplete-' + $scope.$id + '-' + uuid.guid();
+    this.searchLength = autocompleteConfig.SEARCH_MINIMUM;
     this.placeholder = this.placeholder || '';
     this.showSearchTip = this.showSearchTip || true;
     this.currentSearchTerm = '';
@@ -36,204 +38,202 @@ class AutocompleteController {
         this.searchTip = value;
       });
 
-    this.$scope.$on('$destroy', () => {
-      this.$document.off('keyup', this.handleTabEvent);
-    });
-
-    this.$document.on('keyup', this.handleTabEvent);
-
-    this.buildStaticQuery(this);
-  }
-
-  /**
-   * register a scope method to add child directive controller to this controller list
-   * @param  {object} childCtrl child ditective controller
-   */
-  register(childCtrl) {
-    this.childControls.unshift(childCtrl);
-  }
-
-  /**
-   * buildStaticQuery builds a query string to tell typeahead to call async method that specified
-   * @param  {object} ctrl a controller
-   */
-  buildStaticQuery() {
-    let itemAsText = 'item';
-
-    if (this.textProperty) {
-      itemAsText = 'item.selectedText';
-    }
-    this.query = 'item as ' + itemAsText + ' for item in autocomplete.searchMatches($viewValue)';
-  }
-
-  /**
-   * searchMatches a scope method gets called from typeahead for async searching
-   * @param  {String} term User typed character
-   * @return {Object} return Promise object
-   */
-  searchMatches(term) {
-    let deferred = this.$q.defer();
-
-    this.currentSearchTerm = term;
-
-    if (term.length < this.searchLength) {
-      return deferred.resolve([]);
+    if (angular.isDefined($attrs.minimumSearch) && $attrs.minimumSearch.length > 0) {
+      this.searchLength = $attrs.minimumSearch;
     }
 
-    if (!angular.isFunction(this.onSearch)) {
-      this.$log.error(`onSearch function is required to make asynchronous calls.`);
-      return deferred.reject('error');
+    if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
+      this.textProperties = this.textProperty.split(' ');
     }
-    return this.autocompleteService.asyncSearch(this, term);
-  }
 
-  onSelectItem(item, model, label) {
-    //only here to update ng-model of selectedItem
-    //still have to figure out which ng-model(search input or selected)
-    //connecting to parent form as form validation concerns and require attribute used
-    //$scope.setViewValue(item);
+    //$scope methods
+    this.searchMatches = searchMatches;
+    this.selectItem = selectItem;
+    this.clearSelected = clearSelected;
+    this.clearSearch = clearSearch;
+    this.register = register;
 
-    this.itemSelected = true;
-    this.selectedItem = item;
-    this.isOpen = false;
-    this.searchTerm = this.currentSearchTerm;
+    buildStaticQuery(this);
 
-    this.$scope.setViewValue(item);
+    /**
+     * register a scope method to add child directive controller to this controller list
+     * @param  {object} childCtrl child ditective controller
+     */
+    function register(childCtrl) {
+      this.childControls.unshift(childCtrl);
+    }
 
-    this.notifySelected(item, label);
-  }
+    /**
+     * searchMatches a scope method gets called from typeahead for async searching
+     * @param  {String} term User typed character
+     * @return {Object} return Promise object
+     */
+    function searchMatches(term) {
+      var ctrl = $scope.ac,
+        deferred = $q.defer();
 
-  /**
-   * clearSelected a scope method triggered from user click selected item close icon,
-   * either by clear selected and notify app with empty data
-   * then resets seted state
-   * @param  {event} e event
-   */
-  clearSelected(e) {
-    e.preventDefault();
-    e.stopPropagation();
+      this.currentSearchTerm = term;
 
-    this.selectedItem = '';
-    this.itemSelected = false;
-    this.searchTerm = '';
-    //$scope.setViewValue('');
-    this.notifySelected();
-    this.setInputFocus();
-  }
+      if (term.length < ctrl.searchLength) {
+        return deferred.resolve([]);
+      }
 
-  /**
-   * clearSearch a scope method to clear the search term user has entered.
-   * @param  {event} e event
-   */
-  clearSearch() {
-    this.searchTerm = '';
-    this.isOpen = false;
-    this.currentSearchTerm = '';
-    this.setInputFocus();
-  }
+      if (!angular.isFunction(ctrl.onSearch) || !$attrs.onSearch) {
+        $log.error('onSearch function is required to make asynchronous calls.');
+        return deferred.reject('error');
+      }
+      return autocompleteService.asyncSearch(ctrl, term);
+    }
 
-  /**
-   * setInputFocus private function to force input focus
-   */
-  setInputFocus() {
-    let inputEl = this.$document[0].getElementById(this.autocompleteId);
+    /**
+     * selectItem a scope method, it will gets call from typeahead when selected an item
+     * sets new selected data and state and callback to parent with data
+     * @param  {String|Object} item string or object user selected
+     * @param  {Object} model object user selected
+     * @param  {String} label string user selected and displayed
+     */
+    function selectItem(item, model, label) {
+      //only here to update ng-model of selectedItem
+      //still have to figure out which ng-model(search input or selected)
+      //connecting to parent form as form validation concerns and require attribute used
+      $scope.setViewValue(item);
 
-    this.$timeout(() => {
-      this.$scope.$apply(() => {
-        inputEl.focus();
-      });
-    });
-  }
+      this.itemSelected = true;
+      this.selectedItem = item;
+      this.isOpen = false;
+      this.searchTerm = this.currentSearchTerm;
 
-  /**
-   * notifySelected a private method to call into app with data selected or unselected
-   * @param  {String|Object} item string or object user selected
-   * @param  {String} label string user selected and displayed
-   */
-  notifySelected(item, label) {
-    if (angular.isFunction(this.onSelect)) {
-      this.onSelect({
-        item: item,
-        displayText: label
+      notifySelected(item, label);
+    }
+
+    /**
+     * clearSelected a scope method triggered from user click selected item close icon,
+     * either by clear selected and notify app with empty data
+     * then resets seted state
+     * @param  {event} e event
+     */
+    function clearSelected(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      this.selectedItem = '';
+      this.itemSelected = false;
+      this.searchTerm = '';
+      $scope.setViewValue('');
+      notifySelected();
+      setInputFocus();
+    }
+
+    /**
+     * clearSearch a scope method to clear the search term user has entered.
+     * @param  {event} e event
+     */
+    function clearSearch() {
+      this.searchTerm = '';
+      this.isOpen = false;
+      this.currentSearchTerm = '';
+      setInputFocus();
+    }
+
+    /**
+     * setInputFocus private function to force input focus
+     */
+    function setInputFocus() {
+      var inputEl = $document[0].getElementById($scope.ac.autocompleteId);
+
+      $timeout(function() {
+        $scope.$apply(function() {
+          inputEl.focus();
+        });
       });
     }
-  }
 
-  /**
-   * handleTabEvent a private function trigged by keyup event and handle it
-   * only if it is tab key and has open class, then manually trigger click to close it
-   * @param  {object} e event object
-   */
-  handleTabEvent(e) {
-    let dirElem;
+    /**
+     * notifySelected a private method to call into app with data selected or unselected
+     * @param  {String|Object} item string or object user selected
+     * @param  {String} label string user selected and displayed
+     */
+    function notifySelected(item, label) {
+      var ctrl = $scope.ac;
 
-    e.preventDefault();
-    e.stopPropagation();
-
-    if ((e.keyCode || e.which) === 9) {
-      dirElem = this.$document[0].querySelector('.akam-autocomplete.open');
-      if (dirElem) {
-        this.$timeout(() => {
-          this.$document.triggerHandler('click');
-          this.isOpen = false;
+      if (angular.isFunction(ctrl.onSelect) && $attrs.onSelect) {
+        ctrl.onSelect({
+          item: item,
+          displayText: label
         });
       }
     }
   }
-}
 
-AutocompleteController.$inject = ['$scope', 'translate', 'uuid', '$q', '$log', '$compile',
-  '$timeout', '$document', 'autocompleteService', 'autocompleteConfig'
-];
+  AutocompleteController.$inject = ['$scope', '$element', '$attrs'];
 
-function linkFn(scope, elem, attrs, ctrls) {
-  let ctrl = ctrls[0],
-    ngModel = ctrls[1],
-    selectedContent = '',
-    itemsContent = '',
-    selectedElem, el;
+  function linkFn(scope, elem, attrs, ctrls) {
+    var ctrl = ctrls[0],
+      ngModel = ctrls[1],
+      selectedContent = '',
+      itemsContent = '',
+      selectedElem, el;
 
-  if (angular.isDefined(attrs.minimumSearch) && attrs.minimumSearch.length > 0) {
-    ctrl.searchLength = attrs.minimumSearch;
-  }
+    //get the content from child directives
+    angular.forEach(ctrl.childControls, function(c) {
+      if (c.name === autocompleteConfig.ITEMS_TEMPLATE_NAME) {
+        itemsContent = c.getContent();
+      } else if (c.name === autocompleteConfig.SELECTED_ITEM_TEMPLATE_NAME) {
+        selectedContent = c.getContent();
+      }
+    });
 
-  if (angular.isDefined(attrs.textProperty) && attrs.textProperty.length > 0) {
-    ctrl.textProperties = ctrl.textProperty.split(' ');
-  }
+    autocompleteService.setItemsTemplate(ctrl, itemsContent);
+    selectedElem = autocompleteService.setSelectedItemTemplate(ctrl, selectedContent);
 
-  //get the content from child directives
-  angular.forEach(ctrl.childControls, (c) => {
-    if (c.name === ctrl.autocompleteConfig.ITEMS_TEMPLATE_NAME) {
-      itemsContent = c.getContent();
-    } else if (c.name === ctrl.autocompleteConfig.SELECTED_ITEM_TEMPLATE_NAME) {
-      selectedContent = c.getContent();
+    el = angular.element(require('./templates/autocomplete.tpl.html'));
+    el.append(selectedElem);
+    $compile(el)(scope, function(clonedElement) {
+      elem.replaceWith(clonedElement);
+    });
+
+    scope.setViewValue = function(value) {
+      ngModel.$setViewValue(value);
+    };
+
+    ngModel.$render = function() {
+      scope.ac.selectedItem = ngModel.$modelValue;
+    };
+
+    $document.on('keyup', handleTabEvent);
+
+    /**
+     * handleTabEvent a private function trigged by keyup event and handle it
+     * only if it is tab key and has open class, then manually trigger click to close it
+     * @param  {object} e event object
+     */
+    function handleTabEvent(e) {
+      var that = ctrl, dirElem;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if ((e.keyCode || e.which) === 9) {
+        dirElem = $document[0].querySelector('.akam-autocomplete.open');
+        if (dirElem) {
+          $timeout(function() {
+            $document.triggerHandler('click');
+            that.isOpen = false;
+          });
+        }
+      }
     }
-  });
 
-  ctrl.autocompleteService.setItemsTemplate(ctrl, itemsContent);
-  selectedElem = ctrl.autocompleteService.setSelectedItemTemplate(ctrl, selectedContent);
+    scope.$on('$destroy', function() {
+      $document.off('keyup', handleTabEvent);
+    });
+  }
 
-  el = angular.element(template);
-  el.append(selectedElem);
-  ctrl.$compile(el)(scope, (clonedElement) => {
-    elem.replaceWith(clonedElement);
-  });
-
-  scope.setViewValue = (value) => {
-    ngModel.$setViewValue(value);
-  };
-
-  ngModel.$render = () => {
-    ctrl.selectedItem = ngModel.$modelValue;
-  };
-}
-
-export default () => {
   return {
     restrict: 'E',
     require: ['akamAutocomplete', '^ngModel'],
     controller: AutocompleteController,
-    controllerAs: 'autocomplete',
+    controllerAs: 'ac',
     bindToController: {
       onSelect: '&?',
       onSearch: '&',
@@ -246,3 +246,7 @@ export default () => {
     link: linkFn
   };
 };
+
+module.exports.$inject = ['translate', 'uuid', '$q', '$log', '$compile', '$timeout', '$document',
+  'autocompleteService', 'autocompleteConfig'
+];

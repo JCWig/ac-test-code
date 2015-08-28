@@ -25,6 +25,7 @@
         "properties": "プロパティ"
     },
     "footer_context": {
+        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorageのﾌﾟﾛﾋﾞｼﾞｮﾆﾝｸﾞ",
         "reports_dashboard": "ﾚﾎﾟｰﾄﾀﾞｯｼｭﾎﾞｰﾄﾞ",
         "configure_ads": "設定のADS",

@@ -1,0 +1,7 @@
+<button
+    class="btn primary spinner-button"
+    ng-class="{'in-progress': spinnerButton.processing}"
+    ng-disabled="spinnerButton.processing || spinnerButton.disabled">
+  <span class="text">{{spinnerButton.textContent}}</span>
+  <span class="spinner"></span>
+</button>

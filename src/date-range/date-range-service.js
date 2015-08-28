@@ -12,6 +12,10 @@ class DateRangeService {
    * @return {Boolean} true if first date is greater then min date, false is otherwise
    */
   isFirstDateExceedMinDate(d, min) {
+    if (min == null) {
+      return false;
+    }
+
     let firstActiveDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1),
       firstMinDayOfMonth = new Date(min.getFullYear(), min.getMonth(), 1);
 
@@ -25,6 +29,10 @@ class DateRangeService {
    * @return {Boolean} true if last date is less then max date, false is otherwise
    */
   isLastDateNotOverMaxDate(d, max) {
+    if (max == null) {
+      return false;
+    }
+
     let lastActiveDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0),
       lastMaxDayOfMonth = new Date(max.getFullYear(), max.getMonth(), 0);
 

@@ -25,6 +25,7 @@ function wizardContent($compile, $templateCache, $http, $q) {
       );
     }
   };
+
 }
 
 wizardContent.$inject = ['$compile', '$templateCache', '$http', '$q'];

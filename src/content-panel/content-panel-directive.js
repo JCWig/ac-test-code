@@ -1,4 +1,5 @@
 import angular from 'angular';
+import template from './templates/content-panel.tpl.html';
 
 class ContentPanelController {
 
@@ -87,7 +88,7 @@ function contentPanelDirective() {
     },
     controller: ContentPanelController,
     controllerAs: 'contentPanel',
-    template: require('./templates/content-panel.tpl.html'),
+    template: template,
     compile: function compile(tElement, tAttrs) {
       // If the header attribute is not specified, assume
       // the developer provided their own akam-content-panel-header

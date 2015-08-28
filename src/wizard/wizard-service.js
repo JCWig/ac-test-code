@@ -5,23 +5,27 @@ class WizardController {
 
   static get $inject() {
     return ['$scope', '$rootScope', '$controller', 'translate',
-            '$templateCache'];
+            '$templateCache', '$q', 'statusMessage'];
   }
 
   constructor($scope, $rootScope, $controller, translate,
-              $templateCache) {
+              $templateCache, $q, statusMessage) {
     let options = $scope.options;
 
     $scope.wizard = this;
 
+    this.$q = $q;
+    this.statusMessage = statusMessage;
+    this.processing = false;
+
     this.contentScope = options.contentScope ? options.contentScope : $rootScope.$new();
+    this.contentScope.processing = this.processing;
+    this.contentScope.setOnSubmit = fn => this.onSubmit = fn;
+    this.contentScope.close = () => this.close();
 
     if (angular.isDefined(options.appController)) {
       $controller(options.appController, {$scope: this.contentScope});
     }
-
-    this.processing = false;
-    this.contentScope.process = this.processing;
 
     this.title = options.title;
     this.icon = options.icon;
@@ -34,10 +38,10 @@ class WizardController {
       null, 'components.wizard.label.submit');
     this.successMessage = translate.sync(options.successMessage,
       null, 'components.wizard.successMessage');
-    this.errorMessage = translate.sync(options.errorMessage,
+    this.submitErrorMessage = translate.sync(options.errorMessage,
       null, 'components.wizard.errorMessage');
 
-    this.showSubmitError = false;
+    this.instance = options.instance;
 
     options.steps.forEach((step, i) => {
       step.id = i;
@@ -56,6 +60,33 @@ class WizardController {
 
     this.steps = options.steps;
     this.stepIndex = 0;
+
+    this.$scope = $scope;
+  }
+
+  getNextLabel() {
+    // if last step, return submitLabel
+    if (this.stepIndex === this.steps.length - 1) {
+      return this.submitLabel;
+    } else {
+      return this.nextLabel;
+    }
+  }
+
+  goForward() {
+    if (this.stepIndex === this.steps.length - 1) {
+      this.submit();
+    } else {
+      this.nextStep();
+    }
+  }
+
+  close(returnValue) {
+    if (angular.isDefined(this.instance)) {
+      this.instance.close(returnValue);
+      this.contentScope.$destroy();
+      this.$scope.$destroy();
+    }
   }
 
   currentStep() {
@@ -64,14 +95,13 @@ class WizardController {
 
   previousStep() {
     if (this.stepIndex > 0) {
-      this.stepIndex--;
+      this.activateStep(this.stepIndex - 1);
     }
   }
 
   nextStep() {
     if (this.stepIndex < this.steps.length - 1) {
-      this.stepIndex++;
-      this.currentStep().visited = true;
+      this.activateStep(this.stepIndex + 1);
     }
   }
 
@@ -85,9 +115,47 @@ class WizardController {
     return step.validate(this.contentScope);
   }
 
+  startProcessing() {
+    this.processing = true;
+    this.contentScope.processing = true;
+  }
+
+  stopProcessing() {
+    this.processing = false;
+    this.contentScope.processing = false;
+  }
+
   activateStep(stepNumber) {
-    if (this.steps[stepNumber].visited && this.previousStepsValid(stepNumber)) {
+
+    let goToStep = () => {
       this.stepIndex = stepNumber;
+      this.currentStep().visited = true;
+
+      this.stopProcessing();
+      this.errorMessage = null;
+    };
+
+    // If a prepare function is supplied for the step, execute it and process the
+    // returned promise
+    if (angular.isFunction(this.steps[stepNumber].initialize)) {
+
+      this.startProcessing();
+
+      let nextStepPromise = this.steps[stepNumber].initialize();
+
+      nextStepPromise.then(angular.bind(this, goToStep), reason => {
+        this.stopProcessing();
+        this.errorMessage = reason;
+      });
+    } else {
+      goToStep();
+    }
+
+  }
+
+  jumptToVisitedStep(stepNumber) {
+    if (this.steps[stepNumber].visited && this.previousStepsValid(stepNumber)) {
+      this.activateStep(stepNumber);
     }
   }
 
@@ -116,9 +184,42 @@ class WizardController {
     };
   }
 
+  submit() {
+    let result;
+
+    if (angular.isFunction(this.onSubmit)) {
+      result = this.onSubmit();
+    } else {
+      result = angular.noop;
+    }
+
+    // check to see if the onSubmit returns a promise
+    if (result && angular.isFunction(result.then)) {
+      this.startProcessing();
+    } else if (!result) {
+      this.stopProcessing();
+      this.errorMessage = this.submitErrorMessage;
+      return;
+    }
+
+    this.$q.when(result).then(
+      (returnValue) => {
+        this.stopProcessing();
+        this.close(returnValue);
+        this.statusMessage.showSuccess({text: this.successMessage});
+        this.errorMessage = null;
+      }
+    ).catch(
+      () => {
+        this.stopProcessing();
+        this.errorMessage = this.submitErrorMessage;
+      }
+    );
+  }
+
 }
 
-function wizard($modal, $rootScope, $q, statusMessage) {
+function wizard($modal, $rootScope) {
 
   return {
 
@@ -192,26 +293,13 @@ function wizard($modal, $rootScope, $q, statusMessage) {
      */
     open: function(options) {
       let scope = $rootScope.$new();
-      let onSubmit = angular.noop;
-      let instance;
 
-      options.appController = options.controller ? options.controller : undefined;
-
-      if (options.scope) {
-        options.contentScope = options.scope ? options.scope : undefined;
-
-        options.contentScope.setOnSubmit = fn => onSubmit = fn;
-
-        options.contentScope.close = () => {
-          if (angular.isDefined(instance)) {
-            instance.dismiss();
-          }
-        };
-      }
+      options.appController = options.controller;
+      options.contentScope = options.scope;
 
       scope.options = options;
 
-      instance = $modal.open(angular.extend(options, {
+      options.instance = $modal.open(angular.extend(options, {
         scope: scope,
         backdrop: 'static',
         windowClass: 'wizard',
@@ -221,44 +309,7 @@ function wizard($modal, $rootScope, $q, statusMessage) {
         bindToController: true
       }));
 
-      scope.submit = function(wizardController) {
-        let result;
-
-        wizardController.showSubmitError = false;
-
-        if (angular.isFunction(onSubmit)) {
-          result = onSubmit();
-        } else {
-          result = onSubmit;
-        }
-
-        // check to see if the onSubmit returns a promise
-        if (result && angular.isFunction(result.then)) {
-          wizardController.processing = true;
-          wizardController.contentScope.processing = true;
-        } else if (!result) {
-          wizardController.processing = false;
-          wizardController.contentScope.processing = false;
-          wizardController.showSubmitError = true;
-        }
-
-        $q.when(result).then(
-          (returnValue) => {
-            instance.close(returnValue);
-            statusMessage.showSuccess({text: wizardController.successMessage});
-            wizardController.processing = false;
-            wizardController.contentScope.processing = false;
-          }
-        ).catch(
-          () => {
-            wizardController.processing = false;
-            wizardController.contentScope.processing = false;
-            wizardController.showSubmitError = true;
-          }
-        );
-      };
-
-      return instance;
+      return options.instance;
     }
   };
 }

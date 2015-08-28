@@ -25,6 +25,7 @@
         "properties": "propriétés"
     },
     "footer_context": {
+        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "Déconfiguration de NetStorage",
         "reports_dashboard": "Tableaux de bord",
         "configure_ads": "Configurer ADS",

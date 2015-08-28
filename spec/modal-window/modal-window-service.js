@@ -85,6 +85,50 @@ describe('modalWindow service', function() {
     }
   });
 
+  describe("given a modal window", function(){
+    describe("when showFullscreenToggle option is set to true", function(){
+      beforeEach(function(){
+        this.scope.showFullscreenToggle = true;
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<p></p>',
+          showFullscreenToggle: true
+        });
+        this.scope.$apply();
+
+        this.result = document.querySelector('i.max-min-icon');
+      });
+
+      it('should confirm the max min icon is visible', function() {
+        expect(this.result != null).toBe(true);
+      });
+
+      it('should confirm the max min icon icon shows full screen', function() {
+        expect(this.result.classList.contains('pulsar-fullscreen')).toBe(true);
+      });
+    })
+  });
+
+  describe("given a modal window", function(){
+    describe("when showFullscreenToggle option is set to false", function(){
+      beforeEach(function(){
+        this.scope.showFullscreenToggle = true;
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<p></p>',
+          showFullscreenToggle: false
+        });
+        this.scope.$apply();
+
+        this.result = document.querySelector('i.max-min-icon');
+      });
+
+      it('should confirm the max min icon is not visible', function() {
+        expect(this.result == null).toBe(true);
+      });
+    })
+  });
+
   describe('open()', function() {
     describe('when no template option is provided', function() {
       it('should throw an error', function() {
@@ -101,7 +145,7 @@ describe('modalWindow service', function() {
         title: title,
         template: '<p></p>'
       });
-      this.scope.$digest();
+      this.scope.$apply();
 
       var modalTitle = document.querySelector(MODAL_TITLE);
       expect(modalTitle.textContent).toEqual(title);
@@ -120,7 +164,10 @@ describe('modalWindow service', function() {
       this.scope.$digest();
 
       var modalTitle = document.querySelector(MODAL_TITLE);
-      expect(modalTitle.textContent).toEqual(title);
+      this.timeout(function(){
+        expect(modalTitle.textContent).toEqual(title);
+      }, 0);
+
     });
 
     it('should support a private icon option', function() {
@@ -131,7 +178,7 @@ describe('modalWindow service', function() {
         icon: icon,
         template: '<p></p>'
       });
-      this.scope.$digest();
+      this.scope.$apply();
 
       var modalPrivateIcon = document.querySelector('.modal-header i:first-child');
       expect(modalPrivateIcon.classList.contains(icon)).toBe(true);
@@ -145,7 +192,7 @@ describe('modalWindow service', function() {
         cancelLabel: label,
         template: '<p></p>'
       });
-      this.scope.$digest();
+      this.scope.$apply();
 
       var cancelButton = document.querySelector(CANCEL_BUTTON);
       expect(cancelButton.textContent).toMatch(new RegExp(label));
@@ -159,7 +206,7 @@ describe('modalWindow service', function() {
         submitLabel: label,
         template: '<p></p>'
       });
-      this.scope.$digest();
+      this.scope.$apply();
 
       var submitButton = document.querySelector(SUBMIT_BUTTON);
       expect(submitButton.textContent).toMatch(new RegExp(label));
@@ -171,10 +218,10 @@ describe('modalWindow service', function() {
         scope: this.scope,
         template: '<span>{{ name }}</span>'
       });
-      this.scope.$digest();
+      this.scope.$apply();
 
       var modalBody = document.querySelector(MODAL_BODY);
-      expect(modalBody.textContent).toEqual(this.scope.name);
+      expect(modalBody.textContent.trim()).toEqual(this.scope.name);
     });
 
     it('should support a template url option', function() {
@@ -190,7 +237,7 @@ describe('modalWindow service', function() {
       this.httpBackend.flush();
 
       var modalBody = document.querySelector(MODAL_BODY);
-      expect(modalBody.textContent).toEqual(this.scope.name);
+      expect(modalBody.textContent.trim()).toEqual(this.scope.name);
       this.httpBackend.verifyNoOutstandingRequest();
     });
 
@@ -200,7 +247,7 @@ describe('modalWindow service', function() {
         hideSubmit: true,
         template: '<p></p>'
       });
-      this.scope.$digest();
+      this.scope.$apply();
 
       var allModalButtonsInFooter = document.querySelectorAll('.modal-footer button');
       expect(allModalButtonsInFooter.length).toEqual(1);
@@ -216,16 +263,16 @@ describe('modalWindow service', function() {
         template: template,
         controller: 'Controller'
       });
-      this.scope.$digest();
+      this.scope.$apply();
       toggleSubmitButton = document.querySelector('button.toggle');
       submitButton = document.querySelector(SUBMIT_BUTTON);
 
       utilities.click(toggleSubmitButton);
-      this.scope.$digest();
+      this.scope.$apply();
       expect(submitButton.disabled).toBe(true);
 
       utilities.click(toggleSubmitButton);
-      this.scope.$digest();
+      this.scope.$apply();
       expect(submitButton.disabled).toBe(false);
     });
 
@@ -238,11 +285,11 @@ describe('modalWindow service', function() {
           template: '<p></p>',
           controller: 'Controller'
         });
-        this.scope.$digest();
+        this.scope.$apply();
         submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$digest();
+        this.scope.$apply();
         expect(this.notify).toHaveBeenCalled();
       });
 
@@ -264,16 +311,16 @@ describe('modalWindow service', function() {
           template: '<p></p>',
           controller: Controller
         });
-        this.scope.$digest();
+        this.scope.$apply();
         submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$digest();
+        this.scope.$apply();
         //ensure the submit button is disabled while processing
         expect(submitButton.getAttribute('disabled')).not.toBeNull();
         deferral.reject();
         this.timeout.flush();
-        this.scope.$digest();
+        this.scope.$apply();
         submitButton = document.querySelector(SUBMIT_BUTTON);
         expect(submitButton.getAttribute('disabled')).toBeNull();
       });
@@ -297,15 +344,15 @@ describe('modalWindow service', function() {
           template: '<p></p>',
           controller: Controller
         });
-        this.scope.$digest();
+        this.scope.$apply();
         submitButton = document.querySelector(SUBMIT_BUTTON);
         modalHeaderEl = angular.element(document.querySelector(".modal-header"));
         utilities.click(submitButton);
-        this.scope.$digest();
+        this.scope.$apply();
         expect(modalHeaderEl.hasClass('error')).toBe(false);
         deferral.reject();
         this.timeout.flush();
-        this.scope.$digest();
+        this.scope.$apply();
         expect(modalHeaderEl.hasClass('error')).toBe(true);
       });
 
@@ -328,16 +375,16 @@ describe('modalWindow service', function() {
           template: '<p></p>',
           controller: Controller
         });
-        this.scope.$digest();
+        this.scope.$apply();
         submitButton = document.querySelector(SUBMIT_BUTTON);
         statusMessageWrapperEl = document.querySelector(".akam-status-message-wrapper");
 
         utilities.click(submitButton);
-        this.scope.$digest();
+        this.scope.$apply();
         expect(statusMessageWrapperEl).toBe(null);
         deferral.reject();
         this.timeout.flush();
-        this.scope.$digest();
+        this.scope.$apply();
         statusMessageWrapperEl = document.querySelector(".akam-status-message-wrapper");
         expect(statusMessageWrapperEl).not.toBe(null);
         var messageContentEl = document.querySelector(".status-message-content");
@@ -363,17 +410,17 @@ describe('modalWindow service', function() {
           controller: Controller
         });
 
-        this.scope.$digest();
+        this.scope.$apply();
         submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$digest();
+        this.scope.$apply();
 
         var closeIcon = document.querySelector('.modal-header i');
         expect(closeIcon).toBe(null);
       });
 
-      it('should verify submit-button-spinner class when processing', function() {
+      it('should verify in-progress class when processing', function() {
         var submitButton;
         var deferral = this.q.defer();
 
@@ -392,14 +439,12 @@ describe('modalWindow service', function() {
           controller: Controller
         });
 
-        this.scope.$digest();
+        this.scope.$apply();
         submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$digest();
-        var spinnerEl = angular.element(document.querySelector(SUBMIT_BUTTON + ' div:first-child'));
-        expect(spinnerEl.hasClass('submit-button-spinner')).toBe(true);
-        expect(submitButton.textContent.trim()).toBe('');
+        this.scope.$apply();
+        expect(submitButton.classList.contains('in-progress')).toBe(true);
       });
 
       it('should handle onSubmit being set to a value', function() {
@@ -417,11 +462,11 @@ describe('modalWindow service', function() {
           template: '<p></p>',
           controller: Controller
         });
-        this.scope.$digest();
+        this.scope.$apply();
         submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$digest();
+        this.scope.$apply();
         this.timeout.flush();
         var modalWindow = document.querySelector('.modal');
 
@@ -438,10 +483,10 @@ describe('modalWindow service', function() {
         });
         var cancelButton;
 
-        this.scope.$digest();
+        this.scope.$apply();
         cancelButton = document.querySelector(CANCEL_BUTTON);
         utilities.click(cancelButton);
-        this.scope.$digest();
+        this.scope.$apply();
         this.timeout.flush();
         var modalWindow = document.querySelector('.modal');
 
@@ -457,10 +502,10 @@ describe('modalWindow service', function() {
         });
         var closeIcon;
 
-        this.scope.$digest();
+        this.scope.$apply();
         closeIcon = document.querySelector('.modal-header i');
         utilities.click(closeIcon);
-        this.scope.$digest();
+        this.scope.$apply();
         this.timeout.flush();
         var modalWindow = document.querySelector('.modal');
 
@@ -480,7 +525,7 @@ describe('modalWindow service', function() {
           title: "",
           template: '<p></p>'
         });
-        this.scope.$digest();
+        this.scope.$apply();
 
         modalTitle = document.querySelector(MODAL_TITLE);
         expect(modalTitle.textContent).toEqual(title);
@@ -497,7 +542,7 @@ describe('modalWindow service', function() {
           cancelLabel: "",
           template: '<p></p>'
         });
-        this.scope.$digest();
+        this.scope.$apply();
 
         cancelButton = document.querySelector(CANCEL_BUTTON);
         expect(cancelButton.textContent).toContain(cancelLabel);
@@ -517,7 +562,9 @@ describe('modalWindow service', function() {
         this.scope.$digest();
 
         cancelButton = document.querySelector(CANCEL_BUTTON);
-        expect(cancelButton.textContent).toContain(cancelLabel);
+        this.timeout(function(){
+          expect(cancelButton.textContent).toContain(cancelLabel);
+        }, 0);
       });
 
       it('should display translated default submit button text', function() {
@@ -531,7 +578,7 @@ describe('modalWindow service', function() {
           submitLabel: "",
           template: '<p></p>'
         });
-        this.scope.$digest();
+        this.scope.$apply();
 
         submitButton = document.querySelector(SUBMIT_BUTTON);
         expect(submitButton.textContent).toContain(submitLabel);
@@ -551,7 +598,10 @@ describe('modalWindow service', function() {
         this.scope.$digest();
 
         submitButton = document.querySelector(SUBMIT_BUTTON);
-        expect(submitButton.textContent).toContain(submitLabel);
+        this.timeout(function(){
+          expect(submitButton.textContent).toContain(submitLabel);
+        },0);
+
       });
     });
   });
@@ -565,7 +615,9 @@ describe('modalWindow service', function() {
         this.scope.$digest();
 
         var cancelButton = document.querySelector(CANCEL_BUTTON);
-        expect(cancelButton.textContent).toMatch(/Cancel/);
+        this.timeout(function(){
+          expect(cancelButton.textContent).toMatch(/Cancel/);
+        },0);
       });
     });
     describe('and cancel label value is provided', function(){
@@ -578,7 +630,9 @@ describe('modalWindow service', function() {
         this.scope.$digest();
 
         var cancelButton = document.querySelector(CANCEL_BUTTON);
-        expect(cancelButton.textContent).toMatch(/Modal Window/);
+        this.timeout(function(){
+          expect(cancelButton.textContent).toMatch(/Modal Window/);
+        },0);
       });
       it('should translate and display key if key is invalid', function() {
         this.modalWindowService.open({
@@ -589,7 +643,9 @@ describe('modalWindow service', function() {
         this.scope.$digest();
 
         var cancelButton = document.querySelector(CANCEL_BUTTON);
-        expect(cancelButton.textContent).toMatch(/invalidKey/);
+        this.timeout(function(){
+          expect(cancelButton.textContent).toMatch(/invalidKey/);
+        },0);
       });
     });
 
@@ -602,7 +658,9 @@ describe('modalWindow service', function() {
         this.scope.$digest();
 
         var submitButton = document.querySelector(SUBMIT_BUTTON);
-        expect(submitButton.textContent).toMatch(/Save/);
+        this.timeout(function(){
+          expect(submitButton.textContent).toMatch(/Save/);
+        },0);
       });
     });
     describe('and submit label value is provided', function(){
@@ -615,7 +673,9 @@ describe('modalWindow service', function() {
         this.scope.$digest();
 
         var submitButton = document.querySelector(SUBMIT_BUTTON);
-        expect(submitButton.textContent).toMatch(/Modal Window/);
+        this.timeout(function(){
+          expect(submitButton.textContent).toMatch(/Modal Window/);
+        },0);
       });
       it('should translate and display key if key is invalid', function() {
         this.modalWindowService.open({
@@ -626,7 +686,9 @@ describe('modalWindow service', function() {
         this.scope.$digest();
 
         var submitButton = document.querySelector(SUBMIT_BUTTON);
-        expect(submitButton.textContent).toMatch(/invalidKey/);
+        this.timeout(function(){
+          expect(submitButton.textContent).toMatch(/invalidKey/);
+        },0);
       });
     });
     describe('and submit button is clicked', function(){
@@ -660,7 +722,10 @@ describe('modalWindow service', function() {
             this.scope.$digest();
 
             var messageContentEl = document.querySelector(".status-message-content");
-            expect(messageContentEl.textContent).toContain("The action can't be completed.");
+            this.timeout(function(){
+              expect(messageContentEl.textContent).toContain("The action can't be completed.");
+            },0);
+
           });
         });
         describe('and errorMessage attribute is provided', function(){
@@ -693,7 +758,9 @@ describe('modalWindow service', function() {
             this.scope.$digest();
 
             var messageContentEl = document.querySelector(".status-message-content");
-            expect(messageContentEl.textContent).toContain("The action has been completed.");
+            this.timeout(function(){
+              expect(messageContentEl.textContent).toContain("The action has been completed.");
+            },0);
           });
           it('should translate and display key if key is invalid', function() {
             var submitButton,
@@ -724,7 +791,9 @@ describe('modalWindow service', function() {
             this.scope.$digest();
 
             var messageContentEl = document.querySelector(".status-message-content");
-            expect(messageContentEl.textContent).toContain("invalidKey");
+            this.timeout(function(){
+              expect(messageContentEl.textContent).toContain("invalidKey");
+            },0);
           });
         });
       });
@@ -766,7 +835,10 @@ describe('modalWindow service', function() {
             this.scope.$digest();
 
             var messageContentEl = document.querySelector(".status-message-content");
-            expect(messageContentEl.textContent).toContain("The action has been completed");
+            this.timeout(function(){
+              expect(messageContentEl.textContent).toContain("The action has been completed");
+            },0);
+
           });
         });
         describe('and sucessMessage attribute is provided', function(){
@@ -802,7 +874,9 @@ describe('modalWindow service', function() {
             this.scope.$digest();
 
             var messageContentEl = document.querySelector(".status-message-content");
-            expect(messageContentEl.textContent).toContain("Modal Window");
+            this.timeout(function(){
+              expect(messageContentEl.textContent).toContain("Modal Window");
+            },0);
           });
           it('should translate and display key if key is invalid', function() {
             var submitButton,
@@ -836,10 +910,36 @@ describe('modalWindow service', function() {
             this.scope.$digest();
 
             var messageContentEl = document.querySelector(".status-message-content");
-            expect(messageContentEl.textContent).toContain("invalidKey");
+            this.timeout(function(){
+              expect(messageContentEl.textContent).toContain("invalidKey");
+            },0);
+
           });
         });
       });
     });
+
+    describe('given an open modal window with content scope', function(){
+      describe('when the modal is closed', function(){
+        beforeEach(function() {
+          spyOn(this.scope, '$destroy');
+
+          this.modalWindowService.open({
+            scope: this.scope,
+            template: '<p></p>',
+            controller: 'Controller'
+          });
+          this.scope.$apply();
+
+          let closeIcon = document.querySelector('.modal-header i');
+          utilities.click(closeIcon);
+        });
+
+        it('should destroy the provided scope', function() {
+          expect(this.scope.$destroy).toHaveBeenCalled();
+        });
+      });
+    });
+
   });
 });
