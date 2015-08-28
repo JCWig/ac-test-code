@@ -1,5 +1,9 @@
 'use strict';
+import indeterminateProgress from '../../src/indeterminate-progress';
+
+var angular = require('angular');
 var utilities = require('../utilities');
+var translationMock = require('../fixtures/translationFixture.json');
 
 var INDETERMINATE_PROGRESS_WRAPPER = '.indeterminate-progress-wrapper';
 var INDETERMINATE_PROGRESS_LABEL = '.indeterminate-progress-wrapper label';
@@ -13,10 +17,17 @@ describe('akam-indeterminate-progress', function() {
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
-    angular.mock.module(require('../../src/indeterminate-progress').name);
-    inject(function($compile, $rootScope) {
+    angular.mock.module(indeterminateProgress.name);
+    angular.mock.module(function($provide, $translateProvider) {
+      $translateProvider.useLoader('i18nCustomLoader');
+    });
+    inject(function($compile, $rootScope, $httpBackend) {
       compile = $compile;
       scope = $rootScope.$new();
+
+      $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
+      $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
+      $httpBackend.flush();
     });
   });
 

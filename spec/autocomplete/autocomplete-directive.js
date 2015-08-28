@@ -44,7 +44,7 @@ describe('akamAutocomplete directive', function() {
     angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
-    inject(function($rootScope, _$compile_, $httpBackend, $timeout) {
+    inject(function($rootScope, _$compile_, $httpBackend, $timeout, $q) {
       scope = $rootScope.$new();
       compile = _$compile_;
       $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
@@ -368,7 +368,20 @@ describe('akamAutocomplete directive', function() {
 
       });
     });
-
+    describe('when displaying placeholder value', function() {
+      it('should translate and display key if key not found', function() {
+        var markup = '<akam-autocomplete ng-model="selectedItem" placeholder="Placeholder Value"></akam-autocomplete>';
+        addElement(markup);
+        var inputEl = document.querySelector(selectors.ac_input);
+        expect(inputEl.getAttribute("placeholder")).toBe("Placeholder Value");
+      });
+      it('should translate and display translation if key is found', function() {
+        var markup = '<akam-autocomplete ng-model="selectedItem" placeholder="examples.autocomplete.search.states"></akam-autocomplete>';
+        addElement(markup);
+        var inputEl = document.querySelector(selectors.ac_input);
+        expect(inputEl.getAttribute("placeholder")).toBe("Search States");
+      });
+    });
     describe("akam-autocomplete-selected-item content provided", function() {
       var deferred;
       beforeEach(inject(function($q) {
@@ -418,8 +431,5 @@ describe('akamAutocomplete directive', function() {
         expect(dirEl.classList).toContain("open");
       });
     });
-
-
-
   });
 });

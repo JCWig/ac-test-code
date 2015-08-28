@@ -17,10 +17,9 @@ class DatepickerController {
     this.mode = this.mode === DAY || this.mode === MONTH ? this.mode : DAY;
 
     if (this.mode === DAY) {
-      if (!this.placeholder) {
-        this.translate.async('components.date-picker.placeholder.date')
-          .then((value) => this.placeholder = value);
-      }
+      this.translate.async(this.placeholder, null, 'components.date-picker.placeholder.date')
+        .then((value) => this.placeholder = value);
+
       this.dateOptions = {
         startingDay: 0,
         showWeeks: false,
@@ -29,10 +28,9 @@ class DatepickerController {
         maxMode: DAY
       };
     } else {
-      if (!this.placeholder) {
-        this.translate.async('components.date-picker.placeholder.month')
-          .then((value) => this.placeholder = value);
-      }
+      this.translate.async(this.placeholder, null, 'components.date-picker.placeholder.month')
+        .then((value) => this.placeholder = value);
+
       this.dateOptions = {
         startingDay: 0,
         minMode: MONTH,

@@ -6,6 +6,19 @@ function tagInput(translate) {
     constructor() {
       this.invalidInputs = [];
       this.data = {items: this.items};
+      this.staticMessages = {
+        placeholder: this.placeholder,
+        taggingLabel: this.taggingLabel
+      };
+
+      translate.async(this.staticMessages.taggingLabel, null, 'components.tag-input.taggingLabel')
+        .then(value => this.staticMessages.taggingLabel = value);
+
+      translate.async(this.staticMessages.placeholder, null, 'components.tag-input.placeholder')
+        .then( value => {
+          this.staticMessages.placeholder = value;
+          this.messages = this.staticMessages;
+        });
     }
 
     validate(item) {
@@ -53,14 +66,6 @@ function tagInput(translate) {
     link: function(scope, element, attrs, ngModel) {
       let ctrl = scope.tagInput;
 
-      if (!ctrl.taggingLabel) {
-        translate.async('components.tag-input.taggingLabel')
-          .then( value => ctrl.taggingLabel = value );
-      }
-      if (!ctrl.placeholder) {
-        translate.async('components.tag-input.placeholder')
-          .then( value => ctrl.placeholder = value );
-      }
       function removeClasses() {
         let stillDropping =
           element.querySelectorAll('.droppping, .dropping-before, .dropping-after');

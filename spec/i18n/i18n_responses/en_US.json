@@ -28,6 +28,7 @@
       "error": "ERROR"
     },
     "table": {
+      "filterPlaceholder": "Filter"
     },
     "menu-button": {
       "label": "Label"
@@ -37,6 +38,8 @@
         "cancel": "Cancel",
         "save": "Save"
       },
+      "errorMessage": "The action can't be completed.",
+      "successMessage": "The action has been completed.",
       "title": "Modal Window"
     },
     "pagination": {

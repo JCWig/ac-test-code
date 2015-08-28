@@ -138,4 +138,85 @@ describe('akamai.components.switch-button', function() {
 
   });
 
+  describe('when rendering switch button on off labels', function() {
+    it('should translate and display component default value if key not provided', function() {
+      var onLabelElem, offLabelElem;
+      var markup = '<akam-switch-button ng-model="val"></akam-switch-button>';
+      $scope.val = true;
+      addElement(markup);
+
+      onLabelElem = document.querySelector('.switch-button-container > span:first-child');
+      offLabelElem = document.querySelector('.switch-button-container > span:last-child');
+      expect(onLabelElem.textContent).toMatch(/On/);
+      expect(offLabelElem.textContent).toMatch(/Off/);
+    });
+
+    it('should translate and display translated value if key found', function() {
+      var onLabelElem, offLabelElem;
+      var markup = '<akam-switch-button ng-model="val" on-label="examples.switchbutton.custom.allow" off-label="examples.switchbutton.custom.deny"></akam-switch-button>';
+      $scope.val = true;
+      addElement(markup);
+
+      onLabelElem = document.querySelector('.switch-button-container > span:first-child');
+      offLabelElem = document.querySelector('.switch-button-container > span:last-child');
+      expect(onLabelElem.textContent).toMatch(/Allow/);
+      expect(offLabelElem.textContent).toMatch(/Deny/);
+    });
+
+    it('should translate and display key if key not found in translation table', function() {
+      var onLabelElem, offLabelElem;
+      var markup = '<akam-switch-button ng-model="val" on-label="On Value" off-label="Off Value"></akam-switch-button>';
+      $scope.val = true;
+      addElement(markup);
+
+      onLabelElem = document.querySelector('.switch-button-container > span:first-child');
+      offLabelElem = document.querySelector('.switch-button-container > span:last-child');
+      expect(onLabelElem.textContent).toMatch(/On Value/);
+      expect(offLabelElem.textContent).toMatch(/Off Value/);
+    });
+
+    it('should translate key when key provided to akamTranslate filter', function() {
+      var onLabelElem, offLabelElem;
+      var markup = '<akam-switch-button ng-model="val" on-label=\'{{"examples.switchbutton.custom.allow" | akamTranslate}}\'' +
+                   ' off-label=\'{{"examples.switchbutton.custom.deny" | akamTranslate}}\'></akam-switch-button>';
+      $scope.val = true;
+      addElement(markup);
+
+      onLabelElem = document.querySelector('.switch-button-container > span:first-child');
+      offLabelElem = document.querySelector('.switch-button-container > span:last-child');
+      expect(onLabelElem.textContent).toMatch(/Allow/);
+      expect(offLabelElem.textContent).toMatch(/Deny/);
+    });
+
+    it('should translate and display key if key not found in translation table when using akamTranslate filter', function() {
+      var onLabelElem, offLabelElem;
+      var markup = '<akam-switch-button ng-model="val" on-label=\'{{"Yes" | akamTranslate}}\'' +
+                   ' off-label=\'{{"No" | akamTranslate}}\'></akam-switch-button>';
+      $scope.val = true;
+      addElement(markup);
+
+      onLabelElem = document.querySelector('.switch-button-container > span:first-child');
+      offLabelElem = document.querySelector('.switch-button-container > span:last-child');
+      expect(onLabelElem.textContent).toMatch(/Yes/);
+      expect(offLabelElem.textContent).toMatch(/No/);
+    });
+
+    // it('should translate and display component default value when empty key provided to akamTranslate filter', function() {
+    //   var onLabelElem, offLabelElem;
+    //   var markup = '<akam-switch-button ng-model="val" on-label=\'{{"" | akamTranslate}}\'' +
+    //                ' off-label=\'{{"" | akamTranslate}}\'></akam-switch-button>';
+    //   $scope.val = true;
+    //   addElement(markup);
+
+    //   onLabelElem = document.querySelector('.switch-button-container > span:first-child');
+    //   offLabelElem = document.querySelector('.switch-button-container > span:last-child');
+    //   console.log(onLabelElem);
+    //   console.log(offLabelElem);
+    //   expect(onLabelElem.textContent).toMatch(/On/);
+    //   expect(offLabelElem.textContent).toMatch(/Off/);
+    // });
+  });
+
+
+
 });
