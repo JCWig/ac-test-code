@@ -1,5 +1,7 @@
 import angular from 'angular';
 
+const items = [];
+
 class StatusMessageService {
   constructor($document, $compile, $rootScope) {
     this.$document = $document;
@@ -8,7 +10,6 @@ class StatusMessageService {
 
     this.body = this.$document.find('body').eq(0);
     this.initialized = false;
-    this.items = [];
     this.itemCount = 0;
   }
 
@@ -20,28 +21,39 @@ class StatusMessageService {
    */
   initializeStatusMessageGroup() {
     let scope = this.$rootScope.$new(),
-      wrapper;
+      wrapper = this.$compile('<akam-status-message-group></akam-status-message-group>')(scope);
 
-    scope.items = this.items;
-
-    wrapper =
-      this.$compile(
-        '<akam-status-message-group items="items"></akam-status-message-group>')(scope);
     this.body.prepend(wrapper);
     return true;
   }
 
-  clear() {
-    this.items.splice(0);
+  getItems() {
+    return items;
   }
 
+  /**
+   * @name clear
+   * @description Removes all the messages showing
+   */
+  clear() {
+    items.splice(0);
+  }
+
+  /**
+   * @name remove
+   * @description Removes the message with the specified itemId from the list of messages
+   * @param {string} itemId the id of the item to be removed
+   * @return {Number} the index of the message removed. -1 if the message could not be found
+   */
   remove(itemId) {
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].itemId === itemId) {
-        this.items.splice(i, 1);
-        return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].itemId === itemId) {
+        items.splice(i, 1);
+        return i;
       }
     }
+
+    return -1;
   }
 
   /**
@@ -49,7 +61,7 @@ class StatusMessageService {
    * @public (supposed to be private)
    * @param {object} [options] A hash with the options specified below.
    * @description adds option info to the items
-   * @return {Number} message id
+   * @return {String} message id
    */
   showMessage(options) {
     if (!this.initialized) {
@@ -57,7 +69,7 @@ class StatusMessageService {
     }
     this.itemCount++;
     options.itemId = 'akam-status-message-' + this.itemCount;
-    this.items.push(options);
+    items.push(options);
     return options.itemId;
   }
 

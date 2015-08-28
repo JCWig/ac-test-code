@@ -1,7 +1,7 @@
 <li id="{{ statusMessage.itemId }}" class="akam-status-message-item-wrapper"
     ng-class="{'util-transparent' : statusMessage.closing}">
   <div class="akam-status-message-item">
-    <i class="close" ng-click="close()"></i>
+    <i class="close" ng-click="statusMessage.close()"></i>
 
     <div class="status-message-content">
       {{ statusMessage.text }}
