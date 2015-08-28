@@ -42,6 +42,8 @@ class ModalWindowController {
     this.setProperty('instance');
     this.setProperty('showFullscreenToggle');
 
+    this.decorateInstance();
+
     this.templateModel = {
       template: this.options.contentTemplate,
       templateUrl: this.options.contentTemplateUrl
@@ -71,6 +73,23 @@ class ModalWindowController {
     }
   }
 
+  decorateInstance() {
+    (() => {
+      let instanceDismiss = this.instance.dismiss;
+      let instanceClose = this.instance.close;
+
+      this.instance.dismiss = () => {
+        this.contentScope.$destroy();
+        return instanceDismiss();
+      };
+
+      this.instance.close = returnValue => {
+        this.contentScope.$destroy();
+        return instanceClose(returnValue);
+      };
+    })();
+  }
+
   isSubmitDisabled() {
     return this.disabled || this.processing;
   }
@@ -82,17 +101,6 @@ class ModalWindowController {
     } else {
       this[key] = this.options[key];
     }
-  }
-
-  close(returnValue) {
-    if (this.instance) {
-      this.instance.close(returnValue);
-    }
-    if (this.contentScope) {
-      this.contentScope.$destroy();
-    }
-
-    this.$scope.$destroy();
   }
 
   submit() {
@@ -112,7 +120,7 @@ class ModalWindowController {
     }
 
     this.$q.when(result).then((returnValue) => {
-      this.close(returnValue);
+      this.instance.close(returnValue);
       if (!this.doNotShowMessage) {
         this.statusMessage.showSuccess({text: this.successMessage});
       }
