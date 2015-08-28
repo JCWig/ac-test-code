@@ -5,7 +5,7 @@ var translationMock = require('../fixtures/translationFixture.json');
 var _ = require('lodash');
 
 describe('akamai.components.wizard', function() {
-  var $scope, $compile, wizard, steps, submitFunction;
+  var $scope, $compile, wizard, steps, submitFunction, $q;
 
   beforeEach(function() {
     inject.strictDi(true);
@@ -42,10 +42,11 @@ describe('akamai.components.wizard', function() {
       $controllerProvider.register('Controller2', Controller2);
     });
 
-    inject(function($rootScope, _$compile_, $httpBackend, _wizard_) {
+    inject(function($rootScope, _$compile_, $httpBackend, _wizard_, _$q_) {
       $scope = $rootScope;
       $compile = _$compile_;
       wizard = _wizard_;
+      $q = _$q_;
 
       $httpBackend.when('GET', util.LIBRARY_PATH).respond(translationMock);
       $httpBackend.when('GET', util.CONFIG_PATH).respond({});
@@ -98,7 +99,6 @@ describe('akamai.components.wizard', function() {
     });
   });
 
-
   describe('given 3 steps', function() {
     describe('when the next button is clicked', function() {
 
@@ -116,7 +116,7 @@ describe('akamai.components.wizard', function() {
         expect(secondStep.classList.contains('visited')).toBe(false);
         expect(secondStep.classList.contains('current')).toBe(true);
 
-        var nextButton = document.querySelector('span.button-switch > button');
+        var nextButton = document.querySelector('div.modal-footer > button + button');
         util.click(nextButton);
         expect(firstStep.classList.contains('active')).toBe(false);
         expect(firstStep.classList.contains('visited')).toBe(true);
@@ -135,7 +135,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps});
         $scope.$digest();
 
-        var nextButton = document.querySelector('span.button-switch > button');
+        var nextButton = document.querySelector('div.modal-footer > button + button');
         util.click(nextButton);
 
         var previousButton = document.querySelector('.modal-footer button:first-child');
@@ -161,7 +161,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps});
         $scope.$digest();
 
-        var nextButton = document.querySelector('span.button-switch > button');
+        var nextButton = document.querySelector('div.modal-footer > button + button');
         util.click(nextButton);
 
         var firstStep = document.querySelector('.wizard-steps ul li:first-child');
@@ -185,7 +185,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps});
         $scope.$digest();
 
-        var nextButton = document.querySelector('span.button-switch > button');
+        var nextButton = document.querySelector('div.modal-footer > button + button');
         expect(nextButton.disabled).toBe(true);
       });
     });
@@ -207,7 +207,7 @@ describe('akamai.components.wizard', function() {
       });
     });
   });
-
+  //
 
   describe('given a controller', function() {
     describe('when the content scope is initialized', function() {
@@ -244,7 +244,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps, nextLabel: 'Continue'});
         $scope.$digest();
 
-        var nextButton = document.querySelector('span.button-switch > button');
+        var nextButton = document.querySelector('div.modal-footer > button + button');
         expect(_.trim(nextButton.textContent)).toBe('Continue');
       });
     });
@@ -269,7 +269,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], submitLabel: 'Enter'});
         $scope.$digest();
 
-        var submitButton = document.querySelector('span.button-switch .spinner-button');
+        var submitButton = document.querySelector('div.modal-footer > button + button');
         expect(_.trim(submitButton.textContent)).toBe('Enter');
       });
     });
@@ -281,7 +281,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], successMessage:'Success'});
         $scope.$digest();
 
-        var submitButton = document.querySelector('span.button-switch > button');
+        var submitButton = document.querySelector('div.modal-footer > button + button');
         util.click(submitButton);
 
         var statusMessage = document.querySelector('.status-message-content');
@@ -303,7 +303,7 @@ describe('akamai.components.wizard', function() {
         });
         $scope.$digest();
 
-        var submitButton = document.querySelector('span.button-switch > button');
+        var submitButton = document.querySelector('div.modal-footer > button + button');
         util.click(submitButton);
 
         var errorMessage = document.querySelector('.modal-header .status-message-content');
@@ -320,7 +320,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller2'});
         $scope.$digest();
 
-        var submitButton = document.querySelector('span.button-switch > button');
+        var submitButton = document.querySelector('div.modal-footer > button + button');
         util.click(submitButton);
 
         var errorMessage = document.querySelector('.modal-header .status-message-content');
@@ -329,6 +329,71 @@ describe('akamai.components.wizard', function() {
       });
     });
   });
+
+  describe('given a step with an initialize method', function() {
+    describe('when an error occurs while initializing', function() {
+
+      beforeEach(function() {
+        var wizardScope = $scope.$new();
+        var times = 0;
+
+        var step2 = {
+          name: 'Step 2',
+          template: '<p>Step 2 Content</p>',
+          initialize: function () {
+            var deferred = $q.defer();
+
+            deferred.reject('failed to initialize step');
+            return deferred.promise;
+          }
+        };
+
+        wizard.open({steps: [steps[0], step2], scope: wizardScope});
+        $scope.$digest();
+
+        var nextButton = document.querySelector('div.modal-footer > button + button');
+        util.click(nextButton);
+      });
+
+      it('should display the default error message', function() {
+        var statusMessage = document.querySelector('.status-message-content');
+        expect(_.trim(statusMessage.textContent)).toBe('failed to initialize step');
+      });
+    });
+  });
+
+  describe('given a step with an initialize method', function() {
+    describe('when the step is initialized successfully', function() {
+
+      beforeEach(function() {
+        var wizardScope = $scope.$new();
+        var times = 0;
+
+        var step2 = {
+          name: 'Step 2',
+          template: '<p>Step 2 Content</p>',
+          initialize: function () {
+            var deferred = $q.defer();
+
+            deferred.resolve();
+            return deferred.promise;
+          }
+        };
+
+        wizard.open({steps: [steps[0], step2], scope: wizardScope});
+        $scope.$digest();
+
+        var nextButton = document.querySelector('div.modal-footer > button + button');
+        util.click(nextButton);
+      });
+
+      it('should activate the step', function() {
+        var secondStep = document.querySelector('.wizard-steps ul li:first-child + li');
+        expect(secondStep.classList.contains('active')).toBe(true);
+      });
+    });
+  });
+
 
 });
 
