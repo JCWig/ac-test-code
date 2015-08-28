@@ -402,7 +402,7 @@ describe('modalWindow service', function() {
         expect(closeIcon).toBe(null);
       });
 
-      it('should verify submit-button-spinner class when processing', function() {
+      it('should verify in-progress class when processing', function() {
         var submitButton;
         var deferral = this.q.defer();
 
@@ -426,9 +426,7 @@ describe('modalWindow service', function() {
 
         utilities.click(submitButton);
         this.scope.$apply();
-        var spinnerEl = angular.element(document.querySelector(SUBMIT_BUTTON + ' div:first-child'));
-        expect(spinnerEl.hasClass('submit-button-spinner')).toBe(true);
-        expect(submitButton.textContent.trim()).toBe('');
+        expect(submitButton.classList.contains('in-progress')).toBe(true);
       });
 
       it('should handle onSubmit being set to a value', function() {

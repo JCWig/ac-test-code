@@ -154,9 +154,7 @@
 
             WizardController.$inject = ['$scope', '$log'];
             function WizardController($scope, $log) {
-
                 $scope.setOnSubmit(function() {
-                    var deferral = $q.defer();
                     return deferredProcess();
                 });
             };
