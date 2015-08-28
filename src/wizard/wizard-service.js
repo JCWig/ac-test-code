@@ -29,16 +29,17 @@ class WizardController {
 
     this.title = options.title;
     this.icon = options.icon;
-    this.previousLabel = options.previousLabel ||
-                         translate.sync('components.wizard.label.previous');
-    this.nextLabel = options.nextLabel ||
-                     translate.sync('components.wizard.label.next');
-    this.submitLabel = options.submitLabel ||
-                       translate.sync('components.wizard.label.submit');
-    this.successMessage = options.successMessage ||
-                          translate.sync('components.wizard.successMessage');
-    this.submitErrorMessage = options.errorMessage ||
-                              translate.sync('components.wizard.errorMessage');
+
+    this.previousLabel = translate.sync(options.previousLabel,
+      null, 'components.wizard.label.previous');
+    this.nextLabel = translate.sync(options.nextLabel,
+      null, 'components.wizard.label.next');
+    this.submitLabel = translate.sync(options.submitLabel,
+      null, 'components.wizard.label.submit');
+    this.successMessage = translate.sync(options.successMessage,
+      null, 'components.wizard.successMessage');
+    this.submitErrorMessage = translate.sync(options.errorMessage,
+      null, 'components.wizard.errorMessage');
 
     this.instance = options.instance;
 

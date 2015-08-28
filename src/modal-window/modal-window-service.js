@@ -79,8 +79,9 @@ class ModalWindowController {
 
   setProperty(key, defaultKey) {
     if (defaultKey) {
-      this[key] = this.options[key] ?
-        this.translate.sync(this.options[key]) : this.translate.sync(defaultKey);
+      // this[key] = this.options[key] ?
+      //   this.translate.sync(this.options[key]) : this.translate.sync(defaultKey);
+      this[key] = this.translate.sync(this.options[key], null, defaultKey);
     } else {
       this[key] = this.options[key];
     }

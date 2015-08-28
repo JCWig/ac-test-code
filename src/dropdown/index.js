@@ -69,7 +69,23 @@ export default angular.module('akamai.components.dropdown', [
  * @param {String} [textProperty] If the options param is an array of Objects,
  * this is the property of those objects used in the dropdown menu
  *
- * @param {String} [placeholder=Select one] The placeholder text for the dropdown
+ * @param {String} [placeholder=Select one] The placeholder text for the dropdown.
+ * Placeholder attribute value can be text or translation key.
+ * When using custom markup, include <pre>{{dropdown.placeholder}}</pre>
+ * to display default placeholder text.
+ * If not included, placeholder text will be empty.
+ *
+ * ```
+ * <akam-dropdown>
+ *   <akam-dropdown-selected>
+ *      <span class="selected-option util-ellipsis" ng-class="{disabled:vm.disabled}">
+ *        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">
+ *          {{dropdown.placeholder}}
+ *        </span>
+ *      </span>
+ *    </akam-dropdown-selected>
+ * </akam-dropdown>
+ * ```
  *
  * @param {String} [filterPlaceholder=Filter] The placeholder text for the filter field
  *

@@ -30,6 +30,14 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     this.searchTerm = '';
     this.selectItem = '';
 
+    translate.async(this.placeholder)
+      .then(value => this.placeholder = value);
+
+    translate.async('components.autocomplete.search-tip')
+      .then(value => {
+        this.searchTip = value;
+      });
+
     if (angular.isDefined($attrs.minimumSearch) && $attrs.minimumSearch.length > 0) {
       this.searchLength = $attrs.minimumSearch;
     }
@@ -37,11 +45,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     if (angular.isDefined($attrs.textProperty) && $attrs.textProperty.length > 0) {
       this.textProperties = this.textProperty.split(' ');
     }
-
-    translate.async('components.autocomplete.search-tip')
-      .then(function(value) {
-        $scope.ac.searchTip = value;
-      });
 
     //$scope methods
     this.searchMatches = searchMatches;

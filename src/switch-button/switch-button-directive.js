@@ -15,16 +15,15 @@ function switchButton(translate) {
     }
 
     setDefaultScopeValues() {
-      if (typeof this.onLabel !== 'string') {
-        translate.async('components.switch-button.onLabel')
-          .then(value => this.onLabel = value);
-      }
+      translate.async(this.onLabel, null, 'components.switch-button.onLabel')
+        .then(value => {
+          this.onLabel = value;
+        });
 
-      if (typeof this.offLabel !== 'string') {
-        translate.async('components.switch-button.offLabel')
-          .then(value => this.offLabel = value);
-      }
-
+      translate.async(this.offLabel, null, 'components.switch-button.offLabel')
+        .then(value => {
+          this.offLabel = value;
+        });
       this.disabled = this.filterDisabled(this.disabled);
     }
   }

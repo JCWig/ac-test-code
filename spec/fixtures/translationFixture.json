@@ -26,5 +26,8 @@
     "autocomplete": {
       "search-tip": "Type in text to display matching results"
     }
-  }
+  },
+  "examples.switchbutton.custom.allow": "Allow",
+  "examples.switchbutton.custom.deny": "Deny",
+  "examples.autocomplete.search.states": "Search States"
 }

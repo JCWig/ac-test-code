@@ -422,6 +422,96 @@ describe('akamai.components.dropdown', function() {
     });
   });
 
+  describe('when the dropdown is rendered', function(){
+    describe('and placeholder attribute is not provided', function(){
+      beforeEach(function(){
+        $scope.selectedState = undefined;
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" placeholder="" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should render default placeholder', function(){
+        var dropdown = document.querySelector('.dropdown-placeholder');
+        expect(dropdown.textContent).toContain('Select one');
+      });
+    });
+
+    describe('and placeholder attribute is provided', function(){
+      beforeEach(function(){
+        $scope.selectedState = undefined;
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" placeholder="examples.autocomplete.search.states" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should translate placeholder if key is valid', function(){
+        var dropdown = document.querySelector('.dropdown-placeholder');
+        expect(dropdown.textContent).toContain('Search States');
+      });
+    });
+
+    describe('and placeholder attribute is provided', function(){
+      beforeEach(function(){
+        $scope.selectedState = undefined;
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" placeholder="invalidKey" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should translate and display key if key is invalid', function(){
+        var dropdown = document.querySelector('.dropdown-placeholder');
+        expect(dropdown.textContent).toContain('invalidKey');
+      });
+    });
+  });
+
+  describe('given a filtearble attribute', function(){
+    describe('and a filter-placeholder attribute is not provided', function(){
+      describe('when the dropdown is rendered', function(){
+        beforeEach(function(){
+          $scope.selectedStateObj = {name: 'Colorado'};
+          $scope.stateStringsObjs = stateObjects;
+          var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" filter-placeholder="" '+
+            'filterable items="stateStringsObjs"></akam-dropdown>';
+          addElement(dropdownTemplate);
+        });
+        it('should render default placeholder for the filterbox', function(){
+          var filterbox = document.querySelector('.fixed-header input');
+          expect(filterbox.placeholder).toContain('Filter');
+        });
+      });
+    });
+
+    describe('and a filter-placeholder attribute is provided', function(){
+      describe('when the dropdown is rendered', function(){
+        beforeEach(function(){
+          $scope.selectedStateObj = {name: 'Colorado'};
+          $scope.stateStringsObjs = stateObjects;
+          var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" filter-placeholder="examples.autocomplete.search.states" '+
+            'filterable items="stateStringsObjs"></akam-dropdown>';
+          addElement(dropdownTemplate);
+        });
+        it('should translate placeholder for the filterbox if key is valid', function(){
+          var filterbox = document.querySelector('.fixed-header input');
+          expect(filterbox.placeholder).toContain('Search States');
+        });
+      });
+    });
+
+    describe('and a filter-placeholder attribute is provided', function(){
+      describe('when the dropdown is rendered', function(){
+        beforeEach(function(){
+          $scope.selectedStateObj = {name: 'Colorado'};
+          $scope.stateStringsObjs = stateObjects;
+          var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" filter-placeholder="invalidKey" '+
+            'filterable items="stateStringsObjs"></akam-dropdown>';
+          addElement(dropdownTemplate);
+        });
+        it('should translate placeholder for the filterbox if key is invalid', function(){
+          var filterbox = document.querySelector('.fixed-header input');
+          expect(filterbox.placeholder).toContain('invalidKey');
+        });
+      });
+    });
+  });
 });
 
 
