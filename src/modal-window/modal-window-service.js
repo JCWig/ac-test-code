@@ -84,6 +84,17 @@ class ModalWindowController {
     }
   }
 
+  close(returnValue) {
+    if (this.instance) {
+      this.instance.close(returnValue);
+    }
+    if (this.contentScope) {
+      this.contentScope.$destroy();
+    }
+
+    this.$scope.$destroy();
+  }
+
   submit() {
     let result;
 
@@ -101,7 +112,7 @@ class ModalWindowController {
     }
 
     this.$q.when(result).then((returnValue) => {
-      this.instance.close(returnValue);
+      this.close(returnValue);
       if (!this.doNotShowMessage) {
         this.statusMessage.showSuccess({text: this.successMessage});
       }
@@ -109,6 +120,7 @@ class ModalWindowController {
       this.processing = false;
       this.showSubmitError = true;
     });
+
   }
 
 }

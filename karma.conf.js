@@ -15,12 +15,10 @@ module.exports = function(config) {
   ];
 
   var allSourceFiles = [
-    'spec/wizard/*.js'
-    //'spec/!(mega-menu)/**/*.js',
-    //
-    //// load the mega menu tests last because they seem to not clean up the environment
-    //// properly and several message-box and modal-window tests end up failing
-    //'spec/mega-menu/**/*.js'
+    'spec/!(mega-menu)/**/*.js',
+    // load the mega menu tests last because they seem to not clean up the environment
+    // properly and several message-box and modal-window tests end up failing
+    'spec/mega-menu/**/*.js'
   ];
 
   var preprocessorPattern = args.testDir ? 'spec/' + args.testDir + '/**/*.js' : 'spec/**/*.js';
