@@ -60,6 +60,7 @@ export default angular.module('akamai.components.auth', [
       'invalid_token',
       'akasession_username_invalid',
       'incorrect_current_account',
+      'incorrect_contract_type',
       'invalid_xsrf',
       'invalid_token_type',
       'invalid_token_id',
