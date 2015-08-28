@@ -547,5 +547,28 @@ describe('modalWindow service', function() {
         expect(submitButton.textContent).toContain(submitLabel);
       });
     });
+
+    describe('given an open modal window with content scope', function(){
+      describe('when the modal is closed', function(){
+        beforeEach(function() {
+          spyOn(this.scope, '$destroy');
+
+          this.modalWindowService.open({
+            scope: this.scope,
+            template: '<p></p>',
+            controller: 'Controller'
+          });
+          this.scope.$apply();
+
+          let closeIcon = document.querySelector('.modal-header i');
+          utilities.click(closeIcon);
+        });
+
+        it('should destroy the provided scope', function() {
+          expect(this.scope.$destroy).toHaveBeenCalled();
+        });
+      });
+    });
+
   });
 });

@@ -7,7 +7,7 @@
        ng-class="{ 'pulsar-fullscreen' : !modalWindow.isMax, 'pulsar-restore' : modalWindow.isMax}"
        ng-click="modalWindow.isMax = !modalWindow.isMax;"
        ng-if="modalWindow.showFullscreenToggle"></i>
-    <i class="close-icon" ng-click="modalWindow.instance.dismiss()" ng-if="!modalWindow.processing"></i>
+    <i class="close-icon" ng-click="modalWindow.close()" ng-if="!modalWindow.processing"></i>
 
     <div class="akam-status-message-wrapper" ng-if='modalWindow.showSubmitError'>
       <div class="akam-status-message-item-wrapper" ng-class="{'error': modalWindow.showSubmitError}">
