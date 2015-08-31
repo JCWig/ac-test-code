@@ -65,32 +65,20 @@ describe('akam-date-picker', function() {
       var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
       var datePicker = document.querySelector(DATE_PICKER);
 
-      expect(inputDateField).not.toBe(null);
-      expect(toggleDatePickerButton).not.toBe(null);
+      timeout(function(){
+        expect(inputDateField).not.toBe(null);
+        expect(toggleDatePickerButton).not.toBe(null);
+        expect(datePicker).toBe(null);
+        expect(inputDateField.placeholder).toEqual('placeholder');
+      },0);
 
-      /*
-       * 0.13.3 changed markup for date picker
-       * ul.dropdown is now shown only when datePicker isOpen
-       *
-       * changing test to expect datePicker to be null
-       *
-       * see: https://github.com/angular-ui/bootstrap/commit/9f73d240
-      */
-      expect(datePicker).toBe(null);
-      expect(inputDateField.placeholder).toEqual("placeholder");
     });
 
-    /*
-       * 0.13.3 changed markup for date picker
-       * ul.dropdown is now shown only when datePicker isOpen
-       *
-       * changing test to expect datePicker to be null
-       *
-       * see: https://github.com/angular-ui/bootstrap/commit/9f73d240
-      */
     it('should default hide the picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(datePicker).toBe(null);
+      },0);
     });
   });
   describe('when pressing the open button', function() {
@@ -113,8 +101,9 @@ describe('akam-date-picker', function() {
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
       datePicker = document.querySelector(DATE_PICKER);
 
-      // when datepicker is closed, markup will be removed by ng
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(datePicker).toBe(null);
+      }, 0);
     });
   });
   describe('when date picker is loaded', function() {
@@ -227,10 +216,10 @@ describe('akam-date-picker', function() {
 
       var inputDateField = document.querySelector('input.ng-valid-date');
       var datePicker = document.querySelector(DATE_PICKER);
-
-      expect(inputDateField.value).toEqual(dayString);
-      // selecting date closes datePicker and datePicker should be null since markup is removed
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(inputDateField.value).toEqual(dayString);
+        expect(datePicker).toBe(null);
+      }, 0);
     });
     it('should be able to open and change date', function() {
       var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
@@ -248,9 +237,10 @@ describe('akam-date-picker', function() {
       var inputDateField = document.querySelector('input.ng-valid-date');
       var datePicker = document.querySelector(DATE_PICKER);
 
-      expect(inputDateField.value).toEqual(dayString);
-      // selecting date closes datePicker and datePicker should be null since markup is removed
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(inputDateField.value).toEqual(dayString);
+        expect(datePicker).toBe(null);
+      }, 0);
     });
     it('should hide clear icon when no date has been picked', function() {
       var clearIcon = document.querySelector('.clear-date');
@@ -293,16 +283,17 @@ describe('akam-date-picker', function() {
       var inputDateField = document.querySelector('input');
       var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
       var datePicker = document.querySelector(DATE_PICKER);
-
-      expect(inputDateField).not.toBe(null);
-      expect(toggleDatePickerButton).not.toBe(null);
-      // datePicker will be null since it is closed and markup is removed
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(inputDateField).not.toBe(null);
+        expect(toggleDatePickerButton).not.toBe(null);
+        expect(datePicker).toBe(null);
+      }, 0);
     });
     it('should default hide the picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
-      // datepicker is hidden by default, markup is removed
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(datePicker).toBe(null);
+      }, 0);
     });
     it('should have todays month highlighted', function() {
       var thisMonth = utilities.getMonthInEnglish(utilities.getTodaysMonth()).slice(0, 3);
@@ -384,11 +375,11 @@ describe('akam-date-picker', function() {
       var inputDateField = document.querySelector('input.ng-valid-date');
       var datePicker = document.querySelector(DATE_PICKER);
 
-      expect(scope.mychange).toHaveBeenCalled();
-      expect(inputDateField.value).toEqual(firstMonthOfThisYearString);
-
-      // datePicker will be null since it is closed and markup is removed
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(scope.mychange).toHaveBeenCalled();
+        expect(inputDateField.value).toEqual(firstMonthOfThisYearString);
+        expect(datePicker).toBe(null);
+      }, 0);
     });
     it('should be able to open and change month', function() {
       var januaryMonthButton = findCertainButton("Jan").querySelector('button');
@@ -405,10 +396,11 @@ describe('akam-date-picker', function() {
       var inputDateField = document.querySelector('input.ng-valid-date');
       var datePicker = document.querySelector(DATE_PICKER);
 
-      expect(scope.mychange).toHaveBeenCalled();
-      expect(inputDateField.value).toEqual(secondMonthOfThisYearString);
-      // datePicker will be null since it is closed and markup is removed
-      expect(datePicker).toBe(null);
+      timeout(function(){
+        expect(scope.mychange).toHaveBeenCalled();
+        expect(inputDateField.value).toEqual(secondMonthOfThisYearString);
+        expect(datePicker).toBe(null);
+      }, 0);
     });
   });
   describe('when interacting with min and max date date-picker', function() {
