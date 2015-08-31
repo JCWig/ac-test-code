@@ -12,8 +12,7 @@
     <div class="container">
       <div class="page-header">
         <h1>Date Picker Component Example</h1>
-        <h5>A minimum date (current year, current month, 1st day) and maximum date (current year + 1, current month, 1st day)
-                are assigned to the Date Picker component.</h5>
+        <h5>A minimum date (current year, current month, 1st day) is assigned to the Date Picker components.</h5>
       </div>
       <br />
       <div class="container">
@@ -33,13 +32,15 @@
         <br />
       </div>
       <div class="container">
-        <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day" placeholder='{{"examples.datepicker.choose.date" | akamTranslate}}' ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
+        <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day"
+                          placeholder='{{"examples.datepicker.choose.date" | akamTranslate}}'
+                          ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
         </akam-date-picker>
       </div>
       <br />
       <div class="form-group">
         <input id="disableDatePicker" type="checkbox" name='disableDatePicker' ng-model='disabled' />
-        <label class="label" for="disableDatePicker">Disable Datepicker component</label>
+        <label class="label" for="disableDatePicker">Disable Date Picker component</label>
       </div>
       <br />
       <div class="container">
@@ -59,7 +60,10 @@
         <br/>
       </div>
       <div class="container">
-        <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month" placeholder='{{"examples.datepicker.choose.month" | akamTranslate}}' ng-change="monthChange()" format="{{formatMonth}}" no-clear></akam-date-picker>
+        <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month"
+                          placeholder='{{"examples.datepicker.choose.month" | akamTranslate}}'
+                          ng-change="monthChange()" format="{{formatMonth}}" no-clear>
+        </akam-date-picker>
       </div>
     </div>
   </form>
