@@ -16,43 +16,53 @@
                 <h1>Indeterminate Progress Example</h1>
             </div>
             <div>
-                <label class="label">Progress Status:</label>
-                <input type="checkbox" name="completed" id="completed" ng-model="completed"/><label class="label" for="completed">Completed</label>
-                <input type="checkbox" name="failed" id="failed" ng-model="failed"/><label class="label" for="failed">Failed</label>
+              <label class="label">Progress Status:</label>
+              <input type="checkbox" name="completed" id="completed" ng-model="completed"/><label class="label" for="completed">Completed</label>
+              <input type="checkbox" name="failed" id="failed" ng-model="failed"/><label class="label" for="failed">Failed</label>
+              <input type="checkbox" name="success" id="success" ng-model="success"/><label class="label" for="success">Success</label>
             </div>
             <br />    
             <div>
                 <label class="label" for="labelText">Progress Label Text:</label><br>
                 <input type="text" name="labelText" id="labeltext" ng-model="label" size="50"</input>
             </div>
-            <br />   
+            <br />
+            <div>
+                <label class="label">Micro Spinner:</label>
+            </div>
+            <div class="container" id="microspinner">
+                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" success="{{success}}" size="micro" label="{{label}}"></akam-indeterminate-progress>
+            </div>
+            <br />
             <div>
                 <label class="label">Small Spinner:</label>
             </div>
             <div class="container" id="smallspinner">
-                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" size="small" label="{{label}}"></akam-indeterminate-progress>
+                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" success="{{success}}" size="small" label="{{label}}"></akam-indeterminate-progress>
             </div>
             <br />
              <div>
                 <label class="label">Regular Spinner:</label>
             </div>
             <div class="container" id="regularspinner">
-                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" label="{{label}}"></akam-indeterminate-progress>
+                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" success="{{success}}" label="{{label}}"></akam-indeterminate-progress>
             </div>
             <br />
              <div>
                 <label class="label">Large Spinner:</label>
             </div>
             <div class="container" id="largespinner">
-                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" size="large" label="{{label}}"></akam-indeterminate-progress>
+                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" success="{{success}}" size="large" label="{{label}}"></akam-indeterminate-progress>
             </div>
             <script src="../dist/akamai-core.js"></script>
             <script>
 
                 var controllerFunction = function($scope) {
-                    $scope.completed = false;
-                    $scope.failed = false;            
+                  $scope.completed = false;
+                  $scope.failed = false;
+                  $scope.success = false;
                 };
+
                 controllerFunction.$inject = ["$scope"];
                 var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress"]);
                 

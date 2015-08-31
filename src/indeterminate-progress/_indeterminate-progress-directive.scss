@@ -3,10 +3,12 @@ $progress-label-color: #666666;
 $progress-label-font-size: 12px;
 $progress-label-font: normal #{$progress-label-font-size}/1em Arial, sans-serif;
 
-$progress-spinner-dimensions: 60px;
+$progress-spinner-dimensions: 50px;
 $progress-spinner-dimensions-large: 80px;
-$progress-spinner-dimensions-small: 25px;
-$progress-spinner-dimensions-small-ie: 28px;
+$progress-spinner-dimensions-small: 30px;
+$progress-spinner-dimensions-small-ie: 32px;
+$progress-spinner-dimensions-micro: 20px;
+$progress-spinner-dimensions-micro-ie: 22px;
 $progress-spinner-gutter: 5px;
 
 $progress-backdrop-color_luna: rgba(255, 255, 255, 0.85);
@@ -39,6 +41,8 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
   height: 0;
   top: 0;
   left: 0;
+  margin: auto;
+
   @include opacity(0);
   @include transition(opacity 0.5s);
 
@@ -97,6 +101,19 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
         display: none; // UXD spec says not to show this for small spinners
       }
     }
+
+    &.micro {
+      .indeterminate-progress-spinner {
+        width: $progress-spinner-dimensions-micro;
+        height: $progress-spinner-dimensions-micro;
+        top:0;
+        left: 0;
+      }
+
+      .indeterminate-progress-label {
+        display: none; // UXD spec says not to show this for micro spinners
+      }
+    }
   }
 }
 
@@ -106,6 +123,10 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
 & {
   .indeterminate-progress-wrapper {
     background: $progress-backdrop-color_luna;
+
+    &.micro {
+      background-color: transparent;
+    }
   }
 
   .indeterminate-progress {
@@ -124,6 +145,13 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
       &.failed {
         .indeterminate-progress-spinner {
           background-image: inline-svg-image("svg/failed.svg");
+          @include animation(none);
+        }
+      }
+
+      &.success {
+        .indeterminate-progress-spinner {
+          background-image: inline-svg-image("svg/success.svg");
           @include animation(none);
         }
       }
