@@ -49,7 +49,7 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
 .modal.akam-message-box {
   z-index: $message-box-zindex;
 
-  .modal-content {
+  .modal-content .modal-container {
     width: 450px;
     @include for("IE10+") {
       height: auto;
@@ -71,8 +71,8 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
     }
   }
 
-  & .modal-content > .modal-header,
-  &.information .modal-content > .modal-header {
+  & .modal-content .modal-container > .modal-header,
+  &.information .modal-content .modal-container > .modal-header {
     color: $dialog-text-color-info;
 
     .title-icon {
@@ -80,7 +80,7 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
     }
   }
 
-  &.question .modal-content > .modal-header {
+  &.question .modal-content .modal-container > .modal-header {
     color: $dialog-text-color-info;
 
     .title-icon {
@@ -88,7 +88,7 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
     }
   }
 
-  &.error .modal-content > .modal-header {
+  &.error .modal-content .modal-container > .modal-header {
     color: $dialog-text-color-alert;
 
     .title-icon {

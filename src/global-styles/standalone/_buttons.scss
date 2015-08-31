@@ -48,13 +48,13 @@
     color: $button-text-color-disabled;
   }
 
-  &.small {
+  &.small, &.btn-small {
     height: $button-height-small;
     line-height: ($button-height-small - $button-border-width*2);
     font-size: $button-text-size-small;
   }
 
-  &.large {
+  &.large, &.btn-large {
     height: $button-height-large;
     line-height: ($button-height-large - $button-border-width*2);
     font-size: $button-text-size-large;
