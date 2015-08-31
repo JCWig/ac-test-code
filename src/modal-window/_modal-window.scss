@@ -183,12 +183,17 @@
       left: 0;
       right: 0;
       bottom: 0;
+      height: 1000%;
+      width: 1000%;
+      margin: auto;
       background: rgba(255,255,255,.85);
       display: none;
     }
 
     &.processing {
       overflow: hidden;
+      height: 100%;
+      width: 100%;
 
       .backwash {
         display: block;

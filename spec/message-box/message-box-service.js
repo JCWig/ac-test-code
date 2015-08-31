@@ -4,6 +4,9 @@ var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.js
 var CONFIG_PATH = '../../_appen_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+const CANCEL_BUTTON_SELECTOR = '.modal .btn:not(.btn-primary)';
+const SUBMIT_BUTTON_SELECTOR = '.modal .btn.btn-primary';
+
 
 describe('messageBox service', function() {
   var translationMock = {
@@ -122,7 +125,7 @@ describe('messageBox service', function() {
       });
       this.$rootScope.$digest();
 
-      var cancelModalButton = document.querySelector('.modal .button:not(.primary)');
+      var cancelModalButton = document.querySelector(CANCEL_BUTTON_SELECTOR);
       expect(cancelModalButton.textContent).toContain(cancelLabelKey);
     });
 
@@ -142,7 +145,7 @@ describe('messageBox service', function() {
       });
       this.$rootScope.$digest();
 
-      var cancelModalButton = document.querySelector('.modal .button:not(.primary)');
+      var cancelModalButton = document.querySelector(CANCEL_BUTTON_SELECTOR);
       expect(cancelModalButton.textContent).toContain(cancelLabelKey);
     });
 
@@ -162,7 +165,7 @@ describe('messageBox service', function() {
       });
       this.$rootScope.$digest();
 
-      var okayModalButton = document.querySelector('.modal button.primary');
+      var okayModalButton = document.querySelector(SUBMIT_BUTTON_SELECTOR);
       expect(okayModalButton.textContent).toContain(submitLabelKey);
     });
     it('should submitLabel display translation key if provided', function() {
@@ -181,7 +184,7 @@ describe('messageBox service', function() {
       });
       this.$rootScope.$digest();
 
-      var okayModalButton = document.querySelector('.modal button.primary');
+      var okayModalButton = document.querySelector(SUBMIT_BUTTON_SELECTOR);
       expect(okayModalButton.textContent).toContain(submitLabelKey);
     });
 
