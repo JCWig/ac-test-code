@@ -214,6 +214,10 @@ export default angular.module('akamai.components.i18n', [
  * ```
  *
  * @param {string} translationId The key to translate
+ *
+ * @param {string} defaultKey If translationId is null or not defined
+ * translate defaultKey if it is defined
+ *
  */
 .filter('akamTranslate', translateFilter)
 

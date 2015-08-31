@@ -46,23 +46,18 @@ class DropdownController {
   }
 
   setPlaceholder(placeholderProp, customMarkupScope, key) {
+      let setCustomMarkupPlaceholder = () => {
+        if (angular.isDefined(customMarkupScope)) {
+          customMarkupScope[placeholderProp] = this[placeholderProp];
+        }
+      };
 
-    let setCustomMarkupPlaceholder = () => {
-      if (angular.isDefined(customMarkupScope)) {
-        customMarkupScope[placeholderProp] = this[placeholderProp];
-      }
-    };
-
-    if (!angular.isString(this[placeholderProp])) {
-      this.translate.async(key)
-        .then((value) => {
+      this.translate.async(this[placeholderProp], null, key)
+        .then(value => {
           this[placeholderProp] = value;
           setCustomMarkupPlaceholder();
         });
-    } else {
-      setCustomMarkupPlaceholder();
     }
-  }
 }
 DropdownController.$inject = ['$scope', '$parse', 'translate'];
 

@@ -9,16 +9,16 @@
     "search": {
         "kb": "KB",
         "search": "Buscar",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "cargando",
+        "seeAll": "Ver todos los resultados de {category}",
         "users": "usuarios",
-        "searchFor": "Search for {category}",
+        "searchFor": "Buscar {category}",
         "docs": "documentos",
         "documentation": "Documentación",
-        "noResults": "no results found",
+        "noResults": "no se encontraron resultados",
         "all": "TODO",
         "applications": "aplicaciones",
-        "allResults": "All Results",
+        "allResults": "Todos los resultados",
         "accounts": "cuentas",
         "groups": "grupos",
         "knowledgeBase": "Knowledge Base English Only",
@@ -63,18 +63,18 @@
     "timeout": {
         "buttonText": "Ampliar",
         "contents": "La sesión de Luna Control Center está a punto de finalizar. Haga clic en Ampliar para prolongar la sesión.",
-        "title": "Session Timeout Imminent"
+        "title": "Finalización de la sesión inminente"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "Segmentos de tráfico",
         "arl": "Propiedades digitales",
-        "noMatches": "No Matches Found"
+        "noMatches": "No se encontraron coincidencias."
     },
     "footer": {
         "policy": "Avisos legales y de privacidad",
         "contact": "Póngase en contacto con nosotros",
         "feedback": "¿Cómo podemos ofrecerle un servicio mejor?",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. Todos los derechos reservados"
     },
     "shortMonths": {
         "11": "Dic",
@@ -88,13 +88,13 @@
         "7": "Ago",
         "6": "Jul",
         "9": "Oct",
-        "8": "Sept"
+        "8": "Septiembre"
     },
     "messages": {
         "forwardEmailValidation": "Introduzca un correo electrónico válido.",
         "previewTitle": "Centro de mensajes",
         "assigned": "Asignado a",
-        "header": "{count} MESSAGES",
+        "header": "{count} MENSAJES",
         "cancel": "Cancelar",
         "close": "Cerrar",
         "deleteMessage": "¿Está seguro de que desea eliminar este mensaje? Esta acción no se puede deshacer.",
@@ -115,7 +115,7 @@
         "forwardMessage": "Reenviar mensaje seleccionado a la(s) siguiente(s) dirección(es) de correo electrónico:",
         "list": "Lista",
         "no-cases": "No se han encontrado casos.",
-        "unread": "{count} Unread",
+        "unread": "{count} sin leer",
         "delete": "Eliminar mensaje"
     },
     "policies": {

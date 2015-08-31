@@ -120,17 +120,17 @@
     },
     "policies": {
         "es_la": "http://spanish.akamai.com/enes/html/policies/index.html",
-        "pt_br": "http://www.akamai.com/html/policies/index.html",
-        "ko_kr": "http://www.akamai.com/html/policies/index.html",
-        "it_it": "http://www.akamai.com/html/policies/index.html",
-        "en_us": "http://www.akamai.com/html/policies/index.html",
+        "pt_br": "http://www.att.com/html/policies/index.html",
+        "ko_kr": "http://www.att.com/html/policies/index.html",
+        "it_it": "http://www.att.com/html/policies/index.html",
+        "en_us": "http://www.att.com/html/policies/index.html",
         "de_de": "http://www.akamai.de/leaving.html?url=/html/policies/index.html",
         "fr_fr": "http://www.akamai.fr/enfr/html/policies/index.html",
         "zh_cn": "http://www.akamai.cn/enzs/html/policies/index.html",
         "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506",
         "en_us_ib": "http://www.ibm.com/privacy/us/en/?lnk=flg-priv-usen",
         "ja_jp": "http://www.akamai.co.jp/enja/html/policies/index.html",
-        "zh_tw": "http://www.akamai.com/html/policies/index.html",
+        "zh_tw": "http://www.att.com/html/policies/index.html",
         "es_es": "http://spanish.akamai.com/enes/html/policies/index.html"
     }
 }

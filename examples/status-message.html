@@ -44,18 +44,30 @@
                     <textarea id="messageText" type="text" class="form-control" ng-model="messageText" rows="3" cols="25"></textarea>
                 </div>
                 <button class="btn" ng-click="showStatus()">Show Status Message</button>
+                <button class="btn" ng-click="remove()">Clear Last Message</button>
+                <button class="btn" ng-click="clear()">Clear All Messages</button>
             </form>
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
             var ctrlFunction = function($scope, statusMessage) {
+                var id;
+
                 $scope.messageTimeout = 3000; //Default time is 2000 (2s), 0 = manual close
                 $scope.messageText = "Basic Message Text";
                 $scope.messageTitle = "Message Title";
                 $scope.status = "Error"; //Information, Error, Success, Warning
         
                 $scope.showStatus = function(){
-                    statusMessage["show" + $scope.status]({text : $scope.messageText, timeout: $scope.messageTimeout});
+                    id = statusMessage["show" + $scope.status]({text : $scope.messageText, timeout: $scope.messageTimeout});
+                };
+
+                $scope.remove = function(){
+                    statusMessage.remove(id);
+                };
+
+                $scope.clear = function(){
+                    statusMessage.clear();
                 };
             };
             ctrlFunction.$inject = ["$scope", "statusMessage"];

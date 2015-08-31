@@ -95,6 +95,20 @@ describe('translate service', function() {
         var syncedResponse = akTranslate.sync("TRANSLATION_ID_3", {"value": "2"});
         expect(syncedResponse).toEqual("Lorem Ipsum 22");
       });
+
+      it('should translate default key if translation id is not provided', function() {
+        var defaultKey = "TRANSLATION_ID";
+        var syncedResponse = akTranslate.sync('', null, defaultKey);
+        expect(syncedResponse).toEqual('Lorem Ipsum ');
+      });
+      it('should translate translation id if translation id and default key are not provided', function() {
+        var syncedResponse = akTranslate.sync('', null, '');
+        expect(syncedResponse).toEqual('');
+      });
+      it('should translate to null if translation id and default key are null', function() {
+        var syncedResponse = akTranslate.sync(null, null, null);
+        expect(syncedResponse).toEqual(null);
+      });
     });
 
     describe('when using async funtion', function() {
@@ -134,6 +148,22 @@ describe('translate service', function() {
         $timeout.flush();
         $scope.$apply();
         expect(response.$$state.value).toEqual(key);
+      });
+      it('should translate default key if translation id is not provided', function() {
+        var defaultKey = "TRANSLATION_ID";
+        var response = akTranslate.async('', null, defaultKey);
+        $timeout.flush();
+        expect(response.$$state.value).toEqual('Lorem Ipsum ');
+      });
+      it('should translate to empty if translation id and default key are not provided', function() {
+        var response = akTranslate.async('', null, '');
+        $timeout.flush();
+        expect(response.$$state.value).toEqual('');
+      });
+      it('should translate to null if translation id and default key are null', function() {
+        var response = akTranslate.async(null, null, null);
+        $timeout.flush();
+        expect(response.$$state.value).toEqual(null);
       });
     });
   });

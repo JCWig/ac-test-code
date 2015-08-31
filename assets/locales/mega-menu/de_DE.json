@@ -9,16 +9,16 @@
     "search": {
         "kb": "kB",
         "search": "Suchen",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "Ladevorgang läuft",
+        "seeAll": "Alle {category} Ergebnisse anzeigen",
         "users": "Benutzer",
-        "searchFor": "Search for {category}",
+        "searchFor": "Nach {category} suchen",
         "docs": "Dokumente",
         "documentation": "Dokumentation",
-        "noResults": "no results found",
+        "noResults": "Keine Ergebnisse gefunden",
         "all": "ALLE",
         "applications": "Anwendungen",
-        "allResults": "All Results",
+        "allResults": "Alle Ergebnisse",
         "accounts": "Konten",
         "groups": "Gruppen",
         "knowledgeBase": "Knowledge Base English Only",
@@ -62,19 +62,19 @@
     },
     "timeout": {
         "buttonText": "Verlängern",
-        "contents": "Ihre Luna Control Center-Sitzung läuft in Kürze ab. Klicken Sie auf \\\"Verlängern\\\", um Ihre Sitzung zu verlängern.",
-        "title": "Session Timeout Imminent"
+        "contents": "Ihre Luna Control Center-Sitzung läuft in Kürze ab. Klicken Sie auf Verlängern, um Ihre Sitzung zu verlängern.",
+        "title": "Sitzungszeitlimit in Kürze erreicht"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "Datenverkehr-Segmente",
         "arl": "Digital Property",
-        "noMatches": "No Matches Found"
+        "noMatches": "Keine Übereinstimmungen gefunden"
     },
     "footer": {
         "policy": "Juristische Hinweise und Datenschutzerklärung",
         "contact": "Kontakt",
         "feedback": "Wie können wir Sie noch besser bedienen?",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. Alle Rechte vorbehalten"
     },
     "shortMonths": {
         "11": "Dez",
@@ -94,7 +94,7 @@
         "forwardEmailValidation": "Gültige E-Mail-Adresse eingeben",
         "previewTitle": "Nachrichtenzentrum",
         "assigned": "Zugewiesen zu",
-        "header": "{count} MESSAGES",
+        "header": "{count} MELDUNGEN",
         "cancel": "Abbrechen",
         "close": "Schließen",
         "deleteMessage": "Möchten Sie diese Nachricht wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
@@ -115,7 +115,7 @@
         "forwardMessage": "Ausgewählte Nachricht an die folgende(n) E-Mail-Adresse(n) weiterleiten:",
         "list": "Liste",
         "no-cases": "Keine Fälle gefunden.",
-        "unread": "{count} Unread",
+        "unread": "{count} ungelesen",
         "delete": "Nachricht löschen"
     },
     "policies": {

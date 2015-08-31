@@ -21,23 +21,29 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
       this.dataSource = [];
       this.page = 1;
 
-      $q.all([
-        translate.async('components.list-box.placeholder.filter'),
-        translate.async('components.list-box.text.selected'),
-        translate.async('components.list-box.text.noFilterResults'),
-        translate.async('components.list-box.text.noDataMessage'),
-        translate.async('components.list-box.text.viewSelectedOnly')
-      ]).then((values) => {
-        this.staticMessages.filterPlaceholder = this.staticMessages.filterPlaceholder || values[0];
-        this.staticMessages.selectedText = values[1];
-        this.staticMessages.noFilterResultsMessage =
-          this.staticMessages.noFilterResultsMessage || values[2];
-        this.staticMessages.noneSelectedMessage =
-          this.staticMessages.noneSelectedMessage || values[4];
+      translate.async(this.staticMessages.filterPlaceholder,
+        null, 'components.list-box.placeholder.filter')
+          .then(value => this.staticMessages.filterPlaceholder = value);
 
-        this.noDataMessage = this.noDataMessage || values[3];
-        this.messages = this.staticMessages;
-      });
+      translate.async(this.noDataMessage, null, 'components.list-box.text.noDataMessage')
+        .then(value => this.noDataMessage = value);
+
+      translate.async(this.staticMessages.noFilterResultsMessage,
+        null, 'components.list-box.text.noFilterResults')
+          .then(value => this.staticMessages.noFilterResultsMessage = value);
+
+      translate.async(this.staticMessages.noneSelectedMessage,
+        null, 'components.list-box.text.viewSelectedOnly')
+          .then(value => this.staticMessages.noneSelectedMessage = value);
+
+      translate.async(this.staticMessages.selectedText,
+        null, 'components.list-box.text.selected')
+          .then(value => {
+            this.staticMessages.selectedText = value;
+            // set messages equal to staticMessages after all staticMessage.* have been translated
+            // otherwise translation key will be displayed
+            this.messages = this.staticMessages;
+          });
 
       this.loadMoreData = function() {
         for (let i = this.page * 10; i < this.page * 10 + 10; i++) {
