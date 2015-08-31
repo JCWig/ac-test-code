@@ -32,13 +32,13 @@
   position: static;
   margin: 0;
 
-  &.modal-lg .modal-content {
+  &.modal-lg .modal-content .modal-container {
     @include for("IE10+") {
       height: $dialog-max-height;
     }
   }
 
-  &.modal-sm .modal-content {
+  &.modal-sm .modal-content .modal-container {
     @include for("IE10+") {
       height: 50%;
     }
@@ -183,7 +183,19 @@
       left: 0;
       right: 0;
       bottom: 0;
+      height: 1000%;
+      width: 1000%;
+      margin: auto;
       background: rgba(255,255,255,.85);
+      display: none;
+    }
+
+    &.processing {
+      overflow: hidden;
+
+      .backwash {
+        display: block;
+      }
     }
   }
 
@@ -222,7 +234,7 @@
   }
 }
 
-.modal-content {
+.modal-content .modal-container {
   @include for("IE10+") {
     height: 60%;
   }
@@ -249,6 +261,10 @@
         &:hover {
           background-image: inline-svg-image("svg/small_close_hover_new.svg");
         }
+      }
+
+      i.disabled {
+        opacity: 0.5;
       }
     }
 
