@@ -26,8 +26,8 @@
     <br/>
     <div>
         <h2>Custom Labels</h2>   
-        <akam-switch-button ng-model="vm.ex2.on" on-label='{{"examples.switchbutton.custom.allow" | akamTranslate}}'
-                            off-label='{{"examples.switchbutton.custom.deny" | akamTranslate}}'>
+        <akam-switch-button ng-model="vm.ex2.on" on-label='{{"examples.switchbutton.custom.allow" | translate}}'
+                            off-label='{{"examples.switchbutton.custom.deny" | translate}}'>
         </akam-switch-button>
     </div>
     <br/>
@@ -81,15 +81,18 @@
                 vm.hello = !vm.hello;
             }
         }
-        configFunction.$inject = ['i18nTokenProvider']; 
-        function configFunction (i18nTokenProvider, $scope, translate) {
-            
+        function configFunction($translatePartialLoaderProvider) {
+
             // need to overwrite locales path on fee.akamai.com
-            if(window.location.host == 'fee.akamai.com') {
-                i18nTokenProvider.setComponentLocalePath("../dist/locales/");
-                i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            if (window.location.host == 'fee.akamai.com') {
+                $translatePartialLoaderProvider.addPart('../dist/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
+            } else {
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
             }
         }
+        configFunction.$inject = ['$translatePartialLoaderProvider'];
 
     </script>
 

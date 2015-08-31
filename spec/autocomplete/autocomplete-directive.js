@@ -1,6 +1,8 @@
+/* globals angular, beforeEach, afterEach, spyOn */
+/* eslint-disable max-nested-callbacks */
+
 'use strict';
 var utilities = require('../utilities');
-var translationMock = require('../fixtures/translationFixture.json');
 
 var selectors = {
   ac: '.akam-autocomplete',
@@ -41,15 +43,13 @@ describe('akamAutocomplete directive', function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/autocomplete').name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.useLoader('translateNoopLoader');
     });
+
     inject(function($rootScope, _$compile_, $httpBackend, $timeout, $q) {
       scope = $rootScope.$new();
       compile = _$compile_;
-      $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
-      $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
-      $httpBackend.flush();
       timeout = $timeout;
     });
     self = this;
@@ -141,7 +141,7 @@ describe('akamAutocomplete directive', function() {
         addElement();
         var tip = angular.element(document.querySelector(selectors.ac)).find("span.search-tip");
 
-        expect(tip.text()).toContain("matching results")
+        expect(tip.text()).toContain("components.autocomplete.search-tip");
       });
 
 
@@ -379,7 +379,7 @@ describe('akamAutocomplete directive', function() {
         var markup = '<akam-autocomplete ng-model="selectedItem" placeholder="examples.autocomplete.search.states"></akam-autocomplete>';
         addElement(markup);
         var inputEl = document.querySelector(selectors.ac_input);
-        expect(inputEl.getAttribute("placeholder")).toBe("Search States");
+        expect(inputEl.getAttribute("placeholder")).toBe("examples.autocomplete.search.states");
       });
     });
     describe("akam-autocomplete-selected-item content provided", function() {

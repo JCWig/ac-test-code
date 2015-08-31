@@ -5,9 +5,6 @@ import utils from '../utilities';
 import dateRange from '../../src/date-range';
 import datePicker from '../../src/date-picker';
 
-const LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
-  CONFIG_PATH = '/apps/appname/locales/en_US.json';
-
 describe('akamai.components.date-range', function() {
 
   afterEach(function() {
@@ -28,18 +25,13 @@ describe('akamai.components.date-range', function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(dateRange.name);
     angular.mock.module(datePicker.name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.useLoader('translateNoopLoader');
     });
-
-    angular.mock.inject(function($compile, $timeout, $rootScope, $httpBackend) {
+    angular.mock.inject(function($compile, $timeout, $rootScope) {
       this.$compile = $compile;
       this.$scope = $rootScope.$new();
       this.$timeout = $timeout;
-
-      $httpBackend.when('GET', LIBRARY_PATH).respond({});
-      $httpBackend.when('GET', CONFIG_PATH).respond({});
-      $httpBackend.flush();
     });
   });
 

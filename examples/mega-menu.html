@@ -46,11 +46,20 @@
     .controller('MegaMenu', MegaMenu)
     .config(Config);
 
-  function Config(contextProvider, i18nTokenProvider) {
+  function Config(contextProvider, $translatePartialLoaderProvider) {
     contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
-    i18nTokenProvider.setAppLocalePath('/libs/akamai-core/0.7.0/locales/');
+
+    // need to overwrite locales path on fee.akamai.com
+    if (window.location.host == 'fee.akamai.com') {
+      $translatePartialLoaderProvider.addPart('../dist/locales/');
+      $translatePartialLoaderProvider.addPart('locales/json/messages/');
+    } else {
+      $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+    }
+
   }
-  Config.$inject = ['contextProvider', 'i18nTokenProvider'];
+  Config.$inject = ['contextProvider', '$translatePartialLoaderProvider'];
 
   function MegaMenu($cookies, $http, context) {
     var ids = {

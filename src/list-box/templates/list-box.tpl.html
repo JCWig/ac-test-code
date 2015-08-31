@@ -30,9 +30,9 @@
                         <th ng-repeat="column in ::listBox.columns"
                             ng-class="listBox.getColumnClasses(column, true, listBox.state)"
                             ng-click="listBox.sortColumn(column)"
-                            title="{{ column.header | akamTranslate }}"
+                            title="{{ column.header | translate }}"
                             class="header">
-                                <span>{{column.header | akamTranslate}}</span>
+                                <span>{{column.header |translate}}</span>
                                 <i></i>
                         </th>
                     </tr>
@@ -83,7 +83,7 @@
              ng-disabled="!listBox.hasSelectedItems()"
              id="{{::(listBox.tableId + 'viewSelectedOnly')}}"><label
       for="{{::(listBox.tableId + 'viewSelectedOnly')}}"
-      akam-translate="components.list-box.text.viewSelected"></label>
+      translate="components.list-box.text.viewSelected"></label>
     </span>
   </div>
 

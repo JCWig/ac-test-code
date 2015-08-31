@@ -10,16 +10,13 @@ describe('akamai.components.switch-button', function() {
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/switch-button').name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
-    inject(function($rootScope, _$compile_, $httpBackend) {
+    inject(function($rootScope, _$compile_) {
       $scope = $rootScope;
       $compile = _$compile_;
-
-      $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
-      $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
-      $httpBackend.flush();
     });
   });
 
@@ -175,10 +172,10 @@ describe('akamai.components.switch-button', function() {
       expect(offLabelElem.textContent).toMatch(/Off Value/);
     });
 
-    it('should translate key when key provided to akamTranslate filter', function() {
+    it('should translate key when key provided to translate filter', function() {
       var onLabelElem, offLabelElem;
-      var markup = '<akam-switch-button ng-model="val" on-label=\'{{"examples.switchbutton.custom.allow" | akamTranslate}}\'' +
-                   ' off-label=\'{{"examples.switchbutton.custom.deny" | akamTranslate}}\'></akam-switch-button>';
+      var markup = '<akam-switch-button ng-model="val" on-label=\'{{"examples.switchbutton.custom.allow" | translate}}\'' +
+                   ' off-label=\'{{"examples.switchbutton.custom.deny" | translate}}\'></akam-switch-button>';
       $scope.val = true;
       addElement(markup);
 
@@ -188,10 +185,10 @@ describe('akamai.components.switch-button', function() {
       expect(offLabelElem.textContent).toMatch(/Deny/);
     });
 
-    it('should translate and display key if key not found in translation table when using akamTranslate filter', function() {
+    it('should translate and display key if key not found in translation table when using translate filter', function() {
       var onLabelElem, offLabelElem;
-      var markup = '<akam-switch-button ng-model="val" on-label=\'{{"Yes" | akamTranslate}}\'' +
-                   ' off-label=\'{{"No" | akamTranslate}}\'></akam-switch-button>';
+      var markup = '<akam-switch-button ng-model="val" on-label=\'{{"Yes" | translate}}\'' +
+                   ' off-label=\'{{"No" | translate}}\'></akam-switch-button>';
       $scope.val = true;
       addElement(markup);
 

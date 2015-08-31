@@ -315,19 +315,24 @@
                     deferredRejection.reject();
                 }, 5000);
             };
-            var configFunction = function($translateProvider) {
-                $translateProvider.useMissingTranslationHandler('noop');
-            };
-            configFunction.$inject = ['$translateProvider'];
+            function configFunction($translatePartialLoaderProvider) {
+
+                // need to overwrite locales path on fee.akamai.com
+                if (window.location.host == 'fee.akamai.com') {
+                    $translatePartialLoaderProvider.addPart('../dist/locales/');
+                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
+                } else {
+                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                }
+            }
+            configFunction.$inject = ['$translatePartialLoaderProvider'];
+
             controllerFunction.$inject = ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce"];
             
             angular.module('example', ['akamai.components.list-box', 'akamai.components.i18n'])
-            
+
             .config(configFunction)
-            
-            .factory('noop', function() {
-                return function() { }
-            })
             
             .controller('ExampleController', controllerFunction);
         </script>

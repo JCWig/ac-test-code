@@ -3,11 +3,11 @@ import debounce from 'lodash/function/debounce';
 import template from './templates/dropdown-directive.tpl.html';
 
 class DropdownController {
-  constructor($scope, $parse, translate) {
+  constructor($scope, $parse, $translate) {
     this.textPropertyFn = $parse(this.textProperty);
     this.isOpen = false;
     this.itemSet = [];
-    this.translate = translate;
+    this.$translate = $translate;
 
     $scope.$watchCollection('dropdown.items', (items) => {
       this.createItemMap(items);
@@ -52,14 +52,14 @@ class DropdownController {
         }
       };
 
-      this.translate.async(this[placeholderProp], null, key)
+      this.$translate(this[placeholderProp] || key)
         .then(value => {
           this[placeholderProp] = value;
           setCustomMarkupPlaceholder();
         });
     }
 }
-DropdownController.$inject = ['$scope', '$parse', 'translate'];
+DropdownController.$inject = ['$scope', '$parse', '$translate'];
 
 function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
 

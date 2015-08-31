@@ -13,7 +13,8 @@ describe('akamai.components.wizard', function() {
     angular.mock.module(require('../../src/wizard').name);
 
     angular.mock.module(function($translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
 
     angular.mock.module(function($controllerProvider) {
@@ -48,9 +49,6 @@ describe('akamai.components.wizard', function() {
       wizard = _wizard_;
       $q = _$q_;
       timeout = $timeout;
-      $httpBackend.when('GET', util.LIBRARY_PATH).respond(translationMock);
-      $httpBackend.when('GET', util.CONFIG_PATH).respond({});
-      $httpBackend.flush();
 
       steps = [
         { name: 'Step 1', template: '<p>Step 1 Content</p>' },
@@ -77,7 +75,6 @@ describe('akamai.components.wizard', function() {
       statusMessgeWrapper.parentNode.removeChild(statusMessgeWrapper);
     }
   });
-
 
   function addElement(markup) {
     this.el = $compile(markup)($scope);
@@ -547,11 +544,4 @@ describe('akamai.components.wizard', function() {
   });
 
 });
-
-
-
-
-
-
-
 
