@@ -204,7 +204,9 @@ function linkFn(scope, elem, attr, ngModel) {
 
     if (info.rangeSelected) {
       ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
+      ctrl.dateRange.startDate = start;
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
+      ctrl.dateRange.endDate = end;
 
       range = ctrl.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
       setViewValue(range, start, end);
@@ -217,7 +219,9 @@ function linkFn(scope, elem, attr, ngModel) {
 
     } else {
       ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
+      ctrl.dateRange.startDate = start;
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
+      ctrl.dateRange.endDate = end;
 
       ctrl.$timeout(() => {
         //assuming only start date has value, calendar stay open - forced
@@ -278,19 +282,19 @@ function linkFn(scope, elem, attr, ngModel) {
 
     //this event is sent from date picker directive when range is selected
     scope.$watch('dateRange.format', () => {
-      let sd = ctrl.rangeStart.selectedValue;
-      let ed = ctrl.rangeEnd.selectedValue;
+      let sd = ctrl.dateRange.startDate;
+      let ed = ctrl.dateRange.endDate;
 
       if (!initialized) {
         return;
       }
 
       if (sd) {
-        ctrl.rangeStart.selectedValue = ctrl.dateFilter(new Date(sd), ctrl.format);
+        ctrl.rangeStart.selectedValue = ctrl.dateFilter(sd, ctrl.format);
       }
 
       if (ed) {
-        ctrl.rangeEnd.selectedValue = ctrl.dateFilter(new Date(ed), ctrl.format);
+        ctrl.rangeEnd.selectedValue = ctrl.dateFilter(ed, ctrl.format);
       }
     });
   }
