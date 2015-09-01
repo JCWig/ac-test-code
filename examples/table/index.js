@@ -2,7 +2,6 @@
 'use strict';
 
 angular.module('akamai.components.examples.table', [
-  'pascalprecht.translate',
   'akamai.components.table',
   'akamai.components.i18n'
 ])
