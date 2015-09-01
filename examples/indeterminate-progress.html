@@ -13,6 +13,10 @@
         margin-top: 5px;
         margin-bottom: 5px;
       }
+
+      .settings > div {
+        margin-bottom: 10px;
+      }
     </style>
   </head>
   <body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
@@ -20,15 +24,17 @@
       <div class="page-header">
           <h1>Indeterminate Progress Example</h1>
       </div>
-      <div>
-        <label class="label">Progress Status:</label>
-        <label class="label"><input type="checkbox" ng-model="completed"/><span>Completed</span></label>
-        <label class="label"><input type="checkbox" ng-model="failed"/><span>Failed</span></label>
-        <label class="label"><input type="checkbox" ng-model="success"/><span>Success</span></label>
-      </div>
-      <div>
+      <div class="settings">
+        <div>
+          <label class="label">Progress Status:</label>
+          <label class="label"><input type="checkbox" ng-model="completed"/><span class="label">Completed</span></label>
+          <label class="label"><input type="checkbox" ng-model="failed"/><span class="label">Failed</span></label>
+          <label class="label"><input type="checkbox" ng-model="success"/><span class="label">Success</span></label>
+        </div>
+        <div>
           <label class="label" for="labelText">Progress Label Text:</label><br>
           <input type="text" name="labelText" id="labeltext" ng-model="label" size="50">
+        </div>
       </div>
 
 
