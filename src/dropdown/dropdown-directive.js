@@ -162,7 +162,8 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
         ngModel.$setViewValue();
       };
 
-      ctrl.setInputAsClicked = function() {
+      ctrl.setInputAsClicked = function($event) {
+        $event.stopPropagation();
         inputClick = true;
       };
 

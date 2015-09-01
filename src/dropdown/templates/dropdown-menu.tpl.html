@@ -1,6 +1,6 @@
 <div class="dropdown-menu">
     <div class="fixed-header" ng-show="dropdown.hasFilter">
-        <input ng-click="dropdown.setInputAsClicked()" ng-show="dropdown.hasFilter" type="text" ng-model="dropdownFilter" placeholder="{{dropdown.filterPlaceholder}}" />
+        <input ng-click="dropdown.setInputAsClicked($event)" ng-show="dropdown.hasFilter" type="text" ng-model="dropdownFilter" placeholder="{{dropdown.filterPlaceholder}}" />
         <i ng-show="dropdown.dropdownFilter" class="luna-small_close_light_gray util-clickable clear-filter"
            ng-click="dropdown.dropdownFilter = undefined"></i>
     </div>
