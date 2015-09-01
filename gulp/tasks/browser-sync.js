@@ -53,7 +53,10 @@ gulp.task('browser-sync', ['build'], function() {
       directory: true
     },
     files: [
-      'dist/*', 'examples/**/*.html'
+      'dist/*.css',
+      'dist/*.js',
+      'dist/*.json',
+      'examples/**/*.html'
     ]
   });
 });

@@ -391,7 +391,7 @@ describe('modalWindow service', function() {
         expect(messageContentEl.textContent).not.toBe(null);
       });
 
-      it('should not display close X when processing', function() {
+      it('should disable icons in header', function() {
         var submitButton;
         var deferral = this.q.defer();
 
@@ -417,7 +417,7 @@ describe('modalWindow service', function() {
         this.scope.$apply();
 
         var closeIcon = document.querySelector('.modal-header i');
-        expect(closeIcon).toBe(null);
+        expect(closeIcon.classList.contains('disabled')).toBe(true);
       });
 
       it('should verify in-progress class when processing', function() {

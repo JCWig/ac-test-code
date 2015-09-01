@@ -18,7 +18,7 @@ class WizardController {
     this.statusMessage = statusMessage;
     this.processing = false;
 
-    this.contentScope = options.contentScope ? options.contentScope : $rootScope.$new();
+    this.contentScope = options.contentScope ? options.contentScope.$new() : $rootScope.$new();
     this.contentScope.processing = this.processing;
     this.contentScope.setOnSubmit = fn => this.onSubmit = fn;
     this.contentScope.close = () => this.close();
@@ -42,6 +42,8 @@ class WizardController {
       null, 'components.wizard.errorMessage');
 
     this.instance = options.instance;
+
+    this.instance.result.finally(() => this.contentScope.$destroy());
 
     options.steps.forEach((step, i) => {
       step.id = i;
