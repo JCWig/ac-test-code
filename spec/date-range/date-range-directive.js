@@ -182,6 +182,8 @@ describe('akamai.components.date-range', function() {
     it('should verify correct properties and values from controller', function() {
       expect(dateRange.opened).not.toBe(undefined);
       expect(dateRange.rangeStart).not.toBe(undefined);
+      expect(dateRange.dateRange.startDate).not.toBe(undefined);
+      expect(dateRange.dateRange.endDate).not.toBe(undefined);
       expect(dateRange.rangeStart.minDate).not.toBe(null);
       expect(dateRange.rangeStart.maxDate).not.toBe(null);
       expect(dateRange.rangeStart.selectedValue).toBe('');
@@ -261,16 +263,17 @@ describe('akamai.components.date-range', function() {
       dateRange = this.el.isolateScope().dateRange;
     });
 
-    it('should verify the APIs value value if provided in directive', function() {
+    it('should verify the APIs value if provided in directive', function() {
 
       expect(dateRange.dateRange).not.toBe(undefined);
       expect(angular.isObject(dateRange.dateRange)).toBeTruthy();
       expect(angular.isObject(dateRange.dateRange.startDate)).not.toBe('');
       expect(angular.isObject(dateRange.dateRange.endDate)).not.toBe('');
+      expect(angular.isDate(new Date(dateRange.dateRange.startDate))).toBeTruthy();
+      expect(angular.isDate(new Date(dateRange.dateRange.endDate))).toBeTruthy();
       expect(dateRange.isDisabled).toBeTruthy();
       expect(angular.isFunction(dateRange.onSelect)).toBeTruthy();
     });
-
   });
 
   describe("Verify dropdown child elements before and after date range open...", function() {
