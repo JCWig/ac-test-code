@@ -53,11 +53,11 @@ function indeterminateProgressDirective(translate) {
     restrict: 'AE',
     scope: {},
     bindToController: {
-      label: '@label',
-      stateFailed: '@failed',
-      stateCompleted: '@completed',
-      stateSuccess: '@success',
-      spinnerSize: '@size'
+      label: '@?label',
+      stateFailed: '@?failed',
+      stateCompleted: '@?completed',
+      stateSuccess: '@?success',
+      spinnerSize: '@?size'
     },
     controller: IndeterminateProgressController,
     controllerAs: 'indeterminateProgress',
