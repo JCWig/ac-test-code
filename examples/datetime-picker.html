@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Datetime Picker</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+    <style type="text/css">
+  .title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-group div {
+    margin: 15px 0;
+  }
+  </style>
+</head>
+
+<body ng-app="datetimePickerApp" ng-controller="DatetimePickerController as vm" ng-strict-di class="common-css luna">
+  <br/>
+  <h2>Datetime Picker Component Example</h2>
+  <br/>
+  <h4 class="title">Display value selected</h4>
+  <pre>selected Datetime value: {{vm.datetimeValue}}</pre>
+  <pre>selected Date: {{vm.date}}</pre>
+  <pre>selected Time: {{vm.time}}</pre>
+
+  <h4 class="title">An example of datetime picker</h4>
+  <form name='datetime-picker' role='form'>
+    <akam-datetime-picker
+      ng-model="datetime"
+      on-change="vm.onChangeCallback(datetimeValue, date, time)"
+      format="EEE, MMM dd, yyyy"
+      mode="day"
+      min=""
+      max=""
+      minuteStep="5"
+      hourStep="1"
+      showMeridain="true"
+      placeholder="date and time"
+      isDisabled="false">
+    </akam-datetime-picker>
+  </form>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  angular.module('datetimePickerApp', ['akamai.components.datetime-picker'])
+    .controller('DatetimePickerController', DatetimePickerController);
+
+  DatetimePickerController.$inject = ['$log'];
+  function DatetimePickerController($log) {
+    var vm = this;
+    //vm.disabled = false;
+    //vm.showMeridian = true;
+    //vm.minuteStep = 15;
+    //vm.hourStep = 1;
+    //vm.time = new Date();
+
+
+    vm.onChangeCallback = function(datetimeValue, date, time) {
+      vm.datetimeValue = datetimeValue;
+      vm.date = date;
+      vm.time = time;
+      $log.log(datetimeValue);
+    }
+  };
+  </script>
+</body>
+
+</html>
