@@ -72,7 +72,7 @@ import noopLoader from './translate-noop-loader-service';
  * <span translate="a.i18n.key"></span>
  *
  * <!-- acceptable, but may cause performance issues, like all filters do -->
- * <span>{{ 'another.i18n.key' | ranslate }}</span>
+ * <span>{{ 'another.i18n.key' | translate }}</span>
  *
  * <span>{{ vm.someLabel }}</span>
  *
