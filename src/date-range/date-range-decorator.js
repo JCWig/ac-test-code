@@ -79,7 +79,7 @@ function DateRangeDecorator($provide) {
     // therefore: get the first item as we know we only have one.
     let directive = $delegate[0];
 
-    // override the default template for daypicker (template is evaluated before templateUrl)
+    // override the default template for daterange control
     directive.template = template;
     directive.templateUrl = undefined;
 
@@ -92,6 +92,7 @@ function DateRangeDecorator($provide) {
 
         link.apply(this, arguments);
         scope.rangeSelected = false;
+        scope.renderDateRange = false;
 
         //show/hide nav previous button depend on the minDate
         scope.showNavPrev = () => {
@@ -102,13 +103,6 @@ function DateRangeDecorator($provide) {
         scope.showNavNext = () => {
           return dateRangeService.isLastDateNotOverMaxDate(ctrl.activeDate, ctrl.maxDate);
         };
-
-        scope.$watch('rows', () => {
-          //timeout may not be needed, use for making sure the rows have been constructed
-          $timeout(() => {
-            createPairingRows();
-          });
-        });
 
         //this event is sent from date range drective(parent) to tell date the range values.
         //values can be empty or initial range values. it also saves unique id per directive,
@@ -122,6 +116,16 @@ function DateRangeDecorator($provide) {
           } else {
             scope.rangeSelected = false;
           }
+
+          //watch only occurs if it is for date range
+          scope.$watch('rows', () => {
+            //timeout may not be needed, use for making sure the rows have been constructed
+            $timeout(() => {
+              createPairingRows();
+            });
+          });
+
+          scope.renderDateRange = true;
         });
 
         resetMax = scope.$on('dateRange.resetMax', (e, info) => {
