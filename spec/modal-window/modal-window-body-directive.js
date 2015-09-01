@@ -7,23 +7,10 @@ describe('akam-modal-window-body directive', function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/modal-window').name);
-    angular.mock.module(function($provide, $translateProvider) {
-
-      function i18nCustomLoader($q, $timeout) {
-        return function(options) {
-          var deferred = $q.defer();
-          $timeout(function() {
-            deferred.resolve({});
-          });
-          return deferred.promise;
-        };
-      }
-      i18nCustomLoader.$inject = ['$q', '$timeout'];
-
-      $provide.factory('i18nCustomLoader', i18nCustomLoader);
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.useLoader('translateNoopLoader');
     });
-    inject(function($compile, $rootScope, $httpBackend, $http, $templateCache, $q, $modal, translate, statusMessage, i18nConfig) {
+    inject(function($compile, $rootScope, $httpBackend, $http, $templateCache, $q, $modal, statusMessage) {
       self.$httpBackend = $httpBackend;
       self.scope = $rootScope.$new();
       self.scope.modalWindow = {
@@ -34,10 +21,8 @@ describe('akam-modal-window-body directive', function() {
       self.http = $http;
       self.templateCache = $templateCache;
       self.q = $q;
-      self.translate = translate;
       self.modal = $modal;
       self.statusMessage = statusMessage;
-      self.i18nConfig = i18nConfig;
       compile = $compile;
     });
   });

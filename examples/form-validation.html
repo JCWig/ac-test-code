@@ -795,9 +795,9 @@
                 .controller('formValidationController', formValidationController)
                 .config(configFunction);
                 
-          formValidationController.$inject = ['$scope', '$log', '$filter', '$q', '$http', 'translate'];
+          formValidationController.$inject = ['$scope', '$log', '$filter', '$q', '$http'];
           
-          function formValidationController($scope, $log, $filter, $q, $http, translate) {
+          function formValidationController($scope, $log, $filter, $q, $http) {
               var vm = this;
               vm.test = 'test';
 
@@ -959,17 +959,22 @@
                 return deferred.promise;
               }
           }
-          
-          configFunction.$inject = ['i18nTokenProvider'];
 
-          function configFunction(i18nTokenProvider) {
+          function configFunction($translatePartialLoaderProvider) {
+
+            // need to overwrite locales path on fee.akamai.com
             if (window.location.host == 'fee.akamai.com') {
-              i18nTokenProvider.setComponentLocalePath("../dist/locales/");
-              i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+              $translatePartialLoaderProvider.addPart('../dist/locales/');
+              $translatePartialLoaderProvider.addPart('locales/json/messages/');
+            } else {
+              $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+              $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
             }
           }
-          
-      </script>
+          configFunction.$inject = ['$translatePartialLoaderProvider'];
+
+
+        </script>
       <script>
         var forms = document.getElementsByTagName("form"),
           inputs = document.getElementsByTagName("input"),

@@ -44,7 +44,7 @@ class IndeterminateProgressController {
   }
 }
 
-function indeterminateProgressDirective(translate) {
+function indeterminateProgressDirective($translate) {
 
   return {
     restrict: 'AE',
@@ -61,7 +61,7 @@ function indeterminateProgressDirective(translate) {
       let ctrl = scope.indeterminateProgress;
 
       if (angular.isDefined(ctrl.label) && ctrl.label !== '') {
-        translate.async(ctrl.label)
+        $translate(ctrl.label)
           .then(value => ctrl.label = value);
       }
 
@@ -87,6 +87,6 @@ function indeterminateProgressDirective(translate) {
   };
 }
 
-indeterminateProgressDirective.$inject = ['translate'];
+indeterminateProgressDirective.$inject = ['$translate'];
 
 export default indeterminateProgressDirective;

@@ -29,6 +29,8 @@
     "angular-messages": "~1.4.4",
     "angular-sanitize": "~1.4.4",
     "angular-translate": "^2.7.2",
+    "angular-translate-handler-log": "^2.7.2",
+    "angular-translate-loader-partial": "^2.7.2",
     "angular-ui-router": "^0.2.15",
     "moment": "^2.10.3"
   },

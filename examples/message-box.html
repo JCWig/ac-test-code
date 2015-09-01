@@ -46,6 +46,13 @@
                     <input id="submit" type="text" ng-model="options.submitLabel" size="50">
                 </div>
                 <br />
+                  <br />
+                <div>
+                    <h3>Button Options:</h3><br>
+                    <input type="checkbox" name="hideSubmit" id="hideSubmit" ng-model="options.hideSubmit"/>
+                    <label class="label" for="hideSubmit">Hide Submit Button</label>
+                </div>
+                <br />
                 <div>
                     <h3>Show Message Box:</h3>
                     <button type="button" class="button large" ng-click="showInfoBox()">Info</button>
@@ -62,7 +69,8 @@
                         text: 'Message Box Text Goes Here',
                         details: '',
                         cancelLabel: 'Cancel Button Text',
-                        submitLabel: 'Submit Button Text'
+                        submitLabel: 'Submit Button Text',
+                        hideSubmit: false
                     };
 
                     $scope.showInfoBox = function() {

@@ -35,7 +35,8 @@ describe('modalWindow service', function() {
 
     angular.mock.module(require('../../src/modal-window').name);
     angular.mock.module(function($translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
     angular.mock.module(function($controllerProvider) {
       function Controller($scope) {
@@ -64,9 +65,6 @@ describe('modalWindow service', function() {
       self.timeout = $timeout;
       self.q = $q;
     });
-    self.httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
-    self.httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
-    self.httpBackend.flush();
   });
 
   afterEach(function() {
@@ -153,8 +151,6 @@ describe('modalWindow service', function() {
 
     it('should translate title if key is provided', function() {
       var title = 'Akamai Common Components';
-
-      this.timeout.flush();
 
       this.modalWindowService.open({
         scope: this.scope,
@@ -518,8 +514,6 @@ describe('modalWindow service', function() {
         var title = 'Modal Window';
         var modalTitle;
 
-        this.timeout.flush();
-
         this.modalWindowService.open({
           scope: this.scope,
           title: "",
@@ -535,8 +529,6 @@ describe('modalWindow service', function() {
         var cancelLabel = 'Cancel';
         var cancelButton;
 
-        this.timeout.flush();
-
         this.modalWindowService.open({
           scope: this.scope,
           cancelLabel: "",
@@ -551,8 +543,6 @@ describe('modalWindow service', function() {
       it('should display translated cancel button text if key provided', function() {
         var cancelLabel = 'Akamai Common Components';
         var cancelButton;
-
-        this.timeout.flush();
 
         this.modalWindowService.open({
           scope: this.scope,
@@ -571,8 +561,6 @@ describe('modalWindow service', function() {
         var submitLabel = 'Save';
         var submitButton;
 
-        this.timeout.flush();
-
         this.modalWindowService.open({
           scope: this.scope,
           submitLabel: "",
@@ -587,8 +575,6 @@ describe('modalWindow service', function() {
       it('should display translated default submit button text if key provided', function() {
         var submitLabel = 'Akamai Common Components';
         var submitButton;
-
-        this.timeout.flush();
 
         this.modalWindowService.open({
           scope: this.scope,
