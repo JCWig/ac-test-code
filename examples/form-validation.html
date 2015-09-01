@@ -795,9 +795,9 @@
                 .controller('formValidationController', formValidationController)
                 .config(configFunction);
                 
-          formValidationController.$inject = ['$scope', '$log', '$filter', '$q', '$http', 'translate'];
+          formValidationController.$inject = ['$scope', '$log', '$filter', '$q', '$http'];
           
-          function formValidationController($scope, $log, $filter, $q, $http, translate) {
+          function formValidationController($scope, $log, $filter, $q, $http) {
               var vm = this;
               vm.test = 'test';
 

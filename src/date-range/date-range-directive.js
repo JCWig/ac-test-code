@@ -14,7 +14,7 @@ const config = {
 };
 
 class DateRangeController {
-  constructor(scope, $log, $timeout, dateFilter, $rootScope, translate, uuid, dateRangeService) {
+  constructor(scope, $log, $timeout, dateFilter, $rootScope, $translate, uuid, dateRangeService) {
     this.dateRangeService = dateRangeService;
     this.uuid = uuid;
     this.scope = scope;
@@ -22,7 +22,7 @@ class DateRangeController {
     this.$timeout = $timeout;
     this.dateFilter = dateFilter;
     this.$rootScope = $rootScope;
-    this.translate = translate;
+    this.$translate = $translate;
 
     this.opened = false;
     this.rangeStart = {};
@@ -37,11 +37,11 @@ class DateRangeController {
 
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
 
-    this.translate.async('components.date-range.labels.from').then((value) => {
+    this.$translate('components.date-range.labels.from').then((value) => {
       this.labels.from = value;
     });
 
-    this.translate.async('components.date-range.labels.to').then((value) => {
+    this.$translate('components.date-range.labels.to').then((value) => {
       this.labels.to = value;
     });
 
@@ -148,7 +148,7 @@ class DateRangeController {
 }
 
 DateRangeController.$inject = ['$scope', '$log', '$timeout',
-  'dateFilter', '$rootScope', 'translate', 'uuid', 'dateRangeService'
+  'dateFilter', '$rootScope', '$translate', 'uuid', 'dateRangeService'
 ];
 
 function linkFn(scope, elem, attr, ngModel) {
@@ -165,7 +165,7 @@ function linkFn(scope, elem, attr, ngModel) {
   if (attr.placeholder) {
     ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = attr.placeholder;
   } else {
-    ctrl.translate.async('components.date-range.placeholder').then((value) => {
+    ctrl.$translate('components.date-range.placeholder').then((value) => {
       ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
     });
   }

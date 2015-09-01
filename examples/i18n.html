@@ -97,7 +97,7 @@
 <script src="../dist/akamai-core.js"></script>
 <script>
 
-  var controllerFunction = function(portalLocale, $scope, $cookies, translate, $rootScope, $filter, $log) {
+  var controllerFunction = function(portalLocale, $scope, $cookies, $translate, $rootScope, $filter, $log) {
     $rootScope.$on('$translateChangeEnd', function() {
       // List of locales to populate the locale selection dropdown. Note that not all of these exist
       $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
@@ -112,8 +112,8 @@
 
       $scope.changeLocale = changeLocale;
 
-      $log.log(translate.sync('reseller-tools.note'));
-      $log.log(translate.sync('components.menu-button.label'));
+      $log.log($translate.instant('reseller-tools.note'));
+      $log.log($translate.instant('components.menu-button.label'));
       $log.log($filter('translate')('components.notifications.success'));
       $log.log($filter('translate')('recurring-report.activate.modal.message'));
       $log.log('locale is ' + portalLocale);
@@ -139,7 +139,7 @@
   configFunction.$inject = ['$translatePartialLoaderProvider'];
 
 
-  controllerFunction.$inject = ['portalLocale', '$scope', '$cookies', 'translate',
+  controllerFunction.$inject = ['portalLocale', '$scope', '$cookies', '$translate',
     '$rootScope', '$filter', '$log'];
 
   angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);

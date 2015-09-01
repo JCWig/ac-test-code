@@ -144,9 +144,9 @@
     .controller('AutocompleteAppController', AutocompleteAppController)
     .config(configFunction);
 
-  AutocompleteAppController.$inject = ['$log', '$q', '$http', '$timeout', '$filter', 'translate'];
+  AutocompleteAppController.$inject = ['$log', '$q', '$http', '$timeout', '$filter'];
 
-  function AutocompleteAppController($log, $q, $http, $timeout, $filter, translate) {
+  function AutocompleteAppController($log, $q, $http, $timeout, $filter) {
 
     var objItems = [{
       first: 'Yair',

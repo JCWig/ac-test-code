@@ -65,7 +65,7 @@
   </form>
   <script src="../dist/akamai-core.js"></script>
   <script>
-  var controllerFunction = function($scope, $log, translate) {
+  var controllerFunction = function($scope, $log) {
     var d = new Date();
     $scope.disabled = false;
     $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
@@ -79,7 +79,7 @@
       $log.log('Month Picker value selected: ', $scope.month);
     };
   };
-  controllerFunction.$inject = ['$scope', '$log', 'translate'];
+  controllerFunction.$inject = ['$scope', '$log'];
 
   angular.module('example', ['akamai.components.date-picker'])
     .controller('ExampleController', controllerFunction);

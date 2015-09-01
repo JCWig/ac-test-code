@@ -5,8 +5,8 @@ const toolbarSelector = 'akam-table-toolbar',
   rowSelector = 'akam-table-row',
   sortedClass = 'column-sorted',
   SORT_DIRECTIONS = {
-      asc: 'asc',
-      desc: 'desc'
+    asc: 'asc',
+    desc: 'desc'
   },
   defaultSortDirection = SORT_DIRECTIONS.asc;
 
@@ -20,14 +20,14 @@ let defaultSortColumn = '';
 class TableController {
 
   static get $inject() {
-    return ['$scope', '$log', 'uuid', '$q', '$parse', 'translate',
+    return ['$scope', '$log', 'uuid', '$q', '$parse', '$translate',
             'filterFilter', 'orderByFilter', 'limitToFilter'];
   }
 
-  constructor($scope, $log, uuid, $q, $parse, translate, filterFilter, orderByFilter,
+  constructor($scope, $log, uuid, $q, $parse, $translate, filterFilter, orderByFilter,
               limitToFilter) {
     this.$log = $log;
-    this.translate = translate;
+    this.$translate = $translate;
     this.$parse = $parse;
     this.$q = $q;
     this.filterFilter = filterFilter;
@@ -231,17 +231,17 @@ class TableController {
    */
   translateMessages() {
     if (!angular.isDefined(this.filterPlaceholder)) {
-      this.translate.async('components.data-table.placeholder.filter')
+      this.$translate('components.data-table.placeholder.filter')
         .then(angular.bind(this, this.setTranslatedValue, 'filterPlaceholder'));
     }
 
     if (!angular.isDefined(this.noFilterResultsMessage)) {
-      this.translate.async('components.data-table.text.noFilterResults')
+      this.$translate('components.data-table.text.noFilterResults')
         .then(angular.bind(this, this.setTranslatedValue, 'noFilterResultsMessage'));
     }
 
     if (!angular.isDefined(this.noItemsMessage)) {
-      this.translate.async('components.data-table.text.noDataMessage')
+      this.$translate('components.data-table.text.noDataMessage')
         .then(angular.bind(this, this.setTranslatedValue, 'noItemsMessage'));
     }
   }

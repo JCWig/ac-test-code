@@ -17,7 +17,6 @@ describe('akamai.components.auth', function() {
     context,
     messageBox,
     $rootScope,
-    translate,
     location;
 
   var translationMock = {
@@ -44,8 +43,12 @@ describe('akamai.components.auth', function() {
   beforeEach(function before() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/auth').name);
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
+    });
 
-    angular.mock.module(function($provide, $translateProvider, authProvider) {
+    angular.mock.module(function($provide, authProvider) {
       provider = authProvider;
 
       function Context($q) {
@@ -83,28 +86,13 @@ describe('akamai.components.auth', function() {
 
       Context.$inject = ['$q'];
 
-      function i18nCustomLoader($q, $timeout) {
-        return function() {
-          var deferred = $q.defer();
-
-          $timeout(function() {
-            deferred.resolve(translationMock);
-          });
-          return deferred.promise;
-        };
-      }
-
-      i18nCustomLoader.$inject = ['$q', '$timeout'];
-
       // mock out context group and property fetching
       $provide.factory('context', Context);
-      $provide.factory('i18nCustomLoader', i18nCustomLoader);
-      $translateProvider.useLoader('i18nCustomLoader');
     });
 
     angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig,
                                         authInterceptor, $window, $location, auth, _context_,
-                                        _messageBox_, _$rootScope_, _translate_) {
+                                        _messageBox_, _$rootScope_) {
       http = $http;
       httpBackend = $httpBackend;
       buffer = httpBuffer;
@@ -117,7 +105,6 @@ describe('akamai.components.auth', function() {
       context = _context_;
       messageBox = _messageBox_;
       $rootScope = _$rootScope_;
-      translate = _translate_;
       $httpBackend.when('GET', /grp.json/).respond({});
     });
     spyOn(tokenService, 'logout').and.callThrough();
@@ -659,7 +646,6 @@ describe('akamai.components.auth', function() {
 
           beforeEach(function() {
             context.setAccountChanged(true);
-            spyOn(translate, 'async').and.returnValue('foo');
             spyOn(messageBox, 'show').and.callThrough();
             http.get('/abc.json');
             $rootScope.$digest();
@@ -682,7 +668,6 @@ describe('akamai.components.auth', function() {
 
         beforeEach(function() {
           context.setAccountChanged(true);
-          spyOn(translate, 'async').and.returnValue('foo');
           http.get('/abcd.json');
           $rootScope.$digest();
 
@@ -706,7 +691,6 @@ describe('akamai.components.auth', function() {
 
         beforeEach(function() {
           context.setAccountChanged(true);
-          spyOn(translate, 'async').and.returnValue('foo');
           http.get('/abc.json');
           $rootScope.$digest();
         });

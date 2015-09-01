@@ -1,7 +1,7 @@
 import angular from 'angular';
 import template from './templates/message-box.tpl.html';
 
-function messageBox(modalWindow, translate, $rootScope) {
+function messageBox(modalWindow, $translate, $rootScope) {
 
   function modalWindowController($scope) {
     let collapsed = true;
@@ -18,7 +18,7 @@ function messageBox(modalWindow, translate, $rootScope) {
   modalWindowController.$inject = ['$scope'];
 
   function show(options, type) {
-    let title = translate.sync('components.message-box.title.information');
+    let title = $translate.instant('components.message-box.title.information');
 
     if (options.headline == null) {
       throw new Error('headline option is required');
@@ -29,12 +29,12 @@ function messageBox(modalWindow, translate, $rootScope) {
     }
 
     if (type === 'question') {
-      title = translate.sync('components.message-box.title.question');
+      title = $translate.instant('components.message-box.title.question');
     } else if (type === 'error') {
-      title = translate.sync('components.message-box.title.error');
+      title = $translate.instant('components.message-box.title.error');
     }
 
-    options.title = translate.sync(options.title);
+    options.title = $translate.instant(options.title);
     options.title = options.title ? options.title.substr(0, 20) : title;
     options.backdrop = 'static';
     options.scope = $rootScope.$new();
@@ -44,8 +44,8 @@ function messageBox(modalWindow, translate, $rootScope) {
       details: options.details
     };
 
-    options.cancelLabel = translate.sync(options.cancelLabel, null, 'components.message-box.no');
-    options.submitLabel = translate.sync(options.submitLabel, null, 'components.message-box.yes');
+    options.cancelLabel = $translate.instant(options.cancelLabel || 'components.message-box.no');
+    options.submitLabel = $translate.instant(options.submitLabel || 'components.message-box.yes');
 
     return modalWindow.open(angular.extend(options, {
       template: template,
@@ -128,6 +128,6 @@ function messageBox(modalWindow, translate, $rootScope) {
   };
 }
 
-messageBox.$inject = ['modalWindow', 'translate', '$rootScope'];
+messageBox.$inject = ['modalWindow', '$translate', '$rootScope'];
 
 export default messageBox;

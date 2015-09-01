@@ -156,13 +156,13 @@
                 .controller('DropdownAppController', DropdownAppController)
                 .config(configFunction);
 
-        DropdownAppController.$inject = ['$log', 'translate'];
-        function DropdownAppController($log, translate) {
+        DropdownAppController.$inject = ['$log', '$translate'];
+        function DropdownAppController($log, $translate) {
             var vm = this;
             vm.test = 'test';
             vm.disabled = false;
             // localized string coming from the example locale file
-            vm.placeholder = translate.async('examples.dropdown.select.one').then(function(v){
+            vm.placeholder = $translate('examples.dropdown.select.one').then(function(v){
                 vm.placeholder = v;
                 $log.log("placeholder text is " + vm.placeholder);
             });

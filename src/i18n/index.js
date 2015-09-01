@@ -7,7 +7,6 @@ import cookies from 'angular-cookies';
 import utils from '../utils';
 
 import translateConfig from './translate-config';
-import translateService from './translate-service';
 import portalLocaleResolver from './portal-locale-service';
 import noopLoader from './translate-noop-loader-service';
 
@@ -61,6 +60,8 @@ import noopLoader from './translate-noop-loader-service';
  *  }
  * ```
  *
+ * See http://angular-translate.github.io/ for more info.
+ *
  * * __NOTE__: localStorage is not used, the browser will not cache the language key.
  *
  * __NOTE__: To prevent asynchronous translation calls from causing rendering problems, add a
@@ -77,8 +78,8 @@ import noopLoader from './translate-noop-loader-service';
  * <span>{{ vm.someLabel }}</span>
  *
  * @example app.js
- * function MyController(translate) {
- *   translate.async('some.i18n.key')
+ * function MyController($translate) {
+ *   $translate('some.i18n.key')
  *     .then((value) => {
  *       this.someLabel = value;
  *     }
@@ -89,19 +90,6 @@ export default angular.module('akamai.components.i18n', [
   cookies,
   utils.name
 ])
-
-/**
- * @ngdoc service
- * @name translate
- * @requires pascalprecht.translate.$translate
- *
- * @description A wrapper for the angular `$translate` service,
- * providing both asynchronous and synchronous methods to translate string keys. For the
- * most part, we extend the methods provided in
- * <a href="https://angular-translate.github.io/docs/#/api/pascalprecht.translate.$translate">
- *   angular-translate</a>.
- */
-  .factory('translate', translateService)
 
 /**
  * @ngdoc service
