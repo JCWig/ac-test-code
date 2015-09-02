@@ -2,13 +2,13 @@
   <thead>
     <th>
       <strong>{{ title }}</strong>
-      <button ng-show="showNavPrev()" type="button" class="btn btn-default btn-sm pull-left" ng-click="movePrev(-2)" tabindex="-1">
+      <button ng-disabled="!showNavPrev()" type="button" class="btn btn-default btn-sm pull-left" ng-click="movePrev(-2)" tabindex="-1">
         <i class="glyphicon glyphicon-chevron-left"></i></button>
     </th>
     <th colspan="5"></th>
     <th>
       <strong>{{ pairTitle }}</strong>
-      <button ng-show="showNavNext()" type="button" class="btn btn-default btn-sm pull-right" ng-click="moveNext(2)" tabindex="-1">
+      <button ng-disabled="!showNavNext()" type="button" class="btn btn-default btn-sm pull-right" ng-click="moveNext(2)" tabindex="-1">
         <i class="glyphicon glyphicon-chevron-right"></i></button>
     </th>
   </thead>
