@@ -1,7 +1,6 @@
 import angular from 'angular';
 import angularBootstrap from 'angular-bootstrap-npm';
 import i18n from '../i18n';
-import uuid from '../uuid';
 import datepickDayDecorator from './daypicker-decorator';
 import datepickMonthDecorator from './monthpicker-decorator';
 import detepickerDirective from './date-picker-directive';
@@ -41,8 +40,7 @@ import detepickerDirective from './date-picker-directive';
  */
 export default angular.module('akamai.components.date-picker', [
   angularBootstrap,
-  i18n.name,
-  uuid.name
+  i18n.name
 ])
 
   // decorators for the day pickers to add on scope variables for disabling nav
