@@ -3,10 +3,11 @@
   $date-range-in-range-color: #666666;
   $date-range-in-range-background-color: #CEE7FF;
   $date-range-width: 145px;
+  $date-range-min-width: 428px;
   $date-range-gap-width: 10px;
   $date-range-startend-color: #0099CC;
   .akam-date-picker.akam-date-range {
-    min-width: 428px;
+    min-width: $date-range-min-width;
     padding: 5px 0;
     border: 1px solid $border-color;
     background-color: #FFF;
@@ -111,6 +112,7 @@
     }
     ul.dropdown-menu {
       top: 38px !important; //override inline style
+      width: $date-range-min-width - 1px;
       table {
         tbody td {
           height: 23px;
