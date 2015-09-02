@@ -120,6 +120,12 @@
             width: 5%;
             border-width: 0;
           }
+          button:disabled span {
+            &:hover {
+              color: $date-range-disabled-color;
+              background-color: #fff !important;
+            }
+          }
           table tr th[role="heading"] {
             padding-bottom: 5px;
           }
