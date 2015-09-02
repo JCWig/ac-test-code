@@ -8,10 +8,13 @@ const DEFAULT_MORMAT = {
 };
 
 class DatepickerController {
-  constructor($filter, $timeout, translate) {
+  constructor($filter, $timeout, uuid, translate) {
     this.$filter = $filter;
     this.$timeout = $timeout;
+    this.uuid = uuid;
     this.translate = translate;
+
+    this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
 
     this.opened = false;
     this.mode = this.mode === DAY || this.mode === MONTH ? this.mode : DAY;
@@ -49,6 +52,26 @@ class DatepickerController {
         this.format = this.format || DEFAULT_MORMAT.MONTH;
       }
     });
+
+    this.scope.$watch('datepicker.max', (newValue) => {
+      if (!newValue) {
+        return;
+      }
+      this.scope.$broadcast('datepicker.resetMax', {
+        id: this.id,
+        max: new Date(newValue)
+      });
+    });
+
+    this.scope.$watch('datepicker.min', (newValue) => {
+      if (!newValue) {
+        return;
+      }
+      this.scope.$broadcast('datepicker.resetMin', {
+        id: this.id,
+        min: new Date(newValue)
+      });
+    });
   }
 
   toggle(e) {
@@ -59,7 +82,7 @@ class DatepickerController {
   }
 }
 
-DatepickerController.$inject = ['$filter', '$timeout', 'translate'];
+DatepickerController.$inject = ['$filter', '$timeout', 'uuid', 'translate'];
 
 function linkFn(scope, element, attrs, ngModel) {
   let noClear = angular.isDefined(attrs.noClear),
