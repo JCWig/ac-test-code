@@ -171,6 +171,9 @@
             border-right: 13px solid rgba(0, 0, 0, 0);
             border-left: 13px solid rgba(0, 0, 0, 0);
           }
+          &:disabled span {
+            border-right: 1px solid $date-range-disabled-color;
+          }
         }
       }
       thead tr:first-child th {
