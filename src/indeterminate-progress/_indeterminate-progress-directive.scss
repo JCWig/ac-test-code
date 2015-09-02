@@ -120,6 +120,13 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
   }
 }
 
+/* Addresses a strange rendering issue in IE (FEE-1249) */
+td.indeterminate-progress {
+  & > .indeterminate-progress-wrapper {
+    position: relative;
+  }
+}
+
 /**
 * The & context is .common-css
 */
