@@ -133,16 +133,9 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
 
       ctrl.setSelectedItem = function(item) {
 
-        let getCopy = (itemArg) => {
-          if (!angular.isString(itemArg) && angular.isObject(itemArg)) {
-            return angular.copy(itemArg);
-          }
-          return itemArg;
-        };
-
         item = ctrl.keyProperty ? ctrl.keyPropertyFn(item) : item;
 
-        ctrl.selectedItem = getCopy(item);
+        ctrl.selectedItem = item;
 
         if (angular.isDefined(selectedScope)) {
           selectedScope.dropdown.selectedItem = ctrl.selectedItem;
