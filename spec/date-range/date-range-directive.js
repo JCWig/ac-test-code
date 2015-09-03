@@ -276,6 +276,48 @@ describe('akamai.components.date-range', function() {
       expect(dateRange.isDisabled).toBeTruthy();
       expect(angular.isFunction(dateRange.onSelect)).toBeTruthy();
     });
+
+    it('should verify ctrl id is required to handle event', function() {
+
+    })
+  });
+
+  describe("Verify control id  ", function() {
+
+    let dateRange;
+    let d = new Date();
+    let startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    let endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    beforeEach(function() {
+      this.$scope.dateRange = {
+        startDate: startDate,
+        endDate: endDate
+      };
+      let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+      addElement.call(this, markup);
+      dateRange = this.el.isolateScope().dateRange;
+    });
+
+    it('should verify id is required to handle event', function() {
+      expect(dateRange.id).not.toBe(undefined);
+    })
+
+    it('should verify id can not be undefined to handle event', function() {
+      dateRange.id = undefined;
+      this.$scope.$digest();
+
+      expect(dateRange.id).toBe(undefined);
+      expect(dateRange.startDate).toBe(undefined);
+      expect(dateRange.endDate).toBe(undefined);
+    });
+
+    it('should verify id is required to be same as created and cached to handle event', function() {
+      dateRange.id = 1234;
+      this.$scope.$digest();
+
+      expect(dateRange.startDate).toBe(undefined);
+      expect(dateRange.endDate).toBe(undefined);
+    });
   });
 
   describe("Verify dropdown child elements before and after date range open...", function() {

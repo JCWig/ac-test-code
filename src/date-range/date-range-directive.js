@@ -195,8 +195,8 @@ function linkFn(scope, elem, attr, ngModel) {
     let start, end;
 
     //if it is not for you, don't handle it
-    if (info.id && info.id !== ctrl.id) {
-      return false;
+    if (!info || !info.id || info.id !== ctrl.id) {
+      return;
     }
 
     start = info.selectedStart;
