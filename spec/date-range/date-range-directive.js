@@ -3,6 +3,7 @@
 
 import utils from '../utilities';
 import dateRange from '../../src/date-range';
+import datePicker from '../../src/date-picker';
 
 const LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
   CONFIG_PATH = '/apps/appname/locales/en_US.json';
@@ -26,6 +27,7 @@ describe('akamai.components.date-range', function() {
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(dateRange.name);
+    angular.mock.module(datePicker.name);
     angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
@@ -306,8 +308,8 @@ describe('akamai.components.date-range', function() {
   describe("Verify minDate and maxDate updates dynamically...", function() {
     let dateRange;
     let d = new Date("08/09/2015");
-    let min = new Date(d.getFullYear()-2, d.getMonth(), 1);
-    let max = new Date(d.getFullYear()+2, d.getMonth(), 0);
+    let min = new Date(d.getFullYear() - 2, d.getMonth(), 1);
+    let max = new Date(d.getFullYear() + 2, d.getMonth(), 0);
     beforeEach(function() {
       this.$scope.dateRange = {
         startDate: '',
@@ -343,5 +345,36 @@ describe('akamai.components.date-range', function() {
 
     });
 
+  });
+
+  describe("Verify correct element rendered ", function() {
+    let datePickerMarkup, dateRangeMarkup;
+
+    beforeEach(function() {
+      datePickerMarkup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="value"></akam-date-picker></div>';
+      dateRangeMarkup  = '<div id="parent-element"><akam-date-range ng-model="dateRange"></akam-date-range></div>';
+    });
+
+    it('should verify date picker element rendered and date range element is not', function() {
+      addElement.call(this, datePickerMarkup);
+
+      let dateRangeElem = this.element.querySelector(`.akam-date-range .dropdown-menu`);
+      let datePickerElem = this.element.querySelector(`.akam-date-picker.month .dropdown-menu`);
+
+      expect(dateRangeElem).toBe(null);
+      expect(datePickerElem).not.toBe(null);
+
+    });
+
+    it('should verify date range element rendered and date picker element is not', function() {
+      addElement.call(this, dateRangeMarkup);
+
+      let dateRangeElem = this.element.querySelector(`.akam-date-range .dropdown-menu`);
+      let datePickerElem = this.element.querySelector(`.akam-date-picker.month .dropdown-menu`);
+
+      expect(datePickerElem).toBe(null);
+      expect(dateRangeElem).not.toBe(null);
+
+    });
   });
 });
