@@ -4,14 +4,11 @@ import template from './templates/date-picker-day-popup.tpl.html';
 function DateRangeDecorator($provide) {
   const [START, END] = ['start', 'end'];
 
+  //first time selection always makes arrow direction to the left\
+  //even if slection is from right calendar
   function firstTimeSelect(dt, scope) {
-    if (dt.getMonth() + 1 === scope.pairingMonth) {
-      scope.selectedEnd = dt;
-      scope.selectedStart = null;
-    } else {
-      scope.selectedStart = dt;
-      scope.selectedEnd = null;
-    }
+    scope.selectedStart = dt;
+    scope.selectedEnd = null;
     scope.rangeSelected = false;
   }
 
