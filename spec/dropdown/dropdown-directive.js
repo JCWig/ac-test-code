@@ -83,6 +83,24 @@ describe('akamai.components.dropdown', function() {
         });
       });
     });
+
+    describe('when an item is selected', function() {
+      beforeEach(function() {
+        let dropdownTemplate = `<akam-dropdown ng-model="selectedStateObj"
+                                               items="stateStringsObjs"></akam-dropdown>`;
+
+        $scope.selectedStateObj = {name: 'Colorado'};
+        $scope.stateStringsObjs = stateObjects;
+        addElement(dropdownTemplate);
+
+        util.click(util.find('.dropdown-toggle'));
+        util.click(util.find('.dropdown-menu').querySelectorAll('li')[3].querySelector('a'));
+        $scope.$digest();
+      });
+      it('should set the selectedItem to the same item that was selected', function() {
+        expect($scope.selectedStateObj).toBe($scope.stateStringsObjs[3]);
+      });
+    });
   });
 
   describe('given an object bound to the ng-model attribute', function(){
@@ -357,7 +375,6 @@ describe('akamai.components.dropdown', function() {
         var dropdownMenu = util.find('.dropdown-menu');
         util.click(dropdownMenu.querySelectorAll('li')[3].querySelector('a'));
         $scope.$digest();
-        delete $scope.stateStringsObjs[3].$$hashKey;
       });
       it('should invoke the callback with the bound ngModel as an argument', function(){
         expect($scope.onChange).toHaveBeenCalledWith($scope.stateStringsObjs[3]);
