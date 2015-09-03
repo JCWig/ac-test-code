@@ -276,10 +276,6 @@ describe('akamai.components.date-range', function() {
       expect(dateRange.isDisabled).toBeTruthy();
       expect(angular.isFunction(dateRange.onSelect)).toBeTruthy();
     });
-
-    it('should verify ctrl id is required to handle event', function() {
-
-    })
   });
 
   describe("Verify control id  ", function() {
