@@ -182,8 +182,6 @@ describe('akam-date-picker', function() {
       scope.$digest();
       var iconElem = document.querySelector('.akam-date-picker .button .luna-calendar');
 
-      console.log(iconElem)
-
       expect(iconElem.getAttribute('disabled')).toBe('disabled');
     });
   });
@@ -399,16 +397,19 @@ describe('akam-date-picker', function() {
     });
   });
   describe('when interacting with min and max date date-picker', function() {
+    var datePicker;
     beforeEach(function() {
-      var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" ng-change="mychange(value)" ng-model="picked1"></akam-date-picker></div>';
-      scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 5);
-      scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
+      var markup = '<akam-date-picker min="2015-9-5" max="2015-9-15" mode="day" ng-change="mychange(value)" ng-model="picked1"></akam-date-picker>';
+      //scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 5);
+      //scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
       spyOn(scope, 'mychange');
       addElement(markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+      datePicker = self.el.isolateScope();
     });
     it('should be unable to choose day above maximum', function() {
       var dayAboveMax = findCertainButton("20");
+            console.log(datePicker)
       expect(dayAboveMax.getAttribute('aria-disabled')).toMatch(/true/);
     });
     it('should be unable to choose day below minimum', function() {
