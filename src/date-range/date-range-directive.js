@@ -155,7 +155,7 @@ function linkFn(scope, elem, attr, ngModel) {
 
   let initialized = false,
     ctrl = scope.dateRange,
-    range;
+    range, rangeSelectedEvent;
 
   if (!ctrl.dateRange || !attr.ngModel) {
     ctrl.$log.error('ng-model is required for date range component directive.');
@@ -171,8 +171,8 @@ function linkFn(scope, elem, attr, ngModel) {
   }
 
   //this event is sent from date picker directive when range is selected
-  ctrl.$rootScope.$on('dateRange.rangeSelected', setRangeValues);
-  scope.$on('$destroy', setRangeValues);
+  rangeSelectedEvent = ctrl.$rootScope.$on('dateRange.rangeSelected', setRangeValues);
+  scope.$on('$destroy', rangeSelectedEvent);
 
   function setViewValue(value, start, end) {
     ctrl.dateRange.startDate = start;
@@ -196,6 +196,7 @@ function linkFn(scope, elem, attr, ngModel) {
 
     //if it is not for you, don't handle it
     if (!info || !info.id || info.id !== ctrl.id) {
+      e.stopPropagation();
       return;
     }
 
