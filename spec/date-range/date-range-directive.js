@@ -390,7 +390,7 @@ describe('akamai.components.date-range', function() {
 
     beforeEach(function() {
       datePickerMarkup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="value"></akam-date-picker></div>';
-      dateRangeMarkup  = '<div id="parent-element"><akam-date-range ng-model="dateRange"></akam-date-range></div>';
+      dateRangeMarkup = '<div id="parent-element"><akam-date-range ng-model="dateRange"></akam-date-range></div>';
     });
 
     it('should verify date picker element rendered and date range element is not', function() {
@@ -414,5 +414,43 @@ describe('akamai.components.date-range', function() {
       expect(dateRangeElem).not.toBe(null);
 
     });
+  });
+
+  describe("after render, the date range isolated scope controller...", function() {
+    let dateRange, isoScope;
+    beforeEach(function() {
+      this.$scope.dateRange = {
+        startDate: '2015-9-1',
+        endDate: '2015-9-15'
+      };
+      let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+      addElement.call(this, markup);
+      isoScope = this.el.isolateScope();
+      dateRange = isoScope.dateRange;
+    });
+
+    it('should verify scope function setRangeValues to be called if calendar date selected', function() {
+
+      expect(dateRange.rangeSelected).toBeTruthy();
+      expect(dateRange.rangeStart.selectedValue).toBe('2015-9-1');
+      expect(dateRange.rangeEnd.selectedValue).toBe('2015-9-15');
+
+    });
+
+    it('should verify removing handler get called when isolated scope $destroyed', function() {
+
+      expect(dateRange.rangeSelectedEvent).not.toBe(undefined);
+
+      let rangeSelectedEventMethod = spyOn(dateRange, "rangeSelectedEvent");
+
+      let btnElem = this.element.querySelector('.range-selection button');
+      utils.click(btnElem);
+      this.$scope.$digest();
+
+      isoScope.$destroy();
+
+      expect(rangeSelectedEventMethod).toHaveBeenCalled();
+    });
+
   });
 });
