@@ -66,6 +66,18 @@ describe('akamai.components.dropdown', function() {
         expect(dropdown.textContent).toContain('Select one');
       });
     });
+    describe('when providing a value to ngModel', function(){
+      beforeEach(function(){
+        $scope.selectedState = 'Maryland';
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should set the dropdown selectedItem property to the value of ngModel', function(){
+        expect(self.el.controller('akamDropdown').selectedItem).toBe('Maryland');
+      });
+    });
+
   });
 
   describe('given an empty object bound to the ng-model attribute', function(){

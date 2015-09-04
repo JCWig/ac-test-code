@@ -87,8 +87,7 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
       onChange: '&?',
       placeholder: '@?',
       filterPlaceholder: '@?',
-      isDisabled: '=?',
-      selectedItem: '=ngModel'
+      isDisabled: '=?'
     },
     controller: DropdownController,
     controllerAs: 'dropdown',
@@ -105,6 +104,10 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
         inputClick, selectedScope, menuScope;
 
       let ctrl = scope.dropdown;
+
+      ngModel.$render = function() {
+        ctrl.selectedItem = ngModel.$viewValue;
+      };
 
       let selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
       let optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option-placeholder');
