@@ -25,15 +25,15 @@
         "properties": "속성"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorage 구축 해제",
         "reports_dashboard": "리포트 대시보드",
-        "configure_ads": "Configure ADS",
+        "advanced_search": "고급 검색",
         "provision_siteshield": "SiteShield 구축",
         "dmca": "DMCA",
         "firewall_rules": "방화벽 규칙",
         "akamai_internal": "Akamai 내부",
         "lambda_email_reports": "람다 이메일 보고서",
+        "configure_ads": "Configure ADS",
         "search_reports": "Search Reports",
         "search": "계정 검색",
         "account_team": "Account Team",

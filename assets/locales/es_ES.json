@@ -74,7 +74,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "Cuenta cambiada",
-            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?'"
+            "accountChanged": "Hemos detectado que la cuenta actual ha cambiado de \"{{oldName}}\" a \"{{name}}\". ¿Desea revertirla a la cuenta original?'"
         },
         "dropdown": {
             "placeholder": {
@@ -109,10 +109,10 @@
                 "to": "Para",
                 "from": "De"
             },
-            "placeholder": "Select Dates"
+            "placeholder": "Fechas seleccionadas"
         },
         "autocomplete": {
-            "search-tip": "Type in text to display matching results"
+            "search-tip": "Introduzca el texto para mostrar los resultados que coincidan"
         },
         "switch-button": {
             "onLabel": "Activado",

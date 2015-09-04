@@ -25,15 +25,15 @@
         "properties": "属性"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorage移除",
         "reports_dashboard": "报告仪表板",
-        "configure_ads": "配置广告",
+        "advanced_search": "高级搜索",
         "provision_siteshield": "部署 SiteShield",
         "dmca": "DMCA",
         "firewall_rules": "防火墙规则",
         "akamai_internal": "Akamai内部",
         "lambda_email_reports": "Lambda 电子邮件报告",
+        "configure_ads": "配置广告",
         "search_reports": "搜索报告",
         "search": "搜寻帐户",
         "account_team": "Account Team",

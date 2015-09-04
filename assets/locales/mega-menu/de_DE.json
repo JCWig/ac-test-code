@@ -25,15 +25,15 @@
         "properties": "Eigenschaften"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorage-Bereitstellung rückgängig machen",
         "reports_dashboard": "Dashboard Reports",
-        "configure_ads": "ADS konfigurieren",
+        "advanced_search": "Erweiterte Suche",
         "provision_siteshield": "SiteShield bereitstellen",
         "dmca": "DMCA",
         "firewall_rules": "Firewall-Regeln",
         "akamai_internal": "Akamai Intern",
         "lambda_email_reports": "Lambda-E-Mail-Berichte",
+        "configure_ads": "ADS konfigurieren",
         "search_reports": "Berichte suchen",
         "search": "Konten suchen",
         "account_team": "Account Team",
