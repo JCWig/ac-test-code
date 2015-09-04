@@ -87,7 +87,7 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
       onChange: '&?',
       placeholder: '@?',
       filterPlaceholder: '@?',
-      isDisabled: '=?',
+      isDisabled: '=?'
     },
     controller: DropdownController,
     controllerAs: 'dropdown',
@@ -102,7 +102,6 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
       let selectedContentTemplate, selectedElem,
         menuTemplate, menuElem, windowElement,
         inputClick, selectedScope, menuScope;
-
 
       let ctrl = scope.dropdown;
 
