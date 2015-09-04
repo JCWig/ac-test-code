@@ -34,6 +34,7 @@ class DateRangeController {
     this.openFromRangeStart = false;
     this.openFromRangeEnd = false;
     this.options = config.options;
+    this.rangeSelectedEvent = undefined;
 
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
 
@@ -155,7 +156,7 @@ function linkFn(scope, elem, attr, ngModel) {
 
   let initialized = false,
     ctrl = scope.dateRange,
-    range, rangeSelectedEvent;
+    range;
 
   if (!ctrl.dateRange || !attr.ngModel) {
     ctrl.$log.error('ng-model is required for date range component directive.');
@@ -169,10 +170,6 @@ function linkFn(scope, elem, attr, ngModel) {
       ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
     });
   }
-
-  //this event is sent from date picker directive when range is selected
-  rangeSelectedEvent = ctrl.$rootScope.$on('dateRange.rangeSelected', setRangeValues);
-  scope.$on('$destroy', rangeSelectedEvent);
 
   function setViewValue(value, start, end) {
     ctrl.dateRange.startDate = start;
@@ -191,7 +188,7 @@ function linkFn(scope, elem, attr, ngModel) {
     });
   }
 
-  function setRangeValues(e, info) {
+  scope.setRangeValues = (e, info) => {
     let start, end;
 
     //if it is not for you, don't handle it
@@ -236,7 +233,7 @@ function linkFn(scope, elem, attr, ngModel) {
       }
     }
     e.stopPropagation();
-  }
+  };
 
   function initialize() {
     let start = '',
@@ -299,6 +296,13 @@ function linkFn(scope, elem, attr, ngModel) {
       }
     });
   }
+
+  //this event is sent from date picker directive when range is selected
+  ctrl.rangeSelectedEvent = ctrl.$rootScope.$on('dateRange.rangeSelected', scope.setRangeValues);
+  scope.$on('$destroy', () => {
+    ctrl.rangeSelectedEvent();
+  });
+
   initialize();
 }
 
