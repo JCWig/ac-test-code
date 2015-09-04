@@ -22,7 +22,9 @@ module.exports = function() {
       currentYear: (new Date()).getFullYear(),
       feedbackUrl: data.partner.feedbackUrl,
       policyUrl: i18n.i18n('policies.' + data.config.locale.toLowerCase()),
-      internalLinks: data.internalFooter
+      internalLinks: data.internalFooter,
+      viewTermsOfService: data.partner.displayTos,
+      hideTermsOfService: !data.partner.displayTos
     };
 
     if (data.internalFooter.length) {
