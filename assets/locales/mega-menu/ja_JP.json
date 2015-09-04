@@ -4,7 +4,8 @@
         "support": "サポート",
         "alerts": "ｱﾗｰﾄ",
         "messages": "メッセージ",
-        "store": "Marketplace"
+        "store": "Marketplace",
+        "community" : "Community"
     },
     "search": {
         "kb": "KB",
@@ -58,7 +59,8 @@
         "cp_codes_mange_users": "CP コード - CP ユーザーの管理",
         "transcoding_workspaces": "コンテンツ準備ワークスペース",
         "storage_admin": "ｽﾄﾚｰｼﾞ管理",
-        "transcoding_regions": "コンテンツ準備拠点"
+        "transcoding_regions": "コンテンツ準備拠点",
+        "media_rollout": "Media Feature Roll Out Manager"
     },
     "timeout": {
         "buttonText": "延長",

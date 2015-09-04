@@ -4,7 +4,8 @@
         "support": "Support",
         "alerts": "Alerts",
         "messages": "Messages",
-        "store": "Marketplace"
+        "store": "Marketplace",
+        "community" : "Community"
     },
     "search": {
         "kb": "KB",
@@ -58,7 +59,8 @@
         "cp_codes_mange_users": "CP Codes - Manage CP Users",
         "transcoding_workspaces": "Content Preparation Workspaces",
         "storage_admin": "Storage Admin",
-        "transcoding_regions": "Content Preparation Regions"
+        "transcoding_regions": "Content Preparation Regions",
+        "media_rollout": "Media Feature Roll Out Manager"
     },
     "timeout": {
         "buttonText": "Extend",
