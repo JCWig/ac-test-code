@@ -156,6 +156,7 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
       ctrl.clearSelectedItem = function($event) {
         $event.stopPropagation();
         ngModel.$setViewValue();
+        ctrl.selectedItem = undefined;
       };
 
       ctrl.setInputAsClicked = function() {
