@@ -133,7 +133,7 @@
         tbody td {
           height: 23px;
           &.space {
-            width: 10px;
+            padding: 0 5px;
             border-width: 0;
           }
           button:disabled span {
