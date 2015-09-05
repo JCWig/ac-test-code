@@ -4,7 +4,8 @@
         "support": "Assistance technique",
         "alerts": "Alertes",
         "messages": "Messages",
-        "store": "Marketplace"
+        "store": "Marketplace",
+        "community" : "Community"
     },
     "search": {
         "kb": "Ko",
@@ -58,7 +59,8 @@
         "cp_codes_mange_users": "CP Codes - Gérer les utilisateurs PC",
         "transcoding_workspaces": "Espaces de travail liés à la préparation du contenu",
         "storage_admin": "Administration du stockage",
-        "transcoding_regions": "Régions liées à la préparation du contenu"
+        "transcoding_regions": "Régions liées à la préparation du contenu",
+        "media_rollout": "Media Feature Roll Out Manager"
     },
     "timeout": {
         "buttonText": "Étendre",
