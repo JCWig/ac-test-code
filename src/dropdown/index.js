@@ -2,8 +2,9 @@ import angular from 'angular';
 import sanitize from 'angular-sanitize';
 import angularBootstrap from 'angular-bootstrap-npm';
 import i18n from '../i18n';
-import dropdownTransformer from './dropdown-transformer';
 import dropdownDirective from './dropdown-directive';
+import dropdownTemplateService from './dropdown-template-service';
+import appendToBodyService from './append-to-body-service';
 
 import '../../node_modules/angular-ui-utils/modules/highlight/highlight.js';
 
@@ -53,7 +54,10 @@ export default angular.module('akamai.components.dropdown', [
   'ui.highlight',
   i18n.name
 ])
-  .service('dropdownTransformer', dropdownTransformer)
+
+  .service('dropdownTemplateService', dropdownTemplateService)
+
+  .service('appendToBodyService', appendToBodyService)
 
 /**
  * @ngdoc directive

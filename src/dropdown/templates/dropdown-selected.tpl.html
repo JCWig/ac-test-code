@@ -1,7 +1,6 @@
 <span class="selected-option util-ellipsis" ng-class="{disabled:dropdown.isDisabled}">
     <span title="{{dropdown.getSelectedItemText()}}">{{dropdown.getSelectedItemText()}}</span>
     <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
-
 </span>
 <i class="luna-small_close_dark_gray util-clickable clear-dropdown"
    ng-click="dropdown.clearSelectedItem($event)"

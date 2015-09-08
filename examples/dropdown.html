@@ -56,7 +56,7 @@
             </akam-dropdown>
         </span>
     </div>
-    <br/>
+    <br />
     <span class="form-group">
         <input id="disableDropdown" type="checkbox" name='disableDropdown' ng-model='vm.disabled' />
         <label class="label" for="disableDropdown">Disable above dropdowns</label>
@@ -104,6 +104,7 @@
 
     </div>
     <br/>
+
     <div>
      <h2>Default dropdown with a list of strings appended to body</h2>
         <span class="util-hidden-overflow">
@@ -111,6 +112,7 @@
         </span>
     </div>
     <br/>
+
     <div>
         <h2>Dropdown with a list of objects, a filter and custom markup, not clearable append to body</h2>
         <span class="util-hidden-overflow">
@@ -140,7 +142,6 @@
     <div>
         <h2 ng-click="vm.addState();">Default dropdown with a list of objects with keys and a filter</h2>
         <span>
-            <!--filterable="name"-->
             <akam-dropdown ng-model="vm.ex8.selectedState" text-property="state.name" key-property="state.key"
                            items="vm.stateObjectsWithKeys" clearable filterable="name">
             </akam-dropdown>
