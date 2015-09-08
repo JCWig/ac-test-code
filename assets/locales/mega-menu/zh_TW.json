@@ -26,15 +26,15 @@
         "properties": "內容"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "取消 NetStorage 佈建",
         "reports_dashboard": "儀表板的報告",
-        "configure_ads": "設定 ADS",
+        "advanced_search": "進階搜尋",
         "provision_siteshield": "佈建 SiteShield",
         "dmca": "DMCA",
         "firewall_rules": "防火牆規則",
         "akamai_internal": "Akamai 內部",
         "lambda_email_reports": "Lambda 電子郵件報告",
+        "configure_ads": "設定 ADS",
         "search_reports": "搜尋報告",
         "search": "搜尋帳戶",
         "account_team": "帳戶小組",

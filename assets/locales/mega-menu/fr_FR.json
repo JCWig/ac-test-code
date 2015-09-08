@@ -26,15 +26,15 @@
         "properties": "propriétés"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "Déconfiguration de NetStorage",
         "reports_dashboard": "Tableaux de bord",
-        "configure_ads": "Configurer ADS",
+        "advanced_search": "Recherche avancée",
         "provision_siteshield": "Configurer SiteShield",
         "dmca": "DMCA",
         "firewall_rules": "Règles de pare-feu",
         "akamai_internal": "Interne à Akamai",
         "lambda_email_reports": "Rapports lambda par courrier électronique",
+        "configure_ads": "Configurer ADS",
         "search_reports": "Rechercher des rapports",
         "search": "Rechercher les comptes",
         "account_team": "Équipe chargée du compte",

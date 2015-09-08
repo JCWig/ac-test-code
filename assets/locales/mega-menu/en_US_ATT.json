@@ -26,15 +26,15 @@
         "properties": "properties"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorage Deprovisioning",
         "reports_dashboard": "Reports Dashboard",
-        "configure_ads": "Configure ADS",
+        "advanced_search": "Advanced Search",
         "provision_siteshield": "Provision SiteShield",
         "dmca": "DMCA",
         "firewall_rules": "Firewall Rules",
         "akamai_internal": "AT&T Internal",
         "lambda_email_reports": "Lambda Email Reports",
+        "configure_ads": "Configure ADS",
         "search_reports": "Search Reports",
         "search": "Search Accounts",
         "account_team": "Account Team",

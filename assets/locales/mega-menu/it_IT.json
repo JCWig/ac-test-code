@@ -26,15 +26,15 @@
         "properties": "proprietà"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "Annullamento provisioning NetStorage",
         "reports_dashboard": "Rapporti Dashboard",
-        "configure_ads": "Configura ADS",
+        "advanced_search": "Ricerca avanzata",
         "provision_siteshield": "Provisioning SiteShield",
         "dmca": "DMCA",
         "firewall_rules": "Regole firewall",
         "akamai_internal": "Akamai Internal",
         "lambda_email_reports": "Report e-mail Lambda",
+        "configure_ads": "Configura ADS",
         "search_reports": "Ricerca report",
         "search": "Ricerca account",
         "account_team": "Account Team",

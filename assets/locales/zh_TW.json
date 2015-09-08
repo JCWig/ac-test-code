@@ -74,7 +74,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "帳戶已變更",
-            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?'"
+            "accountChanged": "我們偵測到目前帳戶已從 \"{{oldName}}\" 變更為 \"{{name}}\"。您是否要切換回原始帳戶？'"
         },
         "dropdown": {
             "placeholder": {
@@ -109,10 +109,10 @@
                 "to": "收件人",
                 "from": "來源"
             },
-            "placeholder": "Select Dates"
+            "placeholder": "選擇日期"
         },
         "autocomplete": {
-            "search-tip": "Type in text to display matching results"
+            "search-tip": "輸入符合結果的顯示文字"
         },
         "switch-button": {
             "onLabel": "開",

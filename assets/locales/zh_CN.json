@@ -74,7 +74,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "帐户已更改",
-            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?'"
+            "accountChanged": "我们已检测到当前帐户已从“{{oldName}}”更改为“{{name}}”，是否要切换回原来的帐户？"
         },
         "dropdown": {
             "placeholder": {
@@ -109,10 +109,10 @@
                 "to": "收件人",
                 "from": "发件人"
             },
-            "placeholder": "Select Dates"
+            "placeholder": "选择日期"
         },
         "autocomplete": {
-            "search-tip": "Type in text to display matching results"
+            "search-tip": "输入文本以显示匹配的结果"
         },
         "switch-button": {
             "onLabel": "开启",

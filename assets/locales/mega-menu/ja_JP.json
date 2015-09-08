@@ -26,15 +26,15 @@
         "properties": "プロパティ"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorageのﾌﾟﾛﾋﾞｼﾞｮﾆﾝｸﾞ",
         "reports_dashboard": "ﾚﾎﾟｰﾄﾀﾞｯｼｭﾎﾞｰﾄﾞ",
-        "configure_ads": "設定のADS",
+        "advanced_search": "高度な検索",
         "provision_siteshield": "SiteShield のﾌﾟﾛﾋﾞｼﾞｮﾝ",
         "dmca": "DMCA",
         "firewall_rules": "ﾌｧｲｱｳｫｰﾙのﾙｰﾙ",
         "akamai_internal": "Akamai 内部",
         "lambda_email_reports": "Lambda メールレポート",
+        "configure_ads": "設定のADS",
         "search_reports": "検索ﾚﾎﾟｰﾄ",
         "search": "アカウントの検索",
         "account_team": "ｱｶｳﾝﾄﾁｰﾑ",
