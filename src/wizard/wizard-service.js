@@ -63,7 +63,6 @@ class WizardController {
 
     this.steps = options.steps;
     this.$scope = $scope;
-    this.stepIndex = 0;
     this.activateStep(0, true);
   }
 
@@ -110,6 +109,11 @@ class WizardController {
 
   isValid(stepNumber) {
     let step = angular.isNumber(stepNumber) ? this.steps[stepNumber] : this.currentStep();
+
+    if (!step) {
+      this.$log.warn('No step to validate');
+      return false;
+    }
 
     if (!angular.isFunction(step.validate)) {
       return true;
