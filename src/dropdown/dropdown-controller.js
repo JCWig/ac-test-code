@@ -9,10 +9,11 @@ export default class DropdownController {
 
   static get $inject() {
     return ['$scope', '$parse', '$translate', 'dropdownTemplateService', 'appendToBodyService',
-      '$compile'];
+      '$compile', '$log'];
   }
 
-  constructor($scope, $parse, $translate, dropdownTemplateService, appendToBodyService, $compile) {
+  constructor($scope, $parse, $translate, dropdownTemplateService, appendToBodyService, $compile,
+              $log) {
     this.name = 'dropdown';
     this.textPropertyFn = $parse(this.textProperty);
     this.isOpen = false;
@@ -23,6 +24,7 @@ export default class DropdownController {
     this.appendToBodyService = appendToBodyService;
     this.$scope = $scope;
     this.$compile = $compile;
+    this.$log = $log;
     this.filterClick = false;
     this.templateData = {
       selected: {
@@ -80,6 +82,13 @@ export default class DropdownController {
   }
 
   createItemMap(items) {
+
+    if (angular.isDefined(items) && angular.isFunction(items.then)) {
+      items.then(promiseItems => {
+        this.items = promiseItems;
+      }, rejectReason => this.$log.error(rejectReason));
+    }
+
     this.itemSet = [];
     if (!this.keyPropertyFn) {
       return [];
@@ -137,5 +146,9 @@ export default class DropdownController {
       this.isOpen = true;
       this.filterClick = false;
     }
+  }
+
+  renderMenu() {
+    return angular.isArray(this.items);
   }
 }

@@ -8,12 +8,12 @@ class AutocompleteController extends DropdownController {
 
   static get $inject() {
     return ['$scope', '$parse', '$translate', 'dropdownTemplateService', 'appendToBodyService',
-      '$compile', '$timeout'];
+      '$compile', '$log', '$timeout'];
   }
 
   constructor($scope, $parse, $translate, dropdownTemplateService, appendToBodyService, $compile,
-              $timeout) {
-    super($scope, $parse, $translate, dropdownTemplateService, appendToBodyService, $compile);
+              $log, $timeout) {
+    super($scope, $parse, $translate, dropdownTemplateService, appendToBodyService, $compile, $log);
 
     this.name = 'autocomplete';
     this.$timeout = $timeout;

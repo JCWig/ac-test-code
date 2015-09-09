@@ -27,6 +27,7 @@
 <body class="common-css luna" ng-app="dropdownApp" ng-strict-di ng-controller="DropdownAppController as vm">
 
     <h1>Dropdown Component Example</h1>
+
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
@@ -142,6 +143,13 @@
     </div>
     <br/>
 
+    <div>
+        <h2>Default dropdown using a promise for items</h2>
+        <span>
+            <akam-dropdown ng-model="vm.ex9.selectedState" items="vm.itemsPromise" clearable></akam-dropdown>
+        </span>
+    </div>
+    <br/>
 
     <script src="../dist/akamai-core.js"></script>
 
@@ -150,8 +158,8 @@
                 .controller('DropdownAppController', DropdownAppController)
                 .config(configFunction);
 
-        DropdownAppController.$inject = ['$log', '$translate'];
-        function DropdownAppController($log, $translate) {
+        DropdownAppController.$inject = ['$log', '$translate', '$q'];
+        function DropdownAppController($log, $translate, $q) {
             var vm = this;
             vm.test = 'test';
             vm.disabled = false;
@@ -160,6 +168,8 @@
                 vm.placeholder = v;
                 $log.log("placeholder text is " + vm.placeholder);
             });
+
+
             vm.stateObjects = [
                 {name: 'Colorado'},
                 {name: 'Connecticut'},
@@ -199,6 +209,11 @@
                 'Washington, District of Columbia'
             ];
 
+            var itemsDefferal = $q.defer();
+            itemsDefferal.resolve(vm.strings);
+            vm.itemsPromise = itemsDefferal.promise;
+
+
             vm.ex1 = { selectedState: 'Massachusetts' };
             vm.ex2 = { selectedState: undefined };
             vm.ex3 = { selectedState: 'Vermont' };
@@ -207,6 +222,7 @@
             vm.ex6 = { selectedState: undefined };
             vm.ex7 = { selectedState: undefined };
             vm.ex8 = { selectedState: 'key9' };
+            vm.ex9 = { selectedState: 'Massachusetts' };
 
             vm.doChange = function(item) {
                 $log.log('selected item changed', item);

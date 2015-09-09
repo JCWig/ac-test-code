@@ -4,7 +4,7 @@
         <i ng-show="dropdown.dropdownFilter" class="luna-small_close_light_gray util-clickable clear-filter"
            ng-click="dropdown.dropdownFilter = undefined"></i>
     </div>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu" ng-if="dropdown.renderMenu()">
         <li ng-repeat="item in dropdown.items | filter:dropdownFilter">
             <a ng-click="dropdown.setSelectedItem(item)" class="dropdown-item-link">
                 <span ng-if="dropdown.textProperty" title="{{ dropdown.textPropertyFn(item) }}"
