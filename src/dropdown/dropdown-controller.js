@@ -1,4 +1,7 @@
 import angular from 'angular';
+import selectedElemTemplate from './templates/dropdown-selected.tpl.html';
+import menuElemTemplate from './templates/dropdown-menu.tpl.html';
+
 const PLACEHOLDER_KEY = 'components.dropdown.placeholder.noSelection';
 const FILTER_PLACEHOLDER_KEY = 'components.dropdown.placeholder.filter';
 
@@ -21,11 +24,21 @@ export default class DropdownController {
     this.$scope = $scope;
     this.$compile = $compile;
     this.filterClick = false;
+    this.templateData = {
+      selected: {
+        template: selectedElemTemplate,
+        customSelector: 'span.selected-option'
+      },
+      menu: {
+        template: menuElemTemplate,
+        customSelector: 'a.dropdown-item-link'
+      }
+    };
 
     $scope.$watchCollection('dropdown.items', items => this.createItemMap(items));
   }
 
-  initialize(elem, attrs, ngModel) {
+  initialize(elem, attrs, ngModel, templates) {
     this.elem = elem;
     this.ngModel = ngModel;
 
@@ -46,10 +59,9 @@ export default class DropdownController {
     this.appendToBody = angular.isDefined(attrs.appendToBody);
 
     this.selected =
-      new this.dropdownTemplateService.DropdownSelectedTemplate(this.elem, this);
+      new this.dropdownTemplateService.DropdownSelectedTemplate(this);
     this.menu =
-      new this.dropdownTemplateService.DropdownMenuTemplate(this.elem, this,
-        this.appendToBodyService);
+      new this.dropdownTemplateService.DropdownMenuTemplate(this);
 
     this.setPlaceholders();
 

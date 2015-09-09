@@ -21,6 +21,7 @@ import tagInput from './tag-input';
 import dropdown from './dropdown';
 import auth from './auth';
 import autocomplete from './autocomplete';
+import ac from './ac';
 import megaMenu from './mega-menu';
 import wizard from './wizard';
 import navigation from './navigation';
@@ -63,6 +64,7 @@ angular.module('akamai.components', [
   dropdown.name,
   auth.name,
   autocomplete.name,
+  ac.name,
   megaMenu.name,
   wizard.name,
   dateRange.name,

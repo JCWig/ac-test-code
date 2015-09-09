@@ -1,0 +1,10 @@
+<div class="dropdown-selected-wrapper">
+    <span class="selected-option util-ellipsis" ng-class="{disabled:ac.isDisabled}">
+        <span title="{{ac.getSelectedItemText()}}">{{ac.getSelectedItemText()}}</span>
+        <span ng-if="!ac.selectedItem" class="dropdown-placeholder">{{ac.placeholder}}</span>
+    </span>
+    <i class="luna-small_close_dark_gray util-clickable clear-dropdown"
+       ng-click="ac.clearSelectedItem($event)"
+       ng-if="ac.selectedItem && ac.isClearable && !ac.isDisabled"></i>
+    <span></span>
+</div>
