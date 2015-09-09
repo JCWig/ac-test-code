@@ -67,8 +67,8 @@ export default class DropdownController {
 
     this.setPlaceholders();
 
-    this.selected.render(this.$compile);
-    this.menu.render(this.$compile);
+    this.selected.render();
+    this.menu.render();
   }
 
   getSelectedItemText() {
