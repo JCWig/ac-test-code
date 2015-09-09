@@ -54,7 +54,7 @@ class ModalWindowController {
     let contentController;
 
     this.contentScope = this.options.contentScope ?
-      this.options.contentScope : this.$rootScope.$new();
+      this.options.contentScope.$new() : this.$rootScope.$new();
 
     this.contentScope.setOnSubmit = fn => this.onSubmit = fn;
     this.contentScope.disableSubmit = () => this.disabled = true;

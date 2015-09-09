@@ -1,5 +1,5 @@
 import angular from 'angular';
-
+import i18n from '../i18n';
 import spinnerButtonDirective from './spinner-button-directive';
 
 /**
@@ -18,7 +18,9 @@ import spinnerButtonDirective from './spinner-button-directive';
  * <akam-spinner-button processing="true"></akam-spinner-button>
  *
  */
-export default angular.module('akamai.components.spinner-button', [])
+export default angular.module('akamai.components.spinner-button', [
+  i18n.name
+])
 
 /**
  * @ngdoc directive

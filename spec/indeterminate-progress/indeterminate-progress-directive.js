@@ -10,20 +10,22 @@ var INDETERMINATE_PROGRESS_LABEL = '.indeterminate-progress-wrapper label';
 var INDETERMINATE_PROGRESS_CLASS = 'indeterminate-progress';
 
 describe('akam-indeterminate-progress', function() {
-  var compile = null;
-  var scope = null;
-  var self = this;
 
   beforeEach(function() {
     inject.strictDi(true);
-    self = this;
     angular.mock.module(indeterminateProgress.name);
     angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
     inject(function($compile, $rootScope, $httpBackend) {
-      compile = $compile;
-      scope = $rootScope.$new();
+      this.compile = $compile;
+      this.scope = $rootScope.$new();
+
+      this.addElement = function(markup) {
+        this.el = this.compile(markup)(this.scope);
+        this.scope.$digest();
+        this.element = document.body.appendChild(this.el[0]);
+      };
 
       $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
       $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
@@ -37,166 +39,212 @@ describe('akam-indeterminate-progress', function() {
       this.element = null;
     }
   });
-  function addElement(markup) {
-    self.el = compile(markup)(scope);
-    scope.$digest();
-    self.element = document.body.appendChild(self.el[0]);
-  }
 
-  describe('when rendering', function() {
-    it('should have the correct class names', function() {
-      var markup = '<div id="parent-element"><akam-indeterminate-progress></akam-indeterminate-progress></div>';
-      addElement(markup);
+  describe('given an indeterminate progress element', function() {
 
-      var thisIndeterminateProgress = this.element;
-      var allIndeterminateProgresses = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_WRAPPER);
+    describe('when no attributes are set', function() {
 
-      expect(allIndeterminateProgresses.length).toEqual(1);
-      expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
-      expect(allIndeterminateProgresses[0].classList.contains('normal')).toBe(true);
-    });
-
-    it('should have the correct class names for small size', function() {
-      var markup = '<div id="parent-element"><akam-indeterminate-progress size="small"></akam-indeterminate-progress></div>';
-      addElement(markup);
-
-      // then
-      var thisIndeterminateProgress = this.element;
-      var allIndeterminateProgresses = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_WRAPPER);
-
-      expect(allIndeterminateProgresses.length).toEqual(1);
-      expect(allIndeterminateProgresses[0].classList.contains('small')).toBe(true);
-    });
-
-    it('should have the correct class names for large size', function() {
-      var markup = '<div id="parent-element"><akam-indeterminate-progress size="large"></akam-indeterminate-progress></div>';
-      addElement(markup);
-
-      // then
-      var thisIndeterminateProgress = this.element;
-      var allIndeterminateProgresses = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_WRAPPER);
-
-      expect(allIndeterminateProgresses.length).toEqual(1);
-      expect(allIndeterminateProgresses[0].classList.contains('large')).toBe(true);
-
-      expect(self.el.find('akam-indeterminate-progress').isolateScope().indeterminateProgress.state).toEqual('started');
-    });
-
-    it('should render indeterminate progress with new scope values - yet marked failed because failed="true"', function() {
-      var markup = '<div id="parent-element"><akam-indeterminate-progress failed="true" label="Static Label"></akam-indeterminate-progress></div>';
-      addElement(markup);
-
-      // then
-      var thisIndeterminateProgress = this.element;
-      var allIndeterminateProgresses = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_WRAPPER);
-      var firstIndeterminateProgessLabel = thisIndeterminateProgress.querySelector(INDETERMINATE_PROGRESS_LABEL);
-
-      expect(allIndeterminateProgresses.length).toEqual(1);
-      expect(firstIndeterminateProgessLabel.textContent).toMatch(/Static Label/);
-
-      //make sure the "failed" marker is assigned to the element
-      expect(allIndeterminateProgresses[0].classList.contains('failed')).toBe(true);
-      expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
-
-      expect(self.el.find('akam-indeterminate-progress').isolateScope().indeterminateProgress.state).toEqual('failed');
-    });
-
-    it('should render indeterminate progress with completed state', function() {
-      var markup = '<div id="parent-element"><akam-indeterminate-progress completed="true" label=""></akam-indeterminate-progress></div>';
-      addElement(markup);
-      var thisIndeterminateProgress = this.element;
-
-      expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
-
-      expect(self.el.find('akam-indeterminate-progress').isolateScope().indeterminateProgress.state).toEqual('completed');
-    });
-
-    it('should render without any label present when label is empty', function() {
-      var markup = '<div id="parent-element"><akam-indeterminate-progress label=""></akam-indeterminate-progress></div>';
-      addElement(markup);
-      var thisIndeterminateProgress = this.element;
-
-      expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
-
-      //make sure label is not shown when label===""
-      var allIndeterminateProgressLabels = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_LABEL);
-      expect(allIndeterminateProgressLabels.length).toEqual(0);
-    });
-
-    it('should render with exact label present when label is not empty', function() {
-      var markup = '<div id="parent-element"><akam-indeterminate-progress label="Hello"></akam-indeterminate-progress></div>';
-      addElement(markup);
-      var thisIndeterminateProgress = this.element;
-
-      expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
-
-      //make sure label is shown when label!==""
-
-      var allIndeterminateProgressLabels = thisIndeterminateProgress.querySelectorAll(INDETERMINATE_PROGRESS_LABEL);
-      expect(allIndeterminateProgressLabels.length).toEqual(1);
-
-      var thisIndeterminateProgressLabel = thisIndeterminateProgress.querySelector(INDETERMINATE_PROGRESS_LABEL);
-      expect(thisIndeterminateProgressLabel.textContent).toEqual("Hello");
-    });
-  });
-
-  describe('when destroyed/removed', function() {
-    it('should render no longer contain parent element class name', function() {
-      var markup = '<div id="parent-element"><akam-indeterminate-progress label="Hello"></akam-indeterminate-progress></div>';
-      addElement(markup);
-      var thisIndeterminateProgress = this.element;
-
-      expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
-
-      // now forcefully remove the element
-      self.el.find('akam-indeterminate-progress').remove();
-
-      thisIndeterminateProgress = this.element;
-      expect(thisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
-    });
-  });
-
-  describe('when something changes completed status', function() {
-    beforeEach(function() {
-      var markup = ('<div><div id="parent-element" class="">' +
-      '<akam-indeterminate-progress completed="{{completed}}">' +
-      '</akam-indeterminate-progress> </div>' +
-      '<button id="change-completed"></button></div>');
-      addElement(markup);
-      document.querySelector('#change-completed').addEventListener("click", function() {
-        if (scope.completed) {
-          scope.completed = false;
-        } else {
-          scope.completed = true;
-        }
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
       });
+
+      it('should set the parent element class', function(){
+        expect(this.element.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
+      });
+
+      it('should default the size of the indeterminate to "normal"', function () {
+        expect(this.result.classList.contains('normal')).toBe(true);
+      });
+
+      it('should have a scope value of "started" for the state property', function(){
+        expect(angular.element(this.result).isolateScope().indeterminateProgress.state).toEqual('started');
+      });
+
     });
-    it('should appear when changed to false', function() {
-      scope.completed = true;
-      scope.$digest();
-      var buttonToTriggerCompletion = document.querySelector('#change-completed');
-      var parentElementOfThisIndeterminateProgress = this.element.querySelector('#parent-element');
 
-      expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
-
-      utilities.click(buttonToTriggerCompletion);
-      scope.$digest();
-
-      expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
-    });
-    it('should disappear when changed to true', function() {
-      scope.completed = false;
-      scope.$digest();
-
-      var buttonToTriggerCompletion = document.querySelector('#change-completed');
-      var parentElementOfThisIndeterminateProgress = this.element.querySelector('#parent-element');
-
-      expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(true);
-
-      utilities.click(buttonToTriggerCompletion);
-      scope.$digest();
-
-      expect(parentElementOfThisIndeterminateProgress.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
-    });
   });
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when destroyed', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+        angular.element(this.element).find('akam-indeterminate-progress').remove();
+      });
+
+      it('should unset the class on the parent element class', function(){
+        expect(this.element.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
+      });
+
+    });
+
+  });
+
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when size attribute is set to micro', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress size="micro"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+      });
+
+      it('should apply the class "micro" to the element', function () {
+        expect(this.result.classList.contains('micro')).toBe(true);
+      });
+
+    });
+
+  });
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when size attribute is set to small', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress size="small"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+      });
+
+      it('should apply the class "small" to the element', function () {
+        expect(this.result.classList.contains('small')).toBe(true);
+      });
+
+    });
+
+  });
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when size attribute is set to normal', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress size="normal"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+      });
+
+      it('should apply the class "normal" to the element', function () {
+        expect(this.result.classList.contains('normal')).toBe(true);
+      });
+
+    });
+
+  });
+
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when size attribute is set to large', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress size="large"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+      });
+
+      it('should apply the class "large" to the element', function () {
+        expect(this.result.classList.contains('large')).toBe(true);
+      });
+
+    });
+
+  });
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when size attribute is set to an unknown value', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress size="some_unknown"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+      });
+
+      it('should apply the class "normal" to the element', function () {
+        expect(this.result.classList.contains('normal')).toBe(true);
+      });
+
+    });
+
+  });
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when failed attribute is set to true value', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress failed="true"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+      });
+
+      it('should apply the class "failed" to the element', function () {
+        expect(this.result.classList.contains('failed')).toBe(true);
+      });
+
+      it('should have a scope value of "failed" for the state property', function(){
+        expect(angular.element(this.result).isolateScope().indeterminateProgress.state).toEqual('failed');
+      });
+
+    });
+
+  });
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when success attribute is set to true value', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress success="true"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+      });
+
+      it('should apply the class "success" to the element', function () {
+        expect(this.result.classList.contains('success')).toBe(true);
+      });
+
+
+    });
+
+  });
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when completed attribute is set to true value', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress completed="true"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_WRAPPER);
+      });
+
+      it('should remove the indeterminate-progress class from the parent element', function () {
+        expect(this.element.classList.contains(INDETERMINATE_PROGRESS_CLASS)).toBe(false);
+      });
+
+      it('should have a scope value of "completed" for the state property', function(){
+        expect(angular.element(this.result).isolateScope().indeterminateProgress.state).toEqual('completed');
+      });
+
+    });
+
+  });
+
+  describe('given an indeterminate progress element', function() {
+
+    describe('when label is set to a string value', function() {
+
+      beforeEach(function(){
+        this.addElement('<div id="parent-element"><akam-indeterminate-progress label="some text"></akam-indeterminate-progress></div>');
+        this.result = this.element.querySelector(INDETERMINATE_PROGRESS_LABEL);
+      });
+
+      it('should have the text content of the label match the input', function(){
+        expect(this.result.textContent).toMatch(/some text/);
+      });
+
+    });
+
+  });
+
 });

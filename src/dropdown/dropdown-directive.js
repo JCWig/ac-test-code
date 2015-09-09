@@ -87,8 +87,7 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
       onChange: '&?',
       placeholder: '@?',
       filterPlaceholder: '@?',
-      isDisabled: '=?',
-      selectedItem: '=ngModel'
+      isDisabled: '=?'
     },
     controller: DropdownController,
     controllerAs: 'dropdown',
@@ -105,6 +104,10 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
         inputClick, selectedScope, menuScope;
 
       let ctrl = scope.dropdown;
+
+      ngModel.$render = function() {
+        ctrl.selectedItem = ngModel.$viewValue;
+      };
 
       let selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
       let optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option-placeholder');
@@ -133,16 +136,9 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
 
       ctrl.setSelectedItem = function(item) {
 
-        let getCopy = (itemArg) => {
-          if (!angular.isString(itemArg) && angular.isObject(itemArg)) {
-            return angular.copy(itemArg);
-          }
-          return itemArg;
-        };
-
         item = ctrl.keyProperty ? ctrl.keyPropertyFn(item) : item;
 
-        ctrl.selectedItem = getCopy(item);
+        ctrl.selectedItem = item;
 
         if (angular.isDefined(selectedScope)) {
           selectedScope.dropdown.selectedItem = ctrl.selectedItem;
@@ -160,6 +156,7 @@ function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
       ctrl.clearSelectedItem = function($event) {
         $event.stopPropagation();
         ngModel.$setViewValue();
+        ctrl.selectedItem = undefined;
       };
 
       ctrl.setInputAsClicked = function() {

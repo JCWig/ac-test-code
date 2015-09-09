@@ -4,10 +4,10 @@
 
     <h3 class="modal-title">{{ modalWindow.title }}</h3>
     <i class="max-min-icon icon-states"
-       ng-class="{ 'pulsar-fullscreen' : !modalWindow.isMax, 'pulsar-restore' : modalWindow.isMax}"
-       ng-click="modalWindow.isMax = !modalWindow.isMax;"
+       ng-class="{ 'pulsar-fullscreen' : !modalWindow.isMax, 'pulsar-restore' : modalWindow.isMax, 'disabled': modalWindow.processing}"
+       ng-click="!modalWindow.processing && (modalWindow.isMax = !modalWindow.isMax);"
        ng-if="modalWindow.showFullscreenToggle"></i>
-    <i class="close-icon" ng-click="modalWindow.instance.dismiss()" ng-if="!modalWindow.processing"></i>
+    <i class="close-icon" ng-class="{disabled: modalWindow.processing}" ng-click="!modalWindow.processing && modalWindow.instance.dismiss()"></i>
 
     <div class="akam-status-message-wrapper" ng-if='modalWindow.showSubmitError'>
       <div class="akam-status-message-item-wrapper" ng-class="{'error': modalWindow.showSubmitError}">
@@ -19,11 +19,11 @@
   </div>
   <akam-modal-window-body></akam-modal-window-body>
   <div class="modal-footer">
-    <button type="button" class="button large" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
+    <button type="button" class="btn btn-large" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
       {{ modalWindow.cancelLabel }}
     </button>
     <akam-spinner-button
-        class="large"
+        class="btn-large"
         ng-if="!modalWindow.hideSubmit"
         disabled="modalWindow.isSubmitDisabled()"
         processing="modalWindow.processing"

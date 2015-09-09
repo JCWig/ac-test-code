@@ -5,20 +5,21 @@ class WizardController {
 
   static get $inject() {
     return ['$scope', '$rootScope', '$controller', 'translate',
-            '$templateCache', '$q', 'statusMessage'];
+            '$templateCache', '$q', 'statusMessage', '$log'];
   }
 
   constructor($scope, $rootScope, $controller, translate,
-              $templateCache, $q, statusMessage) {
+              $templateCache, $q, statusMessage, $log) {
     let options = $scope.options;
 
     $scope.wizard = this;
 
     this.$q = $q;
     this.statusMessage = statusMessage;
+    this.$log = $log;
     this.processing = false;
 
-    this.contentScope = options.contentScope ? options.contentScope : $rootScope.$new();
+    this.contentScope = options.contentScope ? options.contentScope.$new() : $rootScope.$new();
     this.contentScope.processing = this.processing;
     this.contentScope.setOnSubmit = fn => this.onSubmit = fn;
     this.contentScope.close = () => this.close();
@@ -43,6 +44,8 @@ class WizardController {
 
     this.instance = options.instance;
 
+    this.instance.result.finally(() => this.contentScope.$destroy());
+
     options.steps.forEach((step, i) => {
       step.id = i;
       if (!step.template && step.templateId) {
@@ -59,9 +62,8 @@ class WizardController {
     });
 
     this.steps = options.steps;
-    this.stepIndex = 0;
-
     this.$scope = $scope;
+    this.activateStep(0, true);
   }
 
   getNextLabel() {
@@ -108,6 +110,11 @@ class WizardController {
   isValid(stepNumber) {
     let step = angular.isNumber(stepNumber) ? this.steps[stepNumber] : this.currentStep();
 
+    if (!step) {
+      this.$log.warn('No step to validate');
+      return false;
+    }
+
     if (!angular.isFunction(step.validate)) {
       return true;
     }
@@ -125,7 +132,7 @@ class WizardController {
     this.contentScope.processing = false;
   }
 
-  activateStep(stepNumber) {
+  activateStep(stepNumber, init) {
 
     let goToStep = () => {
       this.stepIndex = stepNumber;
@@ -144,13 +151,17 @@ class WizardController {
       let nextStepPromise = this.steps[stepNumber].initialize();
 
       nextStepPromise.then(angular.bind(this, goToStep), reason => {
-        this.stopProcessing();
-        this.errorMessage = reason;
+        if (init) {
+          this.$log.warn('Step 1 failed to initialize.');
+          goToStep();
+        } else {
+          this.stopProcessing();
+          this.errorMessage = reason;
+        }
       });
     } else {
       goToStep();
     }
-
   }
 
   jumptToVisitedStep(stepNumber) {

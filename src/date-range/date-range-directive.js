@@ -34,6 +34,7 @@ class DateRangeController {
     this.openFromRangeStart = false;
     this.openFromRangeEnd = false;
     this.options = config.options;
+    this.rangeSelectedEvent = undefined;
 
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
 
@@ -170,10 +171,6 @@ function linkFn(scope, elem, attr, ngModel) {
     });
   }
 
-  //this event is sent from date picker directive when range is selected
-  ctrl.$rootScope.$on('dateRange.rangeSelected', setRangeValues);
-  scope.$on('$destroy', setRangeValues);
-
   function setViewValue(value, start, end) {
     ctrl.dateRange.startDate = start;
     ctrl.dateRange.endDate = end;
@@ -191,12 +188,13 @@ function linkFn(scope, elem, attr, ngModel) {
     });
   }
 
-  function setRangeValues(e, info) {
+  scope.setRangeValues = (e, info) => {
     let start, end;
 
     //if it is not for you, don't handle it
-    if (info.id && info.id !== ctrl.id) {
-      return false;
+    if (!info || !info.id || info.id !== ctrl.id) {
+      e.stopPropagation();
+      return;
     }
 
     start = info.selectedStart;
@@ -204,7 +202,9 @@ function linkFn(scope, elem, attr, ngModel) {
 
     if (info.rangeSelected) {
       ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
+      ctrl.dateRange.startDate = start;
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
+      ctrl.dateRange.endDate = end;
 
       range = ctrl.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
       setViewValue(range, start, end);
@@ -217,7 +217,9 @@ function linkFn(scope, elem, attr, ngModel) {
 
     } else {
       ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
+      ctrl.dateRange.startDate = start;
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
+      ctrl.dateRange.endDate = end;
 
       ctrl.$timeout(() => {
         //assuming only start date has value, calendar stay open - forced
@@ -231,7 +233,7 @@ function linkFn(scope, elem, attr, ngModel) {
       }
     }
     e.stopPropagation();
-  }
+  };
 
   function initialize() {
     let start = '',
@@ -278,22 +280,29 @@ function linkFn(scope, elem, attr, ngModel) {
 
     //this event is sent from date picker directive when range is selected
     scope.$watch('dateRange.format', () => {
-      let sd = ctrl.rangeStart.selectedValue;
-      let ed = ctrl.rangeEnd.selectedValue;
+      let sd = ctrl.dateRange.startDate;
+      let ed = ctrl.dateRange.endDate;
 
       if (!initialized) {
         return;
       }
 
       if (sd) {
-        ctrl.rangeStart.selectedValue = ctrl.dateFilter(new Date(sd), ctrl.format);
+        ctrl.rangeStart.selectedValue = ctrl.dateFilter(sd, ctrl.format);
       }
 
       if (ed) {
-        ctrl.rangeEnd.selectedValue = ctrl.dateFilter(new Date(ed), ctrl.format);
+        ctrl.rangeEnd.selectedValue = ctrl.dateFilter(ed, ctrl.format);
       }
     });
   }
+
+  //this event is sent from date picker directive when range is selected
+  ctrl.rangeSelectedEvent = ctrl.$rootScope.$on('dateRange.rangeSelected', scope.setRangeValues);
+  scope.$on('$destroy', () => {
+    ctrl.rangeSelectedEvent();
+  });
+
   initialize();
 }
 

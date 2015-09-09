@@ -66,6 +66,18 @@ describe('akamai.components.dropdown', function() {
         expect(dropdown.textContent).toContain('Select one');
       });
     });
+    describe('when providing a value to ngModel', function(){
+      beforeEach(function(){
+        $scope.selectedState = 'Maryland';
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should set the dropdown selectedItem property to the value of ngModel', function(){
+        expect(self.el.controller('akamDropdown').selectedItem).toBe('Maryland');
+      });
+    });
+
   });
 
   describe('given an empty object bound to the ng-model attribute', function(){
@@ -81,6 +93,24 @@ describe('akamai.components.dropdown', function() {
           var dropdown = document.querySelector('.selected-option');
           expect(dropdown.textContent).toContain('new placeholder');
         });
+      });
+    });
+
+    describe('when an item is selected', function() {
+      beforeEach(function() {
+        let dropdownTemplate = `<akam-dropdown ng-model="selectedStateObj"
+                                               items="stateStringsObjs"></akam-dropdown>`;
+
+        $scope.selectedStateObj = {name: 'Colorado'};
+        $scope.stateStringsObjs = stateObjects;
+        addElement(dropdownTemplate);
+
+        util.click(util.find('.dropdown-toggle'));
+        util.click(util.find('.dropdown-menu').querySelectorAll('li')[3].querySelector('a'));
+        $scope.$digest();
+      });
+      it('should set the selectedItem to the same item that was selected', function() {
+        expect($scope.selectedStateObj).toBe($scope.stateStringsObjs[3]);
       });
     });
   });
@@ -357,7 +387,6 @@ describe('akamai.components.dropdown', function() {
         var dropdownMenu = util.find('.dropdown-menu');
         util.click(dropdownMenu.querySelectorAll('li')[3].querySelector('a'));
         $scope.$digest();
-        delete $scope.stateStringsObjs[3].$$hashKey;
       });
       it('should invoke the callback with the bound ngModel as an argument', function(){
         expect($scope.onChange).toHaveBeenCalledWith($scope.stateStringsObjs[3]);

@@ -1,4 +1,3 @@
-'use strict';
 var utilities = require('../utilities');
 
 var SPINNER_BUTTON = '.spinner-button';
@@ -8,9 +7,29 @@ describe('akam-spinner-button', function() {
   var compile = null;
   var scope = null;
 
+  var translationMock = {
+    "components": {
+      "custom": 'hello'
+    }
+  };
+
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/spinner-button').name);
+    angular.mock.module(function($provide, $translateProvider) {
+      function i18nCustomLoader($q, $timeout) {
+        return function(options) {
+          var deferred = $q.defer();
+            deferred.resolve(translationMock);
+          return deferred.promise;
+        };
+      }
+      i18nCustomLoader.$inject = ['$q', '$timeout'];
+
+      $provide.factory('i18nCustomLoader', i18nCustomLoader);
+      $translateProvider.useLoader('i18nCustomLoader');
+    });
+
     inject(function($compile, $rootScope) {
       compile = $compile;
       scope = $rootScope.$new();
@@ -49,19 +68,19 @@ describe('akam-spinner-button', function() {
 
   describe('given a spinner button', function() {
 
-    describe('when textContent property is set to "hello"', function() {
+    describe('when textContent property is set to i18n key', function() {
 
       describe('when rendered', function() {
 
         beforeEach(function() {
-          var markup = '<akam-spinner-button text-content="hello"></akam-spinner-button>';
+          var markup = '<akam-spinner-button text-content="components.custom"></akam-spinner-button>';
           let el = compile(markup)(scope);
           scope.$digest();
           this.element = document.body.appendChild(el[0]);
         });
 
         it('should have the text show', function() {
-          expect(this.element.textContent.trim()).toBe('hello');
+          expect(this.element.textContent.trim()).toBe(translationMock.components.custom);
         });
 
       });
