@@ -1,6 +1,6 @@
 import angular from 'angular';
-import DropdownSelectedTemplate from './dropdown-custom-templates/dropdown-selected-template';
-import DropdownMenuTemplate from './dropdown-custom-templates/dropdown-menu-template';
+import DropdownSelectedRenderer from './dropdown-renderers/dropdown-selected-renderer';
+import DropdownMenuRenderer from './dropdown-renderers/dropdown-menu-renderer';
 
 function DropdownTemplateService() {
 
@@ -13,8 +13,8 @@ function DropdownTemplateService() {
       }
       return dropdownTemplateElem[0].outerHTML;
     },
-    DropdownSelectedTemplate: DropdownSelectedTemplate,
-    DropdownMenuTemplate: DropdownMenuTemplate
+    DropdownSelectedRenderer: DropdownSelectedRenderer,
+    DropdownMenuRenderer: DropdownMenuRenderer
   };
 }
 

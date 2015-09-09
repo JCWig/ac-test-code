@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-export default class DropdownTemplate {
+export default class DropdownRenderer {
   constructor(ctrl, name, templateData) {
     this.elem = ctrl.elem;
     this.name = name;

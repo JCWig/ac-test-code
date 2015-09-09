@@ -1,6 +1,4 @@
 import template from './templates/dropdown-directive.tpl.html';
-import selectedElemTemplate from './templates/dropdown-selected.tpl.html';
-import menuElemTemplate from './templates/dropdown-menu.tpl.html';
 
 import DropdownController from './dropdown-controller';
 

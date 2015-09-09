@@ -1,7 +1,7 @@
 import angular from 'angular';
-import DropdownTemplate from './dropdown-template';
+import DropdownRenderer from './dropdown-renderer';
 
-export default class DropdownSelectedTemplate extends DropdownTemplate {
+export default class DropdownSelectedRenderer extends DropdownRenderer {
   constructor(ctrl) {
     super(ctrl, 'selected', ctrl.templateData.selected);
   }

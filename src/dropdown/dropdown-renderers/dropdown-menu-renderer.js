@@ -1,7 +1,7 @@
 import angular from 'angular';
-import DropdownTemplate from './dropdown-template';
+import DropdownRenderer from './dropdown-renderer';
 
-export default class DropdownMenuTemplate extends DropdownTemplate {
+export default class DropdownMenuRenderer extends DropdownRenderer {
   constructor(ctrl) {
     super(ctrl, 'option', ctrl.templateData.menu);
   }
@@ -18,7 +18,7 @@ export default class DropdownMenuTemplate extends DropdownTemplate {
     if (this.ctrl.appendToBody) {
       this.ctrl.appendToBodyService.appendToBody(this.elem, compiledTemplate,
         () => {
-          this.ctrl.$scope.$watch('dropdown.isOpen', (isOpen) => {
+          this.ctrl.$scope.$watch(`${this.componentName}.isOpen`, (isOpen) => {
             compiledTemplate.toggleClass('util-show', isOpen);
             compiledTemplate.toggleClass('util-hide', !isOpen);
             this.ctrl.initFilterClick();

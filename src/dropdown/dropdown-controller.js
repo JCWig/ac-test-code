@@ -34,17 +34,17 @@ export default class DropdownController {
         customSelector: 'a.dropdown-item-link'
       }
     };
-
-    $scope.$watchCollection('dropdown.items', items => this.createItemMap(items));
   }
 
-  initialize(elem, attrs, ngModel, templates) {
+  initialize(elem, attrs, ngModel) {
     this.elem = elem;
     this.ngModel = ngModel;
 
     this.ngModel.$render = () => {
       this.selectedItem = this.ngModel.$viewValue;
     };
+
+    this.$scope.$watchCollection(`${this.name}.items`, items => this.createItemMap(items));
 
     this.hasFilter = angular.isDefined(attrs.filterable);
 
@@ -59,9 +59,9 @@ export default class DropdownController {
     this.appendToBody = angular.isDefined(attrs.appendToBody);
 
     this.selected =
-      new this.dropdownTemplateService.DropdownSelectedTemplate(this);
+      new this.dropdownTemplateService.DropdownSelectedRenderer(this);
     this.menu =
-      new this.dropdownTemplateService.DropdownMenuTemplate(this);
+      new this.dropdownTemplateService.DropdownMenuRenderer(this);
 
     this.setPlaceholders();
 
@@ -127,6 +127,7 @@ export default class DropdownController {
 
   clearSelectedItem($event) {
     $event.stopPropagation();
+    $event.preventDefault();
     this.ngModel.$setViewValue();
     this.selectedItem = undefined;
   }

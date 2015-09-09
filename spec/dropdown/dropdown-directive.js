@@ -293,10 +293,8 @@ describe('akamai.components.dropdown', function() {
         var featureDropdownTemplate =
           '<akam-dropdown ng-model="selectedState" text-property="name" items="stateObjects" clearable>' +
             '<akam-dropdown-selected>' +
-              '<span class="selected-option util-ellipsis">' +
-                '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
-                '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
-              '</span>' +
+              '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
+              '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
             '</akam-dropdown-selected>' +
             '<akam-dropdown-option>' +
               '<span title="{{item[dropdown.textProperty]}}">custom: {{item[dropdown.textProperty]}}</span>' +
@@ -320,10 +318,8 @@ describe('akamai.components.dropdown', function() {
         var featureDropdownTemplate =
           '<akam-dropdown ng-model="selectedState" text-property="name" items="stateObjects" clearable>' +
             '<akam-dropdown-selected>' +
-              '<span class="selected-option util-ellipsis">' +
-                '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
-                '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
-              '</span>' +
+              '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
+              '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
             '</akam-dropdown-selected>' +
             '<akam-dropdown-option>' +
           '<span title="{{item[dropdown.textProperty]}}">custom: {{item[dropdown.textProperty]}}</span>' +
