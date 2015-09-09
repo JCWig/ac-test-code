@@ -174,3 +174,23 @@ $toggle-gradient-top: #fff;
   }
 
 }
+
+.switch-button.disabled {
+  border: 1px solid #ccc;
+  
+  &.switch-button-on .switch-button-container {
+    span:first-child
+      { background-color: rgba(122, 170, 96, .5); }
+
+    label
+      { border-left: 1px solid #ccc; }
+  }
+
+  &.switch-button-off .switch-button-container {
+    span:last-child
+      { background-color: rgba(163, 45, 45, .5); }
+
+    label
+      { border-right: 1px solid #ccc; }
+  }
+}
