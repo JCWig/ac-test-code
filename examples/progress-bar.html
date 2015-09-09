@@ -91,42 +91,42 @@
             <script>
                 var controllerFunction = function($scope) {
                     $scope.pb1 = [];
-                    $scope.pb1.currentValue = '28';
-                    $scope.pb1.maxValue = '30';
-                    $scope.pb1.animate = 'false';
+                    $scope.pb1.currentValue = 28;
+                    $scope.pb1.maxValue = 30;
+                    $scope.pb1.animate = false;
                     $scope.pb1.label = 'components.name';
                     $scope.pb1.labelAlign = 'left';
 
                     $scope.pb2 = [];
-                    $scope.pb2.currentValue = '30';
-                    $scope.pb2.maxValue = '30';
-                    $scope.pb2.animate = 'false';
+                    $scope.pb2.currentValue = 30;
+                    $scope.pb2.maxValue = 30;
+                    $scope.pb2.animate = false;
                     $scope.pb2.label = 'Your trial is complete.';
                     $scope.pb2.labelAlign = 'center';
 
                     $scope.pb3 = [];
-                    $scope.pb3.currentValue = '30';
+                    $scope.pb3.currentValue = 30;
                     $scope.pb3.state = 'error'; // info, warning, danger, success
-                    $scope.pb3.maxValue = '30';
-                    $scope.pb3.animate = 'false';
+                    $scope.pb3.maxValue = 30;
+                    $scope.pb3.animate = false;
                     $scope.pb3.label = 'Unable to display status.';
                     $scope.pb3.labelAlign = 'right';
 
                     $scope.pb4 = [];
-                    $scope.pb4.currentValue = '0';
-                    $scope.pb4.maxValue = '100';
-                    $scope.pb4.animate = 'true';
+                    $scope.pb4.currentValue = 0;
+                    $scope.pb4.maxValue = 100;
+                    $scope.pb4.animate = true;
                     $scope.pb4.label = 'Downloading';
 
                     $scope.pb6 = [];
-                    $scope.pb6.currentValue = '0';
-                    $scope.pb6.maxValue = '100';
-                    $scope.pb6.animate = 'true';
+                    $scope.pb6.currentValue = 0;
+                    $scope.pb6.maxValue = 100;
+                    $scope.pb6.animate = true;
                     $scope.pb6.label = 'Error demo';
 
                     $scope.pb4.pb4Timer = function(){
                         var interval = setInterval(function () {
-                            $scope.pb4.currentValue = (parseInt($scope.pb4.currentValue) + 1).toString();
+                            $scope.pb4.currentValue = $scope.pb4.currentValue + 1;
                             $scope.pb4.label = $scope.pb4.currentValue + '% Completed';
 
                             if($scope.pb4.currentValue >= 100) {
@@ -137,9 +137,9 @@
                     };
 
                     $scope.pb4.resetAnimation = function(){
-                        $scope.pb4.currentValue = '0';
+                        $scope.pb4.currentValue = 0;
                         $scope.pb4.label = $scope.pb4.currentValue + '% Completed';
-                        $scope.pb4.animate = 'true';
+                        $scope.pb4.animate = true;
                         $scope.pb4.state = 'inprogress';
                         $scope.pb4.pb4Timer();
                     };
@@ -149,7 +149,7 @@
                             var self = this;
 
                             this.interval = setInterval(function() {
-                                $scope.pb6.currentValue = (parseInt($scope.pb6.currentValue) + 1).toString();
+                                $scope.pb6.currentValue = $scope.pb6.currentValue + 1;
                                 $scope.pb6.label = $scope.pb6.currentValue + '% Completed';
                                 $scope.pb6.state = 'inprogress';
                                 if($scope.pb6.currentValue >= 100) {
@@ -169,7 +169,7 @@
                         },
                         reset: function(){
                             $scope.pb6.state = 'inprogress';
-                            $scope.pb6.currentValue = '0';
+                            $scope.pb6.currentValue = 0;
                             $scope.pb6.label = $scope.pb6.currentValue + '% Completed';
                             $scope.$digest();
                         }

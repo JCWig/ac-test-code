@@ -11,7 +11,7 @@ class ProgressBarController {
     this.$animate = $animate;
     this.$translate = $translate;
 
-    this.animate = angular.isDefined(this.animate) ? this.animate : 'false';
+    this.animate = angular.isDefined(this.animate) ? this.animate : false;
 
     $scope.$watch('progressBar.state', (newValue) => {
       switch (newValue) {
@@ -49,7 +49,7 @@ class ProgressBarController {
       styles.push('progress-striped active');
     }
 
-    if (this.value === '0' || !angular.isDefined(this.value)) {
+    if (!this.value) {
       styles.push('remove-right-border');
     }
 
