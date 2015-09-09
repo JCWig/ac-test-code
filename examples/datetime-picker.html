@@ -21,25 +21,26 @@
   <br/>
   <h2>Datetime Picker Component Example</h2>
   <br/>
-  <h4 class="title">Display value selected</h4>
-  <pre>selected Datetime value: {{vm.datetimeValue}}</pre>
-  <pre>selected Date: {{vm.date}}</pre>
-  <pre>selected Time: {{vm.time}}</pre>
+  <h4 class="title">Display selected value</h4>
+  <pre>selected Datetime value: {{vm.datetime | date: 'MMM d, y h:mm a'}}</pre>
+  <pre>selected Datetime value: {{vm.datetime2 | date: 'MMM d, y h:mm a'}}</pre>
 
-  <h4 class="title">An example of datetime picker</h4>
+  <h4 class="title">An example of Datetime picker</h4>
   <form name='datetime-picker' role='form'>
+  <p>Minimum attributes used</p>
+    <akam-datetime-picker ng-model="vm.datetime" ng-change="vm.onChange()"></akam-datetime-picker>
+    <br/><br/><br/>
+  <p>All attributes used with values assigned</p>
     <akam-datetime-picker
-      ng-model="datetime"
-      on-change="vm.onChangeCallback(datetimeValue, date, time)"
-      format="EEE, MMM dd, yyyy"
-      mode="day"
-      min=""
-      max=""
-      minuteStep="5"
-      hourStep="1"
-      showMeridain="true"
-      placeholder="date and time"
-      isDisabled="false">
+      ng-model="vm.datetime2"
+      ng-change="vm.onChange()"
+      format="{{vm.format}}"
+      min="{{vm.min}}"
+      max="{{vm.max}}"
+      minute-step="vm.minuteStep"
+      hour-step="vm.hourStep"
+      show-meridian="vm.showMeridian"
+      is-disabled="vm.disabled">
     </akam-datetime-picker>
   </form>
   <script src="../dist/akamai-core.js"></script>
@@ -50,18 +51,17 @@
   DatetimePickerController.$inject = ['$log'];
   function DatetimePickerController($log) {
     var vm = this;
-    //vm.disabled = false;
-    //vm.showMeridian = true;
-    //vm.minuteStep = 15;
-    //vm.hourStep = 1;
-    //vm.time = new Date();
+    vm.disabled = false;
+    vm.showMeridian = false;
+    vm.minuteStep = 10;
+    vm.hourStep = 1;
+    vm.format = "EEE, MMM dd, yyyy";
+    vm.min = new Date("2014-9-1");
+    vm.max = new Date("2016-9-25");
+    vm.datetime2 = new Date();
 
-
-    vm.onChangeCallback = function(datetimeValue, date, time) {
-      vm.datetimeValue = datetimeValue;
-      vm.date = date;
-      vm.time = time;
-      $log.log(datetimeValue);
+    vm.onChange = function() {
+      $log.log(vm.datetime);
     }
   };
   </script>

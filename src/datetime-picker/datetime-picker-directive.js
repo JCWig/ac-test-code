@@ -1,49 +1,41 @@
-import angular from 'angular';
 import template from './templates/datetime-picker.tpl.html';
 
 class DatetimePickerController {
-  constructor($timeout) {
-
-    this.$timeout = $timeout;
-    //this.min = this.min ||
-
+  constructor() {
+    this.datetimeValue = undefined;
   }
 
-  /*
-    <akam-date-picker
-    ng-model="dt"
-    min="datetime.min"
-    max="datetime.max"
-    mode="datetime.mode"
-    placeholder='datetime.placeholder'
-    on-change="dateChanged()"
-    format="datetime.dateFormat"
-    is-disabled="datetime.disabled">
-  </akam-date-picker>
-  <akam-time-picker
-    ng-model="dt"
-    minute-step="datetime.minuteStep"
-    hour-step="datetime.hourStep"
-    on-change="timeChanged()"
-    placeholder='datetime.placeholder'
-    is-disabled="datetime.disabled"
-    show-meridian="datetime.showMeridian">
-  </akam-time-picker>
-   */
+  setDatetime(d, t) {
+    let date = d || this.date || new Date(),
+      time = t || this.time || new Date();
+
+    date.setHours(time.getHours(), time.getMinutes());
+    this.datetimeValue = date;
+  }
 }
 
-DatetimePickerController.$inject = ['$timeout'];
-
 function LinkFn(scope, elem, attr, ngModel) {
+  let datetime = scope.datetime;
 
   if (!ngModel) {
     return;
   }
 
-  /*  ctrl.$timeout(() => {
-      ctrl.opened = false;
-    }, config.DELAY_CLOSING);
-  */
+  scope.dateChanged = (dt) => {
+    datetime.setDatetime(dt.date, datetime.time);
+    ngModel.$setViewValue(datetime.datetimeValue);
+  };
+
+  scope.timeChanged = (dt) => {
+    datetime.setDatetime(datetime.date, dt.time);
+    ngModel.$setViewValue(datetime.datetimeValue);
+  };
+
+  ngModel.$render = () => {
+    datetime.date = ngModel.$modelValue;
+    datetime.time = ngModel.$modelValue;
+    datetime.setDatetime(datetime.date, datetime.time);
+  };
 }
 
 export default () => {
@@ -53,15 +45,12 @@ export default () => {
     controller: DatetimePickerController,
     controllerAs: 'datetime',
     bindToController: {
-      //datetime: '=ngModel',
-      onChange: '&',
       format: '@?',
       min: '@?',
       max: '@?',
-      minuteStep: '@?',
-      hourStep: '@?',
-      showMeridain: '@?',
-      mode: '@? ',
+      minuteStep: '=?',
+      hourStep: '=?',
+      showMeridian: '=?',
       isDisabled: '=?'
     },
     scope: {},
