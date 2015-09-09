@@ -60,11 +60,11 @@ describe('akamai.components.datetime-picker', function() {
       let ctrl = this.controller;
       let names = Object.getOwnPropertyNames(ctrl);
 
-      expect(names.length).toBe(10);
+      expect(names.length).toBe(7);
       expect(names.indexOf('minuteStep')).not.toBe(-1);
-      expect(names.indexOf('format')).not.toBe(-1);
-      expect(names.indexOf('min')).not.toBe(-1);
-      expect(names.indexOf('max')).not.toBe(-1);
+      expect(names.indexOf('date')).not.toBe(-1);
+      expect(names.indexOf('time')).not.toBe(-1);
+      expect(names.indexOf('datetimeValue')).not.toBe(-1);
       expect(names.indexOf('showMeridian')).not.toBe(-1);
       expect(names.indexOf('isDisabled')).not.toBe(-1);
       expect(names.indexOf('hourStep')).not.toBe(-1);
@@ -182,14 +182,6 @@ describe('akamai.components.datetime-picker', function() {
       expect(this.controller.datetimeValue.getDate()).toEqual(1);
     });
 
-    it("should verify time value changes when given one", function() {
-      let d = new Date();
-      d.setHours("02", "15");
-      $scope.dt = d;
-      addElement.call(this, undefined);
 
-      expect(this.controller.datetimeValue.getHours()).toBe(2);
-      expect(this.controller.datetimeValue.getMinutes()).toBe(15);
-    })
   });
 });
