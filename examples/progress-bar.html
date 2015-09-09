@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Component Examples - Progress Bar</title>
+        <link rel="stylesheet" href="../dist/akamai-core.css">
+        <style>
+            .container {
+                min-height: 150px;
+            }
+        </style>
+    </head>
+    <body ng-app="progressBarDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
+        <div class="container">
+            <div class="page-header">
+                <h1>Progress Bar Example</h1>
+            </div>
+
+            <div class="row">
+                <h2>Static Progress Bar</h2>
+                <br/>
+                <h4>Normal</h4>
+                <div class="col-sm-4">
+                    <akam-progress-bar  value="pb1.currentValue"
+                                        max="pb1.maxValue"
+                                        state="pb1.state"
+                                        animate={{pb1.animate}}
+                                        label="pb1.label"
+                                        label-align={{pb1.labelAlign}}>
+                    </akam-progress-bar>
+                </div>
+                <br/><br/><br/><br/>
+                <h4>Completed; label-align: center</h4>
+                <div class="col-sm-4">
+                    <akam-progress-bar  value="pb2.currentValue"
+                                        state="pb2.state"
+                                        max="pb2.maxValue"
+                                        animate={{pb2.animate}}
+                                        label="pb2.label"
+                                        label-align={{pb2.labelAlign}}>
+                    </akam-progress-bar>
+                </div>
+                <br/><br/><br/><br/>
+                <h4>Error; label-align: right</h4>
+                <div class="col-sm-4">
+                    <akam-progress-bar  value="pb3.currentValue"
+                                        state="pb3.state"
+                                        max="pb3.maxValue"
+                                        animate={{pb3.animate}}
+                                        label="pb3.label"
+                                        label-align={{pb3.labelAlign}}>
+                    </akam-progress-bar>
+                </div>
+
+                <br/><br/><br/><br/>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Animated Progress Bar</h2>
+                <br/>
+                <h4>Normal Animated Progress</h4>
+                <div class="col-sm-4">
+                    <akam-progress-bar  value="pb4.currentValue"
+                                        state="pb4.state"
+                                        max="pb4.maxValue"
+                                        animate="{{pb4.animate}}"
+                                        label="pb4.label"
+                                        state="pb4.state">
+                    </akam-progress-bar>
+                </div>
+                <br/><br/><br/>
+                <button class="btn" ng-click="pb4.resetAnimation()">Replay Animation</button>
+                <br/>
+                <br/>
+                <h4>Error</h4>
+                <div class="col-sm-4">
+                    <akam-progress-bar  value="pb6.currentValue"
+                                        state="pb6.state"
+                                        max="pb6.maxValue"
+                                        animate="{{pb6.animate}}"
+                                        label="pb6.label"
+                    </akam-progress-bar>
+                </div>
+                <br/><br/><br/>
+                <button class="btn" ng-click="pb6.timer.start()">Play</button>
+                <button class="btn" ng-click="pb6.timer.error()">Error</button>
+                <button class="btn" ng-click="pb6.timer.reset()">Replay</button>
+            </div>
+
+            <script src="../dist/akamai-core.js"></script>
+            <script>
+                var controllerFunction = function($scope) {
+                    $scope.pb1 = [];
+                    $scope.pb1.currentValue = '28';
+                    $scope.pb1.maxValue = '30';
+                    $scope.pb1.animate = 'false';
+                    $scope.pb1.label = 'components.name';
+                    $scope.pb1.labelAlign = 'left';
+
+                    $scope.pb2 = [];
+                    $scope.pb2.currentValue = '30';
+                    $scope.pb2.maxValue = '30';
+                    $scope.pb2.animate = 'false';
+                    $scope.pb2.label = 'Your trial is complete.';
+                    $scope.pb2.labelAlign = 'center';
+
+                    $scope.pb3 = [];
+                    $scope.pb3.currentValue = '30';
+                    $scope.pb3.state = 'error'; // info, warning, danger, success
+                    $scope.pb3.maxValue = '30';
+                    $scope.pb3.animate = 'false';
+                    $scope.pb3.label = 'Unable to display status.';
+                    $scope.pb3.labelAlign = 'right';
+
+                    $scope.pb4 = [];
+                    $scope.pb4.currentValue = '0';
+                    $scope.pb4.maxValue = '100';
+                    $scope.pb4.animate = 'true';
+                    $scope.pb4.label = 'Downloading';
+
+                    $scope.pb6 = [];
+                    $scope.pb6.currentValue = '0';
+                    $scope.pb6.maxValue = '100';
+                    $scope.pb6.animate = 'true';
+                    $scope.pb6.label = 'Error demo';
+
+                    $scope.pb4.pb4Timer = function(){
+                        var interval = setInterval(function () {
+                            $scope.pb4.currentValue = (parseInt($scope.pb4.currentValue) + 1).toString();
+                            $scope.pb4.label = $scope.pb4.currentValue + '% Completed';
+
+                            if($scope.pb4.currentValue >= 100) {
+                                clearInterval(interval);
+                            }
+                            $scope.$digest();
+                        }, 100);
+                    };
+
+                    $scope.pb4.resetAnimation = function(){
+                        $scope.pb4.currentValue = '0';
+                        $scope.pb4.label = $scope.pb4.currentValue + '% Completed';
+                        $scope.pb4.animate = 'true';
+                        $scope.pb4.state = 'inprogress';
+                        $scope.pb4.pb4Timer();
+                    };
+
+                    $scope.pb6.timer = {
+                        start: function() {
+                            var self = this;
+
+                            this.interval = setInterval(function() {
+                                $scope.pb6.currentValue = (parseInt($scope.pb6.currentValue) + 1).toString();
+                                $scope.pb6.label = $scope.pb6.currentValue + '% Completed';
+                                $scope.pb6.state = 'inprogress';
+                                if($scope.pb6.currentValue >= 100) {
+                                    clearInterval(self.interval);
+                                    delete self.interval;
+                                }
+                                $scope.$digest();
+                            }, 100);
+                        },
+                        error: function() {
+                            $scope.pb6.state = 'error';
+                            clearInterval(this.interval);
+                        },
+                        resume: function() {
+                            if (!this.interval)
+                                this.start();
+                        },
+                        reset: function(){
+                            $scope.pb6.state = 'inprogress';
+                            $scope.pb6.currentValue = '0';
+                            $scope.pb6.label = $scope.pb6.currentValue + '% Completed';
+                            $scope.$digest();
+                        }
+                    };
+                };
+                controllerFunction.$inject = ['$scope'];
+                var app = angular.module('progressBarDemo', ['akamai.components.progress-bar']);
+
+                app.controller('Ctrl', controllerFunction);
+            </script>
+        </div>
+    </body>
+</html>

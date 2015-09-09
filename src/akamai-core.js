@@ -26,6 +26,7 @@ import wizard from './wizard';
 import navigation from './navigation';
 import dateRange from './date-range';
 import spinnerButton from './spinner-button';
+import progressBar from './progress-bar';
 
 /**
  * @ngdoc overview
@@ -67,5 +68,6 @@ angular.module('akamai.components', [
   wizard.name,
   dateRange.name,
   navigation.name,
-  spinnerButton.name
+  spinnerButton.name,
+  progressBar.name
 ]);
