@@ -52,24 +52,24 @@ export default angular.module('akamai.components.progress-bar', [
 *
 * @restrict E
 *
-* @parem {String} value The current value of progress completed.
+* @param {String} value The current value of progress completed.
 *
-* @parem {String} max A number that specifies the total value of bars that is required.
+* @param {String} max A number that specifies the total value of bars that is required.
 * If omitted, the value of max will default to 100.
 *
-* @parem {String} state The current state of the progress bar.
+* @param {String} state The current state of the progress bar.
 * When an error occurs, change the state to 'error' and
 * update the label to an appropriate error message.
 * When the progress is completed, state will automatically change to 'completed'.
 *
-* @parem {String} label The descriptive text under progress bar.
+* @param {String} label The descriptive text under progress bar.
 * If omitted, no text will be displayed under the progress bar.
 * Will apply i18n translation on label.
 *
-* @parem {String} label-align The label position under the progress bar.
-* Possible values are 'left'(default), 'center' and 'right'.
+* @param {String} label-align='left' The label position under the progress bar.
+* Possible values are 'left', 'center' and 'right'.
 *
-* @parem {String} animate When animate is true, progress bar is animated
+* @param {String} animate When animate is true, progress bar is animated
 * with moving strips and updated in real-time. If omitted, defaults to false.
 */
 .directive('akamProgressBar', ProgressBarDirective);

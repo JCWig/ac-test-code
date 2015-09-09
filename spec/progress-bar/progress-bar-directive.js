@@ -71,8 +71,8 @@ describe('akamai.components.progress-bar', function() {
 		});
 	});
 
-	describe('given a value for label-align attribute', function() {
-		describe('when the progress bar is rendered', function() {
+	describe('when the progress bar is rendered', function() {
+		describe('given a value for label-align attribute', function() {
 			beforeEach(function() {
 				$scope.pb = {
 					'value': '50',
@@ -89,7 +89,7 @@ describe('akamai.components.progress-bar', function() {
 				expect(progresBarLabel).not.toBe(null);
 			});
 		});
-		describe('when the progress bar is rendered', function() {
+		describe('given a value for label-align attribute', function() {
 			beforeEach(function() {
 				$scope.pb = {
 					'value': '50',
