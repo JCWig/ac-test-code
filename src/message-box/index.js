@@ -1,4 +1,8 @@
-var angular = require('angular');
+import angular from 'angular';
+import angularBootstrapNpm from 'angular-bootstrap-npm';
+import modalWindow from '../modal-window';
+import i18n from '../i18n';
+import messageBoxService from './message-box-service';
 
 /**
  * @ngdoc module
@@ -37,10 +41,10 @@ var angular = require('angular');
  * }
  *
  */
-module.exports = angular.module('akamai.components.message-box', [
-  require('angular-bootstrap-npm'),
-  require('../modal-window').name,
-  require('../i18n').name
+export default angular.module('akamai.components.message-box', [
+  angularBootstrapNpm,
+  modalWindow.name,
+  i18n.name
 ])
 
 /**
@@ -53,4 +57,4 @@ module.exports = angular.module('akamai.components.message-box', [
  * with descriptive `text`.
  *
  */
-  .factory('messageBox', require('./message-box-service'));
+  .factory('messageBox', messageBoxService);

@@ -1,7 +1,11 @@
-var angular = require('angular'),
-  i18n = require('../i18n'),
-  messageBox = require('../message-box'),
-  context = require('../context');
+import angular from 'angular';
+import i18n from '../i18n';
+import messageBox from '../message-box';
+import context from '../context';
+import authProvider from './auth-provider';
+import authInterceptor from './auth-interceptor';
+import httpBufferService from './http-buffer-service';
+import tokenService from './token-service';
 
 /**
  * @ngdoc module
@@ -28,7 +32,7 @@ var angular = require('angular'),
  *   authProvider.setBlacklistedUris('/platformtoolkit/');
  * }
  */
-module.exports = angular.module('akamai.components.auth', [
+export default angular.module('akamai.components.auth', [
   context.name,
   messageBox.name,
   i18n.name
@@ -39,7 +43,7 @@ module.exports = angular.module('akamai.components.auth', [
    * @description Main provider meant to be consumed by applications. See the `setBlacklistedUris`
    * method.
    */
-  .provider('auth', require('./auth-provider'))
+  .provider('auth', authProvider)
   // XXX: it's a bad idea to keep this as a singular object. Any application can inject this
   // value in their application and overwrite the values, because that's just how JS objects work
   .constant('authConfig', {
@@ -56,6 +60,7 @@ module.exports = angular.module('akamai.components.auth', [
       'invalid_token',
       'akasession_username_invalid',
       'incorrect_current_account',
+      'incorrect_contract_type',
       'invalid_xsrf',
       'invalid_token_type',
       'invalid_token_id',
@@ -79,9 +84,9 @@ module.exports = angular.module('akamai.components.auth', [
       'invalid_response_format'
     ]
   })
-  .factory('httpBuffer', require('./http-buffer-service'))
-  .factory('token', require('./token-service'))
-  .factory('authInterceptor', require('./auth-interceptor'))
+  .factory('httpBuffer', httpBufferService)
+  .factory('token', tokenService)
+  .factory('authInterceptor', authInterceptor)
   .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');
   }]);

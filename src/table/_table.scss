@@ -136,6 +136,7 @@ $table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
 
   .column-checkbox {
     width: 30px;
+    overflow: visible;
   }
   
   .column-action {

@@ -1,7 +1,12 @@
 /*global angular, inject*/
 'use strict';
+
+import dropdown from '../../src/dropdown';
+
 var util = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
+
+
 
 describe('akamai.components.dropdown', function() {
   var $scope, $compile, stateStrings, stateObjects, timeout;
@@ -18,8 +23,8 @@ describe('akamai.components.dropdown', function() {
     {name: 'Massachusetts'}
   ];
   beforeEach(function() {
-    inject.strictDi(true);
-    angular.mock.module(require('../../src/dropdown').name);
+    angular.mock.inject.strictDi(true);
+    angular.mock.module(dropdown.name);
     angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });
@@ -61,7 +66,20 @@ describe('akamai.components.dropdown', function() {
         expect(dropdown.textContent).toContain('Select one');
       });
     });
+    describe('when providing a value to ngModel', function(){
+      beforeEach(function(){
+        $scope.selectedState = 'Maryland';
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should set the dropdown selectedItem property to the value of ngModel', function(){
+        expect(self.el.controller('akamDropdown').selectedItem).toBe('Maryland');
+      });
+    });
+
   });
+
   describe('given an empty object bound to the ng-model attribute', function(){
     describe('when the dropdown is rendered', function(){
       describe('and a string is to the placeholder attribute', function(){
@@ -77,7 +95,26 @@ describe('akamai.components.dropdown', function() {
         });
       });
     });
+
+    describe('when an item is selected', function() {
+      beforeEach(function() {
+        let dropdownTemplate = `<akam-dropdown ng-model="selectedStateObj"
+                                               items="stateStringsObjs"></akam-dropdown>`;
+
+        $scope.selectedStateObj = {name: 'Colorado'};
+        $scope.stateStringsObjs = stateObjects;
+        addElement(dropdownTemplate);
+
+        util.click(util.find('.dropdown-toggle'));
+        util.click(util.find('.dropdown-menu').querySelectorAll('li')[3].querySelector('a'));
+        $scope.$digest();
+      });
+      it('should set the selectedItem to the same item that was selected', function() {
+        expect($scope.selectedStateObj).toBe($scope.stateStringsObjs[3]);
+      });
+    });
   });
+
   describe('given an object bound to the ng-model attribute', function(){
     describe('when the dropdown is rendered', function(){
       beforeEach(function(){
@@ -292,14 +329,15 @@ describe('akamai.components.dropdown', function() {
           '<akam-dropdown ng-model="selectedState" text-property="name" items="stateObjects" clearable>' +
             '<akam-dropdown-selected>' +
               '<span class="selected-option util-ellipsis">' +
-                '<span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">custom: {{selectedItem[textProperty]}}</span>' +
-                '<span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>' +
+                '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
+                '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
               '</span>' +
             '</akam-dropdown-selected>' +
             '<akam-dropdown-option>' +
-              '<span title="{{item[textProperty]}}">custom: {{item[textProperty]}}</span>' +
+              '<span title="{{item[dropdown.textProperty]}}">custom: {{item[dropdown.textProperty]}}</span>' +
             '</akam-dropdown-option>' +
           '</akam-dropdown>';
+
           $scope.selectedState = {name: 'Colorado'};
           $scope.stateObjects = stateObjects;
 
@@ -318,12 +356,12 @@ describe('akamai.components.dropdown', function() {
           '<akam-dropdown ng-model="selectedState" text-property="name" items="stateObjects" clearable>' +
             '<akam-dropdown-selected>' +
               '<span class="selected-option util-ellipsis">' +
-                '<span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">custom: {{selectedItem[textProperty]}}</span>' +
-                '<span ng-if="!selectedItem" class="dropdown-placeholder">{{::placeholder}}</span>' +
+                '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
+                '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
               '</span>' +
             '</akam-dropdown-selected>' +
             '<akam-dropdown-option>' +
-              '<span title="{{item[textProperty]}}">custom: {{item[textProperty]}}</span>' +
+          '<span title="{{item[dropdown.textProperty]}}">custom: {{item[dropdown.textProperty]}}</span>' +
             '</akam-dropdown-option>' +
           '</akam-dropdown>';
           $scope.selectedState = {name: 'Colorado'};
@@ -409,6 +447,97 @@ describe('akamai.components.dropdown', function() {
       it('should filter the dropdown by given string property value', function(){
         var dropdownMenu = util.find('.dropdown-menu');
         expect(dropdownMenu.getElementsByTagName('li').length).toBe(2);
+      });
+    });
+  });
+
+  describe('when the dropdown is rendered', function(){
+    describe('and placeholder attribute is not provided', function(){
+      beforeEach(function(){
+        $scope.selectedState = undefined;
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" placeholder="" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should render default placeholder', function(){
+        var dropdown = document.querySelector('.dropdown-placeholder');
+        expect(dropdown.textContent).toContain('Select one');
+      });
+    });
+
+    describe('and placeholder attribute is provided', function(){
+      beforeEach(function(){
+        $scope.selectedState = undefined;
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" placeholder="examples.autocomplete.search.states" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should translate placeholder if key is valid', function(){
+        var dropdown = document.querySelector('.dropdown-placeholder');
+        expect(dropdown.textContent).toContain('Search States');
+      });
+    });
+
+    describe('and placeholder attribute is provided', function(){
+      beforeEach(function(){
+        $scope.selectedState = undefined;
+        $scope.stateStrings = stateStrings;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedState" placeholder="invalidKey" items="stateStrings"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should translate and display key if key is invalid', function(){
+        var dropdown = document.querySelector('.dropdown-placeholder');
+        expect(dropdown.textContent).toContain('invalidKey');
+      });
+    });
+  });
+
+  describe('given a filtearble attribute', function(){
+    describe('and a filter-placeholder attribute is not provided', function(){
+      describe('when the dropdown is rendered', function(){
+        beforeEach(function(){
+          $scope.selectedStateObj = {name: 'Colorado'};
+          $scope.stateStringsObjs = stateObjects;
+          var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" filter-placeholder="" '+
+            'filterable items="stateStringsObjs"></akam-dropdown>';
+          addElement(dropdownTemplate);
+        });
+        it('should render default placeholder for the filterbox', function(){
+          var filterbox = document.querySelector('.fixed-header input');
+          expect(filterbox.placeholder).toContain('Filter');
+        });
+      });
+    });
+
+    describe('and a filter-placeholder attribute is provided', function(){
+      describe('when the dropdown is rendered', function(){
+        beforeEach(function(){
+          $scope.selectedStateObj = {name: 'Colorado'};
+          $scope.stateStringsObjs = stateObjects;
+          var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" filter-placeholder="examples.autocomplete.search.states" '+
+            'filterable items="stateStringsObjs"></akam-dropdown>';
+          addElement(dropdownTemplate);
+        });
+        it('should translate placeholder for the filterbox if key is valid', function(){
+          var filterbox = document.querySelector('.fixed-header input');
+          expect(filterbox.placeholder).toContain('Search States');
+        });
+      });
+    });
+
+    describe('and a filter-placeholder attribute is provided', function(){
+      describe('when the dropdown is rendered', function(){
+        beforeEach(function(){
+          $scope.selectedStateObj = {name: 'Colorado'};
+          $scope.stateStringsObjs = stateObjects;
+          var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" filter-placeholder="invalidKey" '+
+            'filterable items="stateStringsObjs"></akam-dropdown>';
+          addElement(dropdownTemplate);
+        });
+        it('should translate placeholder for the filterbox if key is invalid', function(){
+          var filterbox = document.querySelector('.fixed-header input');
+          expect(filterbox.placeholder).toContain('invalidKey');
+        });
       });
     });
   });

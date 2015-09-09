@@ -1,6 +1,6 @@
 'use strict';
 var utilities = require('../utilities');
-var FILTER_BOX = 'div.filter input[type="search"]';
+var FILTER_BOX = 'span.filter input[type="search"]';
 var FILTER_ICON = 'div.filter i.clear-filter';
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-data-table thead tr th';
@@ -123,7 +123,7 @@ describe('akam-table', function() {
 	    });
   		it('should display rows chunked by page size', function(){
 				var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-	      expect(numberOfRows).toEqual(3); //# columns + checkbox 
+	      expect(numberOfRows).toEqual(3); //# columns + checkbox
   		});
       it('should dislay headers for each akam-row-column', function(){
         var numberOfColumns = document.querySelector('tbody tr').querySelectorAll('td').length;
@@ -573,7 +573,7 @@ describe('akam-table', function() {
           addElement(markup);
         });
         it('should alert the user to the mistake', function(){
-          expect(log.debug).toHaveBeenCalled();   
+          expect(log.debug).toHaveBeenCalled();
         });
         it('should not sort by that column', function(){
           var rowOneColumnOne = document.querySelectorAll('.name')[1];
@@ -603,7 +603,7 @@ describe('akam-table', function() {
       });
       it('should display rows where input matches any column text', function(){
         var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-        expect(numberOfRows).toEqual(1); 
+        expect(numberOfRows).toEqual(1);
       });
     });
   });
@@ -627,7 +627,7 @@ describe('akam-table', function() {
         });
         it('should not display rows where input matches column text', function(){
           var numberOfRows = document.querySelector('tbody').querySelectorAll('tr').length;
-          expect(numberOfRows).toEqual(0); 
+          expect(numberOfRows).toEqual(0);
         });
       });
     });
@@ -748,7 +748,7 @@ describe('akam-table', function() {
           });
         });
       });
-    }); 
+    });
   });
   describe('given no custom markup for the toolbar', function(){
     describe('and a not-filterable attribute for the table', function(){
@@ -795,7 +795,7 @@ describe('akam-table', function() {
         var dropdownMenu = akamToolbar.querySelector('ul.dropdown-menu');
         var dropMenuOption = dropdownMenu.querySelector('li');
         utilities.click(dropMenuOption);
-        scope.$digest(); 
+        scope.$digest();
         expect(scope.pdfClicked).toHaveBeenCalled();
       });
       it('should render the custom markup within the toolbar container', function(){
@@ -1043,7 +1043,7 @@ describe('akam-table', function() {
             '</akam-table-row>'+
           '</akam-table>';
           addElement(markup);
-        }); 
+        });
         it('should display the no data message', function(){
           var emptyMessage = document.querySelector('.empty-table-message');
           expect(emptyMessage.textContent).toContain(scope.noDataMessage);
@@ -1067,7 +1067,7 @@ describe('akam-table', function() {
             addElement(markup);
             scope.noDataMessage = "new message";
             scope.$digest();
-          }); 
+          });
           it('should display the new no data message', function(){
             var emptyMessage = document.querySelector('.empty-table-message');
             expect(emptyMessage.textContent).toContain("new message");
@@ -1090,7 +1090,7 @@ describe('akam-table', function() {
           addElement(markup);
           var emptyMessage = document.querySelector('.empty-table-message');
           scope.$digest();
-        }); 
+        });
         it('should display default no data message message', function(){
           var emptyMessage = document.querySelector('.empty-table-message');
           expect(emptyMessage.textContent).toContain("There is no data based upon your criteria");
@@ -1117,7 +1117,7 @@ describe('akam-table', function() {
             tableController.state.filter = 'zzzzz';
             tableController.filterRows();
             scope.$digest();
-          }); 
+          });
           it('should display the no filter results message', function(){
             var emptyMessage = document.querySelector('.empty-table-message');
             expect(emptyMessage.textContent).toContain(scope.noFiterMessage);
@@ -1143,7 +1143,7 @@ describe('akam-table', function() {
             tableController.state.filter = 'zzzzz';
             tableController.filterRows();
             scope.$digest();
-          }); 
+          });
           it('should display the no filter results message', function(){
             var emptyMessage = document.querySelector('.empty-table-message');
             expect(emptyMessage.textContent).toContain('There are no results based upon your filter');
@@ -1152,4 +1152,157 @@ describe('akam-table', function() {
       });
     });
   });
+  describe('given a rendered table', function(){
+    describe('and a filter-placeholder attribute is not provided', function(){
+      it('should render default filter placeholder for the filterbox', function(){
+        var markup =  '<akam-table items="mydata" akam-standalone '+
+                        ' on-change="changeRows(items)">'+
+                          '<akam-table-toolbar class="toolbar-class util-pull-right">'+
+                            '<span>Icons</span>'+
+                            '<i class="luna-bar_chart"></i>'+
+                            '<akam-menu-button>'+
+                              '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
+                              '</akam-menu-button-item>'+
+                            '</akam-menu-button>'+
+                          '</akam-table-toolbar>'+
+                          '<akam-table-row>'+
+                            '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
+                            '</akam-table-column>'+
+                          '</akam-table-row>'+
+                        '</akam-table>'
+        addElement(markup);
+
+        var filterbox = document.querySelector(FILTER_BOX);
+        expect(filterbox.placeholder).toContain("Filter");
+      });
+    });
+    describe('and a filter-placeholder attribute is provided', function(){
+      it('should translate filter-placeholder for the filterbox if key is valid', function(){
+        var markup =  '<akam-table items="mydata" akam-standalone filter-placeholder="components.table.filterPlaceholder"'+
+                        ' on-change="changeRows(items)">'+
+                          '<akam-table-toolbar class="toolbar-class util-pull-right">'+
+                            '<span>Icons</span>'+
+                            '<i class="luna-bar_chart"></i>'+
+                            '<akam-menu-button>'+
+                              '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
+                              '</akam-menu-button-item>'+
+                            '</akam-menu-button>'+
+                          '</akam-table-toolbar>'+
+                          '<akam-table-row>'+
+                            '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
+                            '</akam-table-column>'+
+                          '</akam-table-row>'+
+                        '</akam-table>'
+        addElement(markup);
+
+        var filterbox = document.querySelector(FILTER_BOX);
+        timeout(function(){
+          expect(filterbox.placeholder).toContain("Filter");
+        },0);
+      });
+      it('should translate and display key if key is invalid', function(){
+        var markup =  '<akam-table items="mydata" akam-standalone filter-placeholder="invalidKey"'+
+                        ' on-change="changeRows(items)">'+
+                          '<akam-table-toolbar class="toolbar-class util-pull-right">'+
+                            '<span>Icons</span>'+
+                            '<i class="luna-bar_chart"></i>'+
+                            '<akam-menu-button>'+
+                              '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
+                              '</akam-menu-button-item>'+
+                            '</akam-menu-button>'+
+                          '</akam-table-toolbar>'+
+                          '<akam-table-row>'+
+                            '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
+                            '</akam-table-column>'+
+                          '</akam-table-row>'+
+                        '</akam-table>'
+        addElement(markup);
+
+        var filterbox = document.querySelector(FILTER_BOX);
+        expect(filterbox.placeholder).toContain("invalidKey");
+      });
+    });
+    describe('and a no-filter-results-message attribute is not provided', function(){
+      it('should render default filter placeholder for the filterbox', function(){
+        var markup =  '<akam-table items="mydata" akam-standalone '+
+                        ' on-change="changeRows(items)">'+
+                          '<akam-table-toolbar class="toolbar-class util-pull-right">'+
+                            '<span>Icons</span>'+
+                            '<i class="luna-bar_chart"></i>'+
+                            '<akam-menu-button>'+
+                              '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
+                              '</akam-menu-button-item>'+
+                            '</akam-menu-button>'+
+                          '</akam-table-toolbar>'+
+                          '<akam-table-row>'+
+                            '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
+                            '</akam-table-column>'+
+                          '</akam-table-row>'+
+                        '</akam-table>'
+        addElement(markup);
+        var tableController = self.el.isolateScope().table;
+        tableController.state.filter = 'zzzzz';
+        tableController.filterRows();
+        scope.$digest();
+        var emptyMessage = document.querySelector('.empty-table-message');
+        expect(emptyMessage.textContent).toContain("There are no results based upon your filter");
+      });
+    });
+    describe('and a no-filter-results-message attribute is provided', function(){
+      it('should translate no-filter-results-message key is valid', function(){
+        var markup =  '<akam-table items="mydata" akam-standalone no-filter-results-message="components.table.filterPlaceholder"'+
+                        ' on-change="changeRows(items)">'+
+                          '<akam-table-toolbar class="toolbar-class util-pull-right">'+
+                            '<span>Icons</span>'+
+                            '<i class="luna-bar_chart"></i>'+
+                            '<akam-menu-button>'+
+                              '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
+                              '</akam-menu-button-item>'+
+                            '</akam-menu-button>'+
+                          '</akam-table-toolbar>'+
+                          '<akam-table-row>'+
+                            '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
+                            '</akam-table-column>'+
+                          '</akam-table-row>'+
+                        '</akam-table>'
+        addElement(markup);
+        var tableController = self.el.isolateScope().table;
+        tableController.state.filter = 'zzzzz';
+        tableController.filterRows();
+        scope.$digest();
+        var emptyMessage = document.querySelector('.empty-table-message');
+        timeout(function(){
+          expect(emptyMessage.textContent).toContain("Filter");
+        },0);
+      });
+      it('should translate and display key if key is invalid', function(){
+        var markup =  '<akam-table items="mydata" akam-standalone no-filter-results-message="invalidKey"'+
+                        ' on-change="changeRows(items)">'+
+                          '<akam-table-toolbar class="toolbar-class util-pull-right">'+
+                            '<span>Icons</span>'+
+                            '<i class="luna-bar_chart"></i>'+
+                            '<akam-menu-button>'+
+                              '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
+                              '</akam-menu-button-item>'+
+                            '</akam-menu-button>'+
+                          '</akam-table-toolbar>'+
+                          '<akam-table-row>'+
+                            '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
+                            '</akam-table-column>'+
+                          '</akam-table-row>'+
+                        '</akam-table>'
+        addElement(markup);
+        var tableController = self.el.isolateScope().table;
+        tableController.state.filter = 'zzzzz';
+        tableController.filterRows();
+        scope.$digest();
+        var emptyMessage = document.querySelector('.empty-table-message');
+        expect(emptyMessage.textContent).toContain("invalidKey");
+      });
+    });
+  });
  });
+
+
+
+

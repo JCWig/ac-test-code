@@ -1,156 +1,209 @@
-var angular = require('angular');
+import angular from 'angular';
+import template from './templates/modal-window.tpl.html';
 
-module.exports = function($modal, $templateCache, $rootScope, $q, translate, statusMessage) {
+class ModalWindowController {
 
-  return {
-    /**
-     * @ngdoc method
-     *
-     * @name modalWindow#open
-     *
-     * @description Opens a new modal window.
-     *
-     * @param {object} options A hash with the options specified below.
-     *
-     * @param {string} [options.cancelLabel=Cancel] A label for
-     * the cancel button.
-     *
-     * @param {Function|string} options.controller A controller
-     * for the modal instance that can initialize scope.
-     *
-     * @param {boolean} [options.hideSubmit=false] A flag to hide
-     * the submit button and only allow the modal to be dismissed.
-     *
-     * @param {string} options.icon A CSS class representing an
-     * icon to display to the left of the modal window title.
-     *
-     * @param {Scope} [options.scope=$rootScope] A scope
-     * instance to use for the modal body content.
-     *
-     * @param {string} [options.submitLabel=Save] A label for the
-     * submit button.
-     *
-     * @param {string} options.template An inline template to
-     * render within the body of the modal window.
-     *
-     * @param {string} options.templateUrl A URL referencing a
-     * template to render within the body of the modal window.
-     *
-     * @param {string} [options.title=Modal Window Title] A
-     * title for the modal window.
-     *
-     * @return {object} An instance of the modal with the following
-     * properties:
-     *
-     * - `close` (Function) A method to close the modal window
-     *   that accepts a result as an argument.
-     *
-     * - `dismiss` (Function) A method to dismiss the modal
-     *   window, rejecting the `result` promise.
-     *
-     * - `result` (Promise) A promise representing the result
-     *   when the modal window is closed.
-     *
-     */
-    open: function(options) {
-      var scope = (options.scope || $rootScope).$new(),
-        onSubmit = angular.noop,
-        disabled = false,
-      //variable used to determine if the submit is clicked, but promise has not resolved
-        processing = false,
-        instance;
+  static get $inject() {
+    return ['$scope', '$modal', '$templateCache', '$rootScope', 'translate', '$controller',
+      'statusMessage', '$q'];
+  }
 
-      scope.showSubmitError = false;
+  constructor($scope, $modal, $templateCache, $rootScope, translate, $controller,
+              statusMessage, $q) {
+    this.$modal = $modal;
+    this.$templateCache = $templateCache;
+    this.$rootScope = $rootScope;
+    this.translate = translate;
+    this.$controller = $controller;
+    this.$scope = $scope;
+    this.statusMessage = statusMessage;
+    this.$modal = $modal;
+    this.$q = $q;
 
-      // check that a template was provided
-      if (!(angular.isDefined(options.template) ||
-        angular.isDefined(options.templateUrl))) {
-        throw new Error('Modal Window template or templateUrl option required');
-      }
+    this.disabled = false;
+    this.processing = false;
+    this.showSubmitError = false;
+    this.onSubmit = angular.noop;
 
-      // setup options specific for the modal window
-      scope.modalWindow = {
-        title: options.title || translate.sync('components.modal-window.title'),
-        icon: options.icon,
-        cancelLabel: options.cancelLabel ||
-        translate.sync('components.modal-window.label.cancel'),
-        submitLabel: options.submitLabel ||
-        translate.sync('components.modal-window.label.save'),
-        template: options.template,
-        templateUrl: options.templateUrl,
-        errorMessage: options.errorMessage ||
-        translate.sync('components.modal-window.errorMessage'),
-        successMessage: options.successMessage ||
-        translate.sync('components.modal-window.successMessage')
-      };
+    this.options = $scope.options;
 
-      scope.isSubmitHidden = function() {
-        return angular.isDefined(options.hideSubmit) ?
-          options.hideSubmit : false;
-      };
+    this.initializeContent();
 
-      // provide methods to control submit button disabled state
-      scope.disableSubmit = function() {
-        disabled = true;
-      };
-      scope.enableSubmit = function() {
-        disabled = false;
-      };
-      scope.isSubmitDisabled = function() {
-        return disabled || processing;
-      };
-      scope.isProcessing = function() {
-        return processing;
-      };
+    this.setProperty('title', 'components.modal-window.title');
+    this.setProperty('cancelLabel', 'components.modal-window.label.cancel');
+    this.setProperty('submitLabel', 'components.modal-window.label.save');
+    this.setProperty('errorMessage', 'components.modal-window.errorMessage');
+    this.setProperty('successMessage', 'components.modal-window.successMessage');
+    this.setProperty('icon');
+    this.setProperty('template');
+    this.setProperty('templateUrl');
+    this.setProperty('hideSubmit');
+    this.setProperty('doNotShowMessage');
+    this.setProperty('instance');
+    this.setProperty('showFullscreenToggle');
 
-      // create a new bootstrap ui modal instance with akamai options
-      instance = $modal.open(angular.extend(options, {
-        scope: scope,
-        template: require('./templates/modal-window.tpl.html')
-      }));
+    this.instance.result.finally(() => this.contentScope.$destroy());
 
-      scope.close = function() {
-        instance.dismiss();
-      };
+    this.templateModel = {
+      template: this.options.contentTemplate,
+      templateUrl: this.options.contentTemplateUrl
+    };
+  }
 
-      // setup promise that will resolve when submit button is clicked
-      scope.setOnSubmit = function(fn) {
-        onSubmit = fn;
-      };
+  initializeContent() {
+    let contentController;
 
-      scope.submit = function() {
-        var result;
+    this.contentScope = this.options.contentScope ?
+      this.options.contentScope.$new() : this.$rootScope.$new();
 
-        scope.showSubmitError = false;
+    this.contentScope.setOnSubmit = fn => this.onSubmit = fn;
+    this.contentScope.disableSubmit = () => this.disabled = true;
+    this.contentScope.enableSubmit = () => this.disabled = false;
 
-        if (angular.isFunction(onSubmit)) {
-          result = onSubmit();
-        } else {
-          result = onSubmit;
-        }
+    this.contentScope.isSubmitDisabled = angular.bind(this, this.isSubmitDisabled);
 
-        // check to see if the onSubmit returns a promise
-        if (result && angular.isFunction(result.then)) {
-          processing = true;
-        }
-
-        $q.when(result).then(
-          function(returnValue) {
-            instance.close(returnValue);
-            if (!options.doNotShowMessage) {
-              statusMessage.showSuccess({text: scope.modalWindow.successMessage});
-            }
-          }
-        ).catch(
-          function() {
-            processing = false;
-            scope.showSubmitError = true;
-          }
-        );
-      };
-      return instance;
+    if (this.options.contentController) {
+      contentController = this.$controller(
+        this.options.contentController, {$scope: this.contentScope}
+      );
     }
-  };
-};
-module.exports.$inject = ['$modal', '$templateCache', '$rootScope', '$q', 'translate',
-  'statusMessage'];
+
+    if (this.options.contentControllerAs && contentController) {
+      this.contentScope[this.options.contentControllerAs] = contentController;
+    }
+  }
+
+  isSubmitDisabled() {
+    return this.disabled || this.processing;
+  }
+
+  setProperty(key, defaultKey) {
+    if (defaultKey) {
+      // this[key] = this.options[key] ?
+      //   this.translate.sync(this.options[key]) : this.translate.sync(defaultKey);
+      this[key] = this.translate.sync(this.options[key], null, defaultKey);
+    } else {
+      this[key] = this.options[key];
+    }
+  }
+
+  submit() {
+    let result;
+
+    this.showSubmitError = false;
+
+    if (angular.isFunction(this.onSubmit)) {
+      result = this.onSubmit();
+    } else {
+      result = this.onSubmit;
+    }
+
+    // check to see if the onSubmit returns a promise
+    if (result && angular.isFunction(result.then)) {
+      this.processing = true;
+    }
+
+    this.$q.when(result).then((returnValue) => {
+      this.instance.close(returnValue);
+      if (!this.doNotShowMessage) {
+        this.statusMessage.showSuccess({text: this.successMessage});
+      }
+    }).catch(() => {
+      this.processing = false;
+      this.showSubmitError = true;
+    });
+
+  }
+
+}
+
+export default class ModalWindowService {
+
+  static get $inject() {
+    return ['$modal', '$rootScope'];
+  }
+
+  constructor($modal, $rootScope) {
+    this.$modal = $modal;
+    this.$rootScope = $rootScope;
+  }
+
+  /**
+   * @ngdoc method
+   *
+   * @name modalWindow#open
+   *
+   * @description Opens a new modal window.
+   *
+   * @param {object} options A hash with the options specified below.
+   *
+   * @param {string} [options.cancelLabel=Cancel] A label for the cancel button.
+   *
+   * @param {Function|string} options.controller A controller for the modal instance that can
+   * initialize scope.
+   *
+   * @param {boolean} [options.hideSubmit=false] A flag to hide the submit button and only allow
+   * the modal to be dismissed.
+   *
+   * @param {string} options.icon A CSS class representing an icon to display to the left of the
+   * modal window title.
+   *
+   * @param {Scope} [options.scope=$rootScope] A scope instance to use for the modal body content.
+   *
+   * @param {string} [options.submitLabel=Save] A label for the submit button.
+   *
+   * @param {string} options.template An inline template to render within the body of the
+   * modal window.
+   *
+   * @param {string} options.templateUrl A URL referencing a template to render within the body of
+   * the modal window.
+   *
+   * @param {string} [options.title=Modal Window Title] A title for the modal window.
+   *
+   * @param {boolean} [options.showFullscreenToggle] Allows for the modal to be maximized and
+   * restored via user toggling the full screen/restore icon
+   *
+   * @return {object} An instance of the modal with the following properties:
+   *
+   * - `close` (Function) A method to close the modal window
+   *   that accepts a result as an argument.
+   *
+   * - `dismiss` (Function) A method to dismiss the modal
+   *   window, rejecting the `result` promise.
+   *
+   * - `result` (Promise) A promise representing the result
+   *   when the modal window is closed.
+   *
+   */
+  open(options) {
+
+    if (!angular.isObject(options)) {
+      throw new Error('An options object was not passed to modelWindow.open');
+    }
+
+    if (!(angular.isString(options.template) || angular.isString(options.templateUrl))) {
+      throw new Error('Modal Window template or templateUrl option required');
+    }
+
+    let scope = this.$rootScope.$new();
+
+    scope.options = options;
+
+    options.contentController = options.controller;
+    options.contentScope = options.scope;
+    options.contentControllerAs = options.controllerAs;
+    options.contentTemplate = options.template;
+    options.contentTemplateUrl = options.templateUrl;
+
+    // create a new bootstrap ui modal instance with akamai options
+    options.instance = this.$modal.open(angular.extend(options, {
+      scope: scope,
+      template: template,
+      controller: ModalWindowController,
+      controllerAs: 'modalWindow'
+    }));
+
+    return options.instance;
+  }
+
+}

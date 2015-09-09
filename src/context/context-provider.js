@@ -1,9 +1,9 @@
-var querystring = require('querystring'),
-  angular = require('angular');
+import angular from 'angular';
+import querystring from 'querystring';
 
-// static list of contexts that can  be applied to an application. It may be group or account
-// aware.
-var APP_CONTEXTS = {
+// Static list of contexts that can  be applied to an application.
+// It may be group or account aware.
+const APP_CONTEXTS = {
     account: 'account',
     group: 'group',
     other: 'other'
@@ -15,13 +15,11 @@ var APP_CONTEXTS = {
   CHANGE_GROUP_URL = '/core/services/session/username/extend',
   ACCOUNT_CHANGE_URL = '/ui/home/manage?idaction=set_customer&newProvisioningAcct=';
 
-module.exports = function ContextProvider() {
+function ContextProvider() {
+  let applicationType = APP_CONTEXTS.account;
+  let initialAccount, allGroups, allProperties, rawContext;
 
-  var applicationType = APP_CONTEXTS.account, initialAccount, allGroups, allProperties, rawContext;
-
-  this.setApplicationContext = function(value) {
-    applicationType = value;
-  };
+  this.setApplicationContext = (value) => applicationType = value;
 
   this.GROUP_CONTEXT = APP_CONTEXTS.group;
   this.ACCOUNT_CONTEXT = APP_CONTEXTS.account;
@@ -31,14 +29,15 @@ module.exports = function ContextProvider() {
 
   function Context($injector, $q, $window, $cookies,
                    LUNA_GROUP_QUERY_PARAM, LUNA_ASSET_QUERY_PARAM) {
-    var $http;
 
-    var currentAccount = {
+    let $http;
+
+    let currentAccount = {
       id: null,
       name: null,
       cookieValue: null
     };
-    var currentGroup = $q.when({
+    let currentGroup = $q.when({
       id: null,
       name: null,
       properties: [],
@@ -46,13 +45,13 @@ module.exports = function ContextProvider() {
       parents: [],
       children: []
     });
-    var initialProperty = $q.when({
+    let initialProperty = $q.when({
       id: null,
       name: null,
       group: {}
     }), currentProperty = initialProperty;
 
-    var descriptor = {
+    let descriptor = {
       isGroupContext: angular.bind(this, isContext, APP_CONTEXTS.group),
       isAccountContext: angular.bind(this, isContext, APP_CONTEXTS.account),
       isOtherContext: angular.bind(this, isContext, APP_CONTEXTS.other),
@@ -63,8 +62,7 @@ module.exports = function ContextProvider() {
 
     // for now we can only set the current account, but not do much else
     Object.defineProperty(descriptor, 'account', {
-
-      get: function() {
+      get: () => {
         return currentAccount;
       },
       set: setAccount,
@@ -73,7 +71,7 @@ module.exports = function ContextProvider() {
 
     // current group
     Object.defineProperty(descriptor, 'group', {
-      get: function() {
+      get: () => {
         return currentGroup;
       },
       set: setGroup,
@@ -82,7 +80,7 @@ module.exports = function ContextProvider() {
 
     // current property
     Object.defineProperty(descriptor, 'property', {
-      get: function() {
+      get: () => {
         return currentProperty;
       },
       set: setProperty,
@@ -99,18 +97,17 @@ module.exports = function ContextProvider() {
 
     function resetAccount() {
       $http = $http || $injector.get('$http');
-      $cookies.put(ACCOUNT_COOKIE, initialAccount.cookieValue, {
-        path: '/'
-      });
+
+      $cookies.put(ACCOUNT_COOKIE, initialAccount.cookieValue, { path: '/' });
       currentAccount = initialAccount;
       return $http.get(ACCOUNT_CHANGE_URL + initialAccount.name)
         .catch(angular.noop);
     }
 
-    //Parses the AKALASTMANAGEDACCOUNT cookie and returns the account object.
+    // Parses the AKALASTMANAGEDACCOUNT cookie and returns the account object.
     // The name includes the current contract
     function getAccountFromCookie() {
-      var cookie = $cookies.get(ACCOUNT_COOKIE),
+      let cookie = $cookies.get(ACCOUNT_COOKIE),
         base64EncodedCookie, id = null, name = '';
 
       if (cookie) {
@@ -138,7 +135,7 @@ module.exports = function ContextProvider() {
 
       return $http.get(GROUPS_URL, {cache: true})
         .then(function(data) {
-          var parsed;
+          let parsed;
 
           if (!rawContext) {
             rawContext = data.data;
@@ -169,7 +166,7 @@ module.exports = function ContextProvider() {
 
     // gets the contents of context.json
     function getAccountContext() {
-      var contextCopy;
+      let contextCopy;
 
       if (rawContext) {
         contextCopy = angular.copy(rawContext);
@@ -186,18 +183,14 @@ module.exports = function ContextProvider() {
      * @param {Number} groupId the new group ID
      */
     function setGroup(groupId) {
-      var oldGroup = currentGroup;
+      let oldGroup = currentGroup;
 
       currentGroup = getAccountContext()
-        .then(function() {
-          return findGroupById(groupId);
-        })
-        .catch(function() {
-          return oldGroup;
-        });
+        .then( () => findGroupById(groupId) )
+        .catch( () => oldGroup );
 
       // potentially reset property
-      currentProperty.then(function(property) {
+      currentProperty.then((property) => {
         if (property.group.id !== groupId) {
           currentProperty = initialProperty;
         }
@@ -211,7 +204,7 @@ module.exports = function ContextProvider() {
      * @param {Number|null} propertyId the id for the property
      */
     function setProperty(propertyId) {
-      var oldProperty = currentProperty;
+      let oldProperty = currentProperty;
 
       if (!propertyId) {
         currentProperty = initialProperty;
@@ -219,10 +212,10 @@ module.exports = function ContextProvider() {
       }
 
       currentProperty = getAccountContext()
-        .then(function() {
+        .then(() => {
           return findPropertyById(propertyId);
         })
-        .catch(function() {
+        .catch(() => {
           return oldProperty;
         });
 
@@ -230,12 +223,12 @@ module.exports = function ContextProvider() {
       // unchanged
       currentGroup = $q.all([currentGroup, currentProperty])
         .then(function(items) {
-          var group = items[0], property = items[1], match;
+          let group = items[0], property = items[1], match;
 
           // determine if the current property is contained within the current group
-          match = property.group.parents.filter(function(p) {
+          match = property.group.id === group.id || property.group.parents.filter((p) => {
             return p.id === group.id;
-          }).length || property.group.id === group.id;
+          }).length;
 
           // change group to be the direct parent of the current property
           if (!match) {
@@ -245,7 +238,7 @@ module.exports = function ContextProvider() {
           // leave group unchanged
           return group;
         })
-        .then(function(group) {
+        .then((group) => {
           changeGroupOrPropertyForLuna(group.id, propertyId);
           return group;
         });
@@ -254,12 +247,12 @@ module.exports = function ContextProvider() {
 
     // backwards compatibility method to set group and property cookies for luna applications
     function changeGroupOrPropertyForLuna(gid, aid) {
-      var url = CHANGE_GROUP_URL + '?' + LUNA_GROUP_QUERY_PARAM + '=' + gid;
+      let url = `${CHANGE_GROUP_URL}?${LUNA_GROUP_QUERY_PARAM}=${gid}`;
 
       $http = $http || $injector.get('$http');
 
       if (aid) {
-        url += '&' + LUNA_ASSET_QUERY_PARAM + '=' + aid;
+        url += `&${LUNA_ASSET_QUERY_PARAM}=${aid}`;
       }
 
       return $http.get(url);
@@ -275,23 +268,19 @@ module.exports = function ContextProvider() {
     }
 
     function findGenericById(list, id) {
-      return list.filter(function(item) {
-        return item.id === id;
-      })[0];
+      return list.filter( item => item.id === id )[0];
     }
 
     // simple factory method to make a group from the context.json schema
     function makeGroup(parentGroup, data) {
-      var id = data.itemId;
-
       return {
-        id: id,
+        id: data.itemId,
         name: data.name,
         parent: parentGroup,
 
         // calculate an array of all parents
         get parents() {
-          var p = parentGroup, parentArray = [];
+          let p = parentGroup, parentArray = [];
 
           while (p) {
             parentArray.unshift(p);
@@ -307,7 +296,7 @@ module.exports = function ContextProvider() {
 
     // factory method to make a property from the context.json schema
     function makeProperty(parentGroup, data) {
-      var qs = querystring.parse(data.url.split('?')[1]),
+      let qs = querystring.parse(data.url.split('?')[1]),
         id = parseInt(qs[LUNA_ASSET_QUERY_PARAM], 10) || undefined;
 
       return {
@@ -319,7 +308,7 @@ module.exports = function ContextProvider() {
 
     // helper methods
     function isGroup(item) {
-      return item.itemId !== 0;
+      return !isProperty(item);
     }
 
     function isProperty(item) {
@@ -329,16 +318,14 @@ module.exports = function ContextProvider() {
     // converts the absolute mess that is the context.json call into a flat list with parent
     // and child pointers so we can search it much more easily
     function parseGroupsAndProperties(items, parent) {
-      var i, item, group, childItems;
+      let group, childItems;
 
-      var totalItems = {
+      let totalItems = {
         groups: [],
         properties: []
       };
 
-      for (i = 0; i < items.length; i++) {
-        item = items[i];
-
+      items.forEach((item) => {
         if (isProperty(item)) {
           totalItems.properties.push(makeProperty(parent, item));
         } else {
@@ -346,11 +333,11 @@ module.exports = function ContextProvider() {
 
           group.children = (item.subMenuItems || [])
             .filter(isGroup)
-            .map(angular.bind(this, makeGroup, group));
+            .map( (subMenuItem) => makeGroup(group, subMenuItem) );
 
           group.properties = (item.subMenuItems || [])
             .filter(isProperty)
-            .map(angular.bind(this, makeProperty, group));
+            .map( (subMenuItem) => makeProperty(group, subMenuItem));
 
           totalItems.groups.push(group);
         }
@@ -360,12 +347,13 @@ module.exports = function ContextProvider() {
           totalItems.groups = totalItems.groups.concat(childItems.groups);
           totalItems.properties = totalItems.properties.concat(childItems.properties);
         }
-      }
+      });
       return totalItems;
     }
-
   }
 
   Context.$inject = ['$injector', '$q', '$window', '$cookies', 'LUNA_GROUP_QUERY_PARAM',
     'LUNA_ASSET_QUERY_PARAM'];
-};
+}
+
+export default ContextProvider;

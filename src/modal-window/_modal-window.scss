@@ -1,4 +1,3 @@
-
 .modal {
   position: fixed;
   top: 0;
@@ -33,13 +32,13 @@
   position: static;
   margin: 0;
 
-  &.modal-lg .modal-content {
+  &.modal-lg .modal-content .modal-container {
     @include for("IE10+") {
       height: $dialog-max-height;
     }
   }
 
-  &.modal-sm .modal-content {
+  &.modal-sm .modal-content .modal-container {
     @include for("IE10+") {
       height: 50%;
     }
@@ -47,6 +46,20 @@
 }
 
 .modal-content {
+  position: inherit;
+  background-color: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: 0;
+
+  // increase specificity for IE 10 - see FEE-1272
+  & > div.modal-container.max {
+    height: 100%;
+  }
+}
+
+.modal-container {
   background-color: $dialog-background-color;
   border: 0 solid $dialog-border-color;
   border-radius: $dialog-border-radius;
@@ -60,6 +73,14 @@
   height: $dialog-height;
   min-height: $dialog-min-height;
   max-height: $dialog-max-height;
+
+  &.max {
+    width: 100%;
+    max-width: none;
+
+    height: 100%;
+    max-height: none;
+  }
 
   position: absolute;
   top: 50%;
@@ -139,6 +160,11 @@
       right: $dialog-right-padding;
     }
 
+    .max-min-icon {
+      cursor: pointer;
+      right: $dialog-right-padding * 2 + 20px;
+    }
+
     &.error + .modal-body {
       margin-top: $dialog-header-error-height;
       @include for("IE10+") {
@@ -154,6 +180,7 @@
     color: $dialog-text-color;
     line-height: 140%;
     position: relative;
+    @include flex-grow(1);
 
     .backwash {
       position: absolute;
@@ -161,7 +188,19 @@
       left: 0;
       right: 0;
       bottom: 0;
+      height: 1000%;
+      width: 1000%;
+      margin: auto;
       background: rgba(255,255,255,.85);
+      display: none;
+    }
+
+    &.processing {
+      overflow: hidden;
+
+      .backwash {
+        display: block;
+      }
     }
   }
 
@@ -171,9 +210,9 @@
     border-top: 1px solid $dialog-separator-color_luna;
     border-radius: 0 0 $dialog-border-radius $dialog-border-radius;
     background: $dialog-background-color;
+    margin-top: 1px; //fixes issue in Chrome where body content hovers over the border
 
     .button + .button,
-    .button + .button-switch > .button,
     .btn + .btn,
     .button + .btn,
     .btn + .button {
@@ -200,7 +239,7 @@
   }
 }
 
-.modal-content {
+.modal-content .modal-container {
   @include for("IE10+") {
     height: 60%;
   }
@@ -227,6 +266,10 @@
         &:hover {
           background-image: inline-svg-image("svg/small_close_hover_new.svg");
         }
+      }
+
+      i.disabled {
+        opacity: 0.5;
       }
     }
 

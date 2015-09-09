@@ -1,7 +1,6 @@
 import angular from 'angular';
-import indeterminateProgress from './indeterminate-progress';
-
-const MODULE_NAME = 'akamai.components.indeterminate-progress';
+import indeterminateProgressDirective from './indeterminate-progress-directive';
+import i18n from '../i18n';
 
 /**
  * @ngdoc module
@@ -36,7 +35,9 @@ const MODULE_NAME = 'akamai.components.indeterminate-progress';
  *
  * app.controller("Ctrl", controllerFunction);
  */
-export default angular.module(MODULE_NAME, [])
+export default angular.module('akamai.components.indeterminate-progress', [
+	i18n.name
+])
 
 /**
  * @ngdoc directive
@@ -48,7 +49,8 @@ export default angular.module(MODULE_NAME, [])
  * @restrict AE
  *
  * @param {String} label The label to display beneath the
- * spinner.  If omitted, the label does not display.
+ * spinner.  If omitted, the label does not display. Will apply i18n translation
+ * on label.
  *
  * @param {Boolean} [failed=false] Indicates if the indeterminate
  * progress encountered a `failed` state.
@@ -57,4 +59,4 @@ export default angular.module(MODULE_NAME, [])
  * indeterminate progress encountered a `completed` state.
  *
  */
-  .directive('akamIndeterminateProgress', indeterminateProgress);
+  .directive('akamIndeterminateProgress', indeterminateProgressDirective);

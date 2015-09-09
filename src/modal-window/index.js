@@ -1,4 +1,11 @@
-var angular = require('angular');
+import angular from 'angular';
+import angularUI from 'angular-bootstrap-npm';
+import statusMessage from '../status-message';
+import i18n from '../i18n';
+import spinnerButton from '../spinner-button';
+
+import modalWindowService from './modal-window-service';
+import modalWindowBodyDirective from './modal-window-body-directive';
 
 /**
  * @ngdoc module
@@ -15,7 +22,7 @@ var angular = require('angular');
  *
  * @guideline Use modal windows for required input or a specific task that benefits from
  * being viewed or worked with in isolation.
- * @guideline Use wizard comonent for multi step tasks in workflow.
+ * @guideline Use wizard component for multi step tasks in workflow.
  *
  * @example index.js
  * function MyController(modalWindow) {
@@ -32,9 +39,10 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.modal-window', [
-  require('angular-bootstrap-npm'),
-  require('../status-message').name,
-  require('../i18n').name
+  angularUI,
+  statusMessage.name,
+  i18n.name,
+  spinnerButton.name
 ])
 
 /**
@@ -43,10 +51,10 @@ module.exports = angular.module('akamai.components.modal-window', [
  * @description Provides a method to open new modal window instances.
  *
  */
-  .factory('modalWindow', require('./modal-window-service'))
+  .service('modalWindow', modalWindowService)
 
 /**
  * @name akamModalWindowBody
  * @description Provides directive to display content body section in html.
  */
-  .directive('akamModalWindowBody', require('./modal-window-body-directive'));
+  .directive('akamModalWindowBody', modalWindowBodyDirective);

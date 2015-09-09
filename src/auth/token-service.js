@@ -1,9 +1,9 @@
-var angular = require('angular');
+import angular from 'angular';
 
-module.exports = function(httpBuffer, $injector, $window, $location, authConfig, $log) {
-  var pendingRequest = false;
-  var $http;
-  var service = {
+function tokenService(httpBuffer, $injector, $window, $location, authConfig, $log) {
+  let pendingRequest = false;
+  let $http;
+  let service = {
     /**
      * @name create
      * @description attempt to create a new token if no token request is pending.
@@ -20,7 +20,7 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
 
       $http({
         url: authConfig.tokenUrl,
-        data: 'client_id=' + authConfig.clientId + '&grant_type=password_assertion',
+        data: `client_id=${authConfig.clientId}&grant_type=password_assertion`,
         method: 'POST',
         headers: {
           'Akamai-Accept': 'akamai/cookie',
@@ -48,7 +48,7 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
       return pendingRequest;
     },
     logout: function() {
-      var currentUrl = $location.absUrl(),
+      const currentUrl = $location.absUrl(),
 
         currentHost = $location.host(),
         hostPosition = currentUrl.indexOf(currentHost),
@@ -58,7 +58,7 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
       $window.location.replace(authConfig.lunaLogoutUrl + encodedUrl);
     },
     isLogoutCondition: function(response) {
-      var responseErrorCode;
+      let responseErrorCode;
 
       if (response.status !== 401 && response.status !== 502) {
         return false;
@@ -68,7 +68,7 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
         return true;
       }
 
-      if (response.data == null || !angular.isObject(response.data)) {
+      if (!angular.isObject(response.data)) {
         // TODO: Explicitly recognize (back to server), that error code structure is missing
         $log.warn(response.status, 'response returned without proper error code structure:',
           response.data, response.config.url);
@@ -97,6 +97,8 @@ module.exports = function(httpBuffer, $injector, $window, $location, authConfig,
   };
 
   return service;
-};
+}
 
-module.exports.$inject = ['httpBuffer', '$injector', '$window', '$location', 'authConfig', '$log'];
+tokenService.$inject = ['httpBuffer', '$injector', '$window', '$location', 'authConfig', '$log'];
+
+export default tokenService;

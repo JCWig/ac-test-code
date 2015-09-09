@@ -1,16 +1,73 @@
-var angular = require('angular');
-var debounce = require('lodash/function/debounce');
+import angular from 'angular';
+import debounce from 'lodash/function/debounce';
+import template from './templates/dropdown-directive.tpl.html';
 
-require('angular-sanitize');
+class DropdownController {
+  constructor($scope, $parse, translate) {
+    this.textPropertyFn = $parse(this.textProperty);
+    this.isOpen = false;
+    this.itemSet = [];
+    this.translate = translate;
 
-module.exports = function($compile, dropdownTransformer, translate, $document, $timeout, $parse) {
+    $scope.$watchCollection('dropdown.items', (items) => {
+      this.createItemMap(items);
+    });
+  }
+
+  getSelectedItemText() {
+    if (this.keyProperty && this.selectedItem) {
+      return this.textPropertyFn(this.itemSet[this.selectedItem]);
+    } else if (this.textProperty) {
+      return this.textPropertyFn(this.selectedItem);
+    } else if (angular.isString(this.selectedItem)) {
+      return this.selectedItem;
+    }
+  }
+
+  setOpen(isOpen) {
+    this.isOpen = isOpen;
+  }
+
+  createItemMap(items) {
+    this.itemSet = [];
+    if (!this.keyPropertyFn) {
+      return [];
+    }
+
+    angular.forEach(items, (item) => {
+      let keyId = this.keyPropertyFn(item);
+
+      if (!this.itemSet[keyId]) {
+        this.itemSet[keyId] = item;
+      } else {
+        throw new Error('Keys must be unique when using the key-property attribute');
+      }
+    });
+  }
+
+  setPlaceholder(placeholderProp, customMarkupScope, key) {
+      let setCustomMarkupPlaceholder = () => {
+        if (angular.isDefined(customMarkupScope)) {
+          customMarkupScope[placeholderProp] = this[placeholderProp];
+        }
+      };
+
+      this.translate.async(this[placeholderProp], null, key)
+        .then(value => {
+          this[placeholderProp] = value;
+          setCustomMarkupPlaceholder();
+        });
+    }
+}
+DropdownController.$inject = ['$scope', '$parse', 'translate'];
+
+function dropdown($compile, dropdownTransformer, $document, $timeout, $parse) {
 
   function updateTemplate(tElem, dropdownTemplate, tagName) {
-    var customTemplate, dropdownTemplateElem = angular.element(dropdownTemplate);
+    let dropdownTemplateElem = angular.element(dropdownTemplate);
 
     if (tElem.find(tagName).length) {
-      customTemplate = tElem.find(tagName);
-      dropdownTemplateElem.find(tagName + '-placeholder').html(customTemplate.html());
+      dropdownTemplateElem.find(tagName + '-placeholder').html(tElem.find(tagName).html());
     }
     return dropdownTemplateElem[0].outerHTML;
   }
@@ -19,36 +76,11 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
     return tElem.find(tagName).remove().html() || undefined;
   }
 
-  function setPlaceholder(placeholderProp, scope, customMarkupScope, value) {
-    scope[placeholderProp] = value;
-    if (typeof customMarkupScope !== 'undefined') {
-      customMarkupScope[placeholderProp] = scope[placeholderProp];
-    }
-  }
-
-  function createItemMap(items, scope) {
-    var keyId, itemSet = [];
-
-    if (!scope.keyPropertyFn) {
-      return [];
-    }
-
-    angular.forEach(items, function(item) {
-      keyId = scope.keyPropertyFn(item);
-
-      if (!itemSet[keyId]) {
-        itemSet[keyId] = item;
-      } else {
-        throw new Error('Keys must be unique when using the key-property attribute');
-      }
-    });
-    return itemSet;
-  }
-
   return {
     restrict: 'E',
     require: '^ngModel',
-    scope: {
+    scope: {},
+    bindToController: {
       items: '=',
       textProperty: '@?',
       keyProperty: '=?',
@@ -57,77 +89,87 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       filterPlaceholder: '@?',
       isDisabled: '=?'
     },
+    controller: DropdownController,
+    controllerAs: 'dropdown',
 
     template: function(tElem) {
-      var dropdownTemplate = require('./templates/dropdown-directive.tpl.html');
+      let dropdownTemplate = updateTemplate(tElem, template, 'akam-dropdown-selected');
 
-      dropdownTemplate = updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-selected');
-      dropdownTemplate = updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-option');
-
-      return dropdownTemplate;
+      return updateTemplate(tElem, dropdownTemplate, 'akam-dropdown-option');
     },
 
     link: function(scope, elem, attrs, ngModel) {
-      var selectedScope, selectedContentTemplate, selectedElem,
-        menuScope, menuTemplate, menuElem, selectedTemplate, optionTemplate, windowElement,
-        inputClick, itemSet = [];
+      let selectedContentTemplate, selectedElem,
+        menuTemplate, menuElem, windowElement,
+        inputClick, selectedScope, menuScope;
 
-      var appendToBody = typeof attrs.appendToBody !== 'undefined';
+      let ctrl = scope.dropdown;
 
-      selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
-      optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option-placeholder');
+      ngModel.$render = function() {
+        ctrl.selectedItem = ngModel.$viewValue;
+      };
 
-      if (typeof selectedTemplate !== 'undefined') {
+      let selectedTemplate = getCustomMarkup(elem, 'akam-dropdown-selected-placeholder');
+      let optionTemplate = getCustomMarkup(elem, 'akam-dropdown-option-placeholder');
+
+      if (angular.isDefined(selectedTemplate)) {
         selectedScope = scope.$parent.$new();
+        selectedScope.dropdown = ctrl;
       }
 
-      if (typeof optionTemplate !== 'undefined') {
+      if (angular.isDefined(optionTemplate)) {
         menuScope = scope.$parent.$new();
+        menuScope.dropdown = ctrl;
       }
 
-      scope.textPropertyFn = $parse(scope.textProperty);
-
-      scope.hasFilter = angular.isDefined(attrs.filterable);
-      scope.isClearable = angular.isDefined(attrs.clearable);
+      ctrl.hasFilter = angular.isDefined(attrs.filterable);
 
       if (angular.isDefined(attrs.keyProperty)) {
-        scope.keyProperty = attrs.keyProperty;
-        scope.keyPropertyFn = $parse(scope.keyProperty || 'id');
+        ctrl.keyProperty = attrs.keyProperty;
+        ctrl.keyPropertyFn = $parse(ctrl.keyProperty || 'id');
 
-        itemSet = createItemMap(scope.items, scope);
+        ctrl.createItemMap(ctrl.items);
       }
 
-      scope.filterProperty = attrs.filterable;
+      ctrl.filterProperty = attrs.filterable;
+      ctrl.isClearable = angular.isDefined(attrs.clearable);
 
-      scope.isOpen = false;
+      ctrl.setSelectedItem = function(item) {
 
-      scope.setSelectedItem = function(item) {
+        item = ctrl.keyProperty ? ctrl.keyPropertyFn(item) : item;
 
-        if (scope.keyProperty) {
-          ngModel.$setViewValue(scope.keyPropertyFn(item));
-        } else {
-          ngModel.$setViewValue(item);
+        ctrl.selectedItem = item;
+
+        if (angular.isDefined(selectedScope)) {
+          selectedScope.dropdown.selectedItem = ctrl.selectedItem;
         }
-        scope.isOpen = false;
+        if (angular.isFunction(ctrl.onChange) &&
+            !angular.equals(ctrl.selectedItem, ngModel.$modelValue)) {
+          ctrl.onChange({item: ctrl.selectedItem});
+        }
+        ctrl.isOpen = false;
+
+        ngModel.$setViewValue(ctrl.selectedItem);
+
       };
-      scope.clearSelectedItem = function($event) {
+
+      ctrl.clearSelectedItem = function($event) {
         $event.stopPropagation();
         ngModel.$setViewValue();
+        ctrl.selectedItem = undefined;
       };
 
-      scope.setOpen = function(isOpen) {
-        scope.isOpen = isOpen;
-      };
-      scope.setInputAsClicked = function() {
+      ctrl.setInputAsClicked = function() {
         inputClick = true;
       };
+
       function toggleDropdown(isOpen) {
         menuElem.toggleClass('util-show', isOpen);
         menuElem.toggleClass('util-hide', !isOpen);
       }
 
       function setAppendToBodyCoords() {
-        var menu = elem.children(0)[0];
+        let menu = elem.children(0)[0];
 
         menuElem.css({
           left: menu.offsetLeft + 'px',
@@ -135,53 +177,14 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
         });
       }
 
-      if (typeof scope.placeholder !== 'string') {
-        translate.async('components.dropdown.placeholder.noSelection')
-          .then(function(value) {
-            setPlaceholder('placeholder', scope, selectedScope, value);
-          });
-      } else {
-        setPlaceholder('placeholder', scope, selectedScope, scope.placeholder);
-      }
+      ctrl.setPlaceholder('placeholder', selectedScope,
+        'components.dropdown.placeholder.noSelection');
 
-      if (typeof scope.filterPlaceholder !== 'string') {
-        translate.async('components.dropdown.placeholder.filter')
-          .then(function(value) {
-            setPlaceholder('filterPlaceholder', scope, menuScope, value);
-          });
-      } else {
-        setPlaceholder('filterPlaceholder', scope, menuScope, scope.filterPlaceholder);
-      }
-      scope.$watch(function() {
-        return ngModel.$viewValue;
-      }, function(modelValue) {
-        if (scope.keyProperty) {
-          scope.selectedItem = itemSet[modelValue];
-        } else {
-          scope.selectedItem = modelValue;
-
-        }
-        if (typeof selectedScope !== 'undefined') {
-          selectedScope.selectedItem = modelValue;
-        }
-
-        if (typeof scope.onChange === 'function') {
-          scope.onChange({item: modelValue});
-        }
-      });
-
-      scope.$watchCollection('items', function(items) {
-        itemSet = createItemMap(items, scope);
-      });
+      ctrl.setPlaceholder('filterPlaceholder', menuScope,
+        'components.dropdown.placeholder.filter');
 
       selectedContentTemplate = dropdownTransformer.getSelected(selectedTemplate);
-      if (typeof selectedTemplate !== 'undefined') {
-        selectedScope.selectedItem = scope.selectedItem;
-        selectedScope.textProperty = scope.textProperty;
-        selectedScope.clearSelectedItem = scope.clearSelectedItem;
-        selectedScope.setOpen = scope.setOpen;
-        selectedScope.isDisabled = scope.isDisabled;
-
+      if (angular.isDefined(selectedTemplate)) {
         selectedElem = $compile(selectedContentTemplate)(selectedScope);
       } else {
         selectedElem = $compile(selectedContentTemplate)(scope);
@@ -189,21 +192,14 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       elem.children(0).children(0).append(selectedElem);
 
       menuTemplate = dropdownTransformer.getMenu(optionTemplate);
-      if (typeof optionTemplate !== 'undefined') {
-        menuScope.items = scope.items;
-        menuScope.textProperty = scope.textProperty;
-        menuScope.setSelectedItem = scope.setSelectedItem;
-        menuScope.hasFilter = scope.hasFilter;
-        menuScope.filterProperty = scope.filterProperty;
-        menuScope.textPropertyFn = scope.textPropertyFn;
-        menuScope.setOpen = scope.setOpen;
-        menuScope.setInputAsClicked = scope.setInputAsClicked;
+      if (angular.isDefined(optionTemplate)) {
         menuElem = $compile(menuTemplate)(menuScope);
       } else {
         menuElem = $compile(menuTemplate)(scope);
       }
-      if (appendToBody) {
-        $timeout(function() {
+
+      if (angular.isDefined(attrs.appendToBody)) {
+        $timeout(() => {
           menuElem.addClass('append-body util-hide');
           setAppendToBodyCoords();
           angular.element($document.find('body')).append(menuElem);
@@ -212,10 +208,10 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
           elem.on('$destroy', function() {
             windowElement.off('resize');
           });
-          scope.$watch('isOpen', function(isOpen) {
+          scope.$watch('dropdown.isOpen', (isOpen) => {
             toggleDropdown(isOpen);
             if (inputClick) {
-              scope.isOpen = true;
+              ctrl.isOpen = true;
               inputClick = false;
             }
           });
@@ -225,7 +221,8 @@ module.exports = function($compile, dropdownTransformer, translate, $document, $
       }
     }
   };
-};
+}
 
-module.exports.$inject = ['$compile', 'dropdownTransformer', 'translate', '$document', '$timeout',
-                          '$parse'];
+dropdown.$inject = ['$compile', 'dropdownTransformer', '$document', '$timeout', '$parse'];
+
+export default dropdown;

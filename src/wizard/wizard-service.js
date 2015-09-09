@@ -1,40 +1,58 @@
-var angular = require('angular');
+import angular from 'angular';
+import template from './templates/wizard.tpl.html';
 
-module.exports = function($templateCache, $log, $modal, $controller,
-                          $rootScope, $q, statusMessage, translate) {
+class WizardController {
 
-  function initializeScope(options) {
-    var scope = $rootScope.$new();
+  static get $inject() {
+    return ['$scope', '$rootScope', '$controller', 'translate',
+            '$templateCache', '$q', 'statusMessage', '$log'];
+  }
 
-    scope.contentScope = options.scope ? options.scope : $rootScope.$new();
+  constructor($scope, $rootScope, $controller, translate,
+              $templateCache, $q, statusMessage, $log) {
+    let options = $scope.options;
 
-    if (angular.isDefined(options.controller)) {
-      $controller(options.controller, {$scope: scope.contentScope});
+    $scope.wizard = this;
+
+    this.$q = $q;
+    this.statusMessage = statusMessage;
+    this.$log = $log;
+    this.processing = false;
+
+    this.contentScope = options.contentScope ? options.contentScope.$new() : $rootScope.$new();
+    this.contentScope.processing = this.processing;
+    this.contentScope.setOnSubmit = fn => this.onSubmit = fn;
+    this.contentScope.close = () => this.close();
+
+    if (angular.isDefined(options.appController)) {
+      $controller(options.appController, {$scope: this.contentScope});
     }
 
-    scope.processing = false;
-    scope.contentScope.process = scope.processing;
+    this.title = options.title;
+    this.icon = options.icon;
 
-    scope.title = options.title;
-    scope.icon = options.icon;
-    scope.previousLabel = options.previousLabel ||
-      translate.sync('components.wizard.label.previous');
-    scope.nextLabel = options.nextLabel || translate.sync('components.wizard.label.next');
-    scope.submitLabel = options.submitLabel || translate.sync('components.wizard.label.submit');
-    scope.successMessage = options.successMessage ||
-      translate.sync('components.wizard.successMessage');
-    scope.errorMessage = options.errorMessage || translate.sync('components.wizard.errorMessage');
+    this.previousLabel = translate.sync(options.previousLabel,
+      null, 'components.wizard.label.previous');
+    this.nextLabel = translate.sync(options.nextLabel,
+      null, 'components.wizard.label.next');
+    this.submitLabel = translate.sync(options.submitLabel,
+      null, 'components.wizard.label.submit');
+    this.successMessage = translate.sync(options.successMessage,
+      null, 'components.wizard.successMessage');
+    this.submitErrorMessage = translate.sync(options.errorMessage,
+      null, 'components.wizard.errorMessage');
 
-    scope.showSubmitError = false;
+    this.instance = options.instance;
 
-    angular.forEach(options.steps, function(step, i) {
+    this.instance.result.finally(() => this.contentScope.$destroy());
+
+    options.steps.forEach((step, i) => {
       step.id = i;
       if (!step.template && step.templateId) {
         step.template = $templateCache.get(step.templateId);
       }
 
-      if (!(angular.isDefined(step.template) ||
-        angular.isDefined(step.templateUrl))) {
+      if (!(angular.isDefined(step.template) || angular.isDefined(step.templateUrl))) {
         throw new Error('Wizard template or templateUrl option required');
       }
 
@@ -43,11 +61,176 @@ module.exports = function($templateCache, $log, $modal, $controller,
       }
     });
 
-    scope.steps = options.steps;
-    scope.stepIndex = 0;
-
-    return scope;
+    this.steps = options.steps;
+    this.$scope = $scope;
+    this.activateStep(0, true);
   }
+
+  getNextLabel() {
+    // if last step, return submitLabel
+    if (this.stepIndex === this.steps.length - 1) {
+      return this.submitLabel;
+    } else {
+      return this.nextLabel;
+    }
+  }
+
+  goForward() {
+    if (this.stepIndex === this.steps.length - 1) {
+      this.submit();
+    } else {
+      this.nextStep();
+    }
+  }
+
+  close(returnValue) {
+    if (angular.isDefined(this.instance)) {
+      this.instance.close(returnValue);
+      this.contentScope.$destroy();
+      this.$scope.$destroy();
+    }
+  }
+
+  currentStep() {
+    return this.steps[this.stepIndex];
+  }
+
+  previousStep() {
+    if (this.stepIndex > 0) {
+      this.activateStep(this.stepIndex - 1);
+    }
+  }
+
+  nextStep() {
+    if (this.stepIndex < this.steps.length - 1) {
+      this.activateStep(this.stepIndex + 1);
+    }
+  }
+
+  isValid(stepNumber) {
+    let step = angular.isNumber(stepNumber) ? this.steps[stepNumber] : this.currentStep();
+
+    if (!step) {
+      this.$log.warn('No step to validate');
+      return false;
+    }
+
+    if (!angular.isFunction(step.validate)) {
+      return true;
+    }
+
+    return step.validate(this.contentScope);
+  }
+
+  startProcessing() {
+    this.processing = true;
+    this.contentScope.processing = true;
+  }
+
+  stopProcessing() {
+    this.processing = false;
+    this.contentScope.processing = false;
+  }
+
+  activateStep(stepNumber, init) {
+
+    let goToStep = () => {
+      this.stepIndex = stepNumber;
+      this.currentStep().visited = true;
+
+      this.stopProcessing();
+      this.errorMessage = null;
+    };
+
+    // If a prepare function is supplied for the step, execute it and process the
+    // returned promise
+    if (angular.isFunction(this.steps[stepNumber].initialize)) {
+
+      this.startProcessing();
+
+      let nextStepPromise = this.steps[stepNumber].initialize();
+
+      nextStepPromise.then(angular.bind(this, goToStep), reason => {
+        if (init) {
+          this.$log.warn('Step 1 failed to initialize.');
+          goToStep();
+        } else {
+          this.stopProcessing();
+          this.errorMessage = reason;
+        }
+      });
+    } else {
+      goToStep();
+    }
+  }
+
+  jumptToVisitedStep(stepNumber) {
+    if (this.steps[stepNumber].visited && this.previousStepsValid(stepNumber)) {
+      this.activateStep(stepNumber);
+    }
+  }
+
+  previousStepsValid(stepNumber) {
+    for (let i = 0; i < stepNumber; i++) {
+      if (!this.isValid(i)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  stepClasses(stepNumber) {
+    let current = true, maxStepIndex = this.steps.length - 1;
+
+    if (stepNumber > maxStepIndex) {
+      return {};
+    } else if (stepNumber < maxStepIndex) {
+      current = !this.steps[stepNumber + 1].visited || !this.previousStepsValid(stepNumber + 1);
+    }
+
+    return {
+      active: stepNumber === this.stepIndex,
+      visited: this.steps[stepNumber].visited && this.previousStepsValid(stepNumber),
+      current: current
+    };
+  }
+
+  submit() {
+    let result;
+
+    if (angular.isFunction(this.onSubmit)) {
+      result = this.onSubmit();
+    } else {
+      result = angular.noop;
+    }
+
+    // check to see if the onSubmit returns a promise
+    if (result && angular.isFunction(result.then)) {
+      this.startProcessing();
+    } else if (!result) {
+      this.stopProcessing();
+      this.errorMessage = this.submitErrorMessage;
+      return;
+    }
+
+    this.$q.when(result).then(
+      (returnValue) => {
+        this.stopProcessing();
+        this.close(returnValue);
+        this.statusMessage.showSuccess({text: this.successMessage});
+        this.errorMessage = null;
+      }
+    ).catch(
+      () => {
+        this.stopProcessing();
+        this.errorMessage = this.submitErrorMessage;
+      }
+    );
+  }
+
+}
+
+function wizard($modal, $rootScope) {
 
   return {
 
@@ -120,128 +303,28 @@ module.exports = function($templateCache, $log, $modal, $controller,
      *
      */
     open: function(options) {
-      var scope = initializeScope(options),
-        onSubmit = angular.noop,
-        instance;
+      let scope = $rootScope.$new();
 
-      scope.currentStep = function() {
-        return scope.steps[scope.stepIndex];
-      };
+      options.appController = options.controller;
+      options.contentScope = options.scope;
 
-      scope.previousStep = function() {
-        if (scope.stepIndex > 0) {
-          scope.stepIndex--;
-        }
-      };
+      scope.options = options;
 
-      scope.nextStep = function() {
-        if (scope.stepIndex < scope.steps.length - 1) {
-          scope.stepIndex++;
-          scope.currentStep().visited = true;
-        }
-      };
-
-      scope.isValid = function(stepNumber) {
-        var step = angular.isNumber(stepNumber) ? scope.steps[stepNumber] : scope.currentStep();
-
-        if (!angular.isFunction(step.validate)) {
-          return true;
-        }
-
-        return step.validate(scope.contentScope);
-      };
-
-      scope.activateStep = function(stepNumber) {
-        if (scope.steps[stepNumber].visited && scope.previousStepsValid(stepNumber)) {
-          scope.stepIndex = stepNumber;
-        }
-      };
-
-      scope.previousStepsValid = function(stepNumber) {
-        var i;
-
-        for (i = 0; i < stepNumber; i++) {
-          if (!scope.isValid(i)) {
-            return false;
-          }
-        }
-        return true;
-      };
-
-      scope.stepClasses = function(stepNumber) {
-        var current = true, maxStepIndex = scope.steps.length - 1;
-
-        if (stepNumber > maxStepIndex) {
-          return {};
-        } else if (stepNumber < maxStepIndex) {
-          current = !scope.steps[stepNumber + 1].visited ||
-            !scope.previousStepsValid(stepNumber + 1);
-        }
-
-        return {
-          active: stepNumber === scope.stepIndex,
-          visited: scope.steps[stepNumber].visited && scope.previousStepsValid(stepNumber),
-          current: current
-        };
-      };
-
-      // TODO: Time permitting, add controller and controllerAs
-      instance = $modal.open(angular.extend(options, {
+      options.instance = $modal.open(angular.extend(options, {
         scope: scope,
         backdrop: 'static',
         windowClass: 'wizard',
-        template: require('./templates/wizard.tpl.html')
+        template: template,
+        controller: WizardController,
+        controllarAs: 'wizard',
+        bindToController: true
       }));
 
-      scope.close = function() {
-        instance.dismiss();
-      };
-
-      // setup promise that will resolve when submit button is clicked
-      scope.setOnSubmit = function(fn) {
-        onSubmit = fn;
-      };
-
-      scope.submit = function() {
-        var result;
-
-        scope.showSubmitError = false;
-
-        if (angular.isFunction(onSubmit)) {
-          result = onSubmit();
-        } else {
-          result = onSubmit;
-        }
-
-        // check to see if the onSubmit returns a promise
-        if (result && angular.isFunction(result.then)) {
-          scope.processing = true;
-          scope.contentScope.processing = true;
-        } else if (!result) {
-          scope.processing = false;
-          scope.contentScope.processing = false;
-          scope.showSubmitError = true;
-        }
-
-        $q.when(result).then(
-          function(returnValue) {
-            instance.close(returnValue);
-            statusMessage.showSuccess({text: scope.successMessage});
-            scope.processing = false;
-            scope.contentScope.processing = false;
-          }
-        ).catch(
-          function() {
-            scope.processing = false;
-            scope.contentScope.processing = false;
-            scope.showSubmitError = true;
-          }
-        );
-      };
-      return instance;
-
+      return options.instance;
     }
   };
-};
-module.exports.$inject = ['$templateCache', '$log', '$modal', '$controller', '$rootScope', '$q',
-  'statusMessage', 'translate'];
+}
+
+wizard.$inject = ['$modal', '$rootScope', '$q', 'statusMessage'];
+
+export default wizard;

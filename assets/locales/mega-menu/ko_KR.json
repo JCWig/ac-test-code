@@ -4,36 +4,37 @@
         "support": "지원",
         "alerts": "경보",
         "messages": "메시지",
-        "store": "Marketplace"
+        "store": "Marketplace",
+        "community" : "Community"
     },
     "search": {
         "kb": "KB",
         "search": "검색",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "로드 중",
+        "seeAll": "모든 {category} 결과 보기",
         "users": "사용자",
-        "searchFor": "Search for {category}",
+        "searchFor": "{category} 검색",
         "docs": "문서",
         "documentation": "문서",
-        "noResults": "no results found",
+        "noResults": "검색된 결과 없음",
         "all": "모두",
         "applications": "응용 프로그램",
-        "allResults": "All Results",
+        "allResults": "모든 결과",
         "accounts": "계정",
         "groups": "그룹",
         "knowledgeBase": "Knowledge Base English Only",
         "properties": "속성"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "NetStorage 구축 해제",
         "reports_dashboard": "리포트 대시보드",
-        "configure_ads": "Configure ADS",
+        "advanced_search": "고급 검색",
         "provision_siteshield": "SiteShield 구축",
         "dmca": "DMCA",
         "firewall_rules": "방화벽 규칙",
         "akamai_internal": "Akamai 내부",
         "lambda_email_reports": "람다 이메일 보고서",
+        "configure_ads": "Configure ADS",
         "search_reports": "Search Reports",
         "search": "계정 검색",
         "account_team": "Account Team",
@@ -58,23 +59,25 @@
         "cp_codes_mange_users": "CP 코드 - CP 사용자 관리",
         "transcoding_workspaces": "콘텐츠 준비 작업 영역",
         "storage_admin": "Storage Admin",
-        "transcoding_regions": "콘텐츠 준비 지역"
+        "transcoding_regions": "콘텐츠 준비 지역",
+        "media_rollout": "Media Feature Roll Out Manager"
     },
     "timeout": {
         "buttonText": "연장",
         "contents": "Luna Control Center 세션이 만료될 예정입니다. 세션을 연장하려면 연장을 클릭하십시오.",
-        "title": "Session Timeout Imminent"
+        "title": "세션 시간이 곧 초과됨"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "트래픽 세그먼트",
         "arl": "디지털 속성",
-        "noMatches": "No Matches Found"
+        "noMatches": "일치 항목 없음"
     },
     "footer": {
         "policy": "법률 및 개인 정보 보호",
         "contact": "연락처",
         "feedback": "저희가 어떻게 하면 더 나은 서비스를 제공할 수 있을까요?",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved",
+        "terms": "Portal Terms of Use"
     },
     "shortMonths": {
         "11": "12월",
@@ -88,13 +91,13 @@
         "7": "8월",
         "6": "7월",
         "9": "10월",
-        "8": "Sept"
+        "8": "9월"
     },
     "messages": {
         "forwardEmailValidation": "올바른 이메일을 입력하십시오.",
         "previewTitle": "메시지 센터",
         "assigned": "할당 대상",
-        "header": "{count} MESSAGES",
+        "header": "{count}개 메시지",
         "cancel": "취소",
         "close": "닫기",
         "deleteMessage": "이 메시지를 삭제하시겠습니까? 이 작업은 실행 취소할 수 없습니다.",
@@ -115,22 +118,22 @@
         "forwardMessage": "선택한 메시지를 다음 이메일로 전달합니다.",
         "list": "목록",
         "no-cases": "사례를 찾을 수 없습니다.",
-        "unread": "{count} Unread",
+        "unread": "{count}개 읽지 않음",
         "delete": "메시지 삭제"
     },
     "policies": {
-        "es_la": "http://spanish.akamai.com/enes/html/policies/index.html",
-        "pt_br": "http://www.akamai.com/html/policies/index.html",
-        "ko_kr": "http://www.akamai.com/html/policies/index.html",
-        "it_it": "http://www.akamai.com/html/policies/index.html",
-        "en_us": "http://www.akamai.com/html/policies/index.html",
-        "de_de": "http://www.akamai.de/leaving.html?url=/html/policies/index.html",
-        "fr_fr": "http://www.akamai.fr/enfr/html/policies/index.html",
-        "zh_cn": "http://www.akamai.cn/enzs/html/policies/index.html",
-        "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506",
+        "ja_jp": "https://www.akamai.com/policies",
+        "it_it": "https://www.akamai.com/policies",
+        "zh_tw": "https://www.akamai.com/policies",
+        "zh_cn": "https://www.akamai.com/policies",
+        "ko_kr": "https://www.akamai.com/policies",
+        "fr_fr": "https://www.akamai.com/policies",
+        "es_es": "https://www.akamai.com/policies",
+        "es_la": "https://www.akamai.com/policies",
+        "de_de": "https://www.akamai.com/policies",
+        "pt_br": "https://www.akamai.com/policies",
+        "en_us" : "https://www.akamai.com/policies",
         "en_us_ib": "http://www.ibm.com/privacy/us/en/?lnk=flg-priv-usen",
-        "ja_jp": "http://www.akamai.co.jp/enja/html/policies/index.html",
-        "zh_tw": "http://www.akamai.com/html/policies/index.html",
-        "es_es": "http://spanish.akamai.com/enes/html/policies/index.html"
+        "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506"
     }
 }

@@ -14,7 +14,7 @@ var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json")
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 var MAX_INITIALLY_DISPLAYED = 10;
 
-describe('akam-list-box', function() {
+describe('akam-list-box', function(){
   var compile = null;
   var scope = null;
   var self = this;
@@ -118,6 +118,7 @@ describe('akam-list-box', function() {
     self.el = compile(markup)(scope);
     scope.$digest();
     self.element = document.body.appendChild(self.el[0]);
+    self.listBox = self.el.isolateScope().listBox;
   }
 
   afterEach(function() {
@@ -351,9 +352,9 @@ describe('akam-list-box', function() {
       var markup = '<akam-list-box data="mydata" schema="columns" selected-items="selectedItems"></akam-list-box>';
       addElement(markup);
 
-      expect(scope.$$childHead.selectedItems.length).toEqual(1);
-      expect(scope.$$childHead.selectedItems[0].first).toEqual("Yair");
-      expect(scope.$$childHead.selectedItems[0].last).toEqual("Leviel");
+      expect(self.listBox.selectedItems.length).toEqual(1);
+      expect(self.listBox.selectedItems[0].first).toEqual("Yair");
+      expect(self.listBox.selectedItems[0].last).toEqual("Leviel");
     });
     /*
      it('should reset selectedItems to [] when changed to non array value', function(){
@@ -392,7 +393,7 @@ describe('akam-list-box', function() {
         item: scope.mydata[0],
         selected: true
       }
-      scope.$$childTail.updateChanged(selectedItem);
+      self.listBox.updateChanged(selectedItem);
       var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
 
       expect(allCheckedCheckboxes.length).toEqual(1);
@@ -482,8 +483,8 @@ describe('akam-list-box', function() {
       var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
       expect(numberSelectedSpan.textContent).toMatch(/0/);
 
-      scope.$$childHead.state.filter = "K-Slice";
-      scope.$$childHead.updateSearchFilter();
+      self.listBox.state.filter = "K-Slice";
+      self.listBox.updateSearchFilter();
       scope.$digest();
       expect(document.querySelectorAll(TABLE_ROW).length).toEqual(1);
 
@@ -495,7 +496,7 @@ describe('akam-list-box', function() {
       var allVisibleRows = document.querySelectorAll(TABLE_ROW);
       var filterBox = document.querySelector(FILTER_BOX);
 
-      expect(scope.$$childHead.state.filter).toEqual('');
+      expect(self.listBox.state.filter).toEqual('');
       expect(allVisibleRows.length).toEqual(3);
       expect(filterBox.value).toEqual('');
     });
@@ -533,12 +534,13 @@ describe('akam-list-box', function() {
       timeout.flush();
 
       var rowOneColumnThree = document.querySelectorAll(TABLE_COLUMN_HEADER)[2];
-
       utilities.click(rowOneColumnThree);
       scope.$digest();
+
       expect(rowOneColumnThree.classList.contains('asc')).toEqual(true);
 
       var rowTwoColumnTwo = document.querySelector(TABLE_ROW).querySelectorAll('td')[1];
+
 
       expect(rowTwoColumnTwo.textContent).toMatch(/Yair Leviel/);
 
@@ -624,8 +626,8 @@ describe('akam-list-box', function() {
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
-      scope.$$childHead.state.filter = "K-Slice";
-      scope.$$childHead.updateSearchFilter();
+      self.listBox.state.filter = "K-Slice";
+      self.listBox.updateSearchFilter();
       scope.$digest();
       expect(document.querySelectorAll(TABLE_ROW).length).toEqual(1);
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
@@ -918,7 +920,7 @@ describe('akam-list-box', function() {
       addElement(markup);
       timeout.flush();
 
-      var spyOnChange = spyOn(scope.$$childTail, "updateChanged");
+      var spyOnChange = spyOn(self.listBox, "updateChanged");
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
 
@@ -1010,7 +1012,7 @@ describe('akam-list-box', function() {
       expect(firstRowCheckbox.parentNode.classList.contains('row-selected')).toBe(false);
     });
     it('should only trigger updateChanged twice one on, one off', function() {
-      var spyOnChange = spyOn(scope.$$childTail, "updateChanged");
+      var spyOnChange = spyOn(self.listBox, "updateChanged");
 
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
@@ -1040,7 +1042,7 @@ describe('akam-list-box', function() {
       expect(allVisibleRows.length).toEqual(1);
     });
     it('should uncheck view select all if nothing is selected', function() {
-      var spy = spyOn(scope.$$childTail, "updateSearchFilter").and.callThrough();
+      var spy = spyOn(self.listBox, "updateSearchFilter").and.callThrough();
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
       scope.$digest();
@@ -1108,8 +1110,8 @@ describe('akam-list-box', function() {
       expect(clearFilterTextIcon).toBe(null);
     });
     it('should filter based on input beginning-middle-end matches', function() {
-      scope.$$childHead.state.filter = "Kev";
-      scope.$$childHead.updateSearchFilter();
+      self.listBox.state.filter = "Kev";
+      self.listBox.updateSearchFilter();
       scope.$digest();
       expect(document.querySelectorAll(TABLE_ROW).length).toEqual(3);
 
@@ -1122,22 +1124,22 @@ describe('akam-list-box', function() {
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
       utilities.click(firstRowCheckbox);
       utilities.click(document.querySelector(VIEW_SELECTED_ONLY_CHECKBOX));
-      scope.$$childHead.state.filter = "Kev";
-      scope.$$childHead.updateSearchFilter();
+      self.listBox.state.filter = "Kev";
+      self.listBox.updateSearchFilter();
       scope.$digest();
       var allVisibleRows = document.querySelectorAll(TABLE_ROW);
       expect(allVisibleRows.length).toEqual(1);
     });
     it('should not change selected value', function() {
-      scope.$$childHead.state.filter = "Kev";
-      scope.$$childHead.updateSearchFilter();
+      self.listBox.state.filter = "Kev";
+      self.listBox.updateSearchFilter();
       scope.$digest();
       var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
       expect(numberSelectedSpan.textContent).toMatch(/Selected: 0/);
     });
     it('should be able to clear filter text', function() {
-      scope.$$childHead.state.filter = "Kev";
-      scope.$$childHead.updateSearchFilter();
+      self.listBox.state.filter = "Kev";
+      self.listBox.updateSearchFilter();
       scope.$digest();
 
       var allVisibleRows = document.querySelectorAll(TABLE_ROW);
@@ -1177,8 +1179,8 @@ describe('akam-list-box', function() {
       expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
     });
     it('should present the "no data" message when no data is available and filtered', function() {
-      scope.$$childHead.state.filter = "Oliver";
-      scope.$$childHead.updateSearchFilter();
+      self.listBox.state.filter = "Oliver";
+      self.listBox.updateSearchFilter();
       scope.$digest();
 
       var dataTableRow = document.querySelector('.empty-table-message span');
@@ -1228,24 +1230,19 @@ describe('akam-list-box', function() {
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
     });
     it('should be able to change the no data messages', function() {
-      scope.baddata = [];
-      scope.columns = [
-        {
-          content: "name",
-          header: 'Name'
-        }
-      ];
+
       var dataTableRow = document.querySelector('.empty-table-message span');
       var NEW_MESSAGE = 'new message';
-
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
+
       scope.myNoDataMessage = NEW_MESSAGE;
       scope.$digest();
       expect(dataTableRow.textContent).toContain(NEW_MESSAGE);
+
     });
     it('should present the "no data" message when no data is available and filtered', function() {
-      scope.$$childHead.state.filter = "Oliver";
-      scope.$$childHead.updateSearchFilter();
+      self.listBox.state.filter = "Oliver";
+      self.listBox.updateSearchFilter();
       scope.$digest();
 
       var dataTableRow = document.querySelector('.empty-table-message span');
@@ -1356,7 +1353,7 @@ describe('akam-list-box', function() {
         addElement(markup);
         timeout.flush();
       } catch (e) {
-        expect(e).toEqual("Data must be an array");
+        expect(e.message).toEqual("Data must be an array");
       }
     });
     it('should throw error when schema is not an array', function() {
@@ -1367,7 +1364,7 @@ describe('akam-list-box', function() {
         addElement(markup);
         timeout.flush();
       } catch (e) {
-        expect(e).toEqual("Schema must be an array");
+        expect(e.message).toEqual("Schema must be an array");
       }
     });
     it('should throw error when sort column is null', function() {
@@ -1386,9 +1383,9 @@ describe('akam-list-box', function() {
       addElement(markup);
       timeout.flush();
       try {
-        scope.$$childHead.sortColumn(undefined);
+        self.listBox.sortColumn(undefined);
       } catch (e) {
-        expect(e).toEqual("Column may not be null/undefined");
+        expect(e.message).toEqual("Column may not be null/undefined");
       }
     });
   });
@@ -1400,7 +1397,7 @@ describe('akam-list-box', function() {
         addElement(markup);
         timeout.flush();
       } catch (e) {
-        expect(e).toEqual("Schema must be an array");
+        expect(e.message).toEqual("Schema must be an array");
       }
     });
     it('should throw error when data is not provided', function() {
@@ -1410,7 +1407,7 @@ describe('akam-list-box', function() {
         addElement(markup);
         timeout.flush();
       } catch (e) {
-        expect(e).toEqual("Data must be an array");
+        expect(e.message).toEqual("Data must be an array");
       }
     });
   });
@@ -1484,7 +1481,7 @@ describe('akam-list-box', function() {
       scope.$digest();
       totalRows = document.querySelectorAll(TABLE_ROW);
 
-      expect(scope.$$childTail.dataSource.length).toEqual(20);
+      expect(self.listBox.dataSource.length).toEqual(20);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should stop loading data if end is reached', function() {
@@ -1511,7 +1508,7 @@ describe('akam-list-box', function() {
       scope.$digest();
 
       var totalRows = document.querySelectorAll(TABLE_ROW);
-      expect(scope.$$childTail.dataSource.length).toEqual(25);
+      expect(self.listBox.dataSource.length).toEqual(25);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should leave data if rescrolled to top.', function() {
@@ -1533,7 +1530,7 @@ describe('akam-list-box', function() {
 
       var totalRows = document.querySelectorAll(TABLE_ROW);
 
-      expect(scope.$$childTail.dataSource.length).toEqual(20);
+      expect(self.listBox.dataSource.length).toEqual(20);
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should not scroll past max-height', function() {
@@ -1562,6 +1559,163 @@ describe('akam-list-box', function() {
       scope.$digest();
 
       expect(totalRows.length).toEqual(MAX_INITIALLY_DISPLAYED);
+    });
+  });
+
+  describe('given filter-placeholder attribute', function() {
+    describe('and a filter-placeholder attribute is not provided', function(){
+      describe('when the list-box is rendered', function(){
+        it('should render default filter-placeholder', function() {
+          var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder=""></akam-list-box>';
+          addElement(markup);
+          httpBackend.flush();
+
+          var filterBox = document.querySelector(FILTER_BOX);
+
+          expect(filterBox.placeholder).toEqual('Filter This');
+        });
+      });
+    });
+  });
+
+  describe('given filter-placeholder attribute', function() {
+    describe('and a filter-placeholder attribute is provided', function(){
+      describe('when the list-box is rendered', function(){
+        it('should translate filter-placeholder for the list-box if key is valid', function() {
+          var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="table.full-name"></akam-list-box>';
+          addElement(markup);
+          httpBackend.flush();
+
+          var filterBox = document.querySelector(FILTER_BOX);
+
+          expect(filterBox.value).toEqual('');
+          expect(filterBox.placeholder).toEqual('Full Name');
+        });
+        it('should translate and display key if key is invalid', function() {
+          var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
+          addElement(markup);
+          httpBackend.flush();
+
+          var filterBox = document.querySelector(FILTER_BOX);
+
+          expect(filterBox.placeholder).toEqual('placeholder');
+        });
+      });
+    });
+  });
+
+  describe('when list-box is rendered with no data', function() {
+    describe('and no-data-message attribute not provided', function() {
+      beforeEach(function() {
+        scope.mydata = [];
+        scope.columns = [
+          {
+            content: 'name',
+            header: 'Name'
+          }
+        ];
+        var markup = '<akam-list-box data="mydata" schema="columns" no-data-message=""></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+      });
+      it('should render default no-data-message placeholder', function() {
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
+      });
+    });
+    describe('and no-data-message attribute is provided', function() {
+      beforeEach(function() {
+        scope.mydata = [];
+        scope.columns = [
+          {
+            content: 'name',
+            header: 'Name'
+          }
+        ];
+      });
+      it('should translate no-data-message for the list-box if key is valid', function() {
+        var markup = '<akam-list-box data="mydata" schema="columns" no-data-message="table.full-name"></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/Full Name/);
+      });
+      it('should translate and display key if key is invalid', function() {
+        var markup = '<akam-list-box data="mydata" schema="columns" no-data-message="placeholder"></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/placeholder/);
+      });
+    });
+  });
+
+  describe('when list-box is rendered with data', function() {
+    describe('and no-filter-results-message attribute not provided', function() {
+      beforeEach(function() {
+        scope.mydata = [
+          {'name': "Roy Harper"},
+          {'name': "Dinah Laurel Lance"},
+          {'name': "Oliver Queen"}
+        ];
+        scope.columns = [
+          {
+            content: 'name',
+            header: 'Name'
+          }
+        ];
+        var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message=""></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+      });
+      it('should render default no-filter-results-message placeholder', function() {
+        self.listBox.state.filter = "Jennifer";
+        self.listBox.updateSearchFilter();
+        scope.$digest();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/There are no results based upon your filter/);
+      });
+    });
+    describe('and no-filter-results-message attribute is provided', function() {
+      beforeEach(function() {
+        scope.mydata = [
+          {'name': "Roy Harper"},
+          {'name': "Dinah Laurel Lance"},
+          {'name': "Oliver Queen"}
+        ];
+        scope.columns = [
+          {
+            content: 'name',
+            header: 'Name'
+          }
+        ];
+      });
+      it('should translate no-filter-results-message for the list-box if key is valid', function() {
+        var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message="table.full-name"></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+        self.listBox.state.filter = "Jennifer";
+        self.listBox.updateSearchFilter();
+        scope.$digest();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/Full Name/);
+      });
+      it('should translate and display key if key is invalid', function() {
+        var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message="placeholder"></akam-list-box>';
+        addElement(markup);
+        httpBackend.flush();
+        timeout.flush();
+        self.listBox.state.filter = "Jennifer";
+        self.listBox.updateSearchFilter();
+        scope.$digest();
+        var dataTableRow = document.querySelector('.empty-table-message span');
+        expect(dataTableRow.textContent).toMatch(/placeholder/);
+      });
     });
   });
 });

@@ -1,63 +1,90 @@
-module.exports = function($log, $timeout) {
+import template from './templates/status-message-directive.tpl.html';
+
+const DEFAULT_TIMEOUT = 2000;
+const [SUCCESS] = ['success'];
+
+class StatusMessageController {
+
+  static get $inject() {
+    return ['$log', '$timeout', 'statusMessage'];
+  }
+
+  constructor($log, $timeout, statusMessage) {
+    this.statusMessage = statusMessage;
+    this.$log = $log;
+    this.$timeout = $timeout;
+    this.closing = false;
+    this.timeout = null;
+
+    if (!this.status) {
+      this.status = SUCCESS;
+    }
+  }
+
+  enableTimer() {
+    if (this.timeout && this.timeout > 0) {
+      this.timer = this.$timeout(() => {
+        this.close();
+      }, this.timeout);
+    }
+  }
+
+  close() {
+    //make sure we're not allowing the callback to (also) occur if the user clicked close
+    this.cancelTimer();
+    this.closing = true;
+    this.$timeout(() => {
+      this.statusMessage.remove(this.itemId);
+      this.closing = false;
+    }, 500);
+  }
+
+  cancelTimer() {
+    if (this.timer != null) {
+      this.$timeout.cancel(this.timer);
+      this.timer = null;
+    }
+  }
+}
+
+function linkFn(scope, element, attrs, ctrl) {
+  element.addClass(ctrl.status);
+
+  let timeoutValue = attrs.timeout;
+
+  timeoutValue = !timeoutValue ? DEFAULT_TIMEOUT : parseInt(timeoutValue, 10);
+
+  if (isNaN(timeoutValue) || timeoutValue < 0) {
+    timeoutValue = DEFAULT_TIMEOUT;
+  }
+
+  ctrl.timeout = timeoutValue;
+
+  element.on('$destroy', () => {
+    ctrl.close();
+    element.off('mouseenter', () => ctrl.cancelTimer());
+    element.off('mouseleave', () => ctrl.enableTimer());
+  });
+
+  element.on('mouseenter', () => ctrl.cancelTimer());
+  element.on('mouseleave', () => ctrl.enableTimer());
+
+  ctrl.enableTimer();
+}
+
+export default () => {
   return {
     restrict: 'E',
-    scope: {
+    scope: {},
+    replace: true,
+    template: template,
+    link: linkFn,
+    controller: StatusMessageController,
+    controllerAs: 'statusMessage',
+    bindToController: {
       itemId: '@',
       text: '@',
       status: '@'
-    },
-    replace: true,
-    template: require('./templates/status-message-directive.tpl.html'),
-    link: function(scope, element, attrs) {
-      var defaultTimeout = 2000;
-      var timer = null;
-
-      if (scope.status == null || scope.status === '') {
-        scope.status = 'success';
-      }
-
-      element.addClass(scope.status);
-
-      scope.timeout = attrs.timeout == null ? defaultTimeout : window.parseInt(attrs.timeout, 10);
-      if (isNaN(scope.timeout) || scope.timeout < 0) {
-        scope.timeout = defaultTimeout;
-      }
-
-      scope.close = function() {
-        //make sure we're not allowing the callback to (also) occur if the user clicked close
-        cancelTimer();
-        scope.closing = true;
-        $timeout(function() {
-          element.remove();
-        }, 500);
-      };
-
-      element.on('$destroy', function() {
-        scope.$emit('akam-status-message-destroyed', scope.itemId);
-        element.off('mouseenter', cancelTimer);
-        element.off('mouseleave', enableTimer);
-      });
-
-      function enableTimer() {
-        if (scope.timeout > 0) {
-          timer = $timeout(function() {
-            scope.close();
-          }, scope.timeout);
-        }
-      }
-
-      function cancelTimer() {
-        if (timer != null) {
-          $timeout.cancel(timer);
-          timer = null;
-        }
-      }
-
-      element.on('mouseenter', cancelTimer);
-      element.on('mouseleave', enableTimer);
-
-      enableTimer();
     }
   };
 };
-module.exports.$inject = ['$log', '$timeout'];

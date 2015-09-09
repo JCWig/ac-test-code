@@ -1,9 +1,10 @@
-var angular = require('angular');
+import angular from 'angular';
+import template from './templates/message-box.tpl.html';
 
-module.exports = function(modalWindow, translate, $rootScope) {
+function messageBox(modalWindow, translate, $rootScope) {
 
   function modalWindowController($scope) {
-    var collapsed = true;
+    let collapsed = true;
 
     $scope.toggle = function() {
       collapsed = !collapsed;
@@ -17,7 +18,7 @@ module.exports = function(modalWindow, translate, $rootScope) {
   modalWindowController.$inject = ['$scope'];
 
   function show(options, type) {
-    var title = translate.sync('components.message-box.title.information');
+    let title = translate.sync('components.message-box.title.information');
 
     if (options.headline == null) {
       throw new Error('headline option is required');
@@ -33,6 +34,7 @@ module.exports = function(modalWindow, translate, $rootScope) {
       title = translate.sync('components.message-box.title.error');
     }
 
+    options.title = translate.sync(options.title);
     options.title = options.title ? options.title.substr(0, 20) : title;
     options.backdrop = 'static';
     options.scope = $rootScope.$new();
@@ -42,11 +44,11 @@ module.exports = function(modalWindow, translate, $rootScope) {
       details: options.details
     };
 
-    options.cancelLabel = options.cancelLabel || translate.sync('components.message-box.no');
-    options.submitLabel = options.submitLabel || translate.sync('components.message-box.yes');
+    options.cancelLabel = translate.sync(options.cancelLabel, null, 'components.message-box.no');
+    options.submitLabel = translate.sync(options.submitLabel, null, 'components.message-box.yes');
 
     return modalWindow.open(angular.extend(options, {
-      template: require('./templates/message-box.tpl.html'),
+      template: template,
       doNotShowMessage: true,
       controller: modalWindowController
     }));
@@ -72,6 +74,9 @@ module.exports = function(modalWindow, translate, $rootScope) {
      *
      * - `details` (string) Optional additional text, which
      *   appears collapsed by default.
+     *
+     * - `hideSubmit` (boolean) Optional A flag to hide the submit button and only allow
+     *    the message box to be dismissed.
      *
      * @return {Object} A modalWindow instance.
      *
@@ -121,5 +126,8 @@ module.exports = function(modalWindow, translate, $rootScope) {
       return this.show(options, 'error');
     }
   };
-};
-module.exports.$inject = ['modalWindow', 'translate', '$rootScope'];
+}
+
+messageBox.$inject = ['modalWindow', 'translate', '$rootScope'];
+
+export default messageBox;

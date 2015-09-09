@@ -24,10 +24,9 @@
     </style>
 </head>
 
-<body class="common-css luna" ng-app="dropdownApp"ng-strict-di ng-controller="DropdownAppController as vm">
+<body class="common-css luna" ng-app="dropdownApp" ng-strict-di ng-controller="DropdownAppController as vm">
 
     <h1>Dropdown Component Example</h1>
-
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
@@ -43,15 +42,15 @@
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis" ng-class="{disabled:vm.disabled}">
-                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
-                            custom: {{selectedItem[textProperty]}}
+                        <span ng-if="dropdown.selectedItem" title="{{dropdown.selectedItem[dropdown.textProperty]}}">
+                            custom: {{dropdown.selectedItem[dropdown.textProperty]}}
                         </span>
-                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{vm.placeholder}}</span>
+                        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
                     </span>
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
-                    <span title="{{item[textProperty]}}">custom: {{item[textProperty]}}</span>
+                    <span title="{{item[dropdown.textProperty]}}">custom: {{item[dropdown.textProperty]}}</span>
                 </akam-dropdown-option>
 
             </akam-dropdown>
@@ -67,7 +66,7 @@
     <div>
         <h2>Dropdown with a list of strings and a filter, not clearable</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable on-change="vm.doChange(item)"></akam-dropdown>
         </span>
     </div>
     <br/>
@@ -90,17 +89,14 @@
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis">
-                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
-                            custom: {{selectedItem[textProperty]}}
-                        </span>
-                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{vm.placeholder}}</span>
+                        <span ng-if="dropdown.selectedItem" title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>
+                        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
                     </span>
-
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
-                    <span title="{{item[textProperty]}}">custom:
-                        <span ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                    <span title="{{item[dropdown.textProperty]}}">custom:
+                        <span ng-bind-html="item[dropdown.textProperty] | highlight:dropdownFilter[dropdown.filterProperty]"></span>
                     </span>
                 </akam-dropdown-option>
             </akam-dropdown>
@@ -123,17 +119,17 @@
 
                 <akam-dropdown-selected>
                     <span class="selected-option util-ellipsis">
-                        <span ng-if="selectedItem" title="{{selectedItem[textProperty]}}">
-                            custom: {{selectedItem[textProperty]}}
+                        <span ng-if="dropdown.selectedItem" title="{{dropdown.getSelectedItemText()}}">
+                            custom: {{dropdown.getSelectedItemText()}}
                         </span>
-                        <span ng-if="!selectedItem" class="dropdown-placeholder">{{vm.placeholder}}</span>
+                        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
                     </span>
 
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
-                    <span title="{{item[textProperty]}}">custom:
-                        <span ng-bind-html="item[textProperty] | highlight:dropdownFilter[filterProperty]"></span>
+                    <span title="{{item[dropdown.textProperty]}}">custom:
+                        <span ng-bind-html="item[dropdown.textProperty] | highlight:dropdownFilter[dropdown.filterProperty]"></span>
                     </span>
                 </akam-dropdown-option>
             </akam-dropdown>
@@ -165,13 +161,11 @@
             var vm = this;
             vm.test = 'test';
             vm.disabled = false;
-            
             // localized string coming from the example locale file
             vm.placeholder = translate.async('examples.dropdown.select.one').then(function(v){
                 vm.placeholder = v;
                 $log.log("placeholder text is " + vm.placeholder);
             });
-            
             vm.stateObjects = [
                 {name: 'Colorado'},
                 {name: 'Connecticut'},

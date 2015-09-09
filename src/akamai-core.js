@@ -1,4 +1,31 @@
-var angular = require('angular');
+import angular from 'angular';
+import uuid from './uuid';
+import i18n from './i18n';
+import indeterminateProgress from './indeterminate-progress';
+import contentPanel from './content-panel';
+import menuButton from './menu-button';
+import modalWindow from './modal-window';
+import messageBox from './message-box';
+import statusMessage from './status-message';
+import datePicker from './date-picker';
+import pagination from './pagination';
+import listBox from './list-box';
+import table from './table';
+import spinner from './spinner';
+import utils from './utils';
+import switchButton from './switch-button';
+import popover from './popover';
+import treeView from './tree-view';
+import timePicker from './time-picker';
+import tagInput from './tag-input';
+import dropdown from './dropdown';
+import auth from './auth';
+import autocomplete from './autocomplete';
+import megaMenu from './mega-menu';
+import wizard from './wizard';
+import navigation from './navigation';
+import dateRange from './date-range';
+import spinnerButton from './spinner-button';
 
 /**
  * @ngdoc overview
@@ -14,29 +41,31 @@ var angular = require('angular');
  * We look forward to growing and evolving the component roster.
  */
 angular.module('akamai.components', [
-  require('./uuid').name,
-  require('./i18n').name,
-  require('./indeterminate-progress').name,
-  require('./content-panel').name,
-  require('./menu-button').name,
-  require('./modal-window').name,
-  require('./message-box').name,
-  require('./status-message').name,
-  require('./date-picker').name,
-  require('./pagination').name,
-  require('./list-box').name,
-  require('./table').name,
-  require('./spinner').name,
-  require('./utils').name,
-  require('./switch-button').name,
-  require('./popover').name,
-  require('./tree-view').name,
-  require('./time-picker').name,
-  require('./tag-input').name,
-  require('./dropdown').name,
-  require('./auth').name,
-  require('./autocomplete').name,
-  require('./mega-menu').name,
-  require('./wizard').name,
-  require('./navigation').name
+  uuid.name,
+  i18n.name,
+  indeterminateProgress.name,
+  contentPanel.name,
+  menuButton.name,
+  modalWindow.name,
+  messageBox.name,
+  statusMessage.name,
+  datePicker.name,
+  pagination.name,
+  listBox.name,
+  table.name,
+  spinner.name,
+  utils.name,
+  switchButton.name,
+  popover.name,
+  treeView.name,
+  timePicker.name,
+  tagInput.name,
+  dropdown.name,
+  auth.name,
+  autocomplete.name,
+  megaMenu.name,
+  wizard.name,
+  dateRange.name,
+  navigation.name,
+  spinnerButton.name
 ]);

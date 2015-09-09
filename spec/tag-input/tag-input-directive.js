@@ -63,7 +63,7 @@ describe('akamai.components.tag-input', function() {
         var inputField = document.querySelector(INPUT_FIELD);
         utilities.click(inputField);
         var allDropDownOptions = document.querySelectorAll(DROPDOWN_OPTION);
-        
+
         expect(allSelectedTags.length).toEqual(0);
         expect(inputField).not.toBe(null);
         expect(allDropDownOptions.length).toEqual(scope.availableItems.length);
@@ -83,7 +83,7 @@ describe('akamai.components.tag-input', function() {
         var inputField = document.querySelector(INPUT_FIELD);
         utilities.click(inputField);
         var allDropDownOptions = document.querySelectorAll(DROPDOWN_OPTION);
-        
+
         expect(allDropDownOptions.length).toEqual(scope.availableItems.length);
       });
       it('should add in items if selected from drop down list', function(){
@@ -172,7 +172,7 @@ describe('akamai.components.tag-input', function() {
         var markup = '<akam-tag-input ng-model="items" available-items="availableItems" tagging-label="new item"'+
                         'sort-function="sortFunction"></akam-tag-input>';
         addElement(markup);
-        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0]; 
+        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0];
         firstSelectedTag.classList.add('droppping', 'dropping-before', 'dropping-after');
         var isoScope = self.el.isolateScope();
         isoScope.$emit('uiSelectSort:change', {array:scope.items});
@@ -184,7 +184,7 @@ describe('akamai.components.tag-input', function() {
         var markup = '<akam-tag-input ng-model="items" available-items="availableItems" tagging-label="new item"'+
                         'sort-function="sortFunction"></akam-tag-input>';
         addElement(markup);
-        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0]; 
+        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0];
         firstSelectedTag.classList.add('droppping', 'dropping-before', 'dropping-after');
         var isoScope = self.el.isolateScope();
         isoScope.$emit('uiSelectSort:failed', {array:scope.items});
@@ -196,14 +196,14 @@ describe('akamai.components.tag-input', function() {
         var markup = '<akam-tag-input ng-model="items" available-items="availableItems" tagging-label="new item"'+
                         'sort-function="sortFunction"></akam-tag-input>';
         addElement(markup);
-        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0]; 
+        var firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0];
         firstSelectedTag.classList.add('droppping', 'dropping-before', 'dropping-after');
         var isoScope = self.el.isolateScope();
-        isoScope.$emit('uiSelectSort:change', 
+        isoScope.$emit('uiSelectSort:change',
             {array:  ["Tim Drake", "Barbara Gordon"] });
         scope.$digest();
         timeout.flush();
-        firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0]; 
+        firstSelectedTag = document.querySelectorAll(SELECTED_TAGS)[0];
         expect(scope.items).toContain('Tim Drake');
         expect(scope.items).toContain('Barbara Gordon');
       });
@@ -214,11 +214,10 @@ describe('akamai.components.tag-input', function() {
                       'sort-function="sortFunction"></akam-tag-input>';
         addElement(markup);
         var originalLength = scope.items.length;
-        var isoScope = self.el.isolateScope();
-        isoScope.onSelect(undefined);
-        isoScope.onSelect(undefined);
+        var tagInput = self.el.controller('akamTagInput');
+        self.el.isolateScope().onSelect(undefined);
         expect(scope.items.length).toEqual(originalLength);
-        expect(isoScope.data.items.length).toEqual(originalLength);
+        expect(tagInput.data.items.length).toEqual(originalLength);
       });
       it('should not allow selected items that do not pass a given validation function', function(){
         scope.validateFunction = function(item){ // dont allow strings with only one character
@@ -231,10 +230,10 @@ describe('akamai.components.tag-input', function() {
                       'sort-function="sortFunction" validate-function="validateFunction"></akam-tag-input>';
         addElement(markup);
         var originalLength = scope.items.length;
-        var isoScope = self.el.isolateScope();
-        isoScope.data.items.push('1');
+        var tagInput = self.el.controller('akamTagInput');
+        tagInput.data.items.push('1');
         scope.$digest();
-        isoScope.onSelect('1');
+        self.el.isolateScope().onSelect('1');
         scope.$digest();
         var invalidActivatedDirective = document.querySelector('.invalid-tag');
         expect(invalidActivatedDirective).not.toBe(null);
@@ -244,15 +243,45 @@ describe('akamai.components.tag-input', function() {
                       'sort-function="sortFunction" restricted="true"></akam-tag-input>';
         addElement(markup);
         var originalLength = scope.items.length;
-        var isoScope = self.el.isolateScope();
-        isoScope.data.items.push('DOES NOT EXIST'); 
-        isoScope.onSelect('DOES NOT EXIST');
+        var isoScope = self.el.controller('akamTagInput');
+        isoScope.data.items.push('DOES NOT EXIST');
+        self.el.isolateScope().onSelect('DOES NOT EXIST');
         expect(scope.items.length).toEqual(originalLength);
         expect(isoScope.data.items.length).toEqual(originalLength);
         isoScope.data.items.push('Dick Grayson');
-        isoScope.onSelect('Dick Grayson');
+        self.el.isolateScope().onSelect('Dick Grayson');
         expect(scope.items.length).toEqual(originalLength + 1);
         expect(isoScope.data.items.length).toEqual(originalLength + 1);
       });
     });
+    describe('when tag-input is rendered', function(){
+      describe('and no tags are selected', function(){
+        it('should render default placeholder if placeholder attr is not provided', function(){
+          scope.items = [];
+          var markup = '<akam-tag-input ng-model="items" available-items="availableItems"> </akam-tag-input>';
+          addElement(markup);
+
+          var inputField = document.querySelector(INPUT_FIELD);
+          expect(inputField.placeholder).toContain('Select Items');
+        });
+        it('should translate placeholder if placeholder attr is a valid key', function(){
+          scope.items = [];
+          var markup = '<akam-tag-input ng-model="items" placeholder="components.tag-input.taggingLabel" available-items="availableItems"> </akam-tag-input>';
+          addElement(markup);
+
+          var inputField = document.querySelector(INPUT_FIELD);
+          expect(inputField.placeholder).toContain('(new item)');
+        });
+        it('should translate and display key if key is invalid', function(){
+          scope.items = [];
+          var markup = '<akam-tag-input ng-model="items" placeholder="invalidKey" available-items="availableItems"> </akam-tag-input>';
+          addElement(markup);
+
+          var inputField = document.querySelector(INPUT_FIELD);
+          expect(inputField.placeholder).toContain('invalidKey');
+        });
+      });
+    });
+    // TODO (tpatel@akamai.com)
+    // Write spec to test translation for taggingLabel
 });

@@ -1,5 +1,6 @@
 'use strict';
 var utilities = require('../utilities');
+var translationMock = require('../fixtures/translationFixture.json');
 
 var CURRENT = '.tree-view-current';
 var CHILDREN = '.tree-view-children';
@@ -16,6 +17,9 @@ describe('akamai.components.tree-view', function() {
     inject.strictDi(true);
     var self = this;
     angular.mock.module(require('../../src/tree-view').name);
+    angular.mock.module(function($provide, $translateProvider) {
+      $translateProvider.useLoader('i18nCustomLoader');
+    });
     inject(function($compile, $rootScope, $timeout, $q, $log, $http, $httpBackend) {
       scope = $rootScope.$new();
       timeout = $timeout;
@@ -23,6 +27,9 @@ describe('akamai.components.tree-view', function() {
       q = $q;
       http = $http;
       httpBackend = $httpBackend;
+      httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
+      httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
+      httpBackend.flush();
     });
     scope.contextDataCustom = {
       parents: {titles: "Justice League", roots:'true'},
@@ -164,8 +171,9 @@ describe('akamai.components.tree-view', function() {
     self.element = document.createElement('div');
     self.element.innerHTML = markup;
     document.body.appendChild(self.element);
-    compile(document.body)(scope);
     scope.$digest();
+    self.el = compile(document.body)(scope);
+
     timeout.flush();
   };
   describe('given a conforming object bound to the item attribute', function(){
@@ -195,7 +203,7 @@ describe('akamai.components.tree-view', function() {
   describe('given a promise bound to the item attribute', function(){
     describe('when the tree view is rendered', function(){
       it('should display an indeterminate progress indicator', function(){
-        
+
       });
     });
   });
@@ -349,7 +357,7 @@ describe('akamai.components.tree-view', function() {
           });
           http.get('json/tree-view-data.json').then(function(resp){
             timeout(function(){
-              scope.delayedData = resp; 
+              scope.delayedData = resp;
             }, 2000)
           });
           var markup = '<akam-tree-view item="delayedData" on-change="triggerChange(item)"> </akam-tree-view>';

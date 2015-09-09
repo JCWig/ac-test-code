@@ -1,6 +1,11 @@
-var angular = require('angular');
+import angular from 'angular';
+import sanitize from 'angular-sanitize';
+import angularBootstrap from 'angular-bootstrap-npm';
+import i18n from '../i18n';
+import dropdownTransformer from './dropdown-transformer';
+import dropdownDirective from './dropdown-directive';
 
-require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
+import '../../node_modules/angular-ui-utils/modules/highlight/highlight.js';
 
 /**
  * @ngdoc module
@@ -41,13 +46,14 @@ require('../../node_modules/angular-ui-utils/modules/highlight/highlight.js');
  * }
  *
  */
-module.exports = angular.module('akamai.components.dropdown', [
-  require('angular-bootstrap-npm'),
-  'ngSanitize',
+
+export default angular.module('akamai.components.dropdown', [
+  angularBootstrap,
+  sanitize,
   'ui.highlight',
-  require('../i18n').name
+  i18n.name
 ])
-  .service('dropdownTransformer', require('./dropdown-transformer'))
+  .service('dropdownTransformer', dropdownTransformer)
 
 /**
  * @ngdoc directive
@@ -63,7 +69,23 @@ module.exports = angular.module('akamai.components.dropdown', [
  * @param {String} [textProperty] If the options param is an array of Objects,
  * this is the property of those objects used in the dropdown menu
  *
- * @param {String} [placeholder=Select one] The placeholder text for the dropdown
+ * @param {String} [placeholder=Select one] The placeholder text for the dropdown.
+ * Placeholder attribute value can be text or translation key.
+ * When using custom markup, include <pre>{{dropdown.placeholder}}</pre>
+ * to display default placeholder text.
+ * If not included, placeholder text will be empty.
+ *
+ * ```
+ * <akam-dropdown>
+ *   <akam-dropdown-selected>
+ *      <span class="selected-option util-ellipsis" ng-class="{disabled:vm.disabled}">
+ *        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">
+ *          {{dropdown.placeholder}}
+ *        </span>
+ *      </span>
+ *    </akam-dropdown-selected>
+ * </akam-dropdown>
+ * ```
  *
  * @param {String} [filterPlaceholder=Filter] The placeholder text for the filter field
  *
@@ -72,4 +94,5 @@ module.exports = angular.module('akamai.components.dropdown', [
  * @param {Function} [onChange] A callback function that is executed when the
  * state of the dropdown changes
  */
-  .directive('akamDropdown', require('./dropdown-directive'));
+
+  .directive('akamDropdown', dropdownDirective);

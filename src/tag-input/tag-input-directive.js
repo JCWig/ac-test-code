@@ -1,11 +1,56 @@
-var angular = require('angular');
-var tagInputTemplate = require('./templates/tag-input.tpl.html');
+import angular from 'angular';
+import template from './templates/tag-input.tpl.html';
 
-module.exports = function(translate) {
+function tagInput(translate) {
+  class TagInputController {
+    constructor() {
+      this.invalidInputs = [];
+      this.data = {items: this.items};
+      this.staticMessages = {
+        placeholder: this.placeholder,
+        taggingLabel: this.taggingLabel
+      };
+
+      translate.async(this.staticMessages.taggingLabel, null, 'components.tag-input.taggingLabel')
+        .then(value => this.staticMessages.taggingLabel = value);
+
+      translate.async(this.staticMessages.placeholder, null, 'components.tag-input.placeholder')
+        .then( value => {
+          this.staticMessages.placeholder = value;
+          this.messages = this.staticMessages;
+        });
+    }
+
+    validate(item) {
+      if (typeof this.validateFunction === 'function') {
+        return this.validateFunction(item);
+      }
+      return true;
+    }
+
+    sortItems(items) {
+      if (typeof this.sortFunction === 'function') {
+        return this.sortFunction(items);
+      } else {
+        return items;
+      }
+    }
+
+    removeItem(item) {
+      let index = this.data.items.indexOf(item);
+
+      if (index > -1) {
+        this.items.splice(index, 1);
+        this.data.items = this.items;
+      }
+    }
+  }
+
   return {
     restrict: 'E',
     require: 'ngModel',
-    scope: {
+    scope: {},
+    bindToController: {
       items: '=ngModel',
       availableItems: '=',
       taggingLabel: '@',
@@ -15,97 +60,66 @@ module.exports = function(translate) {
       restricted: '@',
       validateFunction: '='
     },
-    template: tagInputTemplate,
+    controller: TagInputController,
+    controllerAs: 'tagInput',
+    template: template,
     link: function(scope, element, attrs, ngModel) {
-      scope.invalidInputs = [];
-      scope.data = {items: scope.items};
-      if (!scope.taggingLabel) {
-        translate.async('components.tag-input.taggingLabel').then(function(value) {
-          scope.taggingLabel = value;
-        });
-      }
-      if (!scope.placeholder) {
-        translate.async('components.tag-input.placeholder').then(function(value) {
-          scope.placeholder = value;
-        });
-      }
+      let ctrl = scope.tagInput;
+
       function removeClasses() {
-        var stillDropping =
+        let stillDropping =
           element.querySelectorAll('.droppping, .dropping-before, .dropping-after');
 
-        angular.forEach(stillDropping, function(ele) {
-          angular.element(ele).removeClass('dropping dropping-before dropping-after');
-        });
+        angular.forEach(stillDropping, ele => angular.element(ele)
+          .removeClass('dropping dropping-before dropping-after'));
       }
-
       ngModel.$isEmpty = function(value) {
         return value.length === 0;
       };
       ngModel.$validators.invalidTagInput = function(modelValue, viewValue) {
-        var flag = true;
-        var i;
+        let flag = true;
+        let i;
 
         for (i = 0; i < viewValue.length; i++) {
-          if (!scope.validate(viewValue[i])) {
+          if (!ctrl.validate(viewValue[i])) {
             flag = false;
-            scope.invalidInputs.push(i);
+            ctrl.invalidInputs.push(i);
           }
         }
         return flag;
       };
       scope.applyInvalidTags = function() {
-        var tags = element.querySelectorAll('.ui-select-match-item');
+        let tags = element.querySelectorAll('.ui-select-match-item');
 
         if (tags.length) {
-          angular.forEach(scope.invalidInputs, function(index) {
+          angular.forEach(ctrl.invalidInputs, index => {
             if (tags[index]) {
               tags[index].classList.add('invalid-tag');
             }
           });
         }
       };
-      scope.sortItems = function(items) {
-        if (typeof scope.sortFunction === 'function') {
-          return scope.sortFunction(items);
-        } else {
-          return items;
-        }
-      };
-      scope.validate = function(item) {
-        if (typeof scope.validateFunction === 'function') {
-          return scope.validateFunction(item);
-        }
-        return true;
-      };
-      scope.removeItem = function(item) {
-        var index = scope.data.items.indexOf(item);
-
-        if (index > -1) {
-          scope.items.splice(index, 1);
-          scope.data.items = scope.items;
-        }
-      };
       scope.setValues = function(newItems) {
-        scope.items = newItems;
+        ctrl.items = newItems;
         ngModel.$setViewValue(newItems);
         ngModel.$setTouched();
       };
       scope.onSelect = function(item) {
-        var index = scope.availableItems.indexOf(item);
+        let index = ctrl.availableItems.indexOf(item);
 
         if (!item) {
-          scope.removeItem(item);
-        } else if (scope.restricted && scope.restricted === 'true' &&
-          scope.availableItems && index < 0) {
-          scope.removeItem(item);
+          ctrl.removeItem(item);
+        } else if (ctrl.restricted && ctrl.restricted === 'true' &&
+          ctrl.availableItems && index < 0) {
+          ctrl.removeItem(item);
         }
         ngModel.$validate();
         scope.applyInvalidTags();
       };
-      scope.$watch('data.items', function(newItems) {
-        var sortedItems = scope.sortItems(newItems);
+      scope.$watch('tagInput.data.items', function(newItems) {
+        let sortedItems = ctrl.sortItems(newItems);
 
-        scope.invalidInputs = [];
+        ctrl.invalidInputs = [];
         scope.setValues(sortedItems);
         ngModel.$validate();
       });
@@ -117,5 +131,8 @@ module.exports = function(translate) {
       });
     }
   };
-};
-module.exports.$inject = ['translate'];
+}
+
+tagInput.$inject = ['translate'];
+
+export default tagInput;

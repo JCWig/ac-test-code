@@ -4,6 +4,9 @@ var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.js
 var CONFIG_PATH = '../../_appen_US.json';
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+const CANCEL_BUTTON_SELECTOR = '.modal .btn:not(.btn-primary)';
+const SUBMIT_BUTTON_SELECTOR = '.modal .btn.btn-primary';
+
 
 describe('messageBox service', function() {
   var translationMock = {
@@ -11,7 +14,8 @@ describe('messageBox service', function() {
       "message-box": {
         "no": "No",
         "yes": "Yes"
-      }
+      },
+      "name": "Msg box title"
     }
   };
   beforeEach(function() {
@@ -121,7 +125,27 @@ describe('messageBox service', function() {
       });
       this.$rootScope.$digest();
 
-      var cancelModalButton = document.querySelector('.modal .button:not(.primary)');
+      var cancelModalButton = document.querySelector(CANCEL_BUTTON_SELECTOR);
+      expect(cancelModalButton.textContent).toContain(cancelLabelKey);
+    });
+
+    it('should cancelLabel display translation key if provided', function() {
+      var cancelLabelKey = 'Yes';
+
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
+
+      this.messageBox.show({
+        headline: 'headline',
+        text: 'Message',
+        cancelLabel: "components.message-box.yes"
+      });
+      this.$rootScope.$digest();
+
+      var cancelModalButton = document.querySelector(CANCEL_BUTTON_SELECTOR);
       expect(cancelModalButton.textContent).toContain(cancelLabelKey);
     });
 
@@ -141,8 +165,46 @@ describe('messageBox service', function() {
       });
       this.$rootScope.$digest();
 
-      var okayModalButton = document.querySelector('.modal button.primary');
+      var okayModalButton = document.querySelector(SUBMIT_BUTTON_SELECTOR);
       expect(okayModalButton.textContent).toContain(submitLabelKey);
+    });
+    it('should submitLabel display translation key if provided', function() {
+      var submitLabelKey = 'No';
+
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
+
+      this.messageBox.show({
+        headline: 'headline',
+        text: 'Message',
+        submitLabel: 'components.message-box.no'
+      });
+      this.$rootScope.$digest();
+
+      var okayModalButton = document.querySelector(SUBMIT_BUTTON_SELECTOR);
+      expect(okayModalButton.textContent).toContain(submitLabelKey);
+    });
+
+    it('should title display translation key if provided', function() {
+      var title = 'Msg box title';
+
+      try {
+        this.$timeout.verifyNoPendingTasks();
+      } catch (e) {
+        this.$timeout.flush();
+      }
+
+      this.messageBox.show({
+        title: 'components.name',
+        headline: 'Headline',
+        text: 'Message'
+      });
+      this.$rootScope.$digest();
+      var modalHeadline = document.querySelector('.modal .modal-title');
+      expect(modalHeadline.textContent).toEqual(title);
     });
 
     it('should limit the headline to 48 characters', function() {
@@ -155,7 +217,6 @@ describe('messageBox service', function() {
       this.$rootScope.$digest();
       var modalHeadline = document.querySelector('.modal .message-box-headline');
       expect(modalHeadline.textContent.length).toEqual(48);
-
     });
 
     it('should support a text option', function() {
@@ -261,7 +322,7 @@ describe('messageBox service', function() {
         expect(messageBoxDetails.classList).not.toContain('in');
         utilities.click(messageBoxDetailsTrigger);
         this.$rootScope.$digest();
-        
+
         expect(messageBoxDetails.classList).toContain('in');
       });
     });

@@ -1,13 +1,15 @@
-module.exports = function(translate) {
+function TranslateDirective(translate) {
   return {
     restrict: 'A',
-    link: function(scope, elem, attr) {
-      var key = attr.akamTranslate;
+    link: (scope, elem, attr) => {
+      let key = attr.akamTranslate;
 
-      translate.async(key).then(function(value) {
+      translate.async(key).then((value) => {
         elem.text(value);
       });
     }
   };
-};
-module.exports.$inject = ['translate'];
+}
+
+TranslateDirective.$inject = ['translate'];
+export default TranslateDirective;

@@ -1,21 +1,21 @@
-<div class="akam-date-picker" ng-class="mode">
+<div class="akam-date-picker" ng-class="datepicker.mode">
   <input
     type="text"
-    datepicker-popup="{{ format }}"
-    ng-model="value"
+    datepicker-popup="{{ datepicker.format }}"
+    ng-model="datepicker.value"
     ng-change="change()"
-    is-open="opened"
-    datepicker-options="dateOptions"
-    datepicker-mode="mode"
-    min-date="{{ min }}"
-    max-date="{{ max }}"
-    placeholder="{{ placeholder }}"
-    ng-click="toggle($event)"
+    is-open="datepicker.opened"
+    datepicker-options="datepicker.dateOptions"
+    datepicker-mode="datepicker.mode"
+    min-date="{{ datepicker.min }}"
+    max-date="{{ datepicker.max }}"
+    placeholder="{{ datepicker.placeholder }}"
+    ng-click="datepicker.toggle($event)"
     readonly="readonly"
-    ng-disabled="isDisabled"
+    ng-disabled="datepicker.isDisabled"
     show-button-bar="false"> <i class="luna-close clear-date util-clickable" ng-if="showClear()"
                                 ng-click="clearDate()"></i>
-  <button type="button" class="button" ng-click="toggle($event)" ng-disabled="isDisabled">
-    <i class="luna-calendar icon-states" ng-disabled="isDisabled"></i>
+  <button type="button" class="button" ng-click="datepicker.toggle($event)" ng-disabled="datepicker.isDisabled">
+    <i class="luna-calendar icon-states" ng-disabled="datepicker.isDisabled"></i>
   </button>
 </div>

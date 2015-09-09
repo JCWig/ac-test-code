@@ -48,31 +48,17 @@
     color: $button-text-color-disabled;
   }
 
-  &.small {
+  &.small, &.btn-small {
     height: $button-height-small;
     line-height: ($button-height-small - $button-border-width*2);
     font-size: $button-text-size-small;
   }
 
-  &.large {
+  &.large, &.btn-large {
     height: $button-height-large;
     line-height: ($button-height-large - $button-border-width*2);
     font-size: $button-text-size-large;
     // font-weight: bold;
-  }
-
-  &.has-spinner {
-    background: #e6e6e6;
-    border-color: #999999;
-  }
-
-  .submit-button-spinner {
-    background-image: inline-svg-image("svg/spinner-orange.svg");
-    @include animation(spin360 1s infinite steps(8));
-    height: 90%;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 
   &.primary, &.btn-primary {
@@ -98,11 +84,6 @@
       background: $button-primary-background-color-disabled;
       border-color: $button-primary-border-color-disabled;
       color: $button-primary-text-color-disabled;
-    }
-
-    &.has-spinner {
-      background: #f46b29;
-      border-color: #ab4d09;
     }
   }
 

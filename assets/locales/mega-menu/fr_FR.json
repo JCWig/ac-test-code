@@ -4,36 +4,37 @@
         "support": "Assistance technique",
         "alerts": "Alertes",
         "messages": "Messages",
-        "store": "Marketplace"
+        "store": "Marketplace",
+        "community" : "Community"
     },
     "search": {
         "kb": "Ko",
         "search": "Rechercher",
-        "loading": "loading",
-        "seeAll": "See all {category} results",
+        "loading": "chargement en cours",
+        "seeAll": "Consulter tous les résultats pour {category}",
         "users": "utilisateurs",
-        "searchFor": "Search for {category}",
+        "searchFor": "Rechercher {category}",
         "docs": "documents",
         "documentation": "Documentation",
-        "noResults": "no results found",
+        "noResults": "aucun résultat trouvé",
         "all": "TOUT",
         "applications": "applications",
-        "allResults": "All Results",
+        "allResults": "Tous les résultats",
         "accounts": "comptes",
         "groups": "groupes",
         "knowledgeBase": "Knowledge Base English Only",
         "properties": "propriétés"
     },
     "footer_context": {
-        "advanced_search": "Advanced Search",
         "netstorage_deprovisioning": "Déconfiguration de NetStorage",
         "reports_dashboard": "Tableaux de bord",
-        "configure_ads": "Configurer ADS",
+        "advanced_search": "Recherche avancée",
         "provision_siteshield": "Configurer SiteShield",
         "dmca": "DMCA",
         "firewall_rules": "Règles de pare-feu",
         "akamai_internal": "Interne à Akamai",
         "lambda_email_reports": "Rapports lambda par courrier électronique",
+        "configure_ads": "Configurer ADS",
         "search_reports": "Rechercher des rapports",
         "search": "Rechercher les comptes",
         "account_team": "Équipe chargée du compte",
@@ -42,7 +43,7 @@
         "on_demand_staream_configuration": "Configuration des flux à la demande",
         "message_center_publisher": "Émetteur du message",
         "charaka_manage_questions": "Questions pour la gestion Charaka",
-        "cp_codes": "Codes fournisseurs de contenu",
+        "cp_codes": "CP Codes",
         "gss_policy_compliance": "Conformité à la réglementation GSS",
         "charaka_manager_questionnaires": "Questionnaires pour la gestion Charaka",
         "configure_ghost_logging": "Configurer la connexion fantôme",
@@ -50,7 +51,7 @@
         "edgescape_certificates": "Certificats EdgeScape",
         "nocc_ep_configuration": "Configuration NOCC EP",
         "storage_ic": "CI de stockage",
-        "storage_am": "Méthode d''accès au stockage",
+        "storage_am": "Méthode d'accès au stockage",
         "reporting_cpcode_tool": "Rapports pour les groupes de CP Code",
         "stream_ic": "CI de flux",
         "trials": "Essais",
@@ -58,23 +59,25 @@
         "cp_codes_mange_users": "CP Codes - Gérer les utilisateurs PC",
         "transcoding_workspaces": "Espaces de travail liés à la préparation du contenu",
         "storage_admin": "Administration du stockage",
-        "transcoding_regions": "Régions liées à la préparation du contenu"
+        "transcoding_regions": "Régions liées à la préparation du contenu",
+        "media_rollout": "Media Feature Roll Out Manager"
     },
     "timeout": {
         "buttonText": "Étendre",
         "contents": "La session que vous avez ouverte dans Luna Control Center va prochainement expirer. Cliquez sur Étendre pour étendre votre session.",
-        "title": "Session Timeout Imminent"
+        "title": "La session va prochainement expirer"
     },
     "context": {
-        "cpcode": "Traffic Segment",
+        "cpcode": "Segment de trafic",
         "arl": "Propriété numérique",
-        "noMatches": "No Matches Found"
+        "noMatches": "Aucune correspondance trouvée"
     },
     "footer": {
         "policy": "Dispositions légales et respect de la confidentialité",
         "contact": "Nous contacter",
         "feedback": "Comment pouvons-nous mieux vous servir ?",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. All Rights Reserved"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. Tous droits réservés",
+        "terms": "Portal Terms of Use"
     },
     "shortMonths": {
         "11": "Déc",
@@ -101,7 +104,7 @@
         "previous": "Précédent",
         "forwardSend": "Envoyer",
         "next": "Suivant",
-        "casesTitle": "Ouvrir les dossiers d''assistance",
+        "casesTitle": "Ouvrir les dossiers d'assistance",
         "messagesTitle": "Messages",
         "eventsTitle": "Événements à venir",
         "forward": "Transférer le message",
@@ -112,25 +115,25 @@
         "widgetTitle": "Centre de messagerie",
         "forwardComments": "Comentaires (facultatifs) :",
         "posted": "Publié",
-        "forwardMessage": "Transférer le message sélectionné à l''/aux adresse(s) électronique(s) suivante(s) :",
+        "forwardMessage": "Transférer le message sélectionné à l'/aux adresse(s) électronique(s) suivante(s) :",
         "list": "Liste",
         "no-cases": "Aucun dossier trouvé.",
-        "unread": "{count} Unread",
+        "unread": "{count} Non lu(s)",
         "delete": "Supprimer le message"
     },
     "policies": {
-        "es_la": "http://spanish.akamai.com/enes/html/policies/index.html",
-        "pt_br": "http://www.akamai.com/html/policies/index.html",
-        "ko_kr": "http://www.akamai.com/html/policies/index.html",
-        "it_it": "http://www.akamai.com/html/policies/index.html",
-        "en_us": "http://www.akamai.com/html/policies/index.html",
-        "de_de": "http://www.akamai.de/leaving.html?url=/html/policies/index.html",
-        "fr_fr": "http://www.akamai.fr/enfr/html/policies/index.html",
-        "zh_cn": "http://www.akamai.cn/enzs/html/policies/index.html",
-        "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506",
+        "ja_jp": "https://www.akamai.com/policies",
+        "it_it": "https://www.akamai.com/policies",
+        "zh_tw": "https://www.akamai.com/policies",
+        "zh_cn": "https://www.akamai.com/policies",
+        "ko_kr": "https://www.akamai.com/policies",
+        "fr_fr": "https://www.akamai.com/policies",
+        "es_es": "https://www.akamai.com/policies",
+        "es_la": "https://www.akamai.com/policies",
+        "de_de": "https://www.akamai.com/policies",
+        "pt_br": "https://www.akamai.com/policies",
+        "en_us" : "https://www.akamai.com/policies",
         "en_us_ib": "http://www.ibm.com/privacy/us/en/?lnk=flg-priv-usen",
-        "ja_jp": "http://www.akamai.co.jp/enja/html/policies/index.html",
-        "zh_tw": "http://www.akamai.com/html/policies/index.html",
-        "es_es": "http://spanish.akamai.com/enes/html/policies/index.html"
+        "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506"
     }
 }

@@ -1,4 +1,8 @@
-var angular = require('angular');
+import angular from 'angular';
+
+import statusMessageDirective from './status-message-directive';
+import statusMessageGroupDirective from './status-message-group-directive';
+import statusMessageService from './status-message-service';
 
 /**
  * @ngdoc module
@@ -23,7 +27,7 @@ var angular = require('angular');
  *    };
  *  };
  */
-module.exports = angular.module('akamai.components.status-message', [])
+export default angular.module('akamai.components.status-message', [])
 
 /**
  * @name akamStatusMessage
@@ -35,7 +39,7 @@ module.exports = angular.module('akamai.components.status-message', [])
  * @param {String} text The required text to display.
  *
  */
-  .directive('akamStatusMessage', require('./status-message-directive'))
+  .directive('akamStatusMessage', statusMessageDirective)
 
 /**
  * @name akamStatusMessageGroup
@@ -48,7 +52,7 @@ module.exports = angular.module('akamai.components.status-message', [])
  * to display.
  *
  */
-  .directive('akamStatusMessageGroup', require('./status-message-group-directive'))
+  .directive('akamStatusMessageGroup', statusMessageGroupDirective)
 
 /**
  * @ngdoc service
@@ -58,4 +62,4 @@ module.exports = angular.module('akamai.components.status-message', [])
  * @description Displays an action's status.
  *
  */
-  .factory('statusMessage', require('./status-message-service'));
+  .factory('statusMessage', statusMessageService);

@@ -1,10 +1,14 @@
-var angular = require('angular');
+import angular from 'angular';
 
-module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
-  var errorList = [],
-    translationTable = [],
-    urls,
-    locale;
+class I18nLoader {
+  constructor($q, $http, $log, i18nToken, i18nConfig) {
+    this.$q = $q;
+    this.$http = $http;
+    this.$log = $log;
+    this.locale = i18nToken.getCurrentLocale();
+    this.endpoints = i18nToken.getUrls();
+    this.config = i18nConfig;
+  }
 
   /**
    * @name loadTranslations
@@ -18,74 +22,70 @@ module.exports = function($http, $q, $log, i18nToken, i18nConfig) {
    * $http.get function
    * @return {Promise} A promise to load the translations
    */
-  var loadTranslations = function() {
+  loadTranslations(table = [], errors = [], promises = []) {
+    let $log = this.$log,
+      n = this.endpoints.length,
+      deferred = this.$q.defer();
 
-    var deferreds = [],
-      n = urls.length,
-      url,
-      deferred = $q.defer();
+    /**
+     * @name logErrors
+     * @private
+     * @description any error from get call will go through here, we log to console,
+     * and we save error message to errorList array
+     * @param {Object} err response object with error info
+     */
+    function logErrors(err) {
+      $log.error({
+        message: err.data,
+        status: err.status
+      });
+      errors.push(err.data);
+    }
+
+    /**
+     * @name save
+     * @private
+     * @description any success response from get call will go through here,
+     * we save data to translationTable; array
+     * @param {Object} rep response object with data info
+     */
+    function save(rep) {
+      let src = rep.data,
+        clone = src ? angular.copy(src) : {};
+
+      angular.merge(table, clone);
+    }
 
     while (n > 0) {
-      url = urls[n - 1] + locale + '.json';
-      deferreds.push($http.get(url).then(valid).catch(invalid));
+      let url = `${this.endpoints[n - 1]}${this.locale}.json`;
+
+      promises.push(this.$http.get(url).then(save).catch(logErrors));
       n--;
     }
-    $q.all(deferreds).then(function() {
-      if (errorList.length) {
-        if (locale !== i18nConfig.defaultLocale) {
-          errorList = [];
-          translationTable = [];
-          locale = i18nConfig.defaultLocale;
-          deferred.resolve(loadTranslations());
+
+    this.$q.all(promises)
+      .then(() => {
+        if (errors.length) {
+          if (this.locale !== this.config.defaultLocale) {
+            this.locale = this.config.defaultLocale;
+            deferred.resolve(this.loadTranslations());
+          } else {
+            deferred.reject(errors);
+          }
         } else {
-          deferred.reject(errorList);
+          deferred.resolve([table]);
         }
-      } else {
-        deferred.resolve([translationTable]);
-      }
-    });
+      });
     return deferred.promise;
-  };
-
-  urls = i18nToken.getUrls();
-  locale = i18nToken.getCurrentLocale();
-
-  return function() {
-    return loadTranslations();
-  };
-
-  /**
-   * @name invalid
-   * @private
-   * @description any error from get call will go through here, we log to console,
-   * and we save error message to errorList array
-   * @param {Object} r response object with error info
-   * @return {Object[]} a list of error objects
-   */
-  function invalid(r) {
-    $log.error({
-      message: r.data,
-      status: r.status
-    });
-    errorList.push(r.data);
-    return errorList;
   }
+}
 
-  /**
-   * @name valid
-   * @private
-   * @description any success response from get call will go through here,
-   * we save data to translationTable; array
-   * @param {Object} r response object with data info
-   * @return {Object[]};
-   */
-  function valid(r) {
-    var src = r.data,
-      clone = src ? angular.copy(src) : {};
+function i18nLoaderFactory($q, $http, $log, i18nToken, i18nConfig) {
+  return () => {
+    return (new I18nLoader($q, $http, $log, i18nToken, i18nConfig)).loadTranslations();
+  };
+}
 
-    angular.merge(translationTable, clone);
-    return translationTable;
-  }
-};
+i18nLoaderFactory.$inject = ['$q', '$http', '$log', 'i18nToken', 'i18nConfig'];
 
-module.exports.$inject = ['$http', '$q', '$log', 'i18nToken', 'i18nConfig'];
+export default i18nLoaderFactory;

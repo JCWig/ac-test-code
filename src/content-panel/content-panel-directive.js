@@ -1,18 +1,96 @@
-var angular = require('angular');
+import angular from 'angular';
+import template from './templates/content-panel.tpl.html';
 
-module.exports = function($log) {
+class ContentPanelController {
+
+  static get $inject() {
+    return ['$scope', '$log'];
+  }
+
+  constructor($scope, $log) {
+    this.$scope = $scope;
+    this.$log = $log;
+    this.collapsable = null;
+    this.transcludedContent = null;
+    this.customContentScope = null;
+
+    $scope.$watch('contentPanel.isCollapsed', (newValue, oldValue) => {
+      if (newValue !== oldValue && typeof this.onToggle === 'function') {
+        this.onToggle({ value: newValue});
+      }
+    });
+  }
+
+  initialize(element, attrs, transclude) {
+    if (!element || !attrs || !transclude) {
+      throw new Error('Element, attrs and transclude function required to initialize.');
+    }
+
+    let transcludedContent;
+
+    this.collapsable = angular.isUndefined(attrs.notCollapsable);
+    this.isCollapsed = this.isCollapsed === true;
+
+    if (!attrs.header) {
+      transclude((clone, cloneScope) => {
+        element.append(clone);
+        transcludedContent = clone;
+        this.customContentScope = cloneScope;
+        this.customContentScope.headerClick = this.headerClick;
+
+        this.customContentScope.contentPanel = {
+          headerClick: angular.bind(this, this.headerClick),
+          collapsable: this.collapsable,
+          isCollapsed: this.isCollapsed
+        };
+      });
+
+      //This doesn't appear to be necessary but garbage clean up just in case,
+      // for added robustness against future issues.
+      //Chrome node/listener graphs appear the same whether or not this is done.
+      this.$scope.$on('$destroy', function() {
+        transcludedContent.remove();
+        this.customContentScope.$destroy();
+      });
+
+      // Check if header is included
+      if (!element[0].querySelector('.panel-heading')) {
+        this.$log.error('No "akam-content-panel-header" tag found. Header will not render.');
+      }
+    }
+  }
+
+  headerClick(e) {
+    if (this.collapsable) {
+      this.isCollapsed = !this.isCollapsed;
+      if (this.customContentScope) {
+        this.customContentScope.contentPanel.isCollapsed =
+          !this.customContentScope.contentPanel.isCollapsed;
+      }
+    }
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+}
+
+function contentPanelDirective() {
+
   return {
     restrict: 'E',
     transclude: true,
     replace: true,
-    scope: {
+    scope: {},
+    bindToController: {
       header: '@?',
       isCollapsed: '=?',
       onToggle: '&?'
     },
-    template: require('./templates/content-panel.tpl.html'),
+    controller: ContentPanelController,
+    controllerAs: 'contentPanel',
+    template: template,
     compile: function compile(tElement, tAttrs) {
-      //If the header attribute is not specified, assume
+      // If the header attribute is not specified, assume
       // the developer provided their own akam-content-panel-header
       // and akam-content-panel-body inner directives.
       if (!tAttrs.header) {
@@ -20,56 +98,10 @@ module.exports = function($log) {
       }
 
       return function(scope, iElement, iAttrs, controller, transclude) {
-        var hasHeaderTranscluded, customContentScope, transcludedContent;
-
-        scope.collapsable = angular.isUndefined(tAttrs.notCollapsable);
-        scope.isCollapsed = scope.isCollapsed === true;
-
-        scope.headerClick = function(e) {
-          if (scope.collapsable) {
-            scope.isCollapsed = !scope.isCollapsed;
-            if (customContentScope) {
-              customContentScope.isCollapsed = !customContentScope.isCollapsed;
-            }
-          }
-          e.preventDefault();
-          e.stopPropagation();
-        };
-
-        scope.$watch('isCollapsed', function(newValue, oldValue) {
-          if (newValue !== oldValue && typeof scope.onToggle === 'function') {
-            scope.onToggle({
-              value: newValue
-            });
-          }
-        });
-
-        if (!iAttrs.header) {
-          transclude(function(clone, cloneScope) {
-            iElement.append(clone);
-            transcludedContent = clone;
-            customContentScope = cloneScope;
-            customContentScope.headerClick = scope.headerClick;
-            customContentScope.collapsable = scope.collapsable;
-            customContentScope.isCollapsed = scope.isCollapsed;
-          });
-
-          //This doesn't appear to be necessary but garbage clean up just in case,
-          // for added robustness against future issues.
-          //Chrome node/listener graphs appear the same whether or not this is done.
-          scope.$on('$destroy', function() {
-            transcludedContent.remove();
-            customContentScope.$destroy();
-          });
-
-          hasHeaderTranscluded = !!iElement[0].querySelector('.panel-heading');
-          if (!hasHeaderTranscluded) {
-            $log.error('No "akam-content-panel-header" tag found. Header will not render.');
-          }
-        }
+        scope.contentPanel.initialize(iElement, iAttrs, transclude);
       };
     }
   };
-};
+}
 
-module.exports.$inject = ['$log'];
+export default contentPanelDirective;

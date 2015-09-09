@@ -1,4 +1,8 @@
-var angular = require('angular');
+import angular from 'angular';
+import indeterminateProgress from '../indeterminate-progress';
+import utils from '../utils';
+import treeViewDirective from './tree-view-directive';
+import treeViewParentSelector from './tree-view-parent-selector-directive';
 
 /**
  * @ngdoc module
@@ -37,8 +41,8 @@ var angular = require('angular');
  *
  */
 module.exports = angular.module('akamai.components.tree-view', [
-  require('../indeterminate-progress').name,
-  require('../utils').name
+  indeterminateProgress.name,
+  utils.name
 ])
 
 /**
@@ -67,8 +71,7 @@ module.exports = angular.module('akamai.components.tree-view', [
  * representing the root node from which every other node comes from
  *
  */
-
-  .directive('akamTreeView', require('./tree-view-directive'))
+  .directive('akamTreeView', treeViewDirective)
 
 /**
  * @name akamTreeViewParentSelector
@@ -76,4 +79,4 @@ module.exports = angular.module('akamai.components.tree-view', [
  * @restrict A
  * @requires akamTreeView
  */
-  .directive('akamTreeViewParentSelector', require('./tree-view-parent-selector-directive'));
+  .directive('akamTreeViewParentSelector', treeViewParentSelector);

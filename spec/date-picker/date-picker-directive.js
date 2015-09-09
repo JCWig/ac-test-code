@@ -168,6 +168,24 @@ describe('akam-date-picker', function() {
 
       expect(inputDateField.getAttribute('disabled')).toBe('disabled');
     });
+
+    it('should date picker calendar button disabled when set to true', function() {
+      scope.disabled = true;
+      scope.$digest();
+      var buttonElem = document.querySelector('.akam-date-picker .button');
+
+      expect(buttonElem.getAttribute('disabled')).toBe('disabled');
+    });
+
+    it('should date picker calendar icon disabled when set to true', function() {
+      scope.disabled = true;
+      scope.$digest();
+      var iconElem = document.querySelector('.akam-date-picker .button .luna-calendar');
+
+      console.log(iconElem)
+
+      expect(iconElem.getAttribute('disabled')).toBe('disabled');
+    });
   });
 
   describe('when interacting with the date picker', function() {
@@ -252,6 +270,14 @@ describe('akam-date-picker', function() {
 
       expect(inputDateField.value).toEqual('');
       expect(scope.value).toEqual(undefined);
+    });
+    it('should translate placeholder text if non-provided', function() {
+      document.body.removeChild(self.element);
+      self.element = null;
+      var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1"></akam-date-picker></div>';
+      addElement(markup);
+      var inputDateField = document.querySelector('input.ng-valid-date');
+      expect(inputDateField.placeholder).toEqual("components.date-picker.placeholder.date");
     });
   });
   describe('when rendering month picker', function() {

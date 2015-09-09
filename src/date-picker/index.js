@@ -1,4 +1,9 @@
-var angular = require('angular');
+import angular from 'angular';
+import angularBootstrap from 'angular-bootstrap-npm';
+import i18n from '../i18n';
+import datepickDayDecorator from './daypicker-decorator';
+import datepickMonthDecorator from './monthpicker-decorator';
+import detepickerDirective from './date-picker-directive';
 
 /**
  * @ngdoc module
@@ -33,15 +38,16 @@ var angular = require('angular');
  *  no-clear>
  * </akam-date-picker>
  */
-module.exports = angular.module('akamai.components.date-picker', [
-  require('angular-bootstrap-npm'),
-  require('../i18n').name
+export default angular.module('akamai.components.date-picker', [
+  angularBootstrap,
+  i18n.name
 ])
 
-  // decorators for the day and month pickers to add on scope variables for disabling nav
-  .config(require('./daypicker-decorator'))
+  // decorators for the day pickers to add on scope variables for disabling nav
+  .config(datepickDayDecorator)
 
-  .config(require('./monthpicker-decorator'))
+  // decorators for the month pickers to add on scope variables for disabling nav
+  .config(datepickMonthDecorator)
 
 /**
  * @ngdoc directive
@@ -78,4 +84,4 @@ module.exports = angular.module('akamai.components.date-picker', [
  * format.
  *
  */
-  .directive('akamDatePicker', require('./date-picker-directive'));
+  .directive('akamDatePicker', detepickerDirective);

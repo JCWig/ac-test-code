@@ -61,7 +61,8 @@ module.exports = function($location, $q, context, $http,
 
     render('#modular-mega-menu-header .help.marketplace', supportTemplate, {
       viewStore: data.config.displayStorePage && data.partner.displayStore,
-      supportUrl: data.partner.supportUrl
+      supportUrl: data.partner.supportUrl,
+      displayCommunity: data.partner.displayCommunity
     });
 
     group.then(breadcrumbs.render);

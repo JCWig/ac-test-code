@@ -170,6 +170,16 @@ describe('akamai.components.auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
+    it('Given incorrect contract type, the component should queue the API request for re-submission', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('incorrect_contract_type', 'incorrect contract type'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
     it('Given incorrect cross site request forgery token, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
       httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('invalid_xsrf', 'incorrect cross site request forgery token'));
@@ -682,7 +692,7 @@ describe('akamai.components.auth', function() {
           $rootScope.$digest();
 
           httpBackend.expectGET('/abcd.json?aid=456&gid=123').respond(200);
-          elem = document.querySelector('.modal-footer button.primary');
+          elem = document.querySelector('.modal-footer .btn-primary');
           angular.element(elem).trigger('click');
         });
 
