@@ -8,7 +8,7 @@
        ng-click="autocomplete.clearSelectedItem($event)"
        ng-if="autocomplete.selectedItem && autocomplete.isClearable && !autocomplete.isDisabled && !autocomplete.searchShown"></i>
 
-    <input class="ac-search" type="text" ng-show="autocomplete.searchShown"
+    <input class="autocomplete-search" type="text" ng-show="autocomplete.searchShown"
            ng-blur="autocomplete.blurSearch()" ng-model="autocomplete.searchTerm"
            ng-keyup="autocomplete.search()"/>
 </div>
