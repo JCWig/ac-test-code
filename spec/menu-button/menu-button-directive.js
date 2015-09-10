@@ -3,9 +3,6 @@
 
 import menuButton from '../../src/menu-button';
 
-const LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
-  CONFIG_PATH = '/apps/appname/locales/en_US.json';
-
 describe('akamai.components.menu-button', function() {
 
   afterEach(function() {
@@ -24,17 +21,13 @@ describe('akamai.components.menu-button', function() {
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(menuButton.name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.useLoader('translateNoopLoader');
     });
 
-    angular.mock.inject(function($compile, $rootScope, $httpBackend) {
+    angular.mock.inject(function($compile, $rootScope) {
       this.$compile = $compile;
       this.$scope = $rootScope.$new();
-
-      $httpBackend.when('GET', LIBRARY_PATH).respond({});
-      $httpBackend.when('GET', CONFIG_PATH).respond({});
-      $httpBackend.flush();
     });
 
   });

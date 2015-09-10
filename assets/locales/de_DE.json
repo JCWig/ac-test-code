@@ -43,6 +43,7 @@
             "successMessage": "Die Aktion wurde abgeschlossen.",
             "errorMessage": "Die Aktion kann nicht abgeschlossen werden.",
             "label": {
+                "cancel": "Abbrechen",
                 "next": "Weiter",
                 "submit": "Abschicken",
                 "previous": "Zurück"

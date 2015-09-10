@@ -6,8 +6,6 @@ import dropdown from '../../src/dropdown';
 var util = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
 
-
-
 describe('akamai.components.dropdown', function() {
   var $scope, $compile, stateStrings, stateObjects, timeout;
   stateStrings = [
@@ -25,16 +23,13 @@ describe('akamai.components.dropdown', function() {
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(dropdown.name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
     inject(function($rootScope, _$compile_, $httpBackend, $timeout) {
       $scope = $rootScope;
       $compile = _$compile_;
-
-      $httpBackend.when('GET', util.LIBRARY_PATH).respond(translationMock);
-      $httpBackend.when('GET', util.CONFIG_PATH).respond({});
-      $httpBackend.flush();
       timeout = $timeout;
     });
   });

@@ -1,7 +1,7 @@
 import angular from 'angular';
 import template from './templates/tag-input.tpl.html';
 
-function tagInput(translate) {
+function tagInput($translate) {
   class TagInputController {
     constructor() {
       this.invalidInputs = [];
@@ -11,10 +11,10 @@ function tagInput(translate) {
         taggingLabel: this.taggingLabel
       };
 
-      translate.async(this.staticMessages.taggingLabel, null, 'components.tag-input.taggingLabel')
+      $translate(this.staticMessages.taggingLabel || 'components.tag-input.taggingLabel')
         .then(value => this.staticMessages.taggingLabel = value);
 
-      translate.async(this.staticMessages.placeholder, null, 'components.tag-input.placeholder')
+      $translate(this.staticMessages.placeholder || 'components.tag-input.placeholder')
         .then( value => {
           this.staticMessages.placeholder = value;
           this.messages = this.staticMessages;
@@ -133,6 +133,6 @@ function tagInput(translate) {
   };
 }
 
-tagInput.$inject = ['translate'];
+tagInput.$inject = ['$translate'];
 
 export default tagInput;

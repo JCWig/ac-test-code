@@ -43,6 +43,7 @@
             "successMessage": "La acción se ha realizado.",
             "errorMessage": "No se puede realizar la acción.",
             "label": {
+                "cancel": "Cancelar",
                 "next": "Siguiente",
                 "submit": "Enviar",
                 "previous": "Anterior"

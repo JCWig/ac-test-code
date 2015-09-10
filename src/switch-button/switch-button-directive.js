@@ -8,19 +8,19 @@ const SIZE_SMALL = 'small',
   GRAYSCALE = 'grayscale',
   COLOR = 'color';
 
-function switchButton(translate) {
+function switchButton($translate) {
   class SwitchButtonController {
     filterDisabled(disabled) {
       return disabled === 'true' ? disabled : 'false';
     }
 
     setDefaultScopeValues() {
-      translate.async(this.onLabel, null, 'components.switch-button.onLabel')
+      $translate(this.onLabel || 'components.switch-button.onLabel')
         .then(value => {
           this.onLabel = value;
         });
 
-      translate.async(this.offLabel, null, 'components.switch-button.offLabel')
+      $translate(this.offLabel || 'components.switch-button.offLabel')
         .then(value => {
           this.offLabel = value;
         });
@@ -73,6 +73,6 @@ function switchButton(translate) {
   };
 }
 
-switchButton.$inject = ['translate'];
+switchButton.$inject = ['$translate'];
 
 export default switchButton;
