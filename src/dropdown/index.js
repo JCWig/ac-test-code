@@ -73,6 +73,9 @@ export default angular.module('akamai.components.dropdown', [
  * @param {String} [textProperty] If the options param is an array of Objects,
  * this is the property of those objects used in the dropdown menu
  *
+ * @param {String} [keyProperty] If the options param is an array of Objects,
+ * this is the property that is used to bind to ng-model
+ *
  * @param {String} [placeholder=Select one] The placeholder text for the dropdown.
  * Placeholder attribute value can be text or translation key.
  * When using custom markup, include <pre>{{dropdown.placeholder}}</pre>
@@ -82,11 +85,9 @@ export default angular.module('akamai.components.dropdown', [
  * ```
  * <akam-dropdown>
  *   <akam-dropdown-selected>
- *      <span class="selected-option util-ellipsis" ng-class="{disabled:vm.disabled}">
- *        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">
- *          {{dropdown.placeholder}}
- *        </span>
- *      </span>
+ *     <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">
+ *       {{dropdown.placeholder}}
+ *     </span>
  *    </akam-dropdown-selected>
  * </akam-dropdown>
  * ```
@@ -95,8 +96,7 @@ export default angular.module('akamai.components.dropdown', [
  *
  * @param {*} [appendToBody] if present will append dropdown portion to the body
  *
- * @param {Function} [onChange] A callback function that is executed when the
- * state of the dropdown changes
+ * @param {*} [clearable] if present it will display an icon to clear the selected item
+ *
  */
-
   .directive('akamDropdown', dropdownDirective);
