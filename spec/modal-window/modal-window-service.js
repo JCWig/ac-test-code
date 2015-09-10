@@ -55,6 +55,18 @@ describe('modalWindow service', function() {
       Controller.$inject = ['$scope'];
 
       $controllerProvider.register('Controller', Controller);
+
+      function ControllerResolve($scope, injectedLocal) {
+        this.local = injectedLocal;
+        $scope.setOnSubmit(function() {
+          self.notify();
+          return true;
+        });
+      }
+      ControllerResolve.$inject = ['$scope', 'injectedLocal'];
+
+      $controllerProvider.register('ControllerResolve', ControllerResolve);
+
     });
 
     inject(function(modalWindow, $rootScope, $httpBackend, $timeout, $q) {
@@ -940,25 +952,26 @@ describe('modalWindow service', function() {
         });
       });
 
-      describe('when the modal is closed', function(){
+      describe('when the modal is initialized with a resolve object', function(){
         beforeEach(function() {
           spyOn(this.scope, '$destroy');
 
           this.modalWindowService.open({
             scope: this.scope,
-            template: '<p></p>',
-            controller: 'Controller'
+            template: '<p>{{test.local}}</p>',
+            controller: 'ControllerResolve',
+            controllerAs: 'test',
+            resolve: {injectedLocal: 'bar'}
           });
           this.scope.$apply();
-
-          var submitButton = document.querySelector(SUBMIT_BUTTON);
-          utilities.click(submitButton);
         });
 
-        it('should destroy the provided scope', function() {
-          expect(this.scope.$destroy).toHaveBeenCalled();
+        it('should use inject the resolve object properties into the controller', function() {
+          expect(document.querySelector('.modal-body p').textContent).toBe('bar');
         });
       });
+
+
 
     });
 
