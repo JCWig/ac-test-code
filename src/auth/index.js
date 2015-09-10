@@ -25,6 +25,7 @@ module.exports = angular.module('akamai.components.auth', [])
     newTokenRequestCodes: [
       'invalid_token',
       'akasession_username_invalid',
+      'incorrect_contract_type',
       'incorrect_current_account',
       'invalid_xsrf',
       'invalid_token_type',

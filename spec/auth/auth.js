@@ -67,6 +67,16 @@ describe('Auth', function() {
       expect(tokenService.logout).not.toHaveBeenCalled();
     });
 
+    it('Given incorrect contract type, the component should queue the API request for re-submission', function() {
+      spyOn(buffer, 'appendResponse');
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('incorrect_contract_type', 'incorrect contract type'));
+      httpBackend.expectPOST(config.tokenUrl).respond(200);
+      http.get('/unauthorized/request');
+      httpBackend.flush();
+      expect(buffer.appendResponse).toHaveBeenCalled();
+      expect(tokenService.logout).not.toHaveBeenCalled();
+    });
+
     it('Given incorrect current account, the component should queue the API request for re-submission', function () {
       spyOn(buffer, 'appendResponse');
       httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('incorrect_current_account', 'incorrect current account'));
