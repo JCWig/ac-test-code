@@ -91,7 +91,7 @@ describe('akamai.components.menu-button', function() {
       beforeEach(function() {
       let markup =
         `<akam-menu-button default-text="examples.appNames.pm" >
-          <akam-menu-button-item is-item-disabled="true" text="examples.appNames.tq"></akam-menu-button-item>
+          <akam-menu-button-item is-disabled="true" text="examples.appNames.tq"></akam-menu-button-item>
           <akam-menu-button-item text="examples.appNames.bc"></akam-menu-button-item>
           </akam-menu-button-item>
         </akam-menu-button>`;
