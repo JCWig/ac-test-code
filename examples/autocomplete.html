@@ -31,7 +31,7 @@
     <h2>Default Autocomplete with a list of strings</h2>
         <div>
             <akam-autocomplete ng-model="vm.ex1.selectedState" is-disabled="vm.disabled" clearable
-                     on-change="vm.doChange(item)" on-search="vm.searchStateStrings(searchTerm)">
+                     on-search="vm.searchStateStrings(searchTerm)">
             </akam-autocomplete>
         </div>
 </div>
@@ -39,7 +39,7 @@
 <div>
         <div>
             <akam-autocomplete is-disabled="vm.disabled" ng-model="vm.ex2.selectedState"
-                               text-property="name" clearable on-change="vm.doChange(item)"
+                               text-property="name" clearable
                                on-search="vm.searchStateObjects(searchTerm)">
 
                 <akam-autocomplete-selected>
@@ -93,7 +93,6 @@
     <h2>Default Autocomplete with a list of strings appended to body</h2>
         <div class="util-hidden-overflow">
             <akam-autocomplete ng-model="vm.ex6.selectedState" append-to-body clearable
-                               on-change="vm.doChange(item)"
                                on-search="vm.searchStateStrings(searchTerm)">
             </akam-autocomplete>
         </div>
@@ -198,10 +197,6 @@
         vm.ex6 = { selectedState: undefined };
         vm.ex7 = { selectedState: undefined };
         vm.ex8 = { selectedState: 'key9' };
-
-        vm.doChange = function(item) {
-            $log.log('selected item changed', item);
-        };
 
         vm.searchStateStrings = function(searchTerm) {
 

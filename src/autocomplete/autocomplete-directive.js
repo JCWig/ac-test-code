@@ -1,3 +1,4 @@
+import angular from 'angular';
 import template from './templates/autocomplete-directive.tpl.html';
 import selectedElemTemplate from './templates/autocomplete-selected.tpl.html';
 import menuElemTemplate from './templates/autocomplete-menu.tpl.html';
@@ -33,7 +34,7 @@ class AutocompleteController extends DropdownController {
   initialize(elem, attrs, ngModel) {
     super.initialize(elem, attrs, ngModel);
     this.initialSearch();
-    this.searchInput = elem[0].querySelector('input.ac-search');
+    this.searchInput = elem[0].querySelector('input.autocomplete-search');
   }
 
   clearSelectedItem(e) {
@@ -60,8 +61,22 @@ class AutocompleteController extends DropdownController {
   }
 
   search() {
-    this.items = this.onSearch({searchTerm: this.searchTerm});
-    this.isOpen = true;
+    let searchResult = this.onSearch({searchTerm: this.searchTerm});
+
+    if (angular.isArray(searchResult)) {
+      this.items = searchResult;
+      this.isOpen = true;
+    } else if (angular.isFunction(searchResult.then)) {
+      searchResult.then((resultItems) => {
+        this.items = resultItems;
+      }, (rejectReason) => {
+        this.$log.warn(rejectReason);
+        this.items = [];
+      });
+    } else {
+      this.items = [];
+      throw new Error('on-search callback is required to return an Array or Promise');
+    }
   }
 
   blurSearch() {
