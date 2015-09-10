@@ -55,12 +55,13 @@ function authInterceptor($injector, $q, $window, httpBuffer, token, authConfig, 
 
         requestConfig.params = requestConfig.params || {};
 
+        // if someone explicitly sets gid or aid, just pass it along
         if (angular.isDefined(group)) {
-          requestConfig.params.gid = group.id || undefined;
+          requestConfig.params.gid = requestConfig.params.gid || group.id || undefined;
         }
 
         if (angular.isDefined(property)) {
-          requestConfig.params.aid = property.id || undefined;
+          requestConfig.params.aid = requestConfig.params.aid || property.id || undefined;
         }
 
         return requestConfig;
