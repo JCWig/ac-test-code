@@ -39,7 +39,7 @@ $dropdown-max-items: 8;
     border-color: $dropdown-border-color-active;
     @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
   }
-  
+
   &.open > button > i.luna-gear {
     @extend .luna-gear:hover;
   }
@@ -132,12 +132,24 @@ $dropdown-max-items: 8;
     line-height: 1;
     padding: $dropdown-fixed-header-padding;
   }
+
+  .disabled-item {
+    pointer-events: none;
+
+    a {
+      cursor: default;
+      opacity: 1;
+      background: $button-background-color-disabled;
+      border-color: $button-border-color-disabled;
+      color: $button-text-color-disabled;
+    }
+  }
 }
 
 .direction-up .dropdown-menu {
   @include box-shadow(none);
   border: solid 1px #CCC;
-  
+
 }
 
 div.dropdown-menu {

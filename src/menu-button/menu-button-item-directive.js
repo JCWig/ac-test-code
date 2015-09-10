@@ -4,12 +4,13 @@ export default function() {
     replace: true,
     scope: {},
     bindToController: {
-      text: '@'
+      text: '@',
+      isItemDisabled: '=?'
     },
     controller: function() { },
     controllerAs: 'menuButtonItem',
     template:
-      `<li>
+      `<li ng-class="{'disabled-item' : menuButtonItem.isItemDisabled}">
         <a href="javascript:void(0);" translate="{{ ::menuButtonItem.text }}"></a>
       </li>`
   };
