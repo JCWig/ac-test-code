@@ -4,9 +4,9 @@ var util = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
 var _ = require('lodash');
 
-const CANCEL_BUTTON_SELECTOR = 'div.modal-footer button:nth-child(1)';
-const PREVIOUS_BUTTON_SELECTOR = 'div.modal-footer button:nth-child(2)';
-const NEXT_BUTTON_SELECTOR = 'div.modal-footer button:nth-child(3)';
+const CANCEL_BUTTON_SELECTOR = 'div.modal-footer > button.cancel-button';
+const PREVIOUS_BUTTON_SELECTOR = 'div.modal-footer > button.previous-button';
+const NEXT_BUTTON_SELECTOR = 'div.modal-footer > button.next-button';
 
 describe('akamai.components.wizard', function() {
   var $scope, $compile, wizard, steps, submitFunction, $q, timeout;
