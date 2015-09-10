@@ -461,4 +461,17 @@ describe('akamai.components.popover', function() {
       expect(popover.classList).not.toContain("fade");
     });
   });
+  describe('given a rendered popover', function() {
+    describe('when popover-content contains trusted HTML content', function() {
+      beforeEach(function() {
+        var markup = '<span akam-popover position="top" popover-content="<h1>HTML content</h1><br/><br/><p>Paragraph</p>" trigger="click">Click Here</span>';
+        addElement(markup);
+        timeout.flush();
+      });
+      it('should display html in popover', function(){
+        var popoverContent = document.querySelector(POPOVER_CONTENT);
+        expect(popoverContent.textContent).toContain('HTML contentParagraph');
+      });
+    });
+  });
 });
