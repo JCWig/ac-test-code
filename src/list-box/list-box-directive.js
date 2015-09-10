@@ -1,7 +1,7 @@
 import angular from 'angular';
 import template from './templates/list-box.tpl.html';
 
-function listBox($log, $q, $timeout, uuid, $filter, translate) {
+function listBox($log, $q, $timeout, uuid, $filter, $translate) {
 
   class ListBoxController {
 
@@ -21,23 +21,22 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
       this.dataSource = [];
       this.page = 1;
 
-      translate.async(this.staticMessages.filterPlaceholder,
-        null, 'components.list-box.placeholder.filter')
+      $translate(this.staticMessages.filterPlaceholder || 'components.list-box.placeholder.filter')
           .then(value => this.staticMessages.filterPlaceholder = value);
 
-      translate.async(this.noDataMessage, null, 'components.list-box.text.noDataMessage')
+      $translate(this.noDataMessage || 'components.list-box.text.noDataMessage')
         .then(value => this.noDataMessage = value);
 
-      translate.async(this.staticMessages.noFilterResultsMessage,
-        null, 'components.list-box.text.noFilterResults')
+      $translate(this.staticMessages.noFilterResultsMessage ||
+        'components.list-box.text.noFilterResults')
           .then(value => this.staticMessages.noFilterResultsMessage = value);
 
-      translate.async(this.staticMessages.noneSelectedMessage,
-        null, 'components.list-box.text.viewSelectedOnly')
+      $translate(this.staticMessages.noneSelectedMessage ||
+        'components.list-box.text.viewSelectedOnly')
           .then(value => this.staticMessages.noneSelectedMessage = value);
 
-      translate.async(this.staticMessages.selectedText,
-        null, 'components.list-box.text.selected')
+      $translate(this.staticMessages.selectedText ||
+        'components.list-box.text.selected')
           .then(value => {
             this.staticMessages.selectedText = value;
             // set messages equal to staticMessages after all staticMessage.* have been translated
@@ -414,6 +413,6 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
 
   };
 }
-listBox.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', 'translate'];
+listBox.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', '$translate'];
 
 export default listBox;

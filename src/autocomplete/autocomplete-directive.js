@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $document,
+module.exports = function($translate, uuid, $q, $log, $compile, $timeout, $document,
   autocompleteService, autocompleteConfig) {
 
   /**
@@ -30,10 +30,10 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
     this.searchTerm = '';
     this.selectItem = '';
 
-    translate.async(this.placeholder)
+    $translate(this.placeholder)
       .then(value => this.placeholder = value);
 
-    translate.async('components.autocomplete.search-tip')
+    $translate('components.autocomplete.search-tip')
       .then(value => {
         this.searchTip = value;
       });
@@ -247,6 +247,6 @@ module.exports = function(translate, uuid, $q, $log, $compile, $timeout, $docume
   };
 };
 
-module.exports.$inject = ['translate', 'uuid', '$q', '$log', '$compile', '$timeout', '$document',
+module.exports.$inject = ['$translate', 'uuid', '$q', '$log', '$compile', '$timeout', '$document',
   'autocompleteService', 'autocompleteConfig'
 ];

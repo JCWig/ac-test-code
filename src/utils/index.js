@@ -2,6 +2,10 @@ import angular from 'angular';
 import textOverflowDirective from './text-overflow-directive.js';
 import standaloneDirective from './standalone-directive.js';
 
+//TODO: Remember to update this if the version in package.json ever changes
+// Also remember to update mega-menu -> utils -> constants.js with the exact same info
+export const VERSION = '0.9.0';
+
 /**
  * @ngdoc module
  * @name akamai.components.utils
@@ -13,9 +17,6 @@ import standaloneDirective from './standalone-directive.js';
  * <akam-table akam-standalone></akam-table>
  */
 module.exports = angular.module('akamai.components.utils', [])
-  //TODO: Remember to update this if the version in package.json ever changes
-  // Also remember to update mega-menu -> utils -> constants.js with the exact same info
-  .constant('VERSION', '0.8.0')
 
 /**
  * @ngdoc directive
