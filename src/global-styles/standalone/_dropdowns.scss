@@ -133,9 +133,8 @@ $dropdown-max-items: 8;
     padding: $dropdown-fixed-header-padding;
   }
 
-  .disabled-item {
+  .disabled {
     pointer-events: none;
-
     a {
       color: $button-text-color-disabled;
     }

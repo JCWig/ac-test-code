@@ -99,7 +99,7 @@ describe('akamai.components.menu-button', function() {
       addElement.call(this, markup);
     });
       it('should not be selectable', function() {
-        expect(this.element.querySelector('.dropdown-menu').children[0].classList.contains('disabled-item')).toEqual(true);
+        expect(this.element.querySelector('.dropdown-menu').children[0].classList.contains('disabled')).toEqual(true);
       });
     })
   });
