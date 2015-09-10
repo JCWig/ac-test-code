@@ -27,15 +27,15 @@
   <akam-wizard-content></akam-wizard-content>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-large pull-left" ng-click="wizard.instance.dismiss()">
+    <button type="button" class="btn btn-large pull-left cancel-button" ng-click="wizard.instance.dismiss()">
       {{ ::wizard.cancelLabel }}
     </button>
 
-    <button type="button" class="btn btn-large" ng-click="wizard.previousStep()" ng-disabled="wizard.stepIndex == 0">
+    <button type="button" class="btn btn-large previous-button" ng-click="wizard.previousStep()" ng-disabled="wizard.stepIndex == 0">
       {{ ::wizard.previousLabel }}
     </button>
 
-    <akam-spinner-button class="btn-large"
+    <akam-spinner-button class="btn-large next-button"
     processing="wizard.processing"
     disabled="!wizard.isValid()"
     text-content="{{ wizard.getNextLabel() }}"
