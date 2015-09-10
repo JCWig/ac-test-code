@@ -32,14 +32,14 @@
         <h2>Default dropdown with a list of strings</h2>
         <span>
             <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex1.selectedState"
-                           items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+                           items="vm.strings" clearable></akam-dropdown>
         </span>
     </div>
     <br/>
     <div>
         <span>
             <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex2.selectedState" text-property="name"
-                           items="vm.stateObjects" clearable on-change="vm.doChange(item)">
+                           items="vm.stateObjects" clearable>
 
                 <akam-dropdown-selected>
                     <span ng-if="dropdown.selectedItem" title="{{dropdown.selectedItem[dropdown.textProperty]}}">
@@ -65,7 +65,7 @@
     <div>
         <h2>Dropdown with a list of strings and a filter, not clearable</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable on-change="vm.doChange(item)"></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
         </span>
     </div>
     <br/>
@@ -105,7 +105,7 @@
     <div>
      <h2>Default dropdown with a list of strings appended to body</h2>
         <span class="util-hidden-overflow">
-            <akam-dropdown ng-model="vm.ex6.selectedState" append-to-body items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex6.selectedState" append-to-body items="vm.strings" clearable></akam-dropdown>
         </span>
     </div>
     <br/>

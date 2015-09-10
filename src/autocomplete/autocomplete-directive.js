@@ -79,7 +79,6 @@ function AutocompleteDirective(dropdownTemplateService) {
     bindToController: {
       textProperty: '@?',
       keyProperty: '=?',
-      onChange: '&?',
       placeholder: '@?',
       isDisabled: '=?',
       onSearch: '&'

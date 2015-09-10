@@ -125,10 +125,6 @@ export default class DropdownController {
     this.selectedItem = item;
     this.selected.selectedItem = this.selectedItem;
 
-    if (angular.isFunction(this.onChange) &&
-      !angular.equals(this.selectedItem, this.ngModel.$modelValue)) {
-      this.onChange({item: this.selectedItem});
-    }
     this.isOpen = false;
 
     this.ngModel.$setViewValue(this.selectedItem);

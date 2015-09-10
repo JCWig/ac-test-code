@@ -204,7 +204,6 @@ describe('akamai.components.dropdown', function() {
         beforeEach(function(){
           $scope.selectedStateObj = {name: 'Colorado'};
           $scope.stateStringsObjs = stateObjects;
-          $scope.onChange = jasmine.createSpy('on-change-spy');
           $scope.disabled = false;
           var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" is-disabled="disabled" items="stateStringsObjs"></akam-dropdown>';
           addElement(dropdownTemplate);
@@ -228,7 +227,6 @@ describe('akamai.components.dropdown', function() {
         beforeEach(function(){
           $scope.selectedStateObj = {name: 'Colorado'};
           $scope.stateStringsObjs = stateObjects;
-          $scope.onChange = jasmine.createSpy('on-change-spy');
           $scope.disabled = true;
           var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" is-disabled="disabled" items="stateStringsObjs"></akam-dropdown>';
           addElement(dropdownTemplate);
@@ -260,7 +258,6 @@ describe('akamai.components.dropdown', function() {
         beforeEach(function(){
           $scope.selectedStateObj = {name: 'Colorado'};
           $scope.stateStringsObjs = stateObjects;
-          $scope.onChange = jasmine.createSpy('on-change-spy');
           var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" clearable items="stateStringsObjs"></akam-dropdown>';
           addElement(dropdownTemplate);
         });
@@ -277,7 +274,6 @@ describe('akamai.components.dropdown', function() {
       beforeEach(function(){
         $scope.selectedStateObj = {name: 'Colorado'};
         $scope.stateStringsObjs = stateObjects;
-        $scope.onChange = jasmine.createSpy('on-change-spy');
         var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" append-to-body items="stateStringsObjs"></akam-dropdown>';
         addElement(dropdownTemplate);
         timeout.flush();
@@ -297,7 +293,6 @@ describe('akamai.components.dropdown', function() {
           beforeEach(function(){
             $scope.selectedStateObj = {name: 'Colorado'};
             $scope.stateStringsObjs = stateObjects;
-            $scope.onChange = jasmine.createSpy('on-change-spy');
             var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" append-to-body items="stateStringsObjs"></akam-dropdown>';
             addElement(dropdownTemplate);
             timeout.flush();
@@ -365,25 +360,6 @@ describe('akamai.components.dropdown', function() {
       });
     });
   });
-  describe('given a callback function bound to the on-change attribute', function(){
-    describe('when some item is selected in the dropdown', function(){
-      beforeEach(function(){
-        $scope.selectedStateObj = {name: 'Colorado'};
-        $scope.stateStringsObjs = stateObjects;
-        $scope.onChange = jasmine.createSpy('on-change-spy');
-        var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" on-change="onChange(item)" items="stateStringsObjs"></akam-dropdown>';
-        addElement(dropdownTemplate);
-        var dropdownToggle = util.find('.dropdown-toggle');
-        util.click(dropdownToggle);
-        var dropdownMenu = util.find('.dropdown-menu');
-        util.click(dropdownMenu.querySelectorAll('li')[3].querySelector('a'));
-        $scope.$digest();
-      });
-      it('should invoke the callback with the bound ngModel as an argument', function(){
-        expect($scope.onChange).toHaveBeenCalledWith($scope.stateStringsObjs[3]);
-      });
-    });
-  });
   describe('given a clearable attribute on the akam-dropdown', function(){
     describe('when the dropdown is rendered', function(){
       describe('and some item is selected', function(){
@@ -391,7 +367,6 @@ describe('akamai.components.dropdown', function() {
           beforeEach(function(){
             $scope.selectedStateObj = {name: 'Colorado'};
             $scope.stateStringsObjs = stateObjects;
-            $scope.onChange = jasmine.createSpy('on-change-spy');
             var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" clearable items="stateStringsObjs"></akam-dropdown>';
             addElement(dropdownTemplate);
             var icon = document.querySelector('.luna-small_close_dark_gray');

@@ -12,7 +12,6 @@ function dropdownDirective(dropdownTemplateService) {
       items: '=',
       textProperty: '@?',
       keyProperty: '=?',
-      onChange: '&?',
       placeholder: '@?',
       filterPlaceholder: '@?',
       isDisabled: '=?'
