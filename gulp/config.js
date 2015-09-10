@@ -23,6 +23,8 @@ module.exports = {
       'content-panel/**/*.js',
       'context/**/*.js',
       'date-picker/**/*.js',
+      'date-range/**/*.js',
+      'datetime-picker/**/*.js',
       'dropdown/**/*.js',
       'i18n/**/*.js',
       'indeterminate-progress/**/*.js',

@@ -1,5 +1,4 @@
 'use strict';
-import datetime from '../../src/datetime-picker';
 var utilities = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
 
@@ -23,7 +22,7 @@ describe('akamai.components.datetime-picker', function() {
 
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
-    angular.mock.module(datetime.name);
+    angular.mock.module(require('../../src/datetime-picker').name);
     angular.mock.module(function($provide, $translateProvider) {
       $translateProvider.useLoader('i18nCustomLoader');
     });

@@ -1,10 +1,10 @@
 .akam-datetime-picker {
   position: relative;
-  & .akam-time-picker {
+  .akam-time-picker {
     margin-left: 183px;
     position: absolute;
   }
-  & div.akam-date-picker {
+  .akam-date-picker {
     position: absolute;
   }
 }
