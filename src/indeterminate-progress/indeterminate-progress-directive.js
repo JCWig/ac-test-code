@@ -3,36 +3,57 @@ import template from './templates/indeterminate-progress-directive.tpl.html';
 
 const WRAPPER_CLASS_NAME = 'indeterminate-progress-wrapper',
   CLASS_NAME = 'indeterminate-progress',
+  SIZE_MICRO = 'micro',
   SIZE_SMALL = 'small',
   SIZE_NORMAL = 'normal',
   SIZE_LARGE = 'large',
-  STATE_STARTED = 'started',
-  STATE_COMPLETED = 'completed',
-  STATE_FAILED = 'failed';
+  SIZES = [
+    SIZE_LARGE,
+    SIZE_NORMAL,
+    SIZE_SMALL,
+    SIZE_MICRO
+  ],
+  STATES = {
+    STARTED: 'started',
+    COMPLETED: 'completed',
+    FAILED: 'failed',
+    SUCCESS: 'success'
+  };
 
 class IndeterminateProgressController {
+  constructor($translate) {
+    if (angular.isDefined(this.label) && this.label !== '') {
+      $translate(this.label)
+        .then(value => this.label = value);
+    }
+  }
+
+  static get $inject() {
+    return ['$translate'];
+  }
 
   get size() {
-    switch (this.spinnerSize) {
-      case SIZE_SMALL:
-        return SIZE_SMALL;
-      case SIZE_LARGE:
-        return SIZE_LARGE;
-      default:
-        return SIZE_NORMAL;
-    }
+    return SIZES.indexOf(this.spinnerSize) > -1 ? this.spinnerSize : SIZE_NORMAL;
   }
 
   get state() {
     if (this.failed) {
-      return STATE_FAILED;
+      return STATES.FAILED;
+    }
+
+    if (this.success) {
+      return STATES.SUCCESS;
     }
 
     if (this.completed) {
-      return STATE_COMPLETED;
+      return STATES.COMPLETED;
     }
 
-    return STATE_STARTED;
+    return STATES.STARTED;
+  }
+
+  get success() {
+    return this.stateSuccess === 'true';
   }
 
   get completed() {
@@ -44,7 +65,7 @@ class IndeterminateProgressController {
   }
 }
 
-function indeterminateProgressDirective($translate) {
+function indeterminateProgressDirective() {
 
   return {
     restrict: 'AE',
@@ -53,27 +74,18 @@ function indeterminateProgressDirective($translate) {
       label: '@label',
       stateFailed: '@failed',
       stateCompleted: '@completed',
+      stateSuccess: '@success',
       spinnerSize: '@size'
     },
     controller: IndeterminateProgressController,
     controllerAs: 'indeterminateProgress',
-    link: (scope, element) => {
-      let ctrl = scope.indeterminateProgress;
-
-      if (angular.isDefined(ctrl.label) && ctrl.label !== '') {
-        $translate(ctrl.label)
-          .then(value => ctrl.label = value);
-      }
-
-      //add or remove the class based on whether or not the element is "completed".
-      scope.$watch('indeterminateProgress.stateFailed', () => {
+    link: (scope, element, attrs, ctrl) => {
+      //add or remove the class based controller state
+      scope.$watch(()=> ctrl.state, () => {
+        element.toggleClass('success', ctrl.success);
         element.toggleClass('failed', ctrl.failed);
-      }, true);
-
-      //add or remove the class based on whether or not the element is "completed".
-      scope.$watch('indeterminateProgress.stateCompleted', () => {
         element.parent().toggleClass(CLASS_NAME, !ctrl.completed);
-      }, true);
+      });
 
       //remove the indeterminate progress if the element is removed.
       element.on('$destroy', () => {
@@ -86,7 +98,5 @@ function indeterminateProgressDirective($translate) {
     template: template
   };
 }
-
-indeterminateProgressDirective.$inject = ['$translate'];
 
 export default indeterminateProgressDirective;

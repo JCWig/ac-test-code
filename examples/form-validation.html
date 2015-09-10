@@ -302,6 +302,26 @@
                 </div>
                 
                 <div class="form-group">
+                  <label class="col-md-3">Pick A Date Range</label>
+                  <div class="col-md-9">
+                    <akam-date-range 
+                      ng-model="vm.dateRange1" 
+                      min-date="{{vm.min | date: 'yyyy-MM-dd'}}" 
+                      max-date="{{vm.max | date: 'yyyy-MM-dd'}}" 
+                      format="{{vm.format}}" 
+                      is-disabled="vm.disabled" 
+                      on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+                    <div ng-messages="kitchenSink.dateRange1.$error" class="ngMessages" role="alert">
+                      <div ng-message="required">You did not enter a field</div>
+                      <div ng-message="minlength">Your field is too short</div>
+                      <div ng-message="maxlength">Your field is too long</div>
+                      <div ng-message="min">Your value is below the minimum value</div>
+                      <div ng-message="max">Your value is above the maximum value</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
                   <label class="col-md-3">Pick A Time</label>
                   <div class="col-md-9">
                     <akam-time-picker
@@ -799,6 +819,7 @@
           
           function formValidationController($scope, $log, $filter, $q, $http) {
               var vm = this;
+              var d = new Date();
               vm.test = 'test';
 
               vm.stateObjects = [
@@ -826,6 +847,10 @@
                   'Virginia',
                   'Washington, District of Columbia'
               ];
+
+              vm.dateRange1 = {startDate:'', endDate:''};
+              vm.min = new Date(d.getFullYear()-2, d.getMonth(), 1);
+              vm.max = new Date(d.getFullYear()+2, d.getMonth(), 0);
 
               vm.doChange = function(item) {
                   $log.log('selected item changed', item);

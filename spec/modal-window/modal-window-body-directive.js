@@ -87,8 +87,8 @@ describe('akam-modal-window-body directive', function() {
         this.$httpBackend.flush();
         this.$httpBackend.verifyNoOutstandingRequest();
       });
-      it('should hide overflow on div.modal-body', function(){
-        var el = document.querySelector('.util-hidden-overflow');
+      it('should have a processing class on div.modal-body', function(){
+        var el = document.querySelector('.modal-body.processing');
         expect(el).not.toBe(null);
       });
     });

@@ -167,7 +167,7 @@ $datepicker-text-color-disabled: #e6e6e6;
       }
 
       // Date being hovered over
-      &:hover {
+      &:hover:not([disabled]) {
         span {
           color: #666666;
           background-color: #CEE7FF;
@@ -252,7 +252,7 @@ $datepicker-text-color-disabled: #e6e6e6;
         }
 
         &[disabled] {
-          background-color: #e6e6e6;
+          background-color: #fff;
           color: #c8c8c8;
         }
       }

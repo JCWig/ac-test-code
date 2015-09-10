@@ -171,7 +171,8 @@
                             templateId: 'step1',
                             validate: function(scope) {
                                 return true;
-                            }
+                            },
+                            initialize: angular.bind(this, deferredProcess, "Step 1 Failed to initialize.")
                         },
                         {
                             name: $translate.instant('examples.wizard.step2'),

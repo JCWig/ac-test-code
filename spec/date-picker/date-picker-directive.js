@@ -164,6 +164,24 @@ describe('akam-date-picker', function() {
 
       expect(inputDateField.getAttribute('disabled')).toBe('disabled');
     });
+
+    it('should date picker calendar button disabled when set to true', function() {
+      scope.disabled = true;
+      scope.$digest();
+      var buttonElem = document.querySelector('.akam-date-picker .button');
+
+      expect(buttonElem.getAttribute('disabled')).toBe('disabled');
+    });
+
+    it('should date picker calendar icon disabled when set to true', function() {
+      scope.disabled = true;
+      scope.$digest();
+      var iconElem = document.querySelector('.akam-date-picker .button .luna-calendar');
+
+      console.log(iconElem)
+
+      expect(iconElem.getAttribute('disabled')).toBe('disabled');
+    });
   });
 
   describe('when interacting with the date picker', function() {

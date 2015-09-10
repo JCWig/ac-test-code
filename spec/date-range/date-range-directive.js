@@ -3,6 +3,7 @@
 
 import utils from '../utilities';
 import dateRange from '../../src/date-range';
+import datePicker from '../../src/date-picker';
 
 describe('akamai.components.date-range', function() {
 
@@ -23,10 +24,11 @@ describe('akamai.components.date-range', function() {
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(dateRange.name);
+    angular.mock.module(datePicker.name);
     angular.mock.module(function($translateProvider) {
       $translateProvider.useLoader('translateNoopLoader');
     });
-    angular.mock.inject(function($compile, $timeout, $rootScope, $httpBackend) {
+    angular.mock.inject(function($compile, $timeout, $rootScope) {
       this.$compile = $compile;
       this.$scope = $rootScope.$new();
       this.$timeout = $timeout;
@@ -174,6 +176,8 @@ describe('akamai.components.date-range', function() {
     it('should verify correct properties and values from controller', function() {
       expect(dateRange.opened).not.toBe(undefined);
       expect(dateRange.rangeStart).not.toBe(undefined);
+      expect(dateRange.dateRange.startDate).not.toBe(undefined);
+      expect(dateRange.dateRange.endDate).not.toBe(undefined);
       expect(dateRange.rangeStart.minDate).not.toBe(null);
       expect(dateRange.rangeStart.maxDate).not.toBe(null);
       expect(dateRange.rangeStart.selectedValue).toBe('');
@@ -253,16 +257,55 @@ describe('akamai.components.date-range', function() {
       dateRange = this.el.isolateScope().dateRange;
     });
 
-    it('should verify the APIs value value if provided in directive', function() {
+    it('should verify the APIs value if provided in directive', function() {
 
       expect(dateRange.dateRange).not.toBe(undefined);
       expect(angular.isObject(dateRange.dateRange)).toBeTruthy();
       expect(angular.isObject(dateRange.dateRange.startDate)).not.toBe('');
       expect(angular.isObject(dateRange.dateRange.endDate)).not.toBe('');
+      expect(angular.isDate(new Date(dateRange.dateRange.startDate))).toBeTruthy();
+      expect(angular.isDate(new Date(dateRange.dateRange.endDate))).toBeTruthy();
       expect(dateRange.isDisabled).toBeTruthy();
       expect(angular.isFunction(dateRange.onSelect)).toBeTruthy();
     });
+  });
 
+  describe("Verify control id  ", function() {
+
+    let dateRange;
+    let d = new Date();
+    let startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    let endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    beforeEach(function() {
+      this.$scope.dateRange = {
+        startDate: startDate,
+        endDate: endDate
+      };
+      let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+      addElement.call(this, markup);
+      dateRange = this.el.isolateScope().dateRange;
+    });
+
+    it('should verify id is required to handle event', function() {
+      expect(dateRange.id).not.toBe(undefined);
+    })
+
+    it('should verify id can not be undefined to handle event', function() {
+      dateRange.id = undefined;
+      this.$scope.$digest();
+
+      expect(dateRange.id).toBe(undefined);
+      expect(dateRange.startDate).toBe(undefined);
+      expect(dateRange.endDate).toBe(undefined);
+    });
+
+    it('should verify id is required to be same as created and cached to handle event', function() {
+      dateRange.id = 1234;
+      this.$scope.$digest();
+
+      expect(dateRange.startDate).toBe(undefined);
+      expect(dateRange.endDate).toBe(undefined);
+    });
   });
 
   describe("Verify dropdown child elements before and after date range open...", function() {
@@ -295,8 +338,8 @@ describe('akamai.components.date-range', function() {
   describe("Verify minDate and maxDate updates dynamically...", function() {
     let dateRange;
     let d = new Date("08/09/2015");
-    let min = new Date(d.getFullYear()-2, d.getMonth(), 1);
-    let max = new Date(d.getFullYear()+2, d.getMonth(), 0);
+    let min = new Date(d.getFullYear() - 2, d.getMonth(), 1);
+    let max = new Date(d.getFullYear() + 2, d.getMonth(), 0);
     beforeEach(function() {
       this.$scope.dateRange = {
         startDate: '',
@@ -330,6 +373,75 @@ describe('akamai.components.date-range', function() {
       expect(dateRange.minDate).toBe('2013-08-01');
       expect(dateRange.maxDate).toBe('2017-07-31');
 
+    });
+
+  });
+
+  describe("Verify correct element rendered ", function() {
+    let datePickerMarkup, dateRangeMarkup;
+
+    beforeEach(function() {
+      datePickerMarkup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="value"></akam-date-picker></div>';
+      dateRangeMarkup = '<div id="parent-element"><akam-date-range ng-model="dateRange"></akam-date-range></div>';
+    });
+
+    it('should verify date picker element rendered and date range element is not', function() {
+      addElement.call(this, datePickerMarkup);
+
+      let dateRangeElem = this.element.querySelector(`.akam-date-range .dropdown-menu`);
+      let datePickerElem = this.element.querySelector(`.akam-date-picker.month .dropdown-menu`);
+
+      expect(dateRangeElem).toBe(null);
+      expect(datePickerElem).not.toBe(null);
+
+    });
+
+    it('should verify date range element rendered and date picker element is not', function() {
+      addElement.call(this, dateRangeMarkup);
+
+      let dateRangeElem = this.element.querySelector(`.akam-date-range .dropdown-menu`);
+      let datePickerElem = this.element.querySelector(`.akam-date-picker.month .dropdown-menu`);
+
+      expect(datePickerElem).toBe(null);
+      expect(dateRangeElem).not.toBe(null);
+
+    });
+  });
+
+  describe("after render, the date range isolated scope controller...", function() {
+    let dateRange, isoScope;
+    beforeEach(function() {
+      this.$scope.dateRange = {
+        startDate: '2015-9-1',
+        endDate: '2015-9-15'
+      };
+      let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+      addElement.call(this, markup);
+      isoScope = this.el.isolateScope();
+      dateRange = isoScope.dateRange;
+    });
+
+    it('should verify scope function setRangeValues to be called if calendar date selected', function() {
+
+      expect(dateRange.rangeSelected).toBeTruthy();
+      expect(dateRange.rangeStart.selectedValue).toBe('2015-9-1');
+      expect(dateRange.rangeEnd.selectedValue).toBe('2015-9-15');
+
+    });
+
+    it('should verify removing handler get called when isolated scope $destroyed', function() {
+
+      expect(dateRange.rangeSelectedEvent).not.toBe(undefined);
+
+      let rangeSelectedEventMethod = spyOn(dateRange, "rangeSelectedEvent");
+
+      let btnElem = this.element.querySelector('.range-selection button');
+      utils.click(btnElem);
+      this.$scope.$digest();
+
+      isoScope.$destroy();
+
+      expect(rangeSelectedEventMethod).toHaveBeenCalled();
     });
 
   });

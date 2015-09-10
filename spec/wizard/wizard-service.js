@@ -505,5 +505,43 @@ describe('akamai.components.wizard', function() {
     });
   });
 
+  describe('given an open wizard with content scope', function() {
+    let wizardScope;
+
+    describe('when the wizard is dismissed', function() {
+      beforeEach(function() {
+        wizardScope = $scope.$new();
+        spyOn(wizardScope, '$destroy');
+
+        wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller1'});
+        $scope.$digest();
+
+        //let closeIcon = document.querySelector('.modal-header i');
+        util.click(document.querySelector('.modal-header i'));
+      });
+
+      it('should destroy the provided scope', function() {
+        expect(wizardScope.$destroy).toHaveBeenCalled();
+      });
+    });
+
+    describe('when the wizard is closed', function(){
+      beforeEach(function() {
+        wizardScope = $scope.$new();
+        spyOn(wizardScope, '$destroy');
+
+        wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller1'});
+        $scope.$digest();
+
+        util.click(document.querySelector('div.modal-footer > button + button'));
+      });
+
+      it('should destroy the provided scope', function() {
+        expect(wizardScope.$destroy).toHaveBeenCalled();
+      });
+    });
+
+  });
+
 });
 

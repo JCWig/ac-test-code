@@ -672,7 +672,7 @@ describe('akamai.components.auth', function() {
           $rootScope.$digest();
 
           httpBackend.expectGET('/abcd.json?aid=456&gid=123').respond(200);
-          elem = document.querySelector('.modal-footer button.primary');
+          elem = document.querySelector('.modal-footer .btn-primary');
           angular.element(elem).trigger('click');
         });
 

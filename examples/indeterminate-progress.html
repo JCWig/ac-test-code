@@ -1,63 +1,153 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Akamai Component Examples - Indeterminate Progress</title>
-        <link rel="stylesheet" href="../dist/akamai-core.css">
-        <style>
-            .container {
-                min-height: 150px;
-            }
-        </style>
-    </head>
-    <body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
-        <div class="container">
-            <div class="page-header">
-                <h1>Indeterminate Progress Example</h1>
-            </div>
-            <div>
-                <label class="label">Progress Status:</label>
-                <input type="checkbox" name="completed" id="completed" ng-model="completed"/><label class="label" for="completed">Completed</label>
-                <input type="checkbox" name="failed" id="failed" ng-model="failed"/><label class="label" for="failed">Failed</label>
-            </div>
-            <br />    
-            <div>
-                <label class="label" for="labelText">Progress Label Text:</label><br>
-                <input type="text" name="labelText" id="labeltext" ng-model="label" size="50"</input>
-            </div>
-            <br />   
-            <div>
-                <label class="label">Small Spinner:</label>
-            </div>
-            <div class="container" id="smallspinner">
-                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" size="small" label="{{label}}"></akam-indeterminate-progress>
-            </div>
-            <br />
-             <div>
-                <label class="label">Regular Spinner:</label>
-            </div>
-            <div class="container" id="regularspinner">
-                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" label="{{label}}"></akam-indeterminate-progress>
-            </div>
-            <br />
-             <div>
-                <label class="label">Large Spinner:</label>
-            </div>
-            <div class="container" id="largespinner">
-                <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" size="large" label="{{label}}"></akam-indeterminate-progress>
-            </div>
-            <script src="../dist/akamai-core.js"></script>
-            <script>
+  <head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Indeterminate Progress</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+    <style>
+      .container {
+          min-height: 150px;
+      }
 
-                var controllerFunction = function($scope) {
-                    $scope.completed = false;
-                    $scope.failed = false;            
-                };
-                controllerFunction.$inject = ["$scope"];
-                var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress"]);
-                
-                app.controller("Ctrl", controllerFunction);       
-            </script>
+      .example {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      .settings > div {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body ng-app="indeterminateProgressDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
+    <div class="container">
+      <div class="page-header">
+          <h1>Indeterminate Progress Example</h1>
+      </div>
+      <div class="settings">
+        <div>
+          <label class="label">Progress Status:</label>
+          <label class="label"><input type="checkbox" ng-model="completed"/><span class="label">Completed</span></label>
+          <label class="label"><input type="checkbox" ng-model="failed"/><span class="label">Failed</span></label>
+          <label class="label"><input type="checkbox" ng-model="success"/><span class="label">Success</span></label>
         </div>
-    </body>
+        <div>
+          <label class="label" for="labelText">Progress Label Text:</label><br>
+          <input type="text" name="labelText" id="labeltext" ng-model="label" size="50">
+        </div>
+      </div>
+
+
+      <div class="example">
+        <div>
+          <label class="label">Micro Spinner:</label>
+        </div>
+        <div class="container" id="microspinner">
+          <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" success="{{success}}" size="micro" label="{{label}}"></akam-indeterminate-progress>
+        </div>
+      </div>
+
+      <div class="example">
+        <div>
+          <label class="label">Small Spinner:</label>
+        </div>
+        <div class="container" id="smallspinner">
+          <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" success="{{success}}" size="small" label="{{label}}"></akam-indeterminate-progress>
+        </div>
+      </div>
+
+      <div class="example">
+        <div>
+          <label class="label">Regular Spinner:</label>
+        </div>
+        <div class="container" id="regularspinner">
+          <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" success="{{success}}" label="{{label}}"></akam-indeterminate-progress>
+        </div>
+      </div>
+
+      <div class="example">
+        <div>
+          <label class="label">Large Spinner:</label>
+        </div>
+        <div class="container" id="largespinner">
+          <akam-indeterminate-progress completed="{{completed}}" failed="{{failed}}" success="{{success}}" size="large" label="{{label}}"></akam-indeterminate-progress>
+        </div>
+      </div>
+
+      <div class="example">
+        <akam-table items="items" not-filterable not-pageable not-sortable akam-standalone>
+          <akam-table-toolbar>
+            Example of micro used in a table context
+          </akam-table-toolbar>
+
+          <akam-table-row>
+
+            <akam-table-column header-name="Property Version"
+                               row-property="version" class="allow-wrap">
+              <span>Version {{row.version}}</span>
+            </akam-table-column>
+
+            <akam-table-column header-name="Action" class="allow-wrap">
+              <button class="btn btn-default small" ng-click="fakeSubmit(row)" ng-disabled="row.isInProgress">Start</button>
+            </akam-table-column>
+
+            <akam-table-column header-name="Status" class="allow-wrap">
+              <akam-indeterminate-progress size="micro" ng-if="row.isInProgress || row.isSuccess || row.isFailed" success="{{row.isSuccess}}" failed="{{row.isFailed}}"></akam-indeterminate-progress>
+            </akam-table-column>
+
+          </akam-table-row>
+
+        </akam-table>
+      </div>
+
+
+      <script src="../dist/akamai-core.js"></script>
+      <script>
+        var controllerFunction = function($scope, $timeout) {
+          var timesCalled = 0;
+
+          $scope.completed = false;
+          $scope.failed = false;
+          $scope.success = false;
+
+          $scope.items = [
+            {
+              id: 1,
+              isInProgress: false,
+              isFailed: false,
+              isSuccess: false,
+              version: 1
+            },
+            {
+              id: 2,
+              isInProgress: false,
+              isFailed: false,
+              isSuccess: false,
+              version: 2
+            }
+          ];
+
+          $scope.fakeSubmit = function(row){
+            row.isInProgress = true;
+            row.isFailed = false;
+            row.isSuccess = false;
+
+            $timeout(function(){
+              row.isInProgress = false;
+              if(timesCalled++ % 2 === 0){
+                row.isFailed = true;
+              }else{
+                row.isSuccess = true;
+              }
+            }, 2500);
+          };
+        };
+
+        controllerFunction.$inject = ["$scope", "$timeout"];
+        var app = angular.module("indeterminateProgressDemo", ["akamai.components.indeterminate-progress", "akamai.components.table"]);
+
+        app.controller("Ctrl", controllerFunction);
+      </script>
+    </div>
+  </body>
 </html>

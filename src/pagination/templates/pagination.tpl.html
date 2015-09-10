@@ -2,18 +2,18 @@
   <span class="total-items">{{ pagination.resultText }} {{ pagination.totalItems }} </span>
   <ul class="pagination">
     <li ng-class="{ disabled: pagination.isFirstPageActive() }">
-      <a href="#" ng-click="pagination.selectPage(pagination.currentPage - 1)"> <i
+      <a href="javascript:void(0)" ng-click="pagination.selectPage(pagination.currentPage - 1)"> <i
         class="luna-arrow_smLeft"></i> </a>
     </li><li ng-class="{ active: pagination.isFirstPageActive() }">
-      <a href="#" ng-click="pagination.selectPage(1)">1</a>
+      <a href="javascript:void(0)" ng-click="pagination.selectPage(1)">1</a>
     </li><li ng-if="pagination.showFirstPageEllipsis()"><span>&#8230;</span></li><li
       ng-repeat="page in pagination.pages track by $index"
       ng-class="{ active: page.active }">
-      <a href="#" ng-click="pagination.selectPage(page.number)">{{ page.number }}</a>
+      <a href="javascript:void(0)" ng-click="pagination.selectPage(page.number)">{{ page.number }}</a>
     </li><li ng-if="pagination.showLastPageEllipsis()"><span>&#8230;</span></li><li ng-class="{ active: pagination.isLastPageActive() }" ng-if="!pagination.hasOnlyOnePage()">
-      <a href="#" ng-click="pagination.selectPage(pagination.totalPages)">{{ pagination.totalPages }}</a>
+      <a href="javascript:void(0)" ng-click="pagination.selectPage(pagination.totalPages)">{{ pagination.totalPages }}</a>
     </li><li ng-class="{ disabled: pagination.isLastPageActive() }">
-      <a href="#" ng-click="pagination.selectPage(pagination.currentPage + 1)"> <i
+      <a href="javascript:void(0)" ng-click="pagination.selectPage(pagination.currentPage + 1)"> <i
         class="luna-arrow_smRight"></i> </a>
     </li>
   </ul>
@@ -23,7 +23,7 @@
       <li
         ng-repeat="size in pagination.sizes track by $index"
         ng-class="{ active: pagination.isSizeActive(size)}">
-        <a href="#" ng-click="pagination.selectSize(size)">
+        <a href="javascript:void(0)" ng-click="pagination.selectSize(size)">
           {{ size }}
         </a>
       </li>
