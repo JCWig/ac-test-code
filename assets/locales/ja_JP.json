@@ -43,6 +43,7 @@
             "successMessage": "アクションが完了しました。",
             "errorMessage": "アクションを完了できませんでした。",
             "label": {
+                "cancel": "キャンセル",
                 "next": "次に",
                 "submit": "提出",
                 "previous": "前へ"

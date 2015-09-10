@@ -31,6 +31,8 @@ class WizardController {
     this.title = options.title;
     this.icon = options.icon;
 
+    this.cancelLabel = $translate.instant(options.cancelLabel ||
+      'components.wizard.label.cancel');
     this.previousLabel = $translate.instant(options.previousLabel ||
       'components.wizard.label.previous');
     this.nextLabel = $translate.instant(options.nextLabel || 'components.wizard.label.next');
@@ -251,6 +253,9 @@ function wizard($modal, $rootScope) {
      *
      * @param {String} [options.icon] A CSS class representing an
      * icon to display to the left of the wizard title
+     *
+    * @param {String} [options.cancelLabel=Cancel] A label for the wizard's
+     * cancel button
      *
      * @param {String} [options.previousLabel=Previous] A label for the
      * wizard's previous button

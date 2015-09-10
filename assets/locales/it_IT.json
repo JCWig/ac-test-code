@@ -43,6 +43,7 @@
             "successMessage": "L'azione è stata completata.",
             "errorMessage": "Impossibile completare l'azione.",
             "label": {
+                "cancel": "Annulla",
                 "next": "Avanti",
                 "submit": "Invia",
                 "previous": "Precedente"
