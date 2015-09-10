@@ -14,10 +14,11 @@ describe('akam-indeterminate-progress', function() {
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(indeterminateProgress.name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
-    inject(function($compile, $rootScope, $httpBackend) {
+    inject(function($compile, $rootScope) {
       this.compile = $compile;
       this.scope = $rootScope.$new();
 
@@ -26,10 +27,6 @@ describe('akam-indeterminate-progress', function() {
         this.scope.$digest();
         this.element = document.body.appendChild(this.el[0]);
       };
-
-      $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
-      $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
-      $httpBackend.flush();
     });
   });
 

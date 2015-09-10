@@ -4,11 +4,11 @@ import template from './templates/wizard.tpl.html';
 class WizardController {
 
   static get $inject() {
-    return ['$scope', '$rootScope', '$controller', 'translate',
+    return ['$scope', '$rootScope', '$controller', '$translate',
             '$templateCache', '$q', 'statusMessage', '$log'];
   }
 
-  constructor($scope, $rootScope, $controller, translate,
+  constructor($scope, $rootScope, $controller, $translate,
               $templateCache, $q, statusMessage, $log) {
     let options = $scope.options;
 
@@ -31,16 +31,14 @@ class WizardController {
     this.title = options.title;
     this.icon = options.icon;
 
-    this.previousLabel = translate.sync(options.previousLabel,
-      null, 'components.wizard.label.previous');
-    this.nextLabel = translate.sync(options.nextLabel,
-      null, 'components.wizard.label.next');
-    this.submitLabel = translate.sync(options.submitLabel,
-      null, 'components.wizard.label.submit');
-    this.successMessage = translate.sync(options.successMessage,
-      null, 'components.wizard.successMessage');
-    this.submitErrorMessage = translate.sync(options.errorMessage,
-      null, 'components.wizard.errorMessage');
+    this.previousLabel = $translate.instant(options.previousLabel ||
+      'components.wizard.label.previous');
+    this.nextLabel = $translate.instant(options.nextLabel || 'components.wizard.label.next');
+    this.submitLabel = $translate.instant(options.submitLabel || 'components.wizard.label.submit');
+    this.successMessage = $translate.instant(options.successMessage ||
+      'components.wizard.successMessage');
+    this.submitErrorMessage = $translate.instant(options.errorMessage ||
+      'components.wizard.errorMessage');
 
     this.instance = options.instance;
 

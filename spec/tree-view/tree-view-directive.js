@@ -17,8 +17,9 @@ describe('akamai.components.tree-view', function() {
     inject.strictDi(true);
     var self = this;
     angular.mock.module(require('../../src/tree-view').name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
     inject(function($compile, $rootScope, $timeout, $q, $log, $http, $httpBackend) {
       scope = $rootScope.$new();
@@ -27,9 +28,6 @@ describe('akamai.components.tree-view', function() {
       q = $q;
       http = $http;
       httpBackend = $httpBackend;
-      httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
-      httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
-      httpBackend.flush();
     });
     scope.contextDataCustom = {
       parents: {titles: "Justice League", roots:'true'},

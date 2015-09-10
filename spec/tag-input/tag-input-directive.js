@@ -12,13 +12,14 @@ describe('akamai.components.tag-input', function() {
       inject.strictDi(true);
       var self = this;
       angular.mock.module(require('../../src/tag-input').name);
-      inject(function($compile, $rootScope, $timeout, $httpBackend) {
+      angular.mock.module(function($translateProvider) {
+        $translateProvider.translations('en_US', translationMock);
+        $translateProvider.useLoader('translateNoopLoader');
+      });
+      inject(function($compile, $rootScope, $timeout) {
         scope = $rootScope.$new();
         compile = $compile;
         timeout = $timeout;
-        $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
-        $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
-        $httpBackend.flush();
       });
       scope.items = ["Connor Kent","Bart Allen", "Cassandra Sandsmark"];
       scope.availableItems = [

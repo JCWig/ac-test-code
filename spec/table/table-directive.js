@@ -25,6 +25,7 @@ var PAGE_SIZES = 'div.akam-pagination .page-size li';
 
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+var translationMock = angular.merge({}, enUsResponse, enUsMessagesResponse);
 
 describe('akam-table', function() {
   var compile, scope, q, timeout, httpBackend, http, log;
@@ -32,8 +33,9 @@ describe('akam-table', function() {
   beforeEach(function() {
     self = this;
     angular.mock.module(require('../../src/table').name);
-    angular.mock.module(function($provide, $translateProvider, $sceProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
     inject(function($compile, $rootScope, $q, $timeout, $httpBackend, $http, $log) {
       compile = $compile;
@@ -42,9 +44,6 @@ describe('akam-table', function() {
       timeout = $timeout;
       httpBackend = $httpBackend;
       http = $http;
-      $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(enUsMessagesResponse);
-      $httpBackend.when('GET', utilities.CONFIG_PATH).respond(enUsResponse);
-      $httpBackend.flush();
       log = $log;
     });
     scope.mydata = [
