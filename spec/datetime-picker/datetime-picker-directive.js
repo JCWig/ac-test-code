@@ -157,7 +157,7 @@ describe('akamai.components.datetime-picker', function() {
     });
   });
 
-  describe('When selects date and time', function() {
+  describe('When selects date...', function() {
     beforeEach(function() {
       addElement.call(this, undefined);
     });
@@ -181,7 +181,101 @@ describe('akamai.components.datetime-picker', function() {
       expect(this.controller.datetimeValue.getMonth()).toEqual(d.getMonth());
       expect(this.controller.datetimeValue.getDate()).toEqual(1);
     });
+  });
 
+  describe('When selects time...', function() {
+    beforeEach(function() {
+      let d = new Date();
+      d.setHours(5, 10);
+      $scope.dt = d;
+      addElement.call(this, undefined);
+    });
 
+    it("should verify hour value incremented by 1 when click hour up arrow once", function() {
+      let button = document.querySelector(timepickerSelector + " .btn");
+      let arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
+
+      let initHour = this.controller.datetimeValue.getHours();
+
+      utilities.click(button);
+      $scope.$digest();
+
+      utilities.click(arrows[0]);
+      $scope.$digest();
+
+      let updatedHour = this.controller.datetimeValue.getHours();
+
+      expect(updatedHour - initHour).toBe(1);
+    });
+
+    it("should verify hour value incremented by 15 when clcik minut up arrow once", function() {
+      let button = document.querySelector(timepickerSelector + " .btn");
+      let arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
+
+      let initMinute = this.controller.datetimeValue.getMinutes();
+
+      utilities.click(button);
+      $scope.$digest();
+
+      utilities.click(arrows[1]);
+      $scope.$digest();
+
+      let updatedMinute = this.controller.datetimeValue.getMinutes();
+
+      expect(updatedMinute - initMinute).toBe(15);
+    });
+  });
+  describe('When rendered ', function() {
+    beforeEach(function() {
+      addElement.call(this, undefined);
+    });
+
+    it("when datepicker selects, should verify controller setDatetime function callled", function() {
+      let setDatetimeSpy = spyOn(this.controller, "setDatetime");
+
+      let button = document.querySelector(datePickerSelector + " .button");
+      utilities.click(button);
+      $scope.$digest();
+
+      let firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      utilities.click(firstDayOfMonthButton);
+      $scope.$digest();
+
+      expect(setDatetimeSpy).toHaveBeenCalled();
+
+    });
+
+    it("when dtepicker selects, should verify scope dateChanged function callled", function() {
+      let dateChangedSpy = spyOn(this.isoScope, "dateChanged");
+
+      let button = document.querySelector(datePickerSelector + " .button");
+      utilities.click(button);
+      $scope.$digest();
+
+      let firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      utilities.click(firstDayOfMonthButton);
+      $scope.$digest();
+
+      expect(dateChangedSpy).toHaveBeenCalled();
+    });
+
+    it("when timepicker selects, should verify scope timeChange function callled", function() {
+      let timeChangedSpy = spyOn(this.isoScope, "timeChanged");
+      let button = document.querySelector(timepickerSelector + " .btn");
+      let arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
+
+      utilities.click(button);
+      $scope.$digest();
+
+      utilities.click(arrows[0]);
+      $scope.$digest();
+
+      expect(timeChangedSpy).toHaveBeenCalled();
+
+      utilities.click(arrows[1]);
+      $scope.$digest();
+
+      expect(timeChangedSpy).toHaveBeenCalled();
+    });
   });
 });
