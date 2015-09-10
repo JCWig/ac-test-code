@@ -137,10 +137,6 @@ $dropdown-max-items: 8;
     pointer-events: none;
 
     a {
-      cursor: default;
-      opacity: 1;
-      background: $button-background-color-disabled;
-      border-color: $button-border-color-disabled;
       color: $button-text-color-disabled;
     }
   }
