@@ -4,6 +4,10 @@ var util = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
 var _ = require('lodash');
 
+const CANCEL_BUTTON_SELECTOR = 'div.modal-footer button:nth-child(1)';
+const PREVIOUS_BUTTON_SELECTOR = 'div.modal-footer button:nth-child(2)';
+const NEXT_BUTTON_SELECTOR = 'div.modal-footer button:nth-child(3)';
+
 describe('akamai.components.wizard', function() {
   var $scope, $compile, wizard, steps, submitFunction, $q, timeout;
 
@@ -115,7 +119,7 @@ describe('akamai.components.wizard', function() {
         expect(secondStep.classList.contains('visited')).toBe(false);
         expect(secondStep.classList.contains('current')).toBe(true);
 
-        var nextButton = document.querySelector('div.modal-footer > button + button');
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(nextButton);
         expect(firstStep.classList.contains('active')).toBe(false);
         expect(firstStep.classList.contains('visited')).toBe(true);
@@ -134,10 +138,10 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps});
         $scope.$digest();
 
-        var nextButton = document.querySelector('div.modal-footer > button + button');
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(nextButton);
 
-        var previousButton = document.querySelector('.modal-footer button:first-child');
+        var previousButton = document.querySelector(PREVIOUS_BUTTON_SELECTOR);
         util.click(previousButton);
 
         var firstStep = document.querySelector('.wizard-steps ul li:first-child');
@@ -160,7 +164,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps});
         $scope.$digest();
 
-        var nextButton = document.querySelector('div.modal-footer > button + button');
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(nextButton);
 
         var firstStep = document.querySelector('.wizard-steps ul li:first-child');
@@ -184,7 +188,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps});
         $scope.$digest();
 
-        var nextButton = document.querySelector('div.modal-footer > button + button');
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         expect(nextButton.disabled).toBe(true);
       });
     });
@@ -261,7 +265,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps, nextLabel: 'Continue'});
         $scope.$digest();
 
-        var nextButton = document.querySelector('div.modal-footer > button + button');
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         expect(_.trim(nextButton.textContent)).toBe('Continue');
       });
     });
@@ -273,21 +277,21 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps});
         $scope.$digest();
 
-        var previousButton = document.querySelector('.modal-footer button:first-child');
+        var previousButton = document.querySelector(PREVIOUS_BUTTON_SELECTOR);
         expect(_.trim(previousButton.textContent)).toBe('Previous');
       });
       it('should translate previousLabel if previousLabel attr is provided', function() {
         wizard.open({steps: steps, previousLabel: 'components.wizard.label.next'});
         $scope.$digest();
 
-        var previousButton = document.querySelector('.modal-footer button:first-child');
+        var previousButton = document.querySelector(PREVIOUS_BUTTON_SELECTOR);
         expect(_.trim(previousButton.textContent)).toBe('Next');
       });
       it('should translate previousLabel and display key if key is invalid', function() {
         wizard.open({steps: steps, previousLabel: 'Back'});
         $scope.$digest();
 
-        var previousButton = document.querySelector('.modal-footer button:first-child');
+        var previousButton = document.querySelector(PREVIOUS_BUTTON_SELECTOR);
         expect(_.trim(previousButton.textContent)).toBe('Back');
       });
     });
@@ -318,7 +322,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], submitLabel: 'Enter'});
         $scope.$digest();
 
-        var submitButton = document.querySelector('div.modal-footer > button + button');
+        var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         expect(_.trim(submitButton.textContent)).toBe('Enter');
       });
     });
@@ -330,7 +334,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]]});
         $scope.$digest();
 
-        var submitButton = document.querySelector('div.modal-footer button:last-child');
+        var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(submitButton);
 
         var statusMessage = document.querySelector('.status-message-content');
@@ -342,7 +346,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], successMessage:'components.wizard.label.next'});
         $scope.$digest();
 
-        var submitButton = document.querySelector('div.modal-footer button:last-child');
+        var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(submitButton);
 
         var statusMessage = document.querySelector('.status-message-content');
@@ -354,7 +358,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], successMessage:'Success'});
         $scope.$digest();
 
-        var submitButton = document.querySelector('div.modal-footer > button + button');
+        var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(submitButton);
 
         var statusMessage = document.querySelector('.status-message-content');
@@ -374,7 +378,7 @@ describe('akamai.components.wizard', function() {
         });
         $scope.$digest();
 
-        var submitButton = document.querySelector('div.modal-footer button:last-child');
+        var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(submitButton);
 
         var errorMessage = document.querySelector('.modal-header .status-message-content');
@@ -392,7 +396,7 @@ describe('akamai.components.wizard', function() {
         });
         $scope.$digest();
 
-        var submitButton = document.querySelector('div.modal-footer button:last-child');
+        var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(submitButton);
 
         var errorMessage = document.querySelector('.modal-header .status-message-content');
@@ -410,7 +414,7 @@ describe('akamai.components.wizard', function() {
         });
         $scope.$digest();
 
-        var submitButton = document.querySelector('div.modal-footer > button + button');
+        var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(submitButton);
 
         var errorMessage = document.querySelector('.modal-header .status-message-content');
@@ -429,7 +433,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller2'});
         $scope.$digest();
 
-        var submitButton = document.querySelector('div.modal-footer > button + button');
+        var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(submitButton);
 
         var errorMessage = document.querySelector('.modal-header .status-message-content');
@@ -462,7 +466,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0], step2], scope: wizardScope});
         $scope.$digest();
 
-        var nextButton = document.querySelector('div.modal-footer > button + button');
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(nextButton);
       });
 
@@ -494,7 +498,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0], step2], scope: wizardScope});
         $scope.$digest();
 
-        var nextButton = document.querySelector('div.modal-footer > button + button');
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(nextButton);
       });
 
@@ -533,15 +537,28 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller1'});
         $scope.$digest();
 
-        util.click(document.querySelector('div.modal-footer > button + button'));
+        util.click(document.querySelector(NEXT_BUTTON_SELECTOR));
       });
 
       it('should destroy the provided scope', function() {
         expect(wizardScope.$destroy).toHaveBeenCalled();
       });
     });
+    describe('when the wizard is canceled', function() {
+      beforeEach(function() {
+        wizardScope = $scope.$new();
+        spyOn(wizardScope, '$destroy');
 
+        wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller1'});
+        $scope.$digest();
+
+        util.click(document.querySelector(CANCEL_BUTTON_SELECTOR));
+      });
+
+      it('should destroy the provided scope', function() {
+        expect(wizardScope.$destroy).toHaveBeenCalled();
+      });
+    });
   });
-
 });
 

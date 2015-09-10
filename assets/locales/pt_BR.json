@@ -43,6 +43,7 @@
             "successMessage": "A ação foi concluída.",
             "errorMessage": "A ação não pode ser concluída.",
             "label": {
+                "cancel": "Cancelar",
                 "next": "Avançar",
                 "submit": "Enviar",
                 "previous": "Anterior"

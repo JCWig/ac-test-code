@@ -43,6 +43,7 @@
             "successMessage": "작업이 완료되었습니다.",
             "errorMessage": "작업을 완료할 수 없습니다.",
             "label": {
+                "cancel": "취소",
                 "next": "다음",
                 "submit": "제출",
                 "previous": "이전"
