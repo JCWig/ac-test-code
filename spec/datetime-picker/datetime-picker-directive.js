@@ -1,6 +1,6 @@
 'use strict';
-var utilities = require('../utilities');
 import datetime from '../../src/datetime-picker';
+var utilities = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
 
 const datetimePickerSelector = ".akam-datetime-picker";
@@ -52,14 +52,13 @@ describe('akamai.components.datetime-picker', function() {
     this.controller = this.isoScope.datetime;
   }
 
-  describe('When rendered with minimum api included', function() {
+  describe('When control rendered with minimum api included', function() {
+    let names;
     beforeEach(function() {
       addElement.call(this, undefined);
+      names = Object.getOwnPropertyNames(this.controller);
     });
     it('should verify directive APIs', function() {
-      let ctrl = this.controller;
-      let names = Object.getOwnPropertyNames(ctrl);
-
       expect(names.length).toBe(7);
       expect(names.indexOf('minuteStep')).not.toBe(-1);
       expect(names.indexOf('date')).not.toBe(-1);
@@ -70,7 +69,8 @@ describe('akamai.components.datetime-picker', function() {
       expect(names.indexOf('hourStep')).not.toBe(-1);
     });
   });
-  describe('When rendered with all APIs included', function() {
+  describe('When control rendered with all APIs included', function() {
+    let ctrl;
     beforeEach(function() {
       let markup = `<akam-datetime-picker
         ng-model="dt"
@@ -94,11 +94,10 @@ describe('akamai.components.datetime-picker', function() {
       $scope.isDisabled = false;
 
       addElement.call(this, markup);
+      ctrl = this.controller;
     });
 
     it('should verify directive APIs with values assigned', function() {
-      let ctrl = this.controller;
-
       expect(ctrl.format).toBe($scope.format);
       expect(ctrl.min).toBe($scope.min);
       expect(ctrl.max).toBe($scope.max);
@@ -109,66 +108,63 @@ describe('akamai.components.datetime-picker', function() {
     });
 
     it('should datetimeValue not be undefined when ngModel value has value', function() {
-      expect(this.controller.datetimeValue).not.toBe(undefined);
+      expect(ctrl.datetimeValue).not.toBe(undefined);
     });
-
   });
-  describe('When rendered', function() {
+  describe('When control rendered', function() {
+    let datetime, date, time, dateButton, timeButton;
     beforeEach(function() {
       addElement.call(this, undefined);
+      datetime = document.querySelector(datetimePickerSelector);
+      date = document.querySelector(datePickerSelector);
+      time = document.querySelector(timepickerSelector);
+      dateButton = document.querySelector(datePickerSelector + " .button");
+      timeButton = document.querySelector(timepickerSelector + " .btn");
     });
 
     it("should verify datetime picker element rendered", function() {
-      let datetime = document.querySelector(datetimePickerSelector);
       expect(datetime).not.toBe(null);
     });
 
     it("should verify date picker element rendered", function() {
-      let date = document.querySelector(datePickerSelector);
       expect(date).not.toBe(null);
     });
 
     it("should verify time picker element rendered", function() {
-      let time = document.querySelector(timepickerSelector);
       expect(time).not.toBe(null);
     });
 
     it("should verify date picker mode value be 'day'", function() {
-      let date = document.querySelector(datePickerSelector);
       expect(date.classList).toContain('day');
     });
 
     it("should verify date picker open when click on it", function() {
-      let date = document.querySelector(datePickerSelector);
-      let button = document.querySelector(datePickerSelector + " .button");
-      utilities.click(button);
+      utilities.click(dateButton);
       $scope.$digest();
 
       expect(date.classList).toContain('opened');
     });
 
     it("should verify time picker open when click on it", function() {
-      let time = document.querySelector(timepickerSelector);
-      let button = document.querySelector(timepickerSelector + " .btn");
-      utilities.click(button);
+      utilities.click(timeButton);
       $scope.$digest();
 
       expect(time.classList).toContain('open');
     });
   });
 
-  describe('When selects date...', function() {
+  describe('When selects date picker...', function() {
+    let d, dateButton;
     beforeEach(function() {
       addElement.call(this, undefined);
+      d = new Date();
+      dateButton = document.querySelector(datePickerSelector + " .button");
     });
 
     it("should verify date value updated when selects a date", function() {
-      let date = document.querySelector(datePickerSelector);
-      let button = document.querySelector(datePickerSelector + " .button");
-      utilities.click(button);
+      utilities.click(dateButton);
       $scope.$digest();
 
-      let d = new Date();
       expect(this.controller.datetimeValue.getFullYear()).toEqual(d.getFullYear());
       expect(this.controller.datetimeValue.getMonth()).toEqual(d.getMonth());
       expect(this.controller.datetimeValue.getDate()).toEqual(d.getDate());
@@ -183,21 +179,22 @@ describe('akamai.components.datetime-picker', function() {
     });
   });
 
-  describe('When selects time...', function() {
+  describe('When selects time picker...', function() {
+    let timeButton, arrows;
     beforeEach(function() {
       let d = new Date();
       d.setHours(5, 10);
       $scope.dt = d;
       addElement.call(this, undefined);
+
+      timeButton = document.querySelector(timepickerSelector + " .btn");
+      arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
     });
 
     it("should verify hour value incremented by 1 when click hour up arrow once", function() {
-      let button = document.querySelector(timepickerSelector + " .btn");
-      let arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
-
       let initHour = this.controller.datetimeValue.getHours();
 
-      utilities.click(button);
+      utilities.click(timeButton);
       $scope.$digest();
 
       utilities.click(arrows[0]);
@@ -208,13 +205,10 @@ describe('akamai.components.datetime-picker', function() {
       expect(updatedHour - initHour).toBe(1);
     });
 
-    it("should verify hour value incremented by 15 when clcik minut up arrow once", function() {
-      let button = document.querySelector(timepickerSelector + " .btn");
-      let arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
-
+    it("should verify minute value incremented by 15 when clcik minute up arrow once", function() {
       let initMinute = this.controller.datetimeValue.getMinutes();
 
-      utilities.click(button);
+      utilities.click(timeButton);
       $scope.$digest();
 
       utilities.click(arrows[1]);
@@ -225,31 +219,19 @@ describe('akamai.components.datetime-picker', function() {
       expect(updatedMinute - initMinute).toBe(15);
     });
   });
-  describe('When rendered ', function() {
+  describe('When interacting with pickers', function() {
+    let dateChangedSpy, timeChangedSpy, dateButton, timeButton, arrows;
     beforeEach(function() {
       addElement.call(this, undefined);
+      dateChangedSpy = spyOn(this.isoScope, "dateChanged");
+      timeChangedSpy = spyOn(this.isoScope, "timeChanged");
+      dateButton = document.querySelector(datePickerSelector + " .button");
+      timeButton = document.querySelector(timepickerSelector + " .btn");
+      arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
     });
 
-    it("when datepicker selects, should verify controller setDatetime function callled", function() {
-      let setDatetimeSpy = spyOn(this.controller, "setDatetime");
-
-      let button = document.querySelector(datePickerSelector + " .button");
-      utilities.click(button);
-      $scope.$digest();
-
-      let firstDayOfMonthButton = findCertainButton("01").querySelector('button');
-      utilities.click(firstDayOfMonthButton);
-      $scope.$digest();
-
-      expect(setDatetimeSpy).toHaveBeenCalled();
-
-    });
-
-    it("when dtepicker selects, should verify scope dateChanged function callled", function() {
-      let dateChangedSpy = spyOn(this.isoScope, "dateChanged");
-
-      let button = document.querySelector(datePickerSelector + " .button");
-      utilities.click(button);
+    it("when datepicker selects, should verify scope dateChanged function callled", function() {
+      utilities.click(dateButton);
       $scope.$digest();
 
       let firstDayOfMonthButton = findCertainButton("01").querySelector('button');
@@ -260,11 +242,7 @@ describe('akamai.components.datetime-picker', function() {
     });
 
     it("when timepicker selects, should verify scope timeChange function callled", function() {
-      let timeChangedSpy = spyOn(this.isoScope, "timeChanged");
-      let button = document.querySelector(timepickerSelector + " .btn");
-      let arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
-
-      utilities.click(button);
+      utilities.click(timeButton);
       $scope.$digest();
 
       utilities.click(arrows[0]);
@@ -276,6 +254,26 @@ describe('akamai.components.datetime-picker', function() {
       $scope.$digest();
 
       expect(timeChangedSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('When interacting with pickers', function() {
+    let setDatetimeSpy, dateButton;
+    beforeEach(function() {
+      addElement.call(this, undefined);
+      setDatetimeSpy = spyOn(this.controller, "setDatetime");
+      dateButton = document.querySelector(datePickerSelector + " .button");
+    });
+
+    it("when datepicker selects, should verify controller setDatetime function callled", function() {
+      utilities.click(dateButton);
+      $scope.$digest();
+
+      let firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      utilities.click(firstDayOfMonthButton);
+      $scope.$digest();
+
+      expect(setDatetimeSpy).toHaveBeenCalled();
     });
   });
 });

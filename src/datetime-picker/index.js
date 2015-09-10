@@ -55,9 +55,9 @@ export default angular.module('akamai.components.datetime-picker', [
  * @restrict E
  * @description Creates a datetime picker control.
  *
- * @param {object} ngModel The javascript date object wuth time value if assined,
- * The date object wil include date and time, and it will pre-populate corrisponding field.
- * if not assigned, it will be undefined.
+ * @param {Date} ngModel The javascript date object with date and/or time value if assigned.
+ * If ngModel has date value, it will pre-populate corresponding fields.
+ * If not ngModel has no date value, it will be undefined, and fields will be empty.
  *
  * @param {Date} min The earliest date users can select. Any date
  * before this point is disabled.
