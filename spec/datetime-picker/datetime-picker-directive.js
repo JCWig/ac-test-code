@@ -23,15 +23,15 @@ describe('akamai.components.datetime-picker', function() {
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(require('../../src/datetime-picker').name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
     });
     inject(function($rootScope, _$compile_, $httpBackend, $timeout) {
       $scope = $rootScope.$new();
       $compile = _$compile_;
       $httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
       $httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
-      $httpBackend.flush();
       timeout = $timeout;
     });
   });
