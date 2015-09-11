@@ -14,7 +14,13 @@
   },
   "browserify": {
     "transform": [
-      "babelify",
+      ["babelify",
+      {
+        "optional": [
+          "spec.protoToAssign"
+        ],
+        "loose": "es6.classes"
+      }],
       "browserify-shim",
       "partialify",
       "hbsfy",
