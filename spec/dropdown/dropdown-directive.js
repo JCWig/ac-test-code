@@ -317,12 +317,8 @@ describe('akamai.components.dropdown', function() {
       beforeEach(function(){
         var featureDropdownTemplate =
           '<akam-dropdown ng-model="selectedState" text-property="name" items="stateObjects" clearable>' +
-            '<akam-dropdown-selected>' +
-              '<span title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>' +
-              '<span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{::dropdown.placeholder}}</span>' +
-            '</akam-dropdown-selected>' +
             '<akam-dropdown-option>' +
-              '<span title="{{item[dropdown.textProperty]}}">custom: {{item[dropdown.textProperty]}}</span>' +
+              '<span title="{{item[dropdown.textProperty]}}">custom option: {{item[dropdown.textProperty]}}</span>' +
             '</akam-dropdown-option>' +
           '</akam-dropdown>';
 
@@ -333,10 +329,14 @@ describe('akamai.components.dropdown', function() {
       });
       it('should compile the markup with the parent scope', function(){
         var option = util.find('ul.dropdown-menu li span[title=Colorado]');
-        expect(option.innerHTML).toBe('custom: Colorado');
+        expect(option.innerHTML).toBe('custom option: Colorado');
+      });
+      it('should use the option custom markup for the selected element', function() {
+        expect(document.querySelector('.selected-option').innerHTML).toBe('<span title="" class="ng-binding">custom option: </span>');
       });
     });
   });
+
   describe('given custom markup in an akam-dropdown-selected', function(){
     describe('when the dropdown is rendered', function(){
       beforeEach(function(){

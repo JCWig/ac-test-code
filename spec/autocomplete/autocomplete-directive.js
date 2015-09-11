@@ -6,7 +6,7 @@ import autocomplete from '../../src/autocomplete';
 import util from '../utilities';
 import translationMock from '../fixtures/translationFixture.json';
 
-describe('akamai.components.dropdown', function() {
+describe('akamai.components.autocomplete', function() {
 
   let stateStrings = [
     'Colorado',
@@ -306,6 +306,12 @@ describe('akamai.components.dropdown', function() {
                     custom: {{foo + ' ' + autocomplete.getSelectedItemText()}}
                 </span>
             </akam-autocomplete-selected>
+
+            <akam-autocomplete-option>
+              <span title="custom: {{ autocomplete.textPropertyFn(item) }}"
+                    ng-bind-html="'custom: ' + autocomplete.textPropertyFn(item) + foo"></span>
+            </akam-autocomplete-option>
+
           </akam-autocomplete>`;
 
         addElement.call(this, autocompleteTemplate);

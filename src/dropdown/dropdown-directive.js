@@ -20,10 +20,8 @@ function dropdownDirective(dropdownTemplateService) {
     controllerAs: 'dropdown',
 
     template: function(tElem) {
-      let dropdownTemplate =
-        dropdownTemplateService.stashTemplate(tElem, template, 'akam-dropdown-selected');
-
-      return dropdownTemplateService.stashTemplate(tElem, dropdownTemplate, 'akam-dropdown-option');
+      return dropdownTemplateService.transformTemplate(tElem, template, 'akam-dropdown-selected',
+        'akam-dropdown-option');
     },
 
     link: function(scope, elem, attrs, ngModel) {
