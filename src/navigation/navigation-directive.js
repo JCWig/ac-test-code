@@ -46,7 +46,7 @@ function navigation($rootScope) {
     template: template,
     link: function(scope, elem, attrs, ctrl) {
 
-      ctrl.vertical = angular.isDefined(attrs.isVertical);
+      ctrl.vertical = angular.isDefined(attrs.vertical);
 
       let updateTabs = () => {
         ctrl.updateTabs();
