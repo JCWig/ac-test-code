@@ -9,7 +9,7 @@ function HealthController() {
       route:   'health.activity'
     },
     {
-      heading: 'Nutrition',
+      heading: 'Nutrition Information',
       route:   'health.nutrition',
     },
     {

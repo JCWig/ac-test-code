@@ -59,33 +59,33 @@
       margin-left: 0;
       width: 90px;
 
-      & + li {
-        margin-top: 5px;
-      }
-
       & > a {
         border-radius: 3px 0 0 3px;
         display: inline-block;
         width: 100%;
         text-align: center;
         padding: 0 5px;
-
+        @include ellipsis();
       }
 
       &.active {
+
+        &::after {
+          content: " ";
+          position: absolute;
+          z-index: 1;
+          height: 100%;
+          right: 0;
+          top: 0;
+          width:1px;
+          background-color: white;
+
+        }
+
         & > a {
           border-right-color: white;
           border-bottom-color: #ccc;
 
-          &::after {
-            content: " ";
-            position: absolute;
-            z-index: 1;
-            height: 100%;
-            right: -1px;
-            width:1px;
-            background-color: white;
-          }
         }
       }
     }
