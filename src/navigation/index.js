@@ -54,5 +54,7 @@ export default angular.module('akamai.components.navigation', [
  *
  * @param {Boolean} [justified=false] Whether tabs fill the container and have a consistent width.
  *
+ * @param {Boolean} [vertical=false] Whether tabs are displayed vertically
+ *
  */
   .directive('akamNavigation', navigationDirective);

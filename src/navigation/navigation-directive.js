@@ -39,7 +39,8 @@ function navigation($rootScope) {
     bindToController: {
       tabs: '=data',
       type: '@',
-      justified: '@'
+      justified: '@',
+      vertical: '@'
     },
     controller: NavigationController,
     controllerAs: 'navigation',
