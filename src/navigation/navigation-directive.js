@@ -39,13 +39,14 @@ function navigation($rootScope) {
     bindToController: {
       tabs: '=data',
       type: '@',
-      justified: '@',
-      vertical: '@'
+      justified: '@'
     },
     controller: NavigationController,
     controllerAs: 'navigation',
     template: template,
     link: function(scope, elem, attrs, ctrl) {
+
+      ctrl.vertical = angular.isDefined(attrs.vertical);
 
       let updateTabs = () => {
         ctrl.updateTabs();
