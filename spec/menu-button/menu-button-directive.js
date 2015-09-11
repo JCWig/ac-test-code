@@ -86,4 +86,22 @@ describe('akamai.components.menu-button', function() {
 
   });
 
+  describe('given a dropdown menu', function() {
+    describe('when a dropdown item is disabled', function() {
+      beforeEach(function() {
+      let markup =
+        `<akam-menu-button default-text="examples.appNames.pm" >
+          <akam-menu-button-item is-disabled="true" text="examples.appNames.tq"></akam-menu-button-item>
+          <akam-menu-button-item text="examples.appNames.bc"></akam-menu-button-item>
+          </akam-menu-button-item>
+        </akam-menu-button>`;
+
+      addElement.call(this, markup);
+    });
+      it('should not be selectable', function() {
+        expect(this.element.querySelector('.dropdown-menu').children[0].classList.contains('disabled')).toEqual(true);
+      });
+    })
+  });
+
 });
