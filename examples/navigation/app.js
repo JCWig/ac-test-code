@@ -25,13 +25,13 @@ function configFunction($stateProvider, $urlRouterProvider) {
     templateUrl: 'health/nutrition.html'
   }).state('health.nutrition.carbs', {
     url: '/carbs',
-    template: '<h2>Nutrition - Carbs Content Panel</h2>'
+    templateUrl: 'health/carbs.html'
   }).state('health.nutrition.fat', {
     url: '/fat',
-    template: '<h2>Nutrition - Fat Content Panel</h2>'
+    templateUrl: 'health/fat.html'
   }).state('health.nutrition.protein', {
     url: '/protein',
-    template: '<h2>Nutrition - Protein Content Panel</h2>'
+    templateUrl: 'health/protein.html'
   }).state('health.sleep', {
     url:         'sleep',
     templateUrl: 'health/sleep.html'
