@@ -15,7 +15,7 @@
     <br />
     <form name='time-picker' role='form'>
       <div class="container">
-        <akam-time-picker ng-model="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" is-disabled="vm.disabled" show-meridian="vm.showMeridian">
+        <akam-time-picker ng-model="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" is-minute-disabled="vm.disableMinutes" is-disabled="vm.disabled" show-meridian="vm.showMeridian">
         </akam-time-picker>
       </div>
       <br />
@@ -26,6 +26,10 @@
       <div class="form-group">
         <input id="disableTimepicker" type="checkbox" name='disableTimepicker' ng-model='vm.disabled' />
         <label class="label" for="disableTimepicker">To disabled timepicker: </label>
+      </div>
+      <div class="form-group">
+        <input id="disableMinutes" type="checkbox" name='disableMinutes' ng-model='vm.disableMinutes' />
+        <label class="label" for="disableMinutes">To disabled minute input: </label>
       </div>
       <div class="form-group">
         <p>to change hour increment or decrement step value: </p>
@@ -49,6 +53,7 @@
   var ControllerFunction = function() {
     var vm = this;
     vm.disabled = false;
+    vm.disableMinutes = false;
     vm.showMeridian = true;
     vm.minuteStep = 15;
     vm.hourStep = 1;
