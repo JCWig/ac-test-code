@@ -7,8 +7,8 @@
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container">
-             <div class="page-header">  
-                <h1>Message Box Component Example</h1> 
+             <div class="page-header">
+                <h1>Message Box Component Example</h1>
             </div>
             <div>
                 <h3>Component Options:</h3>
@@ -75,7 +75,7 @@
 
                     $scope.showInfoBox = function() {
                         var boxResult = messageBox.showInfo(angular.extend({}, $scope.options));
-                        
+
                         // Log which button was clicked on the showInfo box
                         boxResult.result
                             .then(function() {
@@ -85,19 +85,36 @@
                                 $log.log('Cancel button was clicked.');
                             });
                     };
-        
+
                     $scope.showQuestionBox = function() {
                         messageBox.showQuestion(angular.extend({}, $scope.options));
                     };
-        
+
                     $scope.showErrorBox = function() {
                         messageBox.showError(angular.extend({}, $scope.options));
                     };
                 };
-                controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
-                angular.module('example', ['akamai.components.message-box'])
-        
-                .controller('ExampleController', controllerFunction);
+
+
+            function configFunction($translatePartialLoaderProvider, VERSION) {
+
+              // need to overwrite locales path on fee.akamai.com
+              if (window.location.host == 'fee.akamai.com') {
+                $translatePartialLoaderProvider.addPart('../dist/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
+              } else {
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+              }
+            }
+            configFunction.$inject = ['$translatePartialLoaderProvider', 'CORE-VERSION'];
+
+            controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
+            angular.module('example', ['akamai.components.message-box'])
+
+            .controller('ExampleController', controllerFunction)
+            .config(configFunction);
+
             </script>
         </div>
     </body>
