@@ -3,19 +3,19 @@ angular.module('navigationExampleApp')
 
 function NutritionController() {
 
-  this.tabData   = [
+  this.tabData = [
     {
       heading: 'Carbs',
-      route:   'health.nutrition.carbs'
+      route: 'health.nutrition.carbs'
     },
     {
       heading: 'Fat',
-      route:   'health.nutrition.fat',
+      route: 'health.nutrition.fat'
     },
     {
       heading: 'Protein',
-      route:   'health.nutrition.protein'
+      route: 'health.nutrition.protein',
+      disabled: true
     }
   ];
-
 }
