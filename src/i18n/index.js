@@ -9,6 +9,7 @@ import utils from '../utils';
 import translateConfig from './translate-config';
 import portalLocaleResolver from './portal-locale-service';
 import noopLoader from './translate-noop-loader-service';
+import translateValueSupport from './translate-value-support-service';
 
 /**
  * @ngdoc module
@@ -109,7 +110,7 @@ export default angular.module('akamai.components.i18n', [
  * });
  * ```
  */
-  .factory('translateNoopLoader', noopLoader)
+.factory('translateNoopLoader', noopLoader)
 
 /**
  * @ngdoc service
@@ -117,9 +118,20 @@ export default angular.module('akamai.components.i18n', [
  * @description Returns the parsed luna locale, as read from the AKALOCALE cookie. Will be of
  * the form "en_US", "de_DE", etc.
  */
-  .factory('portalLocale', portalLocaleResolver)
+.factory('portalLocale', portalLocaleResolver)
 
-  .config(translateConfig)
+/**
+ * @ngdoc service
+ * @name translateValueSupport
+ * @description provides two methods, one forDirective and one forService. For directive, it adds
+ * 'somethingValues' property to the controller that is used by control template as hash value
+ * to the translate-values directive. It can be used in any element for the need of
+ * variable replacements from translation table(locale file). The translate-values can be empty
+ * if not provided from use of control.
+ */
+.factory('translateValueSupport', translateValueSupport)
+
+.config(translateConfig)
   .run(runFn);
 
 // resolve the locale and load the translations it will load twice if current locale is

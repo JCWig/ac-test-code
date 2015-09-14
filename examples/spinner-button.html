@@ -39,13 +39,28 @@
 
   angular
       .module('spinner-button')
-      .controller('SpinnerButtonController', SpinnerButtonController);
+      .controller('SpinnerButtonController', SpinnerButtonController)
+      .config(configFunction);
 
   function SpinnerButtonController() {
     var vm = this;
     vm.disabled = false;
     vm.processing = false;
   }
+
+  function configFunction($translatePartialLoaderProvider) {
+
+  // need to overwrite locales path on fee.akamai.com
+  if (window.location.host == 'fee.akamai.com') {
+    $translatePartialLoaderProvider.addPart('../dist/locales/');
+    $translatePartialLoaderProvider.addPart('locales/json/messages/');
+  } else {
+    $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+  }
+}
+configFunction.$inject = ['$translatePartialLoaderProvider'];
+
 </script>
 </body>
 </html>
