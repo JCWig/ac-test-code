@@ -4,7 +4,8 @@
         "support": "支持",
         "alerts": "警告",
         "messages": "邮件",
-        "store": "Marketplace"
+        "store": "Marketplace",
+        "community" : "Community"
     },
     "search": {
         "kb": "KB",
@@ -58,7 +59,8 @@
         "cp_codes_mange_users": "内容提供者代码 - 管理内容提供者使用者",
         "transcoding_workspaces": "内容准备工作区",
         "storage_admin": "Storage Admin",
-        "transcoding_regions": "内容准备地区"
+        "transcoding_regions": "内容准备地区",
+        "media_rollout": "Media Feature Roll Out Manager"
     },
     "timeout": {
         "buttonText": "扩展",

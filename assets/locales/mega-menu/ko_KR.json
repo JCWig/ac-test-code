@@ -4,7 +4,8 @@
         "support": "지원",
         "alerts": "경보",
         "messages": "메시지",
-        "store": "Marketplace"
+        "store": "Marketplace",
+        "community" : "Community"
     },
     "search": {
         "kb": "KB",
@@ -58,7 +59,8 @@
         "cp_codes_mange_users": "CP 코드 - CP 사용자 관리",
         "transcoding_workspaces": "콘텐츠 준비 작업 영역",
         "storage_admin": "Storage Admin",
-        "transcoding_regions": "콘텐츠 준비 지역"
+        "transcoding_regions": "콘텐츠 준비 지역",
+        "media_rollout": "Media Feature Roll Out Manager"
     },
     "timeout": {
         "buttonText": "연장",

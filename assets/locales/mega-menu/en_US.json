@@ -5,7 +5,8 @@
     "alerts" : "Alerts",
     "support" : "Support",
     "store" : "Marketplace",
-    "reportIssue" : "Report Luna Issues"
+    "reportIssue" : "Report Luna Issues",
+    "community" : "Community"
   },
 
   "context" : {
@@ -55,7 +56,8 @@
     "charaka_manage_questions": "Charaka Manage Questions",
     "charaka_manager_questionnaires": "Charaka Manage Questionnaires",
     "transcoding_workspaces": "Content Preparation Workspaces",
-    "transcoding_regions": "Content Preparation Regions"
+    "transcoding_regions": "Content Preparation Regions",
+    "media_rollout": "Media Feature Roll Out Manager"
   },
 
   "timeout" : {
