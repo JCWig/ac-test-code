@@ -1,3 +1,4 @@
+$disabled-color: #dadada;
 
 .navigation {
   position: relative;
@@ -9,7 +10,8 @@
   & .nav-tabs,
   & .nav-pills {
     & li.disabled > a {
-      color: #dadada;
+      color: $disabled-color;
+      border-color: $disabled-color;
     }
   }
 
