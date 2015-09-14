@@ -13,7 +13,7 @@ var angular = require('angular');
 module.exports = angular.module('akamai.components.utils', [])
   //TODO: Remember to update this if the version in package.json ever changes
   // Also remember to update mega-menu -> utils -> constants.js with the exact same info
-  .constant('VERSION', '0.7.1')
+  .constant('VERSION', '0.7.2')
 
 /**
  * @ngdoc directive
