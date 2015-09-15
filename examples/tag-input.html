@@ -281,8 +281,23 @@
 
             exampleController.$inject = ['$scope', '$log'];
 
-            angular.module('example', ['akamai.components.tag-input', 'ngMessages'])
-            .controller('ExampleController', exampleController);
+        function configFunction($translatePartialLoaderProvider, VERSION) {
+
+            // need to overwrite locales path on fee.akamai.com
+            if (window.location.host == 'fee.akamai.com') {
+                $translatePartialLoaderProvider.addPart('../dist/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
+            } else {
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+            }
+        }
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
+
+
+            angular.module('example', ['akamai.components', 'akamai.components.tag-input', 'ngMessages'])
+            .controller('ExampleController', exampleController)
+            .config(configFunction);
         </script>
     </body>
 </html>

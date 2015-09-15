@@ -66,7 +66,7 @@
         <div class="container">
             <h3>List Box Example with Rejection Testing</h3>
             <akam-list-box akam-standalone data="deferredRejection" schema="columns"></akam-list-box>
-        </div> 
+        </div>
         <br />
         <div class="container">
             <h2>Data Table Example that fails loading data then successfully loads data</h2>
@@ -128,7 +128,7 @@
                 {"id":49,"first_name":"Jimmy","last_name":"Stephens","email":"jstephens1c@icio.us","country":"Pakistan","ip_address":"185.36.75.55","boolean":false,"color":"Yellow"},
                 {"id":50,"first_name":"Andrew","last_name":"Reynolds","email":"areynolds1d@auda.org.au","country":"Brazil","ip_address":"49.211.255.203","boolean":true,"color":"Red"}
             ];
-            
+
             var BASE_DATA10 = [
                 {"id":1,"first_name":"Norma","last_name":"White","email":"nwhite0@japanpost.jp","country":"China","ip_address":"131.46.59.162","boolean":true,"color":"Yellow"},
                 {"id":2,"first_name":"Amanda","last_name":"Martin","email":"amartin1@unesco.org","country":"Haiti","ip_address":"249.90.111.115","boolean":false,"color":"Blue"},
@@ -143,34 +143,34 @@
             ];
 
             var controllerFunction = function($scope, $http, $filter, $q, $timeout, $log, $sce) {
-                
+
                 var deferred = $q.defer();
                 var failedDeferred = $q.defer();
-                
+
                 $scope.basedata = BASE_DATA10;
                 $scope.basedata10 = BASE_DATA10;
-                
+
                 // Set default status to exampleData
                 $scope.status = "exampleData";
-                
-                // Set the object data types that can be selected for the first table        
+
+                // Set the object data types that can be selected for the first table
                 $scope.obj = {
                     exampleData : deferred.promise,
                     basedata : BASE_DATA,
                     nulldata : []
                 };
-                
+
                 // Initialize the value to false for the trusted content (so we do not get alerts when testing)
                 $scope.trustContent = {
                     value : false
                 };
-     
+
                 $scope.failThenLoadData = failedDeferred.promise;
                 // Set the default timeout
                 $timeout(function(){
                     deferred.resolve(BASE_DATA);
                 }, 2000);
-                
+
                 $timeout(function(){
                     failedDeferred.reject();
                 }, 2000);
@@ -182,7 +182,7 @@
                         newDeferred.resolve(BASE_DATA);
                     }, 3000)
                 }, 4000);
-                
+
                 $timeout(function(){
                     var hello = $q.defer();
                     $scope.obj.exampleData =  hello.promise;
@@ -194,10 +194,10 @@
                 $scope.updateColumns = function() {
                     $scope.columns10 = getColumns10();
                 };
-                
-                // Load the columns    
+
+                // Load the columns
                 $scope.updateColumns();
-                
+
                 function getColumns10() {
                     return [
                     {
@@ -223,8 +223,8 @@
                     }
                 ];
                 }
-                    
-                // Return the columns for the data table control                
+
+                // Return the columns for the data table control
                 $scope.columns =  [
                     {
                         // Concatenate the first_name and last_name fields into full name.
@@ -288,26 +288,26 @@
                         }
                     }
                 ];
-                
+
                 $scope.process = function($event, type, item){
                     // Log the row selected with the first column in the table (full name)
                     $log.log('Row Menu Item Selected for: ' + item.cells[0]);
                 };
-                
+
                 // When the row changes display what is selected
                 $scope.rowChange = function(value){
                     $log.log('Row selected' + value);
                 };
-                
+
                 // Load data from a json file to test out HTTP GET functionality
                 $scope.jsonFromHttpGet = $http.get('json/component_mockdata.json');
-                
-                // Preselect rows 0, 3 & 5 to show data can be checked on the load. 
+
+                // Preselect rows 0, 3 & 5 to show data can be checked on the load.
                 $scope.selectedItems2 = [BASE_DATA10[0], BASE_DATA10[3], BASE_DATA10[5]];
-                
+
                 // This is the message that will appear when no data exists
                 $scope.noDataMessage = "No data exists";
-                
+
                 var deferredRejection = $q.defer();
                 $scope.deferredRejection = deferredRejection.promise;
 
@@ -315,25 +315,25 @@
                     deferredRejection.reject();
                 }, 5000);
             };
-            function configFunction($translatePartialLoaderProvider) {
+            function configFunction($translatePartialLoaderProvider, VERSION) {
 
                 // need to overwrite locales path on fee.akamai.com
                 if (window.location.host == 'fee.akamai.com') {
                     $translatePartialLoaderProvider.addPart('../dist/locales/');
                     $translatePartialLoaderProvider.addPart('locales/json/messages/');
                 } else {
-                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                     $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
                 }
             }
-            configFunction.$inject = ['$translatePartialLoaderProvider'];
+            configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
             controllerFunction.$inject = ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce"];
-            
-            angular.module('example', ['akamai.components.list-box', 'akamai.components.i18n'])
+
+            angular.module('example', ['akamai.components', 'akamai.components.list-box', 'akamai.components.i18n'])
 
             .config(configFunction)
-            
+
             .controller('ExampleController', controllerFunction);
         </script>
     </body>

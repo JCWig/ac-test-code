@@ -2,6 +2,7 @@
 'use strict';
 
 angular.module('akamai.components.examples.table', [
+  'akamai.components',
   'akamai.components.table',
   'akamai.components.i18n'
 ])
@@ -71,15 +72,15 @@ function ExampleController($http, $q, $log) {
 }
 ExampleController.$inject = ['$http', '$q', '$log'];
 
-function configFunction($translatePartialLoaderProvider) {
+function configFunction($translatePartialLoaderProvider, VERSION) {
 
-  // need to overwrite locales path on fee.akamai.com
-  if (window.location.host == 'fee.akamai.com') {
-    $translatePartialLoaderProvider.addPart('../dist/locales/');
-    $translatePartialLoaderProvider.addPart('locales/json/messages/');
-  } else {
-    $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
-    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-  }
+    // need to overwrite locales path on fee.akamai.com
+    if (window.location.host == 'fee.akamai.com') {
+        $translatePartialLoaderProvider.addPart('../dist/locales/');
+        $translatePartialLoaderProvider.addPart('locales/json/messages/');
+    } else {
+        $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+        $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+    }
 }
-configFunction.$inject = ['$translatePartialLoaderProvider'];
+configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];

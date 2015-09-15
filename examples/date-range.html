@@ -51,7 +51,7 @@
   <akam-date-range ng-model="vm.dateRange2" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <script src="../dist/akamai-core.js"></script>
   <script>
-  angular.module('dateRangeApp', ['akamai.components.date-range'])
+  angular.module('dateRangeApp', ['akamai.components', 'akamai.components.date-range'])
     .controller('DateRangeAppController', DateRangeAppController)
     .config(configFunction);
 
@@ -106,18 +106,18 @@
     }
   }
 
-  function configFunction($translatePartialLoaderProvider) {
+  function configFunction($translatePartialLoaderProvider, VERSION) {
 
     // need to overwrite locales path on fee.akamai.com
     if (window.location.host == 'fee.akamai.com') {
       $translatePartialLoaderProvider.addPart('../dist/locales/');
       $translatePartialLoaderProvider.addPart('locales/json/messages/');
     } else {
-      $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+      $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
       $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
     }
   }
-  configFunction.$inject = ['$translatePartialLoaderProvider'];
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
   </script>
 </body>

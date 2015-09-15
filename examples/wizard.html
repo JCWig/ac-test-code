@@ -126,7 +126,7 @@
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('wizardApp', ['akamai.components.wizard', 'akamai.components.indeterminate-progress'])
+        angular.module('wizardApp', ['akamai.components','akamai.components.wizard', 'akamai.components.indeterminate-progress'])
                 .controller('WizardAppController', WizardAppController)
                 .config(configFunction);
 
@@ -209,18 +209,18 @@
             };
         }
 
-        function configFunction($translatePartialLoaderProvider) {
+        function configFunction($translatePartialLoaderProvider, VERSION) {
 
             // need to overwrite locales path on fee.akamai.com
             if (window.location.host == 'fee.akamai.com') {
                 $translatePartialLoaderProvider.addPart('../dist/locales/');
                 $translatePartialLoaderProvider.addPart('locales/json/messages/');
             } else {
-                $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
             }
         }
-        configFunction.$inject = ['$translatePartialLoaderProvider'];
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
     </script>
 

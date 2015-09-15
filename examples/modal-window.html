@@ -183,14 +183,27 @@
                 };
             };
 
+            function configFunction($translatePartialLoaderProvider, VERSION) {
+
+              // need to overwrite locales path on fee.akamai.com
+              if (window.location.host == 'fee.akamai.com') {
+                $translatePartialLoaderProvider.addPart('../dist/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
+              } else {
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+              }
+            }
+            configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
+
+
             exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
             modalController.$inject = ['$scope', '$q', '$timeout'];
 
-            angular.module('example', ['akamai.components.modal-window'])
-
+            angular.module('example', ['akamai.components', 'akamai.components.modal-window'])
             .controller('ExampleController', exampleController)
-
-            .controller('ModalController', modalController);
+            .controller('ModalController', modalController)
+            .config(configFunction);
         </script>
     </body>
 </html>

@@ -109,9 +109,23 @@
     this.disableItem = true;
   };
 
+    function configFunction($translatePartialLoaderProvider, VERSION) {
+
+    // need to overwrite locales path on fee.akamai.com
+    if (window.location.host == 'fee.akamai.com') {
+      $translatePartialLoaderProvider.addPart('../dist/locales/');
+      $translatePartialLoaderProvider.addPart('locales/json/messages/');
+    } else {
+      $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+    }
+  }
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
+
   angular.module('akamai.components.examples.menu-button',
-    ['akamai.components.menu-button'])
-    .controller('ExampleController', controllerFuction);
+    ['akamai.components', 'akamai.components.menu-button'])
+    .controller('ExampleController', controllerFuction)
+    .config(configFunction)
 </script>
 </body>
 </html>
