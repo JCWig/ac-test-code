@@ -109,7 +109,7 @@ describe('akamTimepicker directive', function() {
       var timepickerDropdown = self.element.querySelector(selectors.DROPDOWN_MENU);
 
       expect(timepickerDropdown.classList.contains("ng-hide")).toBeTruthy();
-    })
+    });
 
     it('should downdown menu has ui bootstrap timepicker element', function() {
       scope.inputTime = defaultScopeTime;
@@ -315,7 +315,7 @@ describe('akamTimepicker directive', function() {
       var meridianElem = self.element.querySelector(selectors.DROPDOWN_MENU + " .meridian");
       expect(meridianElem.classList.contains("ng-hide")).toBeTruthy();
     });
-
+  });
   describe("directive controller", function() {
 
     it("should verify controller variables initial values", function() {

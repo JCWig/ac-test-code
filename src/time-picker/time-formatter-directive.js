@@ -80,8 +80,7 @@ function linkFn(scope, element, attrs, ngModel) {
       value = tempDate;
       tempDate = null;
       element.val(displayTime(value, true));
-      element.triggerHandler('input');
-
+      element.triggerHandler('change');
       timepickerCtrl.changed();
     }
   });
