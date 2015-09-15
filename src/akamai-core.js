@@ -27,7 +27,7 @@ import navigation from './navigation';
 import dateRange from './date-range';
 import spinnerButton from './spinner-button';
 import progressBar from './progress-bar';
-import { VERSION } from '../utils/index';
+import { VERSION } from './utils/index';
 
 /**
  * @ngdoc overview
