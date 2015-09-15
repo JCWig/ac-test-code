@@ -106,7 +106,6 @@ function AutocompleteDirective(dropdownTemplateService) {
         'akam-autocomplete-selected', 'akam-autocomplete-option');
     },
 
-
     link: function(scope, elem, attrs, ngModel) {
       scope.autocomplete.initialize(elem, attrs, ngModel);
     }

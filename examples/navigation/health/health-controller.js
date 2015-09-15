@@ -3,18 +3,19 @@ angular.module('navigationExampleApp')
 
 function HealthController() {
 
-  this.tabData   = [
+  this.tabData = [
     {
       heading: 'Activity',
-      route:   'health.activity'
+      route: 'health.activity'
     },
     {
-      heading: 'Nutrition',
-      route:   'health.nutrition',
+      heading: 'Nutrition Information',
+      route: 'health.nutrition'
     },
     {
       heading: 'Sleep',
-      route:   'health.sleep'
+      route: 'health.sleep',
+      disabled: true
     }
   ];
 

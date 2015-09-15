@@ -60,13 +60,16 @@
       </akam-table-column>
       <akam-table-column row-property="email" header-name="examples.email"></akam-table-column>
       <akam-table-column not-filterable not-sortable class="column-action" header-name="examples.actions">
-          <akam-menu-button icon-only="true">
+          <akam-menu-button is-disabled="vm.isDisabled" icon-only="true">
             <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked(row)"></akam-menu-button-item>
           </akam-menu-button>
       </akam-table-column>
     </akam-table-row>
   </akam-table>
-
+ <div class="form-group">
+    <input id="disableSplitButton" type="checkbox" name="disableSplitButton" ng-model="vm.isDisabled" />
+    <label class="label" for="disableSplitButton">Disable Table Menu Button</label>
+  </div>
   <p>
     SELECTED ROWS {{ vm.selectedItems }}
   </p>
