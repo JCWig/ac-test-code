@@ -75,10 +75,7 @@ function linkFn(scope, element, attrs, ngModel) {
     let value = ngModel.$modelValue;
 
     if (value && ctrl.disableMinutes) {
-      let tempDate = (new Date(value)).setMinutes(0);
-
-      value = tempDate;
-      tempDate = null;
+      value = (new Date(value)).setMinutes(0);
       element.val(displayTime(value, true));
       element.triggerHandler('change');
       timepickerCtrl.changed();

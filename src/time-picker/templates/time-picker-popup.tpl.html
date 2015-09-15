@@ -3,7 +3,7 @@
     <tr class="util-text-center time-increment-row">
       <td><a ng-click="incrementHours()" ng-mouseup="hourUpMouseUp($event)" ng-mousedown="hourUpMouseDown($event)" ng-mouseleave="hourUpMouseUp($event)" class="btn-link hour-up-btn"><i class="luna-arrow_smUp icon-states"></i></a></td>
       <td>&nbsp;</td>
-      <td>
+      <td class="minute">
         <a ng-if="!isMinuteDisabled()" ng-click="incrementMinutes()" ng-mouseup="minuteUpMouseUp($event)" ng-mousedown="minuteUpMouseDown($event)" ng-mouseleave="minuteUpMouseUp($event)" class="btn-link"><i class="luna-arrow_smUp icon-states"></i>
         </a>
         <a ng-if="isMinuteDisabled()" class="btn-link"><i class="luna-arrow_smUp icon-states" disabled></i>
@@ -16,7 +16,7 @@
         <input type="text" ng-model="hours" ng-change="updateHours()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
       </td>
       <td>:</td>
-      <td class="form-group" ng-class="{'has-error': invalidMinutes}">
+      <td class="form-group minute" ng-class="{'has-error': invalidMinutes}">
         <input type="text" ng-disabled="isMinuteDisabled()" ng-model="minutes" ng-change="updateMinutes()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
       </td>
       <td ng-show="showMeridian"></td>
@@ -27,7 +27,7 @@
     <tr class="util-text-center time-decrement-row">
       <td><a ng-click="decrementHours()" ng-mouseup="hourDownMouseUp($event)" ng-mousedown="hourDownMouseDown($event)" ng-mouseleave="hourDownMouseUp($event)" class="btn-link hour-down-btn"><i class="luna-arrow_smDown icon-states"></i></a></td>
       <td>&nbsp;</td>
-      <td>
+      <td class="minute">
         <a ng-if="!isMinuteDisabled()" ng-click="decrementMinutes()" ng-mouseup="minuteDownMouseUp($event)" ng-mousedown="minuteDownMouseDown($event)" ng-mouseleave="minuteDownMouseUp($event)" class="btn-link"><i class="luna-arrow_smDown icon-states"></i>
         </a>
         <a ng-if="isMinuteDisabled()" class="btn-link"><i class="luna-arrow_smDown icon-states" disabled></i>
