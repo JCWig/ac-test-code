@@ -216,6 +216,10 @@ describe('menu', function() {
       expect(nav.hasClass(HIDE_CLASS)).not.toBe(true);
     });
 
+    it('should add class names to tabs', function() {
+      expect(this.element.querySelector('.MONITOR-tab')).not.toBe(null);
+      expect(this.element.querySelector('.RESOLVE-tab')).not.toBe(null);
+    });
   });
 
 });
