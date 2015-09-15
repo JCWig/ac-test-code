@@ -24,16 +24,15 @@ var defaultMarkup = '<akam-time-picker ng-model="inputTime" show-meridian="showM
 
 describe('timeFormatter directive', function() {
 
-  var scope, compile, self, timeout;
+  var scope, compile, self;
 
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/time-picker').name);
-    inject(function($compile, $rootScope, $timeout) {
+    inject(function($compile, $rootScope) {
       scope = $rootScope.$new();
       compile = $compile;
-      timeout = $timeout;
     });
 
   });
