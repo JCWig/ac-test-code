@@ -5,7 +5,7 @@ class SpinnerButtonController {
     this.translateValueSupport = translateValueSupport;
   }
   set translateValues(values) {
-    this.translateValueSupport.forDirective(this, 'textContent', values);
+    this.translateValueSupport.setValues(this, 'textContent', values);
   }
 }
 

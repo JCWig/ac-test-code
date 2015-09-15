@@ -19,7 +19,7 @@ describe('translateValueSupport', function() {
       parse = $parse;
     });
 
-    this.forDirective = function(ctrl, name, values) {
+    this.setValues = function(ctrl, name, values) {
       let getValues = parse(values);
 
       if (getValues !== angular.noop) {
@@ -37,7 +37,7 @@ describe('translateValueSupport', function() {
         var ctrl = {},
           name = 'textContent'; //values = {first: 'sean', last: 'Last'};
         beforeEach(function() {
-          this.forDirective(ctrl, name, undefined);
+          this.setValues(ctrl, name, undefined);
         });
 
         it('should verify ctrl has no property called textContentValues', function() {
@@ -58,7 +58,7 @@ describe('translateValueSupport', function() {
           values = "{'first': 'sean','last': 'Last'}";
 
         beforeEach(function() {
-          this.forDirective(ctrl, name, values);
+          this.setValues(ctrl, name, values);
         });
 
         it('should verify ctrl has property called textContentValues', function() {

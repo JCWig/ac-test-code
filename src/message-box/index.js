@@ -56,5 +56,12 @@ export default angular.module('akamai.components.message-box', [
  * or to provide basic information. Each requires a `headline` along
  * with descriptive `text`.
  *
+ * __NOTE__: The title text for type of question, error and information can be normal text
+ * or can be a translation key. In addition to that, we have provided values property to
+ * those properties that requires translation if variable replacement needed.
+ * For example: options.title = "someKey" (value has embeded variable replacement: {{first}} {{last}}),
+ * options.titleValues = {'first': 'sean', 'last': 'wang'}, it will render: sean wang
+ * Same logic for the cancelLabel and submitLabel properties
+ *
  */
   .factory('messageBox', messageBoxService);

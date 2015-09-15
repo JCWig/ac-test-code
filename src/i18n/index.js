@@ -123,11 +123,10 @@ export default angular.module('akamai.components.i18n', [
 /**
  * @ngdoc service
  * @name translateValueSupport
- * @description provides two methods, one forDirective and one forService. For directive, it adds
- * 'somethingValues' property to the controller that is used by control template as hash value
- * to the translate-values directive. It can be used in any element for the need of
- * variable replacements from translation table(locale file). The translate-values can be empty
- * if not provided from use of control.
+ * @description provides a methods of setValues. It adds 'somethingValues' property to the controller
+ * that is used by control template as hash value to the translate-values directive. It can be used
+ * in any element for the need of variable replacements from translation table(locale file).
+ * The translate-values can be empty if not provided from use of control.
  */
 .factory('translateValueSupport', translateValueSupport)
 
