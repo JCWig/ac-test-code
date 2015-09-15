@@ -61,6 +61,18 @@ describe('timeFormatter directive', function() {
     self.element = document.body.appendChild(self.el[0]);
   };
 
+  function getArrow(isUp, tdIndex) {
+    return self.el.find('tr').eq(isUp ? 0 : 2).find('td').eq(tdIndex).find('a').eq(0);
+  }
+
+  function getMinutesButton(isUp) {
+    return getArrow(isUp, 2);
+  }
+
+  function getMinutesInput(){
+    return self.el.find('input')[2];
+  }
+
   describe("when rendering", function() {
     it("should have time-picker-formmater attribute defined", function() {
       scope.inputTime = defaultScopeTime;
@@ -175,15 +187,15 @@ describe('timeFormatter directive', function() {
         addElement(markeup);
       });
       it('should disable minute up arrow in popup', function(){
-        var upArrow = self.element.querySelector('.akam-time-picker .dropdown-menu .minute-arrow_smUp');
-        expect(upArrow.getAttribute('disabled')).toBeDefined();
+        var upArrow = getMinutesButton(true);
+        expect(upArrow[0].getAttribute('disabled')).toBeDefined();
       });
       it('should disable minute down arrow in popup', function(){
-        var downArrow = self.element.querySelector('.akam-time-picker .dropdown-menu .minute-arrow_smDown');
-        expect(downArrow.getAttribute('disabled')).toBeDefined();
+        var downArrow = getMinutesButton(false);
+        expect(downArrow[0].getAttribute('disabled')).toBeDefined();
       });
       it('should disable minute input in popup', function() {
-        var minInput = self.element.querySelector('.akam-time-picker .dropdown-menu .minute-input');
+        var minInput = getMinutesInput();
         expect(minInput.getAttribute('disabled')).toBeDefined();
       });
       it('should change inputTime minutes to 0', function(){
