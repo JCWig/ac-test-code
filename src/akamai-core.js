@@ -1,3 +1,7 @@
+//TODO: Remember to update this if the version in package.json ever changes
+// Also remember to update mega-menu -> utils -> constants.js with the exact same info
+export const VERSION = '0.9.0';
+
 import angular from 'angular';
 import uuid from './uuid';
 import i18n from './i18n';
@@ -27,7 +31,6 @@ import navigation from './navigation';
 import dateRange from './date-range';
 import spinnerButton from './spinner-button';
 import progressBar from './progress-bar';
-import { VERSION } from './utils/index';
 
 /**
  * @ngdoc overview
