@@ -45,13 +45,4 @@ module.exports = angular.module('akamai.components.utils', [])
  * @restrict A
  *
  */
-  .directive('akamStandalone', standaloneDirective)
-/**
- * @ngdoc service
- *
- * @name CORE-VERSION
- *
- * @description The version string value for core component
- *
- */
-  .constant('CORE-VERSION', VERSION);
+  .directive('akamStandalone', standaloneDirective);

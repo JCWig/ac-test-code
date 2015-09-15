@@ -28,15 +28,15 @@ export default angular.module('akamai.components.spinner-button', [
  *
  * @description Create HTML element that contains submit button
  *
- * @param {string} textContent it is text or translationID, so the translated text
- * to show on the button.
- * __NOTE__: Since it can be translationID, we provive option to pass in textContentValues as object
- * for variable replacement if needed.
+ * @param {string|TranslateKey} textContent it is normal text or translationKey,
+ * if it is TranslateKey, it will be translated and result text will be displayed
+ * on the button.
  *
- * Example of usage if need to have variable replacement from locale file.
- * like: {somekey: "{{firstName}} {{lastName}} just logged in."}
+ * Example of usage if it requires to have variable replacement from translation table.
+ * like: {somekey: "{{buttonLabel}}"}
  * <akam-spinner-button text-content="somekey"
- * text-content-values="{firstName: 'Sean', lastName: 'Wang'}"></akam-spinner-button>
+ * text-content-values="{'buttonLabel': 'Submit'}"></akam-spinner-button>
+ * It will be translated and be display "Submit" if locale is "en-US"
  *
  * @param {boolean} disabled if true, sets the button to disabled state.
  * Default is false.

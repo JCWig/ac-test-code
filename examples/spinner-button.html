@@ -35,7 +35,7 @@
 </div>
 <script src="../dist/akamai-core.js"></script>
 <script>
-  angular.module('spinner-button', ['akamai.components.spinner-button']);
+  angular.module('spinner-button', ['akamai.components', 'akamai.components.spinner-button']);
 
   angular
       .module('spinner-button')
@@ -59,7 +59,7 @@
     $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
   }
 }
-configFunction.$inject = ['$translatePartialLoaderProvider', 'CORE-VERSION'];
+configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
 </script>
 </body>

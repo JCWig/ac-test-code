@@ -17,6 +17,11 @@ function messageBox(modalWindow, $translate, $rootScope) {
 
   modalWindowController.$inject = ['$scope'];
 
+  /**
+   * translateOptionLabels translate title, cancelLabel and submitLabel text
+   * @param  {object} options contains properties that may require translation
+   * @param  {string} type title type as information, error, question
+   */
   function translateOptionLabels(options, type) {
     let titleId, cancelId, submitId;
 

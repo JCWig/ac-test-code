@@ -107,10 +107,10 @@
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
               }
             }
-            configFunction.$inject = ['$translatePartialLoaderProvider', 'CORE-VERSION'];
+            configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
             controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
-            angular.module('example', ['akamai.components.message-box'])
+            angular.module('example', ['akamai.components.message-box', 'akamai.components'])
 
             .controller('ExampleController', controllerFunction)
             .config(configFunction);
