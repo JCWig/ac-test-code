@@ -77,4 +77,5 @@ This will run the tests for only the folder with the pattern `spec/${testDir}/**
 
 Documentation is written alongside source code using [ngdoc][1].
 
-[1]: https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation 
+[1]: https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation
+
