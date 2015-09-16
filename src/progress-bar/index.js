@@ -36,7 +36,6 @@ import i18n from '../i18n';
 *   ["akamai.components.progress-bar"]);
 *
 * app.controller("Ctrl", controllerFunction);
-*
 */
 export default angular.module('akamai.components.progress-bar', [
   ngAnimate,
