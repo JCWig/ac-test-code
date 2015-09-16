@@ -15,7 +15,7 @@ import standaloneDirective from './standalone-directive.js';
 module.exports = angular.module('akamai.components.utils', [])
   //TODO: Remember to update this if the version in package.json ever changes
   // Also remember to update mega-menu -> utils -> constants.js with the exact same info
-  .constant('VERSION', '0.8.1')
+  .constant('VERSION', '0.8.2')
 
 /**
  * @ngdoc directive
