@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('akamai.components.examples.table', [
-  'akamai.components',
+  'akamai.components.constants',
   'akamai.components.table',
   'akamai.components.i18n'
 ])
