@@ -1,0 +1,8 @@
+<progressbar value="progressBar.value"
+			 max="progressBar.max"
+			 type="{{ progressBar.type }}"
+			 ng-class="progressBar.progressBarStyles(); "
+			 ng-attr-animate="progressBar.animate == 'true'">
+</progressbar>
+<label class="progress-bar-label" ng-class="{'align-left': progressBar.labelAlign == 'left', 'align-center': progressBar.labelAlign == 'center', 'align-right': progressBar.labelAlign == 'right'}">{{ progressBar.label }}</label>
+
