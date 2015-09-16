@@ -46,6 +46,36 @@ var data = {
       ]
     },
     {
+      active: false,
+      tabId: 2,
+      itemId: 2,
+      englishName: 'CONFIGURE',
+      url: null,
+      name: ',',
+      columns: [
+        {
+          mainMenuItems: [
+            {
+              itemId: 16640,
+              url: null,
+              name: 'Site',
+              subMenuItems: [
+                {
+                  itemId: 18579,
+                  cps: null,
+                  subMenuItems: null,
+                  dps: null,
+                  contextId: 0,
+                  url: '',
+                  name: 'Configure sub'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       url: null,
       englishName: 'RESOLVE',
       name: 'RESOLVE',
@@ -215,6 +245,16 @@ describe('menu', function() {
       clickElement(inside);
       expect(nav.hasClass(HIDE_CLASS)).not.toBe(true);
     });
+
+    // This test is triggering a page reload
+    xit('should close the tab when clicking an menu item link', function() {
+      var nav = getTab('CONFIGURE').find('nav');
+      var menuItemLink = $(this.element.querySelector('a.mega-menu-item-link'));
+
+      clickElement(menuItemLink);
+      expect(nav.hasClass(HIDE_CLASS)).toBe(true);
+    });
+
 
   });
 
