@@ -123,7 +123,7 @@ function hideAllMenus(e) {
       id = e.target.parentElement.getAttribute('data-id');
     }
 
-    if (id !== OPEN_TAB) {
+    if (id !== OPEN_TAB && !e.target.classList.contains('mega-menu-item-link')) {
       popup.hide();
     }
   }
