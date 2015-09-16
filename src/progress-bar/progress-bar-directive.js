@@ -10,8 +10,9 @@ class ProgressBarController {
     this.$scope = $scope;
     this.$animate = $animate;
     this.$translate = $translate;
-
     this.animate = angular.isDefined(this.animate) ? this.animate : false;
+    this.state = angular.isDefined(this.state) ? this.state : 'inprogress';
+    this.max = angular.isDefined(this.max) ? this.max : 100;
 
     $scope.$watch('progressBar.state', (newValue) => {
       switch (newValue) {
