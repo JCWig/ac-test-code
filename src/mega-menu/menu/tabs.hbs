@@ -1,24 +1,24 @@
 {{#each this}}
-  <section data-id="{{itemId}}" class="{{englishName}}-tab">
-    <h1 {{#if active}}class="active"{{/if}}>{{name}}</h1>
-    <nav class="popup mega-menu-tab util-hide">
-      <div class="util-arrow-up"></div>
-      {{#each columns}}
-        <div>
-          {{#each mainMenuItems}}
-            <section>
-              {{#if subMenuItems}}
-                <h1>{{name}}</h1>
-                {{#each subMenuItems}}
-                  <a href="{{url}}">{{name}}<i class="caret-right"></i></a>
-                {{/each}}
-              {{else}}
-                <h1><a href="{{url}}">{{name}}<i class="orange-caret-right"></i></a></h1>
-              {{/if}}
-            </section>
-          {{/each}}
-        </div>
-      {{/each}}
-    </nav>
-  </section>
+    <section data-id="{{itemId}}" class="{{englishName}}-tab">
+        <h1 {{#if active}}class="active"{{/if}}>{{name}}</h1>
+        <nav class="popup mega-menu-tab util-hide">
+            <div class="util-arrow-up"></div>
+            {{#each columns}}
+                <div>
+                    {{#each mainMenuItems}}
+                        <section>
+                            {{#if subMenuItems}}
+                                <h1>{{name}}</h1>
+                                {{#each subMenuItems}}
+                                    <a href="{{url}}" class="mega-menu-item-link">{{name}}<i class="caret-right"></i></a>
+                                {{/each}}
+                            {{else}}
+                                <h1><a href="{{url}}" class="mega-menu-item-link">{{name}}<i class="orange-caret-right"></i></a></h1>
+                            {{/if}}
+                        </section>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </nav>
+    </section>
 {{/each}}

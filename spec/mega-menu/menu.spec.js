@@ -46,6 +46,36 @@ var data = {
       ]
     },
     {
+      active: false,
+      tabId: 2,
+      itemId: 2,
+      englishName: 'CONFIGURE',
+      url: null,
+      name: ',',
+      columns: [
+        {
+          mainMenuItems: [
+            {
+              itemId: 16640,
+              url: null,
+              name: 'Site',
+              subMenuItems: [
+                {
+                  itemId: 18579,
+                  cps: null,
+                  subMenuItems: null,
+                  dps: null,
+                  contextId: 0,
+                  url: '',
+                  name: 'Configure sub'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       url: null,
       englishName: 'RESOLVE',
       name: 'RESOLVE',
@@ -109,7 +139,7 @@ describe('menu', function() {
     });
 
     this.el = $compile('<akam-menu-header></akam-menu-header>' +
-    '<akam-menu-footer></akam-menu-footer>')($scope);
+      '<akam-menu-footer></akam-menu-footer>')($scope);
     $scope.$digest();
     this.element = document.body.appendChild(this.el[0]);
 
@@ -220,6 +250,15 @@ describe('menu', function() {
       expect(this.element.querySelector('.MONITOR-tab')).not.toBe(null);
       expect(this.element.querySelector('.RESOLVE-tab')).not.toBe(null);
     });
-  });
 
+    // This test is triggering a page reload
+    xit('should close the tab when clicking an menu item link', function() {
+      var nav = getTab('CONFIGURE').find('nav');
+      var menuItemLink = $(this.element.querySelector('a.mega-menu-item-link'));
+
+      clickElement(menuItemLink);
+      expect(nav.hasClass(HIDE_CLASS)).toBe(true);
+    });
+  });
 });
+
