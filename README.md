@@ -12,7 +12,7 @@ Currently, this project leverages the
 project for implementations of basic user interface components. These
 components are wrapped in an Akamai-specific API that follow the UX
 guidelines and may be swapped out for a different implementation in the
-future.
+future. 
 
 ## App Usage
 
