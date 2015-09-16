@@ -4,16 +4,16 @@ import template from './templates/modal-window.tpl.html';
 class ModalWindowController {
 
   static get $inject() {
-    return ['$scope', '$modal', '$templateCache', '$rootScope', 'translate', '$controller',
+    return ['$scope', '$modal', '$templateCache', '$rootScope', '$translate', '$controller',
       'statusMessage', '$q'];
   }
 
-  constructor($scope, $modal, $templateCache, $rootScope, translate, $controller,
+  constructor($scope, $modal, $templateCache, $rootScope, $translate, $controller,
               statusMessage, $q) {
     this.$modal = $modal;
     this.$templateCache = $templateCache;
     this.$rootScope = $rootScope;
-    this.translate = translate;
+    this.$translate = $translate;
     this.$controller = $controller;
     this.$scope = $scope;
     this.statusMessage = statusMessage;
@@ -79,9 +79,7 @@ class ModalWindowController {
 
   setProperty(key, defaultKey) {
     if (defaultKey) {
-      // this[key] = this.options[key] ?
-      //   this.translate.sync(this.options[key]) : this.translate.sync(defaultKey);
-      this[key] = this.translate.sync(this.options[key], null, defaultKey);
+      this[key] = this.$translate.instant(this.options[key] || defaultKey);
     } else {
       this[key] = this.options[key];
     }

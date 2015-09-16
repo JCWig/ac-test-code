@@ -43,6 +43,7 @@
             "successMessage": "動作已完成。",
             "errorMessage": "動作無法完成。",
             "label": {
+                "cancel": "取消",
                 "next": "下一步",
                 "submit": "提交",
                 "previous": "上一個"

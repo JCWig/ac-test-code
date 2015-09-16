@@ -60,12 +60,12 @@ $tab-label-color-disabled: #e6e6e6;
       background: $tab-background-color;
 
       &:hover {
-        @include background-image(linear-gradient(#f4f4f4, #cbcbcb));
+        @include background-image($tab-background-color-hover);
       }
 
       &:active,
       &:focus {
-        @include background-image(linear-gradient(#f2f2f2, #bfbfbf));
+        @include background-image($tab-background-color-mousedown);
       }
     }
 

@@ -4,13 +4,14 @@ export default function() {
     replace: true,
     scope: {},
     bindToController: {
-      text: '@'
+      text: '@',
+      isDisabled: '=?'
     },
     controller: function() { },
     controllerAs: 'menuButtonItem',
     template:
-      `<li>
-        <a href="javascript:void(0);" akam-translate="{{ ::menuButtonItem.text }}"></a>
+      `<li ng-class="{'disabled' : menuButtonItem.isDisabled}">
+        <a href="javascript:void(0);" translate="{{ ::menuButtonItem.text }}"></a>
       </li>`
   };
 }

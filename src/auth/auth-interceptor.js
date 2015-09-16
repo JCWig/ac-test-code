@@ -2,7 +2,7 @@ import angular from 'angular';
 
 function authInterceptor($injector, $q, $window, httpBuffer, token, authConfig, auth, context) {
   // dynamically injected message box and translate to get around circular dependency issue
-  let messageBox, translate;
+  let messageBox, $translate;
 
   // used to enforce that only one message box is shown at a time.
   let accountSwitchPromise;
@@ -55,12 +55,13 @@ function authInterceptor($injector, $q, $window, httpBuffer, token, authConfig, 
 
         requestConfig.params = requestConfig.params || {};
 
+        // if someone explicitly sets gid or aid, just pass it along
         if (angular.isDefined(group)) {
-          requestConfig.params.gid = group.id || undefined;
+          requestConfig.params.gid = requestConfig.params.gid || group.id || undefined;
         }
 
         if (angular.isDefined(property)) {
-          requestConfig.params.aid = property.id || undefined;
+          requestConfig.params.aid = requestConfig.params.aid || property.id || undefined;
         }
 
         return requestConfig;
@@ -76,11 +77,11 @@ function authInterceptor($injector, $q, $window, httpBuffer, token, authConfig, 
     }
 
     accountSwitchPromise = $q.all([
-      translate.async('components.context.accountChanged', {
+      $translate('components.context.accountChanged', {
         name: context.getAccountFromCookie().name,
         oldName: context.account.name
       }),
-      translate.async('components.context.accountChangedTitle')
+      $translate('components.context.accountChangedTitle')
     ]).then( (values) => {
       return messageBox.showQuestion({
         title: values[1],
@@ -107,7 +108,7 @@ function authInterceptor($injector, $q, $window, httpBuffer, token, authConfig, 
 
   return {
     request: function(requestConfig) {
-      translate = translate || $injector.get('translate');
+      $translate = $translate || $injector.get('$translate');
       messageBox = messageBox || $injector.get('messageBox');
 
       // if the new token request pending flag is set,

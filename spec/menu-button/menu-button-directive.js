@@ -3,9 +3,6 @@
 
 import menuButton from '../../src/menu-button';
 
-const LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
-  CONFIG_PATH = '/apps/appname/locales/en_US.json';
-
 describe('akamai.components.menu-button', function() {
 
   afterEach(function() {
@@ -24,17 +21,13 @@ describe('akamai.components.menu-button', function() {
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(menuButton.name);
-    angular.mock.module(function($provide, $translateProvider) {
-      $translateProvider.useLoader('i18nCustomLoader');
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.useLoader('translateNoopLoader');
     });
 
-    angular.mock.inject(function($compile, $rootScope, $httpBackend) {
+    angular.mock.inject(function($compile, $rootScope) {
       this.$compile = $compile;
       this.$scope = $rootScope.$new();
-
-      $httpBackend.when('GET', LIBRARY_PATH).respond({});
-      $httpBackend.when('GET', CONFIG_PATH).respond({});
-      $httpBackend.flush();
     });
 
   });
@@ -91,6 +84,24 @@ describe('akamai.components.menu-button', function() {
       expect(this.element.querySelectorAll('.split-button').length).toEqual(2);
     });
 
+  });
+
+  describe('given a dropdown menu', function() {
+    describe('when a dropdown item is disabled', function() {
+      beforeEach(function() {
+      let markup =
+        `<akam-menu-button default-text="examples.appNames.pm" >
+          <akam-menu-button-item is-disabled="true" text="examples.appNames.tq"></akam-menu-button-item>
+          <akam-menu-button-item text="examples.appNames.bc"></akam-menu-button-item>
+          </akam-menu-button-item>
+        </akam-menu-button>`;
+
+      addElement.call(this, markup);
+    });
+      it('should not be selectable', function() {
+        expect(this.element.querySelector('.dropdown-menu').children[0].classList.contains('disabled')).toEqual(true);
+      });
+    })
   });
 
 });

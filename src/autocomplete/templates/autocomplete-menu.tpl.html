@@ -1,0 +1,12 @@
+<div class="dropdown-menu">
+    <ul class="dropdown-menu">
+        <li ng-repeat="item in autocomplete.items">
+            <a ng-mousedown="autocomplete.setSelectedItem(item)" class="dropdown-item-link">
+                <span ng-if="autocomplete.textProperty" title="{{ autocomplete.textPropertyFn(item) }}"
+                      ng-bind-html="autocomplete.textPropertyFn(item) | highlight:autocomplete.searchTerm"></span>
+                <span ng-if="!autocomplete.textProperty" title="{{item}}"
+                      ng-bind-html="item | highlight:autocomplete.searchTerm"></span>
+            </a>
+        </li>
+    </ul>
+</div>

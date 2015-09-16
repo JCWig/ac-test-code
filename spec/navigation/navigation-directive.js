@@ -110,7 +110,7 @@ describe('akamai.components.navigation', function() {
 
       it('should call $state.go with the inactive tab\'s route', function() {
         expect(stateSpy.go).toHaveBeenCalledWith(this.$scope.tabData[1].route, {}, {})
-      })
+      });
 
     });
 
@@ -131,7 +131,7 @@ describe('akamai.components.navigation', function() {
 
       it('should not call $state.go with the active tab\'s route', function() {
         expect(stateSpy.go).not.toHaveBeenCalledWith(this.$scope.tabData[1].route, {}, {})
-      })
+      });
 
     });
 
@@ -153,16 +153,8 @@ describe('akamai.components.navigation', function() {
 
       it('should not call $state.go with the active tab\'s route', function() {
         expect(stateSpy.go).not.toHaveBeenCalledWith(this.$scope.tabData[1].route, {}, {})
-      })
+      });
 
     });
   });
 });
-
-
-
-
-
-
-
-

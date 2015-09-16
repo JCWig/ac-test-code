@@ -55,7 +55,7 @@
         </div>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            var exampleController = function($scope, $log, translate) {
+            var exampleController = function($scope, $log) {
 
                 // Data for the Drag/Drop Tag Order Example
                 $scope.items1 = [".png",".jpg", ".svg"];
@@ -279,7 +279,7 @@
                 };
             };
 
-            exampleController.$inject = ['$scope', '$log', 'translate'];
+            exampleController.$inject = ['$scope', '$log'];
 
             angular.module('example', ['akamai.components.tag-input', 'ngMessages'])
             .controller('ExampleController', exampleController);

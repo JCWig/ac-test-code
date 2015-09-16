@@ -33,6 +33,7 @@ module.exports = function(config) {
   );
 
   var preProcessors = {};
+
   preProcessors[preprocessorPattern] = ['browserify'];
 
   config.set({
