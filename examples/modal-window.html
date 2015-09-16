@@ -200,7 +200,7 @@
             exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
             modalController.$inject = ['$scope', '$q', '$timeout'];
 
-            angular.module('example', ['akamai.components', 'akamai.components.modal-window'])
+            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window'])
             .controller('ExampleController', exampleController)
             .controller('ModalController', modalController)
             .config(configFunction);

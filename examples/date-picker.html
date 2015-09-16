@@ -98,7 +98,7 @@
   }
   configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
-  angular.module('example', ['akamai.components', 'akamai.components.date-picker'])
+  angular.module('example', ['akamai.components.constants', 'akamai.components.date-picker'])
     .controller('ExampleController', controllerFunction)
     .config(configFunction);
   </script>

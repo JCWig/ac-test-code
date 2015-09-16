@@ -59,7 +59,7 @@
             }
             configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
-            angular.module('example', ['akamai.components','akamai.components.pagination'])
+            angular.module('example', ['akamai.components.constants','akamai.components.pagination'])
 
             .controller('ExampleController', exampleControllerFunction)
             .config(configFunction);

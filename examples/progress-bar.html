@@ -189,7 +189,7 @@
                 }
                 configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
-                var app = angular.module('progressBarDemo', ['akamai.components', 'akamai.components.progress-bar']);
+                var app = angular.module('progressBarDemo', ['akamai.components.constants', 'akamai.components.progress-bar']);
                 app.controller('Ctrl', controllerFunction);
                 app.config(configFunction);
             </script>

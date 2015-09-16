@@ -51,7 +51,7 @@
   <akam-date-range ng-model="vm.dateRange2" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <script src="../dist/akamai-core.js"></script>
   <script>
-  angular.module('dateRangeApp', ['akamai.components', 'akamai.components.date-range'])
+  angular.module('dateRangeApp', ['akamai.components.constants', 'akamai.components.date-range'])
     .controller('DateRangeAppController', DateRangeAppController)
     .config(configFunction);
 

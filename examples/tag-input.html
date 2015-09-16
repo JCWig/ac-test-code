@@ -295,7 +295,7 @@
         configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
 
-            angular.module('example', ['akamai.components', 'akamai.components.tag-input', 'ngMessages'])
+            angular.module('example', ['akamai.components.constants', 'akamai.components.tag-input', 'ngMessages'])
             .controller('ExampleController', exampleController)
             .config(configFunction);
         </script>

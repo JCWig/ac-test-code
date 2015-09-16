@@ -110,7 +110,7 @@
             configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
 
             controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
-            angular.module('example', ['akamai.components.message-box', 'akamai.components'])
+            angular.module('example', ['akamai.components.message-box', 'akamai.components.constants'])
 
             .controller('ExampleController', controllerFunction)
             .config(configFunction);
