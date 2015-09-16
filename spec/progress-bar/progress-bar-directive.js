@@ -12,13 +12,16 @@ describe('akamai.components.progress-bar', function() {
 	beforeEach(function() {
 		angular.mock.inject.strictDi(true);
 		angular.mock.module(progressBar.name);
-		inject(function($rootScope, _$compile_, $timeout, $httpBackend) {
+		inject(function($rootScope, _$compile_, $httpBackend) {
 			$scope = $rootScope;
 			$compile = _$compile_;
-			timeout = $timeout;
 			$httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
         	$httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
-        	$httpBackend.flush();
+        	try {
+        		$httpBackend.verifyNoPendingTasks();
+        	} catch (e) {
+        		$httpBackend.flush();
+        	}
 		});
 	});
 	afterEach(function(){
