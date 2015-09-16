@@ -38,7 +38,7 @@ module.exports = function(config) {
 
   config.set({
     colors: !jenkins,
-    browserNoActivityTimeout: 60000,
+    browserNoActivityTimeout: 600000,
     files: filesToTest,
     logLevel: config.LOG_ERROR,
     frameworks: ['browserify', 'jasmine', 'jquery-2.1.0', 'sinon'],
