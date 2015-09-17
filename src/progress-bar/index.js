@@ -75,8 +75,9 @@ export default angular.module('akamai.components.progress-bar', [
 * __NOTE__: We also provide label-values attribute for user to pass in object
 * in the need of variable replacement for translation.
 * Example of usage:
-* <akam-progress-bar  value="pb1.currentValue" max="pb1.maxValue" state="pb1.state" animate={{pb1.animate}}
-*    label="pb1.label" label-values={{pb1.label-variable}} label-align={{pb1.labelAlign}}></akam-progress-bar>
+* <akam-progress-bar  value="pb1.currentValue" max="pb1.maxValue" state="pb1.state"
+* animate={{pb1.animate}} label="pb1.label" label-values={{pb1.label-variable}}
+* label-align={{pb1.labelAlign}}></akam-progress-bar>
 * pb1.label = "progress-bar.state";
 * pb1.labelValues = {number: '100%'};
 * locale table: 'progress-bar.state': '{{number}} completed'

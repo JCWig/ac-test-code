@@ -45,8 +45,8 @@ describe('akamai.components.switch-button', function() {
 
       elementScope = self.el.isolateScope().switchButton;
       expect(elementScope.on).toBe(true);
-      expect(elementScope.onLabel).toBe('On');
-      expect(elementScope.offLabel).toBe('Off');
+      expect(elementScope.onLabel).toBe('components.switch-button.onLabel');
+      expect(elementScope.offLabel).toBe('components.switch-button.offLabel');
 
       onLabelElem = document.querySelector('.switch-button-container > span:first-child');
       offLabelElem = document.querySelector('.switch-button-container > span:last-child');
@@ -171,6 +171,24 @@ describe('akamai.components.switch-button', function() {
       expect(onLabelElem.textContent).toMatch(/On Value/);
       expect(offLabelElem.textContent).toMatch(/Off Value/);
     });
+
+    it('should translate and display correct labels if label values is used', function() {
+      var onLabelElem, offLabelElem;
+      var markup = `<akam-switch-button ng-model="val"
+        on-label="examples.switchbutton.custom.label-variable"
+        on-label-values="{name: 'Allow'}"
+        off-label="examples.switchbutton.custom.label-variable"
+        off-label-values="{name: 'Deny'}"</akam-switch-button>`;
+      $scope.val = true;
+      addElement(markup);
+
+      onLabelElem = document.querySelector('.switch-button-container > span:first-child');
+      offLabelElem = document.querySelector('.switch-button-container > span:last-child');
+      expect(onLabelElem.textContent).toMatch(/Allow/);
+      expect(offLabelElem.textContent).toMatch(/Deny/);
+    });
+
+    //"examples.switchbutton.custom.label-variable"
 
     it('should translate key when key provided to translate filter', function() {
       var onLabelElem, offLabelElem;

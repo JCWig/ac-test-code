@@ -31,6 +31,24 @@
         </akam-switch-button>
     </div>
     <br/>
+        <div>
+        <h2>Custom Labels passing translation keys</h2>
+        <akam-switch-button ng-model="vm.ex7.on" on-label="examples.switchbutton.custom.allow"
+                            off-label="examples.switchbutton.custom.deny">
+        </akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Custom Labels passing translation keys and values attributes</h2>
+        <akam-switch-button ng-model="vm.ex8.on"
+                            on-label="examples.switchbutton.custom.label-variable"
+                            on-label-values="{name: 'Allow'}"
+                            off-label="examples.switchbutton.custom.label-variable"
+                            off-label-values = "{name: 'Deny'}">
+        </akam-switch-button>
+    </div>
+    <br/>
 
     <div>
         <h2>Medium size</h2>
@@ -76,6 +94,8 @@
             vm.ex4 = { on: false };
             vm.ex5 = { on: true };
             vm.ex6 = { on: false };
+            vm.ex7 = { on: true };
+            vm.ex8 = { on: false };
             vm.hello = false;
             vm.switchHello = function () {
                 vm.hello = !vm.hello;
@@ -90,6 +110,7 @@
             } else {
                 $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
             }
         }
         configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
