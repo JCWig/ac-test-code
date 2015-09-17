@@ -14,13 +14,6 @@ module.exports = function(config) {
     {pattern: 'node_modules/moment/moment.js', watched: false }
   ];
 
-  var allSourceFiles = [
-    'spec/!(mega-menu)/**/*.js',
-    // load the mega menu tests last because they seem to not clean up the environment
-    // properly and several message-box and modal-window tests end up failing
-    'spec/mega-menu/**/*.js'
-  ];
-
   var preprocessorPattern = args.testDir ? 'spec/' + args.testDir + '/**/*.js' : 'spec/**/*.js';
 
   var filesToTest = baseFileList.concat(
@@ -29,7 +22,7 @@ module.exports = function(config) {
         pattern: preprocessorPattern,
         watched: false
       }
-    ] : allSourceFiles
+    ] : 'spec/**/*.js'
   );
 
   var preProcessors = {};

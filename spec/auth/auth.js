@@ -14,7 +14,6 @@ describe('akamai.components.auth', function() {
     win,
     provider,
     authPro,
-    context,
     messageBox,
     $rootScope,
     location;
@@ -48,50 +47,50 @@ describe('akamai.components.auth', function() {
       $translateProvider.useLoader('translateNoopLoader');
     });
 
-    angular.mock.module(function($provide, authProvider) {
+    angular.mock.module(function(authProvider) {
       provider = authProvider;
 
-      function Context($q) {
-        var accountChangedValue = false;
-
-        return {
-          group: $q.when({
-            id: 123
-          }),
-          property: $q.when({
-            id: 456
-          }),
-          account: {
-            name: 'test account'
-          },
-          accountChanged: function() {
-            return accountChangedValue;
-          },
-
-          getAccountFromCookie: function() {
-            return {
-              id: 1,
-              name: 'test account'
-            };
-          },
-
-          resetAccount: jasmine.createSpy('resetAccount'),
-
-          // This is for testing purposes only
-          setAccountChanged: function(val) {
-            accountChangedValue = val;
-          }
-        };
-      }
-
-      Context.$inject = ['$q'];
-
-      // mock out context group and property fetching
-      $provide.factory('context', Context);
+      //function Context($q) {
+      //  var accountChangedValue = false;
+      //
+      //  return {
+      //    group: $q.when({
+      //      id: 123
+      //    }),
+      //    property: $q.when({
+      //      id: 456
+      //    }),
+      //    account: {
+      //      name: 'test account'
+      //    },
+      //    accountChanged: function() {
+      //      return accountChangedValue;
+      //    },
+      //
+      //    getAccountFromCookie: function() {
+      //      return {
+      //        id: 1,
+      //        name: 'test account'
+      //      };
+      //    },
+      //
+      //    resetAccount: jasmine.createSpy('resetAccount'),
+      //
+      //    // This is for testing purposes only
+      //    setAccountChanged: function(val) {
+      //      accountChangedValue = val;
+      //    }
+      //  };
+      //}
+      //
+      //Context.$inject = ['$q'];
+      //
+      //// mock out context group and property fetching
+      //$provide.factory('context', Context);
     });
 
     angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig,
-                                        authInterceptor, $window, $location, auth, _context_,
+                                        authInterceptor, $window, $location, auth,
                                         _messageBox_, _$rootScope_) {
       http = $http;
       httpBackend = $httpBackend;
@@ -102,7 +101,6 @@ describe('akamai.components.auth', function() {
       win = $window;
       location = $location;
       authPro = auth;
-      context = _context_;
       messageBox = _messageBox_;
       $rootScope = _$rootScope_;
       $httpBackend.when('GET', /grp.json/).respond({});
@@ -124,7 +122,7 @@ describe('akamai.components.auth', function() {
   describe('Scenario: Receive unauthorized API response - new token request', function() {
     it('given invalid token, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('invalid_token', 'Invalid Token'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_token', 'Invalid Token'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -134,7 +132,7 @@ describe('akamai.components.auth', function() {
 
     it('given invalid username in akasession, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('akasession_username_invalid', 'Session does not match username'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('akasession_username_invalid', 'Session does not match username'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -144,7 +142,7 @@ describe('akamai.components.auth', function() {
 
     it('Given incorrect current account, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('incorrect_current_account', 'incorrect current account'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('incorrect_current_account', 'incorrect current account'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -154,7 +152,7 @@ describe('akamai.components.auth', function() {
 
     it('Given incorrect contract type, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('incorrect_contract_type', 'incorrect contract type'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('incorrect_contract_type', 'incorrect contract type'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -164,7 +162,7 @@ describe('akamai.components.auth', function() {
 
     it('Given incorrect cross site request forgery token, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('invalid_xsrf', 'incorrect cross site request forgery token'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_xsrf', 'incorrect cross site request forgery token'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -174,7 +172,7 @@ describe('akamai.components.auth', function() {
 
     it('Given incorrect token type, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('invalid_token_type', 'incorrect token type'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_token_type', 'incorrect token type'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -184,7 +182,7 @@ describe('akamai.components.auth', function() {
 
     it('Given incorrect token id, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('invalid_token_id', 'incorrect token id'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_token_id', 'incorrect token id'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -194,7 +192,7 @@ describe('akamai.components.auth', function() {
 
     it('Given revoked token, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('token_is_revoked', 'token is revoked'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('token_is_revoked', 'token is revoked'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -204,7 +202,7 @@ describe('akamai.components.auth', function() {
 
     it('Given expired token, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('token_is_expired', 'token is expired'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('token_is_expired', 'token is expired'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -214,7 +212,7 @@ describe('akamai.components.auth', function() {
 
     it('Given token with invalid subject, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('invalid_token_subject', 'token has invalid subject'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('invalid_token_subject', 'token has invalid subject'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -224,7 +222,7 @@ describe('akamai.components.auth', function() {
 
     it('Given token that does not match the akasession data, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('token_and_akasession_mismatch', 'token and akasession mismatch'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('token_and_akasession_mismatch', 'token and akasession mismatch'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -234,7 +232,7 @@ describe('akamai.components.auth', function() {
 
     it('Given missing token, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('missing_token', 'missing token'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('missing_token', 'missing token'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -244,7 +242,7 @@ describe('akamai.components.auth', function() {
 
     it('Given missing xsrf token, the component should queue the API request for re-submission', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('missing_xsrf_token', 'missing xsrf token'));
+      httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('missing_xsrf_token', 'missing xsrf token'));
       httpBackend.expectPOST(config.tokenUrl).respond(200);
       http.get('/unauthorized/request');
       httpBackend.flush();
@@ -297,7 +295,7 @@ describe('akamai.components.auth', function() {
   describe('Scenario: Receive unauthorized API response with logout codes', function() {
     it('the component should request logout for akasession_username_invalid', function() {
       spyOn(buffer, 'appendResponse');
-      httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, {
+      httpBackend.when('GET', '/unauthorized/request').respond(401, {
         code: 'akasession_username_invalid',
         title: 'Invalid Username',
         incidentId: '58c2725f-002d-4494-8535-4c6186814756',
@@ -305,9 +303,9 @@ describe('akamai.components.auth', function() {
       });
       http.get('/unauthorized/request');
       spyOn(tokenService, 'create');
-      httpBackend.when('GET', '/authorized/request1?aid=456&gid=123').respond(200);
-      httpBackend.when('GET', '/authorized/request2?aid=456&gid=123').respond(302);
-      httpBackend.when('GET', '/authorized/request3?aid=456&gid=123').respond(500);
+      httpBackend.when('GET', '/authorized/request1').respond(200);
+      httpBackend.when('GET', '/authorized/request2').respond(302);
+      httpBackend.when('GET', '/authorized/request3').respond(500);
       http.get('/authorized/request1');
       http.get('/authorized/request2');
       http.get('/authorized/request3');
@@ -316,7 +314,7 @@ describe('akamai.components.auth', function() {
     describe('Scenario: Receive unauthorized API response with logout codes', function() {
       it('given an expired akasession, the component should request logout', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('expired_akasession', 'Expired Akasession'));
+        httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('expired_akasession', 'Expired Akasession'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -325,7 +323,7 @@ describe('akamai.components.auth', function() {
 
       it('given a malformed akasession, the component should request logout', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('malformed_akasession', 'Malformed Akasession'));
+        httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('malformed_akasession', 'Malformed Akasession'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -334,7 +332,7 @@ describe('akamai.components.auth', function() {
 
       it('given a malformed akalastmanaged account, the component should request logout', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('malformed_akalastmanaged_account', 'Malformed Akalastmanaged'));
+        httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('malformed_akalastmanaged_account', 'Malformed Akalastmanaged'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -343,7 +341,7 @@ describe('akamai.components.auth', function() {
 
       it('given an akasession that can not be decrypted, the component should request logout', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('akasession_decryption_problem', 'Akasession can not be decrypted'));
+        httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('akasession_decryption_problem', 'Akasession can not be decrypted'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -352,7 +350,7 @@ describe('akamai.components.auth', function() {
 
       it('given a missing akasession, the component should request logout', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(401, generateErrorCodeResponse('missing_akasession', 'Missing Akasession'));
+        httpBackend.when('GET', '/unauthorized/request').respond(401, generateErrorCodeResponse('missing_akasession', 'Missing Akasession'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -364,7 +362,7 @@ describe('akamai.components.auth', function() {
 
       it('given an internal server error, the component should request logout', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(502, generateErrorCodeResponse('internal.server.error', 'internal server error'));
+        httpBackend.when('GET', '/unauthorized/request').respond(502, generateErrorCodeResponse('internal.server.error', 'internal server error'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -373,7 +371,7 @@ describe('akamai.components.auth', function() {
 
       it('given an invalid status code server error, the component should request logout', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(502, generateErrorCodeResponse('invalid_status_code', 'internal server error'));
+        httpBackend.when('GET', '/unauthorized/request').respond(502, generateErrorCodeResponse('invalid_status_code', 'internal server error'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -382,7 +380,7 @@ describe('akamai.components.auth', function() {
 
       it('given an invalid response format server error, the component should request logout', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(502, generateErrorCodeResponse('invalid_response_format', 'internal server error'));
+        httpBackend.when('GET', '/unauthorized/request').respond(502, generateErrorCodeResponse('invalid_response_format', 'internal server error'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -391,7 +389,7 @@ describe('akamai.components.auth', function() {
 
       it('given a 502 server error that is unknown, the component should reject the promise and nothing more', function() {
         spyOn(buffer, 'appendResponse');
-        httpBackend.when('GET', '/unauthorized/request?aid=456&gid=123').respond(502, generateErrorCodeResponse('unknown code', 'something we do not know about'));
+        httpBackend.when('GET', '/unauthorized/request').respond(502, generateErrorCodeResponse('unknown code', 'something we do not know about'));
         http.get('/unauthorized/request');
         httpBackend.flush();
         expect(buffer.appendResponse).not.toHaveBeenCalled();
@@ -456,8 +454,8 @@ describe('akamai.components.auth', function() {
           data: '',
           headers: {Accept: 'application/json, text/plain, */*'}
         });
-        httpBackend.when('GET', '/deferred/for/token/auth1?aid=456&gid=123').respond(400);
-        httpBackend.when('GET', '/deferred/for/token/auth2?aid=456&gid=123').respond(200);
+        httpBackend.when('GET', '/deferred/for/token/auth1').respond(400);
+        httpBackend.when('GET', '/deferred/for/token/auth2').respond(200);
         httpBackend.expectPOST(config.tokenUrl).respond(200);
         tokenService.create();
         httpBackend.flush();
@@ -481,8 +479,8 @@ describe('akamai.components.auth', function() {
           data: '',
           headers: {Accept: 'application/json, text/plain, */*'}
         });
-        httpBackend.when('GET', '/deferred/for/token/auth1?aid=456&gid=123').respond(401);
-        httpBackend.when('GET', '/deferred/for/token/auth2?aid=456&gid=123').respond(200);
+        httpBackend.when('GET', '/deferred/for/token/auth1').respond(401);
+        httpBackend.when('GET', '/deferred/for/token/auth2').respond(200);
         httpBackend.expectPOST(config.tokenUrl).respond(200);
         tokenService.create();
         httpBackend.flush();
@@ -537,61 +535,6 @@ describe('akamai.components.auth', function() {
         expect(win.location.replace).toHaveBeenCalledWith(config.lunaLogoutUrl + base64EncodedCurrentUrl);
       });
     });
-
-    describe('Scenario: Blacklisted API requests', function() {
-      it('should pass through the response', function() {
-        spyOn(buffer, 'appendResponse').and.callThrough();
-        spyOn(tokenService, 'create').and.callThrough();
-        httpBackend.when('GET', /\/ui\/services\/nav\/megamenu\/someUser\/grp.json/).respond(401);
-        httpBackend.when('GET', /\/core\/services\/session\/another_user\/extend/).respond(401);
-        httpBackend.when('GET', '/svcs/messagecenter/yet_SOME_other_USER/message/12345.json').respond(401);
-        http.get('/ui/services/nav/megamenu/someUser/grp.json');
-        http.get('/core/services/session/another_user/extend');
-        http.get('/svcs/messagecenter/yet_SOME_other_USER/message/12345.json');
-        httpBackend.flush();
-        expect(buffer.appendResponse).not.toHaveBeenCalled();
-        expect(tokenService.create).not.toHaveBeenCalled();
-      });
-      it('should process any blacklisted request without queing', function() {
-        spyOn(buffer, 'appendRequest').and.callThrough();
-        spyOn(tokenService, 'isPending').and.returnValue(true);
-        // test custom blacklisted pages
-        interceptor.request({
-          method: 'GET',
-          url: '/a/page/to/ignore.json',
-          data: '',
-          headers: {Accept: 'application/json, text/plain, */*'}
-        });
-        interceptor.request({
-          method: 'GET',
-          url: '/another/page/to/ignore/12345.json',
-          data: '',
-          headers: {Accept: 'application/json, text/plain, */*'}
-        });
-        // test mega menu urls
-        interceptor.request({
-          method: 'GET',
-          url: '/ui/services/nav/megamenu/someUser/grp.json',
-          data: '',
-          headers: {Accept: 'application/json, text/plain, */*'}
-        });
-        interceptor.request({
-          method: 'POST',
-          url: '/core/services/session/another_user/extend',
-          data: '',
-          headers: {Accept: 'application/json, text/plain, */*'}
-        });
-        interceptor.request({
-          method: 'DELETE',
-          url: '/svcs/messagecenter/yet_SOME_other_USER/message/12345.json',
-          data: '',
-          headers: {Accept: 'application/json, text/plain, */*'}
-        });
-        expect(buffer.appendRequest).not.toHaveBeenCalled();
-        expect(tokenService.isPending).toHaveBeenCalled();
-        expect(buffer.size()).toBe(0);
-      });
-    });
     describe('Config Provider', function() {
       describe('When setting blacklisted URI as a string', function() {
         beforeEach(function() {
@@ -628,84 +571,5 @@ describe('akamai.components.auth', function() {
 
     });
 
-    describe('given a loaded, group centric app', function() {
-
-      describe('when an api request is sent', function() {
-
-        describe('and the account has not changed', function() {
-
-          it('should add the current group as a gid query string parameter', function() {
-            httpBackend.expectGET('/abc.json?aid=456&gid=123').respond(200);
-            http.get('/abc.json');
-            httpBackend.flush();
-          });
-
-        });
-
-        describe('and account has changed', function() {
-
-          beforeEach(function() {
-            context.setAccountChanged(true);
-            spyOn(messageBox, 'show').and.callThrough();
-            http.get('/abc.json');
-            $rootScope.$digest();
-          });
-
-          it('should show a message box asking the user if the account should be changed', function() {
-            expect(messageBox.show).toHaveBeenCalled();
-          });
-
-        });
-
-      });
-
-    });
-
-    describe('given the message box shown', function() {
-
-      describe('when the user accepts changing the account', function() {
-        var elem;
-
-        beforeEach(function() {
-          context.setAccountChanged(true);
-          http.get('/abcd.json');
-          $rootScope.$digest();
-
-          httpBackend.expectGET('/abcd.json?aid=456&gid=123').respond(200);
-          elem = document.querySelector('.modal-footer .btn-primary');
-          angular.element(elem).trigger('click');
-        });
-
-        it('should should send a request for current account context data', function() {
-          expect(context.resetAccount).toHaveBeenCalled();
-        });
-
-        it('should continue the original API request', function() {
-          // covered by the httpBackend.expectGET above
-          expect(true).toBeTruthy();
-        });
-
-      });
-
-      describe('when the user declines changing the account', function() {
-
-        beforeEach(function() {
-          context.setAccountChanged(true);
-          http.get('/abc.json');
-          $rootScope.$digest();
-        });
-
-        it('should go to the home page', function() {
-
-          // clicking the element will cause the http promise above to be rejected
-          expect(function() {
-            angular.element(document.querySelector('.modal-footer button')).trigger('click');
-          }).toThrow();
-
-          expect(win.location.replace).toHaveBeenCalled();
-        });
-
-      });
-    });
   });
 });
