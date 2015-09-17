@@ -262,5 +262,6 @@
     "examples.switchbutton.custom.allow": "Allow",
     "examples.switchbutton.custom.deny": "Deny",
     "examples.switchbutton.custom.label-variable": "{{name}}",
-    "examples.dropdown.select.one": "Select One"
+    "examples.dropdown.select.one": "Select One",
+    "examples.tag-input.label-variable": "Add {{name}} one"
 }
