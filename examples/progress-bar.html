@@ -126,14 +126,14 @@
                         start: function() {
                             var self = this;
                             $scope.pb4.currentValue = 0;
-                            $scope.pb4.label = `${$scope.pb4.currentValue}  MB / ${$scope.pb4.maxValue} MB`;
+                            $scope.pb4.label = $scope.pb4.currentValue + ' MB / ' + $scope.pb4.maxValue + ' MB';
                             $scope.pb4.animate = true;
                             $scope.pb4.state = 'inprogress';
 
                             if (!this.interval) {
                                 this.interval = setInterval(function() {
                                     $scope.pb4.currentValue += 1;
-                                    $scope.pb4.label = `${$scope.pb4.currentValue}  MB / ${$scope.pb4.maxValue} MB`;
+                                    $scope.pb4.label = $scope.pb4.currentValue + ' MB / ' + $scope.pb4.maxValue + ' MB';
 
                                     if($scope.pb4.currentValue == $scope.pb4.maxValue) {
                                         clearInterval(self.interval);
@@ -149,13 +149,13 @@
                         start: function() {
                             var self = this;
                             $scope.pb6.currentValue = 0;
-                            $scope.pb6.label = `${$scope.pb6.currentValue}  MB / ${$scope.pb6.maxValue} MB`;
+                            $scope.pb6.label = $scope.pb6.currentValue + ' MB / ' + $scope.pb6.maxValue + ' MB';
                             $scope.pb6.state = 'inprogress';
 
                             if (!this.interval){
                                 this.interval = setInterval(function() {
                                     $scope.pb6.currentValue += 1;
-                                    $scope.pb6.label = `${$scope.pb6.currentValue}  MB / ${$scope.pb6.maxValue} MB`;
+                                    $scope.pb6.label = $scope.pb6.currentValue + ' MB / ' + $scope.pb6.maxValue + ' MB';
                                     $scope.pb6.state = 'inprogress';
                                     if($scope.pb6.currentValue == $scope.pb6.maxValue) {
                                         clearInterval(self.interval);
