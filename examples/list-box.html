@@ -46,7 +46,7 @@
             </div>
             <br />
             <akam-list-box akam-standalone data="obj[status]" schema="columns" on-change="rowChange(value)"
-                           filter-placeholder="Filter Employees" no-data-message="{{noDataMessage}}"></akam-list-box>
+                           filter-placeholder="Filter Employees" no-data-message="examples.test.select" no-data-message-values="{{data}}"></akam-list-box>
         </div>
         <br />
         <div class="container">
@@ -144,6 +144,7 @@
 
             var controllerFunction = function($scope, $http, $filter, $q, $timeout, $log, $sce) {
 
+                $scope.data = {'first':'sean'};
                 var deferred = $q.defer();
                 var failedDeferred = $q.defer();
 
@@ -324,6 +325,7 @@
                 } else {
                     $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                     $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
                 }
             }
             configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];

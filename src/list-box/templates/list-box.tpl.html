@@ -30,9 +30,9 @@
                         <th ng-repeat="column in ::listBox.columns"
                             ng-class="listBox.getColumnClasses(column, true, listBox.state)"
                             ng-click="listBox.sortColumn(column)"
-                            title="{{ column.header | translate }}"
+                            title="{{::column.header | translate}}"
                             class="header">
-                                <span>{{column.header |translate}}</span>
+                                <span translate="{{::column.header}}"></span>
                                 <i></i>
                         </th>
                     </tr>
