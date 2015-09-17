@@ -4,21 +4,33 @@
 import progressBar from '../../src/progress-bar';
 
 var utilities = require('../utilities');
-var translationMock = require('../fixtures/translationFixture.json');
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var CONFIG_PATH = '../../_appen_US.json';
+var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
+var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 
 describe('akamai.components.progress-bar', function() {
 	var $scope, $compile, timeout;
+	var translationMock = {
+	    'components': {
+	    	'progress-bar': {
+	        	'label': 'Progress Bar Label'
+	      	}
+	  	}
+	};
 
 	beforeEach(function() {
 		angular.mock.inject.strictDi(true);
 		angular.mock.module(progressBar.name);
-		inject(function($rootScope, _$compile_, $timeout, $httpBackend) {
+		angular.mock.module(function($translateProvider) {
+	      	$translateProvider.translations('en_US', translationMock);
+	      	$translateProvider.useLoader('translateNoopLoader');
+	    });
+		inject(function($rootScope, _$compile_, $httpBackend) {
 			$scope = $rootScope;
 			$compile = _$compile_;
-			timeout = $timeout;
-			$httpBackend.when('GET', utilities.LIBRARY_PATH).respond(translationMock);
-        	$httpBackend.when('GET', utilities.CONFIG_PATH).respond({});
-        	$httpBackend.flush();
+			$httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+      		$httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
 		});
 	});
 	afterEach(function(){
@@ -59,16 +71,30 @@ describe('akamai.components.progress-bar', function() {
 				$scope.pb = {
 					value: '50',
 					max: '100',
-					label: 'components.wizard.successMessage'
+					label: 'components.progress-bar.label'
 				};
 				var progressBarTemplate = '<akam-progress-bar value="pb.value" max="pb.max" label="pb.label"></akam-progress-bar>';
 				addElement(progressBarTemplate);
 			});
 			it('should translate label if it is a valid key', function() {
 				var progresBarLabel = document.querySelector('.progress-bar-label');
-				expect(progresBarLabel.innerHTML).toMatch('The action has been completed.');
+				expect(progresBarLabel.innerHTML).toMatch('Progress Bar Label');
 			});
 		});
+		describe('when max value is not provided', function(){
+			beforeEach(function() {
+				$scope.pb = {
+					value: '50',
+					label: 'components.progress-bar.label'
+				};
+				var progressBarTemplate = '<akam-progress-bar value="pb.value" label="pb.label"></akam-progress-bar>';
+				addElement(progressBarTemplate);
+			});
+			it('should set default value for max', function(){
+				let ctrl = self.el.controller('akamProgressBar');
+				expect(ctrl.max).toEqual(100);
+			})
+		})
 	});
 
 	describe('when the progress bar is rendered', function() {
