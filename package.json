@@ -1,6 +1,6 @@
 {
   "name": "akamai-core",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "author": "Akamai Technologies Inc.",
   "description": "Akamai Core provides a set of Angular.js directives and services as well as styles that implement UXD guidelines.",
   "license": "Apache-2.0",
