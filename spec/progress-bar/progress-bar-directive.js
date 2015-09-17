@@ -14,7 +14,8 @@ describe('akamai.components.progress-bar', function() {
 	var translationMock = {
 	    'components': {
 	    	'progress-bar': {
-	        	'label': 'Progress Bar Label'
+	        	'label': 'Progress Bar Label',
+	        	'label-variable': "{{color}} Progress Bar"
 	      	}
 	  	}
 	};
@@ -71,7 +72,8 @@ describe('akamai.components.progress-bar', function() {
 				$scope.pb = {
 					value: '50',
 					max: '100',
-					label: 'components.progress-bar.label'
+					label: 'components.progress-bar.label',
+					labelValues: {color: 'blue'}
 				};
 				var progressBarTemplate = '<akam-progress-bar value="pb.value" max="pb.max" label="pb.label"></akam-progress-bar>';
 				addElement(progressBarTemplate);
@@ -81,6 +83,24 @@ describe('akamai.components.progress-bar', function() {
 				expect(progresBarLabel.innerHTML).toMatch('Progress Bar Label');
 			});
 		});
+
+		describe('when the progress bar is rendered and use of label-values as attribute', function() {
+			beforeEach(function() {
+				$scope.pb = {
+					value: '50',
+					max: '100',
+					label: 'components.progress-bar.label-variable',
+					labelValues: {color: 'Blue'}
+				};
+				var progressBarTemplate = '<akam-progress-bar value="pb.value" max="pb.max" label="pb.label" label-values={{pb.labelValues}}></akam-progress-bar>';
+				addElement(progressBarTemplate);
+			});
+			it('should translate using translationKey as label and provided variable value', function() {
+				var progresBarLabel = document.querySelector('.progress-bar-label');
+				expect(progresBarLabel.innerHTML).toMatch('Blue Progress Bar');
+			});
+		});
+
 		describe('when max value is not provided', function(){
 			beforeEach(function() {
 				$scope.pb = {
