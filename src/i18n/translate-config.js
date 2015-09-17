@@ -36,7 +36,6 @@ function config($provide, $translateProvider) {
     .useSanitizeValueStrategy('escaped')
     .preferredLanguage(i18nConfig.defaultLocale)
     .fallbackLanguage(i18nConfig.defaultLocale)
-    .useMissingTranslationHandlerLog()
     .cloakClassName('util-hide');
 
   // intercept $locale service and add datetime and number values specific for current locale

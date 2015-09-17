@@ -151,22 +151,5 @@ function runFn($rootScope, $translate) {
   $rootScope.$on('$translatePartialLoaderStructureChanged', function() {
     $translate.refresh();
   });
-
-  // TODO: this block needs to be moved to be part of akamai-portal (and uncommented out)
-  /*const appNameMatcher = /\/apps\/([a-z0-9-]+)?[/?]?/;
-  let appName;
-
-  $translatePartialLoader.addPart(i18nConfig.componentI18nPath);
-  // matcher will have the app name in the first index so we de-structure it
-  [, appName] = $window.decodeURIComponent($window.location.pathname).match(appNameMatcher) || [];
-
-  if (appName) {
-    $translatePartialLoader.addPart(`/apps/${appName}/locales/`);
-  }
-
-  if (portalLocale !== i18nConfig.defaultLocale) {
-    $translate.use(portalLocale);
-  }*/
-
 }
 runFn.$inject = ['$rootScope', '$translate'];
