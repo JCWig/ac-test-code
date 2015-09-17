@@ -10,10 +10,10 @@
               {{#if subMenuItems}}
                 <h1>{{name}}</h1>
                 {{#each subMenuItems}}
-                  <a href="{{url}}">{{name}}<i class="caret-right"></i></a>
+                  <a href="{{url}}" class="mega-menu-item-link">{{name}}<i class="caret-right"></i></a>
                 {{/each}}
               {{else}}
-                <h1><a href="{{url}}">{{name}}<i class="orange-caret-right"></i></a></h1>
+                <h1><a href="{{url}}" class="mega-menu-item-link">{{name}}<i class="orange-caret-right"></i></a></h1>
               {{/if}}
             </section>
           {{/each}}
