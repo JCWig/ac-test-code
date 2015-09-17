@@ -102,11 +102,8 @@ function AutocompleteDirective(dropdownTemplateService) {
     controllerAs: 'autocomplete',
 
     template: function(tElem) {
-      let dropdownTemplate =
-        dropdownTemplateService.stashTemplate(tElem, template, 'akam-autocomplete-selected');
-
-      return dropdownTemplateService.stashTemplate(tElem, dropdownTemplate,
-        'akam-autocomplete-option');
+      return dropdownTemplateService.transformTemplate(tElem, template,
+        'akam-autocomplete-selected', 'akam-autocomplete-option');
     },
 
     link: function(scope, elem, attrs, ngModel) {

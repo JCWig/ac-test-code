@@ -31,7 +31,7 @@ import modalWindowBodyDirective from './modal-window-body-directive';
  *   }).result
  *    .then(() => {
  *      // user clicked "ok"
- *    });
+ *    })
  *    .catch(() => {
  *      // user clicked "cancel"
  *    });

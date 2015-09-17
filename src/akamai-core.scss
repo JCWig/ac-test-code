@@ -46,6 +46,7 @@
   @import "modal-window/_modal-window"; // $dialog variables are in _message-box
   @import "pagination/_pagination";
   @import "popover/_popover";
+  @import "progress-bar/_progress-bar-directive";
   @import "spinner/_spinner";
   @import "status-message/_status-message";
   @import "switch-button/_switch-button";
@@ -62,7 +63,7 @@
 
 /* These styles should have an angular directive, but it doesnt exist yet */
 .common-css {
-  @import "global-styles/orphans/_determinate_progress";
+  //@import "global-styles/orphans/_determinate_progress";
 }
 
 

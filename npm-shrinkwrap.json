@@ -1,11 +1,16 @@
 {
   "name": "akamai-core",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "dependencies": {
     "angular": {
       "version": "1.4.4",
       "from": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular/-/angular-1.4.4.tgz",
       "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular/-/angular-1.4.4.tgz"
+    },
+    "angular-animate": {
+      "version": "1.4.4",
+      "from": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-animate/-/angular-animate-1.4.4.tgz",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-animate/-/angular-animate-1.4.4.tgz"
     },
     "angular-bootstrap-npm": {
       "version": "0.13.0",

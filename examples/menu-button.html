@@ -22,7 +22,7 @@
 <div class="container">
   <h3>Menu Button</h3>
   <akam-menu-button>
-    <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
+    <akam-menu-button-item is-disabled="vm.disableItem" text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
   </akam-menu-button>
@@ -59,7 +59,7 @@
     <akam-menu-button-item text="This is a very long name being used as a menu button item for Tranquility" ng-click="vm.process('tq')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
   </akam-menu-button>
-   
+
   <div class="form-group">
     <input id="disableSplitButton" type="checkbox" name="disableSplitButton" ng-model="vm.isDisabled" />
     <label class="label" for="disableSplitButton">Disable</label>
@@ -106,6 +106,7 @@
     }];
 
     this.isDisabled = true;
+    this.disableItem = true;
   };
 
   angular.module('akamai.components.examples.menu-button',
