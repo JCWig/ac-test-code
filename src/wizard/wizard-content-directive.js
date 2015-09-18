@@ -1,9 +1,11 @@
 function wizardContent($compile, $templateCache, $http, $q) {
 
-  let backwashTemplate = '<div ng-if="processing" class="backwash"></div>';
+  let backwashTemplate = '<div ng-show="processing" class="backwash"></div>';
 
   function getStepTemplate(step) {
-    if (step.template) {
+    if (!step) {
+      return $q.when();
+    } else if (step.template) {
       return $q.when(step.template);
     } else {
       return $http.get(step.templateUrl, {cache: $templateCache})

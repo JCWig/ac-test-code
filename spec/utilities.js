@@ -1,5 +1,7 @@
 'use strict';
 
+import angular from 'angular';
+
 module.exports = {
 
   LIBRARY_PATH: /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/,
@@ -15,6 +17,19 @@ module.exports = {
     }
 
     return el;
+  },
+  findElement: function(parent, selector) {
+    let element;
+
+    if (!parent || !selector) {
+      return undefined;
+    }
+    let parentElem;
+
+    if (parent.html) {
+      parentElem = parent[0];
+    }
+    return angular.element(parentElem.querySelector(selector));
   },
   triggerMouseEvent: function(obj, eventType) {
     var el = this.find(obj);

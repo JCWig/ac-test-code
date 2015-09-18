@@ -14,7 +14,7 @@ const config = {
 };
 
 class DateRangeController {
-  constructor(scope, $log, $timeout, dateFilter, $rootScope, translate, uuid, dateRangeService) {
+  constructor(scope, $log, $timeout, dateFilter, $rootScope, $translate, uuid, dateRangeService) {
     this.dateRangeService = dateRangeService;
     this.uuid = uuid;
     this.scope = scope;
@@ -22,7 +22,7 @@ class DateRangeController {
     this.$timeout = $timeout;
     this.dateFilter = dateFilter;
     this.$rootScope = $rootScope;
-    this.translate = translate;
+    this.$translate = $translate;
 
     this.opened = false;
     this.rangeStart = {};
@@ -34,14 +34,15 @@ class DateRangeController {
     this.openFromRangeStart = false;
     this.openFromRangeEnd = false;
     this.options = config.options;
+    this.rangeSelectedEvent = undefined;
 
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
 
-    this.translate.async('components.date-range.labels.from').then((value) => {
+    this.$translate('components.date-range.labels.from').then((value) => {
       this.labels.from = value;
     });
 
-    this.translate.async('components.date-range.labels.to').then((value) => {
+    this.$translate('components.date-range.labels.to').then((value) => {
       this.labels.to = value;
     });
 
@@ -148,7 +149,7 @@ class DateRangeController {
 }
 
 DateRangeController.$inject = ['$scope', '$log', '$timeout',
-  'dateFilter', '$rootScope', 'translate', 'uuid', 'dateRangeService'
+  'dateFilter', '$rootScope', '$translate', 'uuid', 'dateRangeService'
 ];
 
 function linkFn(scope, elem, attr, ngModel) {
@@ -165,14 +166,10 @@ function linkFn(scope, elem, attr, ngModel) {
   if (attr.placeholder) {
     ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = attr.placeholder;
   } else {
-    ctrl.translate.async('components.date-range.placeholder').then((value) => {
+    ctrl.$translate('components.date-range.placeholder').then((value) => {
       ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
     });
   }
-
-  //this event is sent from date picker directive when range is selected
-  ctrl.$rootScope.$on('dateRange.rangeSelected', setRangeValues);
-  scope.$on('$destroy', setRangeValues);
 
   function setViewValue(value, start, end) {
     ctrl.dateRange.startDate = start;
@@ -191,12 +188,13 @@ function linkFn(scope, elem, attr, ngModel) {
     });
   }
 
-  function setRangeValues(e, info) {
+  scope.setRangeValues = (e, info) => {
     let start, end;
 
     //if it is not for you, don't handle it
-    if (info.id && info.id !== ctrl.id) {
-      return false;
+    if (!info || !info.id || info.id !== ctrl.id) {
+      e.stopPropagation();
+      return;
     }
 
     start = info.selectedStart;
@@ -235,7 +233,7 @@ function linkFn(scope, elem, attr, ngModel) {
       }
     }
     e.stopPropagation();
-  }
+  };
 
   function initialize() {
     let start = '',
@@ -298,6 +296,13 @@ function linkFn(scope, elem, attr, ngModel) {
       }
     });
   }
+
+  //this event is sent from date picker directive when range is selected
+  ctrl.rangeSelectedEvent = ctrl.$rootScope.$on('dateRange.rangeSelected', scope.setRangeValues);
+  scope.$on('$destroy', () => {
+    ctrl.rangeSelectedEvent();
+  });
+
   initialize();
 }
 

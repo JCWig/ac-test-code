@@ -1,7 +1,6 @@
 import angular from 'angular';
 import i18n from '../i18n';
 import messageBox from '../message-box';
-import context from '../context';
 import authProvider from './auth-provider';
 import authInterceptor from './auth-interceptor';
 import httpBufferService from './http-buffer-service';
@@ -33,7 +32,6 @@ import tokenService from './token-service';
  * }
  */
 export default angular.module('akamai.components.auth', [
-  context.name,
   messageBox.name,
   i18n.name
 ])

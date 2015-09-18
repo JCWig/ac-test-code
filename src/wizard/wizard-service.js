@@ -4,18 +4,19 @@ import template from './templates/wizard.tpl.html';
 class WizardController {
 
   static get $inject() {
-    return ['$scope', '$rootScope', '$controller', 'translate',
-            '$templateCache', '$q', 'statusMessage'];
+    return ['$scope', '$rootScope', '$controller', '$translate',
+            '$templateCache', '$q', 'statusMessage', '$log'];
   }
 
-  constructor($scope, $rootScope, $controller, translate,
-              $templateCache, $q, statusMessage) {
+  constructor($scope, $rootScope, $controller, $translate,
+              $templateCache, $q, statusMessage, $log) {
     let options = $scope.options;
 
     $scope.wizard = this;
 
     this.$q = $q;
     this.statusMessage = statusMessage;
+    this.$log = $log;
     this.processing = false;
 
     this.contentScope = options.contentScope ? options.contentScope.$new() : $rootScope.$new();
@@ -30,16 +31,16 @@ class WizardController {
     this.title = options.title;
     this.icon = options.icon;
 
-    this.previousLabel = translate.sync(options.previousLabel,
-      null, 'components.wizard.label.previous');
-    this.nextLabel = translate.sync(options.nextLabel,
-      null, 'components.wizard.label.next');
-    this.submitLabel = translate.sync(options.submitLabel,
-      null, 'components.wizard.label.submit');
-    this.successMessage = translate.sync(options.successMessage,
-      null, 'components.wizard.successMessage');
-    this.submitErrorMessage = translate.sync(options.errorMessage,
-      null, 'components.wizard.errorMessage');
+    this.cancelLabel = $translate.instant(options.cancelLabel ||
+      'components.wizard.label.cancel');
+    this.previousLabel = $translate.instant(options.previousLabel ||
+      'components.wizard.label.previous');
+    this.nextLabel = $translate.instant(options.nextLabel || 'components.wizard.label.next');
+    this.submitLabel = $translate.instant(options.submitLabel || 'components.wizard.label.submit');
+    this.successMessage = $translate.instant(options.successMessage ||
+      'components.wizard.successMessage');
+    this.submitErrorMessage = $translate.instant(options.errorMessage ||
+      'components.wizard.errorMessage');
 
     this.instance = options.instance;
 
@@ -61,9 +62,8 @@ class WizardController {
     });
 
     this.steps = options.steps;
-    this.stepIndex = 0;
-
     this.$scope = $scope;
+    this.activateStep(0, true);
   }
 
   getNextLabel() {
@@ -110,6 +110,11 @@ class WizardController {
   isValid(stepNumber) {
     let step = angular.isNumber(stepNumber) ? this.steps[stepNumber] : this.currentStep();
 
+    if (!step) {
+      this.$log.warn('No step to validate');
+      return false;
+    }
+
     if (!angular.isFunction(step.validate)) {
       return true;
     }
@@ -127,7 +132,7 @@ class WizardController {
     this.contentScope.processing = false;
   }
 
-  activateStep(stepNumber) {
+  activateStep(stepNumber, init) {
 
     let goToStep = () => {
       this.stepIndex = stepNumber;
@@ -146,13 +151,17 @@ class WizardController {
       let nextStepPromise = this.steps[stepNumber].initialize();
 
       nextStepPromise.then(angular.bind(this, goToStep), reason => {
-        this.stopProcessing();
-        this.errorMessage = reason;
+        if (init) {
+          this.$log.warn('Step 1 failed to initialize.');
+          goToStep();
+        } else {
+          this.stopProcessing();
+          this.errorMessage = reason;
+        }
       });
     } else {
       goToStep();
     }
-
   }
 
   jumptToVisitedStep(stepNumber) {
@@ -244,6 +253,9 @@ function wizard($modal, $rootScope) {
      *
      * @param {String} [options.icon] A CSS class representing an
      * icon to display to the left of the wizard title
+     *
+    * @param {String} [options.cancelLabel=Cancel] A label for the wizard's
+     * cancel button
      *
      * @param {String} [options.previousLabel=Previous] A label for the
      * wizard's previous button

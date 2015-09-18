@@ -1,305 +1,134 @@
 import angular from 'angular';
 import 'angular-translate';
-import 'angular-cookies';
+import 'angular-translate-loader-partial';
+import 'angular-translate-handler-log';
+import cookies from 'angular-cookies';
+
 import utils from '../utils';
 
-import i18nLocaleConstant from './i18n-locale-constant';
-import i18nTokenProvider from './i18n-token-provider';
-import i18nCustomLoaderService from './i18n-custom-loader-service';
 import translateConfig from './translate-config';
-import translateService from './translate-service';
-import translateDirective from './translate-directive';
-import translateFilter from './translate-filter';
+import portalLocaleResolver from './portal-locale-service';
+import noopLoader from './translate-noop-loader-service';
 
-const i18nConstant = {
-    localeCookie: 'AKALOCALE',
-    localeComponentPath: '/libs/akamai-core/{version}/locales/',
-    localeAppPath: '/apps/{appname}/locales/',
-    defaultLocale: 'en_US',
-    localePrefix: '',
-    availableLangKeys: ['de_DE', 'en_US', 'en_US_ATT', 'es_ES', 'es_LA', 'fr_FR', 'it_IT',
-      'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'
-    ],
-    /*eslint-disable camelcase */
-    langKeysMapper: {
-      de_DE: 'de_DE',
-      en_US: 'en_US',
-      en_US_ATT: 'en_US_ATT',
-      es_ES: 'es_ES',
-      es_LA: 'es_LA',
-      fr_FR: 'fr_FR',
-      it_IT: 'it_IT',
-      ja_JP: 'ja_JP',
-      ko_KR: 'ko_KR',
-      pt_BR: 'pt_BR',
-      zh_CN: 'zh_CN',
-      zh_TW: 'zh_TW',
-      '*': 'en_US'
-    }
-    /*eslint-enable camelcase */
-  };
-
-  /**
-   * @ngdoc module
-   * @name akamai.components.i18n
-   *
-   * @description Provides services to configure internationalization
-   * capabilities for any application. The methods described in this module extend
-   * `angular-translate`, so applications should use the methods described here instead of the ones
-   * made available in `angular-translate`. We provide auto reading of the AKALOCALE cooke to
-   * determine the locale that should be set and we also will auto load your translations,
-   * represented as JSON files, from a known location, and merge the results with the translation
-   * files for akamai-core.
-   *
-   * Since application i18n keys are merged with keys for akamai-core it is **HIGHLY** recommended
-   * that applications surround all of their i18n keys with a root namespace, prefably one that is
-   * related to the name of their application. For example, in the Property Manager application we
-   * would have the following in their JSON files:
-   *
-   * <pre>
-   * {
-   *   "property-manager": {
-   *     ...
-   *   }
-   * }
-   * </pre>
-   *
-   * This will almost guarantee that there will be no conflicts between application translations and
-   * ones specific to the akamai-core component library.
-   *
-   * By default, i18n bundles for applications will be loaded from the URL
-   * `/apps/{appName}/locales/`. This is configurable via the `i18nTokenProvider#setAppLocalePath`
-   * method.
-   *
-   * Also note that locales will be read as `locale`.json where locale is something like "en_US".
-   * The filename is currently not configurable. Applications must name their locale files to match
-   * the list of supported locales in Luna. Currently the supported list of locales is:
-   *
-   * ```
-   * [de_DE, en_US, en_US_ATT, es_ES, es_LA, fr_FR, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW]
-   * ```
-   *
-   * @example index.html
-   *
-   * <!-- preferred usage -->
-   * <span akam-translate="a.i18n.key"></span>
-   *
-   * <!-- acceptable, but may cause performance issues, like all filters do -->
-   * <span>{{ 'another.i18n.key' | akamTranslate }}</span>
-   *
-   * <span>{{ vm.someLabel }}</span>
-   *
-   * @example app.js
-   * function MyController(translate) {
-   *   translate.async('some.i18n.key')
-   *     .then((value) => {
-   *       this.someLabel = value;
-   *     }
-   * }
-   */
+/**
+ * @ngdoc module
+ * @name akamai.components.i18n
+ *
+ * @description Provides services to configure internationalization
+ * capabilities for any application. The methods described in this module extend
+ * `angular-translate`, so applications should use the methods described here instead of the ones
+ * made available in `angular-translate`. We provide auto reading of the AKALOCALE cooke to
+ * determine the locale that should be set and we also will auto load your translations,
+ * represented as JSON files, from a known location, and merge the results with the translation
+ * files for akamai-core.
+ *
+ * Since application i18n keys are merged with keys for akamai-core it is **HIGHLY** recommended
+ * that applications surround all of their i18n keys with a root namespace, prefably one that is
+ * related to the name of their application. For example, in the Property Manager application we
+ * would have the following in their JSON files:
+ *
+ * <pre>
+ * {
+ *   "property-manager": {
+ *     ...
+ *   }
+ * }
+ * </pre>
+ *
+ * This will almost guarantee that there will be no conflicts between application translations and
+ * ones specific to the akamai-core component library.
+ *
+ * By default, i18n bundles for applications will be loaded from the URL
+ * `/apps/{appName}/locales/`.
+ *
+ * Also note that locales will be read as `locale`.json where locale is something like "en_US".
+ * The filename is currently not configurable. Applications must name their locale files to match
+ * the list of supported locales in Luna. Currently the supported list of locales is:
+ *
+ * ```
+ * [de_DE, en_US, en_US_ATT, es_ES, es_LA, fr_FR, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW]
+ * ```
+ *
+ * Missing translations are not logged by default. However, we include
+ * angular-translate-handler-log with the akamai-core bundle. Therefore, if an app owner wishes to
+ * enable logging of missing translations, then they should add the following to a config block:
+ *
+ * ```
+ *  // module stuff up here
+ *  .config(function($translateProvider) {
+ *    $translateProvider.useMissingTranslationHandlerLog();
+ *  }
+ * ```
+ *
+ * See http://angular-translate.github.io/ for more info.
+ *
+ * * __NOTE__: localStorage is not used, the browser will not cache the language key.
+ *
+ * __NOTE__: To prevent asynchronous translation calls from causing rendering problems, add a
+ * `translate-cloak` class on the `<body>` tag
+ *
+ * @example index.html
+ *
+ * <!-- preferred usage -->
+ * <span translate="a.i18n.key"></span>
+ *
+ * <!-- acceptable, but may cause performance issues, like all filters do -->
+ * <span>{{ 'another.i18n.key' | translate }}</span>
+ *
+ * <span>{{ vm.someLabel }}</span>
+ *
+ * @example app.js
+ * function MyController($translate) {
+ *   $translate('some.i18n.key')
+ *     .then((value) => {
+ *       this.someLabel = value;
+ *     }
+ * }
+ */
 export default angular.module('akamai.components.i18n', [
   'pascalprecht.translate',
-  'ngCookies',
+  cookies,
   utils.name
 ])
 
 /**
+ * @ngdoc service
+ * @name i18nNoopLoader
+ * @requires $q
+ * @description A simple i18n loader factory that resolves with no translations. Useful for
+ * tests. For example, your test might look like the following
  *
- * @name i18nConfig
- *
- * @description A service that provides default configuration constant
- * values.
- *
- * @param {Array} availableLangKeys A list of available language key
- * names, useful in validating before loading the corresponding locale
- * file.
- *
- * @param {String} [baseVersion=0.0.1] The version of the locale
- * component data.
- *
- * @param {String} [defaultLocale=en_US] The default locale string
- * value.
- *
- * @param {Object} langKeysMapper Maps language names to the names of
- * translation tables.
- *
- * @param {String} [localeAppPath=apps/{appName}/locales/]
- * A path that references application locale files.
- *
- * @param {String} [localeComponentPath=assets/akamai-core/{version}/locales/]
- * A path that references component locale files.
- *
- * @param {String} [localeCookie=AKALOCALE] A cookie name widely used
- * in Luna portal applications.
- *
- * @param {String} localePrefix A custom prefix to add before a
- * language key name. For example, `message_` produces
- * `message_en_US`.
- *
+ * ```
+ * beforeEach(function() {
+ *   angular.mock.inject.strictDi(true);
+ *   angular.mock.module(function($translateProvider) {
+ *     $translateProvider.useLoader('translateNoopLoader');
+ *     $translateProvider.translations('en_US', translationData);
+ *   });
+ *   // rest of setup here
+ * });
+ * ```
  */
-.constant('i18nConfig', i18nConstant)
-
-/**
- * @name LOCALE
- * @description A service that provides datetime and number locale constant values,
- * that includes 12 supported locales and sections based on locale names,
- * such as: 'en_US', 'de_DE'
- *
- */
-.constant('LOCALES', i18nLocaleConstant)
-
-/**
- * Adds methods to `$translateProvider` that load any
- * locale resource files for an application's run phase.
- * Also a decorator for service of $locale to inject DATETIME_FORMATS and NUMBER_FORMATS
- *
- * __NOTE__: localStorage is not used, the browser will not cache the
- * language key.
- *
- * __NOTE__: To prevent asynchronous translation calls from causing
- * rendering problems, add a `translate-cloak` class on the `<body>`
- * tag, and pair it in CSS with `.translate-cloak {display:none
- * !important;}.`
- */
-.config(translateConfig)
+  .factory('translateNoopLoader', noopLoader)
 
 /**
  * @ngdoc service
- * @name translate
- * @requires pascalprecht.translate.$translate
- *
- * @description A wrapper for the angular `$translate` service,
- * providing both asynchronous and synchronous methods to translate string keys. For the
- * most part, we extend the methods provided in
- * <a href="https://angular-translate.github.io/docs/#/api/pascalprecht.translate.$translate">
- *   angular-translate</a>.
+ * @name portalLocale
+ * @description Returns the parsed luna locale, as read from the AKALOCALE cookie. Will be of
+ * the form "en_US", "de_DE", etc.
  */
-.factory('translate', translateService)
+  .factory('portalLocale', portalLocaleResolver)
 
-/**
- * @ngdoc directive
- * @name akamTranslate
- *
- * @description Inserts a translated key into the current DOM element.
- * For example:
- *
- * ```
- * <any akam-translate='any.optionally.nested.key'></any>
- * ```
- *
- * @restrict A
- *
- */
-.directive('akamTranslate', translateDirective)
+  .config(translateConfig)
+  .run(runFn);
 
-/**
- * @ngdoc filter
- * @name akamTranslate
- *
- * @description A filter used to translate an i18n key. Note that this uses translate.sync so
- * if the results is one-time bound then it is possible that the result will never be translated,
- * as there will be a race condition between when the i18n keys load and the filter is run for the
- * first time. For more info, see the translate service sync method.
- *
- * ```
- * {% raw %}
- * <any>{{'translationId' | akamTranslate}}</any>
- * {% endraw %}
- * ```
- *
- * ```
- * {% raw %}
- * <any abc='{number: myNumber}''>{{'translationId' | akamTranslate : abc}}</any>
- * {% endraw %}
- * ```
- *
- * @param {string} translationId The key to translate
- *
- * @param {string} defaultKey If translationId is null or not defined
- * translate defaultKey if it is defined
- *
- */
-.filter('akamTranslate', translateFilter)
+// resolve the locale and load the translations it will load twice if current locale is
+// different from default locale (en_US)
+function runFn($rootScope, $translate) {
 
-/**
- * @name i18nToken
- *
- * @description Provides two getter methods that return values set by
- * `i18nTokenProvider` in an application's configuration phase.
- *
- */
-.service('i18nToken')
-
-/**
- * @ngdoc provider
- * @name i18nTokenProvider
- *
- * @description Provides methods allow you to pass in application
- * locale path values during a configuration phase. It invokes the
- * `I18nToken` service object that consumes those locale and path
- * values during run phase.
- *
- */
-.provider('i18nToken', i18nTokenProvider)
-
-/**
- * @name i18nCustomLoader
- *
- * @requires $http
- * @requires $q
- * @requires i18nToken
- * @requires i18nConfig
- *
- * @description A factory service that adds loader methods to
- * `$translationProvider` during an application's configuration
- * phase. During run phase, it makes REST calls back to obtain locale
- * files and builds a translation table for use by the `translate`
- * service, directive, and filter.
- *
- */
-.factory('i18nCustomLoader', i18nCustomLoaderService)
-
-/**
- * @name missingTranslationFactory
- *
- * @requires $log
- * @requires i18nToken
- *
- * @description This service factory's sole purpose is to Intercept missing
- * translation key errors, and log the error in the console (non blocking operation). By default,
- * it will log all missing keys to the console. To turn that off, run the following in a config
- * block:
- *
- * <pre>
- * function config($translateProvider) {
- *   $translateProvider.useMissingTranslationHandler('noop');
- * };
- *
- * angular.module('...', [])
- *   .factory('noop', angular.noop);
- * </pre>
- */
-.factory('missingTranslationFactory', missingTranslationLogger)
-
-/**
- * This run block tells angular $translate service to use per language key,
- * so the current translation table will be based upon that.
- * __NOTE__: Since run block is last flow, only this block completed,
- * the $translation table is sure loaded.
- */
-.run(runFn);
-
-function runFn($translate, i18nToken, i18nConfig) {
-  //it loads twice using "use" function if current locale is different from default locale
-  if (i18nToken.getCurrentLocale() === i18nConfig.DEFAULT_LOCALE) {
-    $translate.use(i18nToken.getCurrentLocale());
-  }
+  // any translations added after the config phase will be picked up automatically
+  $rootScope.$on('$translatePartialLoaderStructureChanged', function() {
+    $translate.refresh();
+  });
 }
-runFn.$inject = ['$translate', 'i18nToken', 'i18nConfig'];
-
-function missingTranslationLogger($log, i18nToken) {
-  return (translationID) => {
-    $log.warn(`Missing ${translationID} key in ${i18nToken.getCurrentLocale()} table.`);
-  };
-}
-missingTranslationLogger.$inject = ['$log', 'i18nToken'];
+runFn.$inject = ['$rootScope', '$translate'];

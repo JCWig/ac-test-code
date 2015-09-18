@@ -33,14 +33,14 @@ import spinnerButton from '../spinner-button';
  *     steps: [
  *       {
  *         // Example of translated text for the wizard steps
- *         name: translate.sync('examples.wizard.step1'),
+ *         name: $translate.instant('examples.wizard.step1'),
  *         templateId: 'step1',
  *         validate: function(scope) {
  *             return true;
  *         }
  *       },
  *       {
- *         name: translate.sync('examples.wizard.step2'),
+ *         name: $translate.instant('examples.wizard.step2'),
  *         templateId: 'step2',
  *         validate: function(scope) {
  *             return true;

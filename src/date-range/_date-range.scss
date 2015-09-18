@@ -7,13 +7,14 @@
   $date-range-gap-width: 10px;
   $date-range-startend-color: #0099CC;
   .akam-date-picker.akam-date-range {
-    min-width: $date-range-min-width;
-    padding: 5px 0;
-    border: 1px solid $border-color;
+    // min-width: $date-range-min-width;
+    // padding: 5px 0;
+    // border: 1px solid $border-color;
     background-color: #FFF;
     border-radius: $border-radius;
-    height: $input-height + 12px; //border + top|bottom padding
-    display: table;
+    // height: $input-height + 12px; //border + top|bottom padding
+    // display: table;
+
     div.range-selection {
       .range-start,
       .range-end {
@@ -21,7 +22,7 @@
           display: inline-block;
           width: $date-range-width;
           float: left;
-          margin-left: $date-range-gap-width;
+          // margin-left: $date-range-gap-width;
           height: $input-height;
           padding: 6px $input-padding;
           background-color: $input-background-color;
@@ -43,10 +44,10 @@
           }
         }
         & .date-range-placeholder {
-          display: inline-block;
-          width: $date-range-width;
-          float: left;
-          margin-left: $date-range-gap-width;
+          // display: inline-block;
+          // width: $date-range-width;
+          // float: left;
+          // margin-left: $date-range-gap-width;
           color: #ccc;
           font-style: italic;
         }
@@ -57,16 +58,18 @@
             border-left-color: $input-border-color-focus;
             @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
           }
-          span {
-            border: 1px solid $input-border-color-focus;
-            background-color: #FFF;
-            @include box-shadow(none);
-          }
+        }
+      }
+      div.range-end,
+      div.range-start {
+        > span {
+          @include border-right-radius(0);
         }
       }
       div.range-end {
         > span {
-          @include border-right-radius(0);
+          border-left: 0 none !important;
+          @include border-left-radius(0);
         }
       }
       div.range-from,
@@ -75,6 +78,7 @@
         float: left;
         line-height: 28px;
         overflow: hidden;
+        display: none;
         & > span {
           width: 100%;
           margin-top: 6px;
@@ -102,6 +106,18 @@
         }
       }
     }
+
+    &.opened div.range-selection {
+      .range-end,
+      .range-start {
+        span {
+          border: 1px solid $input-border-color-focus;
+          background-color: #FFF;
+          @include box-shadow(none);
+        }
+      }
+    }
+
     & span.range-picker ul.dropdown-menu {
       table tbody tr td {
         border: none;
@@ -111,14 +127,20 @@
       }
     }
     ul.dropdown-menu {
-      top: 38px !important; //override inline style
-      width: $date-range-min-width - 1px;
+      top: 28px !important; //override inline style.. which shouldnt be there in the first place
+      // width: $date-range-min-width - 1px;
       table {
         tbody td {
           height: 23px;
           &.space {
-            width: 5%;
+            padding: 0 5px;
             border-width: 0;
+          }
+          button:disabled span {
+            &:hover {
+              color: $date-range-disabled-color;
+              background-color: #fff !important;
+            }
           }
           table tr th[role="heading"] {
             padding-bottom: 5px;

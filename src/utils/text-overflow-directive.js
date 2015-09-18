@@ -27,7 +27,7 @@ function textOverflowDirective($timeout, $window) {
       }
 
       angular.element(window).on('resize', debounce(giveTitles, 200));
-      scope.$watch('akamTextOverflow', function() {
+      scope.$watch('textOverflow.akamTextOverflow', function() {
         giveTitles();
       });
       giveTitles();

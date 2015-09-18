@@ -8,10 +8,10 @@ var TABLE_COLUMN_HEADER = '.akam-list-box thead tr th';
 var TABLE_ROW = 'div.data tbody tr';
 var SELECTED_SPAN = 'div.list-box-footer span.ng-binding';
 var VIEW_SELECTED_ONLY_CHECKBOX = 'div.list-box-footer span.util-pull-right input[type=checkbox]';
-var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
-var CONFIG_PATH = '/apps/appname/locales/en_US.json';
+
 var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
 var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+var translationMock = angular.merge({}, enUsResponse, enUsMessagesResponse);
 var MAX_INITIALLY_DISPLAYED = 10;
 
 describe('akam-list-box', function(){
@@ -27,6 +27,10 @@ describe('akam-list-box', function(){
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/list-box').name);
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
+    });
     angular.mock.module(function($provide) {
 
       function http($delegate) {
@@ -44,8 +48,6 @@ describe('akam-list-box', function(){
       q = $q;
       sce = $sce;
       httpBackend = $httpBackend;
-      httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
-      httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
     });
 
     scope.mydata = [
@@ -152,7 +154,6 @@ describe('akam-list-box', function(){
     it('should not have anything selected and view select only should be diabled', function() {
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
-      httpBackend.flush();
 
       var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);
       var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
@@ -186,7 +187,6 @@ describe('akam-list-box', function(){
     it('should can have filter loaded with placeholder', function() {
       var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
       addElement(markup);
-      httpBackend.flush();
 
       var filterBox = document.querySelector(FILTER_BOX);
 
@@ -420,7 +420,6 @@ describe('akam-list-box', function(){
     it('should have selected field equal 0', function() {
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
-      httpBackend.flush();
 
       var numberSelectedSpan = document.querySelector(SELECTED_SPAN);
 
@@ -949,7 +948,6 @@ describe('akam-list-box', function(){
     it('should update total selected field', function() {
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
-      httpBackend.flush();
       timeout.flush();
 
       var firstRowCheckbox = document.querySelector(TABLE_ROW).querySelector('td input');
@@ -974,7 +972,6 @@ describe('akam-list-box', function(){
     beforeEach(function() {
       var markup = '<akam-list-box data="mydata" schema="columns" ></akam-list-box>';
       addElement(markup);
-      httpBackend.flush();
       timeout.flush();
     });
     it('should be able to deselect an item', function() {
@@ -1102,7 +1099,6 @@ describe('akam-list-box', function(){
       scope.columns = [{content: "name", header: 'Name', sort: false}];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
-      httpBackend.flush();
       timeout.flush();
     });
     it('should be not be redenered with clear icon', function() {
@@ -1164,7 +1160,6 @@ describe('akam-list-box', function(){
       ];
       var markup = '<akam-list-box data="baddata" schema="badcolumns"></akam-list-box>';
       addElement(markup);
-      httpBackend.flush();
       timeout.flush();
     });
     it('should present message when no data is available and no filters that can be provided', function() {
@@ -1209,7 +1204,6 @@ describe('akam-list-box', function(){
           header: 'Name'
         }
       ];
-      httpBackend.flush();
       scope.myNoDataMessage = NO_DATA_MESSAGE;
       scope.myNoneSelectedMessage = NONE_SELECTED_MESSAGE;
       scope.myNoFilterResultsMessage = NO_FILTER_RESULTS_MESSAGE;
@@ -1568,7 +1562,6 @@ describe('akam-list-box', function(){
         it('should render default filter-placeholder', function() {
           var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder=""></akam-list-box>';
           addElement(markup);
-          httpBackend.flush();
 
           var filterBox = document.querySelector(FILTER_BOX);
 
@@ -1584,7 +1577,6 @@ describe('akam-list-box', function(){
         it('should translate filter-placeholder for the list-box if key is valid', function() {
           var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="table.full-name"></akam-list-box>';
           addElement(markup);
-          httpBackend.flush();
 
           var filterBox = document.querySelector(FILTER_BOX);
 
@@ -1594,7 +1586,6 @@ describe('akam-list-box', function(){
         it('should translate and display key if key is invalid', function() {
           var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="placeholder"></akam-list-box>';
           addElement(markup);
-          httpBackend.flush();
 
           var filterBox = document.querySelector(FILTER_BOX);
 
@@ -1616,7 +1607,6 @@ describe('akam-list-box', function(){
         ];
         var markup = '<akam-list-box data="mydata" schema="columns" no-data-message=""></akam-list-box>';
         addElement(markup);
-        httpBackend.flush();
         timeout.flush();
       });
       it('should render default no-data-message placeholder', function() {
@@ -1637,7 +1627,6 @@ describe('akam-list-box', function(){
       it('should translate no-data-message for the list-box if key is valid', function() {
         var markup = '<akam-list-box data="mydata" schema="columns" no-data-message="table.full-name"></akam-list-box>';
         addElement(markup);
-        httpBackend.flush();
         timeout.flush();
         var dataTableRow = document.querySelector('.empty-table-message span');
         expect(dataTableRow.textContent).toMatch(/Full Name/);
@@ -1645,7 +1634,6 @@ describe('akam-list-box', function(){
       it('should translate and display key if key is invalid', function() {
         var markup = '<akam-list-box data="mydata" schema="columns" no-data-message="placeholder"></akam-list-box>';
         addElement(markup);
-        httpBackend.flush();
         timeout.flush();
         var dataTableRow = document.querySelector('.empty-table-message span');
         expect(dataTableRow.textContent).toMatch(/placeholder/);
@@ -1669,7 +1657,6 @@ describe('akam-list-box', function(){
         ];
         var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message=""></akam-list-box>';
         addElement(markup);
-        httpBackend.flush();
         timeout.flush();
       });
       it('should render default no-filter-results-message placeholder', function() {
@@ -1697,7 +1684,6 @@ describe('akam-list-box', function(){
       it('should translate no-filter-results-message for the list-box if key is valid', function() {
         var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message="table.full-name"></akam-list-box>';
         addElement(markup);
-        httpBackend.flush();
         timeout.flush();
         self.listBox.state.filter = "Jennifer";
         self.listBox.updateSearchFilter();
@@ -1708,7 +1694,6 @@ describe('akam-list-box', function(){
       it('should translate and display key if key is invalid', function() {
         var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message="placeholder"></akam-list-box>';
         addElement(markup);
-        httpBackend.flush();
         timeout.flush();
         self.listBox.state.filter = "Jennifer";
         self.listBox.updateSearchFilter();
