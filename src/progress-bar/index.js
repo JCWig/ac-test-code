@@ -72,5 +72,6 @@ export default angular.module('akamai.components.progress-bar', [
 *
 * @param {Boolean} animate When animate is true, progress bar is animated
 * with moving strips and updated in real-time. If omitted, defaults to false.
+*
 */
 .directive('akamProgressBar', ProgressBarDirective);
