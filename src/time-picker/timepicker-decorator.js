@@ -26,6 +26,8 @@ function timepickerDecorator($provide) {
           }
         }
 
+        scope.hoveringOn = "";
+
         //minute up arrow handlers
         scope.minuteUpMouseUp = (e) => {
           stop(e, minuteUpPromise);

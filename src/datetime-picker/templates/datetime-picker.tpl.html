@@ -1,19 +1,6 @@
 <div class="akam-datetime-picker">
-  <akam-date-picker
-    ng-model="datetime.date"
-    min="{{datetime.min}}"
-    max="{{datetime.max}}"
-    mode="day"
-    ng-change="dateChanged(datetime)"
-    format="{{datetime.format}}"
-    is-disabled="datetime.isDisabled" no-clear>
+  <akam-date-picker ng-model="datetime.date" min="{{datetime.min}}" max="{{datetime.max}}" mode="day" ng-change="dateChanged(datetime)" format="{{datetime.format}}" is-disabled="datetime.isDisabled" no-clear>
   </akam-date-picker>
-  <akam-time-picker
-    ng-model="datetime.time"
-    minute-step="datetime.minuteStep"
-    hour-step="datetime.hourStep"
-    ng-change="timeChanged(datetime)"
-    is-disabled="datetime.isDisabled"
-    show-meridian="datetime.showMeridian">
+  <akam-time-picker ng-model="datetime.time" minute-step="datetime.minuteStep" hour-step="datetime.hourStep" ng-change="timeChanged(datetime)" is-disabled="datetime.isDisabled" show-meridian="datetime.showMeridian">
   </akam-time-picker>
 </div>

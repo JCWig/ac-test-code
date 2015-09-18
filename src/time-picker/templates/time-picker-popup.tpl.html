@@ -1,28 +1,28 @@
-<table>
+<table class="{{'hover-'+hoveringOn}}">
   <tbody>
     <tr class="util-text-center time-increment-row">
-      <td><a ng-click="incrementHours()" ng-mouseup="hourUpMouseUp($event)" ng-mousedown="hourUpMouseDown($event)" ng-mouseleave="hourUpMouseUp($event)" class="btn-link"><i class="luna-arrow_smUp icon-states"></i></a></td>
+      <td><a ng-click="incrementHours()"  ng-mouseover="hoveringOn='hour'" ng-mouseup="hourUpMouseUp($event)" ng-mousedown="hourUpMouseDown($event)" ng-mouseleave="hourUpMouseUp($event); hoveringOn=''" class="btn-link"><i class="luna-arrow_smUp icon-states"></i></a></td>
       <td>&nbsp;</td>
-      <td><a ng-click="incrementMinutes()" ng-mouseup="minuteUpMouseUp($event)" ng-mousedown="minuteUpMouseDown($event)" ng-mouseleave="minuteUpMouseUp($event)" class="btn-link"><i class="luna-arrow_smUp icon-states"></i></a></td>
+      <td><a ng-click="incrementMinutes()"  ng-mouseover="hoveringOn='minute'" ng-mouseup="minuteUpMouseUp($event)" ng-mousedown="minuteUpMouseDown($event)" ng-mouseleave="minuteUpMouseUp($event); hoveringOn=''" class="btn-link"><i class="luna-arrow_smUp icon-states"></i></a></td>
       <td ng-show="showMeridian"></td>
     </tr>
-    <tr class="util-text-center">
+    <tr class="util-text-center time-input-row">
       <td class="form-group" ng-class="{'has-error': invalidHours}">
-        <input type="text" ng-model="hours" ng-change="updateHours()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
+        <input class="hour-input" type="text" ng-model="hours" ng-change="updateHours()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
       </td>
       <td>:</td>
-      <td class="form-group" ng-class="{'has-error': invalidMinutes}">
-        <input type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
+      <td class="form-group " ng-class="{'has-error': invalidMinutes}">
+        <input class="minute-input" type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
       </td>
-      <td ng-show="showMeridian"></td>
-      <td ng-show="showMeridian" class="meridian">
-        <input type="button" name="meridian" class="util-text-center form-control" ng-click="toggleMeridian()" value='{{meridian}}' tabindex="0">
+      <td></td>
+      <td class="meridian" ng-mouseover="hoveringOn='meridian'" ng-mousedown="minuteUpMouseDown($event)" ng-mouseleave="hoveringOn=''">
+        <input class="meridian-input util-text-center form-control" ng-show="showMeridian" type="button" name="meridian" ng-click="toggleMeridian()" value='{{meridian}}' tabindex="0">
       </td>
     </tr>
     <tr class="util-text-center time-decrement-row">
-      <td><a ng-click="decrementHours()" ng-mouseup="hourDownMouseUp($event)" ng-mousedown="hourDownMouseDown($event)" ng-mouseleave="hourDownMouseUp($event)" class="btn-link"><i class="luna-arrow_smDown icon-states"></i></a></td>
+      <td><a ng-click="decrementHours()" ng-mouseover="hoveringOn='hour'" ng-mouseup="hourDownMouseUp($event)" ng-mousedown="hourDownMouseDown($event)" ng-mouseleave="hourDownMouseUp($event); hoveringOn=''" class="btn-link"><i class="luna-arrow_smDown icon-states"></i></a></td>
       <td>&nbsp;</td>
-      <td><a ng-click="decrementMinutes()" ng-mouseup="minuteDownMouseUp($event)" ng-mousedown="minuteDownMouseDown($event)" ng-mouseleave="minuteDownMouseUp($event)" class="btn-link"><i class="luna-arrow_smDown icon-states"></i></a></td>
+      <td><a ng-click="decrementMinutes()" ng-mouseover="hoveringOn='minute'" ng-mouseup="minuteDownMouseUp($event)" ng-mousedown="minuteDownMouseDown($event)" ng-mouseleave="minuteDownMouseUp($event); hoveringOn=''" class="btn-link"><i class="luna-arrow_smDown icon-states"></i></a></td>
       <td ng-show="showMeridian"></td>
     </tr>
   </tbody>
