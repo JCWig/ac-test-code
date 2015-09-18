@@ -21,12 +21,13 @@ import tagInput from './tag-input';
 import dropdown from './dropdown';
 import auth from './auth';
 import autocomplete from './autocomplete';
-import megaMenu from './mega-menu';
 import wizard from './wizard';
 import navigation from './navigation';
 import dateRange from './date-range';
 import spinnerButton from './spinner-button';
 import progressBar from './progress-bar';
+import constants from './constants';
+import setFocus from './set-focus';
 
 /**
  * @ngdoc overview
@@ -64,10 +65,11 @@ angular.module('akamai.components', [
   dropdown.name,
   auth.name,
   autocomplete.name,
-  megaMenu.name,
   wizard.name,
   dateRange.name,
   navigation.name,
   spinnerButton.name,
-  progressBar.name
+  progressBar.name,
+  constants.name,
+  setFocus.name
 ]);
