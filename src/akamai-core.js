@@ -27,6 +27,7 @@ import dateRange from './date-range';
 import spinnerButton from './spinner-button';
 import progressBar from './progress-bar';
 import constants from './constants';
+import setFocus from './set-focus';
 
 /**
  * @ngdoc overview
@@ -69,5 +70,6 @@ angular.module('akamai.components', [
   navigation.name,
   spinnerButton.name,
   progressBar.name,
-  constants.name
+  constants.name,
+  setFocus.name
 ]);
