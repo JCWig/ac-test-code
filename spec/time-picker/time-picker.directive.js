@@ -310,8 +310,8 @@ describe('akamTimepicker directive', function() {
       utilities.click(timepickerBtnElem);
       scope.$digest();
 
-      var meridianElem = self.element.querySelector(selectors.DROPDOWN_MENU + " .meridian");
-      expect(meridianElem.classList.contains("ng-hide")).toBeTruthy();
+      var meridianInputElem = self.element.querySelector(selectors.DROPDOWN_MENU + " .meridian input");
+      expect(meridianInputElem.classList.contains("ng-hide")).toBeTruthy();
     });
 
   });
