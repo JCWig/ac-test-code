@@ -57,10 +57,11 @@ export default angular.module('akamai.components.progress-bar', [
 * @param {Number} max A number that specifies the total value of bars that is required.
 * If omitted, the value of max will default to 100.
 *
-* @param {String} state The current state of the progress bar.
+* @param {String} state='inprogress' The current state of the progress bar.
 * When an error occurs, change the state to 'error' and
 * update the label to an appropriate error message.
 * When the progress is completed, state will automatically change to 'completed'.
+* Possible states are 'inprogress', 'completed' and 'error'
 *
 * @param {String} label The descriptive text under progress bar.
 * If omitted, no text will be displayed under the progress bar.
