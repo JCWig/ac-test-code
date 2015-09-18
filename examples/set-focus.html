@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Component Examples</title>
+        <link rel="stylesheet" href="../dist/akamai-core.css">
+    </head>
+    <body ng-app="example" ng-strict-di class="common-css luna">
+        <div class="container">
+            <div class="page-header">
+                <h1>Set Focus Component Example</h1>
+                <h5>This example demonstrates how a developer may programmatically set focus on a specified element.</h5>
+            </div>
+            <form>
+                <div class="form-group">
+                  <label class="col-md-3">Enable Focus</label>
+                  <div class="col-md-9">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" ng-model="focus">
+                        <span class="label">Checkbox Label</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3">Input to Focus</label>
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" akam-set-focus="focus">
+                  </div>
+                </div>
+            </form>
+        </div>
+
+        <script src="../dist/akamai-core.js"></script>
+        <script>
+            angular.module('example', ['akamai.components.set-focus'])
+        </script>
+    </body>
+</html>
