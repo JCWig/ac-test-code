@@ -15,7 +15,7 @@
         <input class="minute-input" type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control util-text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
       </td>
       <td></td>
-      <td class="meridian" ng-mouseover="hoveringOn='meridian'" ng-mousedown="minuteUpMouseDown($event)" ng-mouseleave="hoveringOn=''">
+      <td class="meridian" ng-mouseover="hoveringOn='meridian'" ng-mouseleave="hoveringOn=''">
         <input class="meridian-input util-text-center form-control" ng-show="showMeridian" type="button" name="meridian" ng-click="toggleMeridian()" value='{{meridian}}' tabindex="0">
       </td>
     </tr>
