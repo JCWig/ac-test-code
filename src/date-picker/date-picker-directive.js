@@ -49,7 +49,6 @@ class DatepickerController {
         this.format = this.format || DEFAULT_MORMAT.MONTH;
       }
     });
-    this.setMinMaxDate();
   }
 
   toggle(e) {
@@ -57,35 +56,6 @@ class DatepickerController {
     e.stopPropagation();
 
     this.opened = !this.opened;
-  }
-
-  setMinMaxDate(configuredYearSpan = 50) { //arbitury number
-    let date = new Date(),
-      minYr = date.getFullYear() - configuredYearSpan,
-      maxYr = date.getFullYear() + configuredYearSpan,
-      minMo = date.getMonth(),
-      maxMo = date.getMonth() + 1,
-      minDay = 1, maxDay = 0;
-
-
-    if (this.min) {
-      date = new Date(this.min);
-      if (angular.isDate(date)) {
-        minYr = date.getFullYear();
-        minMo = date.getMonth();
-        minDay = date.getDate();
-      }
-      this.min = new Date(minYr, minMo, minDay);
-    }
-    if (this.max) {
-      date = new Date(this.max);
-      if (angular.isDate(date)) {
-        maxYr = date.getFullYear();
-        maxMo = date.getMonth();
-        maxDay = date.getDate();
-      }
-      this.max = new Date(maxYr, maxMo, maxDay);
-    }
   }
 }
 
