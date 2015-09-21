@@ -122,7 +122,7 @@ export default class DropdownController {
 
   translateTextProperty() {
     angular.forEach(this.items, (item) => {
-      if(angular.isDefined(item[this.textProperty])) {
+      if (angular.isDefined(item[this.textProperty])) {
         this.$translate(item[this.textProperty])
           .then(value => {
             item[this.textProperty] = value;
