@@ -18,7 +18,8 @@ describe('akamai.components.dropdown', function() {
     {name: 'Colorado'},
     {name: 'Connecticut'},
     {name: 'Maryland'},
-    {name: 'Massachusetts'}
+    {name: 'Massachusetts'},
+    {name: 'components.dropdown.placeholder.filter'}
   ];
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
@@ -150,6 +151,18 @@ describe('akamai.components.dropdown', function() {
       it('should display each items text-property value', function(){
         var dropdown = document.querySelector('.selected-option');
         expect(dropdown.textContent).toContain('Colorado');
+      });
+    });
+    describe('when the dropdown is rendered', function(){
+      beforeEach(function(){
+        $scope.selectedStateObj = {name: 'components.dropdown.placeholder.filter'};
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" text-property="name" items="stateObjects"></akam-dropdown>';
+        addElement(dropdownTemplate);
+      });
+      it('should translate each item if key is valid', function() {
+        var dropdown = document.querySelector('.dropdown-menu');
+        console.log(dropdown);
+        expect(dropdown.textContent).toContain('Filter');
       });
     });
   });
