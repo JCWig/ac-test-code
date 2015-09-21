@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 function wizardContent($compile, $templateCache, $http, $q) {
 
   let backwashTemplate = '<div ng-show="processing" class="backwash"></div>';
@@ -20,6 +22,8 @@ function wizardContent($compile, $templateCache, $http, $q) {
       scope.$watch('wizard.stepIndex', stepIndex => getStepTemplate(scope.wizard.steps[stepIndex])
           .then((content) => {
             var modalBodyElem = element.children(0);
+
+            content = angular.isUndefined(content) ? '<akam-indeterminate-progress></akam-indeterminate-progress>' : content;
 
             modalBodyElem.empty();
             modalBodyElem.append($compile(backwashTemplate + content)(scope.wizard.contentScope));

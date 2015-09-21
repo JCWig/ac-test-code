@@ -3,7 +3,7 @@
     <i ng-if="icon" class="title-icon" ng-class="icon"></i>
 
     <h3 class="modal-title">{{ wizard.title }}</h3>
-    <i class="close-icon" ng-click="wizard.close()" ng-if="!wizard.processing"></i>
+    <i class="close-icon" ng-click="!wizard.processing && wizard.close()" ng-class="{'disabled': wizard.processing}"></i>
 
     <div class="akam-status-message-wrapper" ng-if='wizard.errorMessage'>
       <div class="akam-status-message-item-wrapper" ng-class="{'error': wizard.errorMessage}">
