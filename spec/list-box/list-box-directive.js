@@ -1,9 +1,6 @@
 'use strict';
 var utilities = require('../utilities');
 
-var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
-var CONFIG_PATH = '../../_appen_US.json';
-
 //CSS Selector variables
 var FILTER_BOX = 'div.filter input[type="search"]';
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
@@ -51,8 +48,6 @@ describe('akam-list-box', function() {
       q = $q;
       sce = $sce;
       httpBackend = $httpBackend;
-      $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
-      $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
     });
 
     scope.mydata = [{
