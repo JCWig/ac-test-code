@@ -22,7 +22,8 @@ import timepickerFormatter from './time-formatter-directive';
  *   minute-step="..."
  *   hour-step="..."
  *   is-disabled="..."
- *   show-meridian="...">
+ *   show-meridian="..."
+ *   is-minute-disabled="...">
  </akam-time-picker>
  *
  */
@@ -49,6 +50,8 @@ export default angular.module('akamai.components.time-picker', [
  * @param {Number} [hourStep=1] - increment or decrement the hour value.
  *
  * @param {Number} [minuteStep=15] - increment or decrement the minute value.
+ *
+ * @param {Boolean} [isMinuteDisabled=false] - disables minute selector
  *
  */
   .directive('akamTimePicker', timepickerDirective)

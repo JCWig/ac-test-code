@@ -1,4 +1,5 @@
 'use strict';
+/* globals angular, beforeEach, afterEach, spyOn, jasmine */
 var utilities = require('../utilities');
 
 var selectors = {
@@ -162,6 +163,87 @@ describe('timeFormatter directive', function() {
         expect(timepickerInputElem.classList.contains("ng-valid")).toEqual(matched.length > 0);
         expect(timepickerInputElem.classList.contains("ng-valid-time")).toEqual(matched.length > 0);
 
+      });
+    });
+    describe('when minute selector is disabled', function() {
+      beforeEach(function() {
+        scope.timepicker = [];
+        scope.timepicker.inputTime = new Date();
+        scope.disableMinutes = true;
+        scope.showMeridian = true;
+        var markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
+        addElement(markeup);
+      });
+      it('should disable minute up arrow in popup', function(){
+        var upArrow = self.element.querySelector('.time-increment-row .minute a i');
+        expect(upArrow.getAttribute('disabled')).toBeDefined();
+      });
+      it('should disable minute down arrow in popup', function(){
+        var downArrow = self.element.querySelector('.time-decrement-row .minute a i');
+        expect(downArrow.getAttribute('disabled')).toBeDefined();
+      });
+      it('should disable minute input in popup', function() {
+        var minInput = self.element.querySelector('.minute input');
+        expect(minInput.getAttribute('disabled')).toBeDefined();
+      });
+      it('should change inputTime minutes to 0', function(){
+        expect(scope.timepicker.inputTime.getMinutes()).toBe(0);
+      });
+      describe('when timepicker input field is changed', function(){
+        beforeEach(function() {
+          scope.timepicker = [];
+          scope.timepicker.inputTime = new Date();
+          scope.disableMinutes = true;
+          scope.showMeridian = true;
+          var markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
+          addElement(markeup);
+        });
+        it('should invalidate input if minute is not 0', function(){
+          var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+          timepickerInputElem.value = '11:11 PM';
+          angular.element(timepickerInputElem).triggerHandler('change');
+          self.timepicker.changed();
+          scope.$digest();
+
+          expect(timepickerInputElem.classList.contains('ng-invalid')).toBeTruthy();
+          expect(timepickerInputElem.classList.contains('ng-invalid-time')).toBeTruthy();
+          expect(scope.timepicker.inputTime).toBe(undefined);
+        });
+      });
+      describe('when inputTime is changed from timepicker input', function() {
+        beforeEach(function() {
+          scope.timepicker = [];
+          scope.timepicker.inputTime = new Date();
+          scope.disableMinutes = true;
+          scope.showMeridian = true;
+          var markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
+
+          addElement(markeup);
+
+          var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+          timepickerInputElem.value = '01:15 PM';
+          angular.element(timepickerInputElem).triggerHandler('change');
+          self.timepicker.changed();
+          scope.$digest();
+        });
+        describe('when clicking on hour up arrow', function() {
+          it('should set inputTime minute to 0', function() {
+            let upArrow = self.element.querySelector('.akam-time-picker .dropdown-menu .hour-up-btn');
+
+            expect(scope.timepicker.inputTime).toBe(undefined);
+            utilities.click(upArrow);
+            expect(scope.timepicker.inputTime.getMinutes()).toEqual(0);
+          });
+        });
+        describe('when clicking on hour down arrow', function() {
+          it('should set inputTime minute to 0', function() {
+            let downArrow = self.element.querySelector('.akam-time-picker .dropdown-menu .hour-down-btn');
+
+            expect(scope.timepicker.inputTime).toBe(undefined);
+            utilities.click(downArrow);
+            expect(scope.timepicker.inputTime.getMinutes()).toBe(0);
+          });
+        });
       });
     });
   });
