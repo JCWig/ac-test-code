@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Component Examples - Splitter</title>
+        <link rel="stylesheet" href="../dist/akamai-core.css">
+        <style>
+            .splittercontainer {
+                height: 500px;
+                background-color: white;
+            }
+            .splittercontainer1 {
+                background-color: white;
+            }
+        </style>
+    </head>
+    <body ng-app="splitterDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
+        <div class="container">
+            <div class="page-header">
+                <h1>Splitter Example</h1>
+            </div>
+
+            <div class="row">
+                <h2>Vertical Splitter - left</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb1.type}}"
+                                        direction="{{pb1.direction}}"
+                                        freeze-divider="pb1.freezeDivider"
+                                        freeze-collapse="pb1.freezeCollapse"
+                                        collapsed="pb1.collapsed">
+                                        <akam-split-pane size="4">Pane 1</akam-split-pane>
+                                        <akam-split-pane size="8">Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Horizontal Splitter - top</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb2.type}}"
+                                        direction="{{pb2.direction}}"
+                                        freeze-divider="pb2.freezeDivider"
+                                        freeze-collapse="pb2.freezeCollapse"
+                                        collapsed="pb2.collapsed">
+                                        <akam-split-pane size="3">Pane 1</akam-split-pane>
+                                        <akam-split-pane size="9">Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Vertical Splitter - right</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb3.type}}"
+                                        direction="{{pb3.direction}}"
+                                        freeze-divider="pb3.freezeDivider"
+                                        freeze-collapse="pb3.freezeCollapse"
+                                        collapsed="pb3.collapsed">
+                                        <akam-split-pane size="5">Pane 1</akam-split-pane>
+                                        <akam-split-pane size="7">Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Horizontal Splitter - bottom</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb4.type}}"
+                                        direction="{{pb4.direction}}"
+                                        freeze-divider="pb4.freezeDivider"
+                                        freeze-collapse="pb4.freezeCollapse"
+                                        collapsed="pb4.collapsed">
+                                        <akam-split-pane>Pane 1</akam-split-pane>
+                                        <akam-split-pane>Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Vertical Splitter - left - default collapsed</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb5.type}}"
+                                        direction="{{pb5.direction}}"
+                                        freeze-divider="pb5.freezeDivider"
+                                        freeze-collapse="pb5.freezeCollapse"
+                                        collapsed="pb5.collapsed">
+                                        <akam-split-pane size="8">Pane 1</akam-split-pane>
+                                        <akam-split-pane size="4">Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Horizontal Splitter - bottom - default collapsed</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb6.type}}"
+                                        direction="{{pb6.direction}}"
+                                        freeze-divider="pb6.freezeDivider"
+                                        freeze-collapse="pb6.freezeCollapse"
+                                        collapsed="pb6.collapsed">
+                                        <akam-split-pane>Pane 1</akam-split-pane>
+                                        <akam-split-pane>Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Vertical Splitter - left - freeze collapse</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb7.type}}"
+                                        direction="{{pb7.direction}}"
+                                        freeze-divider="pb7.freezeDivider"
+                                        freeze-collapse="pb7.freezeCollapse"
+                                        collapsed="pb7.collapsed">
+                                        <akam-split-pane>Pane 1</akam-split-pane>
+                                        <akam-split-pane>Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Vertical Splitter - left - freeze divider</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb8.type}}"
+                                        direction="{{pb8.direction}}"
+                                        freeze-divider="pb8.freezeDivider"
+                                        freeze-collapse="pb8.freezeCollapse"
+                                        collapsed="pb8.collapsed">
+                                        <akam-split-pane>Pane 1</akam-split-pane>
+                                        <akam-split-pane>Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <h2>Vertical Splitter - left - Parent Container Height auto</h2>
+                <br/>
+                <div class="splittercontainer1">
+                    <akam-splitter  type="{{pb9.type}}"
+                                        direction="{{pb9.direction}}"
+                                        freeze-divider="pb9.freezeDivider"
+                                        freeze-collapse="pb9.freezeCollapse"
+                                        collapsed="pb9.collapsed">
+                                        <akam-split-pane><div style="height:500px;">Pane 1</div></akam-split-pane>
+                                        <akam-split-pane>Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
+
+            <script src="../dist/akamai-core.js"></script>
+            <script>
+                var controllerFunction = function($scope) {
+                    $scope.pb1 = {};
+                    $scope.pb1.type = "vertical";
+                    $scope.pb1.collapsed = false;
+                    $scope.pb1.freezeDivider = false;
+                    $scope.pb1.freezeCollapse = false;
+                    $scope.pb1.direction = "left";
+
+                    $scope.pb2 = {};
+                    $scope.pb2.type = "horizontal";
+                    $scope.pb2.collapsed = false;
+                    $scope.pb2.freezeDivider = false;
+                    $scope.pb2.freezeCollapse = false;
+                    $scope.pb2.direction = "top";
+
+                    $scope.pb3 = {};
+                    $scope.pb3.type = "vertical";
+                    $scope.pb3.collapsed = false;
+                    $scope.pb3.freezeDivider = false;
+                    $scope.pb3.freezeCollapse = false;
+                    $scope.pb3.direction = "right";
+
+                    $scope.pb4 = {};
+                    $scope.pb4.type = "horizontal";
+                    $scope.pb4.collapsed = false;
+                    $scope.pb4.freezeDivider = false;
+                    $scope.pb4.freezeCollapse = false;
+                    $scope.pb4.direction = "bottom";
+
+                    $scope.pb5 = {};
+                    $scope.pb5.type = "vertical";
+                    $scope.pb5.collapsed = true;
+                    $scope.pb5.freezeDivider = false;
+                    $scope.pb5.freezeCollapse = false;
+                    $scope.pb5.direction = "left";
+
+                    $scope.pb6 = {};
+                    $scope.pb6.type = "horizontal";
+                    $scope.pb6.collapsed = true;
+                    $scope.pb6.freezeDivider = false;
+                    $scope.pb6.freezeCollapse = false;
+                    $scope.pb6.direction = "bottom";
+
+                    $scope.pb7 = {};
+                    $scope.pb7.type = "vertical";
+                    $scope.pb7.collapsed = false;
+                    $scope.pb7.freezeDivider = false;
+                    $scope.pb7.freezeCollapse = true;
+                    $scope.pb7.direction = "left";
+
+                    $scope.pb8 = {};
+                    $scope.pb8.type = "vertical";
+                    $scope.pb8.collapsed = false;
+                    $scope.pb8.freezeDivider = true;
+                    $scope.pb8.freezeCollapse = false;
+                    $scope.pb8.direction = "left";
+
+                    $scope.pb9 = {};
+                    $scope.pb9.type = "vertical";
+                    $scope.pb9.collapsed = false;
+                    $scope.pb9.freezeDivider = false;
+                    $scope.pb9.freezeCollapse = false;
+                    $scope.pb9.direction = "left";
+
+                };
+                controllerFunction.$inject = ['$scope'];
+                var app = angular.module('splitterDemo', ['akamai.components.splitter']);
+
+                app.controller('Ctrl', controllerFunction);
+            </script>
+        </div>
+    </body>
+</html>
