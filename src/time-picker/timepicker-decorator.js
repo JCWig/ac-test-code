@@ -12,10 +12,6 @@ function timepickerDecorator($provide) {
     // override the default template for timepicker
     directive.template = template;
     directive.templateUrl = undefined;
-    directive.$$isolateBindings.isMinuteDisabled = {
-      attrName: 'isMinuteDisabled',
-      mode: '&'
-    };
 
     link = directive.link;
 
@@ -29,6 +25,10 @@ function timepickerDecorator($provide) {
             $interval.cancel(intervalPromise);
           }
         }
+
+        scope.isMinuteDisabled = () => {
+          return scope.$parent.timepicker.isMinuteDisabled();
+        };
 
         //minute up arrow handlers
         scope.minuteUpMouseUp = (e) => {
