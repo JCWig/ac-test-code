@@ -15,7 +15,7 @@ function wizardContent($compile, $templateCache, $http, $q) {
 
   return {
     restrict: 'E',
-    template: '<div class="modal-body"></div>',
+    template: `<div class="modal-body" ng-class="{'processing': wizard.processing}"></div>`,
     link: function(scope, element) {
       scope.$watch('wizard.stepIndex', stepIndex => getStepTemplate(scope.wizard.steps[stepIndex])
           .then((content) => {
