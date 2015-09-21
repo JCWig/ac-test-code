@@ -136,7 +136,7 @@ describe('akamai.components.dropdown', function() {
       });
       it('should add the items to the dropdown', function(){
         var dropdownMenu = util.find('.dropdown-menu');
-        expect(dropdownMenu.getElementsByTagName('li').length).toBe(stateObjects.length);
+        expect(dropdownMenu.getElementsByTagName('li').length).toBe(stateStrings.length);
       });
     });
   });
@@ -150,6 +150,22 @@ describe('akamai.components.dropdown', function() {
       it('should display each items text-property value', function(){
         var dropdown = document.querySelector('.selected-option');
         expect(dropdown.textContent).toContain('Colorado');
+      });
+    });
+    describe('when the dropdown is rendered', function(){
+      beforeEach(function(){
+        $scope.selectedStateObj = undefined;
+        $scope.stateObjects = [
+          {name: 'examples.autocomplete.search.states'}
+        ];
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" text-property="name" items="stateObjects"></akam-dropdown>';
+        addElement(dropdownTemplate);
+        var dropdownToggle = util.find('.dropdown-toggle');
+        util.click(dropdownToggle);
+      });
+      it('should translate each item if key is valid', function() {
+        var dropdown = document.querySelector('ul.dropdown-menu');
+        expect(dropdown.getElementsByTagName('li')[0].textContent).toContain('Search States');
       });
     });
   });
