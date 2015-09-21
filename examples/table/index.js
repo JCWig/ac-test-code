@@ -83,4 +83,4 @@ function configFunction($translatePartialLoaderProvider, VERSION) {
         $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
     }
 }
-configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
+configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];

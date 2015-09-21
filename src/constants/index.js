@@ -2,7 +2,7 @@ import angular from 'angular';
 
 //TODO: Remember to update this if the version in package.json ever changes
 // Also remember to update mega-menu -> utils -> constants.js with the exact same info
-export const VERSION = '0.9.0';
+export const VERSION = '0.9.1';
 
 /**
  * @ngdoc module
@@ -31,4 +31,4 @@ export default angular.module('akamai.components.constants', [])
  * }
  *
  */
-.constant('coreVersion', VERSION);
+.constant('AKAMAI_CORE_VERSION', VERSION);

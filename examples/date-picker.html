@@ -96,7 +96,7 @@
           $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
       }
   }
-  configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
   angular.module('example', ['akamai.components.constants', 'akamai.components.date-picker'])
     .controller('ExampleController', controllerFunction)

@@ -187,7 +187,7 @@
                     $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
                   }
                 }
-                configFunction.$inject = ['$translatePartialLoaderProvider', 'coreVersion'];
+                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
                 var app = angular.module('progressBarDemo', ['akamai.components.constants', 'akamai.components.progress-bar']);
                 app.controller('Ctrl', controllerFunction);
