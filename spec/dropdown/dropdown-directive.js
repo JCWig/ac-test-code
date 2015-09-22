@@ -101,7 +101,7 @@ describe('akamai.components.dropdown', function() {
         addElement(dropdownTemplate);
 
         util.click(util.find('.dropdown-toggle'));
-        util.click(util.find('.dropdown-menu').querySelectorAll('li')[3].querySelector('a'));
+        util.mouseDown(util.find('.dropdown-menu').querySelectorAll('li')[3].querySelector('a'));
         $scope.$digest();
       });
       it('should set the selectedItem to the same item that was selected', function() {
