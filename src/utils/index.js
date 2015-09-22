@@ -2,10 +2,6 @@ import angular from 'angular';
 import textOverflowDirective from './text-overflow-directive.js';
 import standaloneDirective from './standalone-directive.js';
 
-//TODO: Remember to update this if the version in package.json ever changes
-// Also remember to update mega-menu -> utils -> constants.js with the exact same info
-export const VERSION = '0.9.1';
-
 /**
  * @ngdoc module
  * @name akamai.components.utils

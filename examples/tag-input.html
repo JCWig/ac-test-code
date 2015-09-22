@@ -33,6 +33,13 @@
                 </akam-tag-input>
             </div>
             <br/><br/><br/>
+            <div class="container-div";>
+                <h2>passing tagging label as key and label values attribute Example</h2>
+                <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true"
+                tagging-label="examples.tag-input.label-variable" tagging-label-values="{'name':'existing'}">
+                </akam-tag-input>
+            </div>
+            <br/><br/><br/>
             <form name="tagInputform">
                 <div class="container-div";>
                     <h2>Tag Character Limit Validation Example</h2>
@@ -281,8 +288,23 @@
 
             exampleController.$inject = ['$scope', '$log'];
 
-            angular.module('example', ['akamai.components.tag-input', 'ngMessages'])
-            .controller('ExampleController', exampleController);
+        function configFunction($translatePartialLoaderProvider, VERSION) {
+
+            // need to overwrite locales path on fee.akamai.com
+            if (window.location.host == 'fee.akamai.com') {
+                $translatePartialLoaderProvider.addPart('../dist/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
+            } else {
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+            }
+        }
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+
+            angular.module('example', ['akamai.components.constants', 'akamai.components.tag-input', 'ngMessages'])
+            .controller('ExampleController', exampleController)
+            .config(configFunction);
         </script>
     </body>
 </html>

@@ -6,10 +6,12 @@ var SPINNER_TEXT = '.text';
 describe('akam-spinner-button', function() {
   var compile = null;
   var scope = null;
+  var parse = null;
 
   var translationMock = {
     "components": {
-      "custom": 'hello'
+      "custom": 'hello',
+      "name": '{{first}} {{last}}'
     }
   };
 
@@ -20,7 +22,7 @@ describe('akam-spinner-button', function() {
       function i18nCustomLoader($q, $timeout) {
         return function(options) {
           var deferred = $q.defer();
-            deferred.resolve(translationMock);
+          deferred.resolve(translationMock);
           return deferred.promise;
         };
       }
@@ -30,9 +32,10 @@ describe('akam-spinner-button', function() {
       $translateProvider.useLoader('i18nCustomLoader');
     });
 
-    inject(function($compile, $rootScope) {
+    inject(function($compile, $rootScope, $parse) {
       compile = $compile;
       scope = $rootScope.$new();
+      parse = $parse;
     });
   });
 
@@ -163,6 +166,61 @@ describe('akam-spinner-button', function() {
 
     });
 
-  });
+    describe('given a spinner button', function() {
 
+      describe('when not add text-content-values attribute with translation key only', function() {
+
+        describe('when rendered', function() {
+
+          beforeEach(function() {
+            var markup = '<akam-spinner-button text-content="components.custom"></akam-spinner-button>';
+            let el = compile(markup)(scope);
+            scope.$digest();
+            this.element = document.body.appendChild(el[0]);
+          });
+
+          it('should have attribute of "translate-values"', function() {
+            let textElement = this.element.querySelector('span.text');
+            expect(textElement.hasAttribute('translate-values')).toBe(true);
+          });
+
+          it('should verify translated value', function() {
+            let textElement = this.element.querySelector('span.text');
+            expect(textElement.textContent).toBe(translationMock.components.custom);
+          });
+        });
+
+      });
+    });
+    describe('given a spinner button', function() {
+
+      describe('when add text-content-values attribute with translation key and variable replacements', function() {
+
+        describe('when rendered', function() {
+          let textElement;
+          beforeEach(function() {
+            var markup = `<akam-spinner-button text-content="components.name" text-content-values="{first:'Sean', last:'Wang'}"></akam-spinner-button>`;
+            let el = compile(markup)(scope);
+            scope.$digest();
+            this.element = document.body.appendChild(el[0]);
+            textElement = this.element.querySelector('span.text');
+          });
+
+          it('should have attribute of "translate-values"', function() {
+            expect(textElement.hasAttribute('translate-values')).toBe(true);
+          });
+
+          it('should verify "translate-values" attribute object property', function() {
+            expect(parse(textElement.getAttribute('translate-values'))().first).toBe("Sean");
+          });
+
+           it('should have text content value matches translated value with passing in variables', function() {
+            expect(textElement.textContent).toBe('Sean Wang');
+          });
+
+        });
+
+      });
+    });
+  });
 });

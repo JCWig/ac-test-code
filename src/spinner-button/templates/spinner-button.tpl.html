@@ -2,6 +2,6 @@
     class="btn btn-primary spinner-button"
     ng-class="{'in-progress': spinnerButton.processing}"
     ng-disabled="spinnerButton.processing || spinnerButton.disabled">
-  <span class="text">{{spinnerButton.textContent | translate }}</span>
+  <span class="text" translate="{{::spinnerButton.textContent}}" translate-values="{{::spinnerButton.textContentValues}}"></span>
   <span class="spinner"></span>
 </button>

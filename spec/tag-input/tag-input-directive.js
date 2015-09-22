@@ -281,6 +281,23 @@ describe('akamai.components.tag-input', function() {
           var inputField = document.querySelector(INPUT_FIELD);
           expect(inputField.placeholder).toContain('invalidKey');
         });
+        it('should translate if label is valid translation key', function(){
+          scope.items = [];
+          var markup = '<akam-tag-input ng-model="items" tagging-label="examples.tag-input.tagging-label-variable" available-items="availableItems"> </akam-tag-input>';
+          addElement(markup);
+
+          var parentNode = document.querySelector(".akam-tag-input div.ui-select-container");
+          expect(parentNode.getAttribute("tagging-label")).toBe("add  one");
+        });
+        it('should translate if label is valid translation key and label values provided', function(){
+          scope.items = [];
+          var markup = `<akam-tag-input ng-model="items"
+            tagging-label="examples.tag-input.tagging-label-variable" tagging-label-values="{name: 'new'}" available-items="availableItems"> </akam-tag-input>`;
+          addElement(markup);
+
+          var parentNode = document.querySelector(".akam-tag-input div.ui-select-container");
+          expect(parentNode.getAttribute("tagging-label")).toBe("add new one");
+        });
       });
     });
     // TODO (tpatel@akamai.com)

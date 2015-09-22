@@ -18,11 +18,25 @@ describe('akamai.components.menu-button', function() {
     this.element = document.body.appendChild(this.el[0]);
   }
 
+  var translationMock = {
+    "examples.appName": "{{name}}"
+  };
+
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(menuButton.name);
-    angular.mock.module(function($translateProvider) {
-      $translateProvider.useLoader('translateNoopLoader');
+    angular.mock.module(function($provide, $translateProvider) {
+      function i18nCustomLoader($q, $timeout) {
+        return function(options) {
+          var deferred = $q.defer();
+          deferred.resolve(translationMock);
+          return deferred.promise;
+        };
+      }
+      i18nCustomLoader.$inject = ['$q', '$timeout'];
+
+      $provide.factory('i18nCustomLoader', i18nCustomLoader);
+      $translateProvider.useLoader('i18nCustomLoader');
     });
 
     angular.mock.inject(function($compile, $rootScope) {
@@ -89,17 +103,37 @@ describe('akamai.components.menu-button', function() {
   describe('given a dropdown menu', function() {
     describe('when a dropdown item is disabled', function() {
       beforeEach(function() {
-      let markup =
-        `<akam-menu-button default-text="examples.appNames.pm" >
+        let markup =
+          `<akam-menu-button default-text="examples.appNames.pm" >
           <akam-menu-button-item is-disabled="true" text="examples.appNames.tq"></akam-menu-button-item>
           <akam-menu-button-item text="examples.appNames.bc"></akam-menu-button-item>
           </akam-menu-button-item>
         </akam-menu-button>`;
 
-      addElement.call(this, markup);
-    });
+        addElement.call(this, markup);
+      });
       it('should not be selectable', function() {
         expect(this.element.querySelector('.dropdown-menu').children[0].classList.contains('disabled')).toEqual(true);
+      });
+    })
+  });
+
+  describe('given a menu button', function() {
+    describe('when provided text-values attribute with variable replacements', function() {
+      beforeEach(function() {
+        let markup =
+          `<akam-menu-button default-text="examples.appNames.pm" >
+          <akam-menu-button-item text="examples.appName" text-values="{name: 'property manager'}"></akam-menu-button-item>
+          <akam-menu-button-item text="examples.appName" text-values="{name: 'event center'}"></akam-menu-button-item>
+          </akam-menu-button-item>
+        </akam-menu-button>`;
+
+        addElement.call(this, markup);
+      });
+      it('should render item name correctly', function() {
+        let itemList = this.element.querySelectorAll('.dropdown-menu a');
+        expect(itemList[0].textContent).toBe("property manager");
+        expect(itemList[1].textContent).toBe("event center");
       });
     })
   });

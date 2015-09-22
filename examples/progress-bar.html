@@ -92,6 +92,7 @@
                     $scope.pb1.maxValue = 30;
                     $scope.pb1.animate = false;
                     $scope.pb1.label = 'components.name';
+                    //$scope.pb1.labelValues = {};
                     $scope.pb1.labelAlign = 'left';
 
                     $scope.pb2 = [];
@@ -173,9 +174,22 @@
                     };
                 };
                 controllerFunction.$inject = ['$scope'];
-                var app = angular.module('progressBarDemo', ['akamai.components.progress-bar']);
+                function configFunction($translatePartialLoaderProvider, VERSION) {
 
+                  // need to overwrite locales path on fee.akamai.com
+                  if (window.location.host == 'fee.akamai.com') {
+                    $translatePartialLoaderProvider.addPart('../dist/locales/');
+                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
+                  } else {
+                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                  }
+                }
+                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+                var app = angular.module('progressBarDemo', ['akamai.components.constants', 'akamai.components.progress-bar']);
                 app.controller('Ctrl', controllerFunction);
+                app.config(configFunction);
             </script>
         </div>
     </body>

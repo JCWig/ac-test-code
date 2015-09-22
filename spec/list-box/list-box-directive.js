@@ -14,7 +14,7 @@ var enUsResponse = require("../i18n/i18n_responses/en_US.json");
 var translationMock = angular.merge({}, enUsResponse, enUsMessagesResponse);
 var MAX_INITIALLY_DISPLAYED = 10;
 
-describe('akam-list-box', function(){
+describe('akam-list-box', function() {
   var compile = null;
   var scope = null;
   var self = this;
@@ -50,72 +50,63 @@ describe('akam-list-box', function(){
       httpBackend = $httpBackend;
     });
 
-    scope.mydata = [
-      {
-        first: 'Yair',
-        last: 'Leviel',
-        id: 1234,
-        bu: "Luna",
-        color: "Green",
-        birthday: new Date(2001, 10, 20),
-        generic: ["hello"]
+    scope.mydata = [{
+      first: 'Yair',
+      last: 'Leviel',
+      id: 1234,
+      bu: "Luna",
+      color: "Green",
+      birthday: new Date(2001, 10, 20),
+      generic: ["hello"]
+    }, {
+      first: "Nick",
+      last: "Leon",
+      id: 2468,
+      bu: "Luna",
+      color: "Red",
+      birthday: new Date(2002, 10, 20),
+      generic: ["goodbye"]
+    }, {
+      first: "K-Slice",
+      last: "McYoungPerson",
+      id: 3141592653,
+      bu: "Luna",
+      color: "Yellow",
+      birthday: new Date(2000, 10, 20),
+      generic: ["shake it off"]
+    }];
+    scope.columns = [{
+      content: function() {
+        return this.first + ' ' + this.last;
       },
-      {
-        first: "Nick",
-        last: "Leon",
-        id: 2468,
-        bu: "Luna",
-        color: "Red",
-        birthday: new Date(2002, 10, 20),
-        generic: ["goodbye"]
-      },
-      {
-        first: "K-Slice",
-        last: "McYoungPerson",
-        id: 3141592653,
-        bu: "Luna",
-        color: "Yellow",
-        birthday: new Date(2000, 10, 20),
-        generic: ["shake it off"]
+      header: 'Full Name',
+      className: 'column-full-text-name',
+      title: function() {
+        return this.last + ", " + this.first;
       }
-    ];
-    scope.columns = [
-      {
-        content: function() {
-          return this.first + ' ' + this.last;
-        },
-        header: 'Full Name',
-        className: 'column-full-text-name',
-        title: function() {
-          return this.last + ", " + this.first;
-        }
-      },
-      {
-        content: 'id',
-        header: 'Employee ID'
-      },
-      {
-        content: "color",
-        header: "Favorite Color",
-        sort: function() {
-          var colorsValues = {
-            'Red': 1,
-            'Yellow': 2,
-            'Green': 3
-          };
-          return colorsValues[this.color];
-        }
-      },
-      {
-        content: "birthday",
-        header: "Birthday"
-      },
-      {
-        content: "generic",
-        header: "Generic Sorting"
+    }, {
+      content: 'id',
+      header: 'Employee ID'
+    }, {
+      content: "color",
+      header: "Favorite Color",
+      sort: function() {
+        var colorsValues = {
+          'Red': 1,
+          'Yellow': 2,
+          'Green': 3
+        };
+        return colorsValues[this.color];
       }
-    ];
+    }, {
+      content: "birthday",
+      header: "Birthday"
+    }, {
+      content: "generic",
+      header: "Generic Sorting"
+    }];
   });
+
   function addElement(markup) {
     self.el = compile(markup)(scope);
     scope.$digest();
@@ -164,8 +155,15 @@ describe('akam-list-box', function(){
       expect(viewSelectOnlyCheckbox.disabled).toBe(true);
     });
     it('should load default values if none are given', function() {
-      scope.mydata = [{name: "hello"}, {date: "02/07/1993"}];
-      scope.columns = [{content: 'date', header: 'Date'}];
+      scope.mydata = [{
+        name: "hello"
+      }, {
+        date: "02/07/1993"
+      }];
+      scope.columns = [{
+        content: 'date',
+        header: 'Date'
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -212,14 +210,17 @@ describe('akam-list-box', function(){
 
     it('should display failed indetermine progress when http call fails', function() {
       var dataPath = '/get/json/data';
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
+      scope.jsonColumns = [{
+        content: function() {
+          return this.first + ' ' + this.last;
         },
-        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
-      ];
+        header: 'Full Name',
+        className: 'column-full-name'
+      }, {
+        content: 'id',
+        header: 'Emp. ID',
+        className: 'column-employeeid'
+      }];
 
       httpBackend.when('GET', dataPath).respond(404, "ERROR: NOT FOUND");
 
@@ -234,13 +235,13 @@ describe('akam-list-box', function(){
     });
     it('should display rerender indetermine progress when http call fails the starts again', function() {
       var dataPath = '/get/json/data';
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
-        }
-      ];
+      scope.jsonColumns = [{
+        content: function() {
+          return this.first + ' ' + this.last;
+        },
+        header: 'Full Name',
+        className: 'column-full-name'
+      }];
       httpBackend.when('GET', 'new_path').respond(404, "ERROR: NOT FOUND");
 
       scope.jsonFromHttpGet = $http.get('new_path');
@@ -268,14 +269,17 @@ describe('akam-list-box', function(){
     it('should display indeterminate progress and load data on http get', function() {
       var dataPath = '/get/json/data';
       var jsonData = require('./http-data/list-box-data.json');
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
+      scope.jsonColumns = [{
+        content: function() {
+          return this.first + ' ' + this.last;
         },
-        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
-      ];
+        header: 'Full Name',
+        className: 'column-full-name'
+      }, {
+        content: 'id',
+        header: 'Emp. ID',
+        className: 'column-employeeid'
+      }];
 
       httpBackend.when('GET', dataPath).respond(jsonData);
 
@@ -292,17 +296,16 @@ describe('akam-list-box', function(){
       expect(allRowsLoadedInTable.length).toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should be able to use default sorting method on first column', function() {
-      scope.mydata = [
-        {'name': "Kevin"},
-        {'name': "Alejandro"}
-      ];
-      scope.columns = [
-        {
-          content: 'name',
-          header: 'Name',
-          sort: null
-        }
-      ];
+      scope.mydata = [{
+        'name': "Kevin"
+      }, {
+        'name': "Alejandro"
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: null
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -468,7 +471,7 @@ describe('akam-list-box', function(){
       scope.changingdata = scope.mydata.slice(0);
       scope.$digest();
 
-      var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES);//Should be 1, which is the viewSelectOnlyCheckbox
+      var allCheckedCheckboxes = document.querySelectorAll(ALL_CHECKED_CHECKBOXES); //Should be 1, which is the viewSelectOnlyCheckbox
       var allVisibleRows = document.querySelectorAll(TABLE_ROW);
       expect(allCheckedCheckboxes.length).toEqual(1);
       expect(allVisibleRows.length).toEqual(3);
@@ -771,15 +774,13 @@ describe('akam-list-box', function(){
 
   describe('when using unique sort cases', function() {
     it('should not bother sorting one row', function() {
-      scope.mydata = [
-        {'name': "Kevin"}
-      ];
-      scope.columns = [
-        {
-          content: 'name',
-          header: 'Name'
-        }
-      ];
+      scope.mydata = [{
+        'name': "Kevin"
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name'
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -792,17 +793,16 @@ describe('akam-list-box', function(){
     });
 
     it('should be able to turn off sorting', function() {
-      scope.mydata = [
-        {'name': "Kevin"},
-        {'name': "Alejandro"}
-      ];
-      scope.columns = [
-        {
-          content: 'name',
-          header: 'Name',
-          sort: false
-        }
-      ];
+      scope.mydata = [{
+        'name': "Kevin"
+      }, {
+        'name': "Alejandro"
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: false
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -814,8 +814,18 @@ describe('akam-list-box', function(){
       expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
     });
     it('should be able to sort on different field', function() {
-      scope.mydata = [{'name': "Kevin", 'id': 5}, {'name': "Alejandro", 'id': 8}];
-      scope.columns = [{content: 'name', header: 'Name', sort: 'id'}];
+      scope.mydata = [{
+        'name': "Kevin",
+        'id': 5
+      }, {
+        'name': "Alejandro",
+        'id': 8
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: 'id'
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -825,14 +835,21 @@ describe('akam-list-box', function(){
       expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
     });
     it('should default sort by second column if first column is unsortable', function() {
-      scope.mydata = [
-        {'name': "Kevin", 'id': 25},
-        {'name': "Alejandro", 'id': 17}
-      ];
-      scope.columns = [
-        {content: 'name', header: 'Name', sort: false},
-        {content: "id", header: "Id"}
-      ];
+      scope.mydata = [{
+        'name': "Kevin",
+        'id': 25
+      }, {
+        'name': "Alejandro",
+        'id': 17
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: false
+      }, {
+        content: "id",
+        header: "Id"
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -842,14 +859,22 @@ describe('akam-list-box', function(){
       expect(rowOneColumnTwo.textContent).toMatch(/Alejandro/);
     });
     it('should not default if all columns are unsortable', function() {
-      scope.mydata = [
-        {'name': "Kevin", 'id': 25},
-        {'name': "Alejandro", 'id': 17}
-      ];
-      scope.columns = [
-        {content: 'name', header: 'Name', sort: false},
-        {content: "id", header: "Id", sort: false}
-      ];
+      scope.mydata = [{
+        'name': "Kevin",
+        'id': 25
+      }, {
+        'name': "Alejandro",
+        'id': 17
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: false
+      }, {
+        content: "id",
+        header: "Id",
+        sort: false
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -859,16 +884,31 @@ describe('akam-list-box', function(){
       expect(rowOneColumnTwo.textContent).toMatch(/Kevin/);
     });
     it('should default sort based upon custom function if provided', function() {
-      scope.mydata = [
-        {'name': "Roy Harper", 'id': 25, color: 'Yellow'},
-        {'name': "Dinah Laurel Lance", 'id': 17, color: 'Green'},
-        {'name': "Oliver Queen", 'id': 17, color: 'Red'}
-      ];
-      scope.columns = [
-        {content: 'name', header: 'Name', sort: false},
-        {content: "id", header: "Id", sort: false},
-        {
-          content: "color", header: "Favorite Color", sort: function() {
+      scope.mydata = [{
+        'name': "Roy Harper",
+        'id': 25,
+        color: 'Yellow'
+      }, {
+        'name': "Dinah Laurel Lance",
+        'id': 17,
+        color: 'Green'
+      }, {
+        'name': "Oliver Queen",
+        'id': 17,
+        color: 'Red'
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: false
+      }, {
+        content: "id",
+        header: "Id",
+        sort: false
+      }, {
+        content: "color",
+        header: "Favorite Color",
+        sort: function() {
           var colorsValues = {
             'Red': 1,
             'Yellow': 2,
@@ -876,8 +916,7 @@ describe('akam-list-box', function(){
           };
           return colorsValues[this.color];
         }
-        }
-      ];
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -887,8 +926,18 @@ describe('akam-list-box', function(){
       expect(rowOneColumnTwo.textContent).toMatch(/Oliver Queen/);
     });
     it('should be able to sort on different field', function() {
-      scope.mydata = [{'name': "Kevin", 'id': 5}, {'name': "Alejandro", 'id': 8}];
-      scope.columns = [{content: 'name', header: 'Name', sort: 'id'}];
+      scope.mydata = [{
+        'name': "Kevin",
+        'id': 5
+      }, {
+        'name': "Alejandro",
+        'id': 8
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: 'id'
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1095,8 +1144,22 @@ describe('akam-list-box', function(){
   });
   describe('when interacting with filter bar', function() {
     beforeEach(function() {
-      scope.mydata = [{name: "iiiKevfƒiii"}, {name: "Keviiiiii"}, {name: "iiiiiiKev"}, {name: "iiiiiijohn"}, {name: "iiijohniii"}];
-      scope.columns = [{content: "name", header: 'Name', sort: false}];
+      scope.mydata = [{
+        name: "iiiKevfƒiii"
+      }, {
+        name: "Keviiiiii"
+      }, {
+        name: "iiiiiiKev"
+      }, {
+        name: "iiiiiijohn"
+      }, {
+        name: "iiijohniii"
+      }];
+      scope.columns = [{
+        content: "name",
+        header: 'Name',
+        sort: false
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1152,24 +1215,20 @@ describe('akam-list-box', function(){
   describe('when there is no data', function() {
     beforeEach(function() {
       scope.baddata = [];
-      scope.badcolumns = [
-        {
-          content: "name",
-          header: 'Name'
-        }
-      ];
+      scope.badcolumns = [{
+        content: "name",
+        header: 'Name'
+      }];
       var markup = '<akam-list-box data="baddata" schema="badcolumns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
     });
     it('should present message when no data is available and no filters that can be provided', function() {
       scope.baddata = [];
-      scope.columns = [
-        {
-          content: "name",
-          header: 'Name'
-        }
-      ];
+      scope.columns = [{
+        content: "name",
+        header: 'Name'
+      }];
       var dataTableRow = document.querySelector('.empty-table-message span');
       expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
     });
@@ -1198,12 +1257,10 @@ describe('akam-list-box', function(){
     var NO_FILTER_RESULTS_MESSAGE = "zero filter results";
     beforeEach(function() {
       scope.baddata = [];
-      scope.badcolumns = [
-        {
-          content: "name",
-          header: 'Name'
-        }
-      ];
+      scope.badcolumns = [{
+        content: "name",
+        header: 'Name'
+      }];
       scope.myNoDataMessage = NO_DATA_MESSAGE;
       scope.myNoneSelectedMessage = NONE_SELECTED_MESSAGE;
       scope.myNoFilterResultsMessage = NO_FILTER_RESULTS_MESSAGE;
@@ -1214,12 +1271,10 @@ describe('akam-list-box', function(){
     });
     it('should present the "no data" message when no data is available and no filters that can be provided', function() {
       scope.baddata = [];
-      scope.columns = [
-        {
-          content: "name",
-          header: 'Name'
-        }
-      ];
+      scope.columns = [{
+        content: "name",
+        header: 'Name'
+      }];
       var dataTableRow = document.querySelector('.empty-table-message span');
       expect(dataTableRow.textContent).toContain(NO_DATA_MESSAGE);
     });
@@ -1255,17 +1310,17 @@ describe('akam-list-box', function(){
   });
   describe('when data messes up', function() {
     it('should recognize null content when rendering', function() {
-      scope.baddata = [
-        {first: "Nick"},
-        {first: "Kevin"}];
-      scope.columns = [
-        {
-          content: function() {
-            return null;
-          },
-          header: 'Full Name'
-        }
-      ];
+      scope.baddata = [{
+        first: "Nick"
+      }, {
+        first: "Kevin"
+      }];
+      scope.columns = [{
+        content: function() {
+          return null;
+        },
+        header: 'Full Name'
+      }];
       var markup = '<akam-list-box data="baddata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1279,18 +1334,21 @@ describe('akam-list-box', function(){
       expect(allVisibleRows.length).toEqual(2);
     });
     it('should recognize null content when sorting name', function() {
-      scope.baddata = [
-        {name: null},
-        {name: null},
-        {name: "Kevin"},
-        {name: null},
-        {name: "James"}];
-      scope.columns = [
-        {
-          content: "name",
-          header: 'Name'
-        }
-      ];
+      scope.baddata = [{
+        name: null
+      }, {
+        name: null
+      }, {
+        name: "Kevin"
+      }, {
+        name: null
+      }, {
+        name: "James"
+      }];
+      scope.columns = [{
+        content: "name",
+        header: 'Name'
+      }];
       var markup = '<akam-list-box data="baddata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1310,22 +1368,22 @@ describe('akam-list-box', function(){
   });
   describe('when errors are thrown', function() {
     it('should throw error when column content is null', function() {
-      scope.mydata = [
-        {name: "Bob"},
-        {name: null},
-        {name: null},
-        {name: "James"}
-      ];
-      scope.badcolumns = [
-        {
-          content: "name",
-          header: "header"
-        },
-        {
-          content: null,
-          header: 'Name'
-        }
-      ];
+      scope.mydata = [{
+        name: "Bob"
+      }, {
+        name: null
+      }, {
+        name: null
+      }, {
+        name: "James"
+      }];
+      scope.badcolumns = [{
+        content: "name",
+        header: "header"
+      }, {
+        content: null,
+        header: 'Name'
+      }];
       var markup = '<akam-list-box data="mydata" schema="badcolumns"></akam-list-box>';
       try {
         addElement(markup);
@@ -1336,12 +1394,10 @@ describe('akam-list-box', function(){
     });
     it('should throw error when data is not an array', function() {
       scope.mydata = null;
-      scope.columns = [
-        {
-          content: null,
-          header: 'Name'
-        },
-      ];
+      scope.columns = [{
+        content: null,
+        header: 'Name'
+      }, ];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       try {
         addElement(markup);
@@ -1362,17 +1418,16 @@ describe('akam-list-box', function(){
       }
     });
     it('should throw error when sort column is null', function() {
-      scope.mydata = [
-        {'name': "Kevin"},
-        {'name': "Alejandro"}
-      ];
-      scope.columns = [
-        {
-          content: 'name',
-          header: 'Name',
-          sort: null
-        }
-      ];
+      scope.mydata = [{
+        'name': "Kevin"
+      }, {
+        'name': "Alejandro"
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: null
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1409,17 +1464,16 @@ describe('akam-list-box', function(){
   describe('when passing in unsafe data', function() {
 
     it('should strip it out when not explicitly trusted', function() {
-      scope.mydata = [
-        {'name': "<span>Kevin</span><script>alert('pwn3d');</script>"},
-        {'name': "Alejandro"}
-      ];
-      scope.columns = [
-        {
-          content: 'name',
-          header: 'Name',
-          sort: false
-        }
-      ];
+      scope.mydata = [{
+        'name': "<span>Kevin</span><script>alert('pwn3d');</script>"
+      }, {
+        'name': "Alejandro"
+      }];
+      scope.columns = [{
+        content: 'name',
+        header: 'Name',
+        sort: false
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1431,19 +1485,18 @@ describe('akam-list-box', function(){
     });
 
     it('should do bad things when it is explicitly trusted', function() {
-      scope.mydata = [
-        {'name': "Kevin<script>alert('pwn3d');</script>"},
-        {'name': "Alejandro"}
-      ];
-      scope.columns = [
-        {
-          content: function() {
-            return sce.trustAsHtml(this.name);
-          },
-          header: 'Name',
-          sort: false
-        }
-      ];
+      scope.mydata = [{
+        'name': "Kevin<script>alert('pwn3d');</script>"
+      }, {
+        'name': "Alejandro"
+      }];
+      scope.columns = [{
+        content: function() {
+          return sce.trustAsHtml(this.name);
+        },
+        header: 'Name',
+        sort: false
+      }];
       var markup = '<akam-list-box data="mydata" schema="columns"></akam-list-box>';
       addElement(markup);
       timeout.flush();
@@ -1455,14 +1508,17 @@ describe('akam-list-box', function(){
   });
   describe('when scrolling ', function() {
     it('should load more data', function() {
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
+      scope.jsonColumns = [{
+        content: function() {
+          return this.first + ' ' + this.last;
         },
-        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
-      ];
+        header: 'Full Name',
+        className: 'column-full-name'
+      }, {
+        content: 'id',
+        header: 'Emp. ID',
+        className: 'column-employeeid'
+      }];
       scope.jsonData = require('./http-data/list-box-data.json').slice(0, 30);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
@@ -1479,14 +1535,17 @@ describe('akam-list-box', function(){
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should stop loading data if end is reached', function() {
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
+      scope.jsonColumns = [{
+        content: function() {
+          return this.first + ' ' + this.last;
         },
-        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
-      ];
+        header: 'Full Name',
+        className: 'column-full-name'
+      }, {
+        content: 'id',
+        header: 'Emp. ID',
+        className: 'column-employeeid'
+      }];
       scope.jsonData = require('./http-data/list-box-data.json').slice(0, 25);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
@@ -1506,14 +1565,17 @@ describe('akam-list-box', function(){
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should leave data if rescrolled to top.', function() {
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
+      scope.jsonColumns = [{
+        content: function() {
+          return this.first + ' ' + this.last;
         },
-        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
-      ];
+        header: 'Full Name',
+        className: 'column-full-name'
+      }, {
+        content: 'id',
+        header: 'Emp. ID',
+        className: 'column-employeeid'
+      }];
       scope.jsonData = require('./http-data/list-box-data.json').slice(0, 25);
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
@@ -1528,14 +1590,17 @@ describe('akam-list-box', function(){
       expect(totalRows.length).not.toEqual(MAX_INITIALLY_DISPLAYED);
     });
     it('should not scroll past max-height', function() {
-      scope.jsonColumns = [
-        {
-          content: function() {return this.first + ' ' + this.last;},
-          header: 'Full Name',
-          className: 'column-full-name'
+      scope.jsonColumns = [{
+        content: function() {
+          return this.first + ' ' + this.last;
         },
-        {content: 'id', header: 'Emp. ID', className: 'column-employeeid'}
-      ];
+        header: 'Full Name',
+        className: 'column-full-name'
+      }, {
+        content: 'id',
+        header: 'Emp. ID',
+        className: 'column-employeeid'
+      }];
       scope.jsonData = require('./http-data/list-box-data.json');
       var markup = '<akam-list-box data="jsonData" schema="jsonColumns"></akam-list-box>';
       addElement(markup);
@@ -1546,7 +1611,9 @@ describe('akam-list-box', function(){
 
       var element = angular.element(document.querySelector('div.fixed-table-container-inner'));
 
-      element.css({"max-height": '150px'})
+      element.css({
+        "max-height": '150px'
+      })
 
       element.scrollTop = 10000;
       element.triggerHandler('scroll');
@@ -1557,8 +1624,8 @@ describe('akam-list-box', function(){
   });
 
   describe('given filter-placeholder attribute', function() {
-    describe('and a filter-placeholder attribute is not provided', function(){
-      describe('when the list-box is rendered', function(){
+    describe('and a filter-placeholder attribute is not provided', function() {
+      describe('when the list-box is rendered', function() {
         it('should render default filter-placeholder', function() {
           var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder=""></akam-list-box>';
           addElement(markup);
@@ -1572,8 +1639,8 @@ describe('akam-list-box', function(){
   });
 
   describe('given filter-placeholder attribute', function() {
-    describe('and a filter-placeholder attribute is provided', function(){
-      describe('when the list-box is rendered', function(){
+    describe('and a filter-placeholder attribute is provided', function() {
+      describe('when the list-box is rendered', function() {
         it('should translate filter-placeholder for the list-box if key is valid', function() {
           var markup = '<akam-list-box data="mydata" schema="columns" filter-placeholder="table.full-name"></akam-list-box>';
           addElement(markup);
@@ -1599,44 +1666,50 @@ describe('akam-list-box', function(){
     describe('and no-data-message attribute not provided', function() {
       beforeEach(function() {
         scope.mydata = [];
-        scope.columns = [
-          {
-            content: 'name',
-            header: 'Name'
-          }
-        ];
+        scope.columns = [{
+          content: 'name',
+          header: 'Name'
+        }];
         var markup = '<akam-list-box data="mydata" schema="columns" no-data-message=""></akam-list-box>';
         addElement(markup);
         timeout.flush();
       });
       it('should render default no-data-message placeholder', function() {
         var dataTableRow = document.querySelector('.empty-table-message span');
-        expect(dataTableRow.textContent).toMatch(/There is no data based upon your criteria/);
+        expect(dataTableRow.textContent).toMatch("There is no data based upon your criteria");
       });
     });
     describe('and no-data-message attribute is provided', function() {
       beforeEach(function() {
         scope.mydata = [];
-        scope.columns = [
-          {
-            content: 'name',
-            header: 'Name'
-          }
-        ];
+        scope.columns = [{
+          content: 'name',
+          header: 'Name'
+        }];
+        scope.values = {'first': 'sean'};
       });
       it('should translate no-data-message for the list-box if key is valid', function() {
         var markup = '<akam-list-box data="mydata" schema="columns" no-data-message="table.full-name"></akam-list-box>';
         addElement(markup);
         timeout.flush();
         var dataTableRow = document.querySelector('.empty-table-message span');
-        expect(dataTableRow.textContent).toMatch(/Full Name/);
+        expect(dataTableRow.textContent).toMatch("Full Name");
       });
       it('should translate and display key if key is invalid', function() {
         var markup = '<akam-list-box data="mydata" schema="columns" no-data-message="placeholder"></akam-list-box>';
         addElement(markup);
         timeout.flush();
         var dataTableRow = document.querySelector('.empty-table-message span');
-        expect(dataTableRow.textContent).toMatch(/placeholder/);
+        expect(dataTableRow.textContent).toMatch("placeholder");
+      });
+      describe('given no-data-message-values as attribute and passing in as object with variable replacement', function() {
+        it('should translate and display correct value', function() {
+          var markup = `<akam-list-box data="mydata" schema="columns" no-data-message="components.variableReplacements" no-data-message-values="{{values}}"></akam-list-box>`;
+          addElement(markup);
+          timeout.flush();
+          var dataTableRow = document.querySelector('.empty-table-message span');
+          expect(dataTableRow.textContent).toMatch("select:sean");
+        });
       });
     });
   });
@@ -1644,17 +1717,17 @@ describe('akam-list-box', function(){
   describe('when list-box is rendered with data', function() {
     describe('and no-filter-results-message attribute not provided', function() {
       beforeEach(function() {
-        scope.mydata = [
-          {'name': "Roy Harper"},
-          {'name': "Dinah Laurel Lance"},
-          {'name': "Oliver Queen"}
-        ];
-        scope.columns = [
-          {
-            content: 'name',
-            header: 'Name'
-          }
-        ];
+        scope.mydata = [{
+          'name': "Roy Harper"
+        }, {
+          'name': "Dinah Laurel Lance"
+        }, {
+          'name': "Oliver Queen"
+        }];
+        scope.columns = [{
+          content: 'name',
+          header: 'Name'
+        }];
         var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message=""></akam-list-box>';
         addElement(markup);
         timeout.flush();
@@ -1664,22 +1737,23 @@ describe('akam-list-box', function(){
         self.listBox.updateSearchFilter();
         scope.$digest();
         var dataTableRow = document.querySelector('.empty-table-message span');
-        expect(dataTableRow.textContent).toMatch(/There are no results based upon your filter/);
+        expect(dataTableRow.textContent).toMatch("There are no results based upon your filter");
       });
     });
     describe('and no-filter-results-message attribute is provided', function() {
       beforeEach(function() {
-        scope.mydata = [
-          {'name': "Roy Harper"},
-          {'name': "Dinah Laurel Lance"},
-          {'name': "Oliver Queen"}
-        ];
-        scope.columns = [
-          {
-            content: 'name',
-            header: 'Name'
-          }
-        ];
+        scope.mydata = [{
+          'name': "Roy Harper"
+        }, {
+          'name': "Dinah Laurel Lance"
+        }, {
+          'name': "Oliver Queen"
+        }];
+        scope.columns = [{
+          content: 'name',
+          header: 'Name'
+        }];
+        scope.values = {first: 'sean'};
       });
       it('should translate no-filter-results-message for the list-box if key is valid', function() {
         var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message="table.full-name"></akam-list-box>';
@@ -1689,7 +1763,7 @@ describe('akam-list-box', function(){
         self.listBox.updateSearchFilter();
         scope.$digest();
         var dataTableRow = document.querySelector('.empty-table-message span');
-        expect(dataTableRow.textContent).toMatch(/Full Name/);
+        expect(dataTableRow.textContent).toMatch("Full Name");
       });
       it('should translate and display key if key is invalid', function() {
         var markup = '<akam-list-box data="mydata" schema="columns" no-filter-results-message="placeholder"></akam-list-box>';
@@ -1699,8 +1773,21 @@ describe('akam-list-box', function(){
         self.listBox.updateSearchFilter();
         scope.$digest();
         var dataTableRow = document.querySelector('.empty-table-message span');
-        expect(dataTableRow.textContent).toMatch(/placeholder/);
+        expect(dataTableRow.textContent).toMatch("placeholder");
       });
+      describe('given no-filter-results-message-values as attribute and passing in as object with variable replacement', function() {
+        it('should translate and display key if key is invalid', function() {
+          var markup = `<akam-list-box data="mydata" schema="columns" no-filter-results-message="components.variableReplacements" no-filter-results-message-values="{{values}}"></akam-list-box>`;
+          addElement(markup);
+          timeout.flush();
+          self.listBox.state.filter = "Jennifer";
+          self.listBox.updateSearchFilter();
+          scope.$digest();
+          var dataTableRow = document.querySelector('.empty-table-message span');
+          expect(dataTableRow.textContent).toMatch("select:sean");
+        });
+      });
+
     });
   });
 });

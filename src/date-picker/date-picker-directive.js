@@ -89,6 +89,24 @@ function linkFn(scope, element, attrs, ngModel) {
   };
 
   scope.$watch('datepicker.opened', (newValue) => element.toggleClass('opened', newValue));
+
+  scope.$watch('datepicker.max', (newValue) => {
+    if (!newValue) {
+      return;
+    }
+    scope.$broadcast('datepicker.updateMax', {
+      max: new Date(newValue)
+    });
+  });
+
+  scope.$watch('datepicker.min', (newValue) => {
+    if (!newValue) {
+      return;
+    }
+    scope.$broadcast('datepicker.updateMin', {
+      min: new Date(newValue)
+    });
+  });
 }
 
 export default () => {
@@ -100,8 +118,8 @@ export default () => {
     bindToController: {
       placeholder: '@',
       mode: '@',
-      min: '@',
-      max: '@',
+      min: '@?',
+      max: '@?',
       format: '@',
       isDisabled: '=?'
     },

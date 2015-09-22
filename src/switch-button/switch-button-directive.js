@@ -8,23 +8,20 @@ const SIZE_SMALL = 'small',
   GRAYSCALE = 'grayscale',
   COLOR = 'color';
 
-function switchButton($translate) {
+function switchButton(translateValueSupport) {
   class SwitchButtonController {
     filterDisabled(disabled) {
       return disabled === 'true' ? disabled : 'false';
     }
 
     setDefaultScopeValues() {
-      $translate(this.onLabel || 'components.switch-button.onLabel')
-        .then(value => {
-          this.onLabel = value;
-        });
-
-      $translate(this.offLabel || 'components.switch-button.offLabel')
-        .then(value => {
-          this.offLabel = value;
-        });
+      this.onLabel = this.onLabel || 'components.switch-button.onLabel';
+      this.offLabel = this.offLabel || 'components.switch-button.offLabel';
       this.disabled = this.filterDisabled(this.disabled);
+    }
+
+    labelTranslateValues(values, name) {
+      translateValueSupport.setValues(this, name, values);
     }
   }
 
@@ -52,7 +49,10 @@ function switchButton($translate) {
         ngModel.$setViewValue(!ngModel.$viewValue);
       }
 
-      ctrl.setDefaultScopeValues();
+      ctrl.setDefaultScopeValues(attrs);
+
+      ctrl.labelTranslateValues(attrs.onLabelValues, 'onLabel');
+      ctrl.labelTranslateValues(attrs.offLabelValues, 'offLabel');
 
       element.toggleClass(SIZE_MEDIUM, size === SIZE_MEDIUM);
       element.toggleClass(GRAYSCALE, theme === GRAYSCALE);
@@ -73,6 +73,6 @@ function switchButton($translate) {
   };
 }
 
-switchButton.$inject = ['$translate'];
+switchButton.$inject = ['translateValueSupport'];
 
 export default switchButton;

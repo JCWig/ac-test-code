@@ -29,5 +29,7 @@
   },
   "examples.switchbutton.custom.allow": "Allow",
   "examples.switchbutton.custom.deny": "Deny",
-  "examples.autocomplete.search.states": "Search States"
+  "examples.switchbutton.custom.label-variable": "{{name}}",
+  "examples.autocomplete.search.states": "Search States",
+  "examples.tag-input.tagging-label-variable": "add {{name}} one",
 }

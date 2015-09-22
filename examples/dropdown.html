@@ -154,7 +154,7 @@
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('dropdownApp', ['akamai.components.dropdown', 'akamai.components.menu-button'])
+        angular.module('dropdownApp', ['akamai.components.constants','akamai.components.dropdown', 'akamai.components.menu-button'])
                 .controller('DropdownAppController', DropdownAppController)
                 .config(configFunction);
 
@@ -234,18 +234,18 @@
             };
         }
 
-        function configFunction($translatePartialLoaderProvider) {
+        function configFunction($translatePartialLoaderProvider, VERSION) {
 
             // need to overwrite locales path on fee.akamai.com
             if (window.location.host == 'fee.akamai.com') {
                 $translatePartialLoaderProvider.addPart('../dist/locales/');
                 $translatePartialLoaderProvider.addPart('locales/json/messages/');
             } else {
-                $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
             }
         }
-        configFunction.$inject = ['$translatePartialLoaderProvider'];
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
     </script>
 </body>
