@@ -506,7 +506,6 @@ describe('akamai.components.dropdown', function() {
         });
       });
     });
-
     describe('and a filter-placeholder attribute is provided', function(){
       describe('when the dropdown is rendered', function(){
         beforeEach(function(){
