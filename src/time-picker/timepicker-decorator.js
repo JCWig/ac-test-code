@@ -26,6 +26,8 @@ function timepickerDecorator($provide) {
           }
         }
 
+        scope.hoveringOn = '';
+
         scope.isMinuteDisabled = () => {
           return scope.$parent.timepicker.isMinuteDisabled();
         };

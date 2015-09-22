@@ -25,6 +25,7 @@ import wizard from './wizard';
 import navigation from './navigation';
 import dateRange from './date-range';
 import spinnerButton from './spinner-button';
+import datetimePicker from './datetime-picker';
 import progressBar from './progress-bar';
 import constants from './constants';
 import setFocus from './set-focus';
@@ -69,6 +70,7 @@ angular.module('akamai.components', [
   dateRange.name,
   navigation.name,
   spinnerButton.name,
+  datetimePicker.name,
   progressBar.name,
   constants.name,
   setFocus.name

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Datetime Picker</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+  <style type="text/css">
+  .title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-group div {
+    margin: 15px 0;
+  }
+  </style>
+</head>
+
+<body ng-app="datetimePickerApp" ng-controller="DatetimePickerController as vm" ng-strict-di class="common-css luna">
+  <br/>
+  <h2>Datetime Picker Component Example</h2>
+  <br/>
+  <h4 class="title">Display selected value</h4>
+  <pre>selected Datetime value: {{vm.datetime | date: 'MMM d, y h:mm a'}}</pre>
+  <pre>selected Datetime value: {{vm.datetime2 | date: 'MMM d, y h:mm a'}}</pre>
+  <h4 class="title">An example of Datetime picker</h4>
+  <form name='datetime-picker' role='form'>
+    <p>Minimum attributes used with no date and time values</p>
+    <akam-datetime-picker ng-model="vm.datetime" ng-change="vm.onChange()"></akam-datetime-picker>
+    <br/>
+    <br/>
+    <br/>
+    <p>All attributes used with initial date and time values</p>
+    <akam-datetime-picker ng-model="vm.datetime2" ng-change="vm.onChange()" format="{{vm.format}}" min="{{vm.min}}" max="{{vm.max}}" minute-step="vm.minuteStep" hour-step="vm.hourStep" show-meridian="vm.showMeridian" is-disabled="vm.disabled">
+    </akam-datetime-picker>
+  </form>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  angular.module('datetimePickerApp', ['akamai.components.datetime-picker'])
+    .controller('DatetimePickerController', DatetimePickerController)
+    .config(configFunction);
+
+  DatetimePickerController.$inject = ['$log'];
+
+  function DatetimePickerController($log) {
+    var vm = this;
+    vm.disabled = false;
+    vm.showMeridian = false;
+    vm.minuteStep = 10;
+    vm.hourStep = 1;
+    vm.format = "EEE, MMM dd, yyyy";
+    vm.min = new Date("2014-9-1");
+    vm.max = new Date("2016-9-25");
+    vm.datetime2 = new Date();
+
+    vm.onChange = function() {
+      $log.log(vm.datetime);
+    }
+  }
+
+  function configFunction($translatePartialLoaderProvider) {
+
+    // need to overwrite locales path on fee.akamai.com
+    if (window.location.host == 'fee.akamai.com') {
+      $translatePartialLoaderProvider.addPart('../dist/locales/');
+      $translatePartialLoaderProvider.addPart('locales/json/messages/');
+    } else {
+      $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+    }
+  }
+  configFunction.$inject = ['$translatePartialLoaderProvider'];
+  </script>
+</body>
+
+</html>

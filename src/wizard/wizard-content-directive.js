@@ -20,26 +20,26 @@ function wizardContent($compile, $templateCache, $http, $q) {
     template: `<div class="modal-body" ng-class="{'processing': wizard.processing}"></div>`,
     link: function(scope, element) {
       scope.$watch('wizard.stepIndex', stepIndex => getStepTemplate(scope.wizard.steps[stepIndex])
-          .then((content) => {
-            if (!scope.wizard.steps[stepIndex]) {
-              return;
-            }
+        .then((content) => {
+          if (!scope.wizard.steps[stepIndex]) {
+            return;
+          }
 
-            let modalBodyElem = element.children(0);
-            let compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
+          let modalBodyElem = element.children(0);
+          let compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
 
-            if (!compiledTemplate) {
-              content = angular.isUndefined(content) ?
-                '<akam-indeterminate-progress></akam-indeterminate-progress>' : content;
+          if (!compiledTemplate) {
+            content = angular.isUndefined(content) ?
+              '<akam-indeterminate-progress></akam-indeterminate-progress>' : content;
 
-              scope.wizard.steps[stepIndex].compiledTemplate =
-                $compile(backwashTemplate + content)(scope.wizard.contentScope);
-              compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
-            }
+            scope.wizard.steps[stepIndex].compiledTemplate =
+              $compile(backwashTemplate + content)(scope.wizard.contentScope);
+            compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
+          }
 
-            modalBodyElem.empty();
-            modalBodyElem.append(compiledTemplate);
-          })
+          modalBodyElem.empty();
+          modalBodyElem.append(compiledTemplate);
+        })
       );
     }
   };
