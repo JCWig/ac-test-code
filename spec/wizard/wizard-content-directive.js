@@ -38,9 +38,8 @@ describe('akamai.components.wizard', function() {
 
   describe('given an inline template', function() {
     describe('when rendering', function() {
-      it('should render the inline template', function() {
-
-        var markup = '<akam-wizard-content></akam-wizard-content>';
+      beforeEach(function() {
+        let markup = '<akam-wizard-content></akam-wizard-content>';
 
         $scope.wizard = {};
         $scope.wizard.contentScope = $scope.$new();
@@ -52,9 +51,14 @@ describe('akamai.components.wizard', function() {
         }];
 
         addElement(markup);
+      });
+      it('should render the inline template', function() {
+        expect(document.querySelector('.modal-body span').textContent).toBe('Hello bar');
+      });
+      it('should render cache the compiled template in the step object', function() {
+        let modalBody = angular.element(document.querySelector('.modal-body'));
 
-        var wizardBodyContent = document.querySelector('.modal-body span');
-        expect(wizardBodyContent.textContent).toBe('Hello bar');
+        expect(modalBody.scope().wizard.steps[0].compiledTemplate).toBeDefined();
       });
     });
     describe('when wizard processing', function() {

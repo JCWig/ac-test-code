@@ -31,8 +31,10 @@ function wizardContent($compile, $templateCache, $http, $q) {
             if (!compiledTemplate) {
               content = angular.isUndefined(content) ?
                 '<akam-indeterminate-progress></akam-indeterminate-progress>' : content;
-              compiledTemplate =
+
+              scope.wizard.steps[stepIndex].compiledTemplate =
                 $compile(backwashTemplate + content)(scope.wizard.contentScope);
+              compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
             }
 
             modalBodyElem.empty();
