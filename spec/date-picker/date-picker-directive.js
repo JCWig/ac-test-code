@@ -7,23 +7,14 @@ var HEADER_DISPLAYED_ON_DATEPICKER = 'button.btn strong.ng-binding';
 var NAVIGATE_DATEPICKER_BACKWARDS = 'button.pull-left';
 var NAVIGATE_DATEPICKER_FORWARDS = 'button.pull-right';
 
-var findCertainButton = function(buttonKey) {
-  var calendar = document.querySelectorAll('td.ng-scope');
-  for (var i = 0; i < calendar.length; i++) {
-    if (calendar[i].textContent.indexOf(buttonKey) >= 0 && !calendar[i].querySelector('span').classList.contains('text-muted')) {
-      return calendar[i];
-    }
-  }
-  return null;
-};
-
 function getDateButtonParentElement(dateNumber) {
   return document.querySelector(DATE_PICKER + " table tbody tr td.day-"+dateNumber);
 }
 
-function getMonthButtonParentElement(dateNumber) {
-  return document.querySelector(DATE_PICKER + " table tbody tr td.month-"+dateNumber);
+function getMonthButtonParentElement(monthName) {
+  return document.querySelector(DATE_PICKER + " table tbody tr td.month-"+monthName);
 }
+
 describe('akam-date-picker', function() {
   var compile = null;
   var scope = null;
