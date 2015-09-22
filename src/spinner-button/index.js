@@ -33,10 +33,10 @@ export default angular.module('akamai.components.spinner-button', [
  * on the button.
  *
  * Example of usage if it requires to have variable replacement from translation table.
- * like: {somekey: "{{buttonLabel}}"}
+ * Locale table: {somekey: "{{buttonLabel}}"}
  * <akam-spinner-button text-content="somekey"
  * text-content-values="{'buttonLabel': 'Submit'}"></akam-spinner-button>
- * It will be translated and be display "Submit" if locale is "en-US"
+ * It will be translated and be display "Submit"
  *
  * @param {boolean} disabled if true, sets the button to disabled state.
  * Default is false.
