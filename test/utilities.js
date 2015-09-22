@@ -49,6 +49,9 @@ module.exports = {
   mouseLeave: function(obj) {
     this.triggerMouseEvent(obj, 'mouseout');
   },
+  mouseDown: function(obj) {
+    this.triggerMouseEvent(obj, 'mousedown');
+  },
   clickAwayCreationAndClick: function(ele) {
     var clickAwayArea = document.createElement(ele);
     clickAwayArea.setAttribute("id", "click-away");
