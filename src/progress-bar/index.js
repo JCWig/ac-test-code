@@ -57,10 +57,11 @@ export default angular.module('akamai.components.progress-bar', [
 * @param {Number} max A number that specifies the total value of bars that is required.
 * If omitted, the value of max will default to 100.
 *
-* @param {String} state The current state of the progress bar.
+* @param {String} state='inprogress' The current state of the progress bar.
 * When an error occurs, change the state to 'error' and
 * update the label to an appropriate error message.
 * When the progress is completed, state will automatically change to 'completed'.
+* Possible states are 'inprogress', 'completed' and 'error'
 *
 * @param {String|TranslateKey} label The descriptive text under progress bar.
 * If omitted, no text will be displayed under the progress bar.
@@ -75,7 +76,7 @@ export default angular.module('akamai.components.progress-bar', [
 * __NOTE__: We also provide label-values attribute for user to pass in object
 * in the need of variable replacement for translation.
 * Example of usage:
-* <akam-progress-bar  value="pb1.currentValue" max="pb1.maxValue" state="pb1.state"
+* <akam-progress-bar value="pb1.currentValue" max="pb1.maxValue" state="pb1.state"
 * animate={{pb1.animate}} label="pb1.label" label-values={{pb1.label-variable}}
 * label-align={{pb1.labelAlign}}></akam-progress-bar>
 * pb1.label = "progress-bar.state";

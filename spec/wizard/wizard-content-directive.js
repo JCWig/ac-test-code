@@ -44,7 +44,7 @@ describe('akamai.components.wizard', function() {
 
         $scope.wizard = {};
         $scope.wizard.contentScope = $scope.$new();
-        $scope.wizard.contentScope.foo = 'bar'
+        $scope.wizard.contentScope.foo = 'bar';
         $scope.wizard.stepIndex = 0;
 
         $scope.wizard.steps = [{
@@ -55,6 +55,31 @@ describe('akamai.components.wizard', function() {
 
         var wizardBodyContent = document.querySelector('.modal-body span');
         expect(wizardBodyContent.textContent).toBe('Hello bar');
+      });
+    });
+    describe('when wizard processing', function() {
+      beforeEach(function() {
+        var markup = '<akam-wizard-content></akam-wizard-content>';
+
+        $scope.wizard = {};
+        $scope.wizard.contentScope = $scope.$new();
+        $scope.wizard.contentScope.foo = 'bar';
+        $scope.wizard.stepIndex = 0;
+
+        $scope.wizard.steps = [{
+          template: '<span>Hello {{ foo }}</span>'
+        }];
+        $scope.wizard.processing = true;
+        $scope.processing = true;
+        addElement(markup);
+      });
+      it('should add processing class to modal-body to set overflow to hidden', function() {
+        var wizardBodyContent = document.querySelector('.modal-body.processing');
+        expect(wizardBodyContent).not.toBe(null);
+      });
+      it('should add backwash to modal-body', function() {
+        var wizardBodyContent = document.querySelector('.modal-body.processing .backwash');
+        expect(wizardBodyContent.classList).not.toContain('ng-hide');
       });
     });
   });
@@ -86,5 +111,4 @@ describe('akamai.components.wizard', function() {
       });
     });
   });
-
 });

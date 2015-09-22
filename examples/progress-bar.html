@@ -68,7 +68,7 @@
                     </akam-progress-bar>
                 </div>
                 <br/><br/><br/>
-                <button class="btn" ng-click="pb4.resetAnimation()">Replay Animation</button>
+                <button class="btn" ng-click="pb4.timer.start()">Replay Animation</button>
                 <br/>
                 <br/>
                 <h4>Error</h4>
@@ -81,11 +81,9 @@
                     </akam-progress-bar>
                 </div>
                 <br/><br/><br/>
-                <button class="btn" ng-click="pb6.timer.start()">Play</button>
-                <button class="btn" ng-click="pb6.timer.error()">Error</button>
-                <button class="btn" ng-click="pb6.timer.reset()">Replay</button>
+                <button class="btn" ng-click="pb6.timer.start();" >Play</button>
+                <button class="btn" ng-click="pb6.timer.error()">Throw Error</button>
             </div>
-
             <script src="../dist/akamai-core.js"></script>
             <script>
                 var controllerFunction = function($scope) {
@@ -106,7 +104,7 @@
 
                     $scope.pb3 = [];
                     $scope.pb3.currentValue = 30;
-                    $scope.pb3.state = 'error'; // info, warning, danger, success
+                    $scope.pb3.state = 'error'; // inprogress, completed, error
                     $scope.pb3.maxValue = 30;
                     $scope.pb3.animate = false;
                     $scope.pb3.label = 'Unable to display status.';
@@ -124,54 +122,54 @@
                     $scope.pb6.animate = true;
                     $scope.pb6.label = 'Error demo';
 
-                    $scope.pb4.pb4Timer = function(){
-                        var interval = setInterval(function () {
-                            $scope.pb4.currentValue = $scope.pb4.currentValue + 1;
-                            $scope.pb4.label = $scope.pb4.currentValue + '% Completed';
+                    $scope.pb4.timer = {
+                        start: function() {
+                            var self = this;
+                            $scope.pb4.currentValue = 0;
+                            $scope.pb4.label = $scope.pb4.currentValue + ' MB / ' + $scope.pb4.maxValue + ' MB';
+                            $scope.pb4.animate = true;
+                            $scope.pb4.state = 'inprogress';
 
-                            if($scope.pb4.currentValue >= 100) {
-                                clearInterval(interval);
+                            if (!this.interval) {
+                                this.interval = setInterval(function() {
+                                    $scope.pb4.currentValue += 1;
+                                    $scope.pb4.label = $scope.pb4.currentValue + ' MB / ' + $scope.pb4.maxValue + ' MB';
+
+                                    if($scope.pb4.currentValue == $scope.pb4.maxValue) {
+                                        clearInterval(self.interval);
+                                        delete(self.interval);
+                                    }
+                                    $scope.$digest();
+                                }, 100);
                             }
-                            $scope.$digest();
-                        }, 100);
-                    };
-
-                    $scope.pb4.resetAnimation = function(){
-                        $scope.pb4.currentValue = 0;
-                        $scope.pb4.label = $scope.pb4.currentValue + '% Completed';
-                        $scope.pb4.animate = true;
-                        $scope.pb4.state = 'inprogress';
-                        $scope.pb4.pb4Timer();
+                        }
                     };
 
                     $scope.pb6.timer = {
                         start: function() {
                             var self = this;
+                            $scope.pb6.currentValue = 0;
+                            $scope.pb6.label = $scope.pb6.currentValue + ' MB / ' + $scope.pb6.maxValue + ' MB';
+                            $scope.pb6.state = 'inprogress';
 
-                            this.interval = setInterval(function() {
-                                $scope.pb6.currentValue = $scope.pb6.currentValue + 1;
-                                $scope.pb6.label = $scope.pb6.currentValue + '% Completed';
-                                $scope.pb6.state = 'inprogress';
-                                if($scope.pb6.currentValue >= 100) {
-                                    clearInterval(self.interval);
-                                    delete self.interval;
-                                }
-                                $scope.$digest();
-                            }, 100);
+                            if (!this.interval){
+                                this.interval = setInterval(function() {
+                                    $scope.pb6.currentValue += 1;
+                                    $scope.pb6.label = $scope.pb6.currentValue + ' MB / ' + $scope.pb6.maxValue + ' MB';
+                                    $scope.pb6.state = 'inprogress';
+                                    if($scope.pb6.currentValue == $scope.pb6.maxValue) {
+                                        clearInterval(self.interval);
+                                        delete self.interval;
+                                    }
+                                    $scope.$digest();
+                                }, 100);
+                            }
                         },
                         error: function() {
                             $scope.pb6.state = 'error';
+                            $scope.pb6.label = 'Error occured while downloading';
                             clearInterval(this.interval);
-                        },
-                        resume: function() {
-                            if (!this.interval)
-                                this.start();
-                        },
-                        reset: function(){
-                            $scope.pb6.state = 'inprogress';
-                            $scope.pb6.currentValue = 0;
-                            $scope.pb6.label = $scope.pb6.currentValue + '% Completed';
-                            $scope.$digest();
+                            delete this.interval;
                         }
                     };
                 };

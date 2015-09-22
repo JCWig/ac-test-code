@@ -29,6 +29,10 @@ class TimepickerController {
   isDisabled() {
     return this.disabled === true || this.$scope.$eval(this.disabled) === true;
   }
+
+  isMinuteDisabled() {
+    return this.disableMinutes === true || this.$scope.$eval(this.disableMinutes) === true;
+  }
 }
 
 TimepickerController.$inject = ['$scope', '$document', '$parse'];
@@ -53,6 +57,7 @@ function linkFn(scope, element, attrs, ngModel) {
   };
 
   ctrl.disabled = ctrl.disabled === true || attrs.isDisabled === 'disabled';
+  ctrl.disableMinutes = ctrl.disableMinutes === true || attrs.disableMinutes === 'disabled';
 
   ctrl.minuteStep = timepickerConfig.MINUTE_STEP;
   ctrl.$parse(attrs.minuteStep, (value) => {
@@ -102,6 +107,7 @@ export default () => {
     bindToController: {
       showMeridian: '=?',
       disabled: '=isDisabled',
+      disableMinutes: '=isMinuteDisabled',
       hourStep: '=?',
       minuteStep: '=?'
     },
