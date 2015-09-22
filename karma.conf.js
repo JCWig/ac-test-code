@@ -14,7 +14,7 @@ module.exports = function(config) {
     {pattern: 'node_modules/moment/moment.js', watched: false }
   ];
 
-  var preprocessorPattern = args.testDir ? 'spec/' + args.testDir + '/**/*.js' : 'spec/**/*.js';
+  var preprocessorPattern = args.testDir ? 'test/' + args.testDir + '/**/*.js' : 'test/**/*.js';
 
   var filesToTest = baseFileList.concat(
     args.testDir ? [
@@ -22,7 +22,7 @@ module.exports = function(config) {
         pattern: preprocessorPattern,
         watched: false
       }
-    ] : 'spec/**/*.js'
+    ] : 'test/**/*.js'
   );
 
   var preProcessors = {};
@@ -43,7 +43,7 @@ module.exports = function(config) {
       transform: [
         'babelify',
         istanbul({
-          ignore: ['**/*.html', '**/spec/**', '**/*.hbs']
+          ignore: ['**/*.html', '**/test/**', '**/*.hbs']
         })
       ]
     },
