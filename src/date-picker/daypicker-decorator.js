@@ -17,6 +17,8 @@ function daypickerDecorator($provide) {
 
     directive.compile = () => {
       return function(scope, element, attrs, ctrl) {
+        let updateMin, updateMax;
+
         link.apply(this, arguments);
 
         //disable navigation according to the range
@@ -36,6 +38,19 @@ function daypickerDecorator($provide) {
 
           return ctrl.maxDate && lastDayOfMonth >= ctrl.maxDate;
         };
+
+        updateMax = scope.$on('datepicker.updateMax', (e, info) => {
+          ctrl.maxDate = info.max;
+        });
+
+        updateMin = scope.$on('datepicker.updateMin', (e, info) => {
+          ctrl.minDate = info.min;
+        });
+
+        scope.$on('$destroy', () => {
+          updateMin();
+          updateMax();
+        });
       };
     };
     return $delegate;

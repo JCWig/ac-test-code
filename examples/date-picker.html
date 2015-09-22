@@ -33,14 +33,22 @@
       </div>
       <div class="container">
         <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day"
-                          placeholder='{{"examples.datepicker.choose.date" | translate}}'
-                          ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
+            placeholder='{{"examples.datepicker.choose.date" | translate}}'
+            ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
         </akam-date-picker>
       </div>
       <br />
       <div class="form-group">
         <input id="disableDatePicker" type="checkbox" name='disableDatePicker' ng-model='disabled' />
         <label class="label" for="disableDatePicker">Disable Date Picker component</label>
+      </div>
+      <div>
+        <input id="minDate" type="checkbox" name='minDate' ng-model='minUpdated' ng-click="updateMin()" />
+        <label class="label" for="minDate">to change this min date value to prior 3 years (currently using: {{min}})</label>
+      </div>
+      <div>
+        <input id="maxDate" type="checkbox" name='maxDate' ng-model='maxUpdated' ng-click="updateMax()" />
+        <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{max}})</label>
       </div>
       <br />
       <div class="container">
@@ -61,9 +69,9 @@
       </div>
       <div class="container">
         <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month"
-                          placeholder='{{"examples.datepicker.choose.month" | translate}}'
-                          ng-change="monthChange()" format="{{formatMonth}}" no-clear>
-        </akam-date-picker>
+            placeholder='{{"examples.datepicker.choose.month" | translate}}'
+            ng-change="monthChange()" format="{{formatMonth}}" no-clear>
+         </akam-date-picker>
       </div>
     </div>
   </form>
@@ -72,8 +80,12 @@
   var controllerFunction = function($scope, $log) {
     var d = new Date();
     $scope.disabled = false;
-    $scope.min = new Date(d.getFullYear(), d.getMonth(), 1);
-    $log.log('Date Picker min: ', $scope.min);
+
+    var defaultMin = new Date(d.getFullYear() - 2, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear() + 2, d.getMonth(), 0);
+
+    $scope.min = defaultMin;
+    $scope.max = defaultMax;
 
     $scope.dateChange = function() {
       $log.log('Date Picker value selected: ', $scope.day);
@@ -82,6 +94,14 @@
     $scope.monthChange = function() {
       $log.log('Month Picker value selected: ', $scope.month);
     };
+
+    $scope.updateMax = function() {
+      $scope.max = $scope.maxUpdated ? new Date(d.getFullYear() + 3, d.getMonth(), 0) : defaultMax;
+    }
+
+    $scope.updateMin = function() {
+      $scope.min = $scope.minUpdated ? new Date(d.getFullYear() - 3, d.getMonth() + 1, 1) : defaultMin;
+    }
   };
   controllerFunction.$inject = ['$scope', '$log'];
 
@@ -101,6 +121,7 @@
   angular.module('example', ['akamai.components.constants', 'akamai.components.date-picker'])
     .controller('ExampleController', controllerFunction)
     .config(configFunction);
+
   </script>
 </body>
 
