@@ -108,7 +108,7 @@
   ],
   "ignore": [
     "**/.*",
-    "spec",
+    "test",
     "reports"
   ],
   "scripts": {
