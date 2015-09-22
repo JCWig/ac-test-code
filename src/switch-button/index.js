@@ -38,10 +38,10 @@ export default angular.module('akamai.components.switch-button', [
  *
  * @param {Boolean} ngModel The switch-button's state
  *
- * @param {String} [onLabel=On] The label text for when the
+ * @param {String|TranslateKey} [onLabel=On] The label text for when the
  * switch-button is turned on
  *
- * @param {String} [offLabel=Off] The label text for when the
+ * @param {String|TranslateKey} [offLabel=Off] The label text for when the
  * switch-button is turned off
  *
  * @param {Boolean} [disabled=false] If the switch-button should
@@ -52,5 +52,16 @@ export default angular.module('akamai.components.switch-button', [
  *
  * @param {String} [size=small] The size of the switch-button. Can be
  * either 'small' or 'medium'
+ *
+ * __NOTE__: We also provide on-label-values and off-label-values attributes for user to
+ * pass in object in the need of variable replacement for translation.
+ * Example of usage:
+ * <akam-switch-button ng-model="vm.ex8.on"
+ *     on-label="examples.switchbutton.custom.label-variable"
+ *     on-label-values="{name: 'Allow'}"
+ *     off-label="examples.switchbutton.custom.label-variable"
+ *     off-label-values = "{name: 'Deny'}">
+ * </akam-switch-button>
+ * locale table: 'components.switch-button.label.value: {{name}}'
  */
   .directive('akamSwitchButton', switchButtonDirective);

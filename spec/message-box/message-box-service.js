@@ -13,7 +13,8 @@ describe('messageBox service', function() {
     "components": {
       "message-box": {
         "no": "No",
-        "yes": "Yes"
+        "yes": "Yes",
+        "variableReplacement": "{{first}} {{last}} has logged"
       },
       "name": "Msg box title"
     }
@@ -258,7 +259,7 @@ describe('messageBox service', function() {
       this.$rootScope.$digest();
 
       var modalTitle = document.querySelector('.modal .modal-title');
-      expect(modalTitle.textContent).toEqual('components.message-box.title.question');
+      expect(modalTitle.textContent).toEqual('components.message-box.title.question'.substr(0, 20));
     });
     it('should support translating a error message', function() {
       var headline = 'Headline';
@@ -270,7 +271,7 @@ describe('messageBox service', function() {
       this.$rootScope.$digest();
 
       var modalTitle = document.querySelector('.modal .modal-title');
-      expect(modalTitle.textContent).toEqual('components.message-box.title.error');
+      expect(modalTitle.textContent).toEqual('components.message-box.title.error'.substr(0, 20));
     });
 
     it('should have a close icon button which can close', function() {
@@ -465,4 +466,79 @@ describe('messageBox service', function() {
       });
     });
   });
+
+  describe('Translate label text with variable replacement', function() {
+    describe('given translation key provided', function() {
+      describe('when no values hash property set on each option properties', function() {
+
+        beforeEach(function() {
+          let options = {
+            headline: 'Headline',
+            text: 'Message',
+            title: 'components.message-box.variableReplacement',
+            submitLabel: 'components.message-box.variableReplacement',
+            cancelLabel: 'components.message-box.variableReplacement'
+          }
+
+          this.messageBox.show(options, "question");
+          this.$rootScope.$digest();
+        });
+
+        it("should translated title displayed without variable replacements", function() {
+          var modalTitle = document.querySelector('.modal .modal-title');
+          expect(modalTitle.textContent).toEqual('has logged');
+        });
+        it("should translated cancel button displayed without variable replacements", function() {
+          var cancelButton = document.querySelector(CANCEL_BUTTON_SELECTOR);
+          expect(cancelButton.textContent.trim()).toEqual('has logged');
+        });
+        it("should translated submit button displayed without variable replacements", function() {
+          var submitButton = document.querySelector(SUBMIT_BUTTON_SELECTOR);
+          expect(submitButton.textContent.trim()).toEqual('has logged');
+        });
+
+      });
+    });
+
+  });
+
+  describe('Translate label text with variable replacement', function() {
+    describe('when translation key provided', function() {
+      describe('when each option property values hash set', function() {
+
+        beforeEach(function() {
+          let options = {
+            headline: 'Headline',
+            text: 'Message',
+            title: 'components.message-box.variableReplacement',
+            titleValues: {"first": 'sean', "last": 'wang'},
+            submitLabel: 'components.message-box.variableReplacement',
+            submitLabelValues: {"first": 'sean', "last": 'wang'},
+            cancelLabel: 'components.message-box.variableReplacement',
+            cancelLabelValues: {"first": 'sean', "last": 'wang'}
+          }
+
+          this.messageBox.show(options, "question");
+          this.$rootScope.$digest();
+        });
+
+        it("should translated title displayed with variable replacements", function() {
+          var modalTitle = document.querySelector('.modal .modal-title');
+          expect(modalTitle.textContent).toEqual('sean wang has logged');
+        });
+        it("should translated cancel button displayed with variable replacements", function() {
+          var cancelButton = document.querySelector(CANCEL_BUTTON_SELECTOR);
+          expect(cancelButton.textContent.trim()).toEqual('sean wang has logged');
+        });
+        it("should translated submit button displayed with variable replacements", function() {
+          var submitButton = document.querySelector(SUBMIT_BUTTON_SELECTOR);
+          expect(submitButton.textContent.trim()).toEqual('sean wang has logged');
+        });
+
+      });
+    });
+
+  });
+
+
 });

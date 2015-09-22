@@ -3,13 +3,14 @@ import angular from 'angular';
 
 class ProgressBarController {
   static get $inject() {
-    return ['$scope', '$animate', '$translate'];
+    return ['$scope', '$animate', '$translate', '$parse'];
   }
 
-  constructor($scope, $animate, $translate) {
+  constructor($scope, $animate, $translate, $parse) {
     this.$scope = $scope;
     this.$animate = $animate;
     this.$translate = $translate;
+    this.$parse = $parse;
     this.animate = angular.isDefined(this.animate) ? this.animate : false;
     this.state = angular.isDefined(this.state) ? this.state : 'inprogress';
     this.max = angular.isDefined(this.max) ? this.max : 100;
@@ -29,13 +30,13 @@ class ProgressBarController {
       }
     });
 
-    $scope.$watch('progressBar.value', (newValue) => {
+    this.$scope.$watch('progressBar.value', (newValue) => {
       this.state = newValue === this.max && this.state !== 'error' ? 'completed' : this.state;
     });
 
-    $scope.$watch('progressBar.label', (newValue) => {
+    this.$scope.$watch('progressBar.label', (newValue) => {
       if (angular.isDefined(newValue) && newValue !== '') {
-        $translate(newValue)
+        this.$translate(newValue, this.$parse(this.labelValues)())
           .then(value => {
             this.label = value;
           });
@@ -72,8 +73,10 @@ function progressBarDirective() {
       animate: '@'
     },
     controller: ProgressBarController,
-    controllerAs: 'progressBar'
+    controllerAs: 'progressBar',
+    link: (scope, elem, attr) => {
+      scope.progressBar.labelValues = attr.labelValues;
+    }
   };
 }
-
 export default progressBarDirective;

@@ -105,22 +105,23 @@
   };
   controllerFunction.$inject = ['$scope', '$log'];
 
-  angular.module('example', ['akamai.components.date-picker'])
+  function configFunction($translatePartialLoaderProvider, VERSION) {
+
+      // need to overwrite locales path on fee.akamai.com
+      if (window.location.host == 'fee.akamai.com') {
+          $translatePartialLoaderProvider.addPart('../dist/locales/');
+          $translatePartialLoaderProvider.addPart('locales/json/messages/');
+      } else {
+          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      }
+  }
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+  angular.module('example', ['akamai.components.constants', 'akamai.components.date-picker'])
     .controller('ExampleController', controllerFunction)
     .config(configFunction);
 
-  function configFunction($translatePartialLoaderProvider) {
-
-    // need to overwrite locales path on fee.akamai.com
-    if (window.location.host == 'fee.akamai.com') {
-      $translatePartialLoaderProvider.addPart('../dist/locales/');
-      $translatePartialLoaderProvider.addPart('locales/json/messages/');
-    } else {
-      $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
-      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-    }
-  }
-  configFunction.$inject = ['$translatePartialLoaderProvider'];
   </script>
 </body>
 

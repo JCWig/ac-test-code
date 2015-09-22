@@ -50,6 +50,7 @@ TimepickerFormatterController.$inject = ['$scope', '$filter', '$timeout'];
 
 function linkFn(scope, element, attrs, ngModel) {
   let initialized = false,
+    timepickerCtrl = scope.$parent.timepicker,
     ctrl = scope.timepickerFormatter;
 
   ngModel = ngModel ? ngModel : {
@@ -68,6 +69,17 @@ function linkFn(scope, element, attrs, ngModel) {
       element.val(displayTime(value, true));
     }
     element.attr('placeholder', timeFormat);
+  });
+
+  scope.$watch('timepickerFormatter.disableMinutes', () => {
+    let value = ngModel.$modelValue;
+
+    if (value && ctrl.disableMinutes) {
+      value = (new Date(value)).setMinutes(0);
+      element.val(displayTime(value, true));
+      element.triggerHandler('change');
+      timepickerCtrl.changed();
+    }
   });
 
   function parseTime(value) {
@@ -117,6 +129,12 @@ function linkFn(scope, element, attrs, ngModel) {
     setTimepickerValidState(true);
     sp = TimepickerFormatterController.parse(value);
     date.setHours(sp[0], sp[1]);
+
+    if (ctrl.disableMinutes && sp[1] > 0) {
+      setTimepickerValidState(false);
+      return undefined;
+    }
+
     return date;
   }
 
@@ -147,7 +165,8 @@ export default () => {
     bindToController: {
       showMeridian: '=',
       minuteStep: '=',
-      hourStep: '='
+      hourStep: '=',
+      disableMinutes: '=isMinuteDisabled'
     },
     controller: TimepickerFormatterController,
     controllerAs: 'timepickerFormatter',

@@ -44,6 +44,47 @@
             Muffin tart jelly-o lemon drops cake pie lemon drops icing.
             <i class="luna-calendar"></i>
         </p>
+        <p>
+            Cupcake ipsum dolor sit. Amet caramels chocolate cake toffee. Cheesecake topping
+            jujubes. Sweet roll cotton candy sweet roll lollipop pie ice cream. Icing liquorice
+            cotton candy apple pie cookie powder marshmallow topping dragée. Liquorice fruitcake
+            cotton candy toffee jelly-o jelly bonbon marshmallow jelly-o. Tart toffee brownie
+            muffin liquorice. Jelly beans marzipan carrot cake caramels cake. Soufflé sugar plum
+            ice cream tiramisu carrot cake marshmallow. Jelly beans lollipop wafer marshmallow
+            liquorice dessert gingerbread cake topping. Fruitcake pudding croissant. Dessert donut
+            ice cream biscuit bear claw jujubes.
+        </p>
+        <p>
+            Danish bear claw macaroon cake sesame snaps pie. Icing apple pie cookie topping
+            chocolate cake. Pudding cheesecake chocolate cake tootsie roll candy. Lollipop chupa
+            chups jelly-o icing chocolate ice cream chocolate lollipop. Donut cotton candy
+            chocolate bar carrot cake macaroon powder cotton candy marshmallow. Marzipan sweet
+            croissant candy canes cupcake apple pie cake gingerbread gummies. Wafer cheesecake
+            chocolate cake macaroon biscuit muffin chocolate bar chocolate bar. Powder sweet cake.
+            Muffin tart jelly-o lemon drops cake pie lemon drops icing.
+            <i class="luna-calendar"></i>
+        </p>
+        <p>
+            Cupcake ipsum dolor sit. Amet caramels chocolate cake toffee. Cheesecake topping
+            jujubes. Sweet roll cotton candy sweet roll lollipop pie ice cream. Icing liquorice
+            cotton candy apple pie cookie powder marshmallow topping dragée. Liquorice fruitcake
+            cotton candy toffee jelly-o jelly bonbon marshmallow jelly-o. Tart toffee brownie
+            muffin liquorice. Jelly beans marzipan carrot cake caramels cake. Soufflé sugar plum
+            ice cream tiramisu carrot cake marshmallow. Jelly beans lollipop wafer marshmallow
+            liquorice dessert gingerbread cake topping. Fruitcake pudding croissant. Dessert donut
+            ice cream biscuit bear claw jujubes.
+        </p>
+        <p>
+            Danish bear claw macaroon cake sesame snaps pie. Icing apple pie cookie topping
+            chocolate cake. Pudding cheesecake chocolate cake tootsie roll candy. Lollipop chupa
+            chups jelly-o icing chocolate ice cream chocolate lollipop. Donut cotton candy
+            chocolate bar carrot cake macaroon powder cotton candy marshmallow. Marzipan sweet
+            croissant candy canes cupcake apple pie cake gingerbread gummies. Wafer cheesecake
+            chocolate cake macaroon biscuit muffin chocolate bar chocolate bar. Powder sweet cake.
+            Muffin tart jelly-o lemon drops cake pie lemon drops icing.
+            <i class="luna-calendar"></i>
+        </p>
+
     </script>
     <script type="text/ng-template" id="step2">
         <p>
@@ -126,7 +167,7 @@
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('wizardApp', ['akamai.components.wizard', 'akamai.components.indeterminate-progress'])
+        angular.module('wizardApp', ['akamai.components.constants','akamai.components.wizard', 'akamai.components.indeterminate-progress'])
                 .controller('WizardAppController', WizardAppController)
                 .config(configFunction);
 
@@ -209,18 +250,18 @@
             };
         }
 
-        function configFunction($translatePartialLoaderProvider) {
+        function configFunction($translatePartialLoaderProvider, VERSION) {
 
             // need to overwrite locales path on fee.akamai.com
             if (window.location.host == 'fee.akamai.com') {
                 $translatePartialLoaderProvider.addPart('../dist/locales/');
                 $translatePartialLoaderProvider.addPart('locales/json/messages/');
             } else {
-                $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
             }
         }
-        configFunction.$inject = ['$translatePartialLoaderProvider'];
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
     </script>
 

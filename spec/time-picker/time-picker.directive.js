@@ -18,7 +18,7 @@ var timepikerConfig = {
 };
 
 var defaultScopeTime = new Date();
-var defaultMarkup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+var defaultMarkup = '<akam-time-picker ng-model="inputTime" is-minute-disabled="disableMinutes" show-meridian="showMeridian"></akam-time-picker>';
 
 describe('akamTimepicker directive', function() {
 
@@ -99,6 +99,7 @@ describe('akamTimepicker directive', function() {
       expect(timepickerInputElem.getAttribute('time-formatter')).not.toBe(undefined);
       expect(timepickerInputElem.getAttribute('show-meridian')).not.toBe(undefined);
       expect(timepickerInputElem.getAttribute('ng-model')).not.toBe(undefined);
+      expect(timepickerInputElem.getAttribute('is-minute-disabled')).not.toBe(undefined);
     });
 
     it("should hide the dropdown menu timepicker", function() {
@@ -108,7 +109,7 @@ describe('akamTimepicker directive', function() {
       var timepickerDropdown = self.element.querySelector(selectors.DROPDOWN_MENU);
 
       expect(timepickerDropdown.classList.contains("ng-hide")).toBeTruthy();
-    })
+    });
 
     it('should downdown menu has ui bootstrap timepicker element', function() {
       scope.inputTime = defaultScopeTime;
@@ -129,6 +130,7 @@ describe('akamTimepicker directive', function() {
       expect(timepickerTable.getAttribute("show-meridian")).not.toBe(undefined);
       expect(timepickerTable.getAttribute("minute-step")).not.toBe(undefined);
       expect(timepickerTable.getAttribute("hour-step")).not.toBe(undefined);
+      expect(timepickerTable.getAttribute('is-minute-disabled')).not.toBe(undefined);
     });
 
     it('should render time without meridian in the value display', function() {
@@ -313,9 +315,7 @@ describe('akamTimepicker directive', function() {
       var meridianElem = self.element.querySelector(selectors.DROPDOWN_MENU + " .meridian");
       expect(meridianElem.classList.contains("ng-hide")).toBeTruthy();
     });
-
   });
-
   describe("directive controller", function() {
 
     it("should verify controller variables initial values", function() {
@@ -330,7 +330,7 @@ describe('akamTimepicker directive', function() {
       expect(controller.minuteStep).toBe(timepikerConfig.MINUTE_STEP);
       expect(controller.placeholder).toBe(timepikerConfig.MERIDIAN_ON);
       expect(controller.showMeridian).toBeTruthy();
-
+      expect(controller.disableMinutes).toBeFalsy();
     });
 
     it("should verify scope values when passing in", function() {

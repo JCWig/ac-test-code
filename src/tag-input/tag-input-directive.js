@@ -1,7 +1,7 @@
 import angular from 'angular';
 import template from './templates/tag-input.tpl.html';
 
-function tagInput($translate) {
+function tagInput($translate, $parse) {
   class TagInputController {
     constructor() {
       this.invalidInputs = [];
@@ -10,11 +10,17 @@ function tagInput($translate) {
         placeholder: this.placeholder,
         taggingLabel: this.taggingLabel
       };
+      this.$translate = $translate;
+      this.$parse = $parse;
+    }
 
-      $translate(this.staticMessages.taggingLabel || 'components.tag-input.taggingLabel')
+    translateTaggingLabel(taggingLabelValues) {
+      let taggingLabel = this.staticMessages.taggingLabel || 'components.tag-input.taggingLabel';
+
+      this.$translate(taggingLabel, this.$parse(taggingLabelValues)())
         .then(value => this.staticMessages.taggingLabel = value);
 
-      $translate(this.staticMessages.placeholder || 'components.tag-input.placeholder')
+      this.$translate(this.staticMessages.placeholder || 'components.tag-input.placeholder')
         .then( value => {
           this.staticMessages.placeholder = value;
           this.messages = this.staticMessages;
@@ -65,6 +71,8 @@ function tagInput($translate) {
     template: template,
     link: function(scope, element, attrs, ngModel) {
       let ctrl = scope.tagInput;
+
+      ctrl.translateTaggingLabel(attrs.taggingLabelValues);
 
       function removeClasses() {
         let stillDropping =
@@ -133,6 +141,6 @@ function tagInput($translate) {
   };
 }
 
-tagInput.$inject = ['$translate'];
+tagInput.$inject = ['$translate', '$parse'];
 
 export default tagInput;
