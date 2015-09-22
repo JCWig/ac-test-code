@@ -78,9 +78,12 @@
                   <div class="col-md-9">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="checkbox1" ng-model="checkbox1">
+                        <input type="checkbox" name="checkbox1" ng-model="checkbox1" required>
                         <span class="label">Checkbox Label</span>
                       </label>
+                    </div>
+                    <div ng-messages="kitchenSink.checkbox1.$error" class="ngMessages" role="alert">
+                      <div ng-message="required">You did not select an item</div>
                     </div>
                     <div class="checkbox">
                       <label>
@@ -88,11 +91,17 @@
                         <span class="label">Checkbox Label</span>
                       </label>
                     </div>
+                    <div ng-messages="kitchenSink.checkbox2.$error" class="ngMessages" role="alert">
+                      <div ng-message="required">You did not select an item</div>
+                    </div>
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox3" ng-model="checkbox3">
                         <span class="label">Checkbox Label</span>
                       </label>
+                    </div>
+                    <div ng-messages="kitchenSink.checkbox3.$error" class="ngMessages" role="alert">
+                      <div ng-message="required">You did not select an item</div>
                     </div>
                   </div>
                 </div>
@@ -1010,11 +1019,15 @@
         }
         
         for(var x = 0; x < forms.length; x++) {
-          var width = Math.floor(getRandomArbitrary(50, 90));
+          var width = Math.floor(getRandomArbitrary(60, 100));
           forms[x].setAttribute("style","width:"+width+"%");
-          if (width % 2 == 1) {
+          if (width % 3 == 1) {
             forms[x].className = forms[x].className + " show-required";
           }
+          if (width % 2 == 1) {
+            forms[x].className = forms[x].className + " show-validation";
+          }
+          
         }
       </script>
     </body>

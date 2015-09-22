@@ -114,4 +114,67 @@ form.show-required {
   }
 }
 
-
+/* show-validation */
+.show-validation {
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="date"],
+  input[type="month"],
+  input[type="number"],
+  textarea {
+  
+    &.ng-invalid {
+      border-color: $colors__red3;
+      border-width: 2px;
+    }
+  }
+  
+  input[type="search"],
+  input[type="date"],
+  input[type="month"] {
+  
+    &.ng-invalid.ng-dirty.ng-touched {
+  
+      & ~ .button,
+      & ~ .btn {
+        border-left-color: $colors__red3;
+      }
+    }
+  }
+  
+  .ng-invalid ~ [ng-messages] {
+    display: block;
+  }
+  
+  akam-tag-input {
+    &.ng-invalid {
+      .ui-select-container {
+        border-color: $colors__red3;
+        border-width: 2px;
+      }
+    }
+  }
+  
+  ul.dropdown-menu {
+    &.ng-invalid {
+      border-color: $colors__red3;
+    }
+  }
+  
+  .akam-date-picker.ng-invalid {
+    
+    & > input {
+      border-color: $colors__red3;
+      
+      & ~ .button,
+      & ~ .btn {
+        border-left-color: $colors__red3;
+      }
+    }
+  
+    ul.dropdown-menu {
+      border-color: $colors__red3;
+    }
+  }
+}
