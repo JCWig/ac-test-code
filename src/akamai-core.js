@@ -28,6 +28,7 @@ import spinnerButton from './spinner-button';
 import datetimePicker from './datetime-picker';
 import progressBar from './progress-bar';
 import constants from './constants';
+import setFocus from './set-focus';
 
 /**
  * @ngdoc overview
@@ -71,5 +72,6 @@ angular.module('akamai.components', [
   spinnerButton.name,
   datetimePicker.name,
   progressBar.name,
-  constants.name
+  constants.name,
+  setFocus.name
 ]);

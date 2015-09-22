@@ -66,6 +66,7 @@ export default class DropdownController {
       new this.dropdownTemplateService.DropdownMenuRenderer(this);
 
     this.setPlaceholders();
+    this.translateTextProperty();
 
     this.selected.render();
     this.menu.render();
@@ -117,6 +118,17 @@ export default class DropdownController {
         this.filterPlaceholder = value;
         this.selected.placeholder = this.placeholder;
       });
+  }
+
+  translateTextProperty() {
+    if (angular.isDefined(this.textProperty)) {
+      angular.forEach(this.items, (item) => {
+        this.$translate(item[this.textProperty])
+          .then(value => {
+            item[this.textProperty] = value;
+          });
+      });
+    }
   }
 
   setSelectedItem(item) {

@@ -17,9 +17,37 @@ function messageBox(modalWindow, $translate, $rootScope) {
 
   modalWindowController.$inject = ['$scope'];
 
-  function show(options, type) {
-    let title = $translate.instant('components.message-box.title.information');
+  /**
+   * translateOptionLabels translate title, cancelLabel and submitLabel text
+   * @param  {object} options contains properties that may require translation
+   * @param  {string} type title type as information, error, question
+   */
+  function translateOptionLabels(options, type) {
+    let titleId, cancelId, submitId;
 
+    switch (type) {
+      case 'information':
+        titleId = options.title || 'components.message-box.title.information';
+        break;
+      case 'question':
+        titleId = options.title || 'components.message-box.title.question';
+        break;
+      case 'error':
+        titleId = options.title || 'components.message-box.title.error';
+        break;
+      default:
+        titleId = options.title || 'components.message-box.title.information';
+    }
+
+    cancelId = options.cancelLabel || 'components.message-box.no';
+    submitId = options.submitLabel || 'components.message-box.yes';
+
+    options.title = $translate.instant(titleId, options.titleValues);
+    options.cancelLabel = $translate.instant(cancelId, options.cancelLabelValues);
+    options.submitLabel = $translate.instant(submitId, options.submitLabelValues);
+  }
+
+  function show(options, type) {
     if (options.headline == null) {
       throw new Error('headline option is required');
     }
@@ -28,14 +56,9 @@ function messageBox(modalWindow, $translate, $rootScope) {
       throw new Error('text option is required');
     }
 
-    if (type === 'question') {
-      title = $translate.instant('components.message-box.title.question');
-    } else if (type === 'error') {
-      title = $translate.instant('components.message-box.title.error');
-    }
+    translateOptionLabels(options, type);
 
-    options.title = $translate.instant(options.title);
-    options.title = options.title ? options.title.substr(0, 20) : title;
+    options.title = options.title.substr(0, 20);
     options.backdrop = 'static';
     options.scope = $rootScope.$new();
     options.scope.messageBox = {
@@ -43,9 +66,6 @@ function messageBox(modalWindow, $translate, $rootScope) {
       text: options.text.substr(0, 220),
       details: options.details
     };
-
-    options.cancelLabel = $translate.instant(options.cancelLabel || 'components.message-box.no');
-    options.submitLabel = $translate.instant(options.submitLabel || 'components.message-box.yes');
 
     return modalWindow.open(angular.extend(options, {
       template: template,

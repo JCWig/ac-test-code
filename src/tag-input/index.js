@@ -56,7 +56,7 @@ module.exports = angular.module('akamai.components.tag-input', [
  * @param {String[]} availableItems The list of strings that
  * will appear as selectable items in a dropdown
  *
- * @param {String} taggingLabel A string which will appear next to
+ * @param {String|TranslateKey} taggingLabel A string which will appear next to
  * a string that is being input
  *
  * @param {Function} sortFunction A function that if given will sort
@@ -75,5 +75,13 @@ module.exports = angular.module('akamai.components.tag-input', [
  * when a new value is input. It should return true if the input is allowed
  * false is the input is not a valid input, we do not allow blank, undefined or
  * null inputs
+ *
+ * __NOTE__: We also provide tagging-label-values attributes for user to pass in object
+ * in the need of variable replacement for translation.
+ * Example of usage:
+ * <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true"
+ *     tagging-label="examples.tag-input.label-variable" tagging-label-values="{'name':'existing'}">
+ * </akam-tag-input>
+ * locale table: 'components.input-tag.label-variable: add {{name}} one'
  */
   .directive('akamTagInput', tagInputDirective);

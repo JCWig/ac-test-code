@@ -28,6 +28,10 @@ function timepickerDecorator($provide) {
 
         scope.hoveringOn = '';
 
+        scope.isMinuteDisabled = () => {
+          return scope.$parent.timepicker.isMinuteDisabled();
+        };
+
         //minute up arrow handlers
         scope.minuteUpMouseUp = (e) => {
           stop(e, minuteUpPromise);

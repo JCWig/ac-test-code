@@ -84,7 +84,6 @@
                 <button class="btn" ng-click="pb6.timer.start();" >Play</button>
                 <button class="btn" ng-click="pb6.timer.error()">Throw Error</button>
             </div>
-
             <script src="../dist/akamai-core.js"></script>
             <script>
                 var controllerFunction = function($scope) {
@@ -93,6 +92,7 @@
                     $scope.pb1.maxValue = 30;
                     $scope.pb1.animate = false;
                     $scope.pb1.label = 'components.name';
+                    //$scope.pb1.labelValues = {};
                     $scope.pb1.labelAlign = 'left';
 
                     $scope.pb2 = [];
@@ -104,7 +104,7 @@
 
                     $scope.pb3 = [];
                     $scope.pb3.currentValue = 30;
-                    $scope.pb3.state = 'error'; // info, warning, danger, success
+                    $scope.pb3.state = 'error'; // inprogress, completed, error
                     $scope.pb3.maxValue = 30;
                     $scope.pb3.animate = false;
                     $scope.pb3.label = 'Unable to display status.';
@@ -174,9 +174,22 @@
                     };
                 };
                 controllerFunction.$inject = ['$scope'];
-                var app = angular.module('progressBarDemo', ['akamai.components.progress-bar']);
+                function configFunction($translatePartialLoaderProvider, VERSION) {
 
+                  // need to overwrite locales path on fee.akamai.com
+                  if (window.location.host == 'fee.akamai.com') {
+                    $translatePartialLoaderProvider.addPart('../dist/locales/');
+                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
+                  } else {
+                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                  }
+                }
+                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+                var app = angular.module('progressBarDemo', ['akamai.components.constants', 'akamai.components.progress-bar']);
                 app.controller('Ctrl', controllerFunction);
+                app.config(configFunction);
             </script>
         </div>
     </body>
