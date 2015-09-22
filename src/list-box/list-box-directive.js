@@ -21,29 +21,6 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
       this.dataSource = [];
       this.page = 1;
 
-      $translate(this.staticMessages.filterPlaceholder || 'components.list-box.placeholder.filter')
-          .then(value => this.staticMessages.filterPlaceholder = value);
-
-      $translate(this.noDataMessage || 'components.list-box.text.noDataMessage')
-        .then(value => this.noDataMessage = value);
-
-      $translate(this.staticMessages.noFilterResultsMessage ||
-        'components.list-box.text.noFilterResults')
-          .then(value => this.staticMessages.noFilterResultsMessage = value);
-
-      $translate(this.staticMessages.noneSelectedMessage ||
-        'components.list-box.text.viewSelectedOnly')
-          .then(value => this.staticMessages.noneSelectedMessage = value);
-
-      $translate(this.staticMessages.selectedText ||
-        'components.list-box.text.selected')
-          .then(value => {
-            this.staticMessages.selectedText = value;
-            // set messages equal to staticMessages after all staticMessage.* have been translated
-            // otherwise translation key will be displayed
-            this.messages = this.staticMessages;
-          });
-
       this.loadMoreData = function() {
         for (let i = this.page * 10; i < this.page * 10 + 10; i++) {
           if (!this.dataTable || !this.dataTable[i]) {
@@ -123,8 +100,8 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
       }
 
       this.dataTable = this.orderBy($filter('filter')(this.fullDataSet, this.state.search),
-                               this.state.sortInfo.predicate,
-                               this.state.sortInfo.reverseSort);
+        this.state.sortInfo.predicate,
+        this.state.sortInfo.reverseSort);
       this.manageStates();
     }
 
@@ -184,7 +161,7 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
       });
 
       autoSortableColumns = this.columns.filter(
-          col => col.sort !== false && col.autoSort !== false
+        col => col.sort !== false && col.autoSort !== false
       );
 
       this.fullDataSet = dataTableOutput;
@@ -236,7 +213,9 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
 
       this.manageStates();
       if (angular.isFunction(this.onChange)) {
-        this.onChange({value: this.selectedItems});
+        this.onChange({
+          value: this.selectedItems
+        });
       }
     }
 
@@ -294,6 +273,49 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
 
       output += column.className ? column.className : 'column';
       return output;
+    }
+
+    /**
+     * translateMessages method for translate all messages that includes
+     * values attributes from noDataMessageValues, noFilterResultsMessageValues,
+     * noneSelectedMessageValues for varaible replacements
+     * @param  {Object} attr Directive node attribute
+     */
+    translateMessages(attr) {
+      let filterplaceholderMessage = this.staticMessages.filterPlaceholder ||
+        'components.list-box.placeholder.filter',
+
+        noDataMessage = this.noDataMessage ||
+        'components.list-box.text.noDataMessage',
+
+        noFilterResultsMessage = this.staticMessages.noFilterResultsMessage ||
+        'components.list-box.text.noFilterResults',
+
+        noneSelectedMessage = this.staticMessages.noneSelectedMessage ||
+        'components.list-box.text.viewSelectedOnly',
+
+        selectedText = this.staticMessages.selectedText ||
+        'components.list-box.text.selected';
+
+      $translate(filterplaceholderMessage)
+        .then(value => this.staticMessages.filterPlaceholder = value);
+
+      $translate(noDataMessage, angular.fromJson(attr.noDataMessageValues))
+        .then(value => this.noDataMessage = value);
+
+      $translate(noFilterResultsMessage, angular.fromJson(attr.noFilterResultsMessageValues))
+        .then(value => this.staticMessages.noFilterResultsMessage = value);
+
+      $translate(noneSelectedMessage, angular.fromJson(attr.noneSelectedMessageValues))
+        .then(value => this.staticMessages.noneSelectedMessage = value);
+
+      $translate(selectedText)
+        .then(value => {
+          this.staticMessages.selectedText = value;
+          // set messages equal to staticMessages after all staticMessage.* have been translated
+          // otherwise translation key will be displayed
+          this.messages = this.staticMessages;
+        });
     }
 
     static getDefaults() {
@@ -374,10 +396,10 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
 
       if (column.sort != null && column.sort !== true) {
         predicate = angular.isString(column.sort) ?
-        '+item.' + column.sort : obj => column.sort.call(obj.item);
+          '+item.' + column.sort : obj => column.sort.call(obj.item);
       } else {
         predicate = angular.isString(column.content) ?
-        '+item.' + column.content : obj => column.content.call(obj.item);
+          '+item.' + column.content : obj => column.content.call(obj.item);
       }
 
       return predicate;
@@ -406,11 +428,12 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
       selectedItems: '=?',
       onChange: '&?'
     },
-
     controller: ListBoxController,
     controllerAs: 'listBox',
-    template: template
-
+    template: template,
+    link: (scope, elem, attr) => {
+      scope.listBox.translateMessages(attr);
+    }
   };
 }
 listBox.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', '$translate'];

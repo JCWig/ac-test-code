@@ -125,24 +125,24 @@
       window.location.reload();
     }
   };
-  function configFunction($translatePartialLoaderProvider) {
+  function configFunction($translatePartialLoaderProvider, VERSION) {
 
     // need to overwrite locales path on fee.akamai.com
     if (window.location.host == 'fee.akamai.com') {
       $translatePartialLoaderProvider.addPart('../dist/locales/');
       $translatePartialLoaderProvider.addPart('locales/json/messages/');
     } else {
-      $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+      $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
       $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
     }
   }
-  configFunction.$inject = ['$translatePartialLoaderProvider'];
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
 
   controllerFunction.$inject = ['portalLocale', '$scope', '$cookies', '$translate',
     '$rootScope', '$filter', '$log'];
 
-  angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
+  angular.module('i18nDemo3', ['akamai.components.constants', 'akamai.components.i18n', 'ngCookies']);
 
   // Override the location of the Component and Application locale files
   angular.module('i18nDemo3')

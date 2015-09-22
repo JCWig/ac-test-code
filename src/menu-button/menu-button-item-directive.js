@@ -1,4 +1,4 @@
-export default function() {
+function menuButtonDirective(translateValueSupport) {
   return {
     restrict: 'E',
     replace: true,
@@ -7,11 +7,16 @@ export default function() {
       text: '@',
       isDisabled: '=?'
     },
-    controller: function() { },
+    controller: function() {},
     controllerAs: 'menuButtonItem',
-    template:
-      `<li ng-class="{'disabled' : menuButtonItem.isDisabled}">
-        <a href="javascript:void(0);" translate="{{ ::menuButtonItem.text }}"></a>
-      </li>`
+    link: (scope, elem, attr) => {
+      translateValueSupport.setValues(scope.menuButtonItem, 'text', attr.textValues);
+    },
+    template: `<li ng-class="{'disabled' : menuButtonItem.isDisabled}">
+        <a href="javascript:void(0);" translate="{{ ::menuButtonItem.text }}"
+        translate-values="{{::menuButtonItem.textValues}}"></a>
+        </li>`
   };
 }
+menuButtonDirective.$inject = ['translateValueSupport'];
+export default menuButtonDirective;

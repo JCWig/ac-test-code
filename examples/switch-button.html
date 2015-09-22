@@ -25,9 +25,27 @@
     </div>
     <br/>
     <div>
-        <h2>Custom Labels</h2>   
+        <h2>Custom Labels</h2>
         <akam-switch-button ng-model="vm.ex2.on" on-label='{{"examples.switchbutton.custom.allow" | translate}}'
                             off-label='{{"examples.switchbutton.custom.deny" | translate}}'>
+        </akam-switch-button>
+    </div>
+    <br/>
+        <div>
+        <h2>Custom Labels passing translation keys</h2>
+        <akam-switch-button ng-model="vm.ex7.on" on-label="examples.switchbutton.custom.allow"
+                            off-label="examples.switchbutton.custom.deny">
+        </akam-switch-button>
+    </div>
+    <br/>
+
+    <div>
+        <h2>Custom Labels passing translation keys and values attributes</h2>
+        <akam-switch-button ng-model="vm.ex8.on"
+                            on-label="examples.switchbutton.custom.label-variable"
+                            on-label-values="{name: 'Allow'}"
+                            off-label="examples.switchbutton.custom.label-variable"
+                            off-label-values = "{name: 'Deny'}">
         </akam-switch-button>
     </div>
     <br/>
@@ -63,7 +81,7 @@
 
     <script>
 
-        angular.module('switchButtonApp', ['akamai.components.switch-button'])
+        angular.module('switchButtonApp', ['akamai.components.constants', 'akamai.components.switch-button'])
             .controller('SwitchButtonController', SwitchButtonController)
             .config(configFunction);
 
@@ -76,23 +94,26 @@
             vm.ex4 = { on: false };
             vm.ex5 = { on: true };
             vm.ex6 = { on: false };
+            vm.ex7 = { on: true };
+            vm.ex8 = { on: false };
             vm.hello = false;
             vm.switchHello = function () {
                 vm.hello = !vm.hello;
             }
         }
-        function configFunction($translatePartialLoaderProvider) {
+        function configFunction($translatePartialLoaderProvider, VERSION) {
 
             // need to overwrite locales path on fee.akamai.com
             if (window.location.host == 'fee.akamai.com') {
                 $translatePartialLoaderProvider.addPart('../dist/locales/');
                 $translatePartialLoaderProvider.addPart('locales/json/messages/');
             } else {
-                $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
             }
         }
-        configFunction.$inject = ['$translatePartialLoaderProvider'];
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
     </script>
 

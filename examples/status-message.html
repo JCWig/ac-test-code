@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label class="label">Status:</label>
                     <table>
-                        <tr>                            
+                        <tr>
                             <td>
                                 <input id="errorRadio" type="radio" ng-model="status" value="Error" />
                                 <label class="label" for="errorRadio">Error</label>
@@ -57,7 +57,7 @@
                 $scope.messageText = "Basic Message Text";
                 $scope.messageTitle = "Message Title";
                 $scope.status = "Error"; //Information, Error, Success, Warning
-        
+
                 $scope.showStatus = function(){
                     id = statusMessage["show" + $scope.status]({text : $scope.messageText, timeout: $scope.messageTimeout});
                 };

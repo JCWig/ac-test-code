@@ -80,7 +80,7 @@
         {
             "products": "Filter Products"
         }
-    }, 
+    },
   "report.emails": "Emails",
   "instant-reports.criteria.title": "Report Criteria",
   "recurring-report.create.menu.title": "Create Recurring Report",
@@ -248,5 +248,6 @@
   "components.list-box.text.no.data.viewSelectedOnly": "You have no data selected",
   "components.list-box.text.nofilterResults": "There are no results based upon your filter",
   "components.list-box.text.noDataMessage": "There is no data based upon your criteria",
-  "table.full-name": "Full Name"
+  "table.full-name": "Full Name",
+  "components.variableReplacements": "select:{{first}}"
 }
