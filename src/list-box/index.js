@@ -83,6 +83,19 @@ module.exports = angular.module('akamai.components.list-box', [
  * @param {Array} columns The array of columns that describes the
  * schema to the list box layout and formatting.
  *
+ * __NOTE__: There are three types of text messages {string|TranslateKey}
+ * user can pass in as APIs: noFilterResultsMessage, noDataMessage,  noneSelectedMessage
+ * The component also provides "*-values" attributes for each of above API if any one
+ * needs variable replacement. An example:
+ * <akam-list-box
+ *   data="vm.data"
+ *   schema="vm.schema"
+ *   filter-placeholder="An already translated string"
+ *   no-data-message="no.data.key" no-data-message-values="{'name': 'service'}">
+ * </akam-list-box>
+ * locale item: {"no.data.key": "No {{}} date provided."}
+ * will render: "No service date provided.""
+ *
  */
   .directive('akamListBox', listBoxDirective)
 

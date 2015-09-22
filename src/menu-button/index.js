@@ -63,9 +63,10 @@ export default angular.module('akamai.components.menu-button', [
  * @name akamMenuButtonItem
  * @restrict E
  *
- * @param {String|TranslateKey} [text=""] The text or translationKeyto show for this menu item.
- * It will be passed through the translate function so if it is an i18n key, it will be
- * automatically translated for you.
+ * @param {String|TranslateKey} [text=""] The text to show for this menu item.
+ * User can pass text to directive as tranlsationKey value and it will be
+ * automatically translated inside the component, and if variable replacement needed for
+ * the translation, user can pass in object hash through text-values attribute
  *
  * @param {Boolean} [isDisabled] When is-disabled is true, disables this menu item.
  *
