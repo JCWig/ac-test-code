@@ -62,6 +62,19 @@ ul.dropdown-menu {
 
 }
 
+akam-dropdown {
+  &.ng-invalid.ng-dirty.ng-touched {
+    .dropdown-toggle > .dropdown-selected-wrapper > span {
+      border-color: $colors__red3;
+      border-width: 2px;
+      
+      &.selected-option {
+        border-right-width: 0;
+      }
+    }
+  }
+}
+
 
 
 /* date picker validation */
@@ -152,6 +165,19 @@ form.show-required {
       .ui-select-container {
         border-color: $colors__red3;
         border-width: 2px;
+      }
+    }
+  }
+  
+  akam-dropdown {
+    &.ng-invalid {
+      .dropdown-toggle > .dropdown-selected-wrapper > span {
+        border-color: $colors__red3;
+        border-width: 2px;
+        
+        &.selected-option {
+          border-right-width: 0;
+        }
       }
     }
   }
