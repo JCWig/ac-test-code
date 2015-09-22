@@ -21,12 +21,24 @@ function wizardContent($compile, $templateCache, $http, $q) {
     link: function(scope, element) {
       scope.$watch('wizard.stepIndex', stepIndex => getStepTemplate(scope.wizard.steps[stepIndex])
           .then((content) => {
-            var modalBodyElem = element.children(0);
+            if (!scope.wizard.steps[stepIndex]) {
+              return;
+            }
 
-            content = angular.isUndefined(content) ? '<akam-indeterminate-progress></akam-indeterminate-progress>' : content;
+            let modalBodyElem = element.children(0);
+            let compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
+
+            if (!compiledTemplate) {
+              content = angular.isUndefined(content) ?
+                '<akam-indeterminate-progress></akam-indeterminate-progress>' : content;
+
+              scope.wizard.steps[stepIndex].compiledTemplate =
+                $compile(backwashTemplate + content)(scope.wizard.contentScope);
+              compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
+            }
 
             modalBodyElem.empty();
-            modalBodyElem.append($compile(backwashTemplate + content)(scope.wizard.contentScope));
+            modalBodyElem.append(compiledTemplate);
           })
       );
     }
