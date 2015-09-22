@@ -196,6 +196,31 @@ describe('akamai.components.dropdown', function() {
         expect(filterbox).not.toBe(null);
       });
     });
+    describe('when filter box is focused', function(){
+      beforeEach(function(){
+        $scope.selectedStateObj = {name: 'Colorado'};
+        $scope.stateStringsObjs = stateObjects;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" filterable items="stateStringsObjs"></akam-dropdown>';
+
+        addElement(dropdownTemplate);
+        timeout.flush();
+
+        var dropdown = util.find('.dropdown');
+        util.click('.dropdown-toggle');
+        $scope.$digest();
+        expect(dropdown.classList).toContain('open');
+
+        var filterbox = document.querySelector('.fixed-header input');
+        filterbox.focus();
+        $scope.$digest();
+        filterbox.blur();
+        $scope.$digest();
+      });
+      it('should close dropdown when it loses focus', function() {
+        var dropdown = util.find('.dropdown');
+        expect(dropdown.classList).not.toContain('open');
+      });
+    });
   });
   describe('given a filtearble attribute', function(){
     describe('and a filter-placeholder attribute is provided', function(){
