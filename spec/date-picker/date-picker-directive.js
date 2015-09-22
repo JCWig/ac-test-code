@@ -16,6 +16,14 @@ var findCertainButton = function(buttonKey) {
   }
   return null;
 };
+
+function getDateButtonParentElement(dateNumber) {
+  return document.querySelector(DATE_PICKER + " table tbody tr td.day-"+dateNumber);
+}
+
+function getMonthButtonParentElement(dateNumber) {
+  return document.querySelector(DATE_PICKER + " table tbody tr td.month-"+dateNumber);
+}
 describe('akam-date-picker', function() {
   var compile = null;
   var scope = null;
@@ -119,7 +127,7 @@ describe('akam-date-picker', function() {
       expect(displayedHeaderOfDatePicker.textContent).toEqual(todaysDate);
     });
     it('should have todays date highlighted', function() {
-      var todaysButton = findCertainButton(utilities.getTodaysDay()).querySelector('span');
+      var todaysButton = getDateButtonParentElement(utilities.getTodaysDay()).querySelector('span');
       expect(todaysButton.classList.contains('text-info')).toBe(true);
     });
   });
@@ -135,7 +143,7 @@ describe('akam-date-picker', function() {
       var clearIcon = document.querySelector('.clear-date');
       expect(clearIcon).toBe(null);
 
-      var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
 
@@ -177,9 +185,6 @@ describe('akam-date-picker', function() {
       scope.disabled = true;
       scope.$digest();
       var iconElem = document.querySelector('.akam-date-picker .button .luna-calendar');
-
-      console.log(iconElem)
-
       expect(iconElem.getAttribute('disabled')).toBe('disabled');
     });
   });
@@ -212,7 +217,7 @@ describe('akam-date-picker', function() {
       expect(displayedHeaderOfDatePicker.textContent).toEqual(next_month);
     });
     it('should close and save date when date is chosen', function() {
-      var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
       expect(scope.mychange).not.toHaveBeenCalled();
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
@@ -226,14 +231,14 @@ describe('akam-date-picker', function() {
       expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should be able to open and change date', function() {
-      var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
 
       var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
       utilities.click(toggleDatePickerButton);
 
-      var secondDayOfMonthButton = findCertainButton("02").querySelector('button');
+      var secondDayOfMonthButton = getDateButtonParentElement("02").querySelector('button');
       utilities.click(secondDayOfMonthButton);
       scope.$digest();
 
@@ -248,7 +253,7 @@ describe('akam-date-picker', function() {
       var clearIcon = document.querySelector('.clear-date');
       expect(clearIcon).toBe(null);
 
-      var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
 
@@ -256,7 +261,7 @@ describe('akam-date-picker', function() {
       expect(clearIcon).not.toBe(null);
     });
     it('should be able to clear date', function() {
-      var firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
 
@@ -297,7 +302,7 @@ describe('akam-date-picker', function() {
     });
     it('should have todays month highlighted', function() {
       var thisMonth = utilities.getMonthInEnglish(utilities.getTodaysMonth()).slice(0, 3);
-      var todaysMonthButton = findCertainButton(thisMonth).querySelector('span');
+      var todaysMonthButton = getMonthButtonParentElement(thisMonth).querySelector('span');
       expect(todaysMonthButton.classList.contains('text-info')).toBe(true);
     });
     it('should have placeholer text if provided', function() {
@@ -305,17 +310,17 @@ describe('akam-date-picker', function() {
       expect(inputDateField.placeholder).toEqual("placeholder");
     });
     it('should have every month', function() {
-      var januaryMonthButton = findCertainButton("Jan").querySelector('button');
-      var februaryMonthButton = findCertainButton("Feb").querySelector('button');
-      var marchMonthButton = findCertainButton("Mar").querySelector('button');
-      var aprilMonthButton = findCertainButton("Apr").querySelector('button');
-      var juneMonthButton = findCertainButton("Jun").querySelector('button');
-      var julyMonthButton = findCertainButton("Jul").querySelector('button');
-      var augustMonthButton = findCertainButton("Aug").querySelector('button');
-      var septemberMonthButton = findCertainButton("Sep").querySelector('button');
-      var octoberMonthButton = findCertainButton("Oct").querySelector('button');
-      var novemberMonthButton = findCertainButton("Nov").querySelector('button');
-      var decemberMonthButton = findCertainButton("Dec").querySelector('button');
+      var januaryMonthButton = getMonthButtonParentElement("Jan").querySelector('button');
+      var februaryMonthButton = getMonthButtonParentElement("Feb").querySelector('button');
+      var marchMonthButton = getMonthButtonParentElement("Mar").querySelector('button');
+      var aprilMonthButton = getMonthButtonParentElement("Apr").querySelector('button');
+      var juneMonthButton = getMonthButtonParentElement("Jun").querySelector('button');
+      var julyMonthButton = getMonthButtonParentElement("Jul").querySelector('button');
+      var augustMonthButton = getMonthButtonParentElement("Aug").querySelector('button');
+      var septemberMonthButton = getMonthButtonParentElement("Sep").querySelector('button');
+      var octoberMonthButton = getMonthButtonParentElement("Oct").querySelector('button');
+      var novemberMonthButton = getMonthButtonParentElement("Nov").querySelector('button');
+      var decemberMonthButton = getMonthButtonParentElement("Dec").querySelector('button');
 
       expect(januaryMonthButton).not.toBe(null);
       expect(februaryMonthButton).not.toBe(null);
@@ -362,7 +367,7 @@ describe('akam-date-picker', function() {
       expect(displayedHeaderOfDatePicker.textContent).toEqual(next_year);
     });
     it('should close and save month when month is chosen', function() {
-      var januaryMonthButton = findCertainButton("Jan").querySelector('button');
+      var januaryMonthButton = getMonthButtonParentElement("Jan").querySelector('button');
       utilities.click(januaryMonthButton);
       scope.$digest();
 
@@ -375,13 +380,13 @@ describe('akam-date-picker', function() {
       expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should be able to open and change month', function() {
-      var januaryMonthButton = findCertainButton("Jan").querySelector('button');
+      var januaryMonthButton = getMonthButtonParentElement("Jan").querySelector('button');
       utilities.click(januaryMonthButton);
       scope.$digest();
 
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
 
-      var februaryMonthButton = findCertainButton("Feb").querySelector('button');
+      var februaryMonthButton = getMonthButtonParentElement("Feb").querySelector('button');
       utilities.click(februaryMonthButton);
       scope.$digest();
 
@@ -404,15 +409,15 @@ describe('akam-date-picker', function() {
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should be unable to choose day above maximum', function() {
-      var dayAboveMax = findCertainButton("20");
+      var dayAboveMax = getDateButtonParentElement("20");
       expect(dayAboveMax.getAttribute('aria-disabled')).toMatch(/true/);
     });
     it('should be unable to choose day below minimum', function() {
-      var dayBelowMin = findCertainButton("02");
+      var dayBelowMin = getDateButtonParentElement("02");
       expect(dayBelowMin.getAttribute('aria-disabled')).toMatch(/true/);
     });
     it('should be able to choose date within range', function() {
-      var dayWithinRange = findCertainButton("09");
+      var dayWithinRange = getDateButtonParentElement("09");
       expect(dayWithinRange.getAttribute('aria-disabled')).toMatch(/false/);
     });
   });
@@ -430,7 +435,7 @@ describe('akam-date-picker', function() {
       if (monthBelowMinEnglish === "Dec") {
         utilities.click(NAVIGATE_DATEPICKER_BACKWARDS);
       }
-      var monthBelowMin = findCertainButton(monthBelowMinEnglish);
+      var monthBelowMin = getMonthButtonParentElement(monthBelowMinEnglish);
       expect(monthBelowMin.getAttribute('aria-disabled')).toMatch(/true/);
     });
     it('should be unable to choose month above maximum', function() {
@@ -438,11 +443,11 @@ describe('akam-date-picker', function() {
       if (monthAboveMaxEnglish === "Jan") {
         utilities.click(NAVIGATE_DATEPICKER_FORWARDS);
       }
-      var monthAboveMax = findCertainButton(monthAboveMaxEnglish);
+      var monthAboveMax = getMonthButtonParentElement(monthAboveMaxEnglish);
       expect(monthAboveMax.getAttribute('aria-disabled')).toMatch(/true/);
     });
     it('should be able to choose month within range', function() {
-      var monthWithinRange = findCertainButton(utilities.getMonthInEnglish().slice(0, 3));
+      var monthWithinRange = getMonthButtonParentElement(utilities.getMonthInEnglish().slice(0, 3));
       expect(monthWithinRange.getAttribute('aria-disabled')).toMatch(/false/);
     });
   });

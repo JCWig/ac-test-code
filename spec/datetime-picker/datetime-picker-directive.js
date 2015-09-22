@@ -7,15 +7,9 @@ const datePickerSelector = ".akam-date-picker";
 const timepickerSelector = ".akam-time-picker";
 const timeIncrementSelector = " .dropdown-menu tr.time-increment-row td a.btn-link";
 
-var findCertainButton = function(buttonKey) {
-  var calendar = document.querySelectorAll('td.ng-scope');
-  for (var i = 0; i < calendar.length; i++) {
-    if (calendar[i].textContent.indexOf(buttonKey) >= 0 && !calendar[i].querySelector('span').classList.contains('text-muted')) {
-      return calendar[i];
-    }
-  }
-  return null;
-};
+function getDateButtonParentElement(dateNumber) {
+  return document.querySelector("ul.dropdown-menu table tbody tr td.day-"+dateNumber);
+}
 
 describe('akamai.components.datetime-picker', function() {
   var $scope, $compile, timeout;
@@ -168,7 +162,7 @@ describe('akamai.components.datetime-picker', function() {
       expect(this.controller.datetimeValue.getMonth()).toEqual(d.getMonth());
       expect(this.controller.datetimeValue.getDate()).toEqual(d.getDate());
 
-      let firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      let firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
 
@@ -233,7 +227,7 @@ describe('akamai.components.datetime-picker', function() {
       utilities.click(dateButton);
       $scope.$digest();
 
-      let firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      let firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
 
@@ -268,7 +262,7 @@ describe('akamai.components.datetime-picker', function() {
       utilities.click(dateButton);
       $scope.$digest();
 
-      let firstDayOfMonthButton = findCertainButton("01").querySelector('button');
+      let firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
 
