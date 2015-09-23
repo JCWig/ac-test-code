@@ -59,7 +59,7 @@ input[type="search"] {
     display: none;
   }
 
-  &:disabled ~ .btn {
+  &:disabled ~ .btn, 
   &[readonly] ~ .btn {
     background: $button-background-color-disabled;
     border-color: $button-border-color-disabled;
