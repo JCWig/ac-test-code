@@ -42,6 +42,14 @@
         -moz-transition: all 0.3s ease 0s;
         -o-transition: all 0.3s ease 0s;
         transition: all 0.3s ease 0s;
+        overflow: hidden;
+    }
+
+    &.splitter-drag .split-pane{
+        -moz-transition-property: none;
+        -webkit-transition-property: none;
+        -o-transition-property: none;
+        transition-property: none;
     }
 
     &.splitter-collapsed{

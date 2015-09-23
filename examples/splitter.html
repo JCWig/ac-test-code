@@ -154,6 +154,21 @@
                     </akam-splitter>
                 </div>
             </div>
+            <br/>
+            <div class="row">
+                <h2>Vertical Splitter - left - Checking whether parent scope is passing to children</h2>
+                <br/>
+                <div class="splittercontainer">
+                    <akam-splitter  type="{{pb1.type}}"
+                                        direction="{{pb1.direction}}"
+                                        freeze-divider="pb1.freezeDivider"
+                                        freeze-collapse="pb1.freezeCollapse"
+                                        collapsed="pb1.collapsed">
+                                        <akam-split-pane size="4"><input ng-model="sample"></input></akam-split-pane>
+                                        <akam-split-pane size="8">Pane 2</akam-split-pane>
+                    </akam-splitter>
+                </div>
+            </div>
 
             <script src="../dist/akamai-core.js"></script>
             <script>
@@ -221,6 +236,7 @@
                     $scope.pb9.freezeCollapse = false;
                     $scope.pb9.direction = "left";
 
+                    $scope.sample = "sample";
                 };
                 controllerFunction.$inject = ['$scope'];
                 var app = angular.module('splitterDemo', ['akamai.components.splitter']);

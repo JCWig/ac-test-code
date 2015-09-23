@@ -11,12 +11,24 @@ function paneDir() {
     controller: 'akamPaneController',
     controllerAs: "paneController",
     link: function($scope, $element, $attrs, splitterController, transcludeFn) {
-      $scope.size = {
-          "flex": !angular.isUndefined($attrs["size"]) && !isNaN(parseFloat($attrs["size"])) ? [$attrs["size"], "0px"].join(" ") : "6 0px"
-      };
-      transcludeFn($scope.$parent, function(clone){
+      var size = !angular.isUndefined($attrs["size"]) && !isNaN(parseFloat($attrs["size"])) ? parseFloat($attrs["size"]) : 6;
+
+      function setStyle(size){
+        $scope.size = {
+          "flex": [size, "0px"].join(" ")
+        };
+      }
+
+      $scope.$watch("paneController.size", (newValue, oldValue) => {
+        setStyle(newValue);
+      });
+      setStyle(size);
+
+      // passing parent scope to the children..
+      transcludeFn($scope.$parent, (clone) => {
         $element.append(clone);
       });
+      $scope.paneController.setSize(size);
       splitterController.registerPane($scope.paneController);
     },
     template: paneTemplate

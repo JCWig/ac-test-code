@@ -18,20 +18,23 @@ function splitterDirective($log, $compile){
     compile: ($element, $attrs, $transcludeFn) => {
         return {
             pre: ($scope, $element, $attrs, splitterController, $transcludeFn) => {
+                // passing parent scope to the children..
                 $transcludeFn($scope.$parent, (clone) => {
                     $element.append(clone);
                 });
             },
             post: ($scope, $element, $attrs, splitterController, $transcludeFn) => {
                 var i,
-                    children = $element.children();
+                    children = $element.children(),
+                    resizer;
                 for (i = 0; i < children.length; i++){
                     if (angular.element(children[i]).hasClass("split-pane")){
-                        angular.element(children[i]).after($compile(resizerTemplate)($scope));
+                        resizer = $compile(resizerTemplate)($scope);
+                        angular.element(children[i]).after(resizer);
                         break;
                     }
                 }
-                splitterController.initialize($element, $attrs);
+                splitterController.initialize($element, $attrs, resizer);
             }
         }
     },
