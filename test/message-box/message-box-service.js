@@ -69,6 +69,36 @@ describe('messageBox service', function() {
         expect(openingFunction).toThrowError();
       });
     });
+    describe('when text option is provided', function() {
+      describe('and when text property consits of HTML', function() {
+        it('should bind text property as html', function(){
+          this.messageBox.show({
+            title: 'Title',
+            headline: 'Headline',
+            text: '<h1>I am HTML</h1>',
+            template: '<p></p>'
+          });
+          this.$rootScope.$digest();
+
+          var modalTitle = document.querySelector('.message-box-text');
+          expect(modalTitle.textContent).toBe('I am HTML');
+        });
+      });
+      describe('and when text property does not consits of HTML', function() {
+        it('should display text property', function(){
+          this.messageBox.show({
+            title: 'Title',
+            headline: 'Headline',
+            text: 'I am not HTML',
+            template: '<p></p>'
+          });
+          this.$rootScope.$digest();
+
+          var modalTitle = document.querySelector('.message-box-text');
+          expect(modalTitle.textContent).toBe('I am not HTML');
+        });
+      });
+    });
 
     it('should limit the title to 20 characters', function() {
       var title = 'I am very long title that should be truncated';

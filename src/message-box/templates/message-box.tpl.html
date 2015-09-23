@@ -1,7 +1,7 @@
 <div class="message-box">
   <h3 class="message-box-headline" ng-if="messageBox.headline">{{ messageBox.headline }}</h3>
 
-  <p class="message-box-text">{{ messageBox.text }}</p>
+  <p class="message-box-text" ng-bind-html="messageBox.text"></p>
 
   <div class="message-box-details" ng-if="messageBox.details">
         <span ng-click="toggle()">{{ "components.message-box.label.detail" | translate }}
