@@ -25,7 +25,7 @@
   <pre>selected start date: {{vm.start}}</pre>
   <pre>selected end Date: {{vm.end}}</pre>
   <h4 class="title">An example of date range picker</h4>
-  <akam-date-range ng-model="vm.dateRange1" min-date="{{vm.min | date: 'yyyy-MM-dd'}}" max-date="{{vm.max | date: 'yyyy-MM-dd'}}" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+  <akam-date-range ng-model="vm.dateRange1" min="{{vm.min}}" max="{{vm.max}}" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <br/>
   <br/>
   <div class="form-group">

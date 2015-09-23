@@ -37,26 +37,28 @@ class DateRangeController {
 
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
 
-    this.setMinMaxDate();
-
-    this.scope.$watch('dateRange.maxDate', (newValue) => {
+    this.scope.$watch('dateRange.max', (newValue) => {
       if (!newValue) {
         return;
       }
-      this.scope.$broadcast('dateRange.resetMax', {
-        id: this.id,
-        maxValue: new Date(newValue)
-      });
+      newValue = newValue.replace(/^"(.+)"$/, '$1');
+      if (angular.isDate(new Date(newValue))) {
+        scope.$broadcast('dateRange.resetMax', {
+          maxValue: new Date(newValue)
+        });
+      }
     });
 
-    this.scope.$watch('dateRange.minDate', (newValue) => {
+    this.scope.$watch('dateRange.min', (newValue) => {
       if (!newValue) {
         return;
       }
-      this.scope.$broadcast('dateRange.resetMin', {
-        id: this.id,
-        minValue: new Date(newValue)
-      });
+      newValue = newValue.replace(/^"(.+)"$/, '$1');
+      if (angular.isDate(new Date(newValue))) {
+        scope.$broadcast('dateRange.resetMin', {
+          minValue: new Date(newValue)
+        });
+      }
     });
   }
 
@@ -104,33 +106,6 @@ class DateRangeController {
   setFocusState(startBlankToFocus) {
     this.openFromRangeStart = startBlankToFocus;
     this.openFromRangeEnd = !startBlankToFocus;
-  }
-
-  setMinMaxDate(configuredYearSpan = 2) {
-    let date = new Date(),
-      minYr = date.getFullYear() - configuredYearSpan,
-      maxYr = date.getFullYear() + configuredYearSpan,
-      minMo = date.getMonth(),
-      maxMo = date.getMonth();
-
-    if (this.minDate) {
-      date = new Date(this.minDate);
-      if (angular.isDate(date)) {
-        minYr = date.getFullYear();
-        minMo = date.getMonth();
-      }
-
-      this.minDate = new Date(minYr, minMo, 1);
-    }
-    if (this.maxDate) {
-      date = new Date(this.maxDate);
-      if (angular.isDate(date)) {
-        maxYr = date.getFullYear();
-        maxMo = date.getMonth();
-      }
-
-      this.maxDate = new Date(maxYr, maxMo + 1, 0);
-    }
   }
 
   preventOtherEvents(e) {
@@ -309,8 +284,8 @@ export default () => {
       placeholder: '@?',
       isDisabled: '=?',
       format: '@?',
-      minDate: '@?',
-      maxDate: '@?'
+      min: '@?',
+      max: '@?'
     },
     scope: {},
     link: linkFn,

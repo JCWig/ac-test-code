@@ -5,6 +5,10 @@ import utils from '../utilities';
 import dateRange from '../../src/date-range';
 import datePicker from '../../src/date-picker';
 
+function getDateButtonParentElement(dateNumber) {
+  return document.querySelector("ul.dropdown-menu table tbody tr td.day-" + dateNumber);
+}
+
 describe('akamai.components.date-range', function() {
 
   afterEach(function() {
@@ -347,7 +351,7 @@ describe('akamai.components.date-range', function() {
       };
       this.$scope.min = min;
       this.$scope.max = max
-      let markup = `<akam-date-range ng-model='dateRange' min-date="{{min | date: 'yyyy-MM-dd'}}" max-date="{{max | date: 'yyyy-MM-dd'}}"></akam-date-range>`;
+      let markup = `<akam-date-range ng-model='dateRange' min="{{min | date: 'yyyy-MM-dd'}}" max="{{max | date: 'yyyy-MM-dd'}}"></akam-date-range>`;
       addElement.call(this, markup);
       dateRange = this.el.isolateScope().dateRange;
     });
@@ -365,16 +369,48 @@ describe('akamai.components.date-range', function() {
 
     });
 
-    it('should verify controller minDate and maxDate values', function() {
+    it('should verify controller min and max values', function() {
 
-      expect(dateRange.minDate).not.toBe(null);
-      expect(dateRange.maxDate).not.toBe(null);
+      expect(dateRange.min).not.toBe(null);
+      expect(dateRange.max).not.toBe(null);
 
-      expect(dateRange.minDate).toBe('2013-08-01');
-      expect(dateRange.maxDate).toBe('2017-07-31');
+      expect(dateRange.min).toBe('2013-08-01');
+      expect(dateRange.max).toBe('2017-07-31');
 
     });
 
+    it('should verify input min-date changed when scope min changed', function() {
+      let min = new Date('2011-07-31');
+      this.$scope.min = min;
+      this.$scope.$digest();
+
+      let inputElem = this.element.querySelector('.range-picker input');
+
+      expect(inputElem.getAttribute('min-date')).toBe('2011-07-30');
+    });
+
+    it('should verify date button disabled with outside the date range when scope min changed', function() {
+      let date = new Date();
+      let min = new Date(date.getFullYear(), date.getMonth(), 5);
+
+      this.$scope.min = min;
+      this.$scope.$digest();
+
+      let btnElem = getDateButtonParentElement("04").querySelector("button");
+      expect(btnElem.getAttribute("disabled")).toBe("disabled");
+
+    });
+    it('should verify date button disabled outside the date range when scope max changed', function() {
+      let date = new Date();
+      let max = new Date(date.getFullYear(), date.getMonth(), 10);
+
+      this.$scope.max = max;
+      this.$scope.$digest();
+
+      let btnElem = getDateButtonParentElement("11").querySelector("button");
+      expect(btnElem.getAttribute("disabled")).toBe("disabled");
+
+    });
   });
 
   describe("Verify correct element rendered ", function() {
