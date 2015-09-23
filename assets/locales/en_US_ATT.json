@@ -106,10 +106,6 @@
         },
         "name": "AT&T Common Components",
         "date-range": {
-            "labels": {
-                "to": "To",
-                "from": "From"
-            },
             "placeholder": "Select Dates"
         },
         "autocomplete": {

@@ -106,10 +106,6 @@
         },
         "name": "Akamai 共通コンポーネント",
         "date-range": {
-            "labels": {
-                "to": "終了",
-                "from": "開始"
-            },
             "placeholder": "選択された日付"
         },
         "autocomplete": {

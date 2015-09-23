@@ -27,7 +27,6 @@ class DateRangeController {
     this.opened = false;
     this.rangeStart = {};
     this.rangeEnd = {};
-    this.labels = {};
     this.rangeStart.selectedValue = '';
     this.rangeEnd.selectedValue = '';
     this.rangeSelected = false;
@@ -37,14 +36,6 @@ class DateRangeController {
     this.rangeSelectedEvent = undefined;
 
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
-
-    this.$translate('components.date-range.labels.from').then((value) => {
-      this.labels.from = value;
-    });
-
-    this.$translate('components.date-range.labels.to').then((value) => {
-      this.labels.to = value;
-    });
 
     this.setMinMaxDate();
 

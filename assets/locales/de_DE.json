@@ -106,10 +106,6 @@
         },
         "name": "Allgemeine Akamai-Komponenten",
         "date-range": {
-            "labels": {
-                "to": "Bis",
-                "from": "Von"
-            },
             "placeholder": "Datumsangaben auswählen"
         },
         "autocomplete": {

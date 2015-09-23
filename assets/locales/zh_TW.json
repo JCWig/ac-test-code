@@ -106,10 +106,6 @@
         },
         "name": "Akamai 一般元件",
         "date-range": {
-            "labels": {
-                "to": "收件人",
-                "from": "來源"
-            },
             "placeholder": "選擇日期"
         },
         "autocomplete": {

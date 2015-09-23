@@ -103,11 +103,7 @@
             }
         },
         "date-range": {
-            "placeholder": "Select Dates",
-            "labels": {
-                "from": "From",
-                "to": "To"
-            }
+            "placeholder": "Select Dates"
         },
         "tooltip": {
 
