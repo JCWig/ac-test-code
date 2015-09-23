@@ -1,8 +1,12 @@
 import template from './templates/date-picker-day-popup.tpl.html';
 
-export function eventNoop(e) {
-  e.preventDefault();
-  e.stopPropagation();
+export function arrowUpDownEventNoop(e) {
+  let key = e.which || e.keyCode;
+
+  if (key === 38 || key === 40) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
 }
 
 function daypickerDecorator($provide) {
@@ -27,7 +31,7 @@ function daypickerDecorator($provide) {
         link.apply(this, arguments);
 
         //overrides datepicker.js keydown event
-        element.bind('keydown', eventNoop);
+        element.bind('keydown', arrowUpDownEventNoop);
 
         //disable navigation according to the range
         scope.daypickerNavPrevDisabled = () => {
