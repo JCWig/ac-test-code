@@ -8,10 +8,13 @@ $datepicker-text-color-disabled: #e6e6e6;
 .akam-date-picker {
   position: relative;
 
-  input {
-    padding-right: #{$input-border-radius * 2};
+  input[type="text"] {
     -webkit-appearance: textfield;
     outline: 0;
+    background-color: $input-background-color;
+    border-color: $input-border-color;
+    @include box-shadow($input-box-shadow);
+    padding-right: #{$input-border-radius * 2};
 
     & ~ .button,
     & ~ .btn {
