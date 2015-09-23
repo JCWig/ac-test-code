@@ -22,7 +22,7 @@
       <span ng-if="!dateRange.rangeEnd.selectedValue" class="date-range-placeholder">{{::dateRange.rangeEnd.placeholder}}</span>
       <span ng-if="dateRange.rangeEnd.selectedValue" class="util-ellipsis" title="{{dateRange.rangeEnd.selectedValue}}">{{dateRange.rangeEnd.selectedValue}}</span>
     </div>
-    <button class="button" type="button" ng-click="dateRange.toggle($event)" ng-disabled="dateRange.isDisabled">
+    <button class="btn" type="button" ng-click="dateRange.toggle($event)" ng-disabled="dateRange.isDisabled">
       <i class="luna-calendar icon-states" ng-disabled="dateRange.isDisabled"></i>
     </button>
   </div>

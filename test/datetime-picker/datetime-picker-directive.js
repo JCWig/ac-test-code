@@ -111,8 +111,8 @@ describe('akamai.components.datetime-picker', function() {
       datetime = document.querySelector(datetimePickerSelector);
       date = document.querySelector(datePickerSelector);
       time = document.querySelector(timepickerSelector);
-      dateButton = document.querySelector(datePickerSelector + " .button");
-      timeButton = document.querySelector(timepickerSelector + " .btn");
+      dateButton = document.querySelector(datePickerSelector + " > .btn");
+      timeButton = document.querySelector(timepickerSelector + " > .btn");
     });
 
     it("should verify datetime picker element rendered", function() {
@@ -134,7 +134,7 @@ describe('akamai.components.datetime-picker', function() {
     it("should verify date picker open when click on it", function() {
       utilities.click(dateButton);
       $scope.$digest();
-
+      
       expect(date.classList).toContain('opened');
     });
 
@@ -151,7 +151,7 @@ describe('akamai.components.datetime-picker', function() {
     beforeEach(function() {
       addElement.call(this, undefined);
       d = new Date();
-      dateButton = document.querySelector(datePickerSelector + " .button");
+      dateButton = document.querySelector(datePickerSelector + " > .btn");
     });
 
     it("should verify date value updated when selects a date", function() {
@@ -218,8 +218,8 @@ describe('akamai.components.datetime-picker', function() {
       addElement.call(this, undefined);
       dateChangedSpy = spyOn(this.isoScope, "dateChanged");
       timeChangedSpy = spyOn(this.isoScope, "timeChanged");
-      dateButton = document.querySelector(datePickerSelector + " .button");
-      timeButton = document.querySelector(timepickerSelector + " .btn");
+      dateButton = document.querySelector(datePickerSelector + " > .btn");
+      timeButton = document.querySelector(timepickerSelector + " > .btn");
       arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
     });
 
@@ -255,10 +255,10 @@ describe('akamai.components.datetime-picker', function() {
     beforeEach(function() {
       addElement.call(this, undefined);
       setDatetimeSpy = spyOn(this.controller, "setDatetime");
-      dateButton = document.querySelector(datePickerSelector + " .button");
+      dateButton = document.querySelector(datePickerSelector + " > .btn");
     });
 
-    it("when datepicker selects, should verify controller setDatetime function callled", function() {
+    it("when datepicker selects, should verify controller setDatetime function called", function() {
       utilities.click(dateButton);
       $scope.$digest();
 

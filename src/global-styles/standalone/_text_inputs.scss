@@ -59,9 +59,7 @@ input[type="search"] {
     display: none;
   }
 
-  &:disabled ~ .button,
-  &:disabled ~ .btn,
-  &[readonly] ~ .button,
+  &:disabled ~ .btn, 
   &[readonly] ~ .btn {
     background: $button-background-color-disabled;
     border-color: $button-border-color-disabled;
@@ -80,7 +78,6 @@ input[type="month"] {
   padding-right: #{$input-border-radius * 2};
   @include appearance(textfield);
 
-  & ~ .button,
   & ~ .btn {
     min-width: 0;
     margin-left: -#{$input-border-radius * 3};
@@ -91,7 +88,6 @@ input[type="month"] {
     }
   }
 
-  &:focus ~ .button,
   &:focus ~ .btn {
     border-left-color: $input-border-color-focus;
   }
