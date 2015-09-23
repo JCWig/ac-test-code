@@ -1,5 +1,10 @@
 import template from './templates/date-picker-day-popup.tpl.html';
 
+export function eventNoop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
 function daypickerDecorator($provide) {
   function datePickerDirective($delegate) {
     let link;
@@ -20,6 +25,9 @@ function daypickerDecorator($provide) {
         let updateMin, updateMax;
 
         link.apply(this, arguments);
+
+        //overrides datepicker.js keydown event
+        element.bind('keydown', eventNoop);
 
         //disable navigation according to the range
         scope.daypickerNavPrevDisabled = () => {
@@ -50,6 +58,7 @@ function daypickerDecorator($provide) {
         scope.$on('$destroy', () => {
           updateMin();
           updateMax();
+          element.off('keydown');
         });
       };
     };
