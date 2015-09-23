@@ -21,6 +21,26 @@ describe('akam-date-picker', function() {
   var timeout = null;
   var self = this;
 
+  function setUpKeyboardEventForDate(dateValue, selector, key) {
+    scope.date = new Date(dateValue);
+    var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-change="mychange(value)" ng-model="date"></akam-date-picker></div>';
+    addElement(markup);
+    utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+
+    utilities.keyDown(selector, key);
+    scope.$digest();
+  }
+
+  function setUpKeyboardEventForMonth(dateValue, selector, key) {
+    scope.date = new Date(dateValue);
+    var markup = '<div id="parent-element"><akam-date-picker mode="month" keydown="arrowKeyCallback" ng-change="mychange(value)" ng-model="date"></akam-date-picker></div>';
+    addElement(markup);
+    utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+
+    utilities.keyDown(selector, key);
+    scope.$digest();
+  }
+
   beforeEach(function() {
     inject.strictDi(true);
     angular.mock.module(require('../../src/date-picker').name);
@@ -543,34 +563,32 @@ describe('akam-date-picker', function() {
   });
   describe('given daypicker', function() {
     describe('when daypicker open', function() {
-      describe('press keyboard keys', function() {
+      describe('press keyboard keys up key', function() {
         beforeEach(function() {
-          scope.date = new Date('September 30, 2010 15:30:00');
-          scope.keydown = function() {}
-          spyOn(scope, 'keydown');
-          var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-change="mychange(value)" ng-model="date"></akam-date-picker></div>';
-          addElement(markup);
-          utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+          setUpKeyboardEventForMonth('September 30, 2010 15:30:00', "#parent-element", 38);
+          scope.keydown = jasmine.createSpy('keydown');
         });
         it('should not trigger daypicker keydown event when press up-arrow key', function() {
-          utilities.keyDown("#parent-element", 38);
-          scope.$digest();
           expect(scope.keydown).not.toHaveBeenCalled();
         });
         it('should not change model value when press up-arrow key', function() {
-          utilities.keyDown("#parent-element", 38);
-          scope.$digest();
           expect(scope.date).toEqual(new Date('September 30, 2010 15:30:00'));
+        });
+      });
+    });
+  });
+  describe('given daypicker', function() {
+    describe('when daypicker open', function() {
+      describe('press keyboard keys down key', function() {
+        beforeEach(function() {
+          setUpKeyboardEventForMonth('September 30, 2010 15:30:00', "#parent-element", 40);
+          scope.keydown = jasmine.createSpy('keydown');
         });
 
         it('should not trigger daypicker keydown event when press down-arrow key', function() {
-          utilities.keyDown("#parent-element", 40);
-          scope.$digest();
           expect(scope.keydown).not.toHaveBeenCalled();
         });
         it('should not change model value when press up-arrow key', function() {
-          utilities.keyDown("#parent-element", 40);
-          scope.$digest();
           expect(scope.date).toEqual(new Date('September 30, 2010 15:30:00'));
         });
       });
@@ -579,38 +597,35 @@ describe('akam-date-picker', function() {
 
   describe('given monthpicker', function() {
     describe('when monthpicker open', function() {
-      describe('press keyboard keys', function() {
+      describe('press keyboard arrow up key', function() {
         beforeEach(function() {
-          scope.date = new Date('November 7, 2005 23:30:00');
+          setUpKeyboardEventForMonth('November 7, 2005 23:30:00', "#parent-element", 38);
           scope.arrowKeyCallback = jasmine.createSpy('arrowKeyCallback');
-          var markup = '<div id="parent-element"><akam-date-picker mode="month" keydown="arrowKeyCallback" ng-change="mychange(value)" ng-model="date"></akam-date-picker></div>';
-          addElement(markup);
-          utilities.click(TOGGLE_DATE_PICKER_BUTTON);
         });
-        it('should not trigger month picker keydown event when press up-arrow key', function() {
-          utilities.keyDown("#parent-element", 38);
-          scope.$digest();
+        it('should not trigger month picker keydown event', function() {
           expect(scope.arrowKeyCallback).not.toHaveBeenCalled();
         });
-        it('should not change model value when press up-arrow key', function() {
-          utilities.keyDown("#parent-element", 38);
-          scope.$digest();
+        it('should not change model value', function() {
           expect(scope.date).toEqual(new Date('November 7, 2005 23:30:00'));
         });
-
-        it('should not trigger month picker keydown event when press down-arrow key', function() {
-          utilities.keyDown("#parent-element", 40);
-          scope.$digest();
-          expect(scope.arrowKeyCallback).not.toHaveBeenCalled();
-        });
-        it('should not change model value when press up-arrow key', function() {
-          utilities.keyDown("#parent-element", 40);
-          scope.$digest();
-          expect(scope.date).toEqual(new Date('November 7, 2005 23:30:00'));
-        });
-
       });
     });
   });
 
+  describe('given monthpicker', function() {
+    describe('when monthpicker open', function() {
+      describe('press keyboard arrow down key', function() {
+        beforeEach(function() {
+          setUpKeyboardEventForMonth('November 7, 2005 23:30:00', "#parent-element", 40);
+          scope.arrowKeyCallback = jasmine.createSpy('arrowKeyCallback');
+        });
+        it('should not trigger month picker keydown event', function() {
+          expect(scope.arrowKeyCallback).not.toHaveBeenCalled();
+        });
+        it('should not change model value', function() {
+          expect(scope.date).toEqual(new Date('November 7, 2005 23:30:00'));
+        });
+      });
+    });
+  });
 });
