@@ -49,15 +49,15 @@ module.exports = {
   mouseLeave: function(obj) {
     this.triggerMouseEvent(obj, 'mouseout');
   },
+    mouseDown: function(obj) {
+    this.triggerMouseEvent(obj, 'mousedown');
+  },
   triggerKeyboardEvent: function(obj, eventType, keyCode) {
     var el = this.find(obj);
     var e = document.createEvent('KeyboardEvent');
     e.initKeyboardEvent(eventType, true);
     e.which = keyCode;
     el.dispatchEvent(e);
-  },
-  keyDown: function(obj, keyCode) {
-    this.triggerKeyboardEvent(obj, 'keydown', keyCode);
   },
   clickAwayCreationAndClick: function(ele) {
     var clickAwayArea = document.createElement(ele);

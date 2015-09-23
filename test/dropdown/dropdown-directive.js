@@ -101,7 +101,7 @@ describe('akamai.components.dropdown', function() {
         addElement(dropdownTemplate);
 
         util.click(util.find('.dropdown-toggle'));
-        util.click(util.find('.dropdown-menu').querySelectorAll('li')[3].querySelector('a'));
+        util.mouseDown(util.find('.dropdown-menu').querySelectorAll('li')[3].querySelector('a'));
         $scope.$digest();
       });
       it('should set the selectedItem to the same item that was selected', function() {
@@ -194,6 +194,31 @@ describe('akamai.components.dropdown', function() {
       it('should render a filterbox', function(){
         var filterbox = document.querySelector('.fixed-header input');
         expect(filterbox).not.toBe(null);
+      });
+    });
+    describe('when filter box is focused', function(){
+      beforeEach(function(){
+        $scope.selectedStateObj = {name: 'Colorado'};
+        $scope.stateStringsObjs = stateObjects;
+        var dropdownTemplate = '<akam-dropdown ng-model="selectedStateObj" filterable items="stateStringsObjs"></akam-dropdown>';
+
+        addElement(dropdownTemplate);
+        timeout.flush();
+
+        var dropdown = util.find('.dropdown');
+        util.click('.dropdown-toggle');
+        $scope.$digest();
+        expect(dropdown.classList).toContain('open');
+
+        var filterbox = document.querySelector('.fixed-header input');
+        filterbox.focus();
+        $scope.$digest();
+        filterbox.blur();
+        $scope.$digest();
+      });
+      it('should close dropdown when it loses focus', function() {
+        var dropdown = util.find('.dropdown');
+        expect(dropdown.classList).not.toContain('open');
       });
     });
   });
@@ -506,7 +531,6 @@ describe('akamai.components.dropdown', function() {
         });
       });
     });
-
     describe('and a filter-placeholder attribute is provided', function(){
       describe('when the dropdown is rendered', function(){
         beforeEach(function(){
