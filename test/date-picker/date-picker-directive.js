@@ -77,7 +77,6 @@ describe('akam-date-picker', function() {
       addElement(markup);
     });
     it('should display the date-picker', function() {
-    console.log(TOGGLE_DATE_PICKER_BUTTON);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
       var datePicker = document.querySelector(DATE_PICKER);
       expect(datePicker.getAttribute('style')).toContain('display: block');
