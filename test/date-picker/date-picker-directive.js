@@ -1,7 +1,7 @@
 'use strict';
 var utilities = require('../utilities');
 
-var TOGGLE_DATE_PICKER_BUTTON = 'button.button';
+var TOGGLE_DATE_PICKER_BUTTON = 'button.btn';
 var DATE_PICKER = 'ul.dropdown-menu';
 var HEADER_DISPLAYED_ON_DATEPICKER = 'button.btn strong.ng-binding';
 var NAVIGATE_DATEPICKER_BACKWARDS = 'button.pull-left';
@@ -168,7 +168,7 @@ describe('akam-date-picker', function() {
     it('should date picker calendar button disabled when set to true', function() {
       scope.disabled = true;
       scope.$digest();
-      var buttonElem = document.querySelector('.akam-date-picker .button');
+      var buttonElem = document.querySelector('.akam-date-picker .btn');
 
       expect(buttonElem.getAttribute('disabled')).toBe('disabled');
     });
@@ -176,7 +176,7 @@ describe('akam-date-picker', function() {
     it('should date picker calendar icon disabled when set to true', function() {
       scope.disabled = true;
       scope.$digest();
-      var iconElem = document.querySelector('.akam-date-picker .button .luna-calendar');
+      var iconElem = document.querySelector('.akam-date-picker .btn .luna-calendar');
       expect(iconElem.getAttribute('disabled')).toBe('disabled');
     });
   });
