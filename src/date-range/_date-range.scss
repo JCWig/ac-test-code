@@ -7,14 +7,8 @@
   $date-range-gap-width: 10px;
   $date-range-startend-color: #0099CC;
   .akam-date-picker.akam-date-range {
-    // min-width: $date-range-min-width;
-    // padding: 5px 0;
-    // border: 1px solid $border-color;
     background-color: #FFF;
     border-radius: $border-radius;
-    // height: $input-height + 12px; //border + top|bottom padding
-    // display: table;
-
     div.range-selection {
       .range-start,
       .range-end {
@@ -22,7 +16,6 @@
           display: inline-block;
           width: $date-range-width;
           float: left;
-          // margin-left: $date-range-gap-width;
           height: $input-height;
           padding: 6px $input-padding;
           background-color: $input-background-color;
@@ -30,7 +23,6 @@
           border-radius: $border-radius;
           @include box-shadow($date-range-boxshadow);
         }
-        & ~ .button,
         & ~ .btn {
           min-width: 0;
           border-left: 0;
@@ -44,15 +36,10 @@
           }
         }
         & .date-range-placeholder {
-          // display: inline-block;
-          // width: $date-range-width;
-          // float: left;
-          // margin-left: $date-range-gap-width;
           color: #ccc;
           font-style: italic;
         }
         &.opened {
-          & ~ .button,
           & ~ .btn {
             border-color: #999;
             border-left-color: $input-border-color-focus;
@@ -128,7 +115,6 @@
     }
     ul.dropdown-menu {
       top: 28px !important; //override inline style.. which shouldnt be there in the first place
-      // width: $date-range-min-width - 1px;
       table {
         tbody td {
           height: 23px;
@@ -155,6 +141,7 @@
           &.selected-start,
           &.selected-end {
             & > span {
+              width: 100%;
               background-color: $date-range-startend-color;
               color: $input-background-color-focus;
             }

@@ -106,10 +106,6 @@
         },
         "name": "Akamai 공통 구성 요소",
         "date-range": {
-            "labels": {
-                "to": "대상",
-                "from": "원본"
-            },
             "placeholder": "날짜 선택"
         },
         "autocomplete": {
