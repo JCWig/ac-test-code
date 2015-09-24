@@ -344,6 +344,44 @@ describe('messageBox service', function() {
 
         expect(messageBoxDetails.classList).toContain('in');
       });
+      describe('and when details property consits of HTML', function() {
+        it('should bind details property as html', function(){
+          this.messageBox.show({
+          headline: 'Headline',
+          text: 'Message',
+          details: '<h1>I am HTML content</h1>'
+        });
+
+        this.$rootScope.$digest();
+
+        var messageBoxDetails = document.querySelector('.message-box-details > div');
+        var messageBoxDetailsTrigger = document.querySelector('.message-box-details > span');
+
+        utilities.click(messageBoxDetailsTrigger);
+        this.$rootScope.$digest();
+
+        expect(messageBoxDetails.textContent).toBe('I am HTML content');
+        });
+      });
+      describe('and when details property does not consits of HTML', function() {
+        it('should display details property', function(){
+          this.messageBox.show({
+          headline: 'Headline',
+          text: 'Message',
+          details: 'I do not have any HTML content'
+        });
+
+        this.$rootScope.$digest();
+
+        var messageBoxDetails = document.querySelector('.message-box-details > div');
+        var messageBoxDetailsTrigger = document.querySelector('.message-box-details > span');
+
+        utilities.click(messageBoxDetailsTrigger);
+        this.$rootScope.$digest();
+
+        expect(messageBoxDetails.textContent).toBe('I do not have any HTML content');
+        });
+      });
     });
 
     describe('when submit button is clicked', function() {
