@@ -3,6 +3,7 @@ import angularBootstrapNpm from 'angular-bootstrap-npm';
 import modalWindow from '../modal-window';
 import i18n from '../i18n';
 import messageBoxService from './message-box-service';
+import sanitize from 'angular-sanitize';
 
 /**
  * @ngdoc module
@@ -44,7 +45,8 @@ import messageBoxService from './message-box-service';
 export default angular.module('akamai.components.message-box', [
   angularBootstrapNpm,
   modalWindow.name,
-  i18n.name
+  i18n.name,
+  sanitize
 ])
 
 /**
