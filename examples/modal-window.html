@@ -192,6 +192,7 @@
               } else {
                 $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
               }
             }
             configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
@@ -200,10 +201,18 @@
             exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
             modalController.$inject = ['$scope', '$q', '$timeout'];
 
+            function runFunc($translate, $cookies) {
+                $translate.use($cookies.get('AKALOCALE') || 'en_US');
+            }
+            runFunc.$inject = ['$translate', '$cookies'];
+
+
             angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window'])
             .controller('ExampleController', exampleController)
             .controller('ModalController', modalController)
-            .config(configFunction);
+            .config(configFunction)
+            .run(runFunc);
+
         </script>
     </body>
 </html>

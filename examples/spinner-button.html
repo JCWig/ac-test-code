@@ -40,7 +40,8 @@
   angular
       .module('spinner-button')
       .controller('SpinnerButtonController', SpinnerButtonController)
-      .config(configFunction);
+      .config(configFunction)
+      .run(runFunc);
 
   function SpinnerButtonController() {
     var vm = this;
@@ -50,16 +51,22 @@
 
   function configFunction($translatePartialLoaderProvider, VERSION) {
 
-  // need to overwrite locales path on fee.akamai.com
-  if (window.location.host == 'fee.akamai.com') {
-    $translatePartialLoaderProvider.addPart('../dist/locales/');
-    $translatePartialLoaderProvider.addPart('locales/json/messages/');
-  } else {
-    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      // need to overwrite locales path on fee.akamai.com
+      if (window.location.host == 'fee.akamai.com') {
+        $translatePartialLoaderProvider.addPart('../dist/locales/');
+        $translatePartialLoaderProvider.addPart('locales/json/messages/');
+      } else {
+        $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+        $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      }
   }
-}
 configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+function runFunc($translate, $cookies) {
+  $translate.use($cookies.get('AKALOCALE') || 'en_US');
+}
+runFunc.$inject = ['$translate', '$cookies'];
+
 
 </script>
 </body>

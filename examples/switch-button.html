@@ -83,7 +83,8 @@
 
         angular.module('switchButtonApp', ['akamai.components.constants', 'akamai.components.switch-button'])
             .controller('SwitchButtonController', SwitchButtonController)
-            .config(configFunction);
+            .config(configFunction)
+            .run(runFunc);
 
         function SwitchButtonController() {
             var vm = this;
@@ -114,6 +115,12 @@
             }
         }
         configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+        function runFunc($translate, $cookies) {
+            $translate.use($cookies.get('AKALOCALE') || 'en_US');
+        }
+        runFunc.$inject = ['$translate', '$cookies'];
+
 
     </script>
 

@@ -44,7 +44,8 @@
 <script>
   angular.module('akamai.components.examples.mega-menu', ['akamai.components.constants'])
     .controller('MegaMenu', MegaMenu)
-    .config(Config);
+    .config(Config)
+    .run(runFunc);
 
   function Config(contextProvider, $translatePartialLoaderProvider, VERSION) {
     contextProvider.setApplicationContext(contextProvider.GROUP_CONTEXT);
@@ -60,6 +61,11 @@
 
   }
   Config.$inject = ['contextProvider', '$translatePartialLoaderProvider', 'coreVersion'];
+
+  function runFunc($translate, $cookies) {
+      $translate.use($cookies.get('AKALOCALE') || 'en_US');
+  }
+  runFunc.$inject = ['$translate', '$cookies'];
 
   function MegaMenu($cookies, $http, context) {
     var ids = {

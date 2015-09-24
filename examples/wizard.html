@@ -169,7 +169,8 @@
     <script>
         angular.module('wizardApp', ['akamai.components.constants','akamai.components.wizard', 'akamai.components.indeterminate-progress'])
                 .controller('WizardAppController', WizardAppController)
-                .config(configFunction);
+                .config(configFunction)
+                .run(runFunc);
 
         WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope', '$q', '$timeout', '$translate'];
         function WizardAppController($log, $modal, wizard, $rootScope, $q, $timeout, $translate) {
@@ -262,6 +263,11 @@
             }
         }
         configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+        function runFunc($translate, $cookies) {
+            $translate.use($cookies.get('AKALOCALE') || 'en_US');
+        }
+        runFunc.$inject = ['$translate', '$cookies'];
 
     </script>
 

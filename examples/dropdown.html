@@ -156,7 +156,8 @@
     <script>
         angular.module('dropdownApp', ['akamai.components.constants','akamai.components.dropdown', 'akamai.components.menu-button'])
                 .controller('DropdownAppController', DropdownAppController)
-                .config(configFunction);
+                .config(configFunction)
+                .run(runFunc);
 
         DropdownAppController.$inject = ['$log', '$translate', '$q'];
         function DropdownAppController($log, $translate, $q) {
@@ -246,6 +247,11 @@
             }
         }
         configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+        function runFunc($translate, $cookies) {
+            $translate.use($cookies.get('AKALOCALE') || 'en_US');
+        }
+        runFunc.$inject = ['$translate', '$cookies'];
 
     </script>
 </body>

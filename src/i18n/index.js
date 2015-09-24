@@ -7,9 +7,9 @@ import cookies from 'angular-cookies';
 import utils from '../utils';
 
 import translateConfig from './translate-config';
-import portalLocaleResolver from './portal-locale-service';
 import noopLoader from './translate-noop-loader-service';
 import translateValueSupport from './translate-value-support-service';
+import i18nLocales from './i18n-locale-constant';
 
 /**
  * A string representing the key to a translation table
@@ -124,14 +124,6 @@ export default angular.module('akamai.components.i18n', [
 
 /**
  * @ngdoc service
- * @name portalLocale
- * @description Returns the parsed luna locale, as read from the AKALOCALE cookie. Will be of
- * the form "en_US", "de_DE", etc.
- */
-.factory('portalLocale', portalLocaleResolver)
-
-/**
- * @ngdoc service
  * @name translateValueSupport
  * @description provides a methods of setValues. It adds 'somethingValues' property to the
  * controller that is used by control template as hash value to the translate-values directive.
@@ -145,11 +137,20 @@ export default angular.module('akamai.components.i18n', [
 
 // resolve the locale and load the translations it will load twice if current locale is
 // different from default locale (en_US)
-function runFn($rootScope, $translate) {
+function runFn($rootScope, $translate, $locale) {
 
   // any translations added after the config phase will be picked up automatically
   $rootScope.$on('$translatePartialLoaderStructureChanged', function() {
     $translate.refresh();
   });
+
+  $rootScope.$on('$translateChangeSuccess', function() {
+    let loc = i18nLocales[$translate.proposedLanguage()];
+
+    if (loc) {
+      $locale.DATETIME_FORMATS = loc.DATETIME_FORMATS;
+      $locale.NUMBER_FORMATS = loc.NUMBER_FORMATS;
+    }
+  });
 }
-runFn.$inject = ['$rootScope', '$translate'];
+runFn.$inject = ['$rootScope', '$translate', '$locale'];

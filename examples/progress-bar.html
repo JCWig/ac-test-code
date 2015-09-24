@@ -187,9 +187,15 @@
                 }
                 configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
+                function runFunc($translate, $cookies) {
+                    $translate.use($cookies.get('AKALOCALE') || 'en_US');
+                }
+                runFunc.$inject = ['$translate', '$cookies'];
+
                 var app = angular.module('progressBarDemo', ['akamai.components.constants', 'akamai.components.progress-bar']);
                 app.controller('Ctrl', controllerFunction);
                 app.config(configFunction);
+                app.run(runFunc);
             </script>
         </div>
     </body>
