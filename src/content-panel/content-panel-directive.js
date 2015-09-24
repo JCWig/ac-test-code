@@ -45,9 +45,9 @@ class ContentPanelController {
         };
       });
 
-      //This doesn't appear to be necessary but garbage clean up just in case,
+      // This doesn't appear to be necessary but garbage clean up just in case,
       // for added robustness against future issues.
-      //Chrome node/listener graphs appear the same whether or not this is done.
+      // Chrome node/listener graphs appear the same whether or not this is done.
       this.$scope.$on('$destroy', () => {
         this.customContentScope.$destroy();
         this.customContentScope = null;
