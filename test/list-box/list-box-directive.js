@@ -1389,7 +1389,7 @@ describe('akam-list-box', function() {
         addElement(markup);
         timeout.flush();
       } catch (e) {
-        expect(e).toEqual('The column content field is using an unknown type. Content field may only be String or Function type');
+        expect(e.toString()).toEqual(jasmine.stringMatching('The column content field is using an unknown type. Content field may only be String or Function type'));
       }
     });
     it('should throw error when data is not an array', function() {
