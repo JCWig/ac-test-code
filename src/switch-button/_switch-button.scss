@@ -113,7 +113,7 @@ $toggle-gradient-top: #fff;
   &.grayscale {
     & .switch-button-container {
       & > span:first-child {
-        background-color: $colors__bluegray1;
+        background-color: $dark-grey;
       }
 
       & > span:last-child {
@@ -132,7 +132,7 @@ $toggle-gradient-top: #fff;
 
       & > label {
         cursor: default;
-        background: $colors__gray9;
+        background: #fff none;
 
         & > span {
           border-left: 1px solid $off-white;
@@ -164,31 +164,12 @@ $toggle-gradient-top: #fff;
       }
     }
 
-    &.switch-button-on {
-      
-      .switch-button-container > span {
-        background: #9bc69a;
-        color: $colors__gray9;
-      }
-      
-      &.grayscale .switch-button-container > span {
-        background: #aeb6be;
-        color: $colors__gray9;
-      }
+    &.switch-button-on .switch-button-container > span,
+    &.switch-button-off .switch-button-container > span {
+      background: #fff none;
+      color: $off-white;
     }
-    
-    &.switch-button-off {
-      
-      .switch-button-container > span {
-        background: #e79897;
-        color: $colors__gray9;
-      }
-      
-      &.grayscale .switch-button-container > span {
-        background-image: linear-gradient(to bottom, #e6e6e6, #f8f8f8);
-        color: #ADADAD;
-      }
-    }
+
 
   }
 

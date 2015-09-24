@@ -212,7 +212,10 @@
     background: $dialog-background-color;
     margin-top: 1px; //fixes issue in Chrome where body content hovers over the border
 
-    .btn + .btn {
+    .button + .button,
+    .btn + .btn,
+    .button + .btn,
+    .btn + .button {
       margin-left: $dialog-footer-button-gutter;
     }
   }
