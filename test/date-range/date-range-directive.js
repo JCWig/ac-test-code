@@ -339,6 +339,52 @@ describe('akamai.components.date-range', function() {
 
   });
 
+  describe("Checking min and max APIs", function() {
+    describe("given no min and max attributes in the directive", function() {
+      let btnElem;
+      beforeEach(function() {
+        let d = new Date("08/09/1999");
+        this.$scope.date = d;
+        let markup = `<akam-date-range ng-model='date'></akam-date-range>`;
+        addElement.call(this, markup);
+        btnElem = getDateButtonParentElement(10).querySelector(".btn");
+      });
+      it("should be able to select any dates", function() {
+        expect(btnElem.getAttribute('disabled')).toBe(null);
+      });
+    });
+  });
+  describe("Checking min and max APIs", function() {
+    describe("given min and max attributes no values assigned in the directive", function() {
+      let btnElem;
+      beforeEach(function() {
+        let d = new Date("08/09/1999");
+        this.$scope.date = d;
+        let markup = `<akam-date-range ng-model='date' min max></akam-date-range>`;
+        addElement.call(this, markup);
+        btnElem = getDateButtonParentElement(10).querySelector(".btn");
+      });
+      it("should be able to select any dates", function() {
+        expect(btnElem.getAttribute('disabled')).toBe(null);
+      });
+    });
+  });
+  describe("Checking min and max APIs", function() {
+    describe("given min and max attributes empty values in the directive", function() {
+      let btnElem;
+      beforeEach(function() {
+        let d = new Date("08/09/1999");
+        this.$scope.date = d;
+        let markup = `<akam-date-range ng-model='date' min='' max=''></akam-date-range>`;
+        addElement.call(this, markup);
+        btnElem = getDateButtonParentElement(10).querySelector(".btn");
+      });
+      it("should be able to select any dates", function() {
+        expect(btnElem.getAttribute('disabled')).toBe(null);
+      });
+    });
+  });
+
   describe("Verify minDate and maxDate updates dynamically...", function() {
     let dateRange;
     let d = new Date("08/09/2015");
