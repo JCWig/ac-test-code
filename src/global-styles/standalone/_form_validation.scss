@@ -20,6 +20,7 @@ input[type="month"] {
 
   &.ng-invalid.ng-dirty.ng-touched {
 
+    & ~ .button,
     & ~ .btn {
       border-left-color: $colors__red3;
     }
@@ -83,6 +84,7 @@ akam-dropdown {
     & > input {
       border-color: $colors__red3;
 
+      & ~ .button,
       & ~ .btn {
         border-left-color: $colors__red3;
       }
@@ -147,6 +149,7 @@ form.show-required {
   
     &.ng-invalid.ng-dirty.ng-touched {
   
+      & ~ .button,
       & ~ .btn {
         border-left-color: $colors__red3;
       }
@@ -190,6 +193,7 @@ form.show-required {
     & > input {
       border-color: $colors__red3;
       
+      & ~ .button,
       & ~ .btn {
         border-left-color: $colors__red3;
       }
