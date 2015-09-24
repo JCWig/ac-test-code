@@ -19,3 +19,16 @@ body.luna {
 
 
 
+ul, ol {
+  list-style-position: inside;
+  padding-left: 25px;
+  
+  &.list-unstyled,
+  &.list-inline {
+    @include list-unstyled;
+  }
+}
+
+ul {
+  list-style-type: disc;
+}

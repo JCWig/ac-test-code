@@ -13,6 +13,7 @@ $datepicker-text-color-disabled: #e6e6e6;
     outline: 0;
     background-color: $input-background-color;
     border-color: $input-border-color;
+    color: $input-text-color;
     @include box-shadow($input-box-shadow);
     padding-right: #{$input-border-radius * 2};
 
@@ -49,9 +50,12 @@ $datepicker-text-color-disabled: #e6e6e6;
     }
 
     &:disabled {
-      @include placeholder-enhanced($datepicker-text-color-disabled, italic);
-      color: $datepicker-text-color-disabled;
+      @include placeholder-enhanced($input-text-color-disabled, italic);
       cursor: default;
+      background-color: $input-background-color-disabled;
+      border-color: $input-border-color-disabled;
+      color: $input-text-color-disabled;
+      @include box-shadow(none);
     }
   }
 

@@ -9,14 +9,13 @@
 
 
 /* Import foundational CSS (import order is important here) */
-@import "global-styles/_global";
 @import "global-styles/_mixins";
 @import "global-styles/_extenders";
 @import "global-styles/_bootstrap-custom";
 @import "global-styles/_sprites";
 @import "global-styles/_svg";
 @import "global-styles/_utilities";
-
+@import "global-styles/_global";
 
 /* These styles have no angular directive. They style an expected markup pattern */
 .common-css {
