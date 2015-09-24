@@ -106,10 +106,6 @@
         },
         "name": "Componenti comuni Akamai",
         "date-range": {
-            "labels": {
-                "to": "A",
-                "from": "Da"
-            },
             "placeholder": "Seleziona date"
         },
         "autocomplete": {

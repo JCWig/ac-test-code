@@ -69,6 +69,36 @@ describe('messageBox service', function() {
         expect(openingFunction).toThrowError();
       });
     });
+    describe('when text option is provided', function() {
+      describe('and when text property consits of HTML', function() {
+        it('should bind text property as html', function(){
+          this.messageBox.show({
+            title: 'Title',
+            headline: 'Headline',
+            text: '<h1>I am HTML</h1>',
+            template: '<p></p>'
+          });
+          this.$rootScope.$digest();
+
+          var modalTitle = document.querySelector('.message-box-text');
+          expect(modalTitle.textContent).toBe('I am HTML');
+        });
+      });
+      describe('and when text property does not consits of HTML', function() {
+        it('should display text property', function(){
+          this.messageBox.show({
+            title: 'Title',
+            headline: 'Headline',
+            text: 'I am not HTML',
+            template: '<p></p>'
+          });
+          this.$rootScope.$digest();
+
+          var modalTitle = document.querySelector('.message-box-text');
+          expect(modalTitle.textContent).toBe('I am not HTML');
+        });
+      });
+    });
 
     it('should limit the title to 20 characters', function() {
       var title = 'I am very long title that should be truncated';
@@ -313,6 +343,44 @@ describe('messageBox service', function() {
         this.$rootScope.$digest();
 
         expect(messageBoxDetails.classList).toContain('in');
+      });
+      describe('and when details property consits of HTML', function() {
+        it('should bind details property as html', function(){
+          this.messageBox.show({
+          headline: 'Headline',
+          text: 'Message',
+          details: '<h1>I am HTML content</h1>'
+        });
+
+        this.$rootScope.$digest();
+
+        var messageBoxDetails = document.querySelector('.message-box-details > div');
+        var messageBoxDetailsTrigger = document.querySelector('.message-box-details > span');
+
+        utilities.click(messageBoxDetailsTrigger);
+        this.$rootScope.$digest();
+
+        expect(messageBoxDetails.textContent).toBe('I am HTML content');
+        });
+      });
+      describe('and when details property does not consits of HTML', function() {
+        it('should display details property', function(){
+          this.messageBox.show({
+          headline: 'Headline',
+          text: 'Message',
+          details: 'I do not have any HTML content'
+        });
+
+        this.$rootScope.$digest();
+
+        var messageBoxDetails = document.querySelector('.message-box-details > div');
+        var messageBoxDetailsTrigger = document.querySelector('.message-box-details > span');
+
+        utilities.click(messageBoxDetailsTrigger);
+        this.$rootScope.$digest();
+
+        expect(messageBoxDetails.textContent).toBe('I do not have any HTML content');
+        });
       });
     });
 

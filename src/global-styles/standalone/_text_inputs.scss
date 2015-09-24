@@ -27,11 +27,9 @@ textarea {
     @include box-shadow(none);
   }
 
-  &:disabled,
-  &[readonly] {
+  &:disabled {
     background-color: $input-background-color-disabled;
     border-color: $input-border-color-disabled;
-    color: $input-text-color-disabled;
     @include box-shadow(none);
 
     &:focus,
@@ -39,10 +37,6 @@ textarea {
       border-color: $input-border-color-disabled;
       @include box-shadow(none);
     }
-  }
-  
-  &[readonly] {
-    color: $input-text-color-readonly;
   }
 }
 
@@ -60,9 +54,7 @@ input[type="search"] {
   }
 
   &:disabled ~ .button,
-  &:disabled ~ .btn,
-  &[readonly] ~ .button,
-  &[readonly] ~ .btn {
+  &:disabled ~ .btn {
     background: $button-background-color-disabled;
     border-color: $button-border-color-disabled;
     color: $button-text-color-disabled;
