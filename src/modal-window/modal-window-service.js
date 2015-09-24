@@ -183,7 +183,7 @@ export default class ModalWindowService {
       throw new Error('An options object was not passed to modelWindow.open');
     }
 
-    if (!(angular.isString(options.template) || angular.isString(options.templateUrl))) {
+    if (!(options.template || options.templateUrl)) {
       throw new Error('Modal Window template or templateUrl option required');
     }
 
