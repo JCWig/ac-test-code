@@ -12,6 +12,7 @@ const config = {
   FORMAT: 'EEE, MMM dd, yyyy',
   DELAY_CLOSING: 600
 };
+const REGEX = /^"(.+)"$/;
 
 class DateRangeController {
   constructor(scope, $log, $timeout, dateFilter, $rootScope, $translate, uuid, dateRangeService) {
@@ -41,7 +42,7 @@ class DateRangeController {
       if (!newValue) {
         return;
       }
-      newValue = newValue.replace(/^"(.+)"$/, '$1');
+      newValue = newValue.replace(REGEX, '$1');
       if (angular.isDate(new Date(newValue))) {
         scope.$broadcast('dateRange.resetMax', {
           maxValue: new Date(newValue)
@@ -53,7 +54,7 @@ class DateRangeController {
       if (!newValue) {
         return;
       }
-      newValue = newValue.replace(/^"(.+)"$/, '$1');
+      newValue = newValue.replace(REGEX, '$1');
       if (angular.isDate(new Date(newValue))) {
         scope.$broadcast('dateRange.resetMin', {
           minValue: new Date(newValue)

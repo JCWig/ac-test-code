@@ -6,6 +6,7 @@ const DEFAULT_MORMAT = {
   DAY: 'EEE, MMM dd, yyyy',
   MONTH: 'MMM yyyy'
 };
+const REGEX = /^"(.+)"$/;
 
 class DatepickerController {
   constructor($filter, $timeout, $translate) {
@@ -94,7 +95,7 @@ function linkFn(scope, element, attrs, ngModel) {
     if (!newValue) {
       return;
     }
-    newValue = newValue.replace(/^"(.+)"$/, '$1');
+    newValue = newValue.replace(REGEX, '$1');
     if (angular.isDate(new Date(newValue))) {
       scope.$broadcast('datepicker.updateMax', {
         max: new Date(newValue)
@@ -106,7 +107,7 @@ function linkFn(scope, element, attrs, ngModel) {
     if (!newValue) {
       return;
     }
-    newValue = newValue.replace(/^"(.+)"$/, '$1');
+    newValue = newValue.replace(REGEX, '$1');
     if (angular.isDate(new Date(newValue))) {
       scope.$broadcast('datepicker.updateMin', {
         min: new Date(newValue)
