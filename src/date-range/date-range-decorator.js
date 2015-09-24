@@ -1,5 +1,6 @@
 import angular from 'angular';
 import template from './templates/date-picker-day-popup.tpl.html';
+import { arrowUpDownEventNoop } from './../date-picker/daypicker-decorator';
 
 function DateRangeDecorator($provide) {
   const [START, END] = ['start', 'end'];
@@ -91,6 +92,9 @@ function DateRangeDecorator($provide) {
         scope.rangeSelected = false;
         scope.renderDateRange = false;
 
+        //overrides datepicker.js keydown event
+        element.bind('keydown', arrowUpDownEventNoop);
+
         //show/hide nav previous button depend on the minDate
         scope.showNavPrev = () => {
           return dateRangeService.isFirstDateExceedMinDate(ctrl.activeDate, ctrl.minDate);
@@ -180,6 +184,7 @@ function DateRangeDecorator($provide) {
           moveRangePoint();
           resetMin();
           resetMax();
+          element.off('keydown');
         });
 
         scope.isInRange = (currentDate) => {
