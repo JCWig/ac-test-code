@@ -426,13 +426,15 @@ describe('akamai.components.date-range', function() {
     });
 
     it('should verify input min-date changed when scope min changed', function() {
-      let min = new Date('2011-07-31');
+      let min = new Date('December 25, 1995');
       this.$scope.min = min;
       this.$scope.$digest();
 
       let inputElem = this.element.querySelector('.range-picker input');
+      let d = new Date(inputElem.getAttribute('min-date'));
 
-      expect(inputElem.getAttribute('min-date')).toBe('2011-07-30');
+      expect(d.getFullYear()).toBe(1995);
+      expect(d.getMonth()).toBe(11);
     });
 
     it('should verify date button disabled with outside the date range when scope min changed', function() {
