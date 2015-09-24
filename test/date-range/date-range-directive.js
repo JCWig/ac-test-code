@@ -23,6 +23,7 @@ describe('akamai.components.date-range', function() {
     this.$scope.$digest();
     this.$timeout.flush();
     this.element = document.body.appendChild(this.el[0]);
+
   }
 
   beforeEach(function() {
@@ -458,6 +459,65 @@ describe('akamai.components.date-range', function() {
       let btnElem = getDateButtonParentElement("11").querySelector("button");
       expect(btnElem.getAttribute("disabled")).toBe("disabled");
 
+    });
+  });
+
+  describe("min date validation ", function() {
+    describe("given min date value", function() {
+      describe("if new selected start date earlier than given min date", function() {
+        let startDateValueField;
+        beforeEach(function() {
+          this.$scope.dateRange = {
+            startDate: '',
+            endDate: ''
+          };
+          this.$scope.min = new Date("December 25, 2013");
+          this.$scope.max = new Date("December 25, 2014");
+          let markup = `<akam-date-range ng-model='dateRange' min="min" max="max"></akam-date-range>`;
+          addElement.call(this, markup);
+          this.$scope.dateRange = {
+            startDate: new Date("December 26, 2013"),
+            endDate: new Date("December 26, 2014")
+          };
+          this.$scope.$digest();
+          this.$scope.min = new Date("December 27, 2013");
+          this.$scope.$digest();
+          startDateValueField = this.element.querySelectorAll(".range-selection span")[0];
+        });
+        it("Should date range start date field gets reset to original", function() {
+          expect(startDateValueField.textContent).toBe("components.date-range.placeholder");
+        });
+      });
+    });
+  });
+
+  describe("max date validation ", function() {
+    describe("given max date value", function() {
+      describe("if new selected end date later than given max date", function() {
+        let dateRange, endDateValueField;
+        beforeEach(function() {
+          this.$scope.dateRange = {
+            startDate: '',
+            endDate: ''
+          };
+          this.$scope.min = new Date("December 25, 2013");
+          this.$scope.max = new Date("December 25, 2014");
+          let markup = `<akam-date-range ng-model='dateRange' min="min" max="max"></akam-date-range>`;
+          addElement.call(this, markup);
+          dateRange = this.el.isolateScope().dateRange;
+          this.$scope.dateRange = {
+            startDate: new Date("December 24, 2013"),
+            endDate: new Date("December 24, 2014")
+          };
+          this.$scope.$digest();
+          this.$scope.max = new Date("December 23, 2014");
+          this.$scope.$digest();
+          endDateValueField = this.element.querySelectorAll(".range-selection span")[1];
+        });
+        it("Should date range start date field gets reset to original", function() {
+          expect(endDateValueField.textContent).toBe("components.date-range.placeholder");
+        });
+      });
     });
   });
 

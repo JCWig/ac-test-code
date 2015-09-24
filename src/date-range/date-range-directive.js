@@ -174,7 +174,6 @@ function linkFn(scope, elem, attr, ngModel) {
       ctrl.dateRange.endDate = end;
 
       range = ctrl.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
-      setViewValue(range, start, end);
 
       ctrl.rangeSelected = info.rangeSelected;
 
@@ -183,14 +182,17 @@ function linkFn(scope, elem, attr, ngModel) {
       }, config.DELAY_CLOSING);
 
     } else {
+      range = '';
       ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
       ctrl.dateRange.startDate = start;
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
       ctrl.dateRange.endDate = end;
 
       ctrl.$timeout(() => {
-        //assuming only start date has value, calendar stay open - forced
-        ctrl.opened = true;
+        if (ctrl.dateRange.startDate) {
+          //assuming only start date has value, calendar stay open - forced
+          ctrl.opened = true;
+        }
       });
 
       if (start) {
@@ -199,6 +201,7 @@ function linkFn(scope, elem, attr, ngModel) {
         ctrl.setFocusState(true);
       }
     }
+    setViewValue(range, start, end);
     e.stopPropagation();
   };
 
