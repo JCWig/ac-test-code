@@ -353,8 +353,8 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
         return ListBoxController.convertToString(column.content.call(item) || defaultValue);
       }
 
-      throw 'The column content field is using an unknown type.' +
-      ' Content field may only be String or Function type';
+      throw new Error('The column content field is using an unknown type.' +
+      ' Content field may only be String or Function type');
     }
 
     static convertToString(value) {

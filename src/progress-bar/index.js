@@ -41,7 +41,7 @@ export default angular.module('akamai.components.progress-bar', [
   ngAnimate,
   bootstrap,
   i18n.name
-  ])
+])
 
 /**
 * @ngdoc directive

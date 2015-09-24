@@ -36,7 +36,7 @@ import i18n from '../i18n';
  * app.controller("Ctrl", controllerFunction);
  */
 export default angular.module('akamai.components.indeterminate-progress', [
-	i18n.name
+  i18n.name
 ])
 
 /**
