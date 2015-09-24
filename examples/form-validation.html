@@ -384,7 +384,7 @@
                 <div class="form-group">
                   <label class="col-md-3">Autocomplete</label>
                   <div class="col-md-9">
-                    <akam-autocomplete ng-model="autocomplete1" name="autocomplete1" text-property="first" placeholder="Autocomplete" on-select="" on-search="vm.asyncSearchMatches1(term)"></akam-autocomplete>
+                    <akam-autocomplete ng-model="autocomplete1" name="autocomplete1" text-property="name" placeholder="Autocomplete" on-select="" on-search="vm.searchStateObjects(searchTerm)"></akam-autocomplete>
 
                     <div ng-messages="kitchenSink.autocomplete1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -971,27 +971,28 @@
                 joined: '3 month ago',
                 email: 'sean@inbox.com'
               }];
+              
+              vm.searchStateObjects = function(searchTerm) {
 
-              vm.asyncSearchMatches1 = function(term) {
-                var deferred = $q.defer();
-                vm.currentSearchTerm = term.toLowerCase();;
-
+                var stateObjects = [
+                    {name: 'Colorado'},
+                    {name: 'Connecticut'},
+                    {name: 'Maryland'},
+                    {name: 'Massachusetts'},
+                    {name: 'New Hampshire'},
+                    {name: 'New Jersey'},
+                    {name: 'New York'},
+                    {name: 'Vermont'},
+                    {name: 'Virginia'},
+                    {name: 'Washington, District of Columbia'},
+                ];
+    
                 var criteriaMatch = function(item) {
-                  var found = item.first.toLowerCase().indexOf(vm.currentSearchTerm) != -1;
-                  return found;
+                    return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
                 };
-                var response = $http.get('json/autocomplete-data.json');
-
-                response
-                  .success(function(data) {
-                    var filteredItems = $filter('filter')(autocomplete1, criteriaMatch);
-                    deferred.resolve(vm.statesWithFlags = filteredItems);
-                  })
-                  .error(function(reason) {
-                    deferred.reject("error getting data");
-                  });
-                return deferred.promise;
-              }
+    
+                return $filter('filter')(stateObjects, criteriaMatch);
+            };
           }
 
           function configFunction($translatePartialLoaderProvider, VERSION) {
