@@ -1,5 +1,4 @@
 import angular from 'angular';
-import uuid from '../uuid';
 
 import splitterDirective from './splitter-directive';
 import splitterController from './splitter-controller';
@@ -26,8 +25,7 @@ import paneController from './pane-controller';
  *
  */
 
- export default angular.module('akamai.components.splitter', [])
-
+export default angular.module('akamai.components.splitter', [])
  /**
   * @ngdoc directive
   * @name akam-splitter
@@ -55,8 +53,8 @@ import paneController from './pane-controller';
   * @param {boolean} collapsed, has splitter been collapsed, optional.
   * Default is false.
   *
-  * @param {boolean} freeze-collapse, a boolean value intend to freeze collapsible/expand behavior, optional.
-  * Default is false.
+  * @param {boolean} freeze-collapse, a boolean value intend to freeze
+  * collapsible/expand behavior, optional. Default is false.
   *
   * @param {boolean} freeze-resizer, a boolean value intend to freeze the resizer, optional.
   * Default is false.

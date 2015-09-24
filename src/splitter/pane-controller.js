@@ -12,7 +12,7 @@ class PaneController{
   }
 
   setSize(size) {
-    if (size && !isNaN(parseFloat(size))){
+    if (size && !isNaN(parseFloat(size))) {
       this.size = parseFloat(size);
     }
   }
@@ -20,6 +20,6 @@ class PaneController{
   getSize() {
     return this.size;
   }
-};
+}
 
 export default PaneController;

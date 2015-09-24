@@ -9,17 +9,18 @@ function paneDir() {
     scope: {},
     require: '^akamSplitter',
     controller: 'akamPaneController',
-    controllerAs: "paneController",
+    controllerAs: 'paneController',
     link: function($scope, $element, $attrs, splitterController, transcludeFn) {
-      var size = !angular.isUndefined($attrs["size"]) && !isNaN(parseFloat($attrs["size"])) ? parseFloat($attrs["size"]) : 6;
+      var size = !angular.isUndefined($attrs.size)
+        && !isNaN(parseFloat($attrs.size)) ? parseFloat($attrs.size) : 6;
 
-      function setStyle(size){
+      function setStyle(flexSize) {
         $scope.size = {
-          "flex": [size, "0px"].join(" ")
+          flex: [flexSize, '0px'].join(' ')
         };
       }
 
-      $scope.$watch("paneController.size", (newValue, oldValue) => {
+      $scope.$watch('paneController.size', (newValue) => {
         setStyle(newValue);
       });
       setStyle(size);
@@ -33,6 +34,6 @@ function paneDir() {
     },
     template: paneTemplate
   };
-};
+}
 
 export default paneDir;
