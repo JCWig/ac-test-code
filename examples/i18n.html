@@ -98,6 +98,11 @@
 <script>
 
   var controllerFunction = function($scope, $cookies, $translate, $rootScope, $filter, $log) {
+    if (!$cookies.get('AKALOCALE')) {
+      $cookies.put('AKALOCALE', 'en_US');
+    }
+    $translate.use($cookies.get('AKALOCALE'));
+
     $rootScope.$on('$translateChangeEnd', function() {
       // List of locales to populate the locale selection dropdown. Note that not all of these exist
       $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
@@ -115,13 +120,9 @@
 
     // Reload the page when the locale is changed.  This will force the lookup of the keys again.
     function changeLocale() {
-      $log.log('the locale before', $cookies.get('AKALOCALE'));
-
       $cookies.put('AKALOCALE', $scope.selected);
       $translate.use($scope.selected);
-
-        $log.log('the proposed locale', $translate.proposedLanguage());
-      $log.log('the locale after', $cookies.get('AKALOCALE'));
+      $log.log('the proposed locale', $translate.proposedLanguage());
     }
   };
   controllerFunction.$inject = ['$scope', '$cookies', '$translate',
@@ -141,7 +142,7 @@
   configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
   function runFunc($translate, $cookies) {
-      $translate.use($cookies.get('AKALOCALE') || 'en_US');
+      // $translate.use($cookies.get('AKALOCALE') || 'en_US');
   }
   runFunc.$inject = ['$translate', '$cookies'];
 
