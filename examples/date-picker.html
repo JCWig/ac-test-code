@@ -118,9 +118,15 @@
   }
   configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
+  function runFunc($translate, $cookies) {
+      $translate.use($cookies.get('AKALOCALE') || 'en_US');
+  }
+  runFunc.$inject = ['$translate', '$cookies'];
+
   angular.module('example', ['akamai.components.constants', 'akamai.components.date-picker'])
     .controller('ExampleController', controllerFunction)
-    .config(configFunction);
+    .config(configFunction)
+    .run(runFunc);
 
   </script>
 </body>

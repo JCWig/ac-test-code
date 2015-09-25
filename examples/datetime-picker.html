@@ -39,7 +39,8 @@
   <script>
   angular.module('datetimePickerApp', ['akamai.components.datetime-picker'])
     .controller('DatetimePickerController', DatetimePickerController)
-    .config(configFunction);
+    .config(configFunction)
+    .run(runFunc);
 
   DatetimePickerController.$inject = ['$log'];
 
@@ -71,6 +72,12 @@
     }
   }
   configFunction.$inject = ['$translatePartialLoaderProvider'];
+
+  function runFunc($translate, $cookies) {
+      $translate.use($cookies.get('AKALOCALE') || 'en_US');
+  }
+  runFunc.$inject = ['$translate', '$cookies'];
+
   </script>
 </body>
 

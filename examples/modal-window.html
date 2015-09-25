@@ -100,7 +100,7 @@
                     // Create a new modal window instance with supplied options
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
-                        template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
+                        template:  angular.element('<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
                                     '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!' +
                                     '<div class="label-group"><label class="label" for="description">{{templateExample.descriptionLabel}}</label><br>' +
                                     '<textarea id="description" type="text" rows="4" cols="75"></textarea>' +
@@ -113,10 +113,9 @@
                                     '</div><br />' +
                                     '<div class="label-group"><label class="label" for="other">{{templateExample.otherLabel}}</label><br>' +
                                     '<textarea id="other" type="text" rows="4" cols="75"></textarea>' +
-                                    '</div><br />' ,
+                                    '</div><br />'),
                         controller: aController,
                         controllerAs: 'templateExample'
-
                     }));
 
                     // Listen for the result returned by the modal window
@@ -152,20 +151,19 @@
 
             var modalController = function($scope, $q, $timeout) {
                 var times = 0;
-
+                        
                 $scope.setOnSubmit(function(){
                     var deferral = $q.defer();
-                        $timeout(function() {
-                            if (times++ % 2 === 0) {
-                                deferral.reject();
-                            }else{
-                                deferral.resolve($scope.customValue);
-                            }
-
-                        }, 3000);
-
-                    return 'HI';
-                    //return deferral.promise;
+                    $timeout(function() {
+                        if (times % 2 === 0) {
+                            deferral.reject({enableSubmit : true });
+                        }else{
+                            deferral.resolve( { status: $scope.deferredValue } );
+                        }
+    
+                        times++;
+                    }, 3000);
+                   return deferral.promise;
                 });
 
                 // Disable the save button by default
@@ -182,7 +180,7 @@
                     }
                 };
             };
-
+            
             function configFunction($translatePartialLoaderProvider, VERSION) {
 
               // need to overwrite locales path on fee.akamai.com
@@ -192,6 +190,7 @@
               } else {
                 $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
               }
             }
             configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
@@ -200,10 +199,18 @@
             exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
             modalController.$inject = ['$scope', '$q', '$timeout'];
 
+            function runFunc($translate, $cookies) {
+                $translate.use($cookies.get('AKALOCALE') || 'en_US');
+            }
+            runFunc.$inject = ['$translate', '$cookies'];
+
+
             angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window'])
             .controller('ExampleController', exampleController)
             .controller('ModalController', modalController)
-            .config(configFunction);
+            .config(configFunction)
+            .run(runFunc);
+
         </script>
     </body>
 </html>

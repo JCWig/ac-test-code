@@ -822,7 +822,8 @@
         <script>
           angular.module('formValidationExample', ['akamai.components', 'akamai.components.constants', 'ngMessages'])
                 .controller('formValidationController', formValidationController)
-                .config(configFunction);
+                .config(configFunction)
+                .run(runFunc);
 
           formValidationController.$inject = ['$scope', '$log', '$filter', '$q', '$http'];
 
@@ -1008,6 +1009,10 @@
           }
           configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
+          function runFunc($translate, $cookies) {
+              $translate.use($cookies.get('AKALOCALE') || 'en_US');
+          }
+          runFunc.$inject = ['$translate', '$cookies'];
 
         </script>
       <script>

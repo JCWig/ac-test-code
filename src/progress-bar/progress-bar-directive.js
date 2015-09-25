@@ -17,14 +17,14 @@ class ProgressBarController {
 
     $scope.$watch('progressBar.state', (newValue) => {
       switch (newValue) {
-        case 'error':
+      case 'error':
         this.type = 'danger';
         this.value = this.max;
         break;
-        case 'completed':
+      case 'completed':
         this.type = 'success';
         break;
-        case 'inprogress':
+      case 'inprogress':
         this.type = '';
         break;
       }

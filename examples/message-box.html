@@ -110,10 +110,17 @@
             configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
             controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
+
+            function runFunc($translate, $cookies) {
+                $translate.use($cookies.get('AKALOCALE') || 'en_US');
+            }
+            runFunc.$inject = ['$translate', '$cookies'];
+
             angular.module('example', ['akamai.components.message-box', 'akamai.components.constants'])
 
             .controller('ExampleController', controllerFunction)
-            .config(configFunction);
+            .config(configFunction)
+            .run(runFunc);
 
             </script>
         </div>
