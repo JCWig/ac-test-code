@@ -127,10 +127,14 @@ function DateRangeDecorator($provide) {
 
         resetMax = scope.$on('dateRange.resetMax', (e, info) => {
           ctrl.maxDate = info.maxValue;
+          ctrl.activeDate = new Date();
+          ctrl.refreshView();
         });
 
         resetMin = scope.$on('dateRange.resetMin', (e, info) => {
           ctrl.minDate = info.minValue;
+          ctrl.activeDate = new Date();
+          ctrl.refreshView();
         });
 
         moveRangePoint = scope.$on('dateRange.moveRangePoint', (e, info) => {
