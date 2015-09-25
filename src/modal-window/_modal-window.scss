@@ -1,3 +1,127 @@
+.modal-dialog {
+  background-color: $dialog-background-color;
+  border: 0 solid $dialog-border-color;
+  border-radius: $dialog-border-radius;
+  outline: 0;
+
+  width: $dialog-width;
+  min-width: $dialog-min-width;
+  max-width: $dialog-max-width;
+
+  &.max {
+    width: 100%;
+    max-width: none;
+  }
+
+}
+
+&, &.luna {
+  .modal {
+    .modal-header {
+      & > .close-icon {
+        cursor: pointer;
+        background: transparent center center no-repeat;
+        background: inline-svg-image("svg/small_close_new.svg");
+        background-size: contain;
+        width: 12px;
+        height: 12px;
+
+        &:hover {
+          background-image: inline-svg-image("svg/small_close_hover_new.svg");
+        }
+      }
+
+      i.disabled {
+        opacity: 0.5;
+      }
+    }
+
+    .modal-backdrop {
+      background-color: $dialog-mask-color_luna;
+    }
+
+    .indeterminate-progress-wrapper {
+      background: $dialog-indeterminate-backdrop-color;
+
+      .indeterminate-progress-spinner {
+        width: $dialog-indeterminate-spinner-dimensions;
+        height: $dialog-indeterminate-spinner-dimensions;
+        top: calc(50% - #{$dialog-indeterminate-spinner-dimensions / 2});
+        left: calc(50% - #{$dialog-indeterminate-spinner-dimensions / 2});
+      }
+    }
+  }
+}
+
+.modal-container {
+
+  & > .modal-header {
+    padding: 0 $dialog-right-padding 0 $dialog-left-padding;
+    border-bottom: 1px solid $dialog-separator-color_luna;
+    height: $dialog-header-height;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: $dialog-border-radius $dialog-border-radius 0 0;
+    color: $dialog-text-color;
+    @include background-image($dialog-header-background-color);
+    min-height: 0;
+
+    & > .modal-title {
+      padding-right: $svg-icon-width + $dialog-header-icon-gutter;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: $dialog-header-height;
+      padding-top: 1px; // Hack to address visual alignment
+    }
+
+    & > .akam-status-message-wrapper {
+      z-index: $status-message-zindex;
+      top: $dialog-header-height;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      .akam-status-message-item {
+        width: 100%;
+        padding-left: 32px + $dialog-left-padding;
+        height: $dialog-header-error-height;
+        &:before {
+          margin-left: $dialog-left-padding;
+        }
+      }
+
+      .status-message-content {
+        line-height: 30px;
+        padding-right: $dialog-right-padding;
+      }
+    }
+
+    & > i {
+      position: absolute;
+      top: 50%;
+      @include translate(0, -50%);
+    }
+
+    .close-icon {
+      right: $dialog-right-padding;
+    }
+
+    .max-min-icon {
+      cursor: pointer;
+      right: $dialog-right-padding * 2 + 20px;
+    }
+
+    &.error + .modal-body {
+      margin-top: $dialog-header-error-height;
+    }
+  }
+
+}
+
+// leaving for posterity, but this should be removed before FEE-1414 is resolved
+
+/*
 .modal {
   position: fixed;
   top: 0;
@@ -88,7 +212,7 @@
   @include translate(-50%, -50.01%);
   @include box-shadow(none);
 
-  /* Version 3 Flex for IE11 and modern browsers */
+  /!* Version 3 Flex for IE11 and modern browsers *!/
   @include display-flex();
   @include flex-direction(column);
   @include flex-wrap(nowrap);
@@ -296,3 +420,4 @@
   }
 }
 
+*/

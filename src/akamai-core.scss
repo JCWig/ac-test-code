@@ -66,11 +66,6 @@
   //@import "global-styles/orphans/_determinate_progress";
 }
 
-
-/* Megamenu code */
-@import "global-styles/modular-mega-menu/_modular-mega-menu";
-
-
 /* Finally, import the hotfix CSS, and refactor it later */
 .common-css {
   @import "global-styles/_refactor";

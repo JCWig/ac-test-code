@@ -1,12 +1,9 @@
-
-
-
 // Modal Dialogs
 $dialog-background-color: #ffffff;
 $dialog-header-background-color: $global-light-gray-gradient;
 
-$dialog-width: auto;
-$dialog-min-width: 400px;
+$dialog-width: 50%;
+$dialog-min-width: 510px; // accommodate text area input width
 $dialog-max-width: 75%;
 
 $dialog-height: auto;
@@ -49,15 +46,8 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
 .modal.akam-message-box {
   z-index: $message-box-zindex;
 
-  .modal-content .modal-container {
+  .modal-dialog {
     width: 450px;
-    @include for("IE10+") {
-      height: auto;
-    }
-  }
-
-  .modal-body {
-    max-height: 232px;
   }
 
   .modal-header {
