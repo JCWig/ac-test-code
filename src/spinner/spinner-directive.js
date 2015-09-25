@@ -73,6 +73,11 @@ class SpinnerController {
   isOverMax(offset) {
     return this.spinnerService.isOutOfBounds(this.inputValue, this.max, true, offset);
   }
+
+  clickNoop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
 }
 
 SpinnerController.$inject = ['$scope', '$interval', 'uuid', '$log', 'spinnerService'];

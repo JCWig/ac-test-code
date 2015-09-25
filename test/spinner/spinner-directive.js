@@ -378,4 +378,28 @@ describe('akamai.components.spinner', function() {
       });
     });
   });
+  describe('when rendered', function() {
+    describe('when spinner buttons are disabled', function() {
+      describe('verify controller function clickNoop called', function() {
+        beforeEach(function() {
+          var markup = '<akam-spinner ng-model="ngModel" disabled="disabled"></akam-spinner>';
+          scope.ngModel = 2;
+          scope.disabled = scope.testData.disabled;
+          addElement(markup);
+          spyOn(self.spinner, "clickNoop");
+          let buttonListNode = self.element.querySelectorAll('button');
+          utils.click(buttonListNode[0]);
+        });
+        it('should "clickNoop" controller method exists', function() {
+          expect(angular.isFunction(self.spinner.clickNoop)).toBe(true);
+        });
+        it('should verify "clickNoop" get called when click on arrow button', function() {
+          expect(self.spinner.clickNoop).toHaveBeenCalled();
+        });
+        it('should verify the input value not increased after click on arrow button', function() {
+          expect(self.spinner.inputValue).toBe(2);
+        });
+      });
+    });
+  });
 });
