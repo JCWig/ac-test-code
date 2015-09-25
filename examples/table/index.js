@@ -7,7 +7,8 @@ angular.module('akamai.components.examples.table', [
   'akamai.components.i18n'
 ])
   .controller('ExampleController', ExampleController)
-  .config(configFunction);
+  .config(configFunction)
+  .run(runFunc);
 
 function ExampleController($http, $q, $log) {
   var vm = this;
@@ -84,3 +85,8 @@ function configFunction($translatePartialLoaderProvider, VERSION) {
     }
 }
 configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+function runFunc($translate, $cookies) {
+  $translate.use($cookies.get('AKALOCALE') || 'en_US');
+}
+runFunc.$inject = ['$translate', '$cookies'];

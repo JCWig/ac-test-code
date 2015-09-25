@@ -97,34 +97,37 @@
 <script src="../dist/akamai-core.js"></script>
 <script>
 
-  var controllerFunction = function(portalLocale, $scope, $cookies, $translate, $rootScope, $filter, $log) {
+  var controllerFunction = function($scope, $cookies, $translate, $rootScope, $filter, $log) {
+    if (!$cookies.get('AKALOCALE')) {
+      $cookies.put('AKALOCALE', 'en_US');
+    }
+    $translate.use($cookies.get('AKALOCALE'));
+
     $rootScope.$on('$translateChangeEnd', function() {
       // List of locales to populate the locale selection dropdown. Note that not all of these exist
       $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
         'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'];
 
-      $scope.selected = 'en_US';
-
-      // Check to see if the AKALOCALE cookie is used
-      if($cookies.get('AKALOCALE')) {
-        $scope.selected = atob($cookies.get('AKALOCALE'));
-      }
-
+      $scope.selected = $cookies.get('AKALOCALE');
       $scope.changeLocale = changeLocale;
 
       $log.log($translate.instant('reseller-tools.note'));
       $log.log($translate.instant('components.menu-button.label'));
       $log.log($filter('translate')('components.notifications.success'));
       $log.log($filter('translate')('recurring-report.activate.modal.message'));
-      $log.log('locale is ' + portalLocale);
+      $log.log('the locale is', $scope.selected);
     });
 
     // Reload the page when the locale is changed.  This will force the lookup of the keys again.
     function changeLocale() {
-      document.cookie = 'AKALOCALE='+btoa($scope.selected);
-      window.location.reload();
+      $cookies.put('AKALOCALE', $scope.selected);
+      $translate.use($scope.selected);
+      $log.log('the proposed locale', $translate.proposedLanguage());
     }
   };
+  controllerFunction.$inject = ['$scope', '$cookies', '$translate',
+      '$rootScope', '$filter', '$log'];
+
   function configFunction($translatePartialLoaderProvider, VERSION) {
 
     // need to overwrite locales path on fee.akamai.com
@@ -138,16 +141,19 @@
   }
   configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
+  function runFunc($translate, $cookies) {
+      // $translate.use($cookies.get('AKALOCALE') || 'en_US');
+  }
+  runFunc.$inject = ['$translate', '$cookies'];
 
-  controllerFunction.$inject = ['portalLocale', '$scope', '$cookies', '$translate',
-    '$rootScope', '$filter', '$log'];
-
-  angular.module('i18nDemo3', ['akamai.components.constants', 'akamai.components.i18n', 'ngCookies']);
+  angular.module('i18nDemo3', ['akamai.components.constants', 'akamai.components.i18n']);
 
   // Override the location of the Component and Application locale files
   angular.module('i18nDemo3')
-    .config(configFunction)
-    .controller('TranslationPageController', controllerFunction);
+    .controller('TranslationPageController', controllerFunction)
+    .run(runFunc)
+    .config(configFunction);
+
 
 </script>
 </body>

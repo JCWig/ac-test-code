@@ -53,7 +53,8 @@
   <script>
   angular.module('dateRangeApp', ['akamai.components.constants', 'akamai.components.date-range'])
     .controller('DateRangeAppController', DateRangeAppController)
-    .config(configFunction);
+    .config(configFunction)
+    .run(runFunc);
 
   DateRangeAppController.$inject = ['$log'];
 
@@ -118,6 +119,12 @@
     }
   }
   configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+
+  function runFunc($translate, $cookies) {
+      $translate.use($cookies.get('AKALOCALE') || 'en_US');
+  }
+  runFunc.$inject = ['$translate', '$cookies'];
+
 
   </script>
 </body>
