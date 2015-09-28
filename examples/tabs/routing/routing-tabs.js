@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('navigationExampleApp', ['akamai.components.navigation'])
+angular.module('navRoutingApp', ['akamai.components.tabs'])
   .config(configFunction);
 
 function configFunction($stateProvider, $urlRouterProvider) {

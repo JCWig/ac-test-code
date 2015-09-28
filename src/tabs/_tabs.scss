@@ -1,11 +1,11 @@
 $disabled-color: #dadada;
 
-.navigation {
+.akam-tabs {
   position: relative;
 
-  & .tab-content {
-    padding-top: 1.4em;
-  }
+   & .tab-content {
+     padding-top: 1.4em;
+   }
 
   & .nav-tabs,
   & .nav-pills {
@@ -17,13 +17,13 @@ $disabled-color: #dadada;
 
   .nav-pills {
     border-bottom: 1px solid $colors__gray6;
-    margin: 7px 3px 20px;
+    margin: 0 3px 20px;
 
-    & + .tab-content {
-      padding: 0 0.1em;
-    }
+     & + .tab-content {
+       padding: 0 0.1em;
+     }
 
-    .tab {
+    & > li {
       position: relative;
       float: none;
       display: inline-block;
@@ -34,12 +34,12 @@ $disabled-color: #dadada;
         border-radius: 0;
         // this is to move the highlighting line above the nav's border bottom
         top: 2px;
-        background-color: white;
+        background-color: transparent;
         padding: 0 5px 4px;
         cursor: pointer;
 
         &:hover {
-          background-color: white;
+          background-color: transparent;
         }
       }
 
@@ -55,7 +55,7 @@ $disabled-color: #dadada;
     }
   }
 
-  & .nav-stacked.nav-tabs {
+  & .nav-stacked {
     display: inline-block;
     border-bottom: none;
     padding-right:0;
@@ -98,12 +98,13 @@ $disabled-color: #dadada;
       }
     }
 
-    & + .tab-content {
-      display: inline-block;
-      position: absolute;
-      width: calc(100% - 90px);
-      border-top-width: 1px;
-    }
+     & + .tab-content {
+       display: inline-block;
+       position: absolute;
+       width: calc(100% - 90px);
+       border-top-width: 1px;
+     }
 
   }
 }
+
