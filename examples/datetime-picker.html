@@ -22,8 +22,8 @@
   <h2>Datetime Picker Component Example</h2>
   <br/>
   <h4 class="title">Display selected value</h4>
-  <pre>selected Datetime value: {{vm.datetime | date: 'MMM d, y h:mm a'}}</pre>
-  <pre>selected Datetime value: {{vm.datetime2 | date: 'MMM d, y h:mm a'}}</pre>
+  <pre>Selected Datetime value: {{vm.datetime | date: 'MMM d, y h:mm a'}}</pre>
+  <pre>Selected Datetime value: {{vm.datetime2 | date: 'MMM d, y h:mm a'}}</pre>
   <h4 class="title">An example of Datetime picker</h4>
   <form name='datetime-picker' role='form'>
     <p>Minimum attributes used with no date and time values</p>
@@ -31,7 +31,11 @@
     <br/>
     <br/>
     <br/>
-    <p>All attributes used with initial date and time values</p>
+    <p>All attributes used with initial min and max date and time step ({{vm.hourStep}} hour step, {{vm.minuteStep}} minutes step) values set</p>
+    <label class="label">Min Date: {{vm.min}}</label>
+    <br />
+    <label class="label">Max Date: {{vm.max}}</label>
+    <br />
     <akam-datetime-picker ng-model="vm.datetime2" ng-change="vm.onChange()" format="{{vm.format}}" min="{{vm.min}}" max="{{vm.max}}" minute-step="vm.minuteStep" hour-step="vm.hourStep" show-meridian="vm.showMeridian" is-disabled="vm.disabled">
     </akam-datetime-picker>
   </form>
@@ -51,10 +55,15 @@
     vm.minuteStep = 10;
     vm.hourStep = 1;
     vm.format = "EEE, MMM dd, yyyy";
-    vm.min = new Date("2014-9-1");
-    vm.max = new Date("2016-9-25");
     vm.datetime2 = new Date();
 
+    var d = new Date();
+    var defaultMin = new Date(d.getFullYear()-1, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear()+1, d.getMonth(), 0);
+
+    vm.min = defaultMin;
+    vm.max = defaultMax;
+    
     vm.onChange = function() {
       $log.log(vm.datetime);
     }
