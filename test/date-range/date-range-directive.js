@@ -462,10 +462,10 @@ describe('akamai.components.date-range', function() {
     });
   });
 
-  describe("min date validation ", function() {
+  describe("DateRange reset from min date changes ", function() {
     describe("given min date value", function() {
       describe("if new selected start date earlier than given min date", function() {
-        let startDateValueField;
+        let startDateValueField, dateRange;
         beforeEach(function() {
           this.$scope.dateRange = {
             startDate: '',
@@ -475,6 +475,7 @@ describe('akamai.components.date-range', function() {
           this.$scope.max = new Date("December 25, 2014");
           let markup = `<akam-date-range ng-model='dateRange' min="min" max="max"></akam-date-range>`;
           addElement.call(this, markup);
+          dateRange = this.el.isolateScope().dateRange;
           this.$scope.dateRange = {
             startDate: new Date("December 26, 2013"),
             endDate: new Date("December 26, 2014")
@@ -487,11 +488,14 @@ describe('akamai.components.date-range', function() {
         it("Should date range start date field gets reset to original", function() {
           expect(startDateValueField.textContent).toBe("components.date-range.placeholder");
         });
+        it("Should date range start date selected value being empty", function() {
+          expect(dateRange.rangeStart.selectedValue).toBe("");
+        });
       });
     });
   });
 
-  describe("max date validation ", function() {
+  describe("DateRange reset from max date changes ", function() {
     describe("given max date value", function() {
       describe("if new selected end date later than given max date", function() {
         let dateRange, endDateValueField;
@@ -516,6 +520,9 @@ describe('akamai.components.date-range', function() {
         });
         it("Should date range start date field gets reset to original", function() {
           expect(endDateValueField.textContent).toBe("components.date-range.placeholder");
+        });
+        it("Should date range start date selected value being empty", function() {
+          expect(dateRange.rangeEnd.selectedValue).toBe("");
         });
       });
     });

@@ -1,6 +1,10 @@
 import angular from 'angular';
 import template from './templates/date-picker-day-popup.tpl.html';
 
+function getPlainDate(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+}
+
 function DateRangeDecorator($provide) {
   const [START, END] = ['start', 'end'];
 
@@ -127,9 +131,13 @@ function DateRangeDecorator($provide) {
 
         resetMax = scope.$on('dateRange.resetMax', (e, info) => {
           ctrl.maxDate = info.maxValue;
-          if (angular.isDate(scope.selectedEnd) &&
-            info.maxValue.getTime() < scope.selectedEnd.getTime()) {
-            setRangeAndNotify(null, scope, $rootScope);
+          if (angular.isDate(scope.selectedEnd)) {
+            let maxDate = getPlainDate(info.maxValue),
+              endDate = getPlainDate(scope.selectedEnd);
+
+            if (maxDate.getTime() < endDate.getTime()) {
+              setRangeAndNotify(null, scope, $rootScope);
+            }
           }
           ctrl.activeDate = new Date();
           ctrl.refreshView();
@@ -137,9 +145,13 @@ function DateRangeDecorator($provide) {
 
         resetMin = scope.$on('dateRange.resetMin', (e, info) => {
           ctrl.minDate = info.minValue;
-          if (angular.isDate(scope.selectedStart) &&
-            info.minValue.getTime() > scope.selectedStart.getTime()) {
-            setRangeAndNotify(null, scope, $rootScope);
+          if (angular.isDate(scope.selectedStart)) {
+            let minDate = getPlainDate(info.minValue),
+              startDate = getPlainDate(scope.selectedStart);
+
+            if (minDate.getTime() > startDate.getTime()) {
+              setRangeAndNotify(null, scope, $rootScope);
+            }
           }
           ctrl.activeDate = new Date();
           ctrl.refreshView();
