@@ -53,6 +53,6 @@ export default angular.module('akamai.components.spinner', [
 /**
  * @name spinnerService
  * @description a factory service implements the logic of validation of inputs
- * and max | min checking for akamSpinner directive
+ * that includes  max | min number checking for akamSpinner directive
  */
   .factory('spinnerService', spinnerService);
