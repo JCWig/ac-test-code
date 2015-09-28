@@ -10,20 +10,18 @@ const timepickerConfig = {
 
 class TimepickerController {
   constructor($scope, $document, $parse) {
+    const closePicker = angular.bind(this, this.close);
+
     this.$scope = $scope;
     this.$document = $document;
     this.$parse = $parse;
-
     this.isOpen = false;
-
-    this.clickHandler = () => this.$scope.$apply('timepicker.isOpen=false');
-
-    this.$document.on('click', this.clickHandler);
-    this.$scope.$on('$destroy', () => this.$document.off('click', this.clickHandler));
+    this.$document.on('click', closePicker);
+    this.$scope.$on('$destroy', () => this.$document.off('click', closePicker));
   }
 
-  clickHandler() {
-    TimepickerController.$scope.$apply('timepicker.isOpen=false');
+  close() {
+    this.$scope.$apply(() => this.isOpen = false);
   }
 
   isDisabled() {
