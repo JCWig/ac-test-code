@@ -1,9 +1,10 @@
 import template from './templates/date-picker-day-popup.tpl.html';
 
+const [UP_ARROW_KEY, DOWN_ARROW_KEY] = [38, 40];
 export function arrowUpDownEventNoop(e) {
   let key = e.which || e.keyCode;
 
-  if (key === 38 || key === 40) {
+  if (key === UP_ARROW_KEY || key === DOWN_ARROW_KEY) {
     e.preventDefault();
     e.stopPropagation();
   }
