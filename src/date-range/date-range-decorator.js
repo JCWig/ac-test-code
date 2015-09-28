@@ -127,18 +127,28 @@ function DateRangeDecorator($provide) {
 
         resetMax = scope.$on('dateRange.resetMax', (e, info) => {
           ctrl.maxDate = info.maxValue;
+<<<<<<< HEAD
           if (angular.isDate(scope.selectedEnd) &&
             info.maxValue.getTime() < scope.selectedEnd.getTime()) {
             setRangeAndNotify(null, scope, $rootScope);
           }
+=======
+          ctrl.activeDate = new Date();
+          ctrl.refreshView();
+>>>>>>> develop
         });
 
         resetMin = scope.$on('dateRange.resetMin', (e, info) => {
           ctrl.minDate = info.minValue;
+<<<<<<< HEAD
           if (angular.isDate(scope.selectedStart) &&
             info.minValue.getTime() > scope.selectedStart.getTime()) {
             setRangeAndNotify(null, scope, $rootScope);
           }
+=======
+          ctrl.activeDate = new Date();
+          ctrl.refreshView();
+>>>>>>> develop
         });
 
         moveRangePoint = scope.$on('dateRange.moveRangePoint', (e, info) => {
