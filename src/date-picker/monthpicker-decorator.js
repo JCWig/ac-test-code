@@ -1,4 +1,5 @@
 import template from './templates/date-picker-month-popup.tpl.html';
+import { arrowUpDownEventNoop } from './daypicker-decorator';
 
 function monthPickerDecorator($provide) {
   function monthPickerDirective($delegate) {
@@ -22,6 +23,9 @@ function monthPickerDecorator($provide) {
       return function(scope, element, attrs, ctrl) {
         link.apply(this, arguments);
 
+        //overrides datepicker.js keydown event
+        element.bind('keydown', arrowUpDownEventNoop);
+
         //disable navigation according to the range
         scope.monthpickerNavPrevDisabled = () => {
           let firstMonth = new Date(ctrl.activeDate.getFullYear(), 0, 1);
@@ -34,6 +38,10 @@ function monthPickerDecorator($provide) {
 
           return ctrl.maxDate && lastMonth >= ctrl.maxDate;
         };
+
+        scope.$on('$destroy', () => {
+          element.off('keydown');
+        });
       };
     };
     return $delegate;

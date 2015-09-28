@@ -529,4 +529,30 @@ describe('akamai.components.date-range', function() {
     });
 
   });
+
+  describe('given daterange', function() {
+    describe('when daterange open', function() {
+      describe('press keyboard keys down key', function() {
+        beforeEach(function() {
+          this.$scope.keydown = jasmine.createSpy('keydown');
+          this.$scope.dateRange = {'startDate':'', 'endDate':''};
+          var markup = '<akam-date-range ng-model="dateRange"></akam-date-range>';
+          addElement.call(this, markup);
+          utils.click(".range-selection button");
+          this.$scope.$digest();
+        });
+        it('should not trigger date-range keydown event when press down-arrow key 40', function() {
+          utils.keyDown(".range-picker .dropdown-menu", 40);
+          this.$scope.$digest();
+          expect(this.$scope.keydown).not.toHaveBeenCalled();
+        });
+        it('should not trigger date-range keydown event when press up-arrow key 38', function() {
+          utils.keyDown(".range-picker .dropdown-menu", 38);
+          this.$scope.$digest();
+          expect(this.$scope.keydown).not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
 });
