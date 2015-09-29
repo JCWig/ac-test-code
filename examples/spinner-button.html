@@ -25,10 +25,11 @@
       <akam-spinner-button text-content="process me on / off" processing="vm.processing"></akam-spinner-button>
     <br>
     <br>
-    <h2>Example 3 - Spinner Button: Enable / Disable "disabled" property</h2>
+    <h2>Example 3 - Spinner Button: Enable / Disable "disabled" property With Custom Text</h2>
       <input type="checkbox" id="disabled" ng-model="vm.disabled"><label for="disabled">Turn On/Off Disabled</label>
     <br />
-      <akam-spinner-button class="yair" text-content="turn me on / off" disabled="vm.disabled"></akam-spinner-button>
+      <akam-spinner-button class="yair" text-content="examples.spinnerbutton.custom.label-variable"
+                           text-content-values="{'name':'Turn On/Off'}" disabled="vm.disabled"></akam-spinner-button>
   </form>
   <br>
   <br>
