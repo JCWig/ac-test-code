@@ -67,7 +67,7 @@
 </div>
 <br />
   <div class="container">
-      <h3>Available Button Sizes</h3>
+      <h3>Available Button Sizes - Custom Text</h3>
       <akam-menu-button size="small">
         <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
         </akam-menu-button-item>
@@ -77,9 +77,10 @@
         </akam-menu-button-item>
       </akam-menu-button>
       <br />
-      <akam-menu-button size="small" default-text="examples.appNames.pm" on-click="vm.process('pm')">
-        <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
-        <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+      <akam-menu-button size="small" default-text="examples.appNames.pm" default-text-values="{{vm.customName}}"
+                        on-click="vm.process('pm')">
+        <akam-menu-button-item text="examples.appNames.tq" text-values="{'name':'- Beta Version'}" ng-click="vm.process('tq')"></akam-menu-button-item>
+        <akam-menu-button-item text="examples.appNames.bc" text-values="{{vm.customName}}" ng-click="vm.process('bc')"></akam-menu-button-item>
       </akam-menu-button>
       <akam-menu-button size="medium" default-text="examples.appNames.pm" on-click="vm.process('pm')">
         <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
@@ -95,6 +96,8 @@
       console.log('You clicked on the the app: ', item);
     };
 
+    this.customName ="{'name':'- Beta Version'}";
+    
     this.items = [{
       id: 'examples.appNames.tq'
     }, {
