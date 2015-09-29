@@ -1,7 +1,6 @@
 import angular from 'angular';
 
 //TODO: Remember to update this if the version in package.json ever changes
-// Also remember to update mega-menu -> utils -> constants.js with the exact same info
 export const VERSION = '0.9.1';
 
 /**

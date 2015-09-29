@@ -34,7 +34,7 @@ module.exports = function(config) {
     browserNoActivityTimeout: 60000,
     files: filesToTest,
     logLevel: config.LOG_ERROR,
-    frameworks: ['browserify', 'jasmine', 'jquery-2.1.0', 'sinon'],
+    frameworks: ['browserify', 'jasmine', 'sinon'],
     preprocessors: preProcessors,
     browsers: ['PhantomJS'],
     reporters: ['spec', 'junit', 'coverage'],
