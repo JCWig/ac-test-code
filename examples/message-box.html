@@ -58,6 +58,7 @@
                     <button type="button" class="button large" ng-click="showInfoBox()">Info - Custom Text</button>
                     <button type="button" class="button large" ng-click="showQuestionBox()">Question</button>
                     <button type="button" class="button large" ng-click="showErrorBox()">Error</button>
+                    <button type="button" class="button large" ng-click="showHTMLMsgBox()">Bind as HTML</button>
                 </div>
             </div>
             <script src="../dist/akamai-core.js"></script>
@@ -105,8 +106,16 @@
                     $scope.showErrorBox = function() {
                         messageBox.showError(angular.extend({}, $scope.options));
                     };
+                    
+                    $scope.showHTMLMsgBox = function() {                        
+                        messageBox.showInfo({
+                            title: 'HTML Example',
+                            headline: 'HTML Example Headline Text',
+                            text: '<h1>This is HTML</h1>',
+                            template: '<p></p>'
+                        });
+                    };
                 };
-
 
             function configFunction($translatePartialLoaderProvider, VERSION) {
 
