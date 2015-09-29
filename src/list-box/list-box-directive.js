@@ -12,7 +12,7 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
         noFilterResultsMessage: this.noFilterResultsMessage,
         noneSelectedMessage: this.noneSelectedMessage
       };
-
+      this.$scope = $scope;
       this.loading = true;
       this.tableId = uuid.guid();
       this.selectedItems = this.selectedItems || [];
@@ -300,13 +300,13 @@ function listBox($log, $q, $timeout, uuid, $filter, $translate) {
       $translate(filterplaceholderMessage)
         .then(value => this.staticMessages.filterPlaceholder = value);
 
-      $translate(noDataMessage, angular.fromJson(attr.noDataMessageValues))
+      $translate(noDataMessage, this.$scope.$eval(attr.noDataMessageValues))
         .then(value => this.noDataMessage = value);
 
-      $translate(noFilterResultsMessage, angular.fromJson(attr.noFilterResultsMessageValues))
+      $translate(noFilterResultsMessage, this.$scope.$eval(attr.noFilterResultsMessageValues))
         .then(value => this.staticMessages.noFilterResultsMessage = value);
 
-      $translate(noneSelectedMessage, angular.fromJson(attr.noneSelectedMessageValues))
+      $translate(noneSelectedMessage, this.$scope.$eval(attr.noneSelectedMessageValues))
         .then(value => this.staticMessages.noneSelectedMessage = value);
 
       $translate(selectedText)
