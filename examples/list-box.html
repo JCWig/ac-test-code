@@ -46,7 +46,13 @@
             </div>
             <br />
             <akam-list-box akam-standalone data="obj[status]" schema="columns" on-change="rowChange(value)"
-                           filter-placeholder="Filter Employees" no-data-message="examples.test.select" no-data-message-values="{{data}}"></akam-list-box>
+                           filter-placeholder="Filter Employees"
+                           no-data-message="examples.list-box.noDataMessage-variable"
+                           no-data-message-values="{{noDataMessageValues}}"
+                           none-selected-message="examples.list-box.noneSelectedMessage-variable"
+                           none-selected-message-values="{{noSelectedMessageValues}}"
+                           no-filter-results-message="examples.list-box.noFilterResultsMessage-variable"
+                           no-filter-results-message-values="{{noFilterResultMessageValues}}"></akam-list-box>
         </div>
         <br />
         <div class="container">
@@ -144,12 +150,15 @@
 
             var controllerFunction = function($scope, $http, $filter, $q, $timeout, $log, $sce) {
 
-                $scope.data = {'first':'sean'};
                 var deferred = $q.defer();
                 var failedDeferred = $q.defer();
 
                 $scope.basedata = BASE_DATA10;
                 $scope.basedata10 = BASE_DATA10;
+
+                $scope.noDataMessageValues = {'name': 'event'};
+                $scope.noSelectedMessageValues = {'name': 'event'};
+                $scope.noFilterResultMessageValues = {'name': 'event'};
 
                 // Set default status to exampleData
                 $scope.status = "exampleData";
