@@ -3,7 +3,7 @@ import template from './templates/date-picker-day-popup.tpl.html';
 import { arrowUpDownEventNoop } from './../date-picker/daypicker-decorator';
 
 function getPlainDate(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
 
 function DateRangeDecorator($provide) {

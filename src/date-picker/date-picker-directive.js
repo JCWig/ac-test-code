@@ -58,6 +58,12 @@ class DatepickerController {
 
     this.opened = !this.opened;
   }
+
+  static getDateOnly(d) {
+    let date = angular.isDate(d) ? d : new Date();
+
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }
 }
 
 DatepickerController.$inject = ['$filter', '$timeout', '$translate'];
@@ -96,9 +102,19 @@ function linkFn(scope, element, attrs, ngModel) {
       return;
     }
     newValue = newValue.replace(REGEX, '$1');
+    let max = DatepickerController.getDateOnly(new Date(newValue)),
+      selected = DatepickerController.getDateOnly(ctrl.value),
+      toReset = false;
+
+    if (max.getTime() < selected.getTime()) {
+      scope.clearDate();
+      toReset = true;
+    }
+
     if (angular.isDate(new Date(newValue))) {
-      scope.$broadcast('datepicker.updateMax', {
-        max: new Date(newValue)
+      scope.$broadcast('datepicker.updateMaxDate', {
+        maxDate: new Date(newValue),
+        reset: toReset
       });
     }
   });
@@ -108,9 +124,19 @@ function linkFn(scope, element, attrs, ngModel) {
       return;
     }
     newValue = newValue.replace(REGEX, '$1');
+    let min = DatepickerController.getDateOnly(new Date(newValue)),
+      selected = DatepickerController.getDateOnly(ctrl.value),
+      toReset = false;
+
+    if (min.getTime() > selected.getTime()) {
+      scope.clearDate();
+      toReset = true;
+    }
+
     if (angular.isDate(new Date(newValue))) {
-      scope.$broadcast('datepicker.updateMin', {
-        min: new Date(newValue)
+      scope.$broadcast('datepicker.updateMinDate', {
+        minDate: min,
+        reset: toReset
       });
     }
   });
