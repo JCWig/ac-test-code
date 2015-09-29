@@ -211,27 +211,3 @@ ul.util-checkmark {
 .util-horiztonal-center-box {
   margin: 0 auto;
 }
-
-// Modular Mega Menu utils
-%arrow {
-  display: inline-block !important;
-  width: 0 !important;
-  height: 0 !important;
-  border-style: solid !important;
-}
-
-// used as the arrow next to the customer name and the account-selector
-.util-arrow-down {
-  @extend %arrow;
-  border-width: $arrow-down-height-small $arrow-down-height-small 0 $arrow-down-height-small !important;
-  border-color: #3c4c5b transparent transparent transparent;
-  vertical-align: middle !important;
-}
-
-// used as the pointer from the nav popups
-.util-arrow-up {
-  @extend %arrow;
-  border-width: 0 $arrow-up-height-large $arrow-up-height-large $arrow-up-height-large !important;
-  border-color: transparent transparent #97a4b1 transparent;
-  vertical-align: bottom !important;
-}
