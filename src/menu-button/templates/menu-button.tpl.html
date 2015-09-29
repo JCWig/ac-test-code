@@ -15,7 +15,8 @@
           ng-disabled="menuButton.isDisabled"
           ng-click="menuButton.onClick()"
           ng-if="::menuButton.defaultText"
-          translate="{{ ::menuButton.defaultText }}">
+          translate="{{ ::menuButton.defaultText }}"
+          translate-values="{{::menuButton.defaultTextValues}}">
   </button>
   <button type="button"
           class="btn btn-default dropdown-toggle split-button"

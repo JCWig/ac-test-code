@@ -138,4 +138,60 @@ describe('akamai.components.menu-button', function() {
     })
   });
 
+  describe('given a menu button', function() {
+    describe('when provided default-text api as text value', function() {
+      describe('after menu button is rendered', function() {
+        beforeEach(function() {
+          let markup =
+            `<akam-menu-button default-text="hello">
+        </akam-menu-button>`;
+
+          addElement.call(this, markup);
+        });
+        it('should menu button default text render as text', function() {
+          let item = this.element.querySelector('.dropdown-menu');
+          expect(this.element.textContent).toMatch(/hello/);
+        });
+      })
+    });
+  });
+
+  describe('given a menu button', function() {
+    describe('when provided default-text api as unknown key and no default-text-values provided', function() {
+      describe('after menu button is rendered', function() {
+        beforeEach(function() {
+          this.$scope.values = {'name': 'Event Center'};
+          let markup =
+            `<akam-menu-button default-text="examples.unknown" default-text-values="{{values}}">
+        </akam-menu-button>`;
+
+          addElement.call(this, markup);
+        });
+        it('should menu button default text render correctly', function() {
+          let item = this.element.querySelector('.dropdown-menu');
+          expect(this.element.textContent).toMatch(/examples.unknown/);
+        });
+      })
+    });
+  });
+
+  describe('given a menu button', function() {
+    describe('when provided default-text api as valid key and default-text-values with variable replacements', function() {
+      describe('after menu button is rendered', function() {
+        beforeEach(function() {
+          this.$scope.values = {'name': 'Event Center'};
+          let markup =
+            `<akam-menu-button default-text="examples.appName" default-text-values="{{values}}">
+        </akam-menu-button>`;
+
+          addElement.call(this, markup);
+        });
+        it('should menu button default text render correctly', function() {
+          let item = this.element.querySelector('.dropdown-menu');
+          expect(this.element.textContent).toMatch(/Event Center/);
+        });
+      })
+    });
+  });
+
 });

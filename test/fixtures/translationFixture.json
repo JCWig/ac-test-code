@@ -32,4 +32,5 @@
   "examples.switchbutton.custom.label-variable": "{{name}}",
   "examples.autocomplete.search.states": "Search States",
   "examples.tag-input.tagging-label-variable": "add {{name}} one",
+  "examples.menu-button.default-text-values-variable": "show {{name}}"
 }
