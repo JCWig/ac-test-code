@@ -7,7 +7,7 @@ function menuButtonDirective(translateValueSupport) {
       text: '@',
       isDisabled: '=?'
     },
-    controller: function() {},
+    controller: () => {},
     controllerAs: 'menuButtonItem',
     link: (scope, elem, attr) => {
       translateValueSupport.setValues(scope.menuButtonItem, 'text', attr.textValues);

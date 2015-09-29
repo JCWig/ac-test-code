@@ -11,7 +11,6 @@
 /* Import foundational CSS (import order is important here) */
 @import "global-styles/_global";
 @import "global-styles/_mixins";
-@import "global-styles/_extenders";
 @import "global-styles/_bootstrap-custom";
 @import "global-styles/_sprites";
 @import "global-styles/_svg";
@@ -59,17 +58,6 @@
 
   @import "spinner-button/_spinner-button";
 }
-
-
-/* These styles should have an angular directive, but it doesnt exist yet */
-.common-css {
-  //@import "global-styles/orphans/_determinate_progress";
-}
-
-
-/* Megamenu code */
-@import "global-styles/modular-mega-menu/_modular-mega-menu";
-
 
 /* Finally, import the hotfix CSS, and refactor it later */
 .common-css {

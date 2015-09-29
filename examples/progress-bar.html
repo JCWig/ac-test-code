@@ -26,6 +26,7 @@
                                         state="pb1.state"
                                         animate={{pb1.animate}}
                                         label="pb1.label"
+                                        label-values="{'name':'- Progress Bar'}"
                                         label-align={{pb1.labelAlign}}>
                     </akam-progress-bar>
                 </div>
@@ -37,6 +38,7 @@
                                         max="pb2.maxValue"
                                         animate={{pb2.animate}}
                                         label="pb2.label"
+                                        label-values={{pb2.labelValues}}
                                         label-align={{pb2.labelAlign}}>
                     </akam-progress-bar>
                 </div>
@@ -92,14 +94,14 @@
                     $scope.pb1.maxValue = 30;
                     $scope.pb1.animate = false;
                     $scope.pb1.label = 'components.name';
-                    //$scope.pb1.labelValues = {};
                     $scope.pb1.labelAlign = 'left';
 
                     $scope.pb2 = [];
                     $scope.pb2.currentValue = 30;
                     $scope.pb2.maxValue = 30;
                     $scope.pb2.animate = false;
-                    $scope.pb2.label = 'Your trial is complete.';
+                    $scope.pb2.label = 'components.name'
+                    $scope.pb2.labelValues = "{'name':'- Progress Bar'}";
                     $scope.pb2.labelAlign = 'center';
 
                     $scope.pb3 = [];
