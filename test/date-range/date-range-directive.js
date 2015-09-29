@@ -606,16 +606,31 @@ describe('akamai.components.date-range', function() {
           var markup = '<akam-date-range ng-model="dateRange"></akam-date-range>';
           addElement.call(this, markup);
           utils.click(".range-selection button");
-          this.$scope.$digest();
+          let elem = this.element.querySelector(".dropdown-menu li > div");
+          angular.element(elem).bind("keydown", this.$scope.keydown);
         });
         it('should not trigger date-range keydown event when press down-arrow key 40', function() {
           utils.keyDown(".range-picker .dropdown-menu", 40);
           this.$scope.$digest();
+
           expect(this.$scope.keydown).not.toHaveBeenCalled();
         });
         it('should not trigger date-range keydown event when press up-arrow key 38', function() {
           utils.keyDown(".range-picker .dropdown-menu", 38);
           this.$scope.$digest();
+
+          expect(this.$scope.keydown).not.toHaveBeenCalled();
+        });
+        it('should not trigger date-range keydown event when press left-arrow key 37', function() {
+          utils.keyDown(".range-picker .dropdown-menu", 37);
+          this.$scope.$digest();
+
+          expect(this.$scope.keydown).not.toHaveBeenCalled();
+        });
+        it('should not trigger date-range keydown event when press right-arrow key 39', function() {
+          utils.keyDown(".range-picker .dropdown-menu", 39);
+          this.$scope.$digest();
+
           expect(this.$scope.keydown).not.toHaveBeenCalled();
         });
       });
