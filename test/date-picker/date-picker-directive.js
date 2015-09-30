@@ -139,8 +139,10 @@ describe('akam-date-picker', function() {
       expect(displayedHeaderOfDatePicker.textContent).toEqual(todaysDate);
     });
     it('should have todays date highlighted', function() {
-      var todaysButton = getDateButtonParentElement(utilities.getTodaysDay()).querySelector('span');
-      expect(todaysButton.classList.contains('text-info')).toBe(true);
+      var highlightedTodayButton = document.querySelector(
+        `${DATE_PICKER} table tbody tr td.day-${utilities.getTodaysDay()} span.text-info`
+      );
+      expect(highlightedTodayButton).toBeTruthy();
     });
   });
 
