@@ -124,14 +124,12 @@ export default class DropdownController {
   translateTextProperty() {
     if (angular.isDefined(this.textProperty)) {
       if (angular.isDefined(this.keyProperty)) {
-        for (let item in this.itemSet) {
-          if (item) {
-            this.$translate(this.textPropertyFn(this.itemSet[item]))
-              .then(value => {
-                this.textPropertySetter(this.itemSet[item], value);
-              });
-          }
-        }
+        Object.keys(this.itemSet).forEach(key => {
+          this.$translate(this.textPropertyFn(this.itemSet[key]))
+            .then(value => {
+              this.textPropertySetter(this.itemSet[key], value);
+            });
+        });
       } else {
         angular.forEach(this.items, (item) => {
           this.$translate(item[this.textProperty])
