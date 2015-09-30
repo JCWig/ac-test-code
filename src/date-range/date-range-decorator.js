@@ -1,5 +1,5 @@
 import angular from 'angular';
-import template from './templates/date-picker-day-popup.tpl.html';
+import template from './templates/date-range-day-popup.tpl.html';
 import { arrowKeysEventNoop } from './../date-picker/daypicker-decorator';
 
 function getPlainDate(d) {

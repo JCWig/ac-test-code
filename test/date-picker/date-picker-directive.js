@@ -7,8 +7,9 @@ var HEADER_DISPLAYED_ON_DATEPICKER = 'button.btn strong.ng-binding';
 var NAVIGATE_DATEPICKER_BACKWARDS = 'button.pull-left';
 var NAVIGATE_DATEPICKER_FORWARDS = 'button.pull-right';
 
-function getDateButtonParentElement(dateNumber) {
-  return document.querySelector(DATE_PICKER + " table tbody tr td.day-" + dateNumber);
+function getDateButtonParentElement(date) {
+  let selector = `${DATE_PICKER} table tbody tr td.month-${date.getMonth() + 1}.day-${date.getDate()}`;
+  return document.querySelector(selector);
 }
 
 function getMonthButtonParentElement(monthName) {
@@ -57,10 +58,10 @@ describe('akam-date-picker', function() {
   });
 
   afterEach(function() {
-    if (self.element) {
-      document.body.removeChild(self.element);
-      self.element = null;
+    while (document.body.firstChild) {
+      document.body.removeChild(document.body.firstChild);
     }
+    self.element = null;
   });
 
   function addElement(markup) {
@@ -139,7 +140,7 @@ describe('akam-date-picker', function() {
       expect(displayedHeaderOfDatePicker.textContent).toEqual(todaysDate);
     });
     it('should have todays date highlighted', function() {
-      var todaysButton = getDateButtonParentElement(utilities.getTodaysDay()).querySelector('span');
+      var todaysButton = getDateButtonParentElement(utilities.getTodaysDate()).querySelector('span');
       expect(todaysButton.classList.contains('text-info')).toBe(true);
     });
   });
@@ -155,7 +156,7 @@ describe('akam-date-picker', function() {
       var clearIcon = document.querySelector('.clear-date');
       expect(clearIcon).toBe(null);
 
-      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
 
@@ -229,7 +230,7 @@ describe('akam-date-picker', function() {
       expect(displayedHeaderOfDatePicker.textContent).toEqual(next_month);
     });
     it('should close and save date when date is chosen', function() {
-      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       expect(scope.mychange).not.toHaveBeenCalled();
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
@@ -243,14 +244,14 @@ describe('akam-date-picker', function() {
       expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should be able to open and change date', function() {
-      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
 
       var toggleDatePickerButton = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
       utilities.click(toggleDatePickerButton);
 
-      var secondDayOfMonthButton = getDateButtonParentElement("02").querySelector('button');
+      var secondDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(2)).querySelector('button');
       utilities.click(secondDayOfMonthButton);
       scope.$digest();
 
@@ -265,7 +266,7 @@ describe('akam-date-picker', function() {
       var clearIcon = document.querySelector('.clear-date');
       expect(clearIcon).toBe(null);
 
-      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
 
@@ -273,7 +274,7 @@ describe('akam-date-picker', function() {
       expect(clearIcon).not.toBe(null);
     });
     it('should be able to clear date', function() {
-      var firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
+      var firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       scope.$digest();
 
@@ -422,15 +423,15 @@ describe('akam-date-picker', function() {
       addElement(markup);
     });
     it('should be unable to choose day above maximum', function() {
-      var dayAboveMax = getDateButtonParentElement("20");
+      var dayAboveMax = getDateButtonParentElement(utilities.generateDate(20));
       expect(dayAboveMax.getAttribute('aria-disabled')).toMatch(/true/);
     });
     it('should be unable to choose day below minimum', function() {
-      var dayBelowMin = getDateButtonParentElement("02");
+      var dayBelowMin = getDateButtonParentElement(utilities.generateDate(2));
       expect(dayBelowMin.getAttribute('aria-disabled')).toMatch(/true/);
     });
     it('should be able to choose date within range', function() {
-      var dayWithinRange = getDateButtonParentElement("09");
+      var dayWithinRange = getDateButtonParentElement(utilities.generateDate(9));
       expect(dayWithinRange.getAttribute('aria-disabled')).toMatch(/false/);
     });
   });

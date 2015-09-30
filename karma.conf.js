@@ -7,6 +7,7 @@ var jenkins = !!args.jenkins;
 module.exports = function(config) {
 
   var baseFileList = [
+    {pattern: 'node_modules/babelify/node_modules/babel-core/browser-polyfill.js', watched: false },
     {pattern: 'node_modules/angular/angular.js', watched: false },
     {pattern: 'node_modules/angular-mocks/angular-mocks.js', watched: false },
     {pattern: 'dist/akamai-core.min.css', watched: false },
