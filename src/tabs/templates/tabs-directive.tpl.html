@@ -1,0 +1,6 @@
+<div class="akam-tabs">
+    <ul class="nav" ng-class="tabs.getClasses()" ng-transclude></ul>
+    <div class="tab-content">
+        <ui-view ng-if="tabs.routable"></ui-view>
+    </div>
+</div>
