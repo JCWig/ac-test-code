@@ -458,25 +458,28 @@ describe('akam-content-panel', function() {
       expect(headerWrapper.classList.contains('util-clickable')).not.toBe(true);
     });
   });
-  describe('when content-panel is destroyed', function(){
-    beforeEach(function(){
-      var markup = '<akam-content-panel>' +
-      '<akam-content-panel-header>' +
-      '<span class="uniqueContent"> Custom Header </span>' +
-      '</akam-content-panel-header>' +
-      '<akam-content-panel-body>' +
-      '<i class="luna-world_map"></i> Panel content' +
-      '</akam-content-panel-body>' +
-      '</akam-content-panel>';
-      addElement(markup);
-    });
-    it('should remove customContentScope', function(){
-      var ctrl = self.el.isolateScope().contentPanel;
-      expect(ctrl.customContentScope).not.toBe(null);
-
-      scope.$destroy();
-
-      expect(ctrl.customContentScope).toBe(null);
+  describe('given a custom content panel', function() {
+    describe('when content-panel is destroyed', function(){
+      let ctrl = null;
+      beforeEach(function(){
+        var markup = `<akam-content-panel>
+                        <akam-content-panel-header>
+                          <span class="uniqueContent"> Custom Header </span>
+                        </akam-content-panel-header>
+                        <akam-content-panel-body>
+                          <i class="luna-world_map"></i> Panel content
+                        </akam-content-panel-body>
+                      </akam-content-panel>`;
+        addElement(markup);
+        ctrl = self.el.isolateScope().contentPanel;
+      });
+      it('should have customContentScope before $destroy', function() {
+        expect(ctrl.customContentScope).not.toBeNull();
+      });
+      it('should remove customContentScope after $destroy', function() {
+        scope.$destroy();
+        expect(ctrl.customContentScope).toBeNull();
+      });
     });
   });
 });
