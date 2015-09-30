@@ -1,3 +1,4 @@
+import 'babelify/polyfill';
 import angular from 'angular';
 import uuid from './uuid';
 import i18n from './i18n';
@@ -22,7 +23,7 @@ import dropdown from './dropdown';
 import auth from './auth';
 import autocomplete from './autocomplete';
 import wizard from './wizard';
-import navigation from './navigation';
+import tabs from './tabs';
 import dateRange from './date-range';
 import spinnerButton from './spinner-button';
 import datetimePicker from './datetime-picker';
@@ -68,7 +69,7 @@ angular.module('akamai.components', [
   autocomplete.name,
   wizard.name,
   dateRange.name,
-  navigation.name,
+  tabs.name,
   spinnerButton.name,
   datetimePicker.name,
   progressBar.name,
