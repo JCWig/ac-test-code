@@ -58,10 +58,10 @@ describe('akam-date-picker', function() {
   });
 
   afterEach(function() {
-    if (self.element) {
-      document.body.removeChild(self.element);
-      self.element = null;
+    while (document.body.firstChild) {
+      document.body.removeChild(document.body.firstChild);
     }
+    self.element = null;
   });
 
   function addElement(markup) {
