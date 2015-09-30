@@ -23,7 +23,6 @@ describe('akamai.components.date-range', function() {
     this.$scope.$digest();
     this.$timeout.flush();
     this.element = document.body.appendChild(this.el[0]);
-
   }
 
   beforeEach(function() {
@@ -602,7 +601,10 @@ describe('akamai.components.date-range', function() {
       describe('press keyboard keys down key', function() {
         beforeEach(function() {
           this.$scope.keydown = jasmine.createSpy('keydown');
-          this.$scope.dateRange = {'startDate':'', 'endDate':''};
+          this.$scope.dateRange = {
+            'startDate': '',
+            'endDate': ''
+          };
           var markup = '<akam-date-range ng-model="dateRange"></akam-date-range>';
           addElement.call(this, markup);
           utils.click(".range-selection button");
@@ -618,6 +620,75 @@ describe('akamai.components.date-range', function() {
           this.$scope.$digest();
           expect(this.$scope.keydown).not.toHaveBeenCalled();
         });
+      });
+    });
+  });
+
+  describe("given one date value", function() {
+    describe('start date has initial value, end date undefined', function() {
+      describe('when daterange rendered', function() {
+        let dateRange, dateFieldElems;
+        beforeEach(function() {
+          this.$scope.dateRange = {
+            startDate: '2015-9-1',
+            endDate: undefined
+          };
+          this.$scope.format = 'M/d/yy';
+          let markup = `<akam-date-range ng-model='dateRange' format="{{format}}"></akam-date-range>`;
+          addElement.call(this, markup);
+          dateRange = this.el.isolateScope().dateRange;
+          dateFieldElems = this.element.querySelectorAll(".range-selection span");
+        });
+        it("should render start date selected element only", function() {
+          expect(dateFieldElems[0].classList.contains("date-range-placeholder")).not.toBe(true);
+        });
+        it("should render end date element with placeholder element", function() {
+          expect(dateFieldElems[1].classList.contains("date-range-placeholder")).toBe(true);
+        });
+        it("should dateRange controller rangeStart.selectedValue match initial value", function() {
+          expect(dateRange.rangeStart.selectedValue).toBe("2015-9-1")
+        });
+        it("should dateRange controller rangeEnd selectedValue match undefined", function() {
+          expect(dateRange.rangeEnd.SelectedValue).toBe(undefined);
+        });
+        it("should dateRange controller rangeSelected be false", function() {
+          expect(dateRange.rangeSelected).toBe(false);
+        });
+      });
+    });
+  });
+
+describe("given one date value", function() {
+    describe('end date has initial value, start date undefined', function() {
+      describe('when daterange rendered', function() {
+        let dateRange, dateFieldElems;
+        beforeEach(function() {
+          this.$scope.dateRange = {
+            startDate: undefined,
+            endDate: '2015-9-1'
+          };
+          this.$scope.format = 'M/d/yy';
+          let markup = `<akam-date-range ng-model='dateRange' format="{{format}}"></akam-date-range>`;
+          addElement.call(this, markup);
+          dateRange = this.el.isolateScope().dateRange;
+          dateFieldElems = this.element.querySelectorAll(".range-selection span");
+        });
+        it("should render end date selected element only", function() {
+          expect(dateFieldElems[1].classList.contains("date-range-placeholder")).not.toBe(true);
+        });
+        it("should render start date element with placeholder element", function() {
+          expect(dateFieldElems[0].classList.contains("date-range-placeholder")).toBe(true);
+        });
+        it("should dateRange controller rangeEnd.selectedValue match initial value", function() {
+          expect(dateRange.rangeEnd.selectedValue).toBe("2015-9-1")
+        });
+        it("should dateRange controller rangeStart selectedValue match undefined", function() {
+          expect(dateRange.rangeStart.SelectedValue).toBe(undefined);
+        });
+        it("should dateRange controller rangeSelected be false", function() {
+          expect(dateRange.rangeSelected).toBe(false);
+        });
+
       });
     });
   });
