@@ -217,9 +217,8 @@ describe('akamai.components.autocomplete', function() {
         });
 
         it('should not open dropdown in the disabled state when click', function() {
-          util.click('.dropdown-toggle');
-          this.$scope.$digest();
-          expect(util.find('.dropdown').classList).not.toContain('open');
+          util.click('.selected-option');
+          expect(util.find('.selected-option').classList).not.toContain('ng-hide');
         });
       });
     });
