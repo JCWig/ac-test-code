@@ -7,8 +7,9 @@ const datePickerSelector = ".akam-date-picker";
 const timepickerSelector = ".akam-time-picker";
 const timeIncrementSelector = " .dropdown-menu tr.time-increment-row td a.btn-link";
 
-function getDateButtonParentElement(dateNumber) {
-  return document.querySelector("ul.dropdown-menu table tbody tr td.day-"+dateNumber);
+function getDateButtonParentElement(date) {
+  let selector = `ul.dropdown-menu table tbody tr td.month-${date.getMonth() + 1}.day-${date.getDate()}`;
+  return document.querySelector(selector);
 }
 
 describe('akamai.components.datetime-picker', function() {
@@ -162,7 +163,7 @@ describe('akamai.components.datetime-picker', function() {
       expect(this.controller.datetimeValue.getMonth()).toEqual(d.getMonth());
       expect(this.controller.datetimeValue.getDate()).toEqual(d.getDate());
 
-      let firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
+      let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
 
@@ -227,7 +228,7 @@ describe('akamai.components.datetime-picker', function() {
       utilities.click(dateButton);
       $scope.$digest();
 
-      let firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
+      let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
 
@@ -262,7 +263,7 @@ describe('akamai.components.datetime-picker', function() {
       utilities.click(dateButton);
       $scope.$digest();
 
-      let firstDayOfMonthButton = getDateButtonParentElement("01").querySelector('button');
+      let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
 
