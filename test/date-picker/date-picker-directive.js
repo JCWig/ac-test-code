@@ -565,7 +565,7 @@ describe('akam-date-picker', function() {
     describe('when daypicker open', function() {
       describe('press keyboard keys up key', function() {
         beforeEach(function() {
-          setUpKeyboardEventForMonth('September 30, 2010 15:30:00', "#parent-element", 38);
+          setUpKeyboardEventForDate('September 30, 2010 15:30:00', "#parent-element", 38);
           scope.keydown = jasmine.createSpy('keydown');
         });
         it('should not trigger daypicker keydown event when press up-arrow key', function() {
@@ -581,14 +581,50 @@ describe('akam-date-picker', function() {
     describe('when daypicker open', function() {
       describe('press keyboard keys down key', function() {
         beforeEach(function() {
-          setUpKeyboardEventForMonth('September 30, 2010 15:30:00', "#parent-element", 40);
+          setUpKeyboardEventForDate('September 30, 2010 15:30:00', "#parent-element", 40);
           scope.keydown = jasmine.createSpy('keydown');
         });
 
         it('should not trigger daypicker keydown event when press down-arrow key', function() {
           expect(scope.keydown).not.toHaveBeenCalled();
         });
-        it('should not change model value when press up-arrow key', function() {
+        it('should not change model value when press down-arrow key', function() {
+          expect(scope.date).toEqual(new Date('September 30, 2010 15:30:00'));
+        });
+      });
+    });
+  });
+
+  describe('given daypicker', function() {
+    describe('when daypicker open', function() {
+      describe('press keyboard keys left key', function() {
+        beforeEach(function() {
+          setUpKeyboardEventForDate('September 30, 2010 15:30:00', "#parent-element", 37);
+          scope.keydown = jasmine.createSpy('keydown');
+        });
+
+        it('should not trigger daypicker keydown event when press down-arrow key', function() {
+          expect(scope.keydown).not.toHaveBeenCalled();
+        });
+        it('should not change model value when press left-arrow key', function() {
+          expect(scope.date).toEqual(new Date('September 30, 2010 15:30:00'));
+        });
+      });
+    });
+  });
+
+  describe('given daypicker', function() {
+    describe('when daypicker open', function() {
+      describe('press keyboard keys right key', function() {
+        beforeEach(function() {
+          setUpKeyboardEventForDate('September 30, 2010 15:30:00', "#parent-element", 39);
+          scope.keydown = jasmine.createSpy('keydown');
+        });
+
+        it('should not trigger daypicker keydown event when press right-arrow key', function() {
+          expect(scope.keydown).not.toHaveBeenCalled();
+        });
+        it('should not change model value when press right-arrow key', function() {
           expect(scope.date).toEqual(new Date('September 30, 2010 15:30:00'));
         });
       });

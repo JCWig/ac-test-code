@@ -1,6 +1,6 @@
 import angular from 'angular';
 import template from './templates/date-picker-day-popup.tpl.html';
-import { arrowUpDownEventNoop } from './../date-picker/daypicker-decorator';
+import { arrowKeysEventNoop } from './../date-picker/daypicker-decorator';
 
 function getPlainDate(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate())
@@ -97,7 +97,7 @@ function DateRangeDecorator($provide) {
         scope.renderDateRange = false;
 
         //overrides datepicker.js keydown event
-        element.bind('keydown', arrowUpDownEventNoop);
+        element.bind('keydown', arrowKeysEventNoop);
 
         //show/hide nav previous button depend on the minDate
         scope.showNavPrev = () => {
