@@ -54,12 +54,20 @@ function daypickerDecorator($provide) {
           return ctrl.maxDate && lastDayOfMonth >= ctrl.maxDate;
         };
 
-        updateMax = scope.$on('datepicker.updateMax', (e, info) => {
-          ctrl.maxDate = info.max;
+        updateMax = scope.$on('datepicker.updateMaxDate', (e, info) => {
+          ctrl.maxDate = info.maxDate;
+          if (info.reset) {
+            ctrl.activeDate = new Date();
+            ctrl.refreshView();
+          }
         });
 
-        updateMin = scope.$on('datepicker.updateMin', (e, info) => {
-          ctrl.minDate = info.min;
+        updateMin = scope.$on('datepicker.updateMinDate', (e, info) => {
+          ctrl.minDate = info.minDate;
+          if (info.reset) {
+            ctrl.activeDate = new Date();
+            ctrl.refreshView();
+          }
         });
 
         scope.$on('$destroy', () => {

@@ -69,6 +69,28 @@ describe('akam-date-picker', function() {
     scope.$digest();
     timeout.flush();
     self.element = document.body.appendChild(self.el[0]);
+    self.isoScope = self.el.isolateScope();
+  }
+
+  function setMinMaxSpecValues(value, type) {
+    let date = new Date();
+    scope.min = new Date(date.setDate(5));
+    scope.max = new Date(date.setDate(10));
+    let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}"></akam-date-picker>`;
+    addElement(markup);
+    spyOn(self.isoScope, 'clearDate');
+    utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+    var btnElem = getDateButtonParentElement("08").querySelector('button');
+    utilities.click(btnElem);
+    scope.$digest();
+
+    if (type === 'min') {
+      scope.min = new Date(date.setDate(value));
+    }
+    else if (type === 'max') {
+      scope.max = new Date(date.setDate(value));
+    }
+    scope.$digest();
   }
 
   describe('when rendering date picker', function() {
@@ -661,6 +683,61 @@ describe('akam-date-picker', function() {
         });
         it('should not change model value', function() {
           expect(scope.date).toEqual(new Date('November 7, 2005 23:30:00'));
+        });
+      });
+    });
+  });
+
+  describe("Datepicker resets from max date changes ", function() {
+    describe("given new max date value", function() {
+      describe("new max date is greater than selected date", function() {
+        beforeEach(function() {
+          setMinMaxSpecValues(11, 'max');
+        });
+        it("Should not call scope.clearDate method to clear date value", function() {
+          expect(self.isoScope.clearDate).not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe("Datepicker resets from max date changes ", function() {
+    describe("given new max date value", function() {
+      describe("new max date is less than selected date", function() {
+        let isoScope;
+        beforeEach(function() {
+          setMinMaxSpecValues(7, 'max');
+        });
+        it("Should call scope.clearDate method to clear date value", function() {
+          expect(self.isoScope.clearDate).toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe("Datepicker resets from min date changes ", function() {
+    describe("given new min date value", function() {
+      describe("new min date is less than selected date", function() {
+        let isoScope;
+        beforeEach(function() {
+          setMinMaxSpecValues(4, 'min');
+        });
+        it("Should not call scope.clearDate method to clear date value", function() {
+          expect(self.isoScope.clearDate).not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe("Datepicker resets from min date changes ", function() {
+    describe("given new min date value", function() {
+      describe("new min date is greater than selected date", function() {
+        let isoScope;
+        beforeEach(function() {
+          setMinMaxSpecValues(9, 'min');
+        });
+        it("Should call scope.clearDate method to clear date value", function() {
+          expect(self.isoScope.clearDate).toHaveBeenCalled();
         });
       });
     });
