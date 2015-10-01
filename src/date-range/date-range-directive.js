@@ -214,28 +214,28 @@ function linkFn(scope, elem, attr, ngModel) {
       return;
     }
 
-    start = ctrl.dateRange.startDate;
-    end = ctrl.dateRange.endDate;
+    ctrl.$timeout(() => {
+      //interesting, have to wait for $digest completed
+      ctrl.format = ctrl.format || config.FORMAT;
 
-    if (start && end) {
-      //if startDate greater then endDate, swap date value
-      if (start > end) {
-        clone = new Date(end);
-        end = start;
-        start = clone;
+      start = ctrl.dateRange.startDate;
+      end = ctrl.dateRange.endDate;
+
+      if (start && end) {
+        //if startDate greater then endDate, swap date value
+        if (start > end) {
+          clone = new Date(end);
+          end = start;
+          start = clone;
+        }
+        ctrl.rangeSelected = true;
       }
 
       ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
-      ctrl.rangeSelected = true;
 
       range = ctrl.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
       setViewValue(range, start, end);
-    }
-
-    ctrl.$timeout(() => {
-      //interesting, have to wait for $digest completed
-      ctrl.format = ctrl.format || config.FORMAT;
 
       //send the event to child directive to handle with range values
       //use timeout to make sure the children directives are ready
