@@ -7,7 +7,7 @@ var util = require('../utilities');
 var translationMock = require('../fixtures/translationFixture.json');
 
 describe('akamai.components.dropdown', function() {
-  var $scope, $compile, stateStrings, stateObjects, timeout;
+  var $scope, $compile, stateStrings, stateObjects, stateObjectsWithKeys, timeout;
   stateStrings = [
     'Colorado',
     'Connecticut',
@@ -20,6 +20,11 @@ describe('akamai.components.dropdown', function() {
     {name: 'Maryland'},
     {name: 'Massachusetts'}
   ];
+  stateObjectsWithKeys = [
+    {state: {key: 'key1', name: 'components.dropdown.placeholder.filter'}},
+    {state: {key: 'key2', name: 'Connecticut'}},
+  ];
+
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(dropdown.name);
@@ -544,6 +549,26 @@ describe('akamai.components.dropdown', function() {
           var filterbox = document.querySelector('.fixed-header input');
           expect(filterbox.placeholder).toContain('invalidKey');
         });
+      });
+    });
+  });
+  describe('given dropdown with a list of objects with keys and a filter', function() {
+    describe('when the dropdown is rendered', function() {
+      beforeEach(function() {
+        let dropdownTemplate = `<akam-dropdown ng-model='selectedStateObj' text-property='state.name' key-property='state.key'
+                                items='stateObjectsWithKeys' clearable filterable='name'></akam-dropdown>`;
+        $scope.selectedStateObj = { selectedState: 'key9' };
+        $scope.stateObjectsWithKeys = stateObjectsWithKeys;
+        addElement(dropdownTemplate);
+        util.click(util.find('.dropdown-toggle'));
+      });
+      it('should translate text-property for given key-property', function() {
+        let translatedValue = util.find('.dropdown-menu').querySelectorAll('li')[0].querySelector('a > span').getAttribute('title');
+        expect(translatedValue).toBe('Filter');
+      });
+      it('should not translate text-property if it is not a valid key', function() {
+        let translatedValue = util.find('.dropdown-menu').querySelectorAll('li')[1].querySelector('a > span').getAttribute('title');
+        expect(translatedValue).toBe('Connecticut');
       });
     });
   });

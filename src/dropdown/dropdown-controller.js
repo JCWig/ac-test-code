@@ -16,8 +16,9 @@ export default class DropdownController {
               $log) {
     this.name = 'dropdown';
     this.textPropertyFn = $parse(this.textProperty);
+    this.textPropertySetter = this.textPropertyFn.assign;
     this.isOpen = false;
-    this.itemSet = [];
+    this.itemSet = {};
     this.$translate = $translate;
     this.dropdownTemplateService = dropdownTemplateService;
     this.$parse = $parse;
@@ -122,12 +123,21 @@ export default class DropdownController {
 
   translateTextProperty() {
     if (angular.isDefined(this.textProperty)) {
-      angular.forEach(this.items, (item) => {
-        this.$translate(item[this.textProperty])
-          .then(value => {
-            item[this.textProperty] = value;
-          });
-      });
+      if (angular.isDefined(this.keyProperty)) {
+        Object.keys(this.itemSet).forEach(key => {
+          this.$translate(this.textPropertyFn(this.itemSet[key]))
+            .then(value => {
+              this.textPropertySetter(this.itemSet[key], value);
+            });
+        });
+      } else {
+        angular.forEach(this.items, (item) => {
+          this.$translate(item[this.textProperty])
+            .then(value => {
+              item[this.textProperty] = value;
+            });
+        });
+      }
     }
   }
 

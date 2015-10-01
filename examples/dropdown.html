@@ -184,7 +184,7 @@
             ];
 
             vm.stateObjectsWithKeys = [
-                {state: {key: 'key1', name: 'Colorado'}},
+                {state: {key: 'key1', name: 'components.name'}},
                 {state: {key: 'key2', name: 'Connecticut'}},
                 {state: {key: 'key3', name: 'Maryland'}},
                 {state: {key: 'key4', name: 'Massachusetts'}},
@@ -212,7 +212,6 @@
             var itemsDefferal = $q.defer();
             itemsDefferal.resolve(vm.strings);
             vm.itemsPromise = itemsDefferal.promise;
-
 
             vm.ex1 = { selectedState: 'Massachusetts' };
             vm.ex2 = { selectedState: undefined };
