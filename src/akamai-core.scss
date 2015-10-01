@@ -30,7 +30,6 @@
   @import "global-styles/standalone/_text_inputs";
 }
 
-
 /* These styles have an angular directive */
 .common-css {
   @import "autocomplete/_autocomplete";
@@ -54,7 +53,7 @@
   @import "time-picker/_time-picker";
   @import "tree-view/_tree-view";
   @import "wizard/_wizard";
-  @import "navigation/_navigation";
+  @import "tabs/_tabs";
 
   @import "spinner-button/_spinner-button";
 }

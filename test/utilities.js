@@ -103,5 +103,13 @@ module.exports = {
   getTodaysDay: function() {
     var date = new Date();
     return date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  },
+  getTodaysDate: function() {
+    return new Date();
+  },
+  generateDate: function(day){
+    let d = new Date();
+    d.setDate(day);
+    return d;
   }
 };
