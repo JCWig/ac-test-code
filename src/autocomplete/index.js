@@ -44,15 +44,17 @@ export default angular.module('akamai.components.autocomplete', [
  *
  * @param {Boolean} ngModel The autocomplete's selected item.
  *
- * @param {Object[]|String[]} items Option objects for the options displayed
- * in the autocomplete's menu box
+ * @param {Function} [onSearch] A function that will be called when the input changes.
+ * It will be passed `searchTerm` as an argument.
  *
  * @param {String} [textProperty] If the options param is an array of Objects,
  * this is the property of those objects used in the dropdown menu
  *
  * @param {String} [keyProperty] If the options param is an array of Objects,
- * this is the property that is used to bind to ng-model
+ * this is the property that is used to bind to ng-model.
  *
+ * @param {Integer} [minimuim-search=1] The minimum character(s) required to search.
+
  * @param {String} [placeholder=Select one] The placeholder text for the autocomplete.
  * Placeholder attribute value can be text or translation key.
  * When using custom markup, include <pre>{{autocomplete.placeholder}}</pre>
