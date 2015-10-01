@@ -32,7 +32,7 @@
   "dependencies": {
     "angular": "~1.4.4",
     "angular-animate": "~1.4.4",
-    "angular-bootstrap-npm": "^0.13.0",
+    "angular-bootstrap-npm": "0.13.3",
     "angular-cookies": "~1.4.4",
     "angular-messages": "~1.4.4",
     "angular-sanitize": "~1.4.4",
