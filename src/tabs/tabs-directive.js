@@ -12,6 +12,14 @@ class TabsController {
   }
 
   initialize(elem) {
+    if (this.routable) {
+      this.tabs.forEach(tab => {
+        if (tab.state && tab.active) {
+          throw new Error('When using routable tabs, a tab\'s active attribute must not be set.');
+        }
+      });
+    }
+
     this.elem = elem;
     this.tabContentElem =
       angular.element(this.elem[0].querySelector('div.tab-content'));

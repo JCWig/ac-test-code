@@ -244,6 +244,31 @@ describe('akamai.components.tabs', function() {
         expect(allCalls[6]).toEqual(['$stateChangeCancel', jasmine.any(Function)]);
         expect(allCalls[7]).toEqual(['$stateNotFound', jasmine.any(Function)]);
       });
+
+      describe('when a tab\s active attribute is set', function() {
+        let error;
+        beforeEach(function() {
+
+          let template = `
+          <akam-tabs routable>
+            <akam-tab heading="Activity" state="tabs.tab1"></akam-tab>
+            <akam-tab heading="Nutrition" active="true" state="tabs.tab2"></akam-tab>
+            <akam-tab heading="Sleep" state="tabs.tab3"></akam-tab>
+          </akam-tabs>`;
+
+          try {
+            this.$compile(template)(this.$scope);
+          } catch (e) {
+            error = e;
+          }
+        });
+
+        it('should throw an error', function() {
+          expect(error.message).toBe(
+            'When using routable tabs, a tab\'s active attribute must not be set.'
+          );
+        });
+      });
     });
 
     describe('when clicking on an inactive tab', function() {

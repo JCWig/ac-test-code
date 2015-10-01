@@ -6,19 +6,12 @@ class TabController {
     this.$translate = $translate;
   }
 
-  activate() {
-    this.tabs.activate(this);
-  }
-
-  initialize(tabs, transclude) {
-    this.tabs = tabs;
+  initialize(transclude) {
     this.transclude = transclude;
     this.$translate(this.heading).then(heading => this.heading = heading);
 
     this.stateParams = this.stateParams || {};
     this.stateOptions = this.stateOptions || {};
-
-    tabs.addTab(this);
 
     this.transclude((clone, scope) => {
       this.transcludeClone = clone;
@@ -26,7 +19,7 @@ class TabController {
     });
   }
 }
-TabController.$inject = ['$translate'];
+TabController.$inject = ['$translate', '$attrs'];
 
 export default function() {
 
@@ -48,7 +41,12 @@ export default function() {
     controllerAs: 'tab',
     template: template,
     link: function(scope, elem, attrs, tabs, transclude) {
-      scope.tab.initialize(tabs, transclude);
+      let tab = scope.tab;
+
+      tab.initialize(transclude);
+      tab.activate = () => tabs.activate(tab);
+
+      tabs.addTab(tab);
     }
   };
 }
