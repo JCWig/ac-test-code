@@ -18,7 +18,7 @@ export default class DropdownController {
     this.textPropertyFn = $parse(this.textProperty);
     this.textPropertySetter = this.textPropertyFn.assign;
     this.isOpen = false;
-    this.itemSet = [];
+    this.itemSet = {};
     this.$translate = $translate;
     this.dropdownTemplateService = dropdownTemplateService;
     this.$parse = $parse;
