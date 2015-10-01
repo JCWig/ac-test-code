@@ -169,4 +169,9 @@ export default class DropdownController {
   renderMenu() {
     return angular.isArray(this.items);
   }
+
+  onFilterClick($event) {
+    $event.stopPropagation();
+    this.filterClick = true;
+  }
 }

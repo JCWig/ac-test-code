@@ -28,12 +28,15 @@ var MODAL_BODY = '.modal-body';
 var MODAL_TITLE = '.modal .modal-title';
 describe('modalWindow service', function() {
   var self = null;
+  var $animate = null;
+
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     self.notify = function() {};
     spyOn(self, "notify");
 
+    angular.mock.module('ngAnimateMock');
     angular.mock.module(require('../../src/modal-window').name);
     angular.mock.module(function($translateProvider) {
       $translateProvider.translations('en_US', translationMock);
@@ -59,12 +62,13 @@ describe('modalWindow service', function() {
       $controllerProvider.register('Controller', Controller);
     });
 
-    inject(function(modalWindow, $rootScope, $httpBackend, $timeout, $q) {
+    inject(function(modalWindow, $rootScope, $httpBackend, $timeout, $q, _$animate_) {
       self.scope = $rootScope.$new();
       self.modalWindowService = modalWindow;
       self.httpBackend = $httpBackend;
       self.timeout = $timeout;
       self.q = $q;
+      $animate = _$animate_;
     });
   });
 
@@ -477,10 +481,13 @@ describe('modalWindow service', function() {
         submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$apply();
-        this.timeout.flush();
-        var modalWindow = document.querySelector('.modal');
 
+        $animate.triggerCallbacks();
+        this.scope.$digest();
+        $animate.triggerCallbacks();
+        this.scope.$digest();
+
+        var modalWindow = document.querySelector('.modal');
         expect(modalWindow).toBe(null);
       });
 
@@ -497,10 +504,13 @@ describe('modalWindow service', function() {
         this.scope.$apply();
         cancelButton = document.querySelector(CANCEL_BUTTON);
         utilities.click(cancelButton);
-        this.scope.$apply();
-        this.timeout.flush();
-        var modalWindow = document.querySelector('.modal');
 
+        $animate.triggerCallbacks();
+        this.scope.$digest();
+        $animate.triggerCallbacks();
+        this.scope.$digest();
+
+        var modalWindow = document.querySelector('.modal');
         expect(modalWindow).toBe(null);
       });
     });
@@ -516,8 +526,12 @@ describe('modalWindow service', function() {
         this.scope.$apply();
         closeIcon = document.querySelector('.modal-header i');
         utilities.click(closeIcon);
-        this.scope.$apply();
-        this.timeout.flush();
+
+        $animate.triggerCallbacks();
+        this.scope.$digest();
+        $animate.triggerCallbacks();
+        this.scope.$digest();
+
         var modalWindow = document.querySelector('.modal');
 
         expect(modalWindow).toBe(null);

@@ -7,6 +7,17 @@ import uuid from '../uuid';
 import dateRangeDirective from './date-range-directive';
 import dateRangeService from './date-range-service';
 import dateRangeDecorator from './date-range-decorator';
+import datepickerPopupTemplate from './templates/popup.tpl.html';
+
+function run($templateCache) {
+  /*
+  Overide angular-ui bootstrap's datepicker popup template
+  0.13.3 changed popup template to include ng-if which as a result broke binding in date-range
+  Using popup template from 0.13.0 since it uses ng-show instead of ng-if
+  */
+  $templateCache.put('template/datepicker/popup.html', datepickerPopupTemplate);
+}
+run.$inject = ['$templateCache'];
 
 /**
  * @ngdoc overview
@@ -34,6 +45,8 @@ export default angular.module('akamai.components.date-range', [
   i18n.name,
   uuid.name
 ])
+
+.run(run)
 
 .config(dateRangeDecorator)
 /**

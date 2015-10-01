@@ -19,21 +19,25 @@ describe('messageBox service', function() {
       "name": "Msg box title"
     }
   };
+  var $animate = null;
+
   beforeEach(function() {
     inject.strictDi(true);
     var self = this;
 
+    angular.mock.module('ngAnimateMock');
     angular.mock.module(require('../../src/message-box').name);
     angular.mock.module(function($translateProvider) {
       $translateProvider.translations('en_US', translationMock);
       $translateProvider.useLoader('translateNoopLoader');
     });
-    inject(function(messageBox, $rootScope, $timeout, $httpBackend) {
+    inject(function(messageBox, $rootScope, $timeout, $httpBackend, _$animate_) {
       self.messageBox = messageBox;
       self.$rootScope = $rootScope;
       self.$timeout = $timeout;
       $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
       $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
+      $animate = _$animate_;
     });
   });
 
@@ -315,14 +319,14 @@ describe('messageBox service', function() {
       this.$rootScope.$digest();
 
       var closeIcon = document.querySelector('.modal-footer button');
-      expect(closeIcon).not.toBe(null)
+      expect(closeIcon).not.toBe(null);
       utilities.click(closeIcon);
+
+      $animate.triggerCallbacks();
       this.$rootScope.$digest();
-      try {
-        this.$timeout.verifyNoPendingTasks();
-      } catch (e) {
-        this.$timeout.flush();
-      }
+      $animate.triggerCallbacks();
+      this.$rootScope.$digest();
+
       expect(document.querySelector('.modal-content')).toBe(null);
     });
 
@@ -398,10 +402,17 @@ describe('messageBox service', function() {
         box.result.then(this.$rootScope.spyOnResultFunction);
         this.$rootScope.$digest();
 
+        expect(document.querySelector('.modal-content')).not.toBe(null);
+
         var okayModalButton = document.querySelector('.modal-footer button:last-child');
         utilities.click(okayModalButton);
+
+        $animate.triggerCallbacks();
+        this.$rootScope.$digest();
+        $animate.triggerCallbacks();
         this.$rootScope.$digest();
 
+        expect(document.querySelector('.modal-content')).toBe(null);
         expect(spy).toHaveBeenCalled();
       });
     });
@@ -417,14 +428,16 @@ describe('messageBox service', function() {
 
         this.$rootScope.$digest();
 
+        expect(document.querySelector('.modal-content')).not.toBe(null);
+
         var cancelModalButton = document.querySelector('.modal-footer button');
         utilities.click(cancelModalButton);
+
+        $animate.triggerCallbacks();
         this.$rootScope.$digest();
-        try {
-          this.$timeout.verifyNoPendingTasks();
-        } catch (e) {
-          this.$timeout.flush();
-        }
+        $animate.triggerCallbacks();
+        this.$rootScope.$digest();
+
         expect(document.querySelector('.modal-content')).toBe(null);
         expect(spy).not.toHaveBeenCalled();
       });
@@ -441,12 +454,12 @@ describe('messageBox service', function() {
         this.$rootScope.$digest();
         var closeIcon = document.querySelector('.modal-content i.close-icon');
         utilities.click(closeIcon);
-        try {
-          this.$timeout.verifyNoPendingTasks();
-        } catch (e) {
-          this.$timeout.flush();
-        }
+
+        $animate.triggerCallbacks();
         this.$rootScope.$digest();
+        $animate.triggerCallbacks();
+        this.$rootScope.$digest();
+
         this.messageBox.show({
           title: title2,
           headline: 'a new headline',
