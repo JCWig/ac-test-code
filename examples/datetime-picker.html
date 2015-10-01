@@ -24,21 +24,27 @@
   <h4 class="title">Display selected value</h4>
   <pre>Selected Datetime value: {{vm.datetime | date: 'MMM d, y h:mm a'}}</pre>
   <pre>Selected Datetime value: {{vm.datetime2 | date: 'MMM d, y h:mm a'}}</pre>
-  <h4 class="title">An example of Datetime picker</h4>
+  <h4 class="title">Example of Datetime picker</h4>
   <form name='datetime-picker' role='form'>
     <p>Minimum attributes used with no date and time values</p>
     <akam-datetime-picker ng-model="vm.datetime" ng-change="vm.onChange()"></akam-datetime-picker>
     <br/>
     <br/>
-    <br/>
-    <p>All attributes used with initial min and max date and time step ({{vm.hourStep}} hour step, {{vm.minuteStep}} minutes step) values set</p>
-    <label class="label">Min Date: {{vm.min}}</label>
-    <br />
-    <label class="label">Max Date: {{vm.max}}</label>
+    <h4 class="title">Example of Datetime picker and extending the min/max range:</h4>
+    <p>All attributes used with initial min and max date and time step ({{vm.hourStep}} hour step, {{vm.minuteStep}} minutes step) values set.</p>
     <br />
     <akam-datetime-picker ng-model="vm.datetime2" ng-change="vm.onChange()" format="{{vm.format}}" min="{{vm.min}}" max="{{vm.max}}" minute-step="vm.minuteStep" hour-step="vm.hourStep" show-meridian="vm.showMeridian" is-disabled="vm.disabled">
     </akam-datetime-picker>
   </form>
+  <br />
+  <div>
+      <input id="minDate" type="checkbox" name='minDate' ng-model='vm.minUpdated' ng-click="vm.updateMin()" />
+      <label class="label" for="minDate">to change this min date value to prior 3 years (currently using: {{vm.min}})</label>
+  </div>
+  <div>
+      <input id="maxDate" type="checkbox" name='maxDate' ng-model='vm.maxUpdated' ng-click="vm.updateMax()" />
+      <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{vm.max}})</label>
+  </div>
   <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('datetimePickerApp', ['akamai.components.datetime-picker'])
@@ -60,12 +66,23 @@
     var d = new Date();
     var defaultMin = new Date(d.getFullYear()-1, d.getMonth(), 1);
     var defaultMax = new Date(d.getFullYear()+1, d.getMonth(), 0);
+    
+    
+     vm.updateMax = function() {
+      vm.max = vm.maxUpdated ? new Date(d.getFullYear() + 3, d.getMonth(), 0) : defaultMax;
+       $log.log("max",vm.max);
+    }
+
+    vm.updateMin = function() {
+      vm.min = vm.minUpdated ? new Date(d.getFullYear() - 3, d.getMonth() + 1, 1) : defaultMin;
+       $log.log("min",vm.min);
+    }
 
     vm.min = defaultMin;
     vm.max = defaultMax;
     
     vm.onChange = function() {
-      $log.log(vm.datetime);
+      $log.log("onChange",vm.datetime2);
     }
   }
 
