@@ -63,6 +63,11 @@ class AutocompleteController extends DropdownController {
   }
 
   search() {
+    if (this.minimumSearch && this.searchTerm.length < this.minimumSearch) {
+      this.isOpen = false;
+      return;
+    }
+
     let searchResult = this.onSearch({searchTerm: this.searchTerm});
 
     if (angular.isArray(searchResult)) {
@@ -98,7 +103,8 @@ function AutocompleteDirective(dropdownTemplateService) {
       keyProperty: '=?',
       placeholder: '@?',
       isDisabled: '=?',
-      onSearch: '&'
+      onSearch: '&',
+      minimumSearch: '@'
     },
     controller: AutocompleteController,
     controllerAs: 'autocomplete',

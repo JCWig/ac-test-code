@@ -391,4 +391,51 @@ describe('akamai.components.autocomplete', function() {
       });
     });
   });
+
+  describe('given minimum-search set to 3', function() {
+    describe('when a search term of length is 2', function() {
+      let ctrl;
+      beforeEach(function() {
+        spyOn(this.$scope, 'loadStateStrings');
+        addElement.call(this, `<akam-autocomplete ng-model="selectedState"
+                                                  minimum-search="3"
+                                                  on-search="loadStateStrings(searchTerm)">
+                               </akam-autocomplete>`);
+        ctrl = this.el.controller('akamAutocomplete');
+        ctrl.searchTerm = 'Ne';
+        ctrl.search();
+      });
+
+      it('should not call the onSearch callback', function() {
+        expect(this.$scope.loadStateStrings).not.toHaveBeenCalled();
+      });
+
+      it('should not show the menu', function() {
+        expect(ctrl.isOpen).toBe(false);
+      });
+    });
+    describe('when a search term of length is 3', function() {
+      let ctrl;
+      beforeEach(function() {
+        spyOn(this.$scope, 'loadStateStrings').and.returnValue([]);
+        addElement.call(this, `<akam-autocomplete ng-model="selectedState"
+                                                  minimum-search="3"
+                                                  on-search="loadStateStrings(searchTerm)">
+                               </akam-autocomplete>`);
+        ctrl = this.el.controller('akamAutocomplete');
+        ctrl.searchTerm = 'New';
+        ctrl.search();
+      });
+
+      it('should not call the onSearch callback', function() {
+        expect(this.$scope.loadStateStrings).toHaveBeenCalled();
+      });
+
+      it('should show the menu', function() {
+        expect(ctrl.isOpen).toBe(true);
+      });
+    });
+
+  });
+
 });
