@@ -80,7 +80,7 @@ describe('akam-date-picker', function() {
     addElement(markup);
     spyOn(self.isoScope, 'clearDate');
     utilities.click(TOGGLE_DATE_PICKER_BUTTON);
-    var btnElem = getDateButtonParentElement("08").querySelector('button');
+    var btnElem = getDateButtonParentElement(utilities.generateDate(8)).querySelector('button');
     utilities.click(btnElem);
     scope.$digest();
 
