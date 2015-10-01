@@ -97,7 +97,9 @@ export default angular.module('akamai.components.tabs', [
  * https://github.com/angular-ui/ui-router/wiki/Quick-Reference#stategoto--toparams--options
  *
  * @param {Boolean} [active=false] If the tab is active. If none of the tabs are active, the
- * the first tab will be activated by default.
+ * the first tab will be activated by default. Note: This attribute must not be set on routable
+ * tabs. For routable tabs, the active state is determined by the current route state of the
+ * application.
  *
  * @param {Boolean} [disabled=false] If the tab is disabled.
  *
