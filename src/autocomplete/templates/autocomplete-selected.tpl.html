@@ -10,5 +10,5 @@
 
     <input class="autocomplete-search" type="text" ng-show="autocomplete.searchShown"
            ng-blur="autocomplete.blurSearch()" ng-model="autocomplete.searchTerm"
-           ng-keyup="autocomplete.search()"/>
+           ng-keyup="autocomplete.search()" ng-click="$event.stopPropagation()"/>
 </div>
