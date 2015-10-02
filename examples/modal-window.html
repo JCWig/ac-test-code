@@ -57,8 +57,8 @@
 
                 $scope.options = {
                     title: 'Regarding Your Subscription Information',
-                    cancelLabel: 'Cancel',
-                    submitLabel: 'OK',
+                    cancelLabel: 'components.modal-window.label.cancel',
+                    submitLabel: 'components.modal-window.label.save',
                     hideSubmit: false,
                     successMessage: 'Success!',
                     errorMessage: 'Error!',
@@ -151,7 +151,7 @@
 
             var modalController = function($scope, $q, $timeout) {
                 var times = 0;
-                        
+
                 $scope.setOnSubmit(function(){
                     var deferral = $q.defer();
                     $timeout(function() {
@@ -160,7 +160,7 @@
                         }else{
                             deferral.resolve( { status: $scope.deferredValue } );
                         }
-    
+
                         times++;
                     }, 3000);
                    return deferral.promise;
@@ -180,7 +180,7 @@
                     }
                 };
             };
-            
+
             function configFunction($translatePartialLoaderProvider, VERSION) {
 
               // need to overwrite locales path on fee.akamai.com
