@@ -2,6 +2,7 @@ import angular from 'angular';
 import sanitize from 'angular-sanitize';
 import angularBootstrapNpm from 'angular-bootstrap-npm';
 import popoverDirective from './popover-directive';
+import i18n from '../i18n';
 
 /**
  * @ngdoc module
@@ -43,7 +44,8 @@ import popoverDirective from './popover-directive';
  */
 module.exports = angular.module('akamai.components.popover', [
   sanitize,
-  angularBootstrapNpm
+  angularBootstrapNpm,
+  i18n.name
 ])
 /**
  * @ngdoc directive
