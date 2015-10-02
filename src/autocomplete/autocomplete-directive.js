@@ -29,6 +29,8 @@ class AutocompleteController extends DropdownController {
       }
     };
     this.searchTerm = '';
+
+    this.minimumSearch = this.minimumSearch || 1;
   }
 
   initialize(elem, attrs, ngModel) {
@@ -63,7 +65,8 @@ class AutocompleteController extends DropdownController {
   }
 
   search() {
-    if (this.minimumSearch && this.searchTerm.length < this.minimumSearch) {
+    if (this.minimumSearch &&
+      (this.searchTerm.length < this.minimumSearch || !this.searchTerm.length)) {
       this.isOpen = false;
       return;
     }
