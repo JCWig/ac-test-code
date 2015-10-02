@@ -976,6 +976,5 @@ describe('modalWindow service', function() {
       });
 
     });
-
   });
 });
