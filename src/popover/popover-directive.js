@@ -8,7 +8,8 @@ const ARROW_HEIGHT = 10;
 const POPOVER_ARROW_OFFSET = 21;
 const POPUP_DELAY = 300;
 
-function popoverDirective($log, $position, $compile, $timeout, $templateCache, $parse, $window) {
+function popoverDirective($log, $position, $compile, $timeout, $templateCache,
+  $parse, $window, $translate) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
@@ -24,6 +25,7 @@ function popoverDirective($log, $position, $compile, $timeout, $templateCache, $
       newScope.linkUrl = attrs.linkUrl;
       newScope.buttonText = attrs.buttonText;
       newScope.buttonFunction = $parse(attrs.buttonFunction);
+      newScope.labelValues = attrs.labelValues;
 
       newScope.useCustomContent = !!attrs.customContent;
       newScope.hasHeader = newScope.header && newScope.header.length > 0;
@@ -32,6 +34,13 @@ function popoverDirective($log, $position, $compile, $timeout, $templateCache, $
         newScope.linkText && newScope.linkText.length > 0 &&
         newScope.linkUrl && newScope.linkUrl.length > 0;
       newScope.isTriggerClick = attrs.trigger === 'click';
+
+      attrs.$observe('popoverContent', (newValue) => {
+        $translate(newValue, $parse(newScope.labelValues)())
+          .then(value => {
+            newScope.popoverContent = value;
+          });
+      });
 
       newScope.isOpen = () => {
         return newScope.opened;
@@ -170,6 +179,6 @@ function popoverDirective($log, $position, $compile, $timeout, $templateCache, $
 }
 
 popoverDirective.$inject = ['$log', '$position', '$compile', '$timeout', '$templateCache', '$parse',
-  '$window'];
+  '$window', '$translate'];
 
 export default popoverDirective;

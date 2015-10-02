@@ -1,5 +1,9 @@
 'use strict';
 var utilities = require('../utilities');
+var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
+var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+var CONFIG_PATH = '../../_appen_US.json';
 
 var POPOVER = '.popover';
 var POPOVER_HEADER = '.popover .popover-contents .popover-header';
@@ -10,15 +14,29 @@ var POPOVER_CLOSE_ICON = '.popover .popover-contents .luna-small_close';
 
 describe('akamai.components.popover', function() {
   var scope, timeout, compile, sce;
+  var translationMock = {
+      'components': {
+        'popover': {
+            'label': 'Popover Label'
+          }
+      }
+  };
+
   beforeEach(function() {
     inject.strictDi(true);
     var self = this;
     angular.mock.module(require('../../src/popover').name);
-    inject(function($compile, $rootScope, $timeout, $sce) {
+    angular.mock.module(function($translateProvider) {
+      $translateProvider.translations('en_US', translationMock);
+      $translateProvider.useLoader('translateNoopLoader');
+    });
+    inject(function($compile, $rootScope, $timeout, $sce, $httpBackend) {
       scope = $rootScope.$new();
       timeout = $timeout;
       compile = $compile;
       sce = $sce;
+      $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+      $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
     });
   });
   afterEach(function() {
@@ -471,6 +489,33 @@ describe('akamai.components.popover', function() {
       it('should display html in popover', function(){
         var popoverContent = document.querySelector(POPOVER_CONTENT);
         expect(popoverContent.textContent).toContain('HTML contentParagraph');
+      });
+    });
+  });
+  describe('given a rendered popover', function() {
+    describe('when popover-content changes', function(){
+      beforeEach(function(){
+        scope.popoverContent = 'Popover content';
+        scope.translateMe = function() {
+          scope.popoverContent = 'components.popover.label';
+        };
+        var markup = '<span id="trigger-element" akam-popover position="top" popover-content="{{popoverContent}}" ng-click="translateMe()" trigger="hover">Hover Here</span>';
+        addElement(markup);
+        timeout.flush();
+      });
+      it('should have initial value of popoverContent before value is changed', function(){
+        utilities.mouseHover('#trigger-element');
+        timeout.flush();
+        var popover = document.querySelector(POPOVER_CONTENT);
+
+        expect(popover.innerHTML).toBe('Popover content');
+      });
+      it('should translate and update value of popoverContent after value is changed', function(){
+        utilities.click('#trigger-element');
+        utilities.mouseHover('#trigger-element');
+
+        var popover = document.querySelector(POPOVER_CONTENT);
+        expect(popover.innerHTML).toBe('Popover Label');
       });
     });
   });
