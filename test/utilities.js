@@ -52,6 +52,9 @@ module.exports = {
   mouseDown: function(obj) {
     this.triggerMouseEvent(obj, 'mousedown');
   },
+  mouseUp: function(obj) {
+    this.triggerMouseEvent(obj, 'mouseup');
+  },
   triggerKeyboardEvent: function(obj, eventType, keyCode) {
     var el = this.find(obj);
     var e = document.createEvent('KeyboardEvent');

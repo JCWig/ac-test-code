@@ -2,7 +2,6 @@ import angular from 'angular';
 import uuid from '../uuid';
 
 import spinnerDirective from './spinner-directive';
-import spinnerService from './spinner-service';
 
 /**
  * @ngdoc module
@@ -48,11 +47,4 @@ export default angular.module('akamai.components.spinner', [
  * Default is other than String of "disabled". This value is two way bound.
  *
  */
-  .directive('akamSpinner', spinnerDirective)
-
-/**
- * @name spinnerService
- * @description a factory service implements the logic of validation of inputs
- * that includes  max | min number checking for akamSpinner directive
- */
-  .factory('spinnerService', spinnerService);
+  .directive('akamSpinner', spinnerDirective);
