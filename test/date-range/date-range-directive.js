@@ -655,7 +655,7 @@ describe('akamai.components.date-range', function() {
     });
   });
 
-describe("given one date value", function() {
+  describe("given one date value", function() {
     describe('end date has initial value, start date undefined', function() {
       describe('when daterange rendered', function() {
         let dateRange, dateFieldElems;
@@ -685,9 +685,25 @@ describe("given one date value", function() {
         it("should dateRange controller rangeSelected be false", function() {
           expect(dateRange.rangeSelected).toBe(false);
         });
-
       });
     });
   });
 
+  describe('given an open date range calendar', function() {
+    describe('when clicking on the calendar', function() {
+      beforeEach(function() {
+        let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+        addElement.call(this, markup);
+        utils.click(".range-selection button");
+        this.$scope.$digest();
+
+        let spaceColumn = document.querySelector("ul.dropdown-menu table tbody tr td.space");
+        utils.click(spaceColumn);
+        this.$scope.$digest();
+      });
+      it('should remain open when valid date is not selected', function() {
+        expect(this.element.querySelector('.akam-date-range').classList).toContain("opened");
+      });
+    });
+  });
 });

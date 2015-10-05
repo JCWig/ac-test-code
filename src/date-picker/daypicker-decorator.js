@@ -1,15 +1,29 @@
 import template from './templates/date-picker-day-popup.tpl.html';
 
-const ARROW_KEYS = {38: 'UP', 40: 'DOWN', 37: 'LEFT', 39: 'RIGHT'};
+const ARROW_KEYS = {
+  38: 'UP',
+  40: 'DOWN',
+  37: 'LEFT',
+  39: 'RIGHT'
+};
 
-//evually, this may move to utls module
-export function arrowKeysEventNoop(e) {
-  let key = e.which || e.keyCode;
+//it may have need to move to util module for common use
+export const eventNoopHanlder = {
+  arrowKeysEventNoop: (e) => {
+    let key = e.which || e.keyCode;
 
-  if (ARROW_KEYS[key]) {
-    e.preventDefault();
-    e.stopPropagation();
+    if (ARROW_KEYS[key]) {
+      eventNoop(e);
+    }
+  },
+  anyEventNoop: (e) => {
+    eventNoop(e);
   }
+}
+
+function eventNoop(e) {
+  e.preventDefault();
+  e.stopPropagation();
 }
 
 function daypickerDecorator($provide) {
@@ -34,7 +48,7 @@ function daypickerDecorator($provide) {
         link.apply(this, arguments);
 
         //overrides datepicker.js keydown event
-        element.bind('keydown', arrowKeysEventNoop);
+        element.bind('keydown', eventNoopHanlder.arrowKeysEventNoop);
 
         //disable navigation according to the range
         scope.daypickerNavPrevDisabled = () => {
