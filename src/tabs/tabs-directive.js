@@ -18,6 +18,8 @@ class TabsController {
           throw new Error('When using routable tabs, a tab\'s active attribute must not be set.');
         }
       });
+    } else if (this.tabs.filter(tab => tab.active).length > 1) {
+      throw new Error('Only one tab can be declared as active.')
     }
 
     this.elem = elem;
