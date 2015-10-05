@@ -38,7 +38,7 @@
         <br />
         <div class="container">
             <h2>Hover Example : All Positions</h2>
-            <span akam-popover position="top" popover-content="{{testTranslation}}" ng-click="translateText()" trigger="hover">Hover Here - Top</span>
+            <span akam-popover position="top" popover-content="Text Content Only." trigger="hover">Hover Here - Top</span>
             <br />
             <span akam-popover position="bottom" popover-content="Text Content Only." trigger="hover">Hover Here - Bottom</span>
             <br />
@@ -224,11 +224,6 @@
             $scope.customData = 'templateId3.html';
 
             $scope.safeHtml = '<h2>HTML Binding</h2><br/><br/><p>Used in <strong>popover-content</strong>.</p>';
-
-            $scope.testTranslation = $scope.testText;
-            $scope.translateText = function(){
-                $scope.testTranslation = 'components.name';
-            }
         };
         ctrlFunction.$inject = ["$scope", "$sce", "$log"];
 
