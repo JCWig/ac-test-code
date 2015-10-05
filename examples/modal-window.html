@@ -156,16 +156,15 @@
                 $scope.setOnSubmit(function(){
                     var deferral = $q.defer();
                         $timeout(function() {
-                            if (times++ % 2 === 0) {
-                                deferral.reject();
-                            }else{
-                                deferral.resolve($scope.customValue);
-                            }
+                        if (times % 2 === 0) {
+                            deferral.reject({enableSubmit : true });
+                        }else{
+                            deferral.resolve( { status: $scope.deferredValue } );
+                        }
 
-                        }, 3000);
-
-                    return 'HI';
-                    //return deferral.promise;
+                        times++;
+                    }, 3000);
+                    return deferral.promise;
                 });
 
                 // Disable the save button by default
