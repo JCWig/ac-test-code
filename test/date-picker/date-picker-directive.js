@@ -86,8 +86,7 @@ describe('akam-date-picker', function() {
 
     if (type === 'min') {
       scope.min = new Date(date.setDate(value));
-    }
-    else if (type === 'max') {
+    } else if (type === 'max') {
       scope.max = new Date(date.setDate(value));
     }
     scope.$digest();
@@ -107,7 +106,7 @@ describe('akam-date-picker', function() {
     });
     it('should hide the date-picker upon click away', function() {
       var datePicker = document.querySelector(DATE_PICKER);
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
     });
   });
 
@@ -144,7 +143,7 @@ describe('akam-date-picker', function() {
 
       expect(scope.mychange).toHaveBeenCalled();
       expect(inputDateField.value).toEqual(firstMonthOfselfYearString);
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should be able to open and change month', function() {
       var januaryMonthButton = getMonthButtonParentElement("Jan").querySelector('button');
@@ -163,15 +162,13 @@ describe('akam-date-picker', function() {
 
       expect(scope.mychange).toHaveBeenCalled();
       expect(inputDateField.value).toEqual(secondMonthOfselfYearString);
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
     });
   });
 
-
-
   describe('when rendering date picker', function() {
     beforeEach(function() {
-        var markup = '<div id="parent-element"><akam-date-picker ng-model="value" placeholder="placeholder"></akam-date-picker></div>';
+      var markup = '<div id="parent-element"><akam-date-picker ng-model="value" placeholder="placeholder"></akam-date-picker></div>';
       addElement(markup);
     });
     it('should render all parts', function() {
@@ -181,12 +178,14 @@ describe('akam-date-picker', function() {
 
       expect(inputDateField).not.toBe(null);
       expect(toggleDatePickerButton).not.toBe(null);
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
       expect(inputDateField.placeholder).toEqual("placeholder");
     });
     it('should default hide the picker', function() {
+      var inputDateField = self.element.querySelector('input');
       var datePicker = self.element.querySelector(DATE_PICKER);
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
+      expect(inputDateField.placeholder).toEqual("placeholder");
     });
   });
 
@@ -208,9 +207,9 @@ describe('akam-date-picker', function() {
       expect(datePicker.getAttribute('style')).toContain('display: block');
 
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
-      datePicker = document.querySelector(DATE_PICKER);
-      expect(datePicker).toBe(null);
 
+      datePicker = document.querySelector(DATE_PICKER);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
     });
   });
   describe('when date picker is loaded', function() {
@@ -329,7 +328,7 @@ describe('akam-date-picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
 
       expect(inputDateField.value).toEqual(dayString);
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should be able to open and change date', function() {
       var firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
@@ -348,7 +347,7 @@ describe('akam-date-picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
 
       expect(inputDateField.value).toEqual(dayString);
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should hide clear icon when no date has been picked', function() {
       var clearIcon = document.querySelector('.clear-date');
@@ -394,12 +393,12 @@ describe('akam-date-picker', function() {
 
       expect(inputDateField).not.toBe(null);
       expect(toggleDatePickerButton).not.toBe(null);
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should default hide the picker', function() {
       var datePicker = document.querySelector(DATE_PICKER);
 
-      expect(datePicker).toBe(null);
+      expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should have todays month highlighted', function() {
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
@@ -752,6 +751,43 @@ describe('akam-date-picker', function() {
         it("Should call scope.clearDate method to clear date value", function() {
           expect(self.isoScope.clearDate).toHaveBeenCalled();
         });
+      });
+    });
+  });
+
+  describe('given an open date-picker day calendar', function() {
+    describe('when clicking on the calendar open area', function() {
+      beforeEach(function() {
+        scope.date = new Date();
+        let markup = `<akam-date-picker ng-model='date' mode='day'></akam-date-picker>`;
+        addElement.call(this, markup);
+        utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+        scope.$digest();
+
+        let titleElem = document.querySelectorAll("ul.dropdown-menu table thead tr th")[1]; //heading area
+        utilities.click(titleElem);
+        scope.$digest();
+      });
+      it('should calendar remain open when valid date is not selected', function() {
+        expect(document.querySelector('.akam-date-picker').classList).toContain('opened');
+      });
+    });
+  });
+  describe('given an open month-picker calendar', function() {
+    describe('when clicking on the calendar open area', function() {
+      beforeEach(function() {
+        scope.date = new Date();
+        let markup = `<akam-date-picker ng-model='date' mode='month'></akam-date-picker>`;
+        addElement.call(this, markup);
+        utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+        scope.$digest();
+
+        let titleElem = document.querySelectorAll("ul.dropdown-menu table thead tr th")[1]; //heading area
+        utilities.click(titleElem);
+        scope.$digest();
+      });
+      it('should calendar remain open when valid month is not selected', function() {
+        expect(document.querySelector('.akam-date-picker').classList).toContain('opened');
       });
     });
   });

@@ -7,7 +7,6 @@ const ARROW_KEYS = {
   39: 'RIGHT'
 };
 
-//it may have need to move to util module for common use
 export const eventNoopHanlder = {
   arrowKeysEventNoop: (e) => {
     let key = e.which || e.keyCode;
@@ -49,6 +48,7 @@ function daypickerDecorator($provide) {
 
         //overrides datepicker.js keydown event
         element.bind('keydown', eventNoopHanlder.arrowKeysEventNoop);
+        element.bind('click', eventNoopHanlder.anyEventNoop);
 
         //disable navigation according to the range
         scope.daypickerNavPrevDisabled = () => {
@@ -72,22 +72,23 @@ function daypickerDecorator($provide) {
           ctrl.maxDate = info.maxDate;
           if (info.reset) {
             ctrl.activeDate = new Date();
-            ctrl.refreshView();
           }
+          ctrl.refreshView();
         });
 
         updateMin = scope.$on('datepicker.updateMinDate', (e, info) => {
           ctrl.minDate = info.minDate;
           if (info.reset) {
             ctrl.activeDate = new Date();
-            ctrl.refreshView();
           }
+          ctrl.refreshView();
         });
 
         scope.$on('$destroy', () => {
           updateMin();
           updateMax();
           element.off('keydown');
+          element.off('click');
         });
       };
     };
