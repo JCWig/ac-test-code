@@ -19,36 +19,38 @@
 
 <body class="common-css luna" ng-app="dateRangeApp" ng-strict-di ng-controller="DateRangeAppController as vm">
   <br/>
-  <h2>Date Range Component Example</h2>
+  <h2>Date Range Component Examples</h2>
   <br/>
-  <pre>selected Date Range: {{vm.range}}</pre>
-  <pre>selected start date: {{vm.start}}</pre>
-  <pre>selected end Date: {{vm.end}}</pre>
-  <h4 class="title">An example of date range picker</h4>
+  <pre>Selected Date Range: {{vm.range}}</pre>
+  <pre>Selected Start date: {{vm.start}}</pre>
+  <pre>Selected End Date: {{vm.end}}</pre>
+  <h4 class="title">Default Date Range:</h4>
   <akam-date-range ng-model="vm.dateRange1" min="{{vm.min}}" max="{{vm.max}}" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
-  <br/>
   <br/>
   <div class="form-group">
     <div>
       <input id="disableDateRange" type="checkbox" name='disableDateRange' ng-model='vm.disabled' />
-      <label class="label" for="disableDateRange">To disabled component</label>
+      <label class="label" for="disableDateRange">Disable components</label>
     </div>
     <div>
       <select id="DateRangeFormat" ng-options="format.value as format.label for format in vm.formats" ng-model="vm.format"></select>
-      <label class="label" for="DateRangeFormat">To select different date formats</label>
+      <label class="label" for="DateRangeFormat">Select Date Format</label>
     </div>
     <div>
       <input id="minDate" type="checkbox" name='minDate' ng-model='vm.minUpdated' ng-click="vm.updateMin()"/>
-      <label class="label" for="minDate">to change this min date value to prior 3 years (currently using: {{vm.min}})</label>
+      <label class="label" for="minDate">Change min date value to prior 3 years (currently : {{vm.min}})</label>
     </div>
     <div>
       <input id="maxDate" type="checkbox" name='maxDate' ng-model='vm.maxUpdated' ng-click="vm.updateMax()"/>
-      <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{vm.max}})</label>
+      <label class="label" for="maxDate">Change max date value to next 3 years (currently : {{vm.max}})</label>
     </div>
   </div>
-  <br/>  <br/>  <br/>
-  <h4 class="title">An example of date range picker with initial values</h4>
+  <br/> 
+  <h4 class="title">Date Range Picker with Initial Values:</h4>
   <akam-date-range ng-model="vm.dateRange2" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+  <br />
+  <h4 class="title">Date Ranger Picker with Start Date set, no End Date - Custom Format:</h4>
+  <akam-date-range ng-model="vm.dateRangeCustom" is-disabled="vm.disabled" format="MM/dd/yy"></akam-date-range>
   <script src="../dist/akamai-core.js"></script>
   <script>
   angular.module('dateRangeApp', ['akamai.components.constants', 'akamai.components.date-range'])
@@ -71,6 +73,8 @@
 
     vm.min = defaultMin;
     vm.max = defaultMax;
+    
+    vm.dateRangeCustom = {startDate:new Date(), endDate:undefined};
 
     vm.updateMax = function() {
       vm.max = vm.maxUpdated ? new Date(d.getFullYear()+3, d.getMonth(), 0) : defaultMax;
