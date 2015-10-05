@@ -1,5 +1,5 @@
 import template from './templates/date-picker-month-popup.tpl.html';
-import { arrowKeysEventNoop } from './daypicker-decorator';
+import { eventNoopHanlder } from './daypicker-decorator';
 
 function monthPickerDecorator($provide) {
   function monthPickerDirective($delegate) {
@@ -24,7 +24,7 @@ function monthPickerDecorator($provide) {
         link.apply(this, arguments);
 
         //overrides datepicker.js keydown event
-        element.bind('keydown', arrowKeysEventNoop);
+        element.bind('keydown', eventNoopHanlder.arrowKeysEventNoop);
 
         //disable navigation according to the range
         scope.monthpickerNavPrevDisabled = () => {
