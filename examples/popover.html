@@ -45,6 +45,7 @@
             <span akam-popover position="left" popover-content="Text Content Only." trigger="hover">Hover Here - Left</span>
             <br />
             <span akam-popover position="right" popover-content="Text Content Only." trigger="hover">Hover Here - Right</span>
+            <br />
         </div>
         <br />
         <br />
@@ -175,7 +176,16 @@
             <h2>Click Example : Using trusted html for popover-content</h2>
             <span akam-popover position="top" popover-content="{{safeHtml}}" trigger="click">Click Here</span>
         </div>
-
+        <br />
+        <br />
+        <div class="container">
+            <h2>Localization Example</h2>
+            <h4>Hover over field and then click to see localization change</h2> 
+            <span akam-popover position="right" popover-content="{{testTranslation}}"
+                   ng-click="translateText()" trigger="hover">Hover Here - Right</span>
+            <br />
+        </div>
+        
         <script type="text/ng-template" id="templateId1.html">
             <h3 class="popover-header hover2" > {{include.text}}</h3>
             <div class="popover-middle-content"> <span class="hover1"> Red : Means Hover</span></div>
@@ -224,6 +234,11 @@
             $scope.customData = 'templateId3.html';
 
             $scope.safeHtml = '<h2>HTML Binding</h2><br/><br/><p>Used in <strong>popover-content</strong>.</p>';
+            
+            $scope.testTranslation = $scope.testTextShort;
+            $scope.translateText = function(){
+                $scope.testTranslation = 'components.name';
+            }
         };
         ctrlFunction.$inject = ["$scope", "$sce", "$log"];
 
