@@ -137,6 +137,7 @@ describe('akamai.components.autocomplete', function() {
             </akam-autocomplete>`;
 
         addElement.call(this, autocompleteTemplate);
+        this.el.controller('akamAutocomplete').searchTerm = 'n';
         util.findElement(this.el, 'input.autocomplete-search').triggerHandler('keyup');
       });
 
@@ -281,6 +282,7 @@ describe('akamai.components.autocomplete', function() {
           </akam-autocomplete>`;
 
         addElement.call(this, autocompleteTemplate);
+        this.el.controller('akamAutocomplete').searchTerm = 'c';
         util.findElement(this.el, 'input.autocomplete-search').triggerHandler('keyup');
       });
       it('should compile the markup with the parent scope', function() {
@@ -433,6 +435,26 @@ describe('akamai.components.autocomplete', function() {
 
       it('should show the menu', function() {
         expect(ctrl.isOpen).toBe(true);
+      });
+    });
+
+  });
+
+  describe('given a basic autocomplete instance', function() {
+    describe('when the input field is clicked twice', function() {
+      beforeEach(function() {
+        this.$scope.selectedState = 'Colorado';
+        let autocompleteTemplate = `
+            <akam-autocomplete ng-model="selectedState" on-search="loadStateStrings(searchTerm)">
+            </akam-autocomplete>`;
+
+        addElement.call(this, autocompleteTemplate);
+        util.findElement(this.el, 'span.selected-option').triggerHandler('click');
+        util.findElement(this.el, 'input.autocomplete-search').triggerHandler('click');
+      });
+
+      it('should not show the dropdown-menu', function() {
+        expect(util.find('.dropdown').classList).not.toContain('open');
       });
     });
 

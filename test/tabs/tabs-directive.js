@@ -80,6 +80,28 @@ describe('akamai.components.tabs', function() {
       })
     });
 
+    describe('when more than 1 tab is declared active', function() {
+      let error;
+      beforeEach(function() {
+        let template = `
+          <akam-tabs>
+            <akam-tab heading="Tab 1" active="true">Tab 1 Content</akam-tab>
+            <akam-tab heading="Tab 2" active="true">Tab 2 Content</akam-tab>
+            <akam-tab heading="Tab 3">Tab 3 Content</akam-tab>
+          </akam-tabs>`;
+
+        try {
+          this.$compile(template)(this.$scope);
+        } catch (e) {
+          error = e;
+        }
+      });
+
+      it('should throw an error', function() {
+        expect(error.message).toBe('Only one tab can be declared as active.');
+      });
+    });
+
     describe('when a tab is declared as disabled', function() {
       beforeEach(function() {
 
