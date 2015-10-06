@@ -230,20 +230,17 @@ class TableController {
    * @this TableController
    */
   translateMessages() {
-    if (!angular.isDefined(this.filterPlaceholder)) {
-      this.$translate('components.data-table.placeholder.filter')
-        .then(angular.bind(this, this.setTranslatedValue, 'filterPlaceholder'));
-    }
+    this.$translate(this.filterPlaceholder || 'components.data-table.placeholder.filter')
+      .then(angular.bind(this, this.setTranslatedValue, 'filterPlaceholder'));
 
-    if (!angular.isDefined(this.noFilterResultsMessage)) {
-      this.$translate('components.data-table.text.noFilterResults')
-        .then(angular.bind(this, this.setTranslatedValue, 'noFilterResultsMessage'));
-    }
+    this.$translate(this.noFilterResultsMessage || 'components.data-table.text.noFilterResults')
+      .then(angular.bind(this, this.setTranslatedValue, 'noFilterResultsMessage'));
 
-    if (!angular.isDefined(this.noItemsMessage)) {
-      this.$translate('components.data-table.text.noDataMessage')
-        .then(angular.bind(this, this.setTranslatedValue, 'noItemsMessage'));
-    }
+    this.$translate(this.noItemsMessage || 'components.data-table.text.noDataMessage')
+      .then(angular.bind(this, this.setTranslatedValue, 'noItemsMessage'));
+
+    this.$translate(this.itemFailureMessage || 'components.data-table.text.itemFailureMessage')
+      .then(angular.bind(this, this.setTranslatedValue, 'itemFailureMessage'));
   }
 
   /**
@@ -364,6 +361,7 @@ function tableDirective($log, akamTableTemplate, $compile) {
       idProperty: '@',
       filterPlaceholder: '@',
       noFilterResultsMessage: '@',
+      itemFailureMessage: '@',
       noItemsMessage: '=?',
       selectedItems: '=?', // selected items from the outside
       onSelect: '&?',

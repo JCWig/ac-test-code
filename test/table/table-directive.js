@@ -192,19 +192,67 @@ describe('akam-table', function() {
       beforeEach(function(){
         httpBackend.when('GET', '/randomurl').respond(404, "data not found");
         scope.httpData = http.get('/randomurl');
-        var markup = '<akam-table items="httpData" akam-standalone on-change="changeRows(items)"'+
-             'on-select="selectionCallback(selectedItems)" selected-items="selectedItems">'+
-            '<akam-table-row>'+
-            '<akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">'+
-            '</akam-table-column>'+
-          '</akam-table-row>'+
-        '</akam-table>'
+        var markup = `
+          <akam-table items="httpData" akam-standalone on-change="changeRows(items)"
+          on-select="selectionCallback(selectedItems)" selected-items="selectedItems">
+            <akam-table-row>
+              <akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">
+              </akam-table-column>
+            </akam-table-row>
+          </akam-table>`;
+
         addElement(markup);
       });
       it('should display failed indeterminate progress', function(){
         httpBackend.flush();
         var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
         expect(indeterminateProgress.classList).toContain('failed');
+      });
+      it('should translate and display default item failure message', function(){
+        var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+        expect(indeterminateProgress.getAttribute('label')).toMatch('Failed to load data');
+      });
+    });
+
+    describe('and item-failure-message is provided', function(){
+      beforeEach(function(){
+        httpBackend.when('GET', '/randomurl').respond(404, "data not found");
+        scope.httpData = http.get('/randomurl');
+        var markup = `
+          <akam-table items="httpData" item-failure-message="i failed" akam-standalone on-change="changeRows(items)"
+          on-select="selectionCallback(selectedItems)" selected-items="selectedItems">
+            <akam-table-row>
+              <akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">
+              </akam-table-column>
+            </akam-table-row>
+          </akam-table>`;
+        addElement(markup);
+      });
+      it('should translate and display item failure message if key is invalid', function(){
+        var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+        expect(indeterminateProgress.getAttribute('label')).toMatch('i failed');
+      });
+    });
+    describe('and item-failure-message is provided', function(){
+      beforeEach(function(){
+        httpBackend.when('GET', '/randomurl').respond(404, "data not found");
+        scope.httpData = http.get('/randomurl');
+        scope.failureMessage = 'components.data-table.text.noDataMessage';
+        var markup = `
+          <akam-table items="httpData"
+          item-failure-message="components.data-table.text.noDataMessage"
+          akam-standalone on-change="changeRows(items)"
+          on-select="selectionCallback(selectedItems)" selected-items="selectedItems">
+            <akam-table-row>
+              <akam-table-column class="name" row-property="fullname" header-name="{{columns.fullname}}">
+              </akam-table-column>
+            </akam-table-row>
+          </akam-table>`;
+        addElement(markup);
+      });
+      it('should translate and display item failure message if key is valid', function(){
+        var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
+        expect(indeterminateProgress.getAttribute('label')).toMatch('There is no data based upon your criteria');
       });
     });
   });

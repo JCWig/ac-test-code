@@ -14,7 +14,8 @@
   <akam-indeterminate-progress class="loading-data-table"
                                ng-if="table.loading"
                                completed="{{ !table.loading }}"
-                               failed="{{ table.failed }}">
+                               failed="{{ table.failed }}"
+                               label="{{ table.itemFailureMessage }}">
   </akam-indeterminate-progress>
 
   <div class="data">
