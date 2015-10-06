@@ -9,7 +9,7 @@ import utils from '../utils';
 import translateConfig from './translate-config';
 import noopLoader from './translate-noop-loader-service';
 import translateValueSupport from './translate-value-support-service';
-import i18nLocales from './i18n-locale-constant';
+import i18nLocale from './i18n-locale'
 
 /**
  * A string representing the key to a translation table
@@ -132,25 +132,24 @@ export default angular.module('akamai.components.i18n', [
  */
 .factory('translateValueSupport', translateValueSupport)
 
+/**
+ * @ngdoc provider
+ * @name i18nLocaleProvider
+ * @description provides a setLocale method to set the application locale. This method must be
+ * called within the application config function.
+ */
+.provider('i18nLocale', i18nLocale)
+
 .config(translateConfig)
   .run(runFn);
 
 // resolve the locale and load the translations it will load twice if current locale is
 // different from default locale (en_US)
-function runFn($rootScope, $translate, $locale) {
+function runFn($rootScope, $translate) {
 
   // any translations added after the config phase will be picked up automatically
   $rootScope.$on('$translatePartialLoaderStructureChanged', function() {
     $translate.refresh();
   });
-
-  $rootScope.$on('$translateChangeSuccess', function() {
-    let loc = i18nLocales[$translate.proposedLanguage()];
-
-    if (loc) {
-      $locale.DATETIME_FORMATS = loc.DATETIME_FORMATS;
-      $locale.NUMBER_FORMATS = loc.NUMBER_FORMATS;
-    }
-  });
 }
-runFn.$inject = ['$rootScope', '$translate', '$locale'];
+runFn.$inject = ['$rootScope', '$translate'];
