@@ -151,13 +151,13 @@
     </div>
     <br/>
 
+    <script src="utils/cookies.js"></script>
     <script src="../dist/akamai-core.js"></script>
 
     <script>
         angular.module('dropdownApp', ['akamai.components.constants','akamai.components.dropdown', 'akamai.components.menu-button'])
                 .controller('DropdownAppController', DropdownAppController)
-                .config(configFunction)
-                .run(runFunc);
+                .config(configFunction);
 
         DropdownAppController.$inject = ['$log', '$translate', '$q'];
         function DropdownAppController($log, $translate, $q) {
@@ -234,7 +234,10 @@
             };
         }
 
-        function configFunction($translatePartialLoaderProvider, VERSION) {
+
+
+        function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                i18nLocaleProvider) {
 
             // need to overwrite locales path on fee.akamai.com
             if (window.location.host == 'fee.akamai.com') {
@@ -244,13 +247,14 @@
                 $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
             }
-        }
-        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
-        function runFunc($translate, $cookies) {
-            $translate.use($cookies.get('AKALOCALE') || 'en_US');
+            var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+            $translateProvider.preferredLanguage(locale);
+            i18nLocaleProvider.setLocale(locale);
         }
-        runFunc.$inject = ['$translate', '$cookies'];
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+            '$translateProvider', 'i18nLocaleProvider'];
 
     </script>
 </body>

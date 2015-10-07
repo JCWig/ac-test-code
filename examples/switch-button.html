@@ -77,14 +77,14 @@
         <h2>Disabled2</h2>
         <button ng-click="vm.switchHello()"></button>
     </div>
+    <script src="utils/cookies.js"></script>
     <script src="../dist/akamai-core.js"></script>
 
     <script>
 
         angular.module('switchButtonApp', ['akamai.components.constants', 'akamai.components.switch-button'])
             .controller('SwitchButtonController', SwitchButtonController)
-            .config(configFunction)
-            .run(runFunc);
+            .config(configFunction);
 
         function SwitchButtonController() {
             var vm = this;
@@ -102,7 +102,8 @@
                 vm.hello = !vm.hello;
             }
         }
-        function configFunction($translatePartialLoaderProvider, VERSION) {
+        function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                i18nLocaleProvider) {
 
             // need to overwrite locales path on fee.akamai.com
             if (window.location.host == 'fee.akamai.com') {
@@ -111,15 +112,15 @@
             } else {
                 $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                 $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-                $translatePartialLoaderProvider.addPart('locales/json/messages/');
             }
-        }
-        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
-        function runFunc($translate, $cookies) {
-            $translate.use($cookies.get('AKALOCALE') || 'en_US');
+            var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+            $translateProvider.preferredLanguage(locale);
+            i18nLocaleProvider.setLocale(locale);
         }
-        runFunc.$inject = ['$translate', '$cookies'];
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+            '$translateProvider', 'i18nLocaleProvider'];
 
 
     </script>

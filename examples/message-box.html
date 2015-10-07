@@ -61,6 +61,7 @@
                     <button type="button" class="button large" ng-click="showHTMLMsgBox()">Bind as HTML</button>
                 </div>
             </div>
+            <script src="utils/cookies.js"></script>
             <script src="../dist/akamai-core.js"></script>
             <script>
                 var controllerFunction = function($scope, messageBox, $log) {
@@ -116,32 +117,33 @@
                         });
                     };
                 };
+                controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
 
-            function configFunction($translatePartialLoaderProvider, VERSION) {
+                function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                        i18nLocaleProvider) {
 
-              // need to overwrite locales path on fee.akamai.com
-              if (window.location.host == 'fee.akamai.com') {
-                $translatePartialLoaderProvider.addPart('../dist/locales/');
-                $translatePartialLoaderProvider.addPart('locales/json/messages/');
-              } else {
-                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-              }
-            }
-            configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+                    // need to overwrite locales path on fee.akamai.com
+                    if (window.location.host == 'fee.akamai.com') {
+                        $translatePartialLoaderProvider.addPart('../dist/locales/');
+                        $translatePartialLoaderProvider.addPart('locales/json/messages/');
+                    } else {
+                        $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                        $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                    }
 
-            controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
+                    var locale = docCookies.getItem('AKALOCALE') || 'en_US';
 
-            function runFunc($translate, $cookies) {
-                $translate.use($cookies.get('AKALOCALE') || 'en_US');
-            }
-            runFunc.$inject = ['$translate', '$cookies'];
+                    $translateProvider.preferredLanguage(locale);
+                    i18nLocaleProvider.setLocale(locale);
+                }
+                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+                    '$translateProvider', 'i18nLocaleProvider'];
+
 
             angular.module('example', ['akamai.components.message-box', 'akamai.components.constants'])
 
             .controller('ExampleController', controllerFunction)
-            .config(configFunction)
-            .run(runFunc);
+            .config(configFunction);
 
             </script>
         </div>

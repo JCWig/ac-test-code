@@ -34,6 +34,7 @@
   <br>
   <br>
 </div>
+<script src="utils/cookies.js"></script>
 <script src="../dist/akamai-core.js"></script>
 <script>
   angular.module('spinner-button', ['akamai.components.constants', 'akamai.components.spinner-button']);
@@ -41,8 +42,7 @@
   angular
       .module('spinner-button')
       .controller('SpinnerButtonController', SpinnerButtonController)
-      .config(configFunction)
-      .run(runFunc);
+      .config(configFunction);
 
   function SpinnerButtonController() {
     var vm = this;
@@ -50,23 +50,25 @@
     vm.processing = false;
   }
 
-  function configFunction($translatePartialLoaderProvider, VERSION) {
+  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                          i18nLocaleProvider) {
 
       // need to overwrite locales path on fee.akamai.com
       if (window.location.host == 'fee.akamai.com') {
-        $translatePartialLoaderProvider.addPart('../dist/locales/');
-        $translatePartialLoaderProvider.addPart('locales/json/messages/');
+          $translatePartialLoaderProvider.addPart('../dist/locales/');
+          $translatePartialLoaderProvider.addPart('locales/json/messages/');
       } else {
-        $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-        $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
       }
-  }
-configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
-function runFunc($translate, $cookies) {
-  $translate.use($cookies.get('AKALOCALE') || 'en_US');
-}
-runFunc.$inject = ['$translate', '$cookies'];
+      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+      $translateProvider.preferredLanguage(locale);
+      i18nLocaleProvider.setLocale(locale);
+  }
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+      '$translateProvider', 'i18nLocaleProvider'];
 
 
 </script>
