@@ -89,7 +89,7 @@
 <div class="container">
   <h2>Rejected row data</h2>
 
-  <akam-table items="vm.rejectedPromise" item-failure-message="Item failed message" akam-standalone>
+  <akam-table items="vm.rejectedPromise" item-failure-message={{vm.itemFailureMessage}} akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
     </akam-table-row>

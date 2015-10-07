@@ -24,6 +24,9 @@ function ExampleController($http, $q, $log) {
     vm.selectedItems = [data.data[0], data.data[1]];
     return data;
   });
+  
+  // set the table item failure message
+  vm.itemFailureMessage = "The table load failed.";
 
   // custom callback to handle whenever any item changes
   this.myRowSelectionCallback = function(selectedRows) {
