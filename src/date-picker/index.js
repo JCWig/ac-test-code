@@ -4,6 +4,17 @@ import i18n from '../i18n';
 import datepickDayDecorator from './daypicker-decorator';
 import datepickMonthDecorator from './monthpicker-decorator';
 import detepickerDirective from './date-picker-directive';
+import datepickerPopupTemplate from './templates/popup.tpl.html';
+
+function run($templateCache) {
+  /*
+  Overide angular-ui bootstrap's datepicker popup template
+  0.13.3 changed popup template to include ng-if which as a result broke binding in date-range
+  Using popup template from 0.13.0 since it uses ng-show instead of ng-if
+  */
+  $templateCache.put('template/datepicker/popup.html', datepickerPopupTemplate);
+}
+run.$inject = ['$templateCache'];
 
 /**
  * @ngdoc module
@@ -42,6 +53,8 @@ export default angular.module('akamai.components.date-picker', [
   angularBootstrap,
   i18n.name
 ])
+
+  .run(run)
 
   // decorators for the day pickers to add on scope variables for disabling nav
   .config(datepickDayDecorator)

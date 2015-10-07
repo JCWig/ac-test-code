@@ -25,6 +25,7 @@ function monthPickerDecorator($provide) {
 
         //overrides datepicker.js keydown event
         element.bind('keydown', eventNoopHanlder.arrowKeysEventNoop);
+        element.bind('click', eventNoopHanlder.anyEventNoop);
 
         //disable navigation according to the range
         scope.monthpickerNavPrevDisabled = () => {
@@ -41,6 +42,7 @@ function monthPickerDecorator($provide) {
 
         scope.$on('$destroy', () => {
           element.off('keydown');
+          element.off('click');
         });
       };
     };
