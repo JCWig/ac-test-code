@@ -22,15 +22,21 @@ var defaultMarkup = '<akam-time-picker ng-model="inputTime" is-minute-disabled="
 
 describe('akamTimepicker directive', function() {
 
-  var scope, compile, self, controller, parse;
+  var scope, compile, self, controller, parse, i18nLocale, $locale;
 
   beforeEach(function() {
     inject.strictDi(true);
     self = this;
     angular.mock.module(require('../../src/time-picker').name);
-    inject(function($compile, $rootScope) {
-      scope = $rootScope.$new();
-      compile = $compile;
+    angular.mock.module(function($translateProvider, i18nLocaleProvider) {
+      $translateProvider.useLoader('translateNoopLoader');
+      i18nLocaleProvider.setLocale('de_DE');
+    });
+    inject(function(_$rootScope_, _$compile_, _$interval_, _i18nLocale_, _$locale_) {
+      scope = _$rootScope_.$new();
+      compile = _$compile_;
+      i18nLocale = _i18nLocale_;
+      $locale = _$locale_;
     });
   });
 
@@ -85,8 +91,6 @@ describe('akamTimepicker directive', function() {
 
       expect(timepickerInputElem.value).not.toBe("");
       expect(timepickerInputElem.value).toContain(":");
-      expect(timepickerInputElem.value.match(/[a|p]m/i).length > 0).toBeTruthy();
-
     });
 
     it('should input field contains all attributes', function() {
@@ -364,4 +368,47 @@ describe('akamTimepicker directive', function() {
 
   });
 
+  describe('given showMeridian=true', function() {
+    describe('when locale set to "de_DE" and set hour to less than 12 hours', function() {
+      describe('when open the dropdown', function() {
+        let meridianInputElem;
+        beforeEach(function() {
+          defaultScopeTime.setHours("5", "30");
+          scope.inputTime = defaultScopeTime;
+          scope.showMeridian = true;
+          let markup = '<akam-time-picker ng-model="inputTime" showMeridian="showMeridian"></akam-time-picker>';
+          addElement(markup);
+          let timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
+          utilities.click(timepickerBtnElem);
+          scope.$digest();
+          meridianInputElem = self.element.querySelector(selectors.DROPDOWN_MENU + " .meridian input");
+        });
+        it('meridian input text should display "vorm."', function() {
+          expect(meridianInputElem.value).toBe('vorm.');
+        });
+      });
+    });
+  });
+
+  describe('given showMeridian=true', function() {
+    describe('when locale set to "de_DE" and set hour to greater than 12 hours', function() {
+      describe('when open the dropdown', function() {
+        let meridianInputElem;
+        beforeEach(function() {
+          defaultScopeTime.setHours("15", "30");
+          scope.inputTime = defaultScopeTime;
+          scope.showMeridian = true;
+          let markup = '<akam-time-picker ng-model="inputTime" showMeridian="showMeridian"></akam-time-picker>';
+          addElement(markup);
+          let timepickerBtnElem = self.element.querySelector(selectors.TIMEPICKER_BTN);
+          utilities.click(timepickerBtnElem);
+          scope.$digest();
+          meridianInputElem = self.element.querySelector(selectors.DROPDOWN_MENU + " .meridian input");
+        });
+        it('meridian input text should display "nachm."', function() {
+          expect(meridianInputElem.value).toBe("nachm.");
+        });
+      });
+    });
+  });
 });
