@@ -45,7 +45,7 @@
           <h2>Example 2 - Setting Min, Max and Input Values</h2>
           <br />
           Set Input Value here:
-          <input type="text" size="3" ng-change="vm.inputChanged()" ng-model="vm.value2">
+          <input type="text" size="3" ng-model="vm.value2" ng-change="vm.validate()">
           <br>
           <br>
           <h2>Example 3 - Enable/Disable Spinner</h2>
@@ -54,7 +54,7 @@
           <br>
           <br>
           <div class="container">
-            <akam-spinner min="{{vm.min}}" max="{{vm.max}}" ng-model="vm.value2" disabled={{vm.disabled}}>
+            <akam-spinner min="{{vm.min}}" max="{{vm.max}}" ng-model="vm.value2" is-disabled="vm.disabled">
             </akam-spinner>
           </div>
         </form>
@@ -81,6 +81,7 @@
         vm.disabled = false;//true or false
         vm.buttonClick = toggleButton;
         vm.inputChanged = inputChanged;
+        vm.validate = validate;
 
         var disabledText = 'Disable Spinner';
         var enabledText = 'Enable Spinner';
@@ -93,6 +94,21 @@
 
         function inputChanged() {
           vm.value2 = parseInt(vm.value2, 10);
+        }
+
+        function validate() {
+          if (!vm.value2 || isNaN(vm.value2)) {
+            vm.value2 = 0;
+          }
+          else {
+            if (vm.value2 < vm.min) {
+              vm.value2 = vm.value2.substring(0, vm.value2.length - 1);
+            }
+            if (vm.value2 > vm.max) {
+              vm.value2 = vm.value2.substring(0, vm.value2.length - 1);
+            }
+            vm.value2 = parseInt(vm.value2, 10);
+          }
         }
       }
       </script>
