@@ -86,6 +86,7 @@
                 <button class="btn" ng-click="pb6.timer.start();" >Play</button>
                 <button class="btn" ng-click="pb6.timer.error()">Throw Error</button>
             </div>
+            <script src="utils/cookies.js"></script>
             <script src="../dist/akamai-core.js"></script>
             <script>
                 var controllerFunction = function($scope) {
@@ -176,28 +177,30 @@
                     };
                 };
                 controllerFunction.$inject = ['$scope'];
-                function configFunction($translatePartialLoaderProvider, VERSION) {
 
-                  // need to overwrite locales path on fee.akamai.com
-                  if (window.location.host == 'fee.akamai.com') {
-                    $translatePartialLoaderProvider.addPart('../dist/locales/');
-                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
-                  } else {
-                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-                  }
-                }
-                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+                function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                        i18nLocaleProvider) {
 
-                function runFunc($translate, $cookies) {
-                    $translate.use($cookies.get('AKALOCALE') || 'en_US');
+                    // need to overwrite locales path on fee.akamai.com
+                    if (window.location.host == 'fee.akamai.com') {
+                        $translatePartialLoaderProvider.addPart('../dist/locales/');
+                        $translatePartialLoaderProvider.addPart('locales/json/messages/');
+                    } else {
+                        $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                        $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                    }
+
+                    var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+                    $translateProvider.preferredLanguage(locale);
+                    i18nLocaleProvider.setLocale(locale);
                 }
-                runFunc.$inject = ['$translate', '$cookies'];
+                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+                    '$translateProvider', 'i18nLocaleProvider'];
 
                 var app = angular.module('progressBarDemo', ['akamai.components.constants', 'akamai.components.progress-bar']);
                 app.controller('Ctrl', controllerFunction);
                 app.config(configFunction);
-                app.run(runFunc);
             </script>
         </div>
     </body>

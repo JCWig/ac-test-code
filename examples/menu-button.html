@@ -88,7 +88,9 @@
       </akam-menu-button>
     </div>
 
+<script src="utils/cookies.js"></script>
 <script src="../dist/akamai-core.js"></script>
+
 <script>
   var controllerFuction = function() {
 
@@ -110,29 +112,30 @@
     this.disableItem = true;
   };
 
-    function configFunction($translatePartialLoaderProvider, VERSION) {
+  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                          i18nLocaleProvider) {
 
-    // need to overwrite locales path on fee.akamai.com
-    if (window.location.host == 'fee.akamai.com') {
-      $translatePartialLoaderProvider.addPart('../dist/locales/');
-      $translatePartialLoaderProvider.addPart('locales/json/messages/');
-    } else {
-      $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-    }
-  }
-  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+      // need to overwrite locales path on fee.akamai.com
+      if (window.location.host == 'fee.akamai.com') {
+          $translatePartialLoaderProvider.addPart('../dist/locales/');
+          $translatePartialLoaderProvider.addPart('locales/json/messages/');
+      } else {
+          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      }
 
-  function runFunc($translate, $cookies) {
-      $translate.use($cookies.get('AKALOCALE') || 'en_US');
+      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+      $translateProvider.preferredLanguage(locale);
+      i18nLocaleProvider.setLocale(locale);
   }
-  runFunc.$inject = ['$translate', '$cookies'];
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+      '$translateProvider', 'i18nLocaleProvider'];
 
   angular.module('akamai.components.examples.menu-button',
     ['akamai.components.constants', 'akamai.components.menu-button'])
     .controller('ExampleController', controllerFuction)
-    .config(configFunction)
-    .run(runFunc);
+    .config(configFunction);
 </script>
 </body>
 </html>

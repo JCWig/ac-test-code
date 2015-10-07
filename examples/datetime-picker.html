@@ -45,12 +45,12 @@
       <input id="maxDate" type="checkbox" name='maxDate' ng-model='vm.maxUpdated' ng-click="vm.updateMax()" />
       <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{vm.max}})</label>
   </div>
+  <script src="utils/cookies.js"></script>
   <script src="../dist/akamai-core.js"></script>
   <script>
-  angular.module('datetimePickerApp', ['akamai.components.datetime-picker'])
+  angular.module('datetimePickerApp', ['akamai.components.constants', 'akamai.components.datetime-picker'])
     .controller('DatetimePickerController', DatetimePickerController)
-    .config(configFunction)
-    .run(runFunc);
+    .config(configFunction);
 
   DatetimePickerController.$inject = ['$log'];
 
@@ -86,23 +86,25 @@
     }
   }
 
-  function configFunction($translatePartialLoaderProvider) {
+  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                          i18nLocaleProvider) {
 
-    // need to overwrite locales path on fee.akamai.com
-    if (window.location.host == 'fee.akamai.com') {
-      $translatePartialLoaderProvider.addPart('../dist/locales/');
-      $translatePartialLoaderProvider.addPart('locales/json/messages/');
-    } else {
-      $translatePartialLoaderProvider.addPart('/libs/akamai-core/0.7.1/locales/');
-      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-    }
-  }
-  configFunction.$inject = ['$translatePartialLoaderProvider'];
+      // need to overwrite locales path on fee.akamai.com
+      if (window.location.host == 'fee.akamai.com') {
+          $translatePartialLoaderProvider.addPart('../dist/locales/');
+          $translatePartialLoaderProvider.addPart('locales/json/messages/');
+      } else {
+          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      }
 
-  function runFunc($translate, $cookies) {
-      $translate.use($cookies.get('AKALOCALE') || 'en_US');
+      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+      $translateProvider.preferredLanguage(locale);
+      i18nLocaleProvider.setLocale(locale);
   }
-  runFunc.$inject = ['$translate', '$cookies'];
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+      '$translateProvider', 'i18nLocaleProvider'];
 
   </script>
 </body>

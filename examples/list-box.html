@@ -79,6 +79,7 @@
             <akam-list-box akam-standalone data="failThenLoadData" schema="columns" selected-items="selectedItems4">
             </akam-list-box>
         </div>
+        <script src="utils/cookies.js"></script>
         <script src="../dist/akamai-core.js"></script>
         <script>
             var fullName;
@@ -325,7 +326,8 @@
                     deferredRejection.reject();
                 }, 5000);
             };
-            function configFunction($translatePartialLoaderProvider, VERSION) {
+            function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                    i18nLocaleProvider) {
 
                 // need to overwrite locales path on fee.akamai.com
                 if (window.location.host == 'fee.akamai.com') {
@@ -335,20 +337,20 @@
                     $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
                     $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
                 }
+
+                var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+                $translateProvider.preferredLanguage(locale);
+                i18nLocaleProvider.setLocale(locale);
             }
-            configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+            configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+                '$translateProvider', 'i18nLocaleProvider'];
 
             controllerFunction.$inject = ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce"];
 
-            function runFunc($translate, $cookies) {
-                $translate.use($cookies.get('AKALOCALE') || 'en_US');
-            }
-            runFunc.$inject = ['$translate', '$cookies'];
-
             angular.module('example', ['akamai.components.constants', 'akamai.components.list-box', 'akamai.components.i18n'])
             .controller('ExampleController', controllerFunction)
-            .config(configFunction)
-            .run(runFunc);
+            .config(configFunction);
         </script>
     </body>
 </html>

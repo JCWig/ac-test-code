@@ -141,17 +141,11 @@
   }
   configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
 
-  function runFunc($translate, $cookies) {
-      // $translate.use($cookies.get('AKALOCALE') || 'en_US');
-  }
-  runFunc.$inject = ['$translate', '$cookies'];
-
   angular.module('i18nDemo3', ['akamai.components.constants', 'akamai.components.i18n']);
 
   // Override the location of the Component and Application locale files
   angular.module('i18nDemo3')
     .controller('TranslationPageController', controllerFunction)
-    .run(runFunc)
     .config(configFunction);
 
 
