@@ -13,11 +13,11 @@
   </span>
   <div class="range-selection" ng-class="{'disabled': dateRange.isDisabled}">
     <div class="range-start util-clickable" ng-click="dateRange.rangeStartToggle($event)" ng-class="{'opened': dateRange.openFromRangeStart && dateRange.opened}">
-      <span ng-if="!dateRange.rangeStart.selectedValue" class="date-range-placeholder">{{::dateRange.rangeStart.placeholder}}</span>
+      <span ng-if="!dateRange.rangeStart.selectedValue" class="date-range-placeholder util-ellipsis">{{::dateRange.rangeStart.placeholder}}</span>
       <span ng-if="dateRange.rangeStart.selectedValue" class="util-ellipsis" title="{{dateRange.rangeStart.selectedValue}}">{{dateRange.rangeStart.selectedValue}}</span>
     </div>
     <div class="range-end util-clickable" ng-click="dateRange.rangeEndToggle($event)" ng-class="{'opened': dateRange.openFromRangeEnd && dateRange.opened}">
-      <span ng-if="!dateRange.rangeEnd.selectedValue" class="date-range-placeholder">{{::dateRange.rangeEnd.placeholder}}</span>
+      <span ng-if="!dateRange.rangeEnd.selectedValue" class="date-range-placeholder util-ellipsis">{{::dateRange.rangeEnd.placeholder}}</span>
       <span ng-if="dateRange.rangeEnd.selectedValue" class="util-ellipsis" title="{{dateRange.rangeEnd.selectedValue}}">{{dateRange.rangeEnd.selectedValue}}</span>
     </div>
     <button class="button" type="button" ng-click="dateRange.toggle($event)" ng-disabled="dateRange.isDisabled">
