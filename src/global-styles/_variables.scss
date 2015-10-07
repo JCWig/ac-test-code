@@ -131,8 +131,6 @@ $bubble-help-arrow-position: $bubble-help-arrow-size + $bubble-help-arrow-gutter
 $popover-background-color: #ebf6ff;
 $popover-max-width: 290px;
 $popover-min-width: 130px;
-$popover-max-height: 256;
-$popover-min-height: 72px;
 
 // svg icons
 $svg-icon-width: 16px;
@@ -217,7 +215,7 @@ $container-md: 990px;
 $container-lg: $container-md;
 
 $dropdown-bg: #fff;
-$dropdown-border: #ccc; 
+$dropdown-border: #ccc;
 $dropdown-link-color: #666666;
 $dropdown-link-hover-color: #666666;
 $dropdown-link-hover-bg: #e2f3fc;

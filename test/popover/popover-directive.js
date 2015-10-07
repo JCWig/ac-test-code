@@ -1,20 +1,21 @@
-'use strict';
-var utilities = require('../utilities');
-var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
-var enUsResponse = require("../i18n/i18n_responses/en_US.json");
-var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
-var CONFIG_PATH = '../../_appen_US.json';
+/* eslint-disable max-nested-callbacks */
+/* global angular, inject */
 
-var POPOVER = '.popover';
-var POPOVER_HEADER = '.popover .popover-contents .popover-header';
-var POPOVER_CONTENT = '.popover .popover-contents .popover-middle-content';
-var POPOVER_LINK = '.popover .popover-contents .popover-link-content a';
-var POPOVER_BUTTON = '.popover .popover-contents .popover-button-content button';
-var POPOVER_CLOSE_ICON = '.popover .popover-contents .luna-small_close';
+import utilities from '../utilities';
+import enUsMessagesResponse from '../i18n/i18n_responses/messages_en_US.json';
+import enUsResponse from '../i18n/i18n_responses/en_US.json';
+import popoverDirective from '../../src/popover';
+
+const LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
+const CONFIG_PATH = '../../_appen_US.json';
+
+const POPOVER = '.popover';
+const POPOVER_HEADER = '.popover .popover-title';
+const POPOVER_CONTENT = '.popover .popover-content';
+const POPOVER_MIDDLE_CONTENT = '.popover .popover-content .popover-middle-content';
 
 describe('akamai.components.popover', function() {
-  var scope, timeout, compile, sce;
-  var translationMock = {
+  let translationMock = {
       'components': {
         'popover': {
             'label': 'Popover Label'
@@ -22,500 +23,335 @@ describe('akamai.components.popover', function() {
       }
   };
 
+  function addElement(markup) {
+    this.el = this.$compile(markup)(this.$scope);
+    this.$scope.$digest();
+    this.element = document.body.appendChild(this.el[0]);
+  }
+
   beforeEach(function() {
-    inject.strictDi(true);
-    var self = this;
-    angular.mock.module(require('../../src/popover').name);
+    angular.mock.inject.strictDi(true);
+    angular.mock.module(popoverDirective.name);
     angular.mock.module(function($translateProvider) {
       $translateProvider.translations('en_US', translationMock);
       $translateProvider.useLoader('translateNoopLoader');
     });
     inject(function($compile, $rootScope, $timeout, $sce, $httpBackend) {
-      scope = $rootScope.$new();
-      timeout = $timeout;
-      compile = $compile;
-      sce = $sce;
-      $httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
-      $httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
+      this.$scope = $rootScope.$new();
+      this.$timeout = $timeout;
+      this.$compile = $compile;
+      this.$sce = $sce;
+      this.$httpBackend = $httpBackend;
+      this.$httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
+      this.$httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
+
+      this.addElement = addElement;
+      this.$scope.translationMock = translationMock;
     });
   });
+
   afterEach(function() {
-    if (self.element) {
-      document.body.removeChild(self.element);
-      self.element = null;
+    while (document.body.firstChild) {
+      document.body.removeChild(document.body.firstChild);
     }
+    this.element = null;
   });
-  function addElement(markup) {
-    self.element = document.createElement('div');
-    self.element.innerHTML = markup;
-    document.body.appendChild(self.element);
-    compile(document.body)(scope);
-    scope.$digest();
-  };
-  describe('when rendering', function() {
-    it('should render all parts', function() {
-      var markup = '<span class="pull-right" akam-popover position="bottom"' +
-        'header="Simple Header" popover-content="tool tip content"' +
-        'trigger="click" link-text="link text" link-url="www.example.com" ' +
-        'button-text="button text" button-function="btnFunction">' +
-        'Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-      var popoverHeader = document.querySelector(POPOVER_HEADER);
-      var popoverContent = document.querySelector(POPOVER_CONTENT);
-      var popoverLink = document.querySelector(POPOVER_LINK);
-      var popoverButton = document.querySelector(POPOVER_BUTTON);
-      var popoverCloseIcon = document.querySelector(POPOVER_CLOSE_ICON);
 
-      expect(popoverHeader.textContent).toContain('Simple Header');
-      expect(popoverContent.textContent).toContain('tool tip content');
-      expect(popoverLink.textContent).toContain('link text');
-      expect(popoverButton.textContent).toContain('button text');
-      expect(popoverCloseIcon).not.toBe(null);
-    });
-    it('should be able to render without header', function() {
-      var markup = '<span class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="click" link-text="link text"' +
-        'link-url="www.example.com" button-text="button text" ' +
-        'button-function="btnFunction">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-      var popoverHeader = document.querySelector(POPOVER_HEADER);
-      var popoverContent = document.querySelector(POPOVER_CONTENT);
-      var popoverLink = document.querySelector(POPOVER_LINK);
-      var popoverButton = document.querySelector(POPOVER_BUTTON);
-      var popoverCloseIcon = document.querySelector(POPOVER_CLOSE_ICON);
-
-      expect(popoverHeader).toBe(null);
-      expect(popoverContent.textContent).toContain('tool tip content');
-      expect(popoverLink.textContent).toContain('link text');
-      expect(popoverButton.textContent).toContain('button text');
-      expect(popoverCloseIcon).not.toBe(null);
-    });
-    it('should be able to be rendered without link', function() {
-      var markup = '<span class="pull-right" akam-popover position="bottom"' +
-        ' header="Simple Header" popover-content="tool tip content" ' +
-        'trigger="click" button-text="button text" button-function="btnFunction">' +
-        'Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-      var popoverHeader = document.querySelector(POPOVER_HEADER);
-      var popoverContent = document.querySelector(POPOVER_CONTENT);
-      var popoverLink = document.querySelector(POPOVER_LINK);
-      var popoverButton = document.querySelector(POPOVER_BUTTON);
-      var popoverCloseIcon = document.querySelector(POPOVER_CLOSE_ICON);
-
-      expect(popoverHeader.textContent).toContain('Simple Header');
-      expect(popoverContent.textContent).toContain('tool tip content');
-      expect(popoverLink).toBe(null);
-      expect(popoverButton.textContent).toContain('button text');
-      expect(popoverCloseIcon).not.toBe(null);
-    });
-    it('should be able to be rendered without button', function() {
-      var markup = '<span class="pull-right" akam-popover position="bottom"' +
-        'header="Simple Header" popover-content="tool tip content" trigger="click"' +
-        'link-text="link text"link-url="www.example.com">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-      var popoverHeader = document.querySelector(POPOVER_HEADER);
-      var popoverContent = document.querySelector(POPOVER_CONTENT);
-      var popoverLink = document.querySelector(POPOVER_LINK);
-      var popoverButton = document.querySelector(POPOVER_BUTTON);
-      var popoverCloseIcon = document.querySelector(POPOVER_CLOSE_ICON);
-
-      expect(popoverHeader.textContent).toContain('Simple Header');
-      expect(popoverContent.textContent).toContain('tool tip content');
-      expect(popoverLink.textContent).toContain('link text');
-      expect(popoverButton).toBe(null);
-      expect(popoverCloseIcon).not.toBe(null);
-    });
-    it('should render without close icon, link or button when trigger = hover', function() {
-      var markup = '<span class="pull-right" akam-popover position="bottom"' +
-        ' header="Simple Header" popover-content="tool tip content" ' +
-        'trigger="hover" link-text="link text" link-url="www.example.com" ' +
-        'button-text="button text" button-function="btnFunction">' +
-        'Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-      var popoverHeader = document.querySelector(POPOVER_HEADER);
-      var popoverContent = document.querySelector(POPOVER_CONTENT);
-      var popoverLink = document.querySelector(POPOVER_LINK);
-      var popoverButton = document.querySelector(POPOVER_BUTTON);
-      var popoverCloseIcon = document.querySelector(POPOVER_CLOSE_ICON);
-
-      expect(popoverHeader.textContent).toContain('Simple Header');
-      expect(popoverContent.textContent).toContain('tool tip content');
-      expect(popoverLink).toBe(null);
-      expect(popoverButton).toBe(null);
-      expect(popoverCloseIcon).toBe(null);
-    });
-    it('should be able to render custom html', function() {
-      scope.customData = {
-        text : 'Here is some text',
-        btnFunction: function(){}
-      };
-      spyOn(scope.customData,"btnFunction");
-      var markup = '<span class="pull-right" akam-popover position="bottom" trigger="click"' +
-        'custom-content="templateId.html">Clicky for Bottom Right Side</span>'+
-        '<script type="text/ng-template" id="templateId.html">'+
-          '<div><span id="random-span1">{{customData.text}}</span>' +
-          '<button id="random-button1">Click this to do something</button><br>' +
-          '<button id="random-button2" ng-click="customData.btnFunction()">Click this to do something else </button></div>';
-        '</script>';
-      addElement(markup);
-      scope.$digest();
-      timeout.flush();
-
-      utilities.click(document.querySelector('#random-button2'));
-      expect(scope.customData.btnFunction).toHaveBeenCalled();
-      expect(document.querySelector('#random-span1')).not.toBe(null);
-      expect(document.querySelector('#random-button1')).not.toBe(null);
-      expect(document.querySelector('#random-button2')).not.toBe(null);
-      expect(document.querySelector('#random-span1').textContent).toContain(scope.customData.text);
-    });
-    it('should be able to render custom html (single text node)', function() {
-      scope.customData = {
-        text : 'Here is some text',
-        btnFunction: function(){}
-      };
-      spyOn(scope.customData,"btnFunction");
-      var markup = '<span class="pull-right" akam-popover position="bottom" trigger="click"' +
-        'custom-content="templateId.html">Clicky for Bottom Right Side</span>'+
-        '<script type="text/ng-template" id="templateId.html">'+
-          '{{customData.text}}'+
-        '</script>';
-      addElement(markup);
-      scope.$digest();
-      timeout.flush();
-      expect(document.querySelector('.popover-custom-content span').textContent).toContain(scope.customData.text);
-    });
-    it('should be able to render on the top', function() {
-      var markup = '<span class="pull-right" akam-popover position="top" ' +
-        'header="Simple Header" popover-content="tool tip content" ' +
-        'trigger="click">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain('top');
-    });
-    it('should be able to render on the left', function() {
-      var markup = '<span class="pull-right" akam-popover position="left" ' +
-        'header="Simple Header" popover-content="tool tip content" ' +
-        'trigger="click">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain('left');
-    });
-    it('should be able to render on the right ', function() {
-      var markup = '<span class="pull-right" akam-popover position="right" ' +
-        'header="Simple Header" popover-content="tool tip content" ' +
-        'trigger="click">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain('right');
-    });
-    it('should be able to render on the bottom', function() {
-      var markup = '<span class="pull-right" akam-popover position="bottom" ' +
-        'header="Simple Header" popover-content="tool tip content" ' +
-        'trigger="click">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain('bottom');
-    });
-  });
-  describe('when rendered', function() {
-    it('should be able to click button', function() {
-      scope.btnFunction = function(){};
-      spyOn(scope,'btnFunction');
-      var markup = '<span class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="click"' +
-        'button-text="button text" button-function="btnFunction()">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.click(POPOVER_BUTTON);
-      scope.$digest();
-
-      expect(scope.btnFunction).toHaveBeenCalled();
-    });
-    it('should be able to toggle in and out (click)', function() {
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="click"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.click('#trigger-element');
-      scope.$digest();
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain("fade");
-
-      utilities.click('#trigger-element');
-      scope.$digest();
-      timeout.flush();
-
-      expect(popover.classList).not.toContain("fade");
-    });
-    it('should be able to toggle in and out (click icon)', function() {
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="click"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side</span>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.click('#trigger-element');
-      scope.$digest();
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain("fade");
-
-      utilities.click(POPOVER_CLOSE_ICON);
-      scope.$digest();
-      timeout.flush();
-
-      expect(popover.classList).not.toContain("fade");
-    });
-  });
-  describe('when rendering on left side of page', function() {
-    it('should render bottom arrow and popover in different format', function() {
-      var midPoint = document.body.clientWidth / 2;
-      var markup = '<span style="margin-right: ' + (midPoint + 5) + 'px" id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-      timeout.flush();
-
-      var offsetLeft = scope.$$childHead.popoverLeft.substring(0, scope.$$childHead.popoverLeft.length - 2);
-      expect(parseInt(offsetLeft) < midPoint).toBe(true);
-
-    });
-    it('should render top arrow and popover in different format', function() {
-      var midPoint = document.body.clientWidth / 2;
-      var markup = '<span style="margin-right: ' + (midPoint + 5) + 'px" id="trigger-element" class="pull-right" akam-popover position="top"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-      timeout.flush();
-
-      var offsetLeft = scope.$$childHead.popoverLeft.substring(0, scope.$$childHead.popoverLeft.length - 2);
-      expect(parseInt(offsetLeft) < midPoint).toBe(true);
-    });
-  });
-  describe('when passing bad data', function() {
-    it('should not render when position is invalid', function() {
-      var midPoint = document.body.clientWidth / 2;
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="nothing"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-
-      var popover = document.querySelector(POPOVER);
-      expect(popover).toBe(null);
-    });
-    it('should not render when position is not provided', function() {
-      var midPoint = document.body.clientWidth / 2;
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-
-      var popover = document.querySelector(POPOVER);
-      expect(popover).toBe(null);
-    });
-  });
-  describe('when passing bad data', function() {
-    it('should not render when position is invalid', function() {
-      var midPoint = document.body.clientWidth / 2;
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="nothing"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-
-      var popover = document.querySelector(POPOVER);
-      expect(popover).toBe(null);
-    });
-    it('should not render when position is not provided', function() {
-      var midPoint = document.body.clientWidth / 2;
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-
-      var popover = document.querySelector(POPOVER);
-      expect(popover).toBe(null);
-    });
-  });
-  describe('when interacting with hovering popover', function(){
-    it('should be able to toggle (hover)', function() {
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.mouseHover('#trigger-element');
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain("fade");
-
-      utilities.mouseLeave('#trigger-element');
-      timeout.flush();
-
-      expect(popover.classList).not.toContain("fade");
-    });
-    it('should remain if hover continues into popover', function(){
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.mouseHover('#trigger-element');
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain("fade");
-      utilities.mouseLeave('#trigger-element');
-
-      utilities.mouseHover('.popover');
-      timeout.verifyNoPendingTasks();
-      popover = document.querySelector(POPOVER);
-      expect(popover).not.toBe(null);
-    });
-    it('should dissapear if hover out of popover', function(){
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.mouseHover('#trigger-element');
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain("fade");
-      utilities.mouseLeave('#trigger-element');
-
-      utilities.mouseHover('.popover');
-      utilities.mouseLeave('.popover');
-      timeout.flush();
-      popover = document.querySelector(POPOVER);
-      expect(popover.classList).not.toContain("fade");
-    });
-    it('should stay if hover out of popover back onto trigger element', function(){
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.mouseHover('#trigger-element');
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain("fade");
-      utilities.mouseLeave('#trigger-element');
-
-      utilities.mouseHover('.popover');
-      utilities.mouseLeave('.popover');
-      utilities.mouseHover('#trigger-element');
-      timeout.verifyNoPendingTasks();
-      popover = document.querySelector(POPOVER);
-      expect(popover.classList).toContain("fade");
-    });
-    it('should hide if hover out of popover back onto trigger element then off everything', function(){
-      var markup = '<span id="trigger-element" class="pull-right" akam-popover position="bottom"' +
-        'popover-content="tool tip content" trigger="hover"' +
-        'button-text="button text" button-function="btnFunction">Clicky for Bottom Right Side' +
-        '</span><button id="button"></button>';
-      addElement(markup);
-      timeout.flush();
-
-      utilities.mouseHover('#trigger-element');
-      timeout.flush();
-
-      var popover = document.querySelector(POPOVER);
-
-      expect(popover.classList).toContain("fade");
-      utilities.mouseLeave('#trigger-element');
-
-      utilities.mouseHover('.popover');
-      utilities.mouseLeave('.popover');
-      utilities.mouseHover('#trigger-element');
-      utilities.mouseLeave('#trigger-element');
-      timeout.flush();
-      popover = document.querySelector(POPOVER);
-      expect(popover.classList).not.toContain("fade");
-    });
-  });
-  describe('given a rendered popover', function() {
-    describe('when popover-content contains trusted HTML content', function() {
+  describe('given a akam-popover', function() {
+    describe('when rendering', function() {
       beforeEach(function() {
-        var markup = '<span akam-popover position="top" popover-content="<h1>HTML content</h1><br/><br/><p>Paragraph</p>" trigger="click">Click Here</span>';
-        addElement(markup);
-        timeout.flush();
+        let markup = `
+          <span id='trigger-element' class='pull-right'
+            akam-popover='tool tip content'
+            popover-placement='bottom'
+            popover-title='Simple Header'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
       });
-      it('should display html in popover', function(){
-        var popoverContent = document.querySelector(POPOVER_CONTENT);
-        expect(popoverContent.textContent).toContain('HTML contentParagraph');
+      it('should render all parts', function() {
+        let popoverHeader = utilities.findElement(this.el.parent(), POPOVER_HEADER);
+        let popoverContent = utilities.findElement(this.el.parent(), POPOVER_CONTENT);
+
+        expect(popoverHeader.text()).toContain('Simple Header');
+        expect(popoverContent.text()).toContain('tool tip content');
       });
     });
-  });
-  describe('given a rendered popover', function() {
-    describe('when popover-content changes', function(){
-      beforeEach(function(){
-        scope.popoverContent = 'Popover content';
-        scope.translateMe = function() {
-          scope.popoverContent = 'components.popover.label';
-        };
-        var markup = '<span id="trigger-element" akam-popover position="top" popover-content="{{popoverContent}}" ng-click="translateMe()" trigger="hover">Hover Here</span>';
-        addElement(markup);
-        timeout.flush();
-      });
-      it('should have initial value of popoverContent before value is changed', function(){
-        utilities.mouseHover('#trigger-element');
-        timeout.flush();
-        var popover = document.querySelector(POPOVER_CONTENT);
+    describe('when rendering', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='tool tip content'
+            popover-placement='bottom'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
 
-        expect(popover.innerHTML).toBe('Popover content');
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
       });
-      it('should translate and update value of popoverContent after value is changed', function(){
-        utilities.click('#trigger-element');
-        utilities.mouseHover('#trigger-element');
+      it('should be able to render without title', function() {
+        let popoverHeader = utilities.findElement(this.el.parent(), POPOVER_HEADER);
+        let popoverContent = utilities.findElement(this.el.parent(), POPOVER_CONTENT);
 
-        var popover = document.querySelector(POPOVER_CONTENT);
-        expect(popover.innerHTML).toBe('Popover Label');
+        expect(popoverHeader).toEqual({});
+        expect(popoverContent.text()).toContain('tool tip content');
+      });
+    });
+    describe('when rendering', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-placement='bottom'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should be able to render trusted HTML markup', function() {
+        let popoverContent = utilities.findElement(this.el.parent(), POPOVER_CONTENT);
+        expect(popoverContent.text()).toEqual('HTML content');
+      });
+    });
+    describe('when rendering', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-placement='top'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should be able to render on the top', function() {
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover.hasClass('top')).toBe(true);
+      });
+    });
+    describe('when rendering', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-placement='left'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should be able to render on the left', function() {
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover.hasClass('left')).toBe(true);
+      });
+    });
+    describe('when rendering', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-placement='right'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should be able to render on the right', function() {
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover.hasClass('right')).toBe(true);
+      });
+    });
+    describe('when rendering', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-placement='bottom'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should be able to render on the bottom', function() {
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover.hasClass('bottom')).toBe(true);
+      });
+    });
+    describe('when rendered', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-placement='bottom'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+      });
+      it('should open on trigger element click', function(){
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover.hasClass('in')).toBe(true);
+      });
+      it('should close popover on trigger element click', function(){
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover).toEqual({});
+      });
+      it('should close on click away', function(){
+        let trigger = utilities.findElement(this.el.parent(), '#trigger-element');
+        trigger.triggerHandler('click');
+
+        utilities.clickAwayCreationAndClick('div');
+        this.$scope.$digest();
+        this.$timeout.flush();
+
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover).toEqual({});
+      });
+    });
+    describe('when passing invalid values', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-placement='mamamiya'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should render on top when position is invalid', function() {
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+
+        expect(popover.hasClass('top')).toBe(false);
+        expect(popover.hasClass('right')).toBe(false);
+        expect(popover.hasClass('left')).toBe(false);
+        expect(popover.hasClass('bottom')).toBe(false);
+      });
+    });
+    describe('when passing invalid values', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should render on top when position is not provided', function() {
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+
+        expect(popover.hasClass('top')).toBe(true);
+      });
+    });
+    describe('when trigger is mouse enter', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='<h1>HTML content</h1>'
+            popover-trigger='mouseenter'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+      });
+      it('should show on mouseenter', function() {
+        this.el.triggerHandler('mouseenter');
+        this.$timeout.flush();
+
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover.hasClass('in')).toBe(true);
+      });
+      it('shoud hide on mouseleave', function() {
+        this.el.triggerHandler('mouseenter');
+        this.$timeout.flush();
+
+        this.el.triggerHandler('mouseleave');
+        this.$timeout.flush();
+
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover).toEqual({});
+      });
+      it('should remain open when hovering over popover', function() {
+        let popover;
+        this.el.triggerHandler('mouseenter');
+        this.$timeout.flush();
+        this.el.triggerHandler('mouseleave');
+
+        popover = utilities.findElement(this.el.parent(), POPOVER);
+        popover.triggerHandler('mouseenter');
+
+        popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover.hasClass('in')).toBe(true);
+      });
+      it('should close after hovering out of popover', function() {
+        let popover;
+        this.el.triggerHandler('mouseenter');
+        this.el.triggerHandler('mouseleave');
+
+        popover = utilities.findElement(this.el.parent(), POPOVER);
+        popover.triggerHandler('mouseenter');
+        popover.triggerHandler('mouseleave');
+        this.$timeout.flush();
+
+        popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover).toEqual({});
+      });
+    });
+    describe('when popover contains translation key', function() {
+      beforeEach(function() {
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover='components.popover.label'
+            popover-placement='bottom'
+            popover-trigger='click'>
+            Clicky for Bottom Right Side
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should translate content', function() {
+        let popover = utilities.findElement(this.el.parent(), POPOVER_CONTENT);
+        expect(popover.text()).toEqual('Popover Label');
       });
     });
   });
