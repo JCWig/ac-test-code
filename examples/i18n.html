@@ -94,10 +94,11 @@
     <label class=label>Check browser console for Javascript translations examples using the translate service.</label>
   </div>
 </div>
+<script src="utils/cookies.js"></script>
 <script src="../dist/akamai-core.js"></script>
 <script>
 
-  var controllerFunction = function($scope, $cookies, $translate, $rootScope, $filter, $log) {
+  var controllerFunction = function($scope, $cookies, $translate, $rootScope, $filter, $log, $window) {
     if (!$cookies.get('AKALOCALE')) {
       $cookies.put('AKALOCALE', 'en_US');
     }
@@ -121,25 +122,33 @@
     // Reload the page when the locale is changed.  This will force the lookup of the keys again.
     function changeLocale() {
       $cookies.put('AKALOCALE', $scope.selected);
-      $translate.use($scope.selected);
-      $log.log('the proposed locale', $translate.proposedLanguage());
+//      $translate.use($scope.selected);
+//      $log.log('the proposed locale', $translate.proposedLanguage());
+      $window.location.reload();
     }
   };
   controllerFunction.$inject = ['$scope', '$cookies', '$translate',
-      '$rootScope', '$filter', '$log'];
+      '$rootScope', '$filter', '$log', '$window'];
 
-  function configFunction($translatePartialLoaderProvider, VERSION) {
+  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                          i18nLocaleProvider) {
 
-    // need to overwrite locales path on fee.akamai.com
-    if (window.location.host == 'fee.akamai.com') {
-      $translatePartialLoaderProvider.addPart('../dist/locales/');
-      $translatePartialLoaderProvider.addPart('locales/json/messages/');
-    } else {
-      $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-    }
+      // need to overwrite locales path on fee.akamai.com
+      if (window.location.host == 'fee.akamai.com') {
+          $translatePartialLoaderProvider.addPart('../dist/locales/');
+          $translatePartialLoaderProvider.addPart('locales/json/messages/');
+      } else {
+          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      }
+
+      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+      $translateProvider.preferredLanguage(locale);
+      i18nLocaleProvider.setLocale(locale);
   }
-  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+      '$translateProvider', 'i18nLocaleProvider'];
 
   angular.module('i18nDemo3', ['akamai.components.constants', 'akamai.components.i18n']);
 
