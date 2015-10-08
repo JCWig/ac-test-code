@@ -4,7 +4,6 @@
 
     <h3 class="modal-title">{{ wizard.title }}</h3>
     <i class="close-icon" ng-click="!wizard.processing && wizard.close()" ng-class="{'disabled': wizard.processing}"></i>
-
     <div class="akam-status-message-wrapper" ng-if='wizard.errorMessage'>
       <div class="akam-status-message-item-wrapper" ng-class="{'error': wizard.errorMessage}">
         <div class="akam-status-message-item">
@@ -27,11 +26,11 @@
   <akam-wizard-content></akam-wizard-content>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-large pull-left cancel-button" ng-click="wizard.instance.dismiss()">
+    <button type="button" class="btn btn-large pull-left cancel-button" ng-click="wizard.instance.dismiss()" ng-disabled="wizard.processing">
       {{ ::wizard.cancelLabel }}
     </button>
 
-    <button type="button" class="btn btn-large previous-button" ng-click="wizard.previousStep()" ng-disabled="wizard.stepIndex == 0">
+    <button type="button" class="btn btn-large previous-button" ng-click="wizard.previousStep()" ng-disabled="wizard.stepIndex == 0 || wizard.processing">
       {{ ::wizard.previousLabel }}
     </button>
 
