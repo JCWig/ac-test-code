@@ -642,10 +642,10 @@ describe('akamai.components.date-range', function() {
         it("should render end date element with placeholder element", function() {
           expect(dateFieldElems[1].classList.contains("date-range-placeholder")).toBe(true);
         });
-        it("should render end date element with placeholder element", function() {
+        it("should start date with placeholder element contain 'util-ellipsis' class", function() {
           expect(dateFieldElems[0].classList.contains("util-ellipsis")).toBe(true);
         });
-        it("should render end date element with placeholder element", function() {
+        it("should end date with placeholder element contain 'util-ellipsis' class", function() {
           expect(dateFieldElems[1].classList.contains("util-ellipsis")).toBe(true);
         });
         it("should dateRange controller rangeStart.selectedValue match initial value", function() {

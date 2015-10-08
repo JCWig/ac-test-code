@@ -1,4 +1,5 @@
 import angular from 'angular';
+import i18n from '../i18n';
 import angularBootstrapNpm from 'angular-bootstrap-npm';
 import timepickerDecorator from './timepicker-decorator';
 import timepickerDirective from './time-picker-directive';
@@ -28,7 +29,8 @@ import timepickerFormatter from './time-formatter-directive';
  *
  */
 export default angular.module('akamai.components.time-picker', [
-  angularBootstrapNpm
+  angularBootstrapNpm,
+  i18n.name
 ])
 
   // decorator for incepting Angular UI time picker to use our custom template
