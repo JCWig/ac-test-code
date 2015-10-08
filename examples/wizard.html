@@ -144,7 +144,25 @@
             liquorice halvah macaroon bear claw. Pudding cupcake wafer sesame snaps oat cake halvah
             jelly beans donut topping. Marshmallow pudding jujubes tootsie roll. Danish chocolate
             cake fruitcake. Bear claw apple pie sesame snaps cake sugar plum.
+            <br />
+            <br />
+            <b>Example of dropdown in a wizard.  Choose a value to continue on:</b>
+            <br />
+             <akam-dropdown ng-model="selectedState" clearable
+                items="[
+                'Colorado',
+                'Connecticut',
+                'Maryland',
+                'Massachusetts',
+                'New Hampshire',
+                'New Jersey',
+                'New York',
+                'Vermont',
+                'Virginia',
+                'Washington, District of Columbia']" ></akam-dropdown>
         </p>
+        <br />
+        <br />
         <p>
             Danish gummi bears chupa chups gummies caramels liquorice jelly beans jujubes. Cotton
             candy gummi bears jelly jelly-o toffee cheesecake. Lemon drops wafer soufflé gummies
@@ -168,7 +186,8 @@
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('wizardApp', ['akamai.components.constants','akamai.components.wizard', 'akamai.components.indeterminate-progress'])
+        angular.module('wizardApp', ['akamai.components.constants','akamai.components.wizard', 'akamai.components.dropdown',
+                                     'akamai.components.menu-button', 'akamai.components.indeterminate-progress'])
                 .controller('WizardAppController', WizardAppController)
                 .config(configFunction);
 
@@ -202,6 +221,7 @@
             };
 
             vm.launchWizard = function() {
+       
                 wizard.open({
                     scope: wizardScope,
                     controller: WizardController,
@@ -234,8 +254,10 @@
                         {
                             name: $translate.instant('examples.wizard.step4'),
                             templateId: 'step4',
+                    
                             validate: function(scope) {
-                                return true;
+                                $log.log('selected state', scope.selectedState);
+                                return scope.selectedState !=null;
                             }
                         },
                         {
