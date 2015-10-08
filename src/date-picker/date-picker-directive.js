@@ -106,14 +106,14 @@ function linkFn(scope, element, attrs, ngModel) {
       selected = DatepickerController.getDateOnly(ctrl.value),
       toReset = false;
 
-    if (max.getTime() < selected.getTime()) {
+    if (max.getTime() < selected.getTime() || !ctrl.value) {
       scope.clearDate();
       toReset = true;
     }
 
-    if (angular.isDate(new Date(newValue))) {
+    if (angular.isDate(max)) {
       scope.$broadcast('datepicker.updateMaxDate', {
-        maxDate: new Date(newValue),
+        maxDate: max,
         reset: toReset
       });
     }
@@ -128,12 +128,12 @@ function linkFn(scope, element, attrs, ngModel) {
       selected = DatepickerController.getDateOnly(ctrl.value),
       toReset = false;
 
-    if (min.getTime() > selected.getTime()) {
+    if (min.getTime() > selected.getTime() || !ctrl.value) {
       scope.clearDate();
       toReset = true;
     }
 
-    if (angular.isDate(new Date(newValue))) {
+    if (angular.isDate(min)) {
       scope.$broadcast('datepicker.updateMinDate', {
         minDate: min,
         reset: toReset
