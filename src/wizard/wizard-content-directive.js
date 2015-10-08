@@ -25,20 +25,13 @@ function wizardContent($compile, $templateCache, $http, $q) {
             return;
           }
 
+          content = angular.isUndefined(content) ?
+            '<akam-indeterminate-progress></akam-indeterminate-progress>' : content;
+
           let modalBodyElem = element.children(0);
-          let compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
-
-          if (!compiledTemplate) {
-            content = angular.isUndefined(content) ?
-              '<akam-indeterminate-progress></akam-indeterminate-progress>' : content;
-
-            scope.wizard.steps[stepIndex].compiledTemplate =
-              $compile(backwashTemplate + content)(scope.wizard.contentScope);
-            compiledTemplate = scope.wizard.steps[stepIndex].compiledTemplate;
-          }
 
           modalBodyElem.empty();
-          modalBodyElem.append(compiledTemplate);
+          modalBodyElem.append($compile(backwashTemplate + content)(scope.wizard.contentScope));
         })
       );
     }
