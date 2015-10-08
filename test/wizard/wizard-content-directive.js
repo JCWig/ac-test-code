@@ -55,11 +55,6 @@ describe('akamai.components.wizard', function() {
       it('should render the inline template', function() {
         expect(document.querySelector('.modal-body span').textContent).toBe('Hello bar');
       });
-      it('should render cache the compiled template in the step object', function() {
-        let modalBody = angular.element(document.querySelector('.modal-body'));
-
-        expect(modalBody.scope().wizard.steps[0].compiledTemplate).toBeDefined();
-      });
     });
     describe('when wizard processing', function() {
       beforeEach(function() {
