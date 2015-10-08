@@ -791,4 +791,64 @@ describe('akam-date-picker', function() {
       });
     });
   });
+
+  function setMinMaxSpecValues(value, type) {
+    let date = new Date();
+    scope.min = new Date(date.setDate(5));
+    scope.max = new Date(date.setDate(10));
+    let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}"></akam-date-picker>`;
+    addElement(markup);
+    spyOn(self.isoScope, 'clearDate');
+    utilities.click(TOGGLE_DATE_PICKER_BUTTON);
+    var btnElem = getDateButtonParentElement(utilities.generateDate(8)).querySelector('button');
+    utilities.click(btnElem);
+    scope.$digest();
+
+    if (type === 'min') {
+      scope.min = new Date(date.setDate(value));
+    } else if (type === 'max') {
+      scope.max = new Date(date.setDate(value));
+    }
+    scope.$digest();
+  }
+
+  describe("given datepicker open", function() {
+    describe("when select no date", function() {
+      describe("change min date that less than current min date", function() {
+        beforeEach(function() {
+          let date = new Date();
+          scope.min = new Date(date.setDate(5));
+          scope.max = new Date(date.setDate(10));
+          let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}"></akam-date-picker>`;
+          addElement(markup);
+          spyOn(self.isoScope, 'clearDate');
+          scope.min = new Date(date.setDate(4));
+          scope.$digest();
+        });
+        it("the clearDate function will be called ", function() {
+          expect(self.isoScope.clearDate).toHaveBeenCalled;
+        });
+      });
+    });
+  });
+
+  describe("given datepicker open", function() {
+    describe("when select no date", function() {
+      describe("change max date that greater than current max date", function() {
+        beforeEach(function() {
+          let date = new Date();
+          scope.min = new Date(date.setDate(5));
+          scope.max = new Date(date.setDate(10));
+          let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}"></akam-date-picker>`;
+          addElement(markup);
+          spyOn(self.isoScope, 'clearDate');
+          scope.max = new Date(date.setDate(11));
+          scope.$digest();
+        });
+        it("the clearDate function will be called ", function() {
+          expect(self.isoScope.clearDate).toHaveBeenCalled;
+        });
+      });
+    });
+  });
 });
