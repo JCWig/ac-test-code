@@ -434,7 +434,7 @@ describe('akamai.components.autocomplete', function() {
       });
 
       it('should show the menu', function() {
-        expect(ctrl.isOpen).toBe(true);
+        expect(util.findElement(this.el, '.dropdown').prop('classList')).toContain('open');
       });
     });
 

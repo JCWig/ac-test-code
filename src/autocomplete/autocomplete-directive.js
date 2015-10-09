@@ -35,6 +35,7 @@ class AutocompleteController extends DropdownController {
 
   initialize(elem, attrs, ngModel) {
     super.initialize(elem, attrs, ngModel);
+    this.dropdownElem = elem.children(0);
     this.initialSearch();
     this.searchInput = elem[0].querySelector('input.autocomplete-search');
   }
@@ -67,7 +68,7 @@ class AutocompleteController extends DropdownController {
   search() {
     if (this.minimumSearch &&
       (this.searchTerm.length < this.minimumSearch || !this.searchTerm.length)) {
-      this.isOpen = false;
+      this.dropdownElem.removeClass('open');
       return;
     }
 
@@ -75,7 +76,7 @@ class AutocompleteController extends DropdownController {
 
     if (angular.isArray(searchResult)) {
       this.items = searchResult;
-      this.isOpen = true;
+      this.dropdownElem.addClass('open');
     } else if (angular.isFunction(searchResult.then)) {
       searchResult.then((resultItems) => {
         this.items = resultItems;
@@ -92,6 +93,8 @@ class AutocompleteController extends DropdownController {
   blurSearch() {
     this.searchShown = false;
     this.searchTerm = '';
+    this.dropdownElem.removeClass('open');
+    this.isOpen = false;
   }
 }
 
