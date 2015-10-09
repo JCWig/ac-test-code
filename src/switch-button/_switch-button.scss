@@ -6,13 +6,16 @@ $disabled-border: 1px solid $off-white;
 $box-shadow-opacity: rgba(0, 0, 0, 0.12);
 $toggle-gradient-top: #fff;
 
+akam-switch-button {
+  display: inline-block;
+}
 
 .switch-button {
   min-width: 90px;
   display: inline-block;
   cursor: pointer;
   text-align: center;
-  line-height: 8px;
+  vertical-align: top;
   overflow: hidden;
   border-radius: $border-radius;
   border: $enabled-border;
@@ -28,7 +31,6 @@ $toggle-gradient-top: #fff;
       width: 33.3333%;
       padding-top: 3px;
       padding-bottom: 3px;
-      line-height: 16px;
       display: inline-block;
       font-size: 12px;
     }
