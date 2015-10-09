@@ -73,8 +73,12 @@ export default class DropdownController {
     this.menu.render();
   }
 
+  hasSelectedItem() {
+    return this.selectedItem || this.selectedItem === 0 ? true : false;
+  }
+
   getSelectedItemText() {
-    if (this.keyProperty && this.selectedItem) {
+    if (this.keyProperty && this.hasSelectedItem()) {
       return this.textPropertyFn(this.itemSet[this.selectedItem]);
     } else if (this.textProperty) {
       return this.textPropertyFn(this.selectedItem);
