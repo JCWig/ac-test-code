@@ -111,7 +111,6 @@ class WizardController {
     let step = angular.isNumber(stepNumber) ? this.steps[stepNumber] : this.currentStep();
 
     if (!step) {
-      this.$log.warn('No step to validate');
       return false;
     }
 
