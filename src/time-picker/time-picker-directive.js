@@ -48,7 +48,7 @@ function linkFn(scope, element, attrs, ngModel) {
   };
 
   element.on('input', () => {
-    scope.$apply('timepicker.changed()');
+    ctrl.changed();
   });
 
   ctrl.changed = () => {
@@ -59,15 +59,8 @@ function linkFn(scope, element, attrs, ngModel) {
   ctrl.disabled = ctrl.disabled === true || attrs.isDisabled === 'disabled';
   ctrl.disableMinutes = ctrl.disableMinutes === true || attrs.disableMinutes === 'disabled';
 
-  ctrl.minuteStep = timepickerConfig.MINUTE_STEP;
-  ctrl.$parse(attrs.minuteStep, (value) => {
-    ctrl.minuteStep = parseInt(value, 10);
-  });
-
-  ctrl.hourStep = timepickerConfig.HOUR_STEP;
-  ctrl.$parse(attrs.hourStep, (value) => {
-    ctrl.hourStep = parseInt(value, 10);
-  });
+  ctrl.minuteStep = ctrl.minuteStep ? ctrl.minuteStep : timepickerConfig.MINUTE_STEP;
+  ctrl.hourStep = ctrl.hourStep ? ctrl.hourStep : timepickerConfig.HOUR_STEP;
 
   notShowMeridian = ctrl.showMeridian === false ||
     scope.$eval(attrs.showMeridian) === false;

@@ -1,8 +1,8 @@
 'use strict';
 /* globals angular, beforeEach, afterEach, spyOn, jasmine */
-var utilities = require('../utilities');
+let utilities = require('../utilities');
 
-var selectors = {
+let selectors = {
   TIMEPICKER: '.akam-time-picker',
   TIMEPICKER_OPEN: '.akam-time-picker .open',
   TIMEPICKER_INPUT: '.akam-time-picker input',
@@ -11,7 +11,7 @@ var selectors = {
   DROPDOWN_MENU: '.akam-time-picker .dropdown-menu'
 };
 
-var formatterConfig = {
+let formatterConfig = {
   MERIDIAN_ON: 'hh:mm a',
   MERIDIAN_OFF: 'HH:mm',
   TIME_MERIDIAN_REGEX: /^(0?[0-9]|1[0-2]):[0-5][0-9] ?[a|p]m$/i,
@@ -19,101 +19,100 @@ var formatterConfig = {
   APM_REGEX: /[a|p]m/i
 };
 
-var defaultScopeTime = new Date();
-var defaultMarkup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
+let defaultScopeTime = new Date();
+let defaultMarkup = '<akam-time-picker ng-model="inputTime" show-meridian="showMeridian"></akam-time-picker>';
 
 describe('timeFormatter directive', function() {
 
-  var scope, compile, self;
+  let scope, compile, timeout;
 
   beforeEach(function() {
     inject.strictDi(true);
-    self = this;
     angular.mock.module(require('../../src/time-picker').name);
-    inject(function($compile, $rootScope) {
+    inject(function($compile, $rootScope, $timeout) {
       scope = $rootScope.$new();
       compile = $compile;
+      timeout = $timeout;
     });
-
   });
 
   afterEach(function() {
-    if (self.element) {
-      document.body.removeChild(self.element);
-      self.element = null;
+    if (this.element) {
+      document.body.removeChild(this.element);
+      this.element = null;
     }
   });
 
   function addElement(markup) {
-    var tpl;
+    let tpl;
     if (markup) {
       tpl = markup;
     } else {
       tpl = defaultMarkup;
     }
     tpl = '<div><form name="form">' + tpl + '</form></div>';
-    self.el = compile(tpl)(scope);
-    self.timepickerElem = self.el.find("akam-time-picker");
-    self.isolateScope = self.timepickerElem.isolateScope();
-    self.timepicker = self.timepickerElem.isolateScope().timepicker;
+    this.el = compile(tpl)(scope);
+    this.timepickerElem = this.el.find("akam-time-picker");
+    this.isolateScope = this.timepickerElem.isolateScope();
+    this.timepicker = this.isolateScope.timepicker;
     scope.$digest();
 
-    self.element = document.body.appendChild(self.el[0]);
+    this.element = document.body.appendChild(this.el[0]);
+    this.formatterScope = angular.element(this.element.querySelector("input")).isolateScope();
+    this.formatter = this.formatterScope.timepickerFormatter;
   };
 
   describe("when rendering", function() {
     it("should have time-picker-formmater attribute defined", function() {
       scope.inputTime = defaultScopeTime;
-      addElement();
+      addElement.call(this);
 
-      var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+      let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
       expect(timepickerInputElem.getAttribute("time-formmater")).toBeDefined();
-
     });
 
     it('has initially the correct time & meridian is on', function() {
-      var date = new Date();
+      let date = new Date();
       date.setHours("13", "20");
       scope.inputTime = date;
       scope.showMeridian = true;
-      addElement();
+      addElement.call(this);
 
-      var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+      let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
 
       expect(timepickerInputElem.value).toBe("01:20 PM");
-      expect(self.timepicker.showMeridian).toBeTruthy();
+      expect(this.timepicker.showMeridian).toBeTruthy();
     });
 
     it('has initially the correct time & meridian is off', function() {
-      var date = new Date();
+      let date = new Date();
       date.setHours("13", "20");
       scope.inputTime = date;
       scope.showMeridian = false;
-      addElement();
+      addElement.call(this);
 
-      var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+      let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
 
       expect(timepickerInputElem.value).toBe("13:20");
-      expect(self.timepicker.showMeridian).toBeFalsy();
+      expect(this.timepicker.showMeridian).toBeFalsy();
     });
 
     describe("validate input state...", function() {
 
       it("empty field should not be valid state", function() {
         scope.inputTime = "";
-        addElement();
-        var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+        addElement.call(this);
+        let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
 
         expect(timepickerInputElem.classList.contains("ng-invalid")).toBeTruthy();
         expect(timepickerInputElem.classList.contains("ng-invalid-time")).toBeTruthy();
-
       });
 
       it("any character should make input validation state invaid", function() {
         scope.inputTime = "abc";
 
-        addElement();
-        var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+        addElement.call(this);
+        let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
 
         expect(timepickerInputElem.classList.contains("ng-invalid")).toBeTruthy();
         expect(timepickerInputElem.classList.contains("ng-invalid-time")).toBeTruthy();
@@ -121,8 +120,8 @@ describe('timeFormatter directive', function() {
 
       it("any date type will be valid", function() {
         scope.inputTime = new Date();
-        addElement();
-        var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+        addElement.call(this);
+        let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
 
         expect(timepickerInputElem.classList.contains("ng-valid")).toBeTruthy();
         expect(timepickerInputElem.classList.contains("ng-valid-time")).toBeTruthy();
@@ -130,8 +129,8 @@ describe('timeFormatter directive', function() {
 
       it("any number type will be invalid", function() {
         scope.inputTime = 20;
-        addElement();
-        var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+        addElement.call(this);
+        let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
 
         expect(timepickerInputElem.classList.contains("ng-invalid")).toBeTruthy();
         expect(timepickerInputElem.classList.contains("ng-invalid-time")).toBeTruthy();
@@ -139,10 +138,10 @@ describe('timeFormatter directive', function() {
 
       it("time regex needs to be matched to be valid ", function() {
         scope.inputTime = "111:20 am";
-        var matched = scope.inputTime.match(formatterConfig.TIME_MERIDIAN_REGEX);
-        addElement();
+        let matched = scope.inputTime.match(formatterConfig.TIME_MERIDIAN_REGEX);
+        addElement.call(this);
 
-        var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+        let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
 
         expect(timepickerInputElem.classList.contains("ng-invalid")).toEqual(matched === null);
         expect(timepickerInputElem.classList.contains("ng-invalid-time")).toEqual(matched === null);
@@ -162,7 +161,6 @@ describe('timeFormatter directive', function() {
 
         expect(timepickerInputElem.classList.contains("ng-valid")).toEqual(matched.length > 0);
         expect(timepickerInputElem.classList.contains("ng-valid-time")).toEqual(matched.length > 0);
-
       });
     });
     describe('when minute selector is disabled', function() {
@@ -171,38 +169,38 @@ describe('timeFormatter directive', function() {
         scope.timepicker.inputTime = new Date();
         scope.disableMinutes = true;
         scope.showMeridian = true;
-        var markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
-        addElement(markeup);
+        let markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
+        addElement.call(this, markeup);
       });
-      it('should disable minute up arrow in popup', function(){
-        var upArrow = self.element.querySelector('.time-increment-row .minute a i');
+      it('should disable minute up arrow in popup', function() {
+        let upArrow = this.element.querySelector('.time-increment-row .minute a i');
         expect(upArrow.getAttribute('disabled')).toBeDefined();
       });
-      it('should disable minute down arrow in popup', function(){
-        var downArrow = self.element.querySelector('.time-decrement-row .minute a i');
+      it('should disable minute down arrow in popup', function() {
+        let downArrow = this.element.querySelector('.time-decrement-row .minute a i');
         expect(downArrow.getAttribute('disabled')).toBeDefined();
       });
       it('should disable minute input in popup', function() {
-        var minInput = self.element.querySelector('.minute input');
+        let minInput = this.element.querySelector('.minute input');
         expect(minInput.getAttribute('disabled')).toBeDefined();
       });
-      it('should change inputTime minutes to 0', function(){
+      it('should change inputTime minutes to 0', function() {
         expect(scope.timepicker.inputTime.getMinutes()).toBe(0);
       });
-      describe('when timepicker input field is changed', function(){
+      describe('when timepicker input field is changed', function() {
         beforeEach(function() {
           scope.timepicker = [];
           scope.timepicker.inputTime = new Date();
           scope.disableMinutes = true;
           scope.showMeridian = true;
-          var markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
-          addElement(markeup);
+          let markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
+          addElement.call(this, markeup);
         });
-        it('should invalidate input if minute is not 0', function(){
-          var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+        it('should invalidate input if minute is not 0', function() {
+          let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
           timepickerInputElem.value = '11:11 PM';
           angular.element(timepickerInputElem).triggerHandler('change');
-          self.timepicker.changed();
+          this.timepicker.changed();
           scope.$digest();
 
           expect(timepickerInputElem.classList.contains('ng-invalid')).toBeTruthy();
@@ -216,19 +214,19 @@ describe('timeFormatter directive', function() {
           scope.timepicker.inputTime = new Date();
           scope.disableMinutes = true;
           scope.showMeridian = true;
-          var markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
+          let markeup = '<akam-time-picker ng-model="timepicker.inputTime" is-minute-disabled="disableMinutes" show-meridian="vm.showMeridian">';
 
-          addElement(markeup);
+          addElement.call(this, markeup);
 
-          var timepickerInputElem = self.element.querySelector(selectors.TIMEPICKER_INPUT);
+          let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
           timepickerInputElem.value = '01:15 PM';
           angular.element(timepickerInputElem).triggerHandler('change');
-          self.timepicker.changed();
+          this.timepicker.changed();
           scope.$digest();
         });
         describe('when clicking on hour up arrow', function() {
           it('should set inputTime minute to 0', function() {
-            let upArrow = self.element.querySelector('.akam-time-picker .dropdown-menu .hour-up-btn');
+            let upArrow = this.element.querySelector('.akam-time-picker .dropdown-menu .hour-up-btn');
 
             expect(scope.timepicker.inputTime).toBe(undefined);
             utilities.click(upArrow);
@@ -237,12 +235,74 @@ describe('timeFormatter directive', function() {
         });
         describe('when clicking on hour down arrow', function() {
           it('should set inputTime minute to 0', function() {
-            let downArrow = self.element.querySelector('.akam-time-picker .dropdown-menu .hour-down-btn');
+            let downArrow = this.element.querySelector('.akam-time-picker .dropdown-menu .hour-down-btn');
 
             expect(scope.timepicker.inputTime).toBe(undefined);
             utilities.click(downArrow);
             expect(scope.timepicker.inputTime.getMinutes()).toBe(0);
           });
+        });
+      });
+    });
+  });
+  describe('When timepicker rendered', function() {
+    describe('given new minuteStep value and not number', function() {
+      beforeEach(function() {
+        scope.inputTime = new Date();
+        addElement.call(this);
+        this.formatter.minuteStep = "abc";
+        scope.$digest();
+      });
+      it('minuteStep value should default to 15', function() {
+        expect(this.formatter.minuteStep).toBe(15);
+      })
+    });
+  });
+
+  describe('When timepicker rendered', function() {
+    describe('given new hourStep value and not number', function() {
+      beforeEach(function() {
+        scope.inputTime = new Date();
+        addElement.call(this);
+        this.formatter.hourStep = "abc";
+        scope.$digest();
+      });
+      it('hourStep value should default to 1', function() {
+        expect(this.formatter.hourStep).toBe(1);
+      });
+    });
+  });
+
+  describe('When timepicker rendered', function() {
+    describe('given valid time string and scope not initialized', function() {
+      describe('verify scope static function parse', function() {
+        beforeEach(function() {
+          scope.inputTime = '12:15 PM';
+          addElement.call(this);
+          spyOn(this.formatter.constructor, 'parse').and.callThrough();
+          scope.inputTime = '12:15 AM';
+          scope.$digest();
+        });
+        it('parse method called', function() {
+          expect(this.formatter.constructor.parse).toHaveBeenCalled()
+        });
+      });
+    });
+  });
+
+  describe('When timepicker rendered', function() {
+    describe('given invalid time and scope already initialized  ', function() {
+      describe('verify scope static function parse ', function() {
+        beforeEach(function() {
+          scope.inputTime = '12:15 PM';
+          addElement.call(this);
+          timeout.flush();
+          spyOn(this.formatter.constructor, 'parse').and.callThrough();
+          scope.inputTime = undefined;
+          scope.$digest();
+        });
+        it('parse method not called', function() {
+          expect(this.formatter.constructor.parse).not.toHaveBeenCalled()
         });
       });
     });
