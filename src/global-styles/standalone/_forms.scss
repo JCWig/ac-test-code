@@ -32,10 +32,6 @@ label {
       word-wrap: break-word;
     }
     
-    label:not(.long-label) {
-      line-height: 28px;
-    }
-    
     .radio-inline,
     .checkbox-inline,
     .radio,
@@ -48,7 +44,6 @@ label {
       
       label {
         padding-left: 0;
-        line-height: 1;
       }
     }
     
