@@ -7,6 +7,7 @@ var _ = require('lodash');
 const CANCEL_BUTTON_SELECTOR = 'div.modal-footer > button.cancel-button';
 const PREVIOUS_BUTTON_SELECTOR = 'div.modal-footer > button.previous-button';
 const NEXT_BUTTON_SELECTOR = 'div.modal-footer > button.next-button';
+const PREV_BUTTON_SELECTOR = 'div.modal-footer > button.previous-button';
 
 describe('akamai.components.wizard', function() {
   var $scope, $compile, wizard, steps, submitFunction, $q, timeout;
@@ -553,6 +554,7 @@ describe('akamai.components.wizard', function() {
         $scope.$digest();
 
         util.click(document.querySelector(CANCEL_BUTTON_SELECTOR));
+
       });
 
       it('should destroy the provided scope', function() {
@@ -560,5 +562,28 @@ describe('akamai.components.wizard', function() {
       });
     });
   });
-});
 
+  describe('given in submission state', () => {
+    describe('when wizard is in processing', () => {
+      let prevButton, cancelButton;
+      beforeEach(() => {
+        let wizardScope = $scope.$new();
+        wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller1'});
+        $scope.$digest();
+
+        let wizardContrller = angular.element(document.querySelector('div.modal-footer')).scope().wizard;
+        wizardContrller.processing = true;
+        $scope.$digest();
+
+        prevButton = document.querySelector(PREV_BUTTON_SELECTOR);
+        cancelButton = document.querySelector(CANCEL_BUTTON_SELECTOR);
+      });
+      it('should disable the previous button', () => {
+        expect(prevButton.disabled).toBe(true);
+      });
+      it('should disable the cancel button', () => {
+        expect(cancelButton.disabled).toBe(true);
+      });
+    });
+  });
+});
