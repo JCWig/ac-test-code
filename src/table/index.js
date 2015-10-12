@@ -117,6 +117,9 @@ module.exports = angular.module('akamai.components.table', [
  * @param {String} [no-filter-results-message] Optional string which is the message that will be
  * displayed when there is no data displayed based upon some filter
  *
+ * @param {String} [default-sort] Optional attribute for akam-table-column for that column to be
+ * initially sorted and ordered by its string value, if used as default-sort='desc', then initial
+ * sorted column will be in descending order, otherwise, it will be always ascending order.
  */
   .directive('akamTable', tableDirective)
 

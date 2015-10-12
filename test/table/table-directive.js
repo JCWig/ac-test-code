@@ -313,9 +313,43 @@ describe('akam-table', function() {
         var tableController = self.el.isolateScope().table;
         expect(tableController.state.filter).toEqual('');
       });
-      it('should reset sort state to default', function(){
+      it('should first_name column be initially sorted ', function(){
         var columnTwoHeader = document.querySelector('.id');
-        expect(columnTwoHeader.classList).not.toContain('asc');
+        expect(columnTwoHeader.classList).toContain('column-sorted');
+      });
+      it('should first_name column be initially sorted in ascending order', function(){
+        var columnTwoHeader = document.querySelector('.id');
+        expect(columnTwoHeader.classList).toContain('asc');
+      });
+    });
+  });
+  describe('given a default-sort attribute with "desc" value', function(){
+    describe('when the table is rendered and has data', function(){
+      var columnHeader;
+      beforeEach(function(){
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+          '<akam-table-row>'+
+          '<akam-table-column class="name" default-sort="desc" row-property="first_name" header-name="{{columns.first_name}}">'+
+          '</akam-table-column>'+
+          '<akam-table-column class="id" row-property="id" header-name="{{columns.id}}">'+
+          '</akam-table-column>'+
+          '<akam-table-column class="generic" row-property="generic" header-name="{{columns.generic}}">'+
+          '</akam-table-column>'+
+          '<akam-table-column class="color" row-property="color"  header-name="{{columns.color}}">'+
+          '</akam-table-column>'+
+        '</akam-table-row>'+
+        '</akam-table>'
+        addElement(markup);
+        columnHeader = document.querySelector('.name');
+      });
+      it('should table.state.sortDirection value be "desc"', function(){
+        expect(self.el.isolateScope().table.state.sortDirection).toBe("desc")
+      });
+      it('should header first_name column be initially sorted', function(){
+        expect(columnHeader.classList).toContain("column-sorted")
+      });
+      it('should header first_name column be initially sorted in descending order', function(){
+        expect(columnHeader.classList).toContain("desc")
       });
     });
   });
