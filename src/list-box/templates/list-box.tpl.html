@@ -44,8 +44,8 @@
                             <input type="checkbox"
                                    ng-model="item.selected"
                                    ng-change="listBox.updateChanged(item)"
-                                   id="{{ ::(listBox.tableId + '_item_' + $index )}}">
-                            <label for="{{ ::(listBox.tableId + '_item_' + $index) }}"></label>
+                                   id="{{ ::(listBox.tableId + '_item_' + item.id )}}">
+                            <label for="{{ ::(listBox.tableId + '_item_' + item.id) }}"></label>
                         </td>
                         <td ng-repeat="column in ::listBox.columns track by item.cells[$index].id"
                             ng-class="::listBox.getColumnClasses(column, false, listBox.state)"
