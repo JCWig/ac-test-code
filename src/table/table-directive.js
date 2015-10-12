@@ -187,7 +187,7 @@ class TableController {
     this.pristine = data;
     this.state.pageNumber = 1;
     this.state.filter = '';
-    this.state.sortColumn = defaultSortColumn;
+    this.state.sortColumn = this.state.sortColumn || defaultSortColumn;
     this.applyState();
     return data;
   }
@@ -337,6 +337,9 @@ function tableDirective($log, akamTableTemplate, $compile) {
       if (!angular.isDefined(attributes.notSortable) && !header.hasAttribute('not-sortable') &&
         header.hasAttribute('row-property')) {
         scope.table.state.sortColumn = header.getAttribute('row-property');
+        scope.table.state.sortDirection =
+          header.getAttribute('default-sort') === SORT_DIRECTIONS.desc ?
+          SORT_DIRECTIONS.desc : SORT_DIRECTIONS.asc;
         defaultSortColumn = header.getAttribute('row-property');
       } else {
         $log.debug('Tried to set default sort column as', header.getAttribute('row-property'),
