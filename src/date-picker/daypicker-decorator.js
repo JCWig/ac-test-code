@@ -70,16 +70,16 @@ function daypickerDecorator($provide) {
 
         updateMax = scope.$on('datepicker.updateMaxDate', (e, info) => {
           ctrl.maxDate = info.maxDate;
-          if (info.reset) {
-            ctrl.activeDate = new Date();
+          if (info.reset || ctrl.activeDate.getTime() > ctrl.maxDate.getTime()) {
+            ctrl.activeDate = info.selectedDate || new Date();
           }
           ctrl.refreshView();
         });
 
         updateMin = scope.$on('datepicker.updateMinDate', (e, info) => {
           ctrl.minDate = info.minDate;
-          if (info.reset) {
-            ctrl.activeDate = new Date();
+          if (info.reset || ctrl.activeDate.getTime() < ctrl.minDate.getTime()) {
+            ctrl.activeDate = info.selectedDate || new Date();
           }
           ctrl.refreshView();
         });

@@ -78,10 +78,10 @@ describe('akamai.components.datetime-picker', function() {
         is-disabled="disabled">
       </akam-datetime-picker>`;
 
-      $scope.dt = new Date();
+      $scope.dt = new Date(utilities.getTodaysYear(), 11, 15);
       $scope.format = "EEE, MMM dd, yyyy";
-      $scope.min = "2015-9-1";
-      $scope.max = "2015-9-25";
+      $scope.min = new Date(utilities.getTodaysYear(), 11, 1);
+      $scope.max = new Date(utilities.getTodaysYear() + 1, 11, 31);
       $scope.minuteStep = 15;
       $scope.hourStep = 1;
       $scope.showMeridian = true;
@@ -93,8 +93,8 @@ describe('akamai.components.datetime-picker', function() {
 
     it('should verify directive APIs with values assigned', function() {
       expect(ctrl.format).toBe($scope.format);
-      expect(ctrl.min).toBe($scope.min);
-      expect(ctrl.max).toBe($scope.max);
+      expect(ctrl.min).toEqual($scope.min);
+      expect(ctrl.max).toEqual($scope.max);
       expect(ctrl.minuteStep).toBe($scope.minuteStep);
       expect(ctrl.hourStep).toBe($scope.hourStep);
       expect(ctrl.showMeridian).toBe($scope.showMeridian);
@@ -268,6 +268,46 @@ describe('akamai.components.datetime-picker', function() {
       $scope.$digest();
 
       expect(setDatetimeSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('When interact with datepicker', function() {
+    describe('given datetime.max watch', function() {
+      describe('when change max value dynamically', function() {
+        let setDatetimeSpy, dateButton;
+        beforeEach(function() {
+          let markup = `<akam-datetime-picker ng-model="dt" max="{{max}}"></akam-datetime-picker>`;
+          $scope.dt = new Date(utilities.getTodaysYear(), 11, 15);
+          $scope.max = new Date(utilities.getTodaysYear() + 1, 11, 31);
+
+          addElement.call(this, markup);
+          $scope.max = new Date(utilities.getTodaysYear() + 1, 10, 31);
+          $scope.$digest();
+        });
+        it("should datetimepicker controlller max value change to new max value", function() {
+          expect(this.controller.max).toEqual($scope.max);
+        });
+      });
+    });
+  });
+  describe('When interact with datepicker', function() {
+    describe('given datetime.min watch', function() {
+      describe('when change min value dynamically', function() {
+        let setDatetimeSpy, dateButton;
+        beforeEach(function() {
+          let markup = `<akam-datetime-picker ng-model="dt" min="{{min}}"></akam-datetime-picker>`;
+          $scope.dt = new Date(utilities.getTodaysYear(), 11, 15);
+          $scope.min = new Date(utilities.getTodaysYear(), 11, 1);
+
+          addElement.call(this, markup);
+
+          $scope.min = new Date(utilities.getTodaysYear(), 10, 1);
+          $scope.$digest();
+        });
+        it("should datetimepicker controller min value change to new min value", function() {
+          expect(this.controller.min).toEqual($scope.min);
+        });
+      });
     });
   });
 });

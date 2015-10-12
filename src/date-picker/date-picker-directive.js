@@ -77,8 +77,7 @@ function linkFn(scope, element, attrs, ngModel) {
   }
 
   ngModel.$render = () => {
-    ctrl.value =
-      ctrl.$filter('date')(ngModel.$modelValue, ctrl.format);
+    ctrl.value = ngModel.$modelValue;
   };
 
   scope.change = () => {
@@ -114,6 +113,7 @@ function linkFn(scope, element, attrs, ngModel) {
     if (angular.isDate(max)) {
       scope.$broadcast('datepicker.updateMaxDate', {
         maxDate: max,
+        selectedDate: new Date(ctrl.value),
         reset: toReset
       });
     }
@@ -136,6 +136,7 @@ function linkFn(scope, element, attrs, ngModel) {
     if (angular.isDate(min)) {
       scope.$broadcast('datepicker.updateMinDate', {
         minDate: min,
+        selectedDate: new Date(ctrl.value),
         reset: toReset
       });
     }

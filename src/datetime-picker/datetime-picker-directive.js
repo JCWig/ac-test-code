@@ -1,5 +1,7 @@
 import template from './templates/datetime-picker.tpl.html';
 
+const REGEX = /^"(.+)"$/;
+
 class DatetimePickerController {
   constructor() {
     this.datetimeValue = undefined;
@@ -36,6 +38,30 @@ function LinkFn(scope, elem, attr, ngModel) {
     datetime.time = ngModel.$modelValue;
     datetime.setDatetime(datetime.date, datetime.time);
   };
+
+  scope.$watch('datetime.max', (newValue) => {
+    if (!newValue) {
+      return;
+    }
+    if (angular.isDate(newValue)) {
+      datetime.max = newValue;
+    } else {
+      newValue = newValue.replace(REGEX, '$1');
+      datetime.max = new Date(newValue);
+    }
+  });
+
+  scope.$watch('datetime.min', (newValue) => {
+    if (!newValue) {
+      return;
+    }
+    if (angular.isDate(newValue)) {
+      datetime.min = newValue;
+    } else {
+      newValue = newValue.replace(REGEX, '$1');
+      datetime.min = new Date(newValue);
+    }
+  });
 }
 
 export default () => {
