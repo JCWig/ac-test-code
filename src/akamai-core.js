@@ -1,5 +1,7 @@
 import 'babelify/polyfill';
 import angular from 'angular';
+import sortable from 'sortablejs/ng-sortable';
+
 import uuid from './uuid';
 import i18n from './i18n';
 import indeterminateProgress from './indeterminate-progress';
@@ -45,6 +47,7 @@ import setFocus from './set-focus';
  * We look forward to growing and evolving the component roster.
  */
 angular.module('akamai.components', [
+  sortable,
   uuid.name,
   i18n.name,
   indeterminateProgress.name,
