@@ -276,17 +276,6 @@
     .modal-backdrop {
       background-color: $dialog-mask-color_luna;
     }
-
-    .indeterminate-progress-wrapper {
-      background: $dialog-indeterminate-backdrop-color;
-
-      .indeterminate-progress-spinner {
-        width: $dialog-indeterminate-spinner-dimensions;
-        height: $dialog-indeterminate-spinner-dimensions;
-        top: calc(50% - #{$dialog-indeterminate-spinner-dimensions / 2});
-        left: calc(50% - #{$dialog-indeterminate-spinner-dimensions / 2});
-      }
-    }
   }
 }
 

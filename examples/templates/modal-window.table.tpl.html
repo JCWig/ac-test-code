@@ -1,0 +1,21 @@
+<akam-table items="items" not-filterable not-pageable not-sortable>
+  <akam-table-toolbar>Example of micro used in a table context</akam-table-toolbar>
+
+  <akam-table-row>
+
+    <akam-table-column header-name="Property Version"
+                       row-property="version" class="allow-wrap">
+      <span>Version {{row.version}}</span>
+    </akam-table-column>
+
+    <akam-table-column header-name="Action" class="allow-wrap">
+      <button class="btn btn-default small" ng-click="fakeSubmit(row)" ng-disabled="row.isInProgress">Start</button>
+    </akam-table-column>
+
+    <akam-table-column header-name="Status" class="allow-wrap">
+      <akam-indeterminate-progress size="micro" ng-if="row.isInProgress || row.isSuccess || row.isFailed" success="{{row.isSuccess}}" failed="{{row.isFailed}}"></akam-indeterminate-progress>
+    </akam-table-column>
+
+  </akam-table-row>
+
+</akam-table>
