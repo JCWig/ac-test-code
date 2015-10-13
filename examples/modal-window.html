@@ -41,8 +41,11 @@
                 <br />
                 <br />
                 <div>
-                    <button type="button" class="button large" ng-click="open()">Open</button>
-                    <button type="button" class="button large" ng-click="openWithTemplateUrl()">Open With Template Url</button>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-large" ng-click="open()">Open</button>
+                    <button type="button" class="btn btn-large" ng-click="openWithTemplateUrl()">Open With Template</button>
+                    <button type="button" class="btn btn-large" ng-click="openWithTableTemplateUrl()">Open With Table Template</button>
+                  </div>
                 </div>
             </form>
         </div>
@@ -51,6 +54,30 @@
         <script>
             var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
                 var modalScope = $rootScope.$new();
+                modalScope.items = [
+                  {"id":1,"first_name":"Norma","last_name":"White","email":"nwhite0@japanpost.jp","country":"China","ip_address":"131.46.59.162","boolean":true,"color":"Yellow"},
+                  {"id":2,"first_name":"Amanda","last_name":"Martin","email":"amartin1@unesco.org","country":"Haiti","ip_address":"249.90.111.115","boolean":false,"color":"Blue"},
+                  {"id":3,"first_name":"Gloria","last_name":"Allen","email":"gallen2@reuters.com","country":"Micronesia","ip_address":"233.173.83.45","boolean":false,"color":"Yellow"},
+                  {"id":4,"first_name":"Bobby","last_name":"Montgomery","email":"bmontgomery3@msn.com","country":"Gabon","ip_address":"16.173.58.169","boolean":true,"color":"Blue"},
+                  {"id":5,"first_name":"Charles","last_name":"Reyes","email":"creyes4@cbsnews.com","country":"Spain","ip_address":"136.197.92.192","boolean":true,"color":"Red"},
+                  {"id":6,"first_name":"Joshua","last_name":"Thompson","email":"jthompson5@yale.edu","country":"Russia","ip_address":"61.57.205.127","boolean":true,"color":"Yellow"}
+                ];
+                modalScope.fakeSubmit = function(row){
+                  row.isInProgress = true;
+                  row.isFailed = false;
+                  row.isSuccess = false;
+                  var timesCalled = 0;
+      
+                  $timeout(function(){
+                    row.isInProgress = false;
+                    if(timesCalled++ % 2 === 0){
+                      row.isFailed = true;
+                    }else{
+                      row.isSuccess = true;
+                    }
+                  }, 2500);
+                };
+                
                 var times = 0;
 
                 modalScope.name = 'Akamai Engineer';
@@ -130,11 +157,29 @@
                 };
 
                 $scope.openWithTemplateUrl = function() {
-
                     // Create a new modal window instance with a specific template url
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
                         templateUrl: 'templates/modal-window.tpl.html',
+                        controller: 'ModalController'
+                    }));
+
+                    // Listen for the result returned by the modal window that is opened with a template
+                    instance.result
+                        .then(function(result) {
+                            $log.log('openWithTemplateUrl: Modal Window returned ', result);
+
+                        })
+                        .catch(function() {
+                            $log.log('openWithTemplateUrl: Modal Window was cancelled.');
+                        });
+                };
+                
+                $scope.openWithTableTemplateUrl = function() {
+                    // Create a new modal window instance with a specific template url
+                    var instance = modalWindow.open(angular.extend({}, $scope.options, {
+                        scope: modalScope,
+                        templateUrl: 'templates/modal-window.table.tpl.html',
                         controller: 'ModalController'
                     }));
 
@@ -205,7 +250,7 @@
             exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
             modalController.$inject = ['$scope', '$q', '$timeout'];
 
-            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window'])
+            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window', 'akamai.components.indeterminate-progress', 'akamai.components.table'])
             .controller('ExampleController', exampleController)
             .controller('ModalController', modalController)
             .config(configFunction);
