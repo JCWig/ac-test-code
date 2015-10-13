@@ -565,6 +565,94 @@ describe('akam-date-picker', function() {
     });
   });
 
+  describe("given month picker", function() {
+    describe("when open and select no date", function() {
+      describe("change min date that less than current min date", function() {
+        beforeEach(function() {
+          scope.date = new Date("9/15/2015");
+          scope.min = new Date("8/15/2014");
+          scope.max = new Date("10/15/2016");
+          let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}" mode="month"></akam-date-picker>`;
+          addElement.call(this, markup);
+          spyOn(this.isoScope, 'clearDate');
+          scope.min = new Date("10/15/2015");
+          scope.$digest();
+        });
+        it("the clearDate function will be called to reset", function() {
+          expect(this.isoScope.clearDate).toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe("given month picker", function() {
+    describe("when open and select no date", function() {
+      describe("change max date that greater than current max date", function() {
+        beforeEach(function() {
+          scope.date = new Date("9/15/2015");
+          scope.min = new Date("8/15/2014");
+          scope.max = new Date("10/15/2016");
+          let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}" mode="month"></akam-date-picker>`;
+          addElement.call(this, markup);
+          spyOn(this.isoScope, 'clearDate');
+          scope.max = new Date("8/15/2015");
+          scope.$digest();
+        });
+        it("the clearDate function will be called to reset", function() {
+          expect(this.isoScope.clearDate).toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe("given month picker", function() {
+    describe("when open and select no date", function() {
+      describe("change min date that greater than current min date", function() {
+        let eventReceived = false;
+        beforeEach(function() {
+          scope.date = new Date("9/15/2015");
+          scope.min = new Date("8/15/2014");
+          scope.max = new Date("10/15/2016");
+          let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}" mode="month"></akam-date-picker>`;
+          addElement.call(this, markup);
+          let dpScope = angular.element(document.querySelector('.akam-date-picker ul.dropdown-menu table')).scope();
+          dpScope.$on("monthpicker.updateMinDate", function() {
+             eventReceived = true;
+          });
+          scope.min = new Date("10/15/2015");
+          scope.$digest();
+        });
+        it("the event 'monthpicker.updateMinDate' to have been received", function() {
+          expect(eventReceived).toBe(true);
+        });
+      });
+    });
+  });
+
+  describe("given month picker", function() {
+    describe("when open and select no date", function() {
+      describe("change max date that less than current max date", function() {
+        let eventReceived = false;
+        beforeEach(function() {
+          scope.date = new Date("9/15/2015");
+          scope.min = new Date("8/15/2014");
+          scope.max = new Date("10/15/2016");
+          let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}" mode="month"></akam-date-picker>`;
+          addElement.call(this, markup);
+          let dpScope = angular.element(document.querySelector('.akam-date-picker ul.dropdown-menu table')).scope();
+          dpScope.$on("monthpicker.updateMaxDate", function() {
+             eventReceived = true;
+          });
+          scope.max = new Date("8/15/2015");
+          scope.$digest();
+        });
+        it("the event 'monthpicker.updateMaxDate' to have been received", function() {
+          expect(eventReceived).toBe(true);
+        });
+      });
+    });
+  });
+
   describe('when changing html inputs', function() {
     it('shoud throw an angular error if ng-model not provided', function() {
       var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" ng-change="mychange(value)"></akam-date-picker></div>';
