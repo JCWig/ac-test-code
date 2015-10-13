@@ -44,7 +44,7 @@ class DateRangeController {
       }
       newValue = newValue.replace(REGEX, '$1');
       if (angular.isDate(new Date(newValue))) {
-        scope.$broadcast('dateRange.resetMax', {
+        scope.$broadcast('dateRange.updateMaxDate', {
           maxValue: new Date(newValue)
         });
       }
@@ -56,7 +56,7 @@ class DateRangeController {
       }
       newValue = newValue.replace(REGEX, '$1');
       if (angular.isDate(new Date(newValue))) {
-        scope.$broadcast('dateRange.resetMin', {
+        scope.$broadcast('dateRange.updateMinDate', {
           minValue: new Date(newValue)
         });
       }

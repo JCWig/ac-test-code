@@ -44,7 +44,11 @@ function daypickerDecorator($provide) {
       return function(scope, element, attrs, ctrl) {
         let updateMin, updateMax;
 
+        directive.template = template;
+
         link.apply(this, arguments);
+
+        scope.renderDateRange = false;
 
         //overrides datepicker.js keydown event
         element.bind('keydown', eventNoopHanlder.arrowKeysEventNoop);

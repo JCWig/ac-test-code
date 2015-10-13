@@ -108,13 +108,13 @@ function linkFn(scope, element, attrs, ngModel) {
       updateInput(0);
     } else {
       if (ctrl.max) {
-        if (SpinnerController.isOutOfBounds(parsedValue, ctrl.max, true, 1)) {
+        if (SpinnerController.isOutOfBounds(ctrl.inputValue, ctrl.max, true, 1)) {
           updateInput(0);
         }
       }
 
       if (ctrl.min) {
-        if (SpinnerController.isOutOfBounds(parsedValue, ctrl.min, false, 1)) {
+        if (SpinnerController.isOutOfBounds(ctrl.inputValue, ctrl.min, false, 1)) {
           updateInput(0);
         }
       }

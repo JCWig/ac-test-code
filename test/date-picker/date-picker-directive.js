@@ -20,12 +20,11 @@ describe('akam-date-picker', function() {
   var compile = null;
   var scope = null;
   var timeout = null;
-  var self = this;
 
   function setUpKeyboardEventForDate(dateValue, selector, key) {
     scope.date = new Date(dateValue);
     var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-change="mychange(value)" ng-model="date"></akam-date-picker></div>';
-    addElement(markup);
+    addElement.call(this, markup);
     utilities.click(TOGGLE_DATE_PICKER_BUTTON);
 
     utilities.keyDown(selector, key);
@@ -35,7 +34,7 @@ describe('akam-date-picker', function() {
   function setUpKeyboardEventForMonth(dateValue, selector, key) {
     scope.date = new Date(dateValue);
     var markup = '<div id="parent-element"><akam-date-picker mode="month" keydown="arrowKeyCallback" ng-change="mychange(value)" ng-model="date"></akam-date-picker></div>';
-    addElement(markup);
+    addElement.call(this, markup);
     utilities.click(TOGGLE_DATE_PICKER_BUTTON);
 
     utilities.keyDown(selector, key);
@@ -54,22 +53,21 @@ describe('akam-date-picker', function() {
       timeout = $timeout;
     });
     scope.mychange = function() {};
-    self = this;
   });
 
   afterEach(function() {
     while (document.body.firstChild) {
       document.body.removeChild(document.body.firstChild);
     }
-    self.element = null;
+    this.element = null;
   });
 
   function addElement(markup) {
-    self.el = compile(markup)(scope);
+    this.el = compile(markup)(scope);
     scope.$digest();
     timeout.flush();
-    self.element = document.body.appendChild(self.el[0]);
-    self.isoScope = self.el.isolateScope();
+    this.element = document.body.appendChild(this.el[0]);
+    this.isoScope = this.el.isolateScope();
   }
 
   function setMinMaxSpecValues(value, type) {
@@ -77,8 +75,8 @@ describe('akam-date-picker', function() {
     scope.min = new Date(date.setDate(5));
     scope.max = new Date(date.setDate(10));
     let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}"></akam-date-picker>`;
-    addElement(markup);
-    spyOn(self.isoScope, 'clearDate');
+    addElement.call(this, markup);
+    spyOn(this.isoScope, 'clearDate');
     utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     var btnElem = getDateButtonParentElement(utilities.generateDate(8)).querySelector('button');
     utilities.click(btnElem);
@@ -95,7 +93,7 @@ describe('akam-date-picker', function() {
   describe('when date picker is loaded', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" ng-change="mychange()"></akam-date-picker><div id="hi">hello</div></div>';
-      addElement(markup);
+      addElement.call(this, markup);
 
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
 
@@ -114,7 +112,7 @@ describe('akam-date-picker', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-change="mychange()" ng-model="picked1"></akam-date-picker></div>';
       spyOn(scope, 'mychange');
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should change year left when prompted', function() {
@@ -137,12 +135,12 @@ describe('akam-date-picker', function() {
       var januaryMonthButton = getMonthButtonParentElement("Jan").querySelector('button');
       utilities.click(januaryMonthButton);
 
-      var firstMonthOfselfYearString = "Jan " + utilities.getTodaysYear();
+      var firstMonthOfthisYearString = "Jan " + utilities.getTodaysYear();
       var inputDateField = document.querySelector('input.ng-valid-date');
       var datePicker = document.querySelector(DATE_PICKER);
 
       expect(scope.mychange).toHaveBeenCalled();
-      expect(inputDateField.value).toEqual(firstMonthOfselfYearString);
+      expect(inputDateField.value).toEqual(firstMonthOfthisYearString);
       expect(datePicker.getAttribute('style')).toContain('display: none');
     });
     it('should be able to open and change month', function() {
@@ -156,12 +154,12 @@ describe('akam-date-picker', function() {
       utilities.click(februaryMonthButton);
       scope.$digest();
 
-      var secondMonthOfselfYearString = "Feb " + utilities.getTodaysYear();
+      var secondMonthOfthisYearString = "Feb " + utilities.getTodaysYear();
       var inputDateField = document.querySelector('input.ng-valid-date');
       var datePicker = document.querySelector(DATE_PICKER);
 
       expect(scope.mychange).toHaveBeenCalled();
-      expect(inputDateField.value).toEqual(secondMonthOfselfYearString);
+      expect(inputDateField.value).toEqual(secondMonthOfthisYearString);
       expect(datePicker.getAttribute('style')).toContain('display: none');
     });
   });
@@ -169,12 +167,12 @@ describe('akam-date-picker', function() {
   describe('when rendering date picker', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker ng-model="value" placeholder="placeholder"></akam-date-picker></div>';
-      addElement(markup);
+      addElement.call(this, markup);
     });
     it('should render all parts', function() {
-      var inputDateField = self.element.querySelector('input');
-      var toggleDatePickerButton = self.element.querySelector(TOGGLE_DATE_PICKER_BUTTON);
-      var datePicker = self.element.querySelector(DATE_PICKER);
+      var inputDateField = this.element.querySelector('input');
+      var toggleDatePickerButton = this.element.querySelector(TOGGLE_DATE_PICKER_BUTTON);
+      var datePicker = this.element.querySelector(DATE_PICKER);
 
       expect(inputDateField).not.toBe(null);
       expect(toggleDatePickerButton).not.toBe(null);
@@ -182,8 +180,8 @@ describe('akam-date-picker', function() {
       expect(inputDateField.placeholder).toEqual("placeholder");
     });
     it('should default hide the picker', function() {
-      var inputDateField = self.element.querySelector('input');
-      var datePicker = self.element.querySelector(DATE_PICKER);
+      var inputDateField = this.element.querySelector('input');
+      var datePicker = this.element.querySelector(DATE_PICKER);
       expect(datePicker.getAttribute('style')).toContain('display: none');
       expect(inputDateField.placeholder).toEqual("placeholder");
     });
@@ -192,7 +190,7 @@ describe('akam-date-picker', function() {
   describe('when pressing the open button', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker ng-model="value"></akam-date-picker></div>';
-      addElement(markup);
+      addElement.call(this, markup);
     });
     it('should display the date-picker', function() {
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
@@ -215,7 +213,7 @@ describe('akam-date-picker', function() {
   describe('when date picker is loaded', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" ng-change="mychange()"></akam-date-picker></div>';
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should start on todays month', function() {
@@ -235,7 +233,7 @@ describe('akam-date-picker', function() {
   describe('when clear is disabled', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" no-clear></akam-date-picker></div>';
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
 
@@ -256,7 +254,7 @@ describe('akam-date-picker', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" no-clear is-disabled="disabled"></akam-date-picker></div>';
       scope.disabled = false;
-      addElement(markup);
+      addElement.call(this, markup);
     });
 
     it('should date picker enabled when set to false', function() {
@@ -293,7 +291,7 @@ describe('akam-date-picker', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" ng-change="mychange()"></akam-date-picker></div>';
       spyOn(scope, 'mychange');
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should change month left when prompted', function() {
@@ -373,10 +371,10 @@ describe('akam-date-picker', function() {
       expect(scope.value).toEqual(undefined);
     });
     it('should translate placeholder text if non-provided', function() {
-      document.body.removeChild(self.element);
-      self.element = null;
+      document.body.removeChild(this.element);
+      this.element = null;
       var markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1"></akam-date-picker></div>';
-      addElement(markup);
+      addElement.call(this, markup);
       var inputDateField = document.querySelector('input.ng-valid-date');
       expect(inputDateField.placeholder).toEqual("components.date-picker.placeholder.date");
     });
@@ -384,7 +382,7 @@ describe('akam-date-picker', function() {
   describe('when rendering month picker', function() {
     beforeEach(function() {
       var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="picked1" placeholder="placeholder"></akam-date-picker></div>';
-      addElement(markup);
+      addElement.call(this, markup);
     });
     it('should render all parts', function() {
       var inputDateField = document.querySelector('input');
@@ -438,10 +436,10 @@ describe('akam-date-picker', function() {
       expect(decemberMonthButton).not.toBe(null);
     });
     it('should translate placeholder text if non-provided', function() {
-      document.body.removeChild(self.element);
-      self.element = null;
+      document.body.removeChild(this.element);
+      this.element = null;
       var markup = '<div id="parent-element"><akam-date-picker mode="month" ng-model="picked1"></akam-date-picker></div>';
-      addElement(markup);
+      addElement.call(this, markup);
       var inputDateField = document.querySelector('input.ng-valid-date');
       expect(inputDateField.placeholder).toEqual("components.date-picker.placeholder.month");
     });
@@ -453,7 +451,7 @@ describe('akam-date-picker', function() {
       scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 5);
       scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
       spyOn(scope, 'mychange');
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should be unable to choose day above maximum', function() {
@@ -475,7 +473,7 @@ describe('akam-date-picker', function() {
       scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 5);
       scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 15);
       spyOn(scope, 'mychange');
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should be unable to choose month below minimum', function() {
@@ -505,7 +503,7 @@ describe('akam-date-picker', function() {
       scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 1);
       scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth() + 1, 0);
       spyOn(scope, 'mychange');
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should be unable to navigate forward of backwards a month', function() {
@@ -521,7 +519,7 @@ describe('akam-date-picker', function() {
       scope.min = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth(), 1);
       scope.max = new Date(utilities.getTodaysYear(), utilities.getTodaysMonth() + 2, 0);
       spyOn(scope, 'mychange');
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should be unable to navigate backward a month but should be able to navigate forward a month', function() {
@@ -539,7 +537,7 @@ describe('akam-date-picker', function() {
       scope.min = new Date(utilities.getTodaysYear(), 11, 1);
       scope.max = new Date(utilities.getTodaysYear(), 11, 31);
       spyOn(scope, 'mychange');
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should be unable to navigate forward of backwards a year', function() {
@@ -556,7 +554,7 @@ describe('akam-date-picker', function() {
       scope.min = new Date(utilities.getTodaysYear(), 11, 1);
       scope.max = new Date(utilities.getTodaysYear() + 1, 11, 31);
       spyOn(scope, 'mychange');
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
     it('should be unable to navigate backward a year but should be able to navigate forward a year', function() {
@@ -571,7 +569,7 @@ describe('akam-date-picker', function() {
     it('shoud throw an angular error if ng-model not provided', function() {
       var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" ng-change="mychange(value)"></akam-date-picker></div>';
       try {
-        addElement(markup);
+        addElement.call(this, markup);
       } catch (e) {
         expect(e.message).toContain('errors.angularjs');
       }
@@ -579,14 +577,14 @@ describe('akam-date-picker', function() {
     it('should not error if ng-change not provided', function() {
       var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" mode="day" ng-model="picked1"></akam-date-picker></div>';
       try {
-        addElement(markup);
+        addElement.call(this, markup);
       } catch (e) {
-        expect(e.message).toEqual('NEVER REACH self CASE');
+        expect(e.message).toEqual('NEVER REACH this CASE');
       }
     });
     it('shoud default to day picker if mode not provided', function() {
       var markup = '<div id="parent-element"><akam-date-picker min={{min}} max="{{max}}" ng-change="mychange(value)" ng-model="picked1"></akam-date-picker></div>';
-      addElement(markup);
+      addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
       var todaysDate = utilities.getMonthInEnglish() + " " + utilities.getTodaysYear();
       var datePicker = document.querySelector(DATE_PICKER);
@@ -600,7 +598,7 @@ describe('akam-date-picker', function() {
     describe('when daypicker open', function() {
       describe('press keyboard keys up key', function() {
         beforeEach(function() {
-          setUpKeyboardEventForDate('September 30, 2010 15:30:00', "#parent-element", 38);
+          setUpKeyboardEventForDate.call(this, 'September 30, 2010 15:30:00', "#parent-element", 38);
           scope.keydown = jasmine.createSpy('keydown');
         });
         it('should not trigger daypicker keydown event when press up-arrow key', function() {
@@ -616,7 +614,7 @@ describe('akam-date-picker', function() {
     describe('when daypicker open', function() {
       describe('press keyboard keys down key', function() {
         beforeEach(function() {
-          setUpKeyboardEventForDate('September 30, 2010 15:30:00', "#parent-element", 40);
+          setUpKeyboardEventForDate.call(this, 'September 30, 2010 15:30:00', "#parent-element", 40);
           scope.keydown = jasmine.createSpy('keydown');
         });
 
@@ -634,7 +632,7 @@ describe('akam-date-picker', function() {
     describe('when daypicker open', function() {
       describe('press keyboard keys left key', function() {
         beforeEach(function() {
-          setUpKeyboardEventForDate('September 30, 2010 15:30:00', "#parent-element", 37);
+          setUpKeyboardEventForDate.call(this, 'September 30, 2010 15:30:00', "#parent-element", 37);
           scope.keydown = jasmine.createSpy('keydown');
         });
 
@@ -652,7 +650,7 @@ describe('akam-date-picker', function() {
     describe('when daypicker open', function() {
       describe('press keyboard keys right key', function() {
         beforeEach(function() {
-          setUpKeyboardEventForDate('September 30, 2010 15:30:00', "#parent-element", 39);
+          setUpKeyboardEventForDate.call(this, 'September 30, 2010 15:30:00', "#parent-element", 39);
           scope.keydown = jasmine.createSpy('keydown');
         });
 
@@ -670,7 +668,7 @@ describe('akam-date-picker', function() {
     describe('when monthpicker open', function() {
       describe('press keyboard arrow up key', function() {
         beforeEach(function() {
-          setUpKeyboardEventForMonth('November 7, 2005 23:30:00', "#parent-element", 38);
+          setUpKeyboardEventForMonth.call(this, 'November 7, 2005 23:30:00', "#parent-element", 38);
           scope.arrowKeyCallback = jasmine.createSpy('arrowKeyCallback');
         });
         it('should not trigger month picker keydown event', function() {
@@ -687,7 +685,7 @@ describe('akam-date-picker', function() {
     describe('when monthpicker open', function() {
       describe('press keyboard arrow down key', function() {
         beforeEach(function() {
-          setUpKeyboardEventForMonth('November 7, 2005 23:30:00', "#parent-element", 40);
+          setUpKeyboardEventForMonth.call(this, 'November 7, 2005 23:30:00', "#parent-element", 40);
           scope.arrowKeyCallback = jasmine.createSpy('arrowKeyCallback');
         });
         it('should not trigger month picker keydown event', function() {
@@ -704,10 +702,10 @@ describe('akam-date-picker', function() {
     describe("given new max date value", function() {
       describe("new max date is greater than selected date", function() {
         beforeEach(function() {
-          setMinMaxSpecValues(11, 'max');
+          setMinMaxSpecValues.call(this, 11, 'max');
         });
         it("Should not call scope.clearDate method to clear date value", function() {
-          expect(self.isoScope.clearDate).not.toHaveBeenCalled();
+          expect(this.isoScope.clearDate).not.toHaveBeenCalled();
         });
       });
     });
@@ -716,12 +714,11 @@ describe('akam-date-picker', function() {
   describe("Datepicker resets from max date changes ", function() {
     describe("given new max date value", function() {
       describe("new max date is less than selected date", function() {
-        let isoScope;
         beforeEach(function() {
-          setMinMaxSpecValues(7, 'max');
+          setMinMaxSpecValues.call(this, 7, 'max');
         });
         it("Should call scope.clearDate method to clear date value", function() {
-          expect(self.isoScope.clearDate).toHaveBeenCalled();
+          expect(this.isoScope.clearDate).toHaveBeenCalled();
         });
       });
     });
@@ -730,12 +727,11 @@ describe('akam-date-picker', function() {
   describe("Datepicker resets from min date changes ", function() {
     describe("given new min date value", function() {
       describe("new min date is less than selected date", function() {
-        let isoScope;
         beforeEach(function() {
-          setMinMaxSpecValues(4, 'min');
+          setMinMaxSpecValues.call(this, 4, 'min');
         });
         it("Should not call scope.clearDate method to clear date value", function() {
-          expect(self.isoScope.clearDate).not.toHaveBeenCalled();
+          expect(this.isoScope.clearDate).not.toHaveBeenCalled();
         });
       });
     });
@@ -744,12 +740,11 @@ describe('akam-date-picker', function() {
   describe("Datepicker resets from min date changes ", function() {
     describe("given new min date value", function() {
       describe("new min date is greater than selected date", function() {
-        let isoScope;
         beforeEach(function() {
-          setMinMaxSpecValues(9, 'min');
+          setMinMaxSpecValues.call(this, 9, 'min');
         });
         it("Should call scope.clearDate method to clear date value", function() {
-          expect(self.isoScope.clearDate).toHaveBeenCalled();
+          expect(this.isoScope.clearDate).toHaveBeenCalled();
         });
       });
     });
@@ -792,26 +787,6 @@ describe('akam-date-picker', function() {
     });
   });
 
-  function setMinMaxSpecValues(value, type) {
-    let date = new Date();
-    scope.min = new Date(date.setDate(5));
-    scope.max = new Date(date.setDate(10));
-    let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}"></akam-date-picker>`;
-    addElement(markup);
-    spyOn(self.isoScope, 'clearDate');
-    utilities.click(TOGGLE_DATE_PICKER_BUTTON);
-    var btnElem = getDateButtonParentElement(utilities.generateDate(8)).querySelector('button');
-    utilities.click(btnElem);
-    scope.$digest();
-
-    if (type === 'min') {
-      scope.min = new Date(date.setDate(value));
-    } else if (type === 'max') {
-      scope.max = new Date(date.setDate(value));
-    }
-    scope.$digest();
-  }
-
   describe("given datepicker open", function() {
     describe("when select no date", function() {
       describe("change min date that less than current min date", function() {
@@ -820,13 +795,13 @@ describe('akam-date-picker', function() {
           scope.min = new Date(date.setDate(5));
           scope.max = new Date(date.setDate(10));
           let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}"></akam-date-picker>`;
-          addElement(markup);
-          spyOn(self.isoScope, 'clearDate');
+          addElement.call(this, markup);
+          spyOn(this.isoScope, 'clearDate');
           scope.min = new Date(date.setDate(4));
           scope.$digest();
         });
         it("the clearDate function will be called ", function() {
-          expect(self.isoScope.clearDate).toHaveBeenCalled;
+          expect(this.isoScope.clearDate).toHaveBeenCalled;
         });
       });
     });
@@ -840,14 +815,27 @@ describe('akam-date-picker', function() {
           scope.min = new Date(date.setDate(5));
           scope.max = new Date(date.setDate(10));
           let markup = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}"></akam-date-picker>`;
-          addElement(markup);
-          spyOn(self.isoScope, 'clearDate');
+          addElement.call(this, markup);
+          spyOn(this.isoScope, 'clearDate');
           scope.max = new Date(date.setDate(11));
           scope.$digest();
         });
         it("the clearDate function will be called ", function() {
-          expect(self.isoScope.clearDate).toHaveBeenCalled;
+          expect(this.isoScope.clearDate).toHaveBeenCalled;
         });
+      });
+    });
+  });
+
+  describe('given date picker calendar rendered', function() {
+    describe('verify date picker template part to be used', function() {
+      beforeEach(function() {
+        let markup = `<akam-date-picker ng-model='date'></akam-date-picker>`;
+        addElement.call(this, markup);
+      });
+      it("should datepicker.js childScope renderDaterange flag value to be false ", function() {
+        let dpScope = angular.element(document.querySelector('.akam-date-picker ul.dropdown-menu table')).scope();
+        expect(dpScope.renderDateRange).toBe(false);
       });
     });
   });
