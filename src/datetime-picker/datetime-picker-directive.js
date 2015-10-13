@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import template from './templates/datetime-picker.tpl.html';
 
 const REGEX = /^"(.+)"$/;

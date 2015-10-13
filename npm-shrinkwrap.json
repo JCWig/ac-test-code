@@ -5290,6 +5290,11 @@
         }
       }
     },
+    "eslint-config-akamai": {
+      "version": "1.0.0",
+      "from": "eslint-config-akamai@*",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/eslint-config-akamai/-/eslint-config-akamai-1.0.0.tgz"
+    },
     "event-stream": {
       "version": "3.3.1",
       "from": "event-stream@>=3.3.1 <4.0.0",
