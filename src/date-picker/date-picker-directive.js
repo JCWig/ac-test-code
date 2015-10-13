@@ -113,7 +113,7 @@ function linkFn(scope, element, attrs, ngModel) {
     if (angular.isDate(max)) {
       scope.$broadcast('datepicker.updateMaxDate', {
         maxDate: max,
-        selectedDate: new Date(ctrl.value),
+        selectedDate: angular.isDate(ctrl.value) ? ctrl.value : undefined,
         reset: toReset
       });
     }
@@ -136,7 +136,7 @@ function linkFn(scope, element, attrs, ngModel) {
     if (angular.isDate(min)) {
       scope.$broadcast('datepicker.updateMinDate', {
         minDate: min,
-        selectedDate: new Date(ctrl.value),
+        selectedDate: angular.isDate(ctrl.value) ? ctrl.value : undefined,
         reset: toReset
       });
     }

@@ -30,6 +30,22 @@ describe('akamai.components.date-range', function() {
     angular.mock.module(function($translateProvider) {
       $translateProvider.useLoader('translateNoopLoader');
     });
+    angular.mock.module(function($provide) {
+      function datepickerDirective($delegate, $timeout) {
+        let directive = $delegate[0];
+        let link = directive.link;
+        directive.compile = () => {
+          return function(scope, element, attrs, ctrl) {
+            link.apply(this, arguments);
+            scope.renderDateRange = true;
+          };
+        }
+        return $delegate;
+      }
+      datepickerDirective.$inject = ['$delegate', '$timeout'];
+
+      $provide.decorator('datepickerDirective', datepickerDirective);
+    });
     angular.mock.inject(function($compile, $timeout, $rootScope) {
       this.$compile = $compile;
       this.$scope = $rootScope.$new();
@@ -696,10 +712,11 @@ describe('akamai.components.date-range', function() {
   });
 
   describe('given an open date range calendar', function() {
-    describe('when clicking on the calendar', function() {
+    describe('when clicking on the calendar eampty space area', function() {
       beforeEach(function() {
         let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
         addElement.call(this, markup);
+
         utils.click(".range-selection button");
         this.$scope.$digest();
 
@@ -707,8 +724,24 @@ describe('akamai.components.date-range', function() {
         utils.click(spaceColumn);
         this.$scope.$digest();
       });
-      it('should remain open when valid date is not selected', function() {
+      it('should calendar remain open', function() {
         expect(this.element.querySelector('.akam-date-range').classList).toContain("opened");
+      });
+    });
+  });
+
+  describe('given date range calendar rendered', function() {
+    describe('verify date range template part to be used', function() {
+      beforeEach(function() {
+        let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+        addElement.call(this, markup);
+      });
+      it('should datepicker.js childScope renderDateRange flag should be set to true', function() {
+        let dpScope = angular.element(this.element.querySelector('.akam-date-range ul.dropdown-menu table')).scope();
+        expect(dpScope.renderDateRange).toBe(true);
+      });
+      it('should dateRange specific DOM element to be rendered', function() {
+        expect(this.element.querySelector('.akam-date-range .range-picker ul.dropdown-menu table')).not.toBe(null);
       });
     });
   });
