@@ -111,7 +111,12 @@ function linkFn(scope, element, attrs, ngModel) {
     }
 
     if (angular.isDate(max)) {
-      scope.$broadcast('datepicker.updateMaxDate', {
+      let eventName = 'datepicker.updateMaxDate';
+
+      if (ctrl.mode === MONTH) {
+        eventName = 'monthpicker.updateMaxDate';
+      }
+      scope.$broadcast(eventName, {
         maxDate: max,
         selectedDate: angular.isDate(ctrl.value) ? ctrl.value : undefined,
         reset: toReset
@@ -134,7 +139,12 @@ function linkFn(scope, element, attrs, ngModel) {
     }
 
     if (angular.isDate(min)) {
-      scope.$broadcast('datepicker.updateMinDate', {
+      let eventName = 'datepicker.updateMinDate';
+
+      if (ctrl.mode === MONTH) {
+        eventName = 'monthpicker.updateMinDate';
+      }
+      scope.$broadcast(eventName, {
         minDate: min,
         selectedDate: angular.isDate(ctrl.value) ? ctrl.value : undefined,
         reset: toReset

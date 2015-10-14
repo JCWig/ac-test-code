@@ -21,6 +21,8 @@ function monthPickerDecorator($provide) {
     //redefine the compile to do both the old link function and add additional scoped functions
     directive.compile = () => {
       return function(scope, element, attrs, ctrl) {
+        let updateMin, updateMax;
+
         link.apply(this, arguments);
 
         //overrides datepicker.js keydown event
@@ -40,9 +42,27 @@ function monthPickerDecorator($provide) {
           return ctrl.maxDate && lastMonth >= ctrl.maxDate;
         };
 
+        updateMax = scope.$on('monthpicker.updateMaxDate', (e, info) => {
+          ctrl.maxDate = info.maxDate;
+          if (info.reset || ctrl.activeDate.getTime() > ctrl.maxDate.getTime()) {
+            ctrl.activeDate = info.selectedDate || new Date();
+          }
+          ctrl.refreshView();
+        });
+
+        updateMin = scope.$on('monthpicker.updateMinDate', (e, info) => {
+          ctrl.minDate = info.minDate;
+          if (info.reset || ctrl.activeDate.getTime() < ctrl.minDate.getTime()) {
+            ctrl.activeDate = info.selectedDate || new Date();
+          }
+          ctrl.refreshView();
+        });
+
         scope.$on('$destroy', () => {
           element.off('keydown');
           element.off('click');
+          updateMax();
+          updateMin();
         });
       };
     };
