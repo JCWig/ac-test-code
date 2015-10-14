@@ -269,5 +269,17 @@
     "examples.list-box.noFilterResultsMessage-variable": "No {{name}} filter",
     "examples.test.select":"No data found for {{name}}",
     "examples.spinnerbutton.custom.label-variable": "{{name}} - Custom Text",
-    "examples.message-box.variableReplacement": "Text for {{value}}"
+    "examples.message-box.variableReplacement": "Text for {{value}}",
+    "examples.tag-input.menuTags.apple": "apple",
+    "examples.tag-input.menuTags.banana": "banana",
+    "examples.tag-input.menuTags.blackberry": "blackberry",
+    "examples.tag-input.menuTags.blueberry": "blueberry",
+    "examples.tag-input.menuTags.cantaloupe": "cantaloupe",
+    "examples.tag-input.menuTags.cherry": "cherry",
+    "examples.tag-input.menuTags.grape": "grape",
+    "examples.tag-input.menuTags.lime": "lime",
+    "examples.tag-input.menuTags.mango": "mango",
+    "examples.tag-input.menuTags.orange": "orange",
+    "examples.tag-input.selectedTags.blueberry": "blueberry",
+    "examples.tag-input.selectedTags.lime": "lime"
 }

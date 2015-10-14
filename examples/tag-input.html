@@ -1,315 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Akamai Components Examples - Tag Input</title>
-        <link rel="stylesheet" href="../dist/akamai-core.css">
-        <style>
-            div.container-div { width: 500px; }
-        </style>
-    </head>
-    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
-        <div class="container" >
-            <div class="page-header">
-                <h1>Tag Input Component Example</h1>
-            </div>
-            <h2>Drag/Drop Tag Order Example</h2>
-            <div class="container-div"; >
-                <akam-tag-input ng-model="items1" available-items="availableItems"
-                                placeholder="{{placeholder}}" drag-dropable="true">
-                </akam-tag-input>
-            </div>
-            <br/><br/><br/>
-            <div class="container-div";>
-                <h2>Sorted Selected Tag Example</h2>
-                <akam-tag-input ng-model="items2" available-items="availableItems" restricted="false"
-                                sort-function="sortFunction">
-                </akam-tag-input>
-            </div>
-            <br/><br/><br/>
-            <div class="container-div";>
-                <h2>Adding New Items Disallowed Example</h2>
-                <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true">
-                </akam-tag-input>
-            </div>
-            <br/><br/><br/>
-            <div class="container-div";>
-                <h2>passing tagging label as key and label values attribute Example</h2>
-                <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true"
-                tagging-label="examples.tag-input.label-variable" tagging-label-values="{'name':'existing'}">
-                </akam-tag-input>
-            </div>
-            <br/><br/><br/>
-            <form name="tagInputform">
-                <div class="container-div";>
-                    <h2>Tag Character Limit Validation Example</h2>
-                    <akam-tag-input name="tagInput" ng-model="items4" available-items="availableItems"
-                                    tagging-label="(add new item)" placeholder="{{placeholder}}"
-                                    drag-dropable="true" validate-function="validateFunction">
-                    </akam-tag-input>
-                </div>
-            </form>
-            <div ng-messages="tagInputform.tagInput.$error">
-            <div ng-message="invalidTagInput">Invalid Tag Input</div>
-            </div>
-            <br/><br/><br/>
-            <div class="container-div";>
-                <h2>Large Available Items List Example</h2>
-                <akam-tag-input ng-model="items5" available-items="availableItemsLarge">
-                </akam-tag-input>
-                <button ng-click="logTagInputData(items5)">Send tag input data to browser log</button>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Akamai Component Examples - Tag Input</title>
+    <link rel="stylesheet" href="../dist/akamai-core.css">
+    <style>
+        body.luna  > h1 {
+            margin-bottom:10px;
+        }
+        body.luna > h2 {
+            margin: 10px 0 5px;
+        }
+        body.luna > h2 + div {
+            width: 580px;
+        }
+    </style>
+
+</head>
+
+<body class="common-css luna" ng-app="tagInputApp" ng-strict-di
+      ng-controller="TagInputAppController as vm">
+
+<h1>Tag Input - Examples</h1>
+
+<h2>Tag Input - List of selected tag strings - draggable</h2>
+<div>
+    <akam-tag-input ng-model="vm.selectedTags" items="vm.tags" is-draggable></akam-tag-input>
+</div>
+
+<h2>Tag Input - Single string for selected tags - restricted - appendedToBody</h2>
+<div  style="overflow:hidden">
+    <akam-tag-input ng-model="vm.selectedTags2" items="vm.tags" restricted
+                    appended-to-body></akam-tag-input>
+</div>
+
+<h2>Tag Input - List of selected tag strings - disabled</h2>
+<div>
+    <akam-tag-input ng-model="vm.selectedTags5" items="vm.tags"
+                    is-disabled="true"></akam-tag-input>
+</div>
+
+<h2>Tag Input - Tag Object Items</h2>
+<div>
+    <akam-tag-input ng-model="vm.selectedTagObjects" items="vm.tagObjects"
+                    text-property="state" is-draggable></akam-tag-input>
+</div>
+
+<h2>Tag Input -  Tag Object Items - draggable - restricted</h2>
+<div>
+    <akam-tag-input ng-model="vm.emptySelectedTags" items="vm.tagObjects" text-property="state"
+                    restricted is-draggable></akam-tag-input>
+</div>
+
+<h2>Tag Input - Strings with validation - enter a tag that contains a number</h2>
+<div>
+    <form name="theForm" class="form-horizontal">
+        <akam-tag-input ng-model="vm.selectedTags3" items="vm.tags" name="selectedTags3"
+                        on-validate="vm.validateTagString(tag)"></akam-tag-input>
+
+        <div ng-messages="theForm.selectedTags3.$error">
+            <p ng-message="validTags">One or more tags are invalid.</p>
         </div>
-        <script src="utils/cookies.js"></script>
-        <script src="../dist/akamai-core.js"></script>
-        <script>
-            var exampleController = function($scope, $log) {
+    </form>
+</div>
 
-                // Data for the Drag/Drop Tag Order Example
-                $scope.items1 = [".png",".jpg", ".svg"];
+<h2>Tag Input - stacked - draggable</h2>
+<div>
+    <akam-tag-input ng-model="vm.selectedTags4" items="vm.tags" stacked is-draggable
+                    on-validate="vm.validateTagString(tag)"></akam-tag-input>
+</div>
 
-                // Data for the Sorted Selected Tag Example
-                $scope.items2 = [".xls",".log", ".gif"];
+<h2>Tag Input - Tag Strings - Translating Tag Lables</h2>
+<div>
+    <akam-tag-input ng-model="vm.i18nExample.stringTags.selectedTags"
+                    ng-change="vm.selectedI18nStringTagsChanged()"
+                    items="vm.i18nExample.stringTags.menuTags"></akam-tag-input>
+</div>
 
-                // Data for the Adding New Items Disallowed Example
-                $scope.items3 = [".txt",".jpg", ".csv", ".tiff"];
+<h2>Tag Input - Tag Objects - Translating Tag Lables</h2>
+<div>
+    <akam-tag-input ng-model="vm.i18nExample.objTags.selectedTags" text-property="fruit"
+                    ng-change="vm.selectedI18nObjTagsChanged()"
+                    items="vm.i18nExample.objTags.menuTags"></akam-tag-input>
+</div>
 
-                // Data for the tag component with validation
-                $scope.items4 = [".png",".jpg", ".svg", ".pdf", ".xls", ".exe", ".app"];
+<script src="utils/cookies.js"></script>
+<script src="../dist/akamai-core.js"></script>
 
-                // Data for the Large Available Items List Example
-                $scope.items5 = [".exe",".doc", ".rtf"];
-
-                // List of all possible tag items
-                $scope.availableItems = [
-                    ".exe",
-                    ".xls",
-                    ".txt",
-                    ".tiff",
-                    ".doc",
-                    ".pdf",
-                    ".odt",
-                    ".app",
-                    ".rtf",
-                    ".mov",
-                    ".old",
-                    ".java",
-                    ".ini",
-                    ".js",
-                    ".lib",
-                    ".log",
-                    ".gif",
-                    ".csv"
-                ];
-
-                $scope.availableItemsLarge = [
-                    ".a",
-                    ".asm",
-                    ".asp",
-                    ".awk",
-                    ".bat",
-                    ".bmp",
-                    ".btm",
-                    ".BTM",
-                    ".c",
-                    ".class",
-                    ".cmd",
-                    ".CPP",
-                    ".csv",
-                    ".cur",
-                    ".cxx",
-                    ".CXX",
-                    ".db",
-                    ".def",
-                    ".DES",
-                    ".dlg",
-                    ".dll",
-                    ".don",
-                    ".dpc",
-                    ".dpj",
-                    ".dtd",
-                    ".dump",
-                    ".dxp",
-                    ".eng",
-                    ".exe",
-                    ".flt",
-                    ".fmt",
-                    ".font",
-                    ".fp",
-                    ".ft",
-                    ".gif",
-                    ".h",
-                    ".H",
-                    ".hdb",
-                    ".hdl",
-                    ".hid",
-                    ".hpp",
-                    ".hrc",
-                    ".HRC",
-                    ".html",
-                    ".hxx",
-                    ".Hxx",
-                    ".HXX",
-                    ".ico",
-                    ".idl",
-                    ".IDL",
-                    ".ih",
-                    ".ilb",
-                    ".inc",
-                    ".inf",
-                    ".ini",
-                    ".inl",
-                    ".ins",
-                    ".java",
-                    ".jar",
-                    ".jnl",
-                    ".jpg",
-                    ".js",
-                    ".jsp",
-                    ".kdelnk",
-                    ".l",
-                    ".lgt",
-                    ".lib",
-                    ".lin",
-                    ".ll",
-                    ".LN3",
-                    ".lng",
-                    ".lnk",
-                    ".lnx",
-                    ".LOG",
-                    ".lst",
-                    ".mac",
-                    ".MacOS",
-                    ".map",
-                    ".mk",
-                    ".MK",
-                    ".mod",
-                    ".NT2",
-                    ".o",
-                    ".obj",
-                    ".par",
-                    ".pfa",
-                    ".pfb",
-                    ".pl",
-                    ".PL",
-                    ".plc",
-                    ".pld",
-                    ".PLD",
-                    ".plf",
-                    ".pm",
-                    ".pmk",
-                    ".pre",
-                    ".PRJ",
-                    ".prt",
-                    ".PS",
-                    ".ptr",
-                    ".r",
-                    ".rc",
-                    ".rdb",
-                    ".res",
-                    ".s",
-                    ".S",
-                    ".sbl",
-                    ".scp",
-                    ".scr",
-                    ".sda",
-                    ".sdb",
-                    ".sdc",
-                    ".sdd",
-                    ".sdg",
-                    ".sdm",
-                    ".sds",
-                    ".sdv",
-                    ".sdw",
-                    ".sdi",
-                    ".seg",
-                    ".SEG",
-                    ".Set",
-                    ".sgl",
-                    ".sh",
-                    ".sid",
-                    ".smf",
-                    ".sms",
-                    ".so",
-                    ".sob",
-                    ".soc",
-                    ".sod",
-                    ".soe",
-                    ".sog",
-                    ".soh",
-                    ".src",
-                    ".srs",
-                    ".SSLeay",
-                    ".Static",
-                    ".tab",
-                    ".TFM",
-                    ".thm",
-                    ".tpt",
-                    ".tsc",
-                    ".ttf",
-                    ".TTF",
-                    ".txt",
-                    ".TXT",
-                    ".unx",
-                    ".UNX",
-                    ".urd",
-                    ".url",
-                    ".VMS",
-                    ".vor",
-                    ".W32",
-                    ".wav",
-                    ".wmf",
-                    ".xml",
-                    ".xpm",
-                    ".xrb",
-                    ".y",
-                    ".yxx",
-                    ".zip" ];
-
-                // Sort the tag data
-                $scope.sortFunction = function(input){
-                    return input.sort();
-                };
-
-                // Write the items from the tag input component to the browser log
-                $scope.logTagInputData = function(data){
-                    $log.log(data);
-                };
-
-                // Validate that the tag is at least two characters
-                $scope.validateFunction = function(item) {
-                    if(!item || item.type === 'string' || item.length > 1){
-                        return true;
-                    }
-                    return false;
-                };
-            };
-
-            exampleController.$inject = ['$scope', '$log'];
-
-            function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                                    i18nLocaleProvider) {
-
-                // need to overwrite locales path on fee.akamai.com
-                if (window.location.host == 'fee.akamai.com') {
-                    $translatePartialLoaderProvider.addPart('../dist/locales/');
-                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
-                } else {
-                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-                }
-
-                var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-                $translateProvider.preferredLanguage(locale);
-                i18nLocaleProvider.setLocale(locale);
-            }
-            configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-                '$translateProvider', 'i18nLocaleProvider'];
-
-            angular.module('example', ['akamai.components.constants', 'akamai.components.tag-input', 'ngMessages'])
-            .controller('ExampleController', exampleController)
+<script>
+    angular.module('tagInputApp', ['akamai.components.constants','akamai.components.tag-input', 'ngMessages'])
+            .controller('TagInputAppController', TagInputAppController)
             .config(configFunction);
-        </script>
-    </body>
+
+    function TagInputAppController($log) {
+        this.selectedTags = [
+            'Massachusetts',
+            'New York',
+            'New Jersey',
+            'Colorado'
+        ];
+
+        this.selectedTags2 = [
+            'Connecticut',
+            'Maryland',
+            'Virginia'
+        ];
+
+        this.selectedTags3 = [
+            'New Hampshire',
+            'Vermont'
+        ];
+
+        this.selectedTags4 = [
+            'Colorado',
+            'Connecticut',
+            'Maryland',
+            'Massachusetts',
+            'New Hampshire',
+            'New Jersey',
+            'New York',
+            'Vermont',
+            'Virginia',
+            'Washington, District of Columbia'
+        ];
+
+        this.selectedTags5 = [
+            'New York',
+            'Vermont',
+            'Washington, District of Columbia'
+        ];
+
+        this.selectedTagObjects = [
+            {state: 'Massachusetts'},
+            {state: 'New York'}
+        ];
+
+        this.i18nExample = {
+            stringTags: {
+                selectedTags: [
+                    'examples.tag-input.selectedTags.blueberry',
+                    'examples.tag-input.selectedTags.lime'
+                ],
+                menuTags: [
+                    'examples.tag-input.menuTags.apple',
+                    'examples.tag-input.menuTags.banana',
+                    'examples.tag-input.menuTags.blackberry',
+                    'examples.tag-input.menuTags.blueberry',
+                    'examples.tag-input.menuTags.cantaloupe',
+                    'examples.tag-input.menuTags.cherry',
+                    'examples.tag-input.menuTags.grape',
+                    'examples.tag-input.menuTags.lime',
+                    'examples.tag-input.menuTags.mango',
+                    'examples.tag-input.menuTags.orange'
+                ]
+            },
+            objTags: {
+                selectedTags: [
+                    {fruit: 'examples.tag-input.selectedTags.blueberry'},
+                    {fruit: 'examples.tag-input.selectedTags.lime'}
+                ],
+                menuTags: [
+                    {fruit: 'examples.tag-input.menuTags.apple'},
+                    {fruit: 'examples.tag-input.menuTags.banana'},
+                    {fruit: 'examples.tag-input.menuTags.blackberry'},
+                    {fruit: 'examples.tag-input.menuTags.blueberry'},
+                    {fruit: 'examples.tag-input.menuTags.cantaloupe'},
+                    {fruit: 'examples.tag-input.menuTags.cherry'},
+                    {fruit: 'examples.tag-input.menuTags.grape'},
+                    {fruit: 'examples.tag-input.menuTags.lime'},
+                    {fruit: 'examples.tag-input.menuTags.mango'},
+                    {fruit: 'examples.tag-input.menuTags.orange'}
+                ]
+            }
+        }
+
+        this.tags = [
+            'Colorado',
+            'Connecticut',
+            'Maryland',
+            'Massachusetts',
+            'New Hampshire',
+            'New Jersey',
+            'New York',
+            'Vermont',
+            'Virginia',
+            'Washington, District of Columbia'
+        ];
+
+        this.tagObjects = [
+            {state: 'Colorado'},
+            {state: 'Connecticut'},
+            {state: 'Maryland'},
+            {state: 'Massachusetts'},
+            {state: 'New Hampshire'},
+            {state: 'New Jersey'},
+            {state: 'New York'},
+            {state: 'Vermont'},
+            {state: 'Virginia'},
+            {state: 'Washington, District of Columbia'}
+        ];
+
+        this.selectedTagsString = 'New Jersey,Vermont,Virginia';
+        this.validateTagString = function(tag) {
+            return !/\d+/.test(tag);
+        };
+
+        this.selectedI18nStringTagsChanged = function(selectedItems) {
+          console.log('selectedI18nStringTagsChanged', this.i18nExample.stringTags);
+        };
+
+        this.selectedI18nObjTagsChanged = function(selectedItems) {
+            console.log('selectedI18nObjTagsChanged', this.i18nExample.objTags);
+        };
+
+
+    }
+    TagInputAppController.$inject = ['$log'];
+
+    function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                            i18nLocaleProvider) {
+
+        // need to overwrite locales path on fee.akamai.com
+        if (window.location.host == 'fee.akamai.com') {
+            $translatePartialLoaderProvider.addPart('../dist/locales/');
+            $translatePartialLoaderProvider.addPart('locales/json/messages/');
+        } else {
+            $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+            $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+        }
+
+        var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+        $translateProvider.preferredLanguage(locale);
+        i18nLocaleProvider.setLocale(locale);
+    }
+    configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+        '$translateProvider', 'i18nLocaleProvider'];
+
+</script>
+
+</body>
 </html>

@@ -34,7 +34,10 @@ export default class appendToBodyService {
         windowElement.off('resize');
       });
 
-      callBack();
+      if (angular.isFunction(callBack)) {
+        callBack();
+      }
+
     });
 
   }

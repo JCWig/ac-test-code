@@ -91,7 +91,7 @@ $ie-ver: '' !default;
 }
 
 // This mixin is a fork/enhancement of twitter bootstraps mixin
-@mixin placeholder-enhanced($color: inherit, $fontStyle: inherit, $padding: 0) {
+@mixin placeholder-enhanced($color: inherit, $fontStyle: inherit, $opacity:1) {
   /* Only the following properties are allowed/useful for placeholder text:
       color
       font-size
@@ -102,23 +102,23 @@ $ie-ver: '' !default;
       padding
       text-align
       text-decoration
+      opacity
   */
   &::-moz-placeholder {
     /* Firefox 19+ */
     color: $color;
     font-style: $fontStyle;
-    opacity: 1; // Override Firefoxs unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526
-    padding-left: $padding;
+    opacity: $opacity; // Override Firefoxs unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526
   }
   &:-ms-input-placeholder {
     color: $color;
     font-style: $fontStyle;
-    padding-left: $padding;
+    opacity: $opacity;
   }
   &::-webkit-input-placeholder {
     color: $color;
     font-style: $fontStyle;
-    padding-left: $padding;
+    opacity: $opacity;
   }
 }
 

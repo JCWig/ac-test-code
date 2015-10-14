@@ -1,0 +1,41 @@
+<div class="akam-tag-input">
+
+    <div class="tag-input-wrapper" ng-class="{focused: taginput.focused}">
+
+        <ul class="tag-input-list"
+            ng-class="{canDelete: taginput.canDelete,
+                       disabled: !taginput.canEdit()}"
+            ng-sortable="taginput.sortableConfig">
+
+            <li ng-repeat="selectedTag in taginput.selectedTags" class="tag">
+                <div>
+                    <span>{{::taginput.tag(selectedTag)}}</span>
+                    <a href="" class="close" ng-click="taginput.removeTag(selectedTag)"></a>
+                </div>
+            </li>
+
+            <li class="tag-input-container">
+                <input type="text" class="tag-input" ng-model="taginput.proposedTag"
+                       ng-keydown="taginput.assessKeyDown($event)"
+                       placeholder="{{ ::taginput.placeholder }}"
+                       ng-disabled="!taginput.canEdit()"
+                       ng-blur="taginput.blur()" ng-focus="taginput.focus()">
+            </li>
+        </ul>
+    </div>
+
+    <ul class="dropdown-menu" ng-show="taginput.focused">
+        <li ng-if="!taginput.restricted">
+            <a ng-mousedown="taginput.setSelectedTag(taginput.proposedTag)"
+               class="dropdown-item-link">
+                <span>{{ taginput.proposedTag }} {{ ::taginput.newTagLabel }}</span>
+            </a>
+        </li>
+        <li ng-repeat="menuTag in taginput.getFilteredMenuTags()" class="menu-tag">
+            <a ng-mousedown="taginput.setSelectedTag(menuTag)" class="dropdown-item-link">
+                <span title="{{ ::taginput.tag(menuTag) }}">{{ ::taginput.tag(menuTag) }}</span>
+            </a>
+        </li>
+    </ul>
+
+</div>

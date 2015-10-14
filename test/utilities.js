@@ -19,8 +19,6 @@ module.exports = {
     return el;
   },
   findElement: function(parent, selector) {
-    let element;
-
     if (!parent || !selector) {
       return undefined;
     }
@@ -30,6 +28,19 @@ module.exports = {
       parentElem = parent[0];
     }
     return angular.element(parentElem.querySelector(selector));
+  },
+  // TODO: refactor this and findElement
+  findElements: function(parent, selector) {
+    if (!parent || !selector) {
+      return undefined;
+    }
+    let parentElem;
+    [].slice.call(document.querySelectorAll("div"));
+    if (parent.html) {
+      parentElem = parent[0];
+    }
+    return [].slice.call(parentElem.querySelectorAll(selector))
+      .map(elem => angular.element(elem));
   },
   logObject: function(obj) {
     console.log(JSON.stringify(obj, null, 2));
