@@ -10,11 +10,22 @@ class DatetimePickerController {
   }
 
   setDatetime(d, t) {
-    let date = d || this.date || new Date(),
-      time = t || this.time || new Date();
+    if (!d && !t) {
+      return;
+    }
 
-    date.setHours(time.getHours(), time.getMinutes());
-    this.datetimeValue = date;
+    let date = new Date();
+
+    if (!d || !angular.isDate(d)) {
+      this.date = date;
+    }
+
+    if (!t || !angular.isDate(t)) {
+      this.time = date;
+    }
+
+    this.date.setHours(this.time.getHours(), this.time.getMinutes());
+    this.datetimeValue = this.date;
   }
 }
 

@@ -159,10 +159,6 @@ describe('akamai.components.datetime-picker', function() {
       utilities.click(dateButton);
       $scope.$digest();
 
-      expect(this.controller.datetimeValue.getFullYear()).toEqual(d.getFullYear());
-      expect(this.controller.datetimeValue.getMonth()).toEqual(d.getMonth());
-      expect(this.controller.datetimeValue.getDate()).toEqual(d.getDate());
-
       let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
@@ -306,6 +302,75 @@ describe('akamai.components.datetime-picker', function() {
         });
         it("should datetimepicker controller min value change to new min value", function() {
           expect(this.controller.min).toEqual($scope.min);
+        });
+      });
+    });
+  });
+
+  describe('given datetime picker has no init value', function() {
+    describe('when datetime picker rendered', function() {
+      beforeEach(function() {
+        addElement.call(this);
+        let dateButton = document.querySelector(datePickerSelector + " .button");
+        utilities.click(dateButton);
+        $scope.$digest();
+      });
+      it("should controller date and time value be undefined", function() {
+        expect(this.controller.date).toBe(undefined);
+        expect(this.controller.time).toBe(undefined);
+        expect(this.controller.datetimeValue).toBe(undefined);
+      });
+    });
+  });
+  describe('given datetime picker has no init value', function() {
+    describe('when datetime picker rendered', function() {
+      describe('when open timepicker', function() {
+        beforeEach(function() {
+          addElement.call(this);
+          let timeButton = document.querySelector(timepickerSelector + " .btn");
+          utilities.click(timeButton);
+          $scope.$digest();
+        });
+        it("should controller time value be set to current time", function() {
+          expect(angular.isDate(this.controller.time)).toBe(true);
+          expect(this.controller.time.getHours()).toBe(new Date().getHours());
+          expect(this.controller.time.getMinutes()).toBe(new Date().getMinutes());
+        });
+      });
+    });
+  });
+  describe('given datetime picker has no init value', function() {
+    describe('when datetime picker rendered', function() {
+      describe('open datepicker and selects a date', function() {
+        beforeEach(function() {
+          addElement.call(this);
+          let dateButton = document.querySelector(datePickerSelector + " .button");
+          utilities.click(dateButton);
+          $scope.$digest();
+          let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
+          utilities.click(firstDayOfMonthButton);
+          $scope.$digest();
+        });
+        it("should controller time value be set on current time", function() {
+          expect(angular.isDate(this.controller.time)).toBe(true);
+          expect(this.controller.time.getHours()).toBe(new Date().getHours());
+          expect(this.controller.time.getMinutes()).toBe(new Date().getMinutes());
+        });
+      });
+    });
+  });
+  describe('given datetime picker has no init value', function() {
+    describe('when datetime picker rendered', function() {
+      describe('open timepicker', function() {
+        beforeEach(function() {
+          addElement.call(this);
+          spyOn(this.controller, "setDatetime");
+          let timeButton = document.querySelector(timepickerSelector + " .btn");
+          utilities.click(timeButton);
+          $scope.$digest();
+        });
+        it("should controller setDatetime function to be called", function() {
+          expect(this.controller.setDatetime).toHaveBeenCalled();
         });
       });
     });

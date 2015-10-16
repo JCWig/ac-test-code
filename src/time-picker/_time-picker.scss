@@ -17,6 +17,15 @@ $timepicker-input-disabled-color: #cccccc;
       }
     }
   }
+  &.open {
+    & > input[type='text'] {
+      border-color: $input-border-color-focus;
+      background-color: $input-background-color-focus;
+      & + .btn {
+        border-left-color: $input-border-color-focus;
+      }
+    }
+  }
   & > input[type='text'] {
     padding-right: #{$input-border-radius * 2};
     border-top-right-radius: 0;
