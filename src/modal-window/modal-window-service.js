@@ -17,7 +17,6 @@ class ModalWindowController {
     this.$controller = $controller;
     this.$scope = $scope;
     this.statusMessage = statusMessage;
-    this.$modal = $modal;
     this.$q = $q;
 
     this.disabled = false;
@@ -42,8 +41,10 @@ class ModalWindowController {
     this.setProperty('showFullscreenToggle');
 
     // do not translate submitLabel to prevent double translation of submit label
-    // submit button is a akam-spinner-button, it will translate the submitLabel key
+    // submit button is a akam-spinner-button,
+    // it will translate submitLabel and submitLabelValues
     this.submitLabel = this.options.submitLabel || 'components.modal-window.label.save';
+    this.submitLabelValues = this.options.submitLabelValues;
 
     this.instance.result.finally(() => this.contentScope.$destroy());
 
@@ -82,7 +83,8 @@ class ModalWindowController {
 
   setProperty(key, defaultKey) {
     if (defaultKey) {
-      this[key] = this.$translate.instant(this.options[key] || defaultKey);
+      this[key] = this.$translate.instant(this.options[key] || defaultKey,
+        this.options[`${key}Values`]);
     } else {
       this[key] = this.options[key];
     }
