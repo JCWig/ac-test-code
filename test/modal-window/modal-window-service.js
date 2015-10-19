@@ -1,43 +1,46 @@
-'use strict';
+/* eslint-disable max-nested-callbacks */
+/* global angular, inject*/
+
 import _ from 'lodash';
 import angular from 'angular';
-
-var utilities = require('../utilities');
-var translationMock = {
-  "components": {
-    "modal-window": {
-      "label": {
-        "cancel": "Cancel",
-        "save": "Save"
+import utilities from '../utilities';
+import modalWindowService from '../../src/modal-window';
+const translationMock = {
+  'components': {
+    'modal-window': {
+      'label': {
+        'cancel': 'Cancel {{name}}',
+        'save': 'Save {{name}}'
       },
-      "title": "Modal Window",
-      "successMessage": "Value has been successfully submitted.",
-      "errorMessage": "Error occurs during last submission."
+      'title': 'Modal Window {{name}}',
+      'successMessage': 'Value has been successfully submitted. {{name}}',
+      'errorMessage': 'Error occurs during last submission. {{name}}'
     }
   }
 };
-//i18n paths
-var LIBRARY_PATH = /\/libs\/akamai-core\/[0-9]*.[0-9]*.[0-9]*\/locales\/en_US.json/;
-var CONFIG_PATH = '/apps/appname/locales/en_US.json';
-var enUsMessagesResponse = require("../i18n/i18n_responses/messages_en_US.json");
-var enUsResponse = require("../i18n/i18n_responses/en_US.json");
+const CANCEL_BUTTON = '.modal-footer button:first-child';
+const SUBMIT_BUTTON = '.modal-footer button:last-child';
+const MODAL_BODY = '.modal-body';
+const MODAL_TITLE = '.modal .modal-title';
 
-var CANCEL_BUTTON = '.modal-footer button:first-child';
-var SUBMIT_BUTTON = '.modal-footer button:last-child';
-var MODAL_BODY = '.modal-body';
-var MODAL_TITLE = '.modal .modal-title';
+function cleanUp() {
+  while (document.body.firstChild) {
+    document.body.removeChild(document.body.firstChild);
+  }
+}
+
 describe('modalWindow service', function() {
-  var self = null;
-  var $animate = null;
+  let self = null;
+  let $animate = null;
 
   beforeEach(function() {
-    inject.strictDi(true);
+    angular.mock.inject.strictDi(true);
     self = this;
     self.notify = function() {};
-    spyOn(self, "notify");
+    spyOn(self, 'notify');
 
     angular.mock.module('ngAnimateMock');
-    angular.mock.module(require('../../src/modal-window').name);
+    angular.mock.module(modalWindowService.name);
     angular.mock.module(function($translateProvider) {
       $translateProvider.translations('en_US', translationMock);
       $translateProvider.useLoader('translateNoopLoader');
@@ -73,23 +76,11 @@ describe('modalWindow service', function() {
   });
 
   afterEach(function() {
-    var modal = document.querySelector('.modal');
-    var backdrop = document.querySelector('.modal-backdrop');
-    var statusMessgeWrapper = document.querySelector('.akam-status-message-wrapper');
-
-    if (modal) {
-      modal.parentNode.removeChild(modal);
-    }
-    if (backdrop) {
-      backdrop.parentNode.removeChild(backdrop);
-    }
-    if (statusMessgeWrapper) {
-      statusMessgeWrapper.parentNode.removeChild(statusMessgeWrapper);
-    }
+    cleanUp();
   });
 
-  describe("given a modal window", function(){
-    describe("when showFullscreenToggle option is set to true", function(){
+  describe('given a modal window', function(){
+    describe('when showFullscreenToggle option is set to true', function(){
       beforeEach(function(){
         this.scope.showFullscreenToggle = true;
         this.modalWindowService.open({
@@ -101,19 +92,18 @@ describe('modalWindow service', function() {
 
         this.result = document.querySelector('i.max-min-icon');
       });
-
       it('should confirm the max min icon is visible', function() {
-        expect(this.result != null).toBe(true);
+        expect(this.result).not.toBeNull();
       });
 
       it('should confirm the max min icon icon shows full screen', function() {
         expect(this.result.classList.contains('pulsar-fullscreen')).toBe(true);
       });
-    })
+    });
   });
 
-  describe("given a modal window", function(){
-    describe("when showFullscreenToggle option is set to false", function(){
+  describe('given a modal window', function(){
+    describe('when showFullscreenToggle option is set to false', function(){
       beforeEach(function(){
         this.scope.showFullscreenToggle = true;
         this.modalWindowService.open({
@@ -127,199 +117,200 @@ describe('modalWindow service', function() {
       });
 
       it('should confirm the max min icon is not visible', function() {
-        expect(this.result == null).toBe(true);
+        expect(this.result).toBeNull();
       });
-    })
+    });
   });
 
-  describe('open()', function() {
+  describe('given a modal window', function() {
+    beforeEach(function() {
+      this.modalWindowService.open({
+        scope: this.scope,
+        title: 'Hello Akamai',
+        cancelLabel: 'Close',
+        submitLabel: 'Submit',
+        template: '<p></p>'
+      });
+
+      this.scope.$apply();
+    });
+    describe('when title is provided', function() {
+      it('should support a title option', function() {
+        let modalTitle = document.querySelector(MODAL_TITLE);
+        expect(modalTitle.textContent).toEqual('Hello Akamai');
+      });
+    });
+    describe('when cancel label is provided', function() {
+      it('should display cancel label', function() {
+        let cancelButton = document.querySelector(CANCEL_BUTTON);
+        expect(cancelButton.textContent.trim()).toEqual('Close');
+      });
+    });
+    describe('when submit label is provided', function() {
+      it('should display submit label', function() {
+        let submitButton = document.querySelector(SUBMIT_BUTTON);
+        expect(submitButton.textContent.trim()).toEqual('Submit');
+      });
+    });
+  });
+
+  describe('given a modal window', function() {
+    describe('when title is provided as translation key', function() {
+      beforeEach(function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          title: 'components.modal-window.title',
+          template: '<p></p>'
+        });
+        this.scope.$apply();
+      });
+      it('should translate title key', function() {
+        let modalTitle = document.querySelector(MODAL_TITLE);
+        expect(modalTitle.textContent).toEqual('Modal Window ');
+      });
+    });
+  });
+
+  describe('given a modal window', function() {
     describe('when no template option is provided', function() {
       it('should throw an error', function() {
-        var openFunction = _.partial(this.modalWindowService.open, {});
+        let openFunction = _.partial(this.modalWindowService.open, {});
         expect(openFunction).toThrowError();
       });
     });
+  });
 
+  describe('given a modal window', function() {
     describe('when an angular element is used as a template', function() {
       beforeEach(function() {
-
         this.modalWindowService.open({
           scope: this.scope,
           template: angular.element('<p>angular element</p>')
         });
-        this.scope.$digest();
+        this.scope.$apply();
       });
       it('should render the modal window', function() {
         expect(document.querySelector('.modal-body p').textContent).toBe('angular element');
       });
     });
+  });
 
-    it('should support a title option', function() {
-      var title = 'Hello Akamai';
-
-      this.modalWindowService.open({
-        scope: this.scope,
-        title: title,
-        template: '<p></p>'
+  describe('given a modal window', function() {
+    describe('when an icon is provided', function() {
+      beforeEach(function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          icon: 'svg-information',
+          template: '<p></p>'
+        });
+        this.scope.$apply();
       });
-      this.scope.$apply();
-
-      var modalTitle = document.querySelector(MODAL_TITLE);
-      expect(modalTitle.textContent).toEqual(title);
-    });
-
-    it('should translate title if key is provided', function() {
-      var title = 'Akamai Common Components';
-
-      this.modalWindowService.open({
-        scope: this.scope,
-        title: 'components.name',
-        template: '<p></p>'
+      it('should support a private icon option', function() {
+        let modalPrivateIcon = document.querySelector('.modal-header i:first-child');
+        expect(modalPrivateIcon.classList.contains('svg-information')).toBe(true);
       });
-      this.scope.$digest();
-
-      var modalTitle = document.querySelector(MODAL_TITLE);
-      this.timeout(function(){
-        expect(modalTitle.textContent).toEqual(title);
-      }, 0);
-
     });
-
-    it('should support a private icon option', function() {
-      var icon = 'svg-information';
-
-      this.modalWindowService.open({
-        scope: this.scope,
-        icon: icon,
-        template: '<p></p>'
+    describe('when an inline template is provided', function() {
+      beforeEach(function() {
+        this.scope.name = 'Akamai';
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: '<span>{{ name }}</span>'
+        });
+        this.scope.$apply();
       });
-      this.scope.$apply();
-
-      var modalPrivateIcon = document.querySelector('.modal-header i:first-child');
-      expect(modalPrivateIcon.classList.contains(icon)).toBe(true);
-    });
-
-    it('should support a cancel label option', function() {
-      var label = 'Close';
-
-      this.modalWindowService.open({
-        scope: this.scope,
-        cancelLabel: label,
-        template: '<p></p>'
+      it('should support an inline template option', function() {
+        let modalBody = document.querySelector(MODAL_BODY);
+        expect(modalBody.textContent.trim()).toEqual(this.scope.name);
       });
-      this.scope.$apply();
-
-      var cancelButton = document.querySelector(CANCEL_BUTTON);
-      expect(cancelButton.textContent).toMatch(new RegExp(label));
     });
+    describe('when a templateUrl is provided', function() {
+      beforeEach(function() {
+        let url = 'modal-window/template.html';
+        let template = '<span>{{ name }}</span>';
 
-    it('should support a submit label option', function() {
-      var label = 'Submit';
-
-      this.modalWindowService.open({
-        scope: this.scope,
-        submitLabel: label,
-        template: '<p></p>'
+        this.scope.name = 'Akamai';
+        this.httpBackend.whenGET(url).respond(template);
+        this.modalWindowService.open({
+          scope: this.scope,
+          templateUrl: url
+        });
+        this.httpBackend.flush();
       });
-      this.scope.$apply();
-
-      var submitButton = document.querySelector(SUBMIT_BUTTON);
-      expect(submitButton.textContent).toMatch(new RegExp(label));
-    });
-
-    it('should support an inline template option', function() {
-      this.scope.name = 'Akamai';
-      this.modalWindowService.open({
-        scope: this.scope,
-        template: '<span>{{ name }}</span>'
+      it('should support a template url option', function() {
+        var modalBody = document.querySelector(MODAL_BODY);
+        expect(modalBody.textContent.trim()).toEqual('Akamai');
+        this.httpBackend.verifyNoOutstandingRequest();
       });
-      this.scope.$apply();
-
-      var modalBody = document.querySelector(MODAL_BODY);
-      expect(modalBody.textContent.trim()).toEqual(this.scope.name);
     });
-
-    it('should support a template url option', function() {
-      var url = 'modal-window/template.html';
-      var template = '<span>{{ name }}</span>';
-
-      this.scope.name = 'Akamai';
-      this.httpBackend.whenGET(url).respond(template);
-      this.modalWindowService.open({
-        scope: this.scope,
-        templateUrl: url
+    describe('when hide submit button is true', function() {
+      beforeEach(function() {
+        this.modalWindowService.open({
+          scope: this.scope,
+          hideSubmit: true,
+          template: '<p></p>'
+        });
+        this.scope.$apply();
       });
-      this.httpBackend.flush();
-
-      var modalBody = document.querySelector(MODAL_BODY);
-      expect(modalBody.textContent.trim()).toEqual(this.scope.name);
-      this.httpBackend.verifyNoOutstandingRequest();
-    });
-
-    it('should support a hide submit button option', function() {
-      this.modalWindowService.open({
-        scope: this.scope,
-        hideSubmit: true,
-        template: '<p></p>'
+      it('should hide submit button', function(){
+        let allModalButtonsInFooter = document.querySelectorAll('.modal-footer button');
+        expect(allModalButtonsInFooter.length).toEqual(1);
       });
-      this.scope.$apply();
-
-      var allModalButtonsInFooter = document.querySelectorAll('.modal-footer button');
-      expect(allModalButtonsInFooter.length).toEqual(1);
     });
-
-    it('should support toggling the submit button disabled state', function() {
-      var template = '<button class="toggle" ng-click="toggle()"></button>';
-      var toggleSubmitButton;
-      var submitButton;
-
-      this.modalWindowService.open({
-        scope: this.scope,
-        template: template,
-        controller: 'Controller'
+    describe('when submit button is shown', function() {
+      beforeEach(function(){
+        let template = '<button class="toggle" ng-click="toggle()"></button>';
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: template,
+          controller: 'Controller'
+        });
+        this.scope.$apply();
       });
-      this.scope.$apply();
-      toggleSubmitButton = document.querySelector('button.toggle');
-      submitButton = document.querySelector(SUBMIT_BUTTON);
+      it('should support toggling the submit button disabled state', function() {
+        let toggleSubmitButton,
+            submitButton;
 
-      utilities.click(toggleSubmitButton);
-      this.scope.$apply();
-      expect(submitButton.disabled).toBe(true);
+        toggleSubmitButton = document.querySelector('button.toggle');
+        submitButton = document.querySelector(SUBMIT_BUTTON);
 
-      utilities.click(toggleSubmitButton);
-      this.scope.$apply();
-      expect(submitButton.disabled).toBe(false);
+        utilities.click(toggleSubmitButton);
+        expect(submitButton.disabled).toBe(true);
+
+        utilities.click(toggleSubmitButton);
+        expect(submitButton.disabled).toBe(false);
+      });
     });
-
-    describe('when a user clicks the submit button', function() {
-      it('should notify the modal window to return a result', function() {
-        var submitButton;
-
+    describe('when submit button is clicked', function() {
+      beforeEach(function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
           controller: 'Controller'
         });
         this.scope.$apply();
-        submitButton = document.querySelector(SUBMIT_BUTTON);
+      });
+      it('should notify the modal window to return a result', function() {
+        let submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$apply();
         expect(this.notify).toHaveBeenCalled();
       });
+    });
 
-      it('should handle processing scenario with rejected promise (reset submit)', function() {
-        var submitButton;
-        var deferral = this.q.defer();
+    describe('when submit button is clicked', function() {
+      beforeEach(function() {
+        this.deferral = this.q.defer();
+        let self = this;
 
-        function Controller($scope, $q) {
+        function Controller($scope) {
           $scope.setOnSubmit(
             function() {
-              return deferral.promise;
+              return self.deferral.promise;
             }
           );
         }
-        Controller.$inject = ['$scope', '$q'];
+        Controller.$inject = ['$scope'];
 
         this.modalWindowService.open({
           scope: this.scope,
@@ -327,150 +318,125 @@ describe('modalWindow service', function() {
           controller: Controller
         });
         this.scope.$apply();
-        submitButton = document.querySelector(SUBMIT_BUTTON);
+      });
+      it('should disable submit button while processing', function() {
+        let submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$apply();
-        //ensure the submit button is disabled while processing
-        expect(submitButton.getAttribute('disabled')).not.toBeNull();
-        deferral.reject();
+        expect(submitButton.getAttribute('disabled')).toBeTruthy();
+      });
+      it('should enable submit button after processing fails', function() {
+        let submitButton = document.querySelector(SUBMIT_BUTTON);
+
+        utilities.click(submitButton);
+
+        this.deferral.reject();
         this.timeout.flush();
-        this.scope.$apply();
+
         submitButton = document.querySelector(SUBMIT_BUTTON);
         expect(submitButton.getAttribute('disabled')).toBeNull();
       });
+    });
+    describe('when submit button is clicked', function() {
+      describe('and when rejected promise', function() {
+        beforeEach(function() {
+          this.deferral = this.q.defer();
+          let self = this;
 
-      it('should verify error class added in modal-header node with rejected promise', function() {
-        var submitButton,
-          modalHeaderEl,
-          deferral = this.q.defer();
+          function Controller($scope) {
+            $scope.setOnSubmit(
+              function() {
+                return self.deferral.promise;
+              }
+            );
+          }
+          Controller.$inject = ['$scope'];
 
-        function Controller($scope, $q) {
+          this.modalWindowService.open({
+            scope: this.scope,
+            template: '<p></p>',
+            controller: Controller
+          });
+          this.scope.$apply();
+        });
+        it('should add error class in modal header', function() {
+          let submitButton = document.querySelector(SUBMIT_BUTTON);
+          let modalHeaderEl = angular.element(document.querySelector('.modal-header'));
+
+          utilities.click(submitButton);
+
+          expect(modalHeaderEl.hasClass('error')).toBe(false);
+          this.deferral.reject();
+          this.timeout.flush();
+
+          expect(modalHeaderEl.hasClass('error')).toBe(true);
+        });
+        it('should verify akam-status-message-wrapper class added', function() {
+          let submitButton = document.querySelector(SUBMIT_BUTTON);
+          let statusMessageWrapperEl = document.querySelector('.akam-status-message-wrapper');
+
+          utilities.click(submitButton);
+          this.scope.$apply();
+
+          expect(statusMessageWrapperEl).toBe(null);
+
+          this.deferral.reject();
+          this.timeout.flush();
+
+          statusMessageWrapperEl = document.querySelector('.akam-status-message-wrapper');
+          expect(statusMessageWrapperEl).not.toBe(null);
+
+          let messageContentEl = document.querySelector('.status-message-content');
+          expect(messageContentEl.textContent).not.toBe(null);
+        });
+      });
+    });
+  });
+  describe('given a modal window', function() {
+    describe('when submit button is clicked', function() {
+      beforeEach(function() {
+        this.deferral = this.q.defer();
+        let self = this;
+
+        function Controller($scope) {
           $scope.setOnSubmit(
             function() {
-              return deferral.promise;
+              return self.deferral.promise;
             }
           );
         }
-        Controller.$inject = ['$scope', '$q'];
+        Controller.$inject = ['$scope'];
 
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>',
           controller: Controller
         });
+
         this.scope.$apply();
-        submitButton = document.querySelector(SUBMIT_BUTTON);
-        modalHeaderEl = angular.element(document.querySelector(".modal-header"));
-        utilities.click(submitButton);
-        this.scope.$apply();
-        expect(modalHeaderEl.hasClass('error')).toBe(false);
-        deferral.reject();
-        this.timeout.flush();
-        this.scope.$apply();
-        expect(modalHeaderEl.hasClass('error')).toBe(true);
       });
-
-      it('should verify akam-status-message-wrapper class added node with rejected promise', function() {
-        var submitButton,
-          statusMessageWrapperEl,
-          deferral = this.q.defer();
-
-        function Controller($scope, $q) {
-          $scope.setOnSubmit(
-            function() {
-              return deferral.promise;
-            }
-          );
-        }
-        Controller.$inject = ['$scope', '$q'];
-
-        this.modalWindowService.open({
-          scope: this.scope,
-          template: '<p></p>',
-          controller: Controller
-        });
-        this.scope.$apply();
-        submitButton = document.querySelector(SUBMIT_BUTTON);
-        statusMessageWrapperEl = document.querySelector(".akam-status-message-wrapper");
-
-        utilities.click(submitButton);
-        this.scope.$apply();
-        expect(statusMessageWrapperEl).toBe(null);
-        deferral.reject();
-        this.timeout.flush();
-        this.scope.$apply();
-        statusMessageWrapperEl = document.querySelector(".akam-status-message-wrapper");
-        expect(statusMessageWrapperEl).not.toBe(null);
-        var messageContentEl = document.querySelector(".status-message-content");
-        expect(messageContentEl.textContent).not.toBe(null);
-      });
-
       it('should disable icons in header', function() {
-        var submitButton;
-        var deferral = this.q.defer();
-
-        function Controller($scope, $q) {
-          $scope.setOnSubmit(
-            function() {
-              return deferral.promise;
-            }
-          );
-        }
-        Controller.$inject = ['$scope', '$q'];
-
-        this.modalWindowService.open({
-          scope: this.scope,
-          template: '<p></p>',
-          controller: Controller
-        });
-
-        this.scope.$apply();
-        submitButton = document.querySelector(SUBMIT_BUTTON);
-
+        let submitButton = document.querySelector(SUBMIT_BUTTON);
         utilities.click(submitButton);
-        this.scope.$apply();
 
-        var closeIcon = document.querySelector('.modal-header i');
+        let closeIcon = document.querySelector('.modal-header i');
         expect(closeIcon.classList.contains('disabled')).toBe(true);
       });
-
       it('should verify in-progress class when processing', function() {
-        var submitButton;
-        var deferral = this.q.defer();
-
-        function Controller($scope, $q) {
-          $scope.setOnSubmit(
-            function() {
-              return deferral.promise;
-            }
-          );
-        }
-        Controller.$inject = ['$scope', '$q'];
-
-        this.modalWindowService.open({
-          scope: this.scope,
-          template: '<p></p>',
-          controller: Controller
-        });
-
-        this.scope.$apply();
-        submitButton = document.querySelector(SUBMIT_BUTTON);
+        let submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
-        this.scope.$apply();
         expect(submitButton.classList.contains('in-progress')).toBe(true);
       });
-
-      it('should handle onSubmit being set to a value', function() {
-        var submitButton;
-
-        function Controller($scope, $q) {
+    });
+    describe('when submit button is clicked', function() {
+      beforeEach(function() {
+        function Controller($scope) {
           $scope.setOnSubmit(
             'hello'
           );
         }
-        Controller.$inject = ['$scope', '$q'];
+        Controller.$inject = ['$scope'];
 
         this.modalWindowService.open({
           scope: this.scope,
@@ -478,6 +444,9 @@ describe('modalWindow service', function() {
           controller: Controller
         });
         this.scope.$apply();
+      });
+      it('should handle onSubmit being set to a value', function() {
+        let submitButton;
         submitButton = document.querySelector(SUBMIT_BUTTON);
 
         utilities.click(submitButton);
@@ -487,22 +456,21 @@ describe('modalWindow service', function() {
         $animate.triggerCallbacks();
         this.scope.$digest();
 
-        var modalWindow = document.querySelector('.modal');
+        let modalWindow = document.querySelector('.modal');
         expect(modalWindow).toBe(null);
       });
-
     });
-
-    describe('when a user clicks the cancel button', function() {
-      it('should dismiss the modal window', function() {
+    describe('when cancel button is clicked', function() {
+      beforeEach(function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>'
         });
-        var cancelButton;
 
         this.scope.$apply();
-        cancelButton = document.querySelector(CANCEL_BUTTON);
+      });
+      it('should dismiss the modal window', function() {
+        let cancelButton = document.querySelector(CANCEL_BUTTON);
         utilities.click(cancelButton);
 
         $animate.triggerCallbacks();
@@ -510,21 +478,21 @@ describe('modalWindow service', function() {
         $animate.triggerCallbacks();
         this.scope.$digest();
 
-        var modalWindow = document.querySelector('.modal');
+        let modalWindow = document.querySelector('.modal');
         expect(modalWindow).toBe(null);
       });
     });
-
-    describe('when a user clicks the close icon', function() {
-      it('should dismiss the modal window', function() {
+    describe('when close icon is clicked', function() {
+      beforeEach(function() {
         this.modalWindowService.open({
           scope: this.scope,
           template: '<p></p>'
         });
-        var closeIcon;
 
         this.scope.$apply();
-        closeIcon = document.querySelector('.modal-header i');
+      });
+      it('should dismiss the modal window', function(){
+        let closeIcon = document.querySelector('.modal-header i');
         utilities.click(closeIcon);
 
         $animate.triggerCallbacks();
@@ -532,449 +500,314 @@ describe('modalWindow service', function() {
         $animate.triggerCallbacks();
         this.scope.$digest();
 
-        var modalWindow = document.querySelector('.modal');
-
+        let modalWindow = document.querySelector('.modal');
         expect(modalWindow).toBe(null);
       });
     });
-
-    describe('when missing static label values', function() {
-      it('should display translated default title text', function() {
-        var title = 'Modal Window';
-        var modalTitle;
-
+    describe('when label values are not provided', function() {
+      beforeEach(function() {
         this.modalWindowService.open({
           scope: this.scope,
-          title: "",
+          title: '',
           template: '<p></p>'
         });
         this.scope.$apply();
-
-        modalTitle = document.querySelector(MODAL_TITLE);
-        expect(modalTitle.textContent).toEqual(title);
       });
-
-      it('should display translated default cancel button text', function() {
-        var cancelLabel = 'Cancel';
-        var cancelButton;
-
+      it('should display default value for title', function() {
+        let modalTitle = document.querySelector(MODAL_TITLE);
+        expect(modalTitle.textContent).toEqual('Modal Window ');
+      });
+      it('should display default value for cancel button', function() {
+        let cancelButton = document.querySelector(CANCEL_BUTTON);
+        expect(cancelButton.textContent).toContain('Cancel ');
+      });
+      it('should display default value for submit button', function() {
+        let submitButton = document.querySelector(SUBMIT_BUTTON);
+        expect(submitButton.textContent).toContain('Save ');
+      });
+    });
+    describe('when translation keys are provided', function(){
+      beforeEach(function() {
         this.modalWindowService.open({
           scope: this.scope,
-          cancelLabel: "",
+          cancelLabel: 'components.modal-window.label.cancel',
+          submitLabel: 'components.modal-window.label.save',
           template: '<p></p>'
         });
         this.scope.$apply();
-
-        cancelButton = document.querySelector(CANCEL_BUTTON);
-        expect(cancelButton.textContent).toContain(cancelLabel);
       });
+      it('should translate cancel label', function() {
+        let cancelButton = document.querySelector(CANCEL_BUTTON);
+        expect(cancelButton.textContent).toContain('Cancel ');
+      });
+      it('should translate submit label', function() {
+        let submitButton = document.querySelector(SUBMIT_BUTTON);
+        expect(submitButton.textContent).toContain('Save ');
+      });
+    });
 
-      it('should display translated cancel button text if key provided', function() {
-        var cancelLabel = 'Akamai Common Components';
-        var cancelButton;
+    describe('when submit button is clicked', function() {
+      describe('and processing fails', function() {
+        describe('and error message is not provided', function() {
+          beforeEach(function() {
+            this.deferral = this.q.defer();
+            let self = this;
 
-        this.modalWindowService.open({
-          scope: this.scope,
-          cancelLabel: "components.name",
-          template: '<p></p>'
+            function Controller($scope) {
+              $scope.setOnSubmit(
+                function() {
+                  return self.deferral.promise;
+                }
+              );
+            }
+            Controller.$inject = ['$scope'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              controller: Controller
+            });
+            this.scope.$apply();
+
+            let submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+
+            this.deferral.reject();
+            this.timeout.flush();
+          });
+          it('should render default value for error message', function() {
+            let messageContentEl = document.querySelector('.status-message-content');
+            expect(messageContentEl.textContent).toContain('Error occurs during last submission. ');
+          });
         });
-        this.scope.$digest();
+        describe('and error message is provided', function() {
+          beforeEach(function() {
+            this.deferral = this.q.defer();
+            let self = this;
 
-        cancelButton = document.querySelector(CANCEL_BUTTON);
-        this.timeout(function(){
-          expect(cancelButton.textContent).toContain(cancelLabel);
-        }, 0);
+            function Controller($scope) {
+              $scope.setOnSubmit(
+                function() {
+                  return self.deferral.promise;
+                }
+              );
+            }
+            Controller.$inject = ['$scope'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              errorMessage: 'components.modal-window.errorMessage',
+              controller: Controller
+            });
+            this.scope.$apply();
+
+            let submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+
+            this.deferral.reject();
+            this.timeout.flush();
+          });
+          it('should translate error message', function() {
+            let messageContentEl = document.querySelector('.status-message-content');
+            expect(messageContentEl.textContent).toContain('Error occurs during last submission.');
+          });
+        });
       });
+    });
+    describe('when submit button is clicked', function() {
+      describe('and processes successfully', function() {
+        describe('and successMessage is not provided', function() {
+          beforeEach(function() {
+            this.deferral = this.q.defer();
 
-      it('should display translated default submit button text', function() {
-        var submitLabel = 'Save';
-        var submitButton;
+            function Controller($scope) {
+              $scope.setOnSubmit(
+                'true'
+              );
+            }
+            Controller.$inject = ['$scope'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              controller: Controller
+            });
+            this.scope.$apply();
+
+            let submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+          });
+          it('should render default value for success message', function() {
+            let messageContentEl = document.querySelectorAll('.status-message-content');
+            expect(messageContentEl[messageContentEl.length - 1].textContent).toContain('Value has been successfully submitted.');
+          });
+        });
+        describe('and successMessage is provided', function() {
+          beforeEach(function() {
+            this.deferral = this.q.defer();
+
+            function Controller($scope) {
+              $scope.setOnSubmit(
+                'true'
+              );
+            }
+            Controller.$inject = ['$scope'];
+
+            this.modalWindowService.open({
+              scope: this.scope,
+              template: '<p></p>',
+              successMessage: 'components.modal-window.successMessage',
+              controller: Controller
+            });
+            this.scope.$apply();
+
+            let submitButton = document.querySelector(SUBMIT_BUTTON);
+            utilities.click(submitButton);
+          });
+          it('should translate success message', function() {
+            let messageContentEl = document.querySelectorAll('.status-message-content');
+            expect(messageContentEl[messageContentEl.length - 1].textContent).toContain('Value has been successfully submitted.');
+          });
+        });
+      });
+    });
+    describe('when the modal window is dismissed', function() {
+      beforeEach(function() {
+        spyOn(this.scope, '$destroy');
 
         this.modalWindowService.open({
           scope: this.scope,
-          submitLabel: "",
-          template: '<p></p>'
+          template: '<p></p>',
+          controller: 'Controller'
         });
         this.scope.$apply();
 
-        submitButton = document.querySelector(SUBMIT_BUTTON);
-        expect(submitButton.textContent).toContain(submitLabel);
+        let closeIcon = document.querySelector('.modal-header i');
+        utilities.click(closeIcon);
       });
-
-      it('should display translated default submit button text if key provided', function() {
-        var submitLabel = 'Akamai Common Components';
-        var submitButton;
+      it('should destroy the provided scope', function() {
+        expect(this.scope.$destroy).toHaveBeenCalled();
+      });
+    });
+    describe('when the modal window is closed', function() {
+      beforeEach(function() {
+        spyOn(this.scope, '$destroy');
 
         this.modalWindowService.open({
           scope: this.scope,
-          submitLabel: "components.name",
-          template: '<p></p>'
+          template: '<p></p>',
+          controller: 'Controller'
         });
-        this.scope.$digest();
+        this.scope.$apply();
 
-        submitButton = document.querySelector(SUBMIT_BUTTON);
-        this.timeout(function(){
-          expect(submitButton.textContent).toContain(submitLabel);
-        },0);
+        var submitButton = document.querySelector(SUBMIT_BUTTON);
+        utilities.click(submitButton);
+      });
 
+      it('should destroy the provided scope', function() {
+        expect(this.scope.$destroy).toHaveBeenCalled();
       });
     });
   });
-  describe('when modal window is open', function(){
-    describe('and cancel label value is not provided', function(){
-      it('should render default value for cancel label', function() {
+  describe('given a modal window', function() {
+    describe('when label-values are provided', function(){
+      beforeEach(function() {
         this.modalWindowService.open({
           scope: this.scope,
+          title: 'components.modal-window.title',
+          titleValues: {'name':'- Title'},
+          successMessage: 'components.modal-window.successMessage',
+          successMessageValues: {'name':'- Success'},
+          errorMessage: 'components.modal-window.errorMessage',
+          errorMessageValues: {'name':'- Error'},
+          cancelLabel: 'components.modal-window.label.cancel',
+          cancelLabelValues: {'name': '- Cancel'},
+          submitLabel: 'components.modal-window.label.save',
+          submitLabelValues: {'name': '- Save'},
           template: '<p></p>'
         });
-        this.scope.$digest();
-
-        var cancelButton = document.querySelector(CANCEL_BUTTON);
-        this.timeout(function(){
-          expect(cancelButton.textContent).toMatch(/Cancel/);
-        },0);
+        this.scope.$apply();
+      });
+      it('should translate titleValues', function() {
+        let label = document.querySelector(MODAL_TITLE);
+        expect(label.textContent).toContain('Modal Window - Title');
+      });
+      it('should translate cancelLabelValues', function() {
+        let label = document.querySelector(CANCEL_BUTTON);
+        expect(label.textContent).toContain('Cancel - Cancel');
+      });
+      it('should translate submitLabelValues', function() {
+        let label = document.querySelector(SUBMIT_BUTTON);
+        expect(label.textContent).toContain('Save - Save');
       });
     });
-    describe('and cancel label value is provided', function(){
-      it('should translate cancelLabel if key is valid', function() {
-        this.modalWindowService.open({
-          scope: this.scope,
-          cancelLabel: "components.modal-window.title",
-          template: '<p></p>'
-        });
-        this.scope.$digest();
-
-        var cancelButton = document.querySelector(CANCEL_BUTTON);
-        this.timeout(function(){
-          expect(cancelButton.textContent).toMatch(/Modal Window/);
-        },0);
-      });
-      it('should translate and display key if key is invalid', function() {
-        this.modalWindowService.open({
-          scope: this.scope,
-          cancelLabel: "invalidKey",
-          template: '<p></p>'
-        });
-        this.scope.$digest();
-
-        var cancelButton = document.querySelector(CANCEL_BUTTON);
-        this.timeout(function(){
-          expect(cancelButton.textContent).toMatch(/invalidKey/);
-        },0);
-      });
-    });
-
-    describe('and submit label value is not provided', function(){
-      it('should render default value for submit label', function() {
-        this.modalWindowService.open({
-          scope: this.scope,
-          template: '<p></p>'
-        });
-        this.scope.$digest();
-
-        var submitButton = document.querySelector(SUBMIT_BUTTON);
-        this.timeout(function(){
-          expect(submitButton.textContent).toMatch(/Save/);
-        },0);
-      });
-    });
-    describe('and submit label value is provided', function(){
-      it('should translate submitLabel if key is valid', function() {
-        this.modalWindowService.open({
-          scope: this.scope,
-          submitLabel: "components.modal-window.title",
-          template: '<p></p>'
-        });
-        this.scope.$digest();
-
-        var submitButton = document.querySelector(SUBMIT_BUTTON);
-        this.timeout(function(){
-          expect(submitButton.textContent).toMatch(/Modal Window/);
-        },0);
-      });
-      it('should translate and display key if key is invalid', function() {
-        this.modalWindowService.open({
-          scope: this.scope,
-          submitLabel: "invalidKey",
-          template: '<p></p>'
-        });
-        this.scope.$digest();
-
-        var submitButton = document.querySelector(SUBMIT_BUTTON);
-        this.timeout(function(){
-          expect(submitButton.textContent).toMatch(/invalidKey/);
-        },0);
-      });
-    });
-    describe('and submit button is clicked', function(){
-      describe('and error message is displayed', function(){
-        describe('and errorMessage attribute is not provided', function(){
-          it('should render default value for error message', function() {
-            var submitButton,
-              deferral = this.q.defer();
-
-            function Controller($scope, $q) {
-              $scope.setOnSubmit(
-                function() {
-                  return deferral.promise;
-                }
-              );
-            }
-            Controller.$inject = ['$scope', '$q'];
-
-            this.modalWindowService.open({
-              scope: this.scope,
-              template: '<p></p>',
-              controller: Controller
-            });
-            this.scope.$digest();
-            submitButton = document.querySelector(SUBMIT_BUTTON);
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            deferral.reject();
-            this.timeout.flush();
-            this.scope.$digest();
-
-            var messageContentEl = document.querySelector(".status-message-content");
-            this.timeout(function(){
-              expect(messageContentEl.textContent).toContain("The action can't be completed.");
-            },0);
-
-          });
-        });
-        describe('and errorMessage attribute is provided', function(){
-          it('should translate error message if key is valid', function() {
-            var submitButton,
-              deferral = this.q.defer();
-
-            function Controller($scope, $q) {
-              $scope.setOnSubmit(
-                function() {
-                  return deferral.promise;
-                }
-              );
-            }
-            Controller.$inject = ['$scope', '$q'];
-
-            this.modalWindowService.open({
-              scope: this.scope,
-              template: '<p></p>',
-              controller: Controller,
-              errorMessage: "components.modal-window.successMessage"
-            });
-            this.scope.$digest();
-            submitButton = document.querySelector(SUBMIT_BUTTON);
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            deferral.reject();
-            this.timeout.flush();
-            this.scope.$digest();
-
-            var messageContentEl = document.querySelector(".status-message-content");
-            this.timeout(function(){
-              expect(messageContentEl.textContent).toContain("The action has been completed.");
-            },0);
-          });
-          it('should translate and display key if key is invalid', function() {
-            var submitButton,
-              deferral = this.q.defer();
-
-            function Controller($scope, $q) {
-              $scope.setOnSubmit(
-                function() {
-                  return deferral.promise;
-                }
-              );
-            }
-            Controller.$inject = ['$scope', '$q'];
-
-            this.modalWindowService.open({
-              scope: this.scope,
-              template: '<p></p>',
-              controller: Controller,
-              errorMessage: "invalidKey"
-            });
-            this.scope.$digest();
-            submitButton = document.querySelector(SUBMIT_BUTTON);
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            deferral.reject();
-            this.timeout.flush();
-            this.scope.$digest();
-
-            var messageContentEl = document.querySelector(".status-message-content");
-            this.timeout(function(){
-              expect(messageContentEl.textContent).toContain("invalidKey");
-            },0);
-          });
-        });
-      });
-    });
-
-
-
-    describe('and submit button is clicked', function(){
-      describe('and success message is displayed', function(){
-        describe('and sucessMessage attribute is not provided', function(){
-          it('should render default value for success message', function() {
-            var submitButton,
-              deferral = this.q.defer();
-
-            function Controller($scope, $q) {
-              $scope.setOnSubmit(
-                function() {
-                  return deferral.promise;
-                }
-              );
-            }
-            Controller.$inject = ['$scope', '$q'];
-
-            this.modalWindowService.open({
-              scope: this.scope,
-              template: '<p></p>',
-              controller: Controller
-            });
-
-            this.scope.$digest();
-            submitButton = document.querySelector(SUBMIT_BUTTON);
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            deferral.resolve();
-            this.scope.$digest();
-
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            var messageContentEl = document.querySelector(".status-message-content");
-            this.timeout(function(){
-              expect(messageContentEl.textContent).toContain("The action has been completed");
-            },0);
-
-          });
-        });
-        describe('and sucessMessage attribute is provided', function(){
-          it('should translate success message if key is valid', function() {
-            var submitButton,
-              deferral = this.q.defer();
-
-            function Controller($scope, $q) {
-              $scope.setOnSubmit(
-                function() {
-                  return deferral.promise;
-                }
-              );
-            }
-            Controller.$inject = ['$scope', '$q'];
-
-            this.modalWindowService.open({
-              scope: this.scope,
-              template: '<p></p>',
-              controller: Controller,
-              successMessage: "components.modal-window.title"
-            });
-
-            this.scope.$digest();
-            submitButton = document.querySelector(SUBMIT_BUTTON);
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            deferral.resolve();
-            this.scope.$digest();
-
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            var messageContentEl = document.querySelector(".status-message-content");
-            this.timeout(function(){
-              expect(messageContentEl.textContent).toContain("Modal Window");
-            },0);
-          });
-          it('should translate and display key if key is invalid', function() {
-            var submitButton,
-              deferral = this.q.defer();
-
-            function Controller($scope, $q) {
-              $scope.setOnSubmit(
-                function() {
-                  return deferral.promise;
-                }
-              );
-            }
-            Controller.$inject = ['$scope', '$q'];
-
-            this.modalWindowService.open({
-              scope: this.scope,
-              template: '<p></p>',
-              controller: Controller,
-              successMessage: "invalidKey"
-            });
-
-            this.scope.$digest();
-            submitButton = document.querySelector(SUBMIT_BUTTON);
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            deferral.resolve();
-            this.scope.$digest();
-
-            utilities.click(submitButton);
-            this.scope.$digest();
-
-            var messageContentEl = document.querySelector(".status-message-content");
-            this.timeout(function(){
-              expect(messageContentEl.textContent).toContain("invalidKey");
-            },0);
-
-          });
-        });
-      });
-    });
-
-    describe('given an open modal window with content scope', function(){
-      describe('when the modal is dismissed', function(){
+  });
+  describe('given an open model window', function() {
+    describe('when label-values are provided', function() {
+      describe('and when submitting causes error', function() {
         beforeEach(function() {
-          spyOn(this.scope, '$destroy');
+          var submitButton,
+            statusMessageWrapperEl,
+            deferral = this.q.defer();
+
+          function Controller($scope) {
+            $scope.setOnSubmit(
+              function() {
+                return deferral.promise;
+              }
+            );
+          }
+          Controller.$inject = ['$scope'];
 
           this.modalWindowService.open({
             scope: this.scope,
             template: '<p></p>',
-            controller: 'Controller'
+            controller: Controller,
+            errorMessage: 'components.modal-window.errorMessage',
+            errorMessageValues: {'name':'- Error'}
           });
           this.scope.$apply();
+          submitButton = document.querySelector(SUBMIT_BUTTON);
+          statusMessageWrapperEl = document.querySelector('.akam-status-message-wrapper');
 
-          let closeIcon = document.querySelector('.modal-header i');
-          utilities.click(closeIcon);
+          utilities.click(submitButton);
+
+          expect(statusMessageWrapperEl).toBe(null);
+          deferral.reject();
+          this.timeout.flush();
         });
-
-        it('should destroy the provided scope', function() {
-          expect(this.scope.$destroy).toHaveBeenCalled();
+        it('should translate errorMessage and errorMessageValues', function() {
+          let label = document.querySelector('.status-message-content');
+          expect(label.textContent).toContain('Error occurs during last submission. - Error');
         });
       });
-
-      describe('when the modal is closed', function(){
+    });
+  });
+  describe('given an open model window', function() {
+    describe('when label-values are provided', function() {
+      describe('and when submitting successfully', function() {
         beforeEach(function() {
-          spyOn(this.scope, '$destroy');
+          let submitButton;
 
           this.modalWindowService.open({
             scope: this.scope,
             template: '<p></p>',
-            controller: 'Controller'
+            successMessage: 'components.modal-window.successMessage',
+            successMessageValues: {'name':'- Success'}
           });
           this.scope.$apply();
 
-          var submitButton = document.querySelector(SUBMIT_BUTTON);
+          submitButton = document.querySelector(SUBMIT_BUTTON);
           utilities.click(submitButton);
         });
-
-        it('should destroy the provided scope', function() {
-          expect(this.scope.$destroy).toHaveBeenCalled();
+        it('should translate successMessage and successMessageValues', function() {
+          let messageContentEl = document.querySelectorAll('.status-message-content');
+          expect(messageContentEl[messageContentEl.length - 1].textContent).toContain('Value has been successfully submitted. - Success');
         });
       });
-
     });
   });
 });
+
+
