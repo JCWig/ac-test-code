@@ -19,11 +19,11 @@
   </div>
   <akam-modal-window-body></akam-modal-window-body>
   <div class="modal-footer">
-    <button type="button" class="btn btn-large" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
+    <button type="button" class="btn btn-large cancel-button" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
       {{ modalWindow.cancelLabel }}
     </button>
     <akam-spinner-button
-        class="btn-large"
+        class="btn-large submit-button"
         ng-if="!modalWindow.hideSubmit"
         disabled="modalWindow.isSubmitDisabled()"
         processing="modalWindow.processing"

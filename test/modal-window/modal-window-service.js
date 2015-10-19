@@ -18,8 +18,8 @@ const translationMock = {
     }
   }
 };
-const CANCEL_BUTTON = '.modal-footer button:first-child';
-const SUBMIT_BUTTON = '.modal-footer button:last-child';
+const CANCEL_BUTTON = '.modal-footer .cancel-button';
+const SUBMIT_BUTTON = '.modal-footer .submit-button';
 const MODAL_BODY = '.modal-body';
 const MODAL_TITLE = '.modal .modal-title';
 
@@ -210,6 +210,28 @@ describe('modalWindow service', function() {
         expect(modalPrivateIcon.classList.contains('svg-information')).toBe(true);
       });
     });
+
+    describe('given a modal window', function() {
+      describe('when open', function() {
+        let canceltButton, submitButton;
+        beforeEach(function() {
+          this.modalWindowService.open({
+            scope: this.scope,
+            template: '<p></p>'
+          });
+          this.scope.$apply();
+          submitButton = document.querySelector(SUBMIT_BUTTON);
+          canceltButton = document.querySelector(CANCEL_BUTTON);
+        });
+        it('should have button rendered with class name cancel-button ', function() {
+          expect(canceltButton).not.toBe(null);
+        });
+        it('should have button rendered with class name submit-button ', function() {
+          expect(submitButton).not.toBe(null);
+        });
+      });
+    });
+
     describe('when an inline template is provided', function() {
       beforeEach(function() {
         this.scope.name = 'Akamai';
