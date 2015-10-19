@@ -132,6 +132,16 @@
 </div>
 <br/>
 
+<div>
+    <h2>Default Autocomplete with a list of object with onSearch return promise</h2>
+    <div>
+        <akam-autocomplete ng-model="vm.ex9.selectedState" is-disabled="vm.disabled" clearable
+                key-property="state.key" text-property="state.name" on-search="vm.searchStateObjectsWithKeysWithPromise(searchTerm)">
+        </akam-autocomplete>
+    </div>
+</div>
+<br/>
+
 
 <div>
     <h2>Default Autocomplete with a list of strings - min search is 3 characters</h2>
@@ -151,8 +161,8 @@
             .controller('AutocompleteAppController', AutocompleteAppController)
             .config(configFunction);
 
-    AutocompleteAppController.$inject = ['$log', '$translate', '$filter'];
-    function AutocompleteAppController($log, $translate, $filter) {
+    AutocompleteAppController.$inject = ['$log', '$translate', '$filter', '$q', '$timeout'];
+    function AutocompleteAppController($log, $translate, $filter, $q, $timeout) {
         var vm = this;
         vm.test = 'test';
         vm.disabled = false;
@@ -276,6 +286,40 @@
             return $filter('filter')(stateObjectsWithKeys, criteriaMatch);
         };
 
+        vm.searchStateObjectsWithKeysWithPromise = function(searchTerm) {
+
+            var deferred = $q.defer();
+
+            var stateObjectsWithKeys = [
+                {state: {key: 'key1', name: 'Colorado'}},
+                {state: {key: 'key2', name: 'Connecticut'}},
+                {state: {key: 'key3', name: 'Maryland'}},
+                {state: {key: 'key4', name: 'Massachusetts'}},
+                {state: {key: 'key5', name: 'New Hampshire'}},
+                {state: {key: 'key6', name: 'New Jersey'}},
+                {state: {key: 'key7', name: 'New York'}},
+                {state: {key: 'key8', name: 'Vermont'}},
+                {state: {key: 'key9', name: 'Virginia'}},
+                {state: {key: 'key10', name: 'Washington, District of Columbia'}}
+            ];
+
+            var criteriaMatch = function(item) {
+                return item.state.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+            };
+
+            var results = $filter('filter')(stateObjectsWithKeys, criteriaMatch);
+
+            $timeout(function() {
+                if (results && results.length) {
+                    return deferred.resolve(results);
+                }
+                else {
+                    return deferred.reject("no results on search: " + searchTerm);
+                }
+            }, 3000);
+
+            return deferred.promise;
+        };
     }
 
     function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
