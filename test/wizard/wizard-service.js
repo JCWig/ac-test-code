@@ -511,7 +511,7 @@ describe('akamai.components.wizard', function() {
   });
 
   describe('given an open wizard with content scope', function() {
-    let wizardScope, wizardContrller;
+    let wizardScope, wizardController;
 
     describe('when the wizard is dismissed', function() {
       beforeEach(function() {
@@ -521,8 +521,8 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller1'});
         $scope.$digest();
 
-        wizardContrller = angular.element(document.querySelector('div.modal-footer')).scope().wizard;
-        spyOn(wizardContrller.instance, 'dismiss').and.callThrough();
+        wizardController = angular.element(document.querySelector('div.modal-footer')).scope().wizard;
+        spyOn(wizardController.instance, 'dismiss').and.callThrough();
 
         util.click(document.querySelector('.modal-header i'));
       });
@@ -531,7 +531,7 @@ describe('akamai.components.wizard', function() {
         expect(wizardScope.$destroy).toHaveBeenCalled();
       });
       it('should call instance dismiss function', function() {
-        expect(wizardContrller.instance.dismiss).toHaveBeenCalled();
+        expect(wizardController.instance.dismiss).toHaveBeenCalled();
       });
     });
 
