@@ -576,8 +576,8 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: [steps[0]], scope: wizardScope, controller: 'Controller1'});
         $scope.$digest();
 
-        let wizardContrller = angular.element(document.querySelector('div.modal-footer')).scope().wizard;
-        wizardContrller.processing = true;
+        let wizardController = angular.element(document.querySelector('div.modal-footer')).scope().wizard;
+        wizardController.processing = true;
         $scope.$digest();
 
         prevButton = document.querySelector(PREV_BUTTON_SELECTOR);
