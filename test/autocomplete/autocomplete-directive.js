@@ -400,7 +400,7 @@ describe('akamai.components.autocomplete', function() {
       beforeEach(function() {
         spyOn(this.$scope, 'loadStateStrings');
         addElement.call(this, `<akam-autocomplete ng-model="selectedState"
-                                                  minimum-search="3"
+                                                  minimum-search="3" append-to-body
                                                   on-search="loadStateStrings(searchTerm)">
                                </akam-autocomplete>`);
         ctrl = this.el.controller('akamAutocomplete');
@@ -414,6 +414,7 @@ describe('akamai.components.autocomplete', function() {
 
       it('should not show the menu', function() {
         expect(ctrl.isOpen).toBe(false);
+        expect(util.findElement(this.el, '.dropdown').prop('classList')).not.toContain('open');
       });
     });
     describe('when a search term of length is 3', function() {
@@ -421,7 +422,7 @@ describe('akamai.components.autocomplete', function() {
       beforeEach(function() {
         spyOn(this.$scope, 'loadStateStrings').and.returnValue([]);
         addElement.call(this, `<akam-autocomplete ng-model="selectedState"
-                                                  minimum-search="3"
+                                                  minimum-search="3" append-to-body
                                                   on-search="loadStateStrings(searchTerm)">
                                </akam-autocomplete>`);
         ctrl = this.el.controller('akamAutocomplete');
@@ -434,6 +435,7 @@ describe('akamai.components.autocomplete', function() {
       });
 
       it('should show the menu', function() {
+        expect(ctrl.isOpen).toBe(true);
         expect(util.findElement(this.el, '.dropdown').prop('classList')).toContain('open');
       });
     });
