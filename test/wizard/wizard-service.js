@@ -586,4 +586,38 @@ describe('akamai.components.wizard', function() {
       });
     });
   });
+
+  describe('given different labels for next and submit buttons', () => {
+    describe('when the wizard is opened and click next button', () => {
+      let nextButton;
+      beforeEach(() => {
+        let wizardScope = $scope.$new();
+        var step2 = {
+          name: 'Step 2',
+          template: '<p>Step 2 Content</p>',
+          initialize: function () {
+            var deferred = $q.defer();
+            deferred.resolve();
+            return deferred.promise;
+          }
+        };
+        wizard.open({steps: [steps[0], step2], scope: wizardScope, nextLabel: 'next', submitLabel: 'last', controller: 'Controller1'});
+        $scope.$digest();
+
+        nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
+      });
+
+      it('should submit button text display next', () => {
+          expect(_.trim(nextButton.textContent)).toBe('next');
+      });
+
+      it('should submit button text display last', function() {
+        util.click(nextButton);
+        $scope.$digest();
+
+        expect(_.trim(nextButton.textContent)).toBe('last');
+      });
+
+    });
+  });
 });
