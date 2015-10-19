@@ -9,7 +9,7 @@ function getDateButtonParentElement(dateNumber) {
 }
 
 function clickScrollingButton(isNext) {
-  let btnSelector = isNext ? '.move-next' : '.move-previous';
+  let btnSelector = isNext ? '.next-button' : '.previous-button';
   utils.click(document.querySelector(btnSelector));
   this.$scope.$digest();
 }
