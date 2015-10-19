@@ -33,6 +33,22 @@ class TimepickerController {
   isMinuteDisabled() {
     return this.disableMinutes === true || this.$scope.$eval(this.disableMinutes) === true;
   }
+
+  toggle(e) {
+    this.preventDefaultEvents(e);
+
+    //if there is no value, add current time for first time
+    if (!this.isOpen && !this.inputTime) {
+      this.inputTime = new Date();
+      this.changed();
+    }
+    this.isOpen = !this.isOpen;
+  }
+
+  preventDefaultEvents(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
 }
 
 TimepickerController.$inject = ['$scope', '$document', '$parse'];
@@ -77,18 +93,13 @@ function linkFn(scope, element, attrs, ngModel) {
     //to prevent enter key to close dropdown and
     //still making meridian button functional
     if (k === 13 && !isMeridian) {
-      preventDefaultEvents(e);
+      ctrl.preventDefaultEvents(e);
     }
   });
 
   element.on('click', (e) => {
-    preventDefaultEvents(e);
+    ctrl.preventDefaultEvents(e);
   });
-
-  function preventDefaultEvents(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
 }
 
 export default () => {

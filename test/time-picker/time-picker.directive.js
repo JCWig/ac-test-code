@@ -412,4 +412,34 @@ describe('akamTimepicker directive', function() {
       })
     });
   });
+
+  describe('When timepicker rendered', function() {
+    describe('given no initial time value', function() {
+      describe('click timepicker to open', function() {
+        beforeEach(function() {
+          addElement.call(this);
+          spyOn(timepicker, "toggle").and.callThrough();
+          spyOn(timepicker, "changed").and.callThrough();
+          let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
+          utilities.click(timepickerBtnElem);
+          scope.$digest();
+        });
+        it("should timepicker inputTime to be assigned date", function() {
+          expect(angular.isDate(timepicker.inputTime)).toBe(true);
+        });
+        it("should timepicker inputTime with current hours", function() {
+          expect(timepicker.inputTime.getHours()).toBe(new Date().getHours());
+        });
+        it("should timepicker inputTime with current minutes", function() {
+          expect(timepicker.inputTime.getMinutes()).toBe(new Date().getMinutes());
+        });
+        it("should timepicker toggle function have been called", function() {
+          expect(timepicker.toggle).toHaveBeenCalled();
+        });
+        it("should timepicker changed function have been called", function() {
+          expect(timepicker.changed).toHaveBeenCalled();
+        });
+      });
+    });
+  });
 });
