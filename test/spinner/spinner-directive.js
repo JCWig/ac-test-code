@@ -672,9 +672,9 @@ describe('akamai.components.spinner', function() {
     });
   });
 
-  describe('when rendered', function() {
-    describe('given scope function stopStepDown call', function() {
-      describe('given undefined scope.downMouseDownPromise value', function() {
+  describe('given scope.downMouseDownPromise value undefined', function() {
+    describe('when rendered', function() {
+      describe('scope function stopStepDown call ', function() {
         beforeEach(function() {
           scope.testData.ngModel = 2;
           addElement.call(this, '');
@@ -692,6 +692,99 @@ describe('akamai.components.spinner', function() {
         });
         it('should this.isoScope.downMouseDownPromise reset to undefined', function() {
           expect(this.isoScope.downMouseDownPromise).toBeUndefined();
+        });
+      });
+    });
+  });
+
+  describe('given spinner API custom-step not included in the markup', function() {
+    describe('when rendered and user click increment button', function() {
+      describe('input value should be ngModel + default value', function() {
+        beforeEach(function() {
+          scope.testData.ngModel = 2;
+          addElement.call(this, '');
+          this.isoScope.downMouseDownPromise = {};
+          let event = {
+            stopPropagation: angular.noop
+          };
+          this.isoScope.startStepUp(event);
+          scope.$digest();
+          interval.flush(81);
+        });
+        it('should value be increment by 1', function() {
+          expect(this.isoScope.spinner.inputValue).toBe(3);
+        });
+      });
+    });
+  });
+
+  describe('given spinner API custom-step included in the markup', function() {
+    describe('when rendered and user click increment button', function() {
+      describe('input value should be ngMode + custom step value', function() {
+        beforeEach(function() {
+          scope.testData.ngModel = 2;
+          scope.testData.customStep = 2;
+          let tpl = `<akam-spinner ng-model="testData.ngModel" custom-step="testData.customStep"></akam-spinner>`;
+          addElement.call(this, tpl);
+          this.isoScope.downMouseDownPromise = {};
+          let event = {
+            stopPropagation: angular.noop
+          };
+          this.isoScope.startStepUp(event);
+          scope.$digest();
+          interval.flush(81);
+        });
+        it('should value be increment by 2', function() {
+          expect(this.isoScope.spinner.inputValue).toBe(4);
+        });
+      });
+    });
+  });
+
+  describe('given spinner API custom-step included in the markup', function() {
+    describe('when rendered and user click decrement button', function() {
+      describe('input value should be ngMode - custom step value', function() {
+        beforeEach(function() {
+          scope.testData.ngModel = 8;
+          scope.testData.customStep = 4;
+          let tpl = `<akam-spinner ng-model="testData.ngModel" custom-step="testData.customStep"></akam-spinner>`;
+          addElement.call(this, tpl);
+          this.isoScope.upMouseDownPromise = {};
+          let event = {
+            stopPropagation: angular.noop
+          };
+          this.isoScope.startStepDown(event);
+          scope.$digest();
+          interval.flush(81);
+        });
+        it('should value be decrement by 4', function() {
+          expect(this.isoScope.spinner.inputValue).toBe(4);
+        });
+      });
+    });
+  });
+
+  describe('given spinner API custom-step included in the markup', function() {
+    describe('when rendered and user changes custom-step value', function() {
+      describe('user click decrement button', function() {
+        describe('input value should be ngMode + custom step value', function() {
+          beforeEach(function() {
+            scope.testData.ngModel = 4;
+            let tpl = `<akam-spinner ng-model="testData.ngModel" custom-step="testData.customStep"></akam-spinner>`;
+            addElement.call(this, tpl);
+            scope.testData.customStep = 2;
+            scope.$digest();
+            this.isoScope.downMouseDownPromise = {};
+            let event = {
+              stopPropagation: angular.noop
+            };
+            this.isoScope.startStepUp(event);
+            scope.$digest();
+            interval.flush(81);
+          });
+          it('should value be increment by ', function() {
+            expect(this.isoScope.spinner.inputValue).toBe(6);
+          });
         });
       });
     });

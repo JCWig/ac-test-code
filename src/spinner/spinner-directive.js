@@ -70,6 +70,7 @@ function linkFn(scope, element, attrs, ngModel) {
   //only the first time rendering, $render gets called
   ngModel.$render = () => {
     ctrl.inputValue = parseInt(ngModel.$viewValue, 10);
+    ctrl.step = ctrl.step || defaults.STEP;
   };
 
   // when model change, parse to integer, this sets up to the ngModelController
@@ -121,12 +122,6 @@ function linkFn(scope, element, attrs, ngModel) {
     }
   };
 
-  function updateInput(offset = 1) {
-    ctrl.inputValue = ctrl.inputValue + offset;
-    ngModel.$setViewValue(ctrl.inputValue);
-    ngModel.$setTouched();
-  }
-
   scope.startStepUp = (event) => {
     if (ctrl.disabled) {
       return scope.upMouseDownPromise;
@@ -141,7 +136,7 @@ function linkFn(scope, element, attrs, ngModel) {
       if (ctrl.isOverMax()) {
         scope.stopStepUp(event);
       } else {
-        updateInput(+defaults.STEP);
+        updateInput(+ctrl.step);
       }
     }, defaults.INTERVAL);
   };
@@ -170,7 +165,7 @@ function linkFn(scope, element, attrs, ngModel) {
       if (ctrl.isUnderMin()) {
         scope.stopStepDown(event);
       } else {
-        updateInput(-defaults.STEP);
+        updateInput(-ctrl.step);
       }
     }, defaults.INTERVAL);
   };
@@ -185,6 +180,12 @@ function linkFn(scope, element, attrs, ngModel) {
       scope.downMouseDownPromise = undefined;
     }
   };
+
+  function updateInput(offset = 1) {
+    ctrl.inputValue = ctrl.inputValue + offset;
+    ngModel.$setViewValue(ctrl.inputValue);
+    ngModel.$setTouched();
+  }
 }
 
 export default () => {
@@ -198,7 +199,8 @@ export default () => {
     bindToController: {
       min: '@?',
       max: '@?',
-      disabled: '=isDisabled'
+      disabled: '=isDisabled',
+      step: '=customStep'
     },
     scope: {}
   };
