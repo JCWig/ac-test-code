@@ -153,6 +153,15 @@
 </div>
 <br/>
 
+<div>
+    <h2>Default Autocomplete with a list of strings and minumum search set to 0</h2>
+        <div>
+            <akam-autocomplete ng-model="vm.ex10.selectedState"
+                     on-search="vm.searchStateStrings(searchTerm)" minimum-search="0">
+            </akam-autocomplete>
+        </div>
+</div>
+
 <script src="utils/cookies.js"></script>
 <script src="../dist/akamai-core.js"></script>
 
@@ -219,6 +228,7 @@
         vm.ex7 = { selectedState: undefined };
         vm.ex8 = { selectedState: 'key9' };
         vm.ex9 = { selectedState: undefined };
+        vm.ex10 = { selectedState: undefined };
 
         vm.searchStateStrings = function(searchTerm) {
 
@@ -341,10 +351,6 @@
     }
     configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
         '$translateProvider', 'i18nLocaleProvider'];
-
-
-
-
 </script>
 </body>
 </html>

@@ -15,12 +15,15 @@ describe('akamai.components.autocomplete', function() {
     'Massachusetts'
   ];
 
-  let stateObjects = [
-    {name: 'Colorado'},
-    {name: 'Connecticut'},
-    {name: 'Maryland'},
-    {name: 'Massachusetts'}
-  ];
+  let stateObjects = [{
+    name: 'Colorado'
+  }, {
+    name: 'Connecticut'
+  }, {
+    name: 'Maryland'
+  }, {
+    name: 'Massachusetts'
+  }];
 
   function addElement(markup) {
     this.el = this.$compile(markup)(this.$scope);
@@ -151,7 +154,9 @@ describe('akamai.components.autocomplete', function() {
   describe('given a string bound to the text-property attribute', function() {
     describe('when the autocomplete is rendered', function() {
       beforeEach(function() {
-        this.$scope.selectedStateObj = {name: 'Colorado'};
+        this.$scope.selectedStateObj = {
+          name: 'Colorado'
+        };
 
         let autocompleteTemplate = `
             <akam-autocomplete ng-model="selectedStateObj"
@@ -173,7 +178,9 @@ describe('akamai.components.autocomplete', function() {
     describe('when the autocomplete is rendered', function() {
       describe('disabled state in dropdown-toggle element when value changes', function() {
         beforeEach(function() {
-          this.$scope.selectedStateObj = {name: 'Colorado'};
+          this.$scope.selectedStateObj = {
+            name: 'Colorado'
+          };
           this.$scope.disabled = false;
 
           let autocompleteTemplate = `
@@ -199,7 +206,9 @@ describe('akamai.components.autocomplete', function() {
     describe('when the autocomplete is rendered', function() {
       describe('disabled state in dropdown-toggle element when value changes', function() {
         beforeEach(function() {
-          this.$scope.selectedStateObj = {name: 'Colorado'};
+          this.$scope.selectedStateObj = {
+            name: 'Colorado'
+          };
           this.$scope.disabled = true;
           let autocompleteTemplate = `
             <akam-autocomplete ng-model="selectedStateObj"
@@ -229,7 +238,9 @@ describe('akamai.components.autocomplete', function() {
     describe('when the autocomplete is rendered', function() {
       describe('and some item is selected', function() {
         beforeEach(function() {
-          this.$scope.selectedStateObj = {name: 'Colorado'};
+          this.$scope.selectedStateObj = {
+            name: 'Colorado'
+          };
           let autocompleteTemplate = `
             <akam-autocomplete ng-model="selectedStateObj"
                                on-search="loadStateObjects(searchTerm)" clearable>
@@ -247,7 +258,9 @@ describe('akamai.components.autocomplete', function() {
   describe('given an append-to-body attribute', function() {
     describe('when the autocomplete is rendered', function() {
       beforeEach(function() {
-        this.$scope.selectedStateObj = {name: 'Colorado'};
+        this.$scope.selectedStateObj = {
+          name: 'Colorado'
+        };
         let autocompleteTemplate = `
             <akam-autocomplete ng-model="selectedStateObj"
                                on-search="loadStateObjects(searchTerm)" append-to-body>
@@ -258,7 +271,7 @@ describe('akamai.components.autocomplete', function() {
       });
       it('should append the dropdown to the body', function() {
         let dropdownMenuNormal = document.querySelector('.dropdown').
-          querySelector('.dropdown-menu');
+        querySelector('.dropdown-menu');
 
         expect(dropdownMenuNormal).toBe(null);
         expect(util.find('body > .dropdown-menu')).not.toBe(null);
@@ -269,7 +282,9 @@ describe('akamai.components.autocomplete', function() {
   describe('given custom markup in an akam-autocomplete-option', function() {
     describe('when the dropdown is rendered', function() {
       beforeEach(function() {
-        this.$scope.selectedState = {name: 'Colorado'};
+        this.$scope.selectedState = {
+          name: 'Colorado'
+        };
         this.$scope.foo = 'bar';
         let autocompleteTemplate = `
           <akam-autocomplete ng-model="selectedState" text-property="name"
@@ -296,7 +311,9 @@ describe('akamai.components.autocomplete', function() {
   describe('given custom markup in an akam-dropdown-selected', function() {
     describe('when the autocomplete is rendered', function() {
       beforeEach(function() {
-        this.$scope.selectedState = {name: 'Colorado'};
+        this.$scope.selectedState = {
+          name: 'Colorado'
+        };
         this.$scope.foo = 'bar';
         let autocompleteTemplate = `
           <akam-autocomplete ng-model="selectedState" text-property="name"
@@ -330,7 +347,9 @@ describe('akamai.components.autocomplete', function() {
       describe('and some item is selected', function() {
         describe('and the clear icon is clicked', function() {
           beforeEach(function() {
-            this.$scope.selectedStateObj = {name: 'Colorado'};
+            this.$scope.selectedStateObj = {
+              name: 'Colorado'
+            };
             let autocompleteTemplate = `
               <akam-autocomplete ng-model="selectedStateObj"
                                  on-search="loadStateObjects(searchTerm)" clearable>
@@ -481,6 +500,47 @@ describe('akamai.components.autocomplete', function() {
       });
       it('should set the isOpen property to true', function() {
         expect(ctrl.isOpen).toBe(true);
+      });
+    });
+  });
+
+  describe('given minimum search set to 0 in markup', function() {
+    describe('when rendered', function() {
+      describe('invoke search calls on input field focus ', function() {
+        let ctrl;
+        beforeEach(function() {
+          let autocompleteTemplate =
+            `<akam-autocomplete ng-model="selectedState" on-search="loadStateStrings('')" minimum-search="0"></akam-autocomplete>`;
+          addElement.call(this, autocompleteTemplate);
+          ctrl = this.el.controller('akamAutocomplete');
+          spyOn(ctrl, 'search');
+          spyOn(ctrl, 'onSearch').and.returnValue(this.$q.when({}));
+          util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
+          this.$scope.$digest();
+        });
+        it('should autocomplete controller search function have been called', function() {
+          expect(ctrl.search).toHaveBeenCalled();
+        });
+        it('should autocomplete controller onSearch callback function have been called', function() {
+          expect(ctrl.search).toHaveBeenCalled();
+        });
+      });
+    });
+  });
+  describe('given minimum search set to 0 in markup', function() {
+    describe('when rendered', function() {
+      describe('display results on input field focus', function() {
+        beforeEach(function() {
+          let autocompleteTemplate = `
+            <akam-autocomplete ng-model="selectedState" minimum-search="0" on-search="loadStateStrings(searchTerm)">
+            </akam-autocomplete>`;
+          addElement.call(this, autocompleteTemplate);
+          util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
+        });
+        it('should display the results', function() {
+          expect(util.find('.dropdown-menu').getElementsByTagName('li').length)
+            .toBe(stateObjects.length);
+        });
       });
     });
   });
