@@ -5291,9 +5291,9 @@
       }
     },
     "eslint-config-akamai": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "from": "eslint-config-akamai@*",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/eslint-config-akamai/-/eslint-config-akamai-1.0.0.tgz"
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/eslint-config-akamai/-/eslint-config-akamai-1.0.1.tgz"
     },
     "event-stream": {
       "version": "3.3.1",

@@ -26,17 +26,17 @@ function messageBox(modalWindow, $translate, $rootScope) {
     let titleId, cancelId, submitId;
 
     switch (type) {
-    case 'information':
-      titleId = options.title || 'components.message-box.title.information';
-      break;
-    case 'question':
-      titleId = options.title || 'components.message-box.title.question';
-      break;
-    case 'error':
-      titleId = options.title || 'components.message-box.title.error';
-      break;
-    default:
-      titleId = options.title || 'components.message-box.title.information';
+      case 'information':
+        titleId = options.title || 'components.message-box.title.information';
+        break;
+      case 'question':
+        titleId = options.title || 'components.message-box.title.question';
+        break;
+      case 'error':
+        titleId = options.title || 'components.message-box.title.error';
+        break;
+      default:
+        titleId = options.title || 'components.message-box.title.information';
     }
 
     cancelId = options.cancelLabel || 'components.message-box.no';
