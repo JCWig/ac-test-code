@@ -67,7 +67,6 @@ class AutocompleteController extends DropdownController {
   search() {
     if (this.minimumSearch &&
       (this.searchTerm.length < this.minimumSearch || !this.searchTerm.length)) {
-      this.dropdownElem.removeClass('open');
       this.isOpen = false;
       return;
     }
@@ -76,11 +75,11 @@ class AutocompleteController extends DropdownController {
 
     if (angular.isArray(searchResult)) {
       this.items = searchResult;
-      this.setDropdownOpen();
+      this.isOpen = true;
     } else if (angular.isFunction(searchResult.then)) {
       searchResult.then((resultItems) => {
         this.items = resultItems;
-        this.setDropdownOpen();
+        this.isOpen = true;
       }, (rejectReason) => {
         this.$log.warn(rejectReason);
         this.items = [];
@@ -96,11 +95,6 @@ class AutocompleteController extends DropdownController {
     this.searchTerm = '';
     this.dropdownElem.removeClass('open');
     this.isOpen = false;
-  }
-
-  setDropdownOpen() {
-    this.dropdownElem.addClass('open');
-    this.isOpen = true;
   }
 }
 
