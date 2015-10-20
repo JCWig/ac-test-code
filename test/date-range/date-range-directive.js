@@ -774,7 +774,7 @@ describe('akamai.components.date-range', function() {
   });
   describe('given datepicker decorator', function() {
     describe('when daterange rendered and open', function() {
-      describe('click previous or next button', function() {
+      describe('click previous button', function() {
         let datepcikerScope, date;
         beforeEach(function() {
           date = new Date();
@@ -783,15 +783,28 @@ describe('akamai.components.date-range', function() {
           datepcikerScope = angular.element(this.element.querySelector('.akam-date-range ul.dropdown-menu table')).scope();
           utils.click(".range-selection button");
           this.$scope.$digest();
+          clickScrollingButton.call(this, false);
         });
         it('should move previous be only decrement one month', function() {
-          expect(datepcikerScope.datepicker.activeDate.getMonth()).toBe(date.getMonth());
-          clickScrollingButton.call(this, false);
           expect(datepcikerScope.datepicker.activeDate.getMonth() + 1).toBe(date.getMonth());
         });
-        it('should click next button be only increment one month', function() {
-          expect(datepcikerScope.datepicker.activeDate.getMonth()).toBe(date.getMonth());
+      });
+    });
+  });
+  describe('given datepicker decorator', function() {
+    describe('when daterange rendered and open', function() {
+      describe('click next button', function() {
+        let datepcikerScope, date;
+        beforeEach(function() {
+          date = new Date();
+          let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+          addElement.call(this, markup);
+          datepcikerScope = angular.element(this.element.querySelector('.akam-date-range ul.dropdown-menu table')).scope();
+          utils.click(".range-selection button");
+          this.$scope.$digest();
           clickScrollingButton.call(this, true);
+        });
+        it('should click next button be only increment one month', function() {
           expect(datepcikerScope.datepicker.activeDate.getMonth() - 1).toBe(date.getMonth());
         });
       });
