@@ -8,6 +8,12 @@ function getDateButtonParentElement(dateNumber) {
   return document.querySelector("ul.dropdown-menu table tbody tr td.day-" + dateNumber);
 }
 
+function clickScrollingButton(isNext) {
+  let btnSelector = isNext ? '.next-button' : '.previous-button';
+  utils.click(document.querySelector(btnSelector));
+  this.$scope.$digest();
+}
+
 describe('akamai.components.date-range', function() {
 
   afterEach(function() {
@@ -742,6 +748,65 @@ describe('akamai.components.date-range', function() {
       });
       it('should dateRange specific DOM element to be rendered', function() {
         expect(this.element.querySelector('.akam-date-range .range-picker ul.dropdown-menu table')).not.toBe(null);
+      });
+    });
+  });
+
+  describe('given datepicker decorator', function() {
+    describe('when daterange rendered and open', function() {
+      let datepcikerScope;
+      beforeEach(function() {
+        let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+        addElement.call(this, markup);
+        datepcikerScope = angular.element(this.element.querySelector('.akam-date-range ul.dropdown-menu table')).scope();
+        spyOn(datepcikerScope, 'isInRange');
+        spyOn(datepcikerScope, 'isStart');
+        spyOn(datepcikerScope, 'isEnd');
+        utils.click(".range-selection button");
+        this.$scope.$digest();
+      });
+      it('should verify all the decorator functions', function() {
+        expect(datepcikerScope.isInRange).toHaveBeenCalled();
+        expect(datepcikerScope.isStart).toHaveBeenCalled();
+        expect(datepcikerScope.isEnd).toHaveBeenCalled();
+      });
+    });
+  });
+  describe('given datepicker decorator', function() {
+    describe('when daterange rendered and open', function() {
+      describe('click previous button', function() {
+        let datepcikerScope, date;
+        beforeEach(function() {
+          date = new Date();
+          let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+          addElement.call(this, markup);
+          datepcikerScope = angular.element(this.element.querySelector('.akam-date-range ul.dropdown-menu table')).scope();
+          utils.click(".range-selection button");
+          this.$scope.$digest();
+          clickScrollingButton.call(this, false);
+        });
+        it('should move previous be only decrement one month', function() {
+          expect(datepcikerScope.datepicker.activeDate.getMonth() + 1).toBe(date.getMonth());
+        });
+      });
+    });
+  });
+  describe('given datepicker decorator', function() {
+    describe('when daterange rendered and open', function() {
+      describe('click next button', function() {
+        let datepcikerScope, date;
+        beforeEach(function() {
+          date = new Date();
+          let markup = `<akam-date-range ng-model='dateRange'></akam-date-range>`;
+          addElement.call(this, markup);
+          datepcikerScope = angular.element(this.element.querySelector('.akam-date-range ul.dropdown-menu table')).scope();
+          utils.click(".range-selection button");
+          this.$scope.$digest();
+          clickScrollingButton.call(this, true);
+        });
+        it('should click next button be only increment one month', function() {
+          expect(datepcikerScope.datepicker.activeDate.getMonth() - 1).toBe(date.getMonth());
+        });
       });
     });
   });
