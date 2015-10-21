@@ -106,19 +106,12 @@ class AutocompleteController extends DropdownController {
   }
 
   setMinimumSearch() {
-    let minimumSearch;
+    let minimumSearch = parseInt(this.minimumSearch, 10);
 
-    if (!this.minimumSearch) {
+    if (isNaN(minimumSearch)) {
       this.minimumSearch = MINIMUM_SEARCH;
     } else {
-      minimumSearch = angular.isString(this.minimumSearch) ?
-        this.$scope.$eval(this.minimumSearch) : this.minimumSearch;
-
-      if (isNaN(minimumSearch) || minimumSearch < 0) {
-        this.minimumSearch = MINIMUM_SEARCH;
-      } else {
-        this.minimumSearch = minimumSearch;
-      }
+      this.minimumSearch = minimumSearch < 0 ? MINIMUM_SEARCH : minimumSearch;
     }
   }
 }
@@ -135,7 +128,7 @@ function AutocompleteDirective(dropdownTemplateService) {
       placeholder: '@?',
       isDisabled: '=?',
       onSearch: '&',
-      minimumSearch: '@?'
+      minimumSearch: '@'
     },
     controller: AutocompleteController,
     controllerAs: 'autocomplete',

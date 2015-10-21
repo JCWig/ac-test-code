@@ -510,7 +510,8 @@ describe('akamai.components.autocomplete', function() {
         let ctrl;
         beforeEach(function() {
           let autocompleteTemplate =
-            `<akam-autocomplete ng-model="selectedState" on-search="loadStateStrings('')" minimum-search="0"></akam-autocomplete>`;
+            `<akam-autocomplete ng-model="selectedState" on-search="loadStateStrings('')"
+            minimum-search="0"></akam-autocomplete>`;
           addElement.call(this, autocompleteTemplate);
           ctrl = this.el.controller('akamAutocomplete');
           spyOn(ctrl, 'search');
@@ -532,7 +533,8 @@ describe('akamai.components.autocomplete', function() {
       describe('display results on input field focus', function() {
         beforeEach(function() {
           let autocompleteTemplate = `
-            <akam-autocomplete ng-model="selectedState" minimum-search="0" on-search="loadStateStrings(searchTerm)">
+            <akam-autocomplete ng-model="selectedState" minimum-search="0"
+              on-search="loadStateStrings(searchTerm)">
             </akam-autocomplete>`;
           addElement.call(this, autocompleteTemplate);
           util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
@@ -549,7 +551,8 @@ describe('akamai.components.autocomplete', function() {
       describe('on input field focus', function() {
         beforeEach(function() {
           let autocompleteTemplate = `
-            <akam-autocomplete ng-model="selectedState" minimum-search="ww" on-search="loadStateStrings(searchTerm)">
+            <akam-autocomplete ng-model="selectedState" minimum-search="ww"
+              on-search="loadStateStrings(searchTerm)">
             </akam-autocomplete>`;
           addElement.call(this, autocompleteTemplate);
           util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
@@ -565,7 +568,8 @@ describe('akamai.components.autocomplete', function() {
       describe('on input field focus', function() {
         beforeEach(function() {
           let autocompleteTemplate = `
-            <akam-autocomplete ng-model="selectedState" minimum-search="-3" on-search="loadStateStrings(searchTerm)">
+            <akam-autocomplete ng-model="selectedState" minimum-search="-3"
+              on-search="loadStateStrings(searchTerm)">
             </akam-autocomplete>`;
           addElement.call(this, autocompleteTemplate);
           util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
