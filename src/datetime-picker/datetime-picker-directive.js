@@ -24,7 +24,9 @@ class DatetimePickerController {
       this.time = date;
     }
 
-    this.date.setHours(this.time.getHours(), this.time.getMinutes());
+    if (this.time) {
+      this.date.setHours(this.time.getHours(), this.time.getMinutes());
+    }
     this.datetimeValue = this.date;
   }
 }
@@ -42,7 +44,7 @@ function LinkFn(scope, elem, attr, ngModel) {
   };
 
   scope.timeChanged = (dt) => {
-    datetime.setDatetime(datetime.date, dt.date);
+    datetime.setDatetime(datetime.date, dt.time || dt.date);
     ngModel.$setViewValue(datetime.datetimeValue);
   };
 
