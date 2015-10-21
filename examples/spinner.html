@@ -48,12 +48,9 @@
 
           <h2>Example 2 - Setting custom steps</h2>
           <br>
-          <h4>Custom Step value:</h4>
-          <input type="text" ng-model="vm.customStep" size="3" ng-change="vm.validate2()">
-          <br>
-          <br>
+          <h4>Custom Step value: 2</h4>
           <div class="container">
-            <akam-spinner ng-model="vm.value3" custom-step="vm.customStep"></akam-spinner>
+            <akam-spinner ng-model="vm.value3" custom-step="{{vm.customStep}}"></akam-spinner>
           </div>
           <br>
           <br>
@@ -98,7 +95,6 @@
         vm.buttonClick = toggleButton;
         vm.inputChanged = inputChanged;
         vm.validate = validate;
-        vm.validate2 = validate2;
 
         vm.customStep = 2;
 
@@ -113,12 +109,6 @@
 
         function inputChanged() {
           vm.value2 = parseInt(vm.value2, 10);
-        }
-
-        function validate2() {
-          if (!vm.customStep || isNaN(vm.customStep) || vm.customStep < 1) {
-            vm.customStep = 1;
-          }
         }
 
         function validate() {

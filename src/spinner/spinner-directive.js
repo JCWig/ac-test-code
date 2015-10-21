@@ -69,8 +69,8 @@ function linkFn(scope, element, attrs, ngModel) {
 
   //only the first time rendering, $render gets called
   ngModel.$render = () => {
+    setStepValue();
     ctrl.inputValue = parseInt(ngModel.$viewValue, 10);
-    ctrl.step = ctrl.step || defaults.STEP;
   };
 
   // when model change, parse to integer, this sets up to the ngModelController
@@ -126,8 +126,8 @@ function linkFn(scope, element, attrs, ngModel) {
     if (ctrl.disabled) {
       return scope.upMouseDownPromise;
     }
+    setStepValue();
     event.stopPropagation();
-
     if (angular.isDefined(scope.upMouseDownPromise)) {
       return scope.upMouseDownPromise;
     }
@@ -156,6 +156,7 @@ function linkFn(scope, element, attrs, ngModel) {
     if (ctrl.disabled) {
       return scope.downMouseDownPromise;
     }
+    setStepValue();
     event.stopPropagation();
     if (angular.isDefined(scope.downMouseDownPromise)) {
       return scope.downMouseDownPromise;
@@ -181,6 +182,16 @@ function linkFn(scope, element, attrs, ngModel) {
     }
   };
 
+  function setStepValue() {
+    let step = parseInt(ctrl.step, 10);
+
+    if (isNaN(step)) {
+      ctrl.step = defaults.STEP;
+    } else {
+      ctrl.step = step < 1 ? defaults.STEP : step;
+    }
+  }
+
   function updateInput(offset = 1) {
     ctrl.inputValue = ctrl.inputValue + offset;
     ngModel.$setViewValue(ctrl.inputValue);
@@ -200,7 +211,7 @@ export default () => {
       min: '@?',
       max: '@?',
       disabled: '=isDisabled',
-      step: '=customStep'
+      step: '@customStep'
     },
     scope: {}
   };

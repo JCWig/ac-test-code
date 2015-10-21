@@ -12,8 +12,8 @@ const defaults = {
 
 describe('akamai.components.spinner', function() {
   let scope, compile, interval, timeout,
-    UP_BUTTON = '.akam-spinner button:first-child',
-    DOWN_BUTTON = '.akam-spinner button:last-child';
+    UP_BUTTON = '.akam-spinner .btn.increment',
+    DOWN_BUTTON = '.akam-spinner .btn.decrement';
 
   beforeEach(() => {
     inject.strictDi(true);
@@ -92,15 +92,15 @@ describe('akamai.components.spinner', function() {
       });
 
       it('should verify up button icon element', function() {
-        let buttonElemList = getElements.call(this, 'button');
-        let iconElem = buttonElemList[0].querySelector("i");
+        let arrowUpBtn = getElement.call(this, UP_BUTTON);
+        let iconElem = arrowUpBtn.querySelector("i");
 
         expect(iconElem.classList.contains('luna-arrow_extra_smUp')).toBeTruthy();
       });
 
       it('should verify down button icon element', function() {
-        let buttonElemList = getElements.call(this, 'button');
-        let iconElem = buttonElemList[1].querySelector("i");
+        let arrowDownBtn = getElement.call(this, DOWN_BUTTON);
+        let iconElem = arrowDownBtn.querySelector("i");
 
         expect(iconElem.classList.contains('luna-arrow_extra_smDown')).toBeTruthy();
       });
@@ -177,10 +177,8 @@ describe('akamai.components.spinner', function() {
           expect(inputElem.getAttribute('disabled')).toBe("disabled");
         });
         it('should button element has disabled="disabled"', function() {
-          let buttonElemList = getElements.call(this, 'button');
-
-          expect(buttonElemList[0].getAttribute('disabled')).toBe("disabled");
-          expect(buttonElemList[1].getAttribute('disabled')).toBe("disabled");
+          expect(getElement.call(this, UP_BUTTON).getAttribute('disabled')).toBe("disabled");
+          expect(getElement.call(this, DOWN_BUTTON).getAttribute('disabled')).toBe("disabled");
         });
       });
     });
@@ -189,21 +187,20 @@ describe('akamai.components.spinner', function() {
   describe('When directive rendered', function() {
     describe('given initial min value greater than ngModel value', function() {
       describe('should verify min state', function() {
-        let inputElem, buttonElemList;
+        let inputElem;
         beforeEach(function() {
           scope.testData.disabled = false;
           scope.testData.min = 0;
           scope.testData.ngModel = 0;
           addElement.call(this, '');
           inputElem = getElement.call(this, '.akam-spinner input');
-          buttonElemList = getElements.call(this, 'button');
         });
         it('should input element is enabled', function() {
           expect(inputElem.getAttribute('disabled')).toBe(null);
         });
         it('should spinner uparrow button element is enabled', function() {
-          expect(buttonElemList[0].getAttribute('disabled')).not.toBe("disabled");
-          expect(buttonElemList[1].getAttribute('disabled')).toBe("disabled");
+          expect(getElement.call(this, UP_BUTTON).getAttribute('disabled')).not.toBe("disabled");
+          expect(getElement.call(this, DOWN_BUTTON).getAttribute('disabled')).toBe("disabled");
         });
       });
     });
@@ -227,31 +224,29 @@ describe('akamai.components.spinner', function() {
   describe('When directive rendered', function() {
     describe('given initial values', function() {
       describe('should verify spinner functions when clicks', function() {
-        let buttonElemList;
         beforeEach(function() {
           scope.testData.disabled = false;
           scope.testData.min = 2;
           scope.testData.ngModel = 1;
           addElement.call(this, '');
-          buttonElemList = getElements.call(this, 'button');
           spyOn(this.isoScope.spinner, 'isUnderMin');
           spyOn(this.isoScope.spinner, 'isOverMax');
           spyOn(this.isoScope.spinner, 'clickNoop');
         });
         it('should spinner function isOverMax called', function() {
-          utils.click(buttonElemList[0]);
+          utils.click(getElement.call(this, UP_BUTTON));
           scope.$digest();
 
           expect(this.isoScope.spinner.isOverMax).toHaveBeenCalled();
         });
         it('should spinner function isUnderMin called', function() {
-          utils.click(buttonElemList[1]);
+          utils.click(getElement.call(this, DOWN_BUTTON));
           scope.$digest();
 
           expect(this.isoScope.spinner.isUnderMin).toHaveBeenCalled();
         });
         it('should spinner function clickNoop called', function() {
-          utils.click(buttonElemList[0]);
+          utils.click(getElement.call(this, UP_BUTTON));
           scope.$digest();
 
           expect(this.isoScope.spinner.clickNoop).toHaveBeenCalled();
@@ -263,46 +258,44 @@ describe('akamai.components.spinner', function() {
   describe('When directive rendered', function() {
     describe('given initial values', function() {
       describe('should verify scope functions when keydown event', function() {
-        let buttonElemList;
         beforeEach(function() {
           scope.testData.disabled = false;
           scope.testData.min = 0;
           scope.testData.ngModel = 1;
           addElement.call(this, '');
-          buttonElemList = getElements.call(this, 'button');
           spyOn(this.isoScope, 'startStepUp');
           spyOn(this.isoScope, 'stopStepUp');
           spyOn(this.isoScope, 'startStepDown');
           spyOn(this.isoScope, 'stopStepDown');
         });
         it('should spinner function startStepUp called', function() {
-          utils.mouseDown(buttonElemList[0]);
+          utils.mouseDown(getElement.call(this, UP_BUTTON));
           scope.$digest();
 
           expect(this.isoScope.startStepUp).toHaveBeenCalled();
         });
         it('should spinner function startStepDown called', function() {
-          utils.mouseDown(buttonElemList[1]);
+          utils.mouseDown(getElement.call(this, DOWN_BUTTON));
           scope.$digest();
 
           expect(this.isoScope.startStepDown).toHaveBeenCalled();
         });
 
         it('should spinner function stopStepUp called', function() {
-          utils.mouseDown(buttonElemList[0]);
+          utils.mouseDown(getElement.call(this, UP_BUTTON));
           scope.$digest();
 
-          utils.mouseUp(buttonElemList[0]);
+          utils.mouseUp(getElement.call(this, UP_BUTTON));
           scope.$digest();
 
           expect(this.isoScope.stopStepUp).toHaveBeenCalled();
 
         });
         it('should spinner function stopStepDown called', function() {
-          utils.mouseDown(buttonElemList[1]);
+          utils.mouseDown(getElement.call(this, DOWN_BUTTON));
           scope.$digest();
 
-          utils.mouseUp(buttonElemList[1]);
+          utils.mouseUp(getElement.call(this, DOWN_BUTTON));
           scope.$digest();
 
           expect(this.isoScope.stopStepDown).toHaveBeenCalled();
@@ -428,8 +421,8 @@ describe('akamai.components.spinner', function() {
           scope.testData.ngModel = 2;
           addElement.call(this, '');
           inputElem = this.element.querySelector('.akam-spinner input');
-          let buttonListNode = this.element.querySelectorAll('button');
-          utils.triggerMouseEvent(buttonListNode[0], "mousedown");
+          let arrowUpBtn = this.element.querySelector(UP_BUTTON);
+          utils.triggerMouseEvent(arrowUpBtn, "mousedown");
           interval.flush(81);
         });
 
@@ -451,8 +444,8 @@ describe('akamai.components.spinner', function() {
           scope.testData.ngModel = 2;
           addElement.call(this, '');
           inputElem = this.element.querySelector('.akam-spinner input');
-          let buttonListNode = this.element.querySelectorAll('button');
-          utils.triggerMouseEvent(buttonListNode[1], "mousedown");
+          let arrowDownBtn = this.element.querySelector(DOWN_BUTTON);
+          utils.triggerMouseEvent(arrowDownBtn, "mousedown");
           interval.flush(81);
         });
 
@@ -474,8 +467,8 @@ describe('akamai.components.spinner', function() {
           scope.testData.ngModel = 2;
           addElement.call(this, '');
           inputElem = this.element.querySelector('.akam-spinner input');
-          let buttonListNode = this.element.querySelectorAll('button');
-          utils.triggerMouseEvent(buttonListNode[0], "mouseup");
+          let arrowUpBtn = this.element.querySelector(UP_BUTTON);
+          utils.triggerMouseEvent(arrowUpBtn, "mouseup");
           interval.flush(81);
         });
 
@@ -497,8 +490,8 @@ describe('akamai.components.spinner', function() {
           scope.testData.ngModel = 2;
           addElement.call(this, '');
           inputElem = this.element.querySelector('.akam-spinner input');
-          let buttonListNode = this.element.querySelectorAll('button');
-          utils.triggerMouseEvent(buttonListNode[1], "mouseup");
+          let arrowDownBtn = this.element.querySelector(DOWN_BUTTON);
+          utils.triggerMouseEvent(arrowDownBtn, "mouseup");
           interval.flush(81);
         });
 
@@ -520,8 +513,8 @@ describe('akamai.components.spinner', function() {
           scope.testData.ngModel = 2;
           addElement.call(this, '');
           inputElem = this.element.querySelector('.akam-spinner input');
-          let buttonListNode = this.element.querySelectorAll('button');
-          utils.triggerMouseEvent(buttonListNode[0], "mouseleave");
+          let arrowUpBtn = this.element.querySelector(UP_BUTTON);
+          utils.triggerMouseEvent(arrowUpBtn, "mouseleave");
           interval.flush(81);
         });
 
@@ -544,8 +537,8 @@ describe('akamai.components.spinner', function() {
           addElement.call(this, '');
           spyOn(this.isoScope, 'stopStepDown');
           inputElem = this.element.querySelector('.akam-spinner input');
-          let buttonListNode = this.element.querySelectorAll('button');
-          utils.triggerMouseEvent(buttonListNode[1], "mouseleave");
+          let arrowDownBtn = this.element.querySelector(DOWN_BUTTON);
+          utils.triggerMouseEvent(arrowDownBtn, "mouseleave");
           interval.flush(81);
         });
 
@@ -591,8 +584,8 @@ describe('akamai.components.spinner', function() {
             return true;
           }
           spyOn(this.isoScope, 'stopStepUp');
-          let buttonListNode = this.element.querySelectorAll('button');
-          utils.triggerMouseEvent(buttonListNode[0], "mousedown");
+          let arrowUpBtn = this.element.querySelector(UP_BUTTON);
+          utils.triggerMouseEvent(arrowUpBtn, "mousedown");
           scope.$digest();
           interval.flush(81);
         });
@@ -660,8 +653,8 @@ describe('akamai.components.spinner', function() {
             return true;
           }
           spyOn(this.isoScope, 'stopStepDown');
-          let buttonListNode = this.element.querySelectorAll('button');
-          utils.triggerMouseEvent(buttonListNode[1], "mousedown");
+          let arrowDownBtn = this.element.querySelector(DOWN_BUTTON);
+          utils.triggerMouseEvent(arrowDownBtn, "mousedown");
           scope.$digest();
           interval.flush(81);
         });
@@ -724,7 +717,8 @@ describe('akamai.components.spinner', function() {
         beforeEach(function() {
           scope.testData.ngModel = 2;
           scope.testData.customStep = 2;
-          let tpl = `<akam-spinner ng-model="testData.ngModel" custom-step="testData.customStep"></akam-spinner>`;
+          let tpl = `<akam-spinner ng-model="testData.ngModel"
+            custom-step="{{testData.customStep}}"></akam-spinner>`;
           addElement.call(this, tpl);
           this.isoScope.downMouseDownPromise = {};
           let event = {
@@ -747,7 +741,8 @@ describe('akamai.components.spinner', function() {
         beforeEach(function() {
           scope.testData.ngModel = 8;
           scope.testData.customStep = 4;
-          let tpl = `<akam-spinner ng-model="testData.ngModel" custom-step="testData.customStep"></akam-spinner>`;
+          let tpl = `<akam-spinner ng-model="testData.ngModel"
+            custom-step="{{testData.customStep}}"></akam-spinner>`;
           addElement.call(this, tpl);
           this.isoScope.upMouseDownPromise = {};
           let event = {
@@ -770,10 +765,10 @@ describe('akamai.components.spinner', function() {
         describe('input value should be ngMode + custom step value', function() {
           beforeEach(function() {
             scope.testData.ngModel = 4;
-            let tpl = `<akam-spinner ng-model="testData.ngModel" custom-step="testData.customStep"></akam-spinner>`;
-            addElement.call(this, tpl);
             scope.testData.customStep = 2;
-            scope.$digest();
+            let tpl = `<akam-spinner ng-model="testData.ngModel"
+              custom-step="{{testData.customStep}}"></akam-spinner>`;
+            addElement.call(this, tpl);
             this.isoScope.downMouseDownPromise = {};
             let event = {
               stopPropagation: angular.noop
@@ -782,8 +777,58 @@ describe('akamai.components.spinner', function() {
             scope.$digest();
             interval.flush(81);
           });
-          it('should value be increment by ', function() {
+          it('should value be increment by 2', function() {
             expect(this.isoScope.spinner.inputValue).toBe(6);
+          });
+        });
+      });
+    });
+  });
+  describe('given spinner API custom-step with invalid value of ramdom string', function() {
+    describe('when rendered', function() {
+      describe('user click increment button', function() {
+        describe('input value should be ngMode + default value', function() {
+          beforeEach(function() {
+            scope.testData.ngModel = 4;
+            scope.testData.customStep = "www";
+            let tpl = `<akam-spinner ng-model="testData.ngModel"
+              custom-step="{{testData.customStep}}"></akam-spinner>`;
+            addElement.call(this, tpl);
+            this.isoScope.downMouseDownPromise = {};
+            let event = {
+              stopPropagation: angular.noop
+            };
+            this.isoScope.startStepUp(event);
+            scope.$digest();
+            interval.flush(81);
+          });
+          it('should value be increment by default value 1', function() {
+            expect(this.isoScope.spinner.inputValue).toBe(5);
+          });
+        });
+      });
+    });
+  });
+  describe('given spinner API custom-step with invalid value of -2', function() {
+    describe('when rendered', function() {
+      describe('user click increment button', function() {
+        describe('input value should be ngMode + default value', function() {
+          beforeEach(function() {
+            scope.testData.ngModel = 4;
+            scope.testData.customStep = -2;
+            let tpl = `<akam-spinner ng-model="testData.ngModel"
+              custom-step="{{testData.customStep}}"></akam-spinner>`;
+            addElement.call(this, tpl);
+            this.isoScope.downMouseDownPromise = {};
+            let event = {
+              stopPropagation: angular.noop
+            };
+            this.isoScope.startStepUp(event);
+            scope.$digest();
+            interval.flush(81);
+          });
+          it('should value be increment by default value 1', function() {
+            expect(this.isoScope.spinner.inputValue).toBe(5);
           });
         });
       });
