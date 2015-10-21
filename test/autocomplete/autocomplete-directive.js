@@ -544,4 +544,36 @@ describe('akamai.components.autocomplete', function() {
       });
     });
   });
+    describe('given minimum search set to invalid string in markup', function() {
+    describe('when rendered', function() {
+      describe('on input field focus', function() {
+        beforeEach(function() {
+          let autocompleteTemplate = `
+            <akam-autocomplete ng-model="selectedState" minimum-search="ww" on-search="loadStateStrings(searchTerm)">
+            </akam-autocomplete>`;
+          addElement.call(this, autocompleteTemplate);
+          util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
+        });
+        it('should display 0 results', function() {
+          expect(util.find('.dropdown-menu').getElementsByTagName('li').length).toBe(0);
+        });
+      });
+    });
+  });
+  describe('given minimum search set to invalid number in markup', function() {
+    describe('when rendered', function() {
+      describe('on input field focus', function() {
+        beforeEach(function() {
+          let autocompleteTemplate = `
+            <akam-autocomplete ng-model="selectedState" minimum-search="-3" on-search="loadStateStrings(searchTerm)">
+            </akam-autocomplete>`;
+          addElement.call(this, autocompleteTemplate);
+          util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
+        });
+        it('should display 0 results', function() {
+          expect(util.find('.dropdown-menu').getElementsByTagName('li').length).toBe(0);
+        });
+      });
+    });
+  });
 });
