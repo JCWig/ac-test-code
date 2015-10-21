@@ -442,4 +442,41 @@ describe('akamTimepicker directive', function() {
       });
     });
   });
+
+  describe('given timepicker open', function() {
+    describe('click timepicker dropdown region', function() {
+      let timepickerElem;
+      beforeEach(function() {
+        addElement.call(this);
+        let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
+        utilities.click(timepickerBtnElem);
+        scope.$digest();
+        let dropdownElement = this.element.querySelector('.dropdown-menu');
+        utilities.click(dropdownElement);
+        scope.$digest();
+        timepickerElem = this.element.querySelector(selectors.TIMEPICKER);
+      });
+      it("the timepicker should remain open", function() {
+        expect(timepickerElem.classList.contains("open")).toBe(true);
+      });
+    });
+  });
+
+  describe('given timepicker open', function() {
+    describe('click outside of timepicker dropdown region', function() {
+      let timepickerElem;
+      beforeEach(function() {
+        addElement.call(this);
+        let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
+        utilities.click(timepickerBtnElem);
+        scope.$digest();
+        utilities.clickAwayCreationAndClick("div");
+        scope.$digest();
+        timepickerElem = this.element.querySelector(selectors.TIMEPICKER);
+      });
+      it("the timepicker should close", function() {
+        expect(timepickerElem.classList.contains("open")).toBe(false);
+      });
+    });
+  });
 });

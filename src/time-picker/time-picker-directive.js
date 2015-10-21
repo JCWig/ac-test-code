@@ -97,7 +97,8 @@ function linkFn(scope, element, attrs, ngModel) {
     }
   });
 
-  element.on('click', (e) => {
+  ctrl.dropdownElement = element.children('0').find('div');
+  ctrl.dropdownElement.on('click', (e) => {
     ctrl.preventDefaultEvents(e);
   });
 }
