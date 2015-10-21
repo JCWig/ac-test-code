@@ -153,16 +153,15 @@ describe('akamai.components.datetime-picker', function() {
       addElement.call(this, undefined);
       d = new Date();
       dateButton = document.querySelector(datePickerSelector + " .button");
-    });
-
-    it("should verify date value updated when selects a date", function() {
       utilities.click(dateButton);
       $scope.$digest();
 
       let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
+    });
 
+    it("should verify date value updated when selects a date", function() {
       expect(this.controller.datetimeValue.getFullYear()).toEqual(d.getFullYear());
       expect(this.controller.datetimeValue.getMonth()).toEqual(d.getMonth());
       expect(this.controller.datetimeValue.getDate()).toEqual(1);
@@ -218,16 +217,15 @@ describe('akamai.components.datetime-picker', function() {
       dateButton = document.querySelector(datePickerSelector + " .button");
       timeButton = document.querySelector(timepickerSelector + " .btn");
       arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
-    });
-
-    it("when datepicker selects, should verify scope dateChanged function callled", function() {
       utilities.click(dateButton);
       $scope.$digest();
 
       let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
+    });
 
+    it("when datepicker selects, should verify scope dateChanged function callled", function() {
       expect(dateChangedSpy).toHaveBeenCalled();
     });
 
@@ -253,16 +251,14 @@ describe('akamai.components.datetime-picker', function() {
       addElement.call(this, undefined);
       setDatetimeSpy = spyOn(this.controller, "setDatetime");
       dateButton = document.querySelector(datePickerSelector + " .button");
-    });
-
-    it("when datepicker selects, should verify controller setDatetime function callled", function() {
       utilities.click(dateButton);
       $scope.$digest();
-
       let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
       utilities.click(firstDayOfMonthButton);
       $scope.$digest();
+    });
 
+    it("when datepicker selects, should verify controller setDatetime function callled", function() {
       expect(setDatetimeSpy).toHaveBeenCalled();
     });
   });
@@ -361,7 +357,7 @@ describe('akamai.components.datetime-picker', function() {
   });
   describe('given datetime picker has no init value', function() {
     describe('when datetime picker rendered', function() {
-      describe('open timepicker', function() {
+      describe('open timepicker dropdown', function() {
         beforeEach(function() {
           addElement.call(this);
           spyOn(this.controller, "setDatetime");
@@ -371,6 +367,48 @@ describe('akamai.components.datetime-picker', function() {
         });
         it("should controller setDatetime function to be called", function() {
           expect(this.controller.setDatetime).toHaveBeenCalled();
+        });
+      });
+    });
+  });
+  describe('given datetime picker ', function() {
+    describe('when rendered and open timepicker dropdown', function() {
+      describe('key press to change minute input field ', function() {
+        beforeEach(function() {
+          let d = new Date();
+          d.setHours(5, 10);
+          $scope.dt = d;
+          addElement.call(this);
+          let timeButton = document.querySelector(timepickerSelector + " .btn");
+          utilities.click(timeButton);
+          $scope.$digest();
+          let minuteInput = document.querySelector(timepickerSelector + " .minute-input");
+          utilities.triggerKeyboardEvent(minuteInput, "57");
+          $scope.$digest();
+        });
+        it("should minute input be able to change value", function() {
+          expect(this.controller.time.getMinutes()).toBe(10);
+        });
+      });
+    });
+  });
+  describe('given datetime picker ', function() {
+    describe('when rendered and open timepicker dropdown', function() {
+      describe('key press to change hour input field ', function() {
+        beforeEach(function() {
+          let d = new Date();
+          d.setHours(5, 10);
+          $scope.dt = d;
+          addElement.call(this);
+          let timeButton = document.querySelector(timepickerSelector + " .btn");
+          utilities.click(timeButton);
+          $scope.$digest();
+          let hourInput = document.querySelector(timepickerSelector + " .hour-input");
+          utilities.triggerKeyboardEvent(hourInput, "57");
+          $scope.$digest();
+        });
+        it("should hour input be able to change value", function() {
+          expect(this.controller.time.getHours()).toBe(5);
         });
       });
     });
