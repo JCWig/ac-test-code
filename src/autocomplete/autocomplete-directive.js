@@ -5,6 +5,8 @@ import menuElemTemplate from './templates/autocomplete-menu.tpl.html';
 
 import DropdownController from '../dropdown/dropdown-controller';
 
+const MINIMUM_SEARCH = 1;
+
 class AutocompleteController extends DropdownController {
 
   static get $inject() {
@@ -13,11 +15,12 @@ class AutocompleteController extends DropdownController {
   }
 
   constructor($scope, $parse, $translate, dropdownTemplateService, appendToBodyService, $compile,
-              $log, $timeout) {
+    $log, $timeout) {
     super($scope, $parse, $translate, dropdownTemplateService, appendToBodyService, $compile, $log);
 
     this.name = 'autocomplete';
     this.$timeout = $timeout;
+    this.$scope = $scope;
     this.templateData = {
       selected: {
         template: selectedElemTemplate,
@@ -29,8 +32,7 @@ class AutocompleteController extends DropdownController {
       }
     };
     this.searchTerm = '';
-
-    this.minimumSearch = this.minimumSearch || 1;
+    this.setMinimumSearch();
   }
 
   initialize(elem, attrs, ngModel) {
@@ -60,18 +62,24 @@ class AutocompleteController extends DropdownController {
 
   initialSearch() {
     if (this.keyProperty) {
-      this.items = this.onSearch({searchTerm: this.searchTerm});
+      this.items = this.onSearch({
+        searchTerm: this.searchTerm
+      });
     }
   }
 
   search() {
-    if (this.minimumSearch &&
-      (this.searchTerm.length < this.minimumSearch || !this.searchTerm.length)) {
-      this.isOpen = false;
-      return;
+    this.setMinimumSearch();
+    if (this.minimumSearch !== 0) {
+      if (this.searchTerm.length < this.minimumSearch) {
+        this.isOpen = false;
+        return;
+      }
     }
 
-    let searchResult = this.onSearch({searchTerm: this.searchTerm});
+    let searchResult = this.onSearch({
+      searchTerm: this.searchTerm
+    });
 
     if (angular.isArray(searchResult)) {
       this.items = searchResult;
@@ -95,6 +103,16 @@ class AutocompleteController extends DropdownController {
     this.searchTerm = '';
     this.dropdownElem.removeClass('open');
     this.isOpen = false;
+  }
+
+  setMinimumSearch() {
+    let minimumSearch = parseInt(this.minimumSearch, 10);
+
+    if (isNaN(minimumSearch)) {
+      this.minimumSearch = MINIMUM_SEARCH;
+    } else {
+      this.minimumSearch = minimumSearch < 0 ? MINIMUM_SEARCH : minimumSearch;
+    }
   }
 }
 
@@ -124,7 +142,6 @@ function AutocompleteDirective(dropdownTemplateService) {
       scope.autocomplete.dropdownElem = elem.children(0);
       scope.autocomplete.initialize(elem, attrs, ngModel);
     }
-
   };
 }
 

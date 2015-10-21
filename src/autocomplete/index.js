@@ -54,7 +54,9 @@ export default angular.module('akamai.components.autocomplete', [
  * this is the property that is used to bind to ng-model.
  *
  * @param {Integer} [minimuim-search=1] The minimum character(s) required to search.
-
+ * It can be set to 0, it should display results automatically on focus with restrained by
+ * normal upbound limit.
+ *
  * @param {String} [placeholder=Select one] The placeholder text for the autocomplete.
  * Placeholder attribute value can be text or translation key.
  * When using custom markup, include <pre>{{autocomplete.placeholder}}</pre>
