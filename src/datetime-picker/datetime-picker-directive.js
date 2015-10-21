@@ -42,7 +42,7 @@ function LinkFn(scope, elem, attr, ngModel) {
   };
 
   scope.timeChanged = (dt) => {
-    datetime.setDatetime(datetime.date, dt.time);
+    datetime.setDatetime(datetime.date, dt.date);
     ngModel.$setViewValue(datetime.datetimeValue);
   };
 
