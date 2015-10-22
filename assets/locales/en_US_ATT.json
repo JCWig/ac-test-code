@@ -9,16 +9,16 @@
             "label": "Label"
         },
         "message-box": {
-            "yes": "Yes",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "Information",
-                "question": "Question",
-                "error": "Error"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "View details"
             },
-            "no": "No"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Safari and FireFox on Mac do not support the focus event in BUTTON elements.  Instead, use the anchor tag: A"
@@ -54,8 +54,8 @@
             "errorMessage": "The action can't be completed.",
             "title": "Modal Window",
             "label": {
-                "cancel": "Cancel",
-                "save": "Save"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -75,7 +75,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "Account Changed",
-            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?'"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -104,7 +104,7 @@
                 "current-page": "Current Page"
             }
         },
-        "name": "AT&T Common Components",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
             "placeholder": "Select Dates"
         },

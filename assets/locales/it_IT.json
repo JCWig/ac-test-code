@@ -9,16 +9,16 @@
             "label": "Etichetta"
         },
         "message-box": {
-            "yes": "Sì",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "Informazioni",
-                "question": "Domanda",
-                "error": "Errore"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "Visualizza dettagli"
             },
-            "no": "No"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Safari e FireFox su Mac non supportano l'evento focus negli elementi PULSANTE. Utilizzare in sostituzione il tag di ancoraggio: A"
@@ -54,8 +54,8 @@
             "errorMessage": "Impossibile completare l'azione.",
             "title": "Finestra modale",
             "label": {
-                "cancel": "Annulla",
-                "save": "Salva"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -75,7 +75,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "Account modificato",
-            "accountChanged": "È stato rilevato che l'account corrente è stato modificato da \"{{oldName}\" in \"{{name}}\". Tornare all'account originale?'"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -104,7 +104,7 @@
                 "current-page": "Pagina corrente"
             }
         },
-        "name": "Componenti comuni Akamai",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
             "placeholder": "Seleziona date"
         },
