@@ -442,4 +442,79 @@ describe('akamTimepicker directive', function() {
       });
     });
   });
+
+  describe('given no initial time value', function() {
+    describe('when rendered', function() {
+      describe('click timepicker to open', function() {
+        describe('given empty value to hour input, then click outside to close', function() {
+          beforeEach(function() {
+            addElement.call(this);
+            let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
+            utilities.click(timepickerBtnElem);
+            scope.$digest();
+            let hourInputElem = this.element.querySelector(".hour-input");
+            hourInputElem.value = "";
+            scope.$digest();
+            utilities.clickAwayCreationAndClick("div");
+            scope.$digest();
+          });
+          it("timepicker input should close", function() {
+            expect(timepicker.isOpen).toBe(false);
+          });
+          it("timepicker input should default back to valid time", function() {
+            expect(angular.isDate(timepicker.inputTime)).toBe(true);
+          });
+        });
+      });
+    });
+  });
+  describe('given no initial time value', function() {
+    describe('when rendered', function() {
+      describe('click timepicker to open', function() {
+        describe('given empty value to hour input, then click outside to close', function() {
+          beforeEach(function() {
+            addElement.call(this);
+            let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
+            utilities.click(timepickerBtnElem);
+            scope.$digest();
+            let minuteInputElem = this.element.querySelector(".hour-input");
+            minuteInputElem.value = "";
+            scope.$digest();
+            utilities.clickAwayCreationAndClick("div");
+            scope.$digest();
+          });
+          it("timepicker input should close", function() {
+            expect(timepicker.isOpen).toBe(false);
+          });
+          it("timepicker input should default back to valid time", function() {
+            expect(angular.isDate(timepicker.inputTime)).toBe(true);
+          });
+        });
+      });
+    });
+  });
+  describe('given no initial time value', function() {
+    describe('when rendered', function() {
+      describe('click timepicker to open', function() {
+        describe('given invalid value to inputTime, then click outside to close', function() {
+          beforeEach(function() {
+            addElement.call(this);
+            let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
+            utilities.click(timepickerBtnElem);
+            scope.$digest();
+            timepicker.inputTime = "";
+            scope.$digest();
+            utilities.clickAwayCreationAndClick("div");
+            scope.$digest();
+          });
+          it("timepicker input should close", function() {
+            expect(timepicker.isOpen).toBe(false);
+          });
+          it("timepicker input should default back to valid time", function() {
+            expect(angular.isDate(timepicker.inputTime)).toBe(true);
+          });
+        });
+      });
+    });
+  });
 });
