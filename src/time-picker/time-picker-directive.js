@@ -16,14 +16,18 @@ class TimepickerController {
 
     this.isOpen = false;
 
-    this.clickHandler = () => this.$scope.$apply('timepicker.isOpen=false');
-
-    this.$document.on('click', this.clickHandler);
+    this.$document.on('click', angular.bind(this, this.clickHandler));
     this.$scope.$on('$destroy', () => this.$document.off('click', this.clickHandler));
   }
 
   clickHandler() {
-    TimepickerController.$scope.$apply('timepicker.isOpen=false');
+    this.$scope.$apply(() => {
+      this.isOpen = false;
+    });
+    if (!this.inputTime || !angular.isDate(this.inputTime)) {
+      this.inputTime = new Date();
+      this.changed();
+    }
   }
 
   isDisabled() {
