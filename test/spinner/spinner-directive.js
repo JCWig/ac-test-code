@@ -777,34 +777,32 @@ describe('akamai.components.spinner', function() {
             scope.$digest();
             interval.flush(81);
           });
-          it('should value be increment by 2', function() {
+          it('should increment value by 2', function() {
             expect(this.isoScope.spinner.inputValue).toBe(6);
           });
         });
       });
     });
   });
-  describe('given spinner API custom-step with invalid value of ramdom string', function() {
+  describe('given spinner API custom-step with invalid value of random string', function() {
     describe('when rendered', function() {
       describe('user click increment button', function() {
-        describe('input value should be ngMode + default value', function() {
-          beforeEach(function() {
-            scope.testData.ngModel = 4;
-            scope.testData.customStep = "www";
-            let tpl = `<akam-spinner ng-model="testData.ngModel"
+        beforeEach(function() {
+          scope.testData.ngModel = 4;
+          scope.testData.customStep = "www";
+          let tpl = `<akam-spinner ng-model="testData.ngModel"
               custom-step="{{testData.customStep}}"></akam-spinner>`;
-            addElement.call(this, tpl);
-            this.isoScope.downMouseDownPromise = {};
-            let event = {
-              stopPropagation: angular.noop
-            };
-            this.isoScope.startStepUp(event);
-            scope.$digest();
-            interval.flush(81);
-          });
-          it('should value be increment by default value 1', function() {
-            expect(this.isoScope.spinner.inputValue).toBe(5);
-          });
+          addElement.call(this, tpl);
+          this.isoScope.downMouseDownPromise = {};
+          let event = {
+            stopPropagation: angular.noop
+          };
+          this.isoScope.startStepUp(event);
+          scope.$digest();
+          interval.flush(81);
+        });
+        it('should increment value by 1', function() {
+          expect(this.isoScope.spinner.inputValue).toBe(5);
         });
       });
     });
@@ -812,26 +810,25 @@ describe('akamai.components.spinner', function() {
   describe('given spinner API custom-step with invalid value of -2', function() {
     describe('when rendered', function() {
       describe('user click increment button', function() {
-        describe('input value should be ngMode + default value', function() {
-          beforeEach(function() {
-            scope.testData.ngModel = 4;
-            scope.testData.customStep = -2;
-            let tpl = `<akam-spinner ng-model="testData.ngModel"
+        beforeEach(function() {
+          scope.testData.ngModel = 4;
+          scope.testData.customStep = -2;
+          let tpl = `<akam-spinner ng-model="testData.ngModel"
               custom-step="{{testData.customStep}}"></akam-spinner>`;
-            addElement.call(this, tpl);
-            this.isoScope.downMouseDownPromise = {};
-            let event = {
-              stopPropagation: angular.noop
-            };
-            this.isoScope.startStepUp(event);
-            scope.$digest();
-            interval.flush(81);
-          });
-          it('should value be increment by default value 1', function() {
-            expect(this.isoScope.spinner.inputValue).toBe(5);
-          });
+          addElement.call(this, tpl);
+          this.isoScope.downMouseDownPromise = {};
+          let event = {
+            stopPropagation: angular.noop
+          };
+          this.isoScope.startStepUp(event);
+          scope.$digest();
+          interval.flush(81);
+        });
+        it('should increment value by 1', function() {
+          expect(this.isoScope.spinner.inputValue).toBe(5);
         });
       });
+
     });
   });
 });
