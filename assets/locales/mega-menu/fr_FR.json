@@ -1,11 +1,11 @@
 {
     "header": {
-        "reportIssue": "Rapport des problèmes Luna",
         "support": "Assistance technique",
         "alerts": "Alertes",
         "messages": "Messages",
-        "store": "Marketplace",
-        "community" : "Community"
+        "community": "Communauté",
+        "reportIssue": "Rapport des problèmes Luna",
+        "store": "Marketplace"
     },
     "search": {
         "kb": "Ko",
@@ -58,9 +58,9 @@
         "china_dp_management": "Gestion des DP Chine",
         "cp_codes_mange_users": "CP Codes - Gérer les utilisateurs PC",
         "transcoding_workspaces": "Espaces de travail liés à la préparation du contenu",
+        "media_rollout": "Media Feature Roll Out Manager",
         "storage_admin": "Administration du stockage",
-        "transcoding_regions": "Régions liées à la préparation du contenu",
-        "media_rollout": "Media Feature Roll Out Manager"
+        "transcoding_regions": "Régions liées à la préparation du contenu"
     },
     "timeout": {
         "buttonText": "Étendre",
@@ -75,9 +75,9 @@
     "footer": {
         "policy": "Dispositions légales et respect de la confidentialité",
         "contact": "Nous contacter",
+        "terms": "Conditions d'utilisation du portail",
         "feedback": "Comment pouvons-nous mieux vous servir ?",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. Tous droits réservés",
-        "terms": "Portal Terms of Use"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. Tous droits réservés"
     },
     "shortMonths": {
         "11": "Déc",
@@ -122,18 +122,18 @@
         "delete": "Supprimer le message"
     },
     "policies": {
-        "ja_jp": "https://www.akamai.com/policies",
-        "it_it": "https://www.akamai.com/policies",
-        "zh_tw": "https://www.akamai.com/policies",
-        "zh_cn": "https://www.akamai.com/policies",
-        "ko_kr": "https://www.akamai.com/policies",
-        "fr_fr": "https://www.akamai.com/policies",
-        "es_es": "https://www.akamai.com/policies",
         "es_la": "https://www.akamai.com/policies",
-        "de_de": "https://www.akamai.com/policies",
         "pt_br": "https://www.akamai.com/policies",
-        "en_us" : "https://www.akamai.com/policies",
+        "ko_kr": "https://www.akamai.com/policies",
+        "it_it": "https://www.akamai.com/policies",
+        "en_us": "https://www.akamai.com/policies",
+        "de_de": "https://www.akamai.com/policies",
+        "fr_fr": "https://www.akamai.com/policies",
+        "zh_cn": "https://www.akamai.com/policies",
+        "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506",
         "en_us_ib": "http://www.ibm.com/privacy/us/en/?lnk=flg-priv-usen",
-        "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506"
+        "ja_jp": "https://www.akamai.com/policies",
+        "zh_tw": "https://www.akamai.com/policies",
+        "es_es": "https://www.akamai.com/policies"
     }
 }

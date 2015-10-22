@@ -1,11 +1,11 @@
 {
     "header": {
-        "reportIssue": "報告 Luna 問題",
         "support": "支援",
         "alerts": "警示",
         "messages": "訊息",
-        "store": "Marketplace",
-        "community" : "Community"
+        "community": "社群",
+        "reportIssue": "報告 Luna 問題",
+        "store": "Marketplace"
     },
     "search": {
         "kb": "KB",
@@ -58,9 +58,9 @@
         "china_dp_management": "China DP 管理",
         "cp_codes_mange_users": "內容提供者代碼 - 管理內容提供者使用者",
         "transcoding_workspaces": "內容準備工作區域",
+        "media_rollout": "Media Feature Roll Out Manager",
         "storage_admin": "儲存管理",
-        "transcoding_regions": "內容準備區域",
-        "media_rollout": "Media Feature Roll Out Manager"
+        "transcoding_regions": "內容準備區域"
     },
     "timeout": {
         "buttonText": "延長",
@@ -75,9 +75,9 @@
     "footer": {
         "policy": "法律與隱私權",
         "contact": "與我們連絡",
+        "terms": "入口網站使用條款",
         "feedback": "我們該如何為您提供更優質的服務？",
-        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. 保留一切權利",
-        "terms": "Portal Terms of Use"
+        "copyright": "Copyright &copy;{currentYear} Akamai Technologies, Inc. 保留一切權利"
     },
     "shortMonths": {
         "11": "十二月",
@@ -122,18 +122,18 @@
         "delete": "刪除訊息"
     },
     "policies": {
-        "ja_jp": "https://www.akamai.com/policies",
-        "it_it": "https://www.akamai.com/policies",
-        "zh_tw": "https://www.akamai.com/policies",
-        "zh_cn": "https://www.akamai.com/policies",
-        "ko_kr": "https://www.akamai.com/policies",
-        "fr_fr": "https://www.akamai.com/policies",
-        "es_es": "https://www.akamai.com/policies",
         "es_la": "https://www.akamai.com/policies",
-        "de_de": "https://www.akamai.com/policies",
         "pt_br": "https://www.akamai.com/policies",
-        "en_us" : "https://www.akamai.com/policies",
+        "ko_kr": "https://www.akamai.com/policies",
+        "it_it": "https://www.akamai.com/policies",
+        "en_us": "https://www.akamai.com/policies",
+        "de_de": "https://www.akamai.com/policies",
+        "fr_fr": "https://www.akamai.com/policies",
+        "zh_cn": "https://www.akamai.com/policies",
+        "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506",
         "en_us_ib": "http://www.ibm.com/privacy/us/en/?lnk=flg-priv-usen",
-        "en_us_att": "http://www.att.com/gen/privacy-policy?pid=2506"
+        "ja_jp": "https://www.akamai.com/policies",
+        "zh_tw": "https://www.akamai.com/policies",
+        "es_es": "https://www.akamai.com/policies"
     }
 }

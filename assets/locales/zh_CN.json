@@ -9,16 +9,16 @@
             "label": "标签"
         },
         "message-box": {
-            "yes": "是",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "信息",
-                "question": "问题",
-                "error": "错误"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "查看详细信息"
             },
-            "no": "否"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Mac 上的 Safari 和 FireFox 不支持“按钮”元素中的焦点事件。因此，请使用锚标记: A"
@@ -54,8 +54,8 @@
             "errorMessage": "无法完成此操作。",
             "title": "模式窗口",
             "label": {
-                "cancel": "取消",
-                "save": "保存"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -75,7 +75,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "帐户已更改",
-            "accountChanged": "我们已检测到当前帐户已从“{{oldName}}”更改为“{{name}}”，是否要切换回原来的帐户？"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -104,7 +104,7 @@
                 "current-page": "当前页面"
             }
         },
-        "name": "Akamai 一般组件",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
             "placeholder": "选择日期"
         },

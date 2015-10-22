@@ -9,16 +9,16 @@
             "label": "Étiquette"
         },
         "message-box": {
-            "yes": "Oui",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "Informations",
-                "question": "Question",
-                "error": "Erreur"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "Afficher les détails"
             },
-            "no": "Non"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Les navigateurs Safari et Firefox exécutés sous Mac ne permettent pas de placer la cible de saisie sur un élément BUTTON. À la place, utilisez la balise d'ancrage A."
@@ -54,8 +54,8 @@
             "errorMessage": "L'action ne peut pas être effectuée.",
             "title": "Fenêtre modale",
             "label": {
-                "cancel": "Annuler",
-                "save": "Enregistrer"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -75,7 +75,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "Compte modifié",
-            "accountChanged": "Le compte actuel, {{oldName}}, a été remplacé par le compte {{name}}. Souhaitez-vous repasser au compte d'origine ?"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -104,7 +104,7 @@
                 "current-page": "Page actuelle"
             }
         },
-        "name": "Composants communs Akamai",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
             "placeholder": "Sélectionner des dates"
         },
