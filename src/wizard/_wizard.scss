@@ -37,8 +37,8 @@ $wizard-border: 1px solid #e6e6e6;
       display: table-cell;
       position: relative;
       z-index: 0;
-      
-      &::after, 
+
+      &::after,
       &::before {
         content: " ";
         height: 1px;
@@ -49,11 +49,11 @@ $wizard-border: 1px solid #e6e6e6;
         left: 50%;
         z-index: -1;
       }
-      
+
       &::before {
         left: 0;
       }
-      
+
       &:first-child::before {
         display: none;
       }
@@ -73,7 +73,7 @@ $wizard-border: 1px solid #e6e6e6;
         font-size: 14px;
         background-color: #f3f3f3;
 
-        
+
       }
 
       span {
@@ -128,7 +128,7 @@ $wizard-border: 1px solid #e6e6e6;
     &.error {
       margin-top: 54px;
     }
-    
+
     &[data-number-of-steps="1"] {
       li {
         width: 100%;
@@ -187,6 +187,7 @@ $wizard-border: 1px solid #e6e6e6;
         width: 1000%;
         margin: auto;
         background: rgba(255,255,255,.85);
+        z-index: 1;
       }
     }
 

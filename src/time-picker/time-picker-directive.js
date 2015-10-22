@@ -16,14 +16,18 @@ class TimepickerController {
 
     this.isOpen = false;
 
-    this.clickHandler = () => this.$scope.$apply('timepicker.isOpen=false');
-
-    this.$document.on('click', this.clickHandler);
+    this.$document.on('click', angular.bind(this, this.clickHandler));
     this.$scope.$on('$destroy', () => this.$document.off('click', this.clickHandler));
   }
 
   clickHandler() {
-    TimepickerController.$scope.$apply('timepicker.isOpen=false');
+    this.$scope.$apply(() => {
+      this.isOpen = false;
+    });
+    if (!this.inputTime || !angular.isDate(this.inputTime)) {
+      this.inputTime = new Date();
+      this.changed();
+    }
   }
 
   isDisabled() {
@@ -97,10 +101,9 @@ function linkFn(scope, element, attrs, ngModel) {
     }
   });
 
-  ctrl.dropdownElement = element.children('0').find('div');
-  ctrl.dropdownElement.on('click', (e) => {
-    ctrl.preventDefaultEvents(e);
-  });
+  ctrl.dropdownElement = angular.element(element[0].querySelector('.dropdown-menu'));
+  ctrl.dropdownElement.on('click', (e) => ctrl.preventDefaultEvents(e));
+  scope.$on('$destroy', () => ctrl.dropdownElement.off('click'));
 }
 
 export default () => {
