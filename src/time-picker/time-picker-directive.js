@@ -101,9 +101,9 @@ function linkFn(scope, element, attrs, ngModel) {
     }
   });
 
-  element.on('click', (e) => {
-    ctrl.preventDefaultEvents(e);
-  });
+  ctrl.dropdownElement = angular.element(element[0].querySelector('.dropdown-menu'));
+  ctrl.dropdownElement.on('click', (e) => ctrl.preventDefaultEvents(e));
+  scope.$on('$destroy', () => ctrl.dropdownElement.off('click'));
 }
 
 export default () => {
