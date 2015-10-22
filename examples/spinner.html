@@ -32,6 +32,9 @@
             <li>
               <p>Spinner2 Value : {{ vm.value2 }} </p>
             </li>
+            <li>
+              <p>Spinner2 Value : {{ vm.value3 }} </p>
+            </li>
           </ul>
           <br>
           <h2>Example 1 - Setting Spinner Input Value</h2>
@@ -42,7 +45,16 @@
           </div>
           <br>
           <br>
-          <h2>Example 2 - Setting Min, Max and Input Values</h2>
+
+          <h2>Example 2 - Setting custom steps</h2>
+          <br>
+          <h4>Custom Step value: 2</h4>
+          <div class="container">
+            <akam-spinner ng-model="vm.value3" custom-step="{{vm.customStep}}"></akam-spinner>
+          </div>
+          <br>
+          <br>
+          <h2>Example 3 - Setting Min, Max and Input Values</h2>
           <br />
           Set Input Value here:
           <input type="text" size="3" ng-model="vm.value2" ng-change="vm.validate()">
@@ -74,6 +86,7 @@
         vm.input = 0;
         vm.value1 = 0;
         vm.value2 = 0;
+        vm.value3 = 0;
         vm.minValue = 0;
         vm.maxValue = 0;
         vm.min = 0;
@@ -82,6 +95,8 @@
         vm.buttonClick = toggleButton;
         vm.inputChanged = inputChanged;
         vm.validate = validate;
+
+        vm.customStep = 2;
 
         var disabledText = 'Disable Spinner';
         var enabledText = 'Enable Spinner';
