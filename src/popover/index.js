@@ -1,8 +1,12 @@
 import angular from 'angular';
 import sanitize from 'angular-sanitize';
-import angularBootstrapNpm from 'angular-bootstrap-npm';
-import popoverDirective from './popover-directive';
+import bootstrap from 'angular-bootstrap-npm';
 import i18n from '../i18n';
+
+import popoverPopupDirective from './popover-popup-directive';
+import popoverDirective from './popover-directive';
+import popoverTemplatePopupDirective from './popover-template-popup-directive';
+import popoverTemplateDirective from './popover-template-directive';
 
 /**
  * @ngdoc module
@@ -19,23 +23,28 @@ import i18n from '../i18n';
  * @guideline Do not use popovers for displaying large amounts of information to user.
  *
  * @example index.html
- * <span akam-popover position="top"
- *   popover-content="Text Content Only."
- *   trigger="click">Click Here - Top
+ * <span akam-popover="Text Content Only." popover-placement="top"
+ *   popover-trigger="click">Click Here - Top
  * </span>
  *
- * <span akam-popover position="left"
- *   popover-content="Text Content Only."
- *   trigger="hover">Hover Here - Left
+ * <span akam-popover="Text Content Only." popover-placement="left"
+ *   popover-trigger="mouseenter">Hover Here - Left
  * </span>
  *
- * <span akam-popover position="right"
- *   header="Header Title"
- *   custom-content="aTemplateId.html"
- *   trigger="hover">Hover Here - Right
+ * <span akam-popover="{{safeHtml}}" popover-placement="top"
+ *   popover-trigger="click">Using trusted html
+ * </span>
+ *
+ * <span akam-popover-template="custom-template"
+ *   popover-placement="right"
+ *   popover-title="Header Title"
+ *   popover-trigger="mouseenter">Hover Here - Right
  * </span>
  *
  * @example index.js
+ *
+ * $scope.safeHtml = '<h2>HTML Binding</h2><br/><br/><p>Used in <strong>popover</strong>.</p>';
+ * $scope.customData = 'aTemplateId.html';
  *
  * function configFn($templateCache) {
  *   $templateCache.put('aTemplateId.html', '...');
@@ -44,9 +53,10 @@ import i18n from '../i18n';
  */
 module.exports = angular.module('akamai.components.popover', [
   sanitize,
-  angularBootstrapNpm,
+  bootstrap,
   i18n.name
 ])
+
 /**
  * @ngdoc directive
  *
@@ -56,30 +66,59 @@ module.exports = angular.module('akamai.components.popover', [
  *
  * @restrict A
  *
- * @param {String} position Where popover appears
+ * @param {String} akam-popover What text content should appear in the popover.
+ * Also takes an expression that evaluates to an html string.
+ *
+ * @param {String} popover-placement Where popover appears
  * [top, bottom, left, right]
  *
- * @param {String} header What header should appear on
+ * @param {String} popover-title What header should appear on
  * popover
  *
- * @param {String} trigger What triggers the popover
- * ['click', 'hover']
+ * @param {String} popover-trigger What triggers the popover
+ * ['click', 'mouseenter']
  *
- * @param {String} popover-content What text content
- * should appear in the popover
+ * @param {Boolean} popover-animation Should it fade in and out? Defaults to "true".
  *
- * @param {String} custom-content What html content
- * should appear in the popover
+ * @param {Integer} popover-popup-delay For how long should the user have to wait
+ * before the popover shows (in milliseconds) after trigger? Defaults to 0.
  *
- * @param {String} link-text What text a link should show
+ * @param {Boolean} popover-append-to-body Should the popover be
+ * appended to body instead of the parent element? Defaults to "false".
  *
- * @param {String} link-url Where link should take
- * user
- *
- * @param {String} button-text What text content
- * should appear on a button in a popover
- *
- * @param {String} button-function What function should
- * fire when button is pressed
  */
-  .directive('akamPopover', popoverDirective);
+.directive('akamPopover', popoverDirective)
+.directive('akamPopoverPopup', popoverPopupDirective)
+
+/**
+ * @ngdoc directive
+ *
+ * @name akamPopoverTemplate
+ *
+ * @description Creates a tool tip for an element using custom html template
+ *
+ * @restrict A
+ *
+ * @param {String} akam-popover-template Takes text that specifies the location of
+ * a template to use for the popover body
+ *
+ * @param {String} popover-placement Where popover appears
+ * [top, bottom, left, right]
+ *
+ * @param {String} popover-title What header should appear on
+ * popover
+ *
+ * @param {String} popover-trigger What triggers the popover
+ * ['click', 'mouseenter']
+ *
+ * @param {Boolean} popover-animation Should it fade in and out? Defaults to "true".
+ *
+ * @param {Integer} popover-popup-delay For how long should the user have to wait
+ * before the popover shows (in milliseconds) after trigger? Defaults to 0.
+ *
+ * @param {Boolean} popover-append-to-body Should the popover be
+ * appended to body instead of the parent element?
+ *
+ */
+.directive('akamPopoverTemplate', popoverTemplateDirective)
+.directive('akamPopoverTemplatePopup', popoverTemplatePopupDirective);

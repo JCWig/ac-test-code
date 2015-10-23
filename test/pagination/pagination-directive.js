@@ -586,7 +586,7 @@ describe('akam-pagination directive', function() {
       self.scope.$digest();
 
       showEntriesSpan = self.element.querySelector('.page-size').childNodes[1];
-      expect(showEntriesSpan.textContent).toContain('Show Entries: ');
+      expect(showEntriesSpan.textContent).toContain('Show Entries:');
     });
 
   });
