@@ -4,7 +4,7 @@ var utilities = require('../utilities');
 var PANEL_HEADER = 'h3.panel-title';
 var PANEL_HEADER_ICON = 'i.toggle-icon';
 var PANEL_CONTENT_WRAPPER = 'div.panel-collapse';
-var ALL_PANEL_CONTENT = 'div.panel-body div.content-wrapper div.ng-scope';
+var ALL_PANEL_CONTENT = 'div.panel-body div.content-wrapper .ng-scope';
 var PANEL_HEADER_WRAPPER = '.panel-heading';
 
 describe('akam-content-panel', function() {
@@ -384,7 +384,7 @@ describe('akam-content-panel', function() {
       scope.$digest();
 
       expect(scope.process.calls.count()).toEqual(2);
-      expect(contentWrapper.getAttribute('style')).toContain('height: 32px');
+      expect(contentWrapper.getAttribute('style')).toContain('height: 67px');
       expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
       expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
     });
@@ -414,7 +414,7 @@ describe('akam-content-panel', function() {
 
       expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
       expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
-      expect(contentWrapper.getAttribute('style')).toContain('height: 32px');
+      expect(contentWrapper.getAttribute('style')).toContain('height: 67px');
     });
     it('should be able to toggle visibility of content if no toggle or collapsed provided', function() {
       scope.isCollapsed = null;
@@ -440,7 +440,7 @@ describe('akam-content-panel', function() {
 
       expect(headerIcon.classList.contains('luna-arrow_smDown')).toBe(true);
       expect(headerIcon.classList.contains('luna-arrow_smRight')).toBe(false);
-      expect(contentWrapper.getAttribute('style')).toContain('height: 32px');
+      expect(contentWrapper.getAttribute('style')).toContain('height: 67px');
     });
     it('should not show expand/collapse icon element if notCollapsable attribute provided', function() {
       scope.isCollapsed = null;

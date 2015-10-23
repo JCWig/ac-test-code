@@ -25,15 +25,16 @@
     </div>
     <br/>
     <div>
-        <h2>Custom Labels</h2>
+        <h2>Custom Labels</h2>   
         <akam-switch-button ng-model="vm.ex2.on" on-label='{{"examples.switchbutton.custom.allow" | translate}}'
                             off-label='{{"examples.switchbutton.custom.deny" | translate}}'>
         </akam-switch-button>
     </div>
     <br/>
-        <div>
+    
+    <div>
         <h2>Custom Labels passing translation keys</h2>
-        <akam-switch-button ng-model="vm.ex7.on" on-label="examples.switchbutton.custom.allow"
+        <akam-switch-button ng-model="vm.ex9.on" on-label="examples.switchbutton.custom.allow"
                             off-label="examples.switchbutton.custom.deny">
         </akam-switch-button>
     </div>
@@ -45,11 +46,11 @@
                             on-label="examples.switchbutton.custom.label-variable"
                             on-label-values="{name: 'Allow'}"
                             off-label="examples.switchbutton.custom.label-variable"
-                            off-label-values = "{name: 'Deny'}">
+                            off-label-values = "{name: '{{"examples.switchbutton.custom.deny" | translate}}'}">
         </akam-switch-button>
     </div>
     <br/>
-
+    
     <div>
         <h2>Medium size</h2>
         <akam-switch-button ng-model="vm.ex3.on" size="medium"></akam-switch-button>
@@ -69,10 +70,29 @@
     <br/>
 
     <div>
-        <h2>Disabled</h2>
+        <h2>Disabled: On</h2>
         <akam-switch-button ng-model="vm.ex6.on" disabled="true"></akam-switch-button>
     </div>
-
+    <br>
+    
+    <div>
+        <h2>Disabled: Off</h2>
+        <akam-switch-button ng-model="vm.ex6.off" disabled="true"></akam-switch-button>
+    </div>
+    <br>
+    
+    <div>
+        <h2>Disabled (Grayscale): On</h2>
+        <akam-switch-button ng-model="vm.ex7.on" theme="grayscale" disabled="true"></akam-switch-button>
+    </div>
+    <br>
+    
+    <div>
+        <h2>Disabled (Grayscale): Off</h2>
+        <akam-switch-button ng-model="vm.ex7.off" theme="grayscale" disabled="true"></akam-switch-button>
+    </div>
+    <br>
+    
     <div>
         <h2>Disabled2</h2>
         <button ng-click="vm.switchHello()"></button>
@@ -94,9 +114,8 @@
             vm.ex3 = { on: true };
             vm.ex4 = { on: false };
             vm.ex5 = { on: true };
-            vm.ex6 = { on: false };
-            vm.ex7 = { on: true };
-            vm.ex8 = { on: false };
+            vm.ex6 = { on: true, off: false };
+            vm.ex7 = { on: true, off: false };
             vm.hello = false;
             vm.switchHello = function () {
                 vm.hello = !vm.hello;

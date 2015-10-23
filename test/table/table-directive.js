@@ -11,13 +11,13 @@ var MENU_BUTTON_BUTTON = '.akam-menu-button i.luna-gear';
 var MENU_BUTTON_ITEMS = '.akam-menu-button li';
 var DROP_DOWN_MENU = '.akam-menu-button .dropdown-menu';
 
-var PREVIOUS_BUTTON = 'div.akam-pagination .pagination li:first-child';
-var NEXT_BUTTON = 'div.akam-pagination .pagination li:last-child';
+var PREVIOUS_BUTTON = 'div.akam-pagination > .pagination li:first-child';
+var NEXT_BUTTON = 'div.akam-pagination > .pagination li:last-child';
 var TOTAL_ITEMS_SPAN = 'div.akam-pagination .total-items';
-var PAGINATION_INDEXES = 'div.akam-pagination .pagination li';
-var PAGINATION_PAGE_ONE = 'div.akam-pagination .pagination li:nth-child(2)';
-var PAGINATION_INDEX_NTH = 'div.akam-pagination .pagination li:nth-child';
-var PAGINATION_INDEX_REVERSE = 'div.akam-pagination .pagination li:nth-last-child';
+var PAGINATION_INDEXES = 'div.akam-pagination > .pagination li';
+var PAGINATION_PAGE_ONE = 'div.akam-pagination > .pagination li:nth-child(2)';
+var PAGINATION_INDEX_NTH = 'div.akam-pagination > .pagination li:nth-child';
+var PAGINATION_INDEX_REVERSE = 'div.akam-pagination > .pagination li:nth-last-child';
 var PAGE_SIZE_SMALLEST = 'div.akam-pagination .page-size li:first-child';
 var PAGE_SIZE_LARGEST = 'div.akam-pagination .page-size li:last-child';
 var PAGE_SIZE_NTH = 'div.akam-pagination .page-size li:nth-child';
@@ -128,7 +128,7 @@ describe('akam-table', function() {
         var numberOfColumns = document.querySelector('tbody tr').querySelectorAll('td').length;
         expect(numberOfColumns).toEqual(6); // # rows plus header row
       });
-      it('should display a page count equal to the aray size divided by page size', function(){
+      it('should display a page count equal to the array size divided by page size', function(){
         var paginationIndexes = document.querySelectorAll(PAGINATION_INDEXES);
         expect(paginationIndexes.length).toEqual(3);
       });

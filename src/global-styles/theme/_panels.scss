@@ -1,0 +1,35 @@
+$panel-gradient-top: #ffffff;
+$panel-gradient-bottom: #f8f8f8;
+$panel-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+$panel-body-wrapper-padding: 17px 15px;
+$panel-inner-border: red;
+
+.panel {
+  & .panel-heading {
+    position: relative;
+    background: linear-gradient($panel-gradient-top, $panel-gradient-bottom);
+    border-bottom-width: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    @include border-top-radius($panel-border-radius);
+
+    & .panel-title {
+      font-size: 16px;
+      margin-bottom: -2px;
+      & > a {
+        text-decoration: none;
+      }
+    }
+  }
+
+  & .panel-body {
+    border-top-width: 0px;
+    border-top-style: solid;
+  }
+
+  & .panel-heading + .panel-body {
+    border-top-width: 1px;
+    border-top-color: inherit;
+  }
+}
+

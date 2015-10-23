@@ -1,8 +1,6 @@
-<div class="common-css">
-  <ul class="akam-status-message-wrapper">
+<ul class="akam-status-message-wrapper">
     <akam-status-message ng-repeat="item in statusMessageGroup.items" item-id="{{ item.itemId }}"
-                         text="{{ item.text }}" title="{{ item.title }}"
+                         text="{{ item.text }}"
                          timeout="{{ item.timeout }}"
                          status="{{ item.status }}"></akam-status-message>
   </ul>
-</div>

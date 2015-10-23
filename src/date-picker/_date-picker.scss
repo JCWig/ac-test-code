@@ -1,19 +1,16 @@
 
 
-$datepicker-padding: 10px;
-$datepicker-cell-size: 27px;
-$monthpicker-cell-size: 60px;
-$datepicker-text-color-disabled: #e6e6e6;
-
 .akam-date-picker {
   position: relative;
 
-  input {
-    padding-right: #{$input-border-radius * 2};
+  input[type="text"] {
     -webkit-appearance: textfield;
     outline: 0;
+    background-color: $input-background-color;
+    border-color: $input-border-color;
+    padding-right: #{$input-border-radius * 2};
+    @include box-shadow($input-box-shadow);
 
-    & ~ .button,
     & ~ .btn {
       min-width: 0;
       margin-left: -#{$input-border-radius * 2};
@@ -24,7 +21,6 @@ $datepicker-text-color-disabled: #e6e6e6;
 
     }
 
-    &:disabled ~ .button,
     &:disabled ~ .btn {
       background: $button-background-color-disabled;
       border-color: $button-border-color-disabled;
@@ -36,7 +32,6 @@ $datepicker-text-color-disabled: #e6e6e6;
       }
     }
 
-    &.ng-invalid.ng-touched ~ .button,
     &.ng-invalid.ng-touched ~ .btn {
       border-left-color: $border-color-invalid;
     }
@@ -49,17 +44,20 @@ $datepicker-text-color-disabled: #e6e6e6;
     }
 
     &:disabled {
-      @include placeholder-enhanced($datepicker-text-color-disabled, italic);
       color: $datepicker-text-color-disabled;
-      cursor: default;
+      border-color: $input-border-color-disabled;
+      background-color: $input-background-color-disabled;
+      @include placeholder-enhanced($datepicker-text-color-disabled, italic);
+      @include box-shadow(none);
     }
   }
 
   .clear-date {
-    margin-left: -30px;
     margin-top: 6px;
     position: absolute;
     opacity: .28;
+    z-index: 2;
+    right: 42px;
 
     &:hover {
       opacity: .64;
@@ -73,7 +71,6 @@ $datepicker-text-color-disabled: #e6e6e6;
       @include box-shadow(none);
     }
 
-    input ~ .button,
     input ~ .btn {
       border-color: #999999;
       border-left-color: $input-border-color-focus;
@@ -98,8 +95,7 @@ $datepicker-text-color-disabled: #e6e6e6;
     overflow: inherit;
 
     // Override TWBS
-    .btn,
-    .button {
+    .btn {
       min-width: 0;
       height: auto;
       line-height: 1;

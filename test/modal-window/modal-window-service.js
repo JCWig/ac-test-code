@@ -408,7 +408,7 @@ describe('modalWindow service', function() {
           statusMessageWrapperEl = document.querySelector('.akam-status-message-wrapper');
           expect(statusMessageWrapperEl).not.toBe(null);
 
-          let messageContentEl = document.querySelector('.status-message-content');
+          let messageContentEl = document.querySelector('.alert');
           expect(messageContentEl.textContent).not.toBe(null);
         });
       });
@@ -598,7 +598,7 @@ describe('modalWindow service', function() {
             this.timeout.flush();
           });
           it('should render default value for error message', function() {
-            let messageContentEl = document.querySelector('.status-message-content');
+            let messageContentEl = document.querySelector('.alert');
             expect(messageContentEl.textContent).toContain('Error occurs during last submission. ');
           });
         });
@@ -631,7 +631,7 @@ describe('modalWindow service', function() {
             this.timeout.flush();
           });
           it('should translate error message', function() {
-            let messageContentEl = document.querySelector('.status-message-content');
+            let messageContentEl = document.querySelector('.alert');
             expect(messageContentEl.textContent).toContain('Error occurs during last submission.');
           });
         });
@@ -661,7 +661,7 @@ describe('modalWindow service', function() {
             utilities.click(submitButton);
           });
           it('should render default value for success message', function() {
-            let messageContentEl = document.querySelectorAll('.status-message-content');
+            let messageContentEl = document.querySelectorAll('.alert');
             expect(messageContentEl[messageContentEl.length - 1].textContent).toContain('Value has been successfully submitted.');
           });
         });
@@ -688,7 +688,7 @@ describe('modalWindow service', function() {
             utilities.click(submitButton);
           });
           it('should translate success message', function() {
-            let messageContentEl = document.querySelectorAll('.status-message-content');
+            let messageContentEl = document.querySelectorAll('.alert');
             expect(messageContentEl[messageContentEl.length - 1].textContent).toContain('Value has been successfully submitted.');
           });
         });
@@ -800,7 +800,7 @@ describe('modalWindow service', function() {
           this.timeout.flush();
         });
         it('should translate errorMessage and errorMessageValues', function() {
-          let label = document.querySelector('.status-message-content');
+          let label = document.querySelector('.alert');
           expect(label.textContent).toContain('Error occurs during last submission. - Error');
         });
       });
@@ -824,7 +824,7 @@ describe('modalWindow service', function() {
           utilities.click(submitButton);
         });
         it('should translate successMessage and successMessageValues', function() {
-          let messageContentEl = document.querySelectorAll('.status-message-content');
+          let messageContentEl = document.querySelectorAll('.alert');
           expect(messageContentEl[messageContentEl.length - 1].textContent).toContain('Value has been successfully submitted. - Success');
         });
       });

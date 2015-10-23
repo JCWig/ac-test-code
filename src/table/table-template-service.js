@@ -129,7 +129,7 @@ function TableTemplateService($log) {
 
   return {
     template: function(element, attributes, selectable) {
-      return `<table>
+      return `<table class="table table-striped table-hover">
               <thead><tr>${getHeaderTemplate(element[0], attributes, selectable)}</tr></thead>
               <tbody>
                 <tr ng-repeat="row in table.filtered track by table.idPropertyFn(row)"

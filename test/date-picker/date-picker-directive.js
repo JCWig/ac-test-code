@@ -1,9 +1,9 @@
 'use strict';
 let utilities = require('../utilities');
 
-const TOGGLE_DATE_PICKER_BUTTON = 'button.button';
+const TOGGLE_DATE_PICKER_BUTTON = '.akam-date-picker > .input-group-btn > button.btn';
 const DATE_PICKER = 'ul.dropdown-menu';
-const HEADER_DISPLAYED_ON_DATEPICKER = 'button.btn strong.ng-binding';
+const HEADER_DISPLAYED_ON_DATEPICKER = 'ul.dropdown-menu button[role="heading"] strong';
 const NAVIGATE_DATEPICKER_BACKWARDS = 'button.pull-left';
 const NAVIGATE_DATEPICKER_FORWARDS = 'button.pull-right';
 const COMMON_MARKUP = `<akam-date-picker ng-model='date' min="{{min}}" max="{{max}}" mode="{{mode}}"></akam-date-picker>`;
@@ -275,15 +275,14 @@ describe('akam-date-picker', function() {
     it('should date picker calendar button disabled when set to true', function() {
       scope.disabled = true;
       scope.$digest();
-      let buttonElem = document.querySelector('.akam-date-picker .button');
-
+      let buttonElem = document.querySelector(TOGGLE_DATE_PICKER_BUTTON);
       expect(buttonElem.getAttribute('disabled')).toBe('disabled');
     });
 
     it('should date picker calendar icon disabled when set to true', function() {
       scope.disabled = true;
       scope.$digest();
-      let iconElem = document.querySelector('.akam-date-picker .button .luna-calendar');
+      let iconElem = document.querySelector(TOGGLE_DATE_PICKER_BUTTON + ' > i');
       expect(iconElem.getAttribute('disabled')).toBe('disabled');
     });
   });
@@ -981,7 +980,7 @@ describe('akam-date-picker', function() {
         scope.$digest();
       });
       it('should calendar remain open when valid date is not selected', function() {
-        expect(document.querySelector('.akam-date-picker').classList).toContain('opened');
+        expect(document.querySelector('akam-date-picker').classList).toContain('opened');
       });
     });
   });
@@ -999,7 +998,7 @@ describe('akam-date-picker', function() {
         scope.$digest();
       });
       it('should calendar remain open when valid month is not selected', function() {
-        expect(document.querySelector('.akam-date-picker').classList).toContain('opened');
+        expect(document.querySelector('akam-date-picker').classList).toContain('opened');
       });
     });
   });

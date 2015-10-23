@@ -1,4 +1,4 @@
-$off-white: #e6e6e6;
+$off-white: #dadada;
 $toggle-gradient-bottom: $off-white;
 $dark-grey: #999;
 $enabled-border: 1px solid $dark-grey;
@@ -57,7 +57,7 @@ akam-switch-button {
 
     & > span:first-child {
       color: #fff;
-      background-color: #7aaa60;
+      background-color: $colors__green2b;
       box-shadow: -3px 0 2px 0 $box-shadow-opacity inset;
       padding-right: 7px;
       
@@ -115,7 +115,7 @@ akam-switch-button {
   &.grayscale {
     & .switch-button-container {
       & > span:first-child {
-        background-color: $dark-grey;
+        background-color: $colors__bluegray1;
       }
 
       & > span:last-child {
@@ -134,7 +134,7 @@ akam-switch-button {
 
       & > label {
         cursor: default;
-        background: #fff none;
+        background: $colors__gray9;
 
         & > span {
           border-left: 1px solid $off-white;
@@ -166,12 +166,31 @@ akam-switch-button {
       }
     }
 
-    &.switch-button-on .switch-button-container > span,
-    &.switch-button-off .switch-button-container > span {
-      background: #fff none;
-      color: $off-white;
+    &.switch-button-on {
+      
+      .switch-button-container > span {
+        background: #9bc69a;
+        color: $colors__gray9;
+      }
+      
+      &.grayscale .switch-button-container > span {
+        background: #aeb6be;
+        color: $colors__gray9;
+      }
     }
-
+    
+    &.switch-button-off {
+      
+      .switch-button-container > span {
+        background: #e79897;
+        color: $colors__gray9;
+      }
+      
+      &.grayscale .switch-button-container > span {
+        background-image: linear-gradient(to bottom, #e6e6e6, #f8f8f8);
+        color: $colors__gray4;
+      }
+    }
 
   }
 

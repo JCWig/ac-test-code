@@ -362,8 +362,8 @@ describe('akamai.components.wizard', function() {
         var submitButton = document.querySelector(NEXT_BUTTON_SELECTOR);
         util.click(submitButton);
 
-        var statusMessage = document.querySelector('.status-message-content');
-        expect(_.trim(statusMessage.textContent)).toBe('Success');
+        var statusMessage = document.querySelector('.alert');
+        expect(_.trim(statusMessage.textContent)).toContain('Success');
       });
     });
   });
@@ -472,8 +472,8 @@ describe('akamai.components.wizard', function() {
       });
 
       it('should display the default error message', function() {
-        var statusMessage = document.querySelector('.status-message-content');
-        expect(_.trim(statusMessage.textContent)).toBe('failed to initialize step');
+        var statusMessage = document.querySelector('.alert');
+        expect(_.trim(statusMessage.textContent)).toContain('failed to initialize step');
       });
     });
   });

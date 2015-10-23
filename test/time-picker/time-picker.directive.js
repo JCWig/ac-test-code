@@ -4,9 +4,9 @@ let utilities = require('../utilities');
 let selectors = {
   TIMEPICKER: '.akam-time-picker',
   TIMEPICKER_OPEN: '.akam-time-picker .open',
-  TIMEPICKER_INPUT: '.akam-time-picker input',
-  TIMEPICKER_BTN: '.akam-time-picker button',
-  TIMEPICKER_ICON: '.akam-time-picker button i',
+  TIMEPICKER_INPUT: '.akam-time-picker > input',
+  TIMEPICKER_BTN: '.akam-time-picker > .input-group-btn > button',
+  TIMEPICKER_ICON: '.akam-time-picker > .input-group-btn > button > i',
   DROPDOWN_MENU: '.akam-time-picker .dropdown-menu'
 };
 
@@ -191,7 +191,7 @@ describe('akamTimepicker directive', function() {
       addElement.call(this);
 
       let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
-      utilities.click(timepickerBtnElem);
+      angular.element(timepickerBtnElem).triggerHandler('click');
       scope.$digest();
 
       let timepickerElem = this.element.querySelector(selectors.TIMEPICKER);
@@ -205,7 +205,7 @@ describe('akamTimepicker directive', function() {
       scope.$digest();
 
       timepickerElem = this.element.querySelector(selectors.TIMEPICKER);
-      expect(timepickerElem.classList[1]).toBe(null);
+      expect(timepickerElem.classList[2]).toBe(null);
       expect(timepicker.isOpen).toBeFalsy();
 
       dropdownElem = this.element.querySelector(selectors.DROPDOWN_MENU);
@@ -218,7 +218,7 @@ describe('akamTimepicker directive', function() {
       addElement.call(this);
 
       let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
-      utilities.click(timepickerBtnElem);
+      angular.element(timepickerBtnElem).triggerHandler('click');
       scope.$digest();
 
       let timepickerElem = this.element.querySelector(selectors.TIMEPICKER);
@@ -231,7 +231,7 @@ describe('akamTimepicker directive', function() {
       scope.$digest();
 
       timepickerElem = this.element.querySelector(selectors.TIMEPICKER);
-      expect(timepickerElem.classList[1]).toBe(null);
+      expect(timepickerElem.classList[2]).toBe(null);
 
       dropdownElem = this.element.querySelector(selectors.DROPDOWN_MENU);
       expect(dropdownElem.classList.contains("ng-hide")).toBeTruthy();
@@ -420,7 +420,7 @@ describe('akamTimepicker directive', function() {
           addElement.call(this);
           spyOn(timepicker, "toggle").and.callThrough();
           spyOn(timepicker, "changed").and.callThrough();
-          let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
+          let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
           utilities.click(timepickerBtnElem);
           scope.$digest();
         });
@@ -449,10 +449,10 @@ describe('akamTimepicker directive', function() {
       beforeEach(function() {
         addElement.call(this);
         let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
-        utilities.click(timepickerBtnElem);
+        angular.element(timepickerBtnElem).triggerHandler('click');
         scope.$digest();
         let dropdownElement = this.element.querySelector('.dropdown-menu');
-        utilities.click(dropdownElement);
+        angular.element(dropdownElement).triggerHandler('click');
         scope.$digest();
         timepickerElem = this.element.querySelector(selectors.TIMEPICKER);
       });

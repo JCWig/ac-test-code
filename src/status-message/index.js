@@ -21,9 +21,8 @@ import statusMessageService from './status-message-service';
  * @example status-message.js
  *  var ctrlFunction = function($scope, statusMessage) {
  *    var messageText = "Basic Message Text";
- *    var messageTitle = "Message Title";
  *    $scope.showStatus = function(){
- *      statusMessage.showInformation({text : messageText, title : messageTitle });
+ *      statusMessage.showInformation({text : messageText});
  *    };
  *  };
  */

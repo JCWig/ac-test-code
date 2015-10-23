@@ -27,7 +27,13 @@
   <h4 class="title">Example of Datetime picker</h4>
   <form name='datetime-picker' role='form'>
     <p>Minimum attributes used with no date and time values</p>
-    <akam-datetime-picker ng-model="vm.datetime" ng-change="vm.onChange()"></akam-datetime-picker>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <akam-datetime-picker ng-model="vm.datetime" ng-change="vm.onChange()"></akam-datetime-picker>
+        </div>
+      </div>
+    </div>
     <br/>
     <br/>
     <h4 class="title">Example of Datetime picker and extending the min/max range:</h4>

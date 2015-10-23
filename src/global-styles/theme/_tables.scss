@@ -1,0 +1,114 @@
+
+$table__border: $base__border-style $base__border-width $colors__gray6;
+
+$table__tr-background--even: $colors__gray10;
+$table__tr-background--odd: $colors__white;
+$table__tr-background--hover: $colors__blue3;
+$table__tr-background--selected: $colors__blue2;
+$table__tr-height: 30px;
+
+$table__th-background: linear-gradient($colors__white, $colors__gray10);
+$table__th-background--hover: linear-gradient($colors__gray7, $colors__gray9);
+$table__th-height: $table__tr-height + $base__border-width;
+
+$table__td-border: $base__border-style $base__border-width $colors__gray8;
+
+$table__filter-icon-width: luna-sprite-width(close);
+$table__filter-icon-margin-left: -($table__filter-icon-width + 6px);
+$table__filter-padding-right: $table__filter-icon-width + 8px;
+
+$table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
+
+
+.table {
+  table-layout: fixed;
+  margin-bottom: 0;
+  
+  // All Cells
+  > thead, 
+  > tbody, 
+  > tfoot {
+    > tr {
+      > td, 
+      > th {
+        height: 31px;
+        line-height: 31px;
+        padding: 0 $table-cell-padding;
+        @include ellipsis();
+      }
+      
+      > th {
+        font-weight: bold;
+        position: relative;
+        background-clip: padding-box; // bugzilla.mozilla.org/show_bug.cgi?id=688556
+      }
+      
+      > td {
+        border: $table__td-border;
+        border-width: 0;
+        border-top-width: 1px;
+        
+        &.column-action {
+          overflow: visible;
+          
+          & > * {
+            visibility: hidden;
+          }
+        }
+        
+        span.highlighted {
+          color: $colors__blue1;
+        }
+      }
+    }
+  }
+  
+  // Thead and Tfoot
+  > thead,
+  > tfoot {
+    > tr {
+      > td {
+        
+      }
+      > th {
+        border-bottom: $table__border;
+        @include background-image($table__th-background);
+        
+        & + th {
+          border-left: $table__border;
+        }
+        
+      }
+    }
+  }
+  
+  // Tbody 
+  > tbody {
+    
+    tr:first-child td {
+      border-top: none;
+    }
+    
+    > tr {
+      
+    }
+  }
+  
+  // Keep top border from thead by default
+  > caption + thead,
+  > colgroup + thead,
+  > thead:first-child {
+    > tr:first-child {
+      > th,
+      > td {
+        border-top: solid 1px $colors__gray6;
+      }
+    }
+  }
+
+
+
+}
+
+
+

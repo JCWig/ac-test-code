@@ -1,0 +1,30 @@
+
+.btn-group {
+
+  & > .btn {
+
+    & + .dropdown-toggle {
+      padding-left: $button-padding-lr;
+      padding-right: $button-padding-lr;
+    }
+  }
+
+  &.open {
+    .dropdown-toggle {
+      @include box-shadow(none);
+      @extend .btn:active;
+    }
+  }
+}
+
+:not(.btn-group) {
+  > .btn + .btn.dropdown-toggle {
+    margin-left: -#{$button-border-radius * 2};
+    @include border-top-left-radius(0);
+    @include border-bottom-left-radius(0);
+  }
+}
+
+.input-group-btn > .btn {
+  min-width: 0;
+}
