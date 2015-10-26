@@ -6,7 +6,7 @@ var minifyCSS = require('gulp-minify-css');
 var rename = require('gulp-rename');
 
 gulp.task('compass', function() {
-  gulp.src('./src/**/*.scss')
+  return gulp.src('./src/**/*.scss')
     .pipe(compass({
       config_file: './config.rb',
       css: config.dest,
