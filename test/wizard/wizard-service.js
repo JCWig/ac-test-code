@@ -9,7 +9,7 @@ const PREVIOUS_BUTTON_SELECTOR = 'div.modal-footer > button.previous-button';
 const NEXT_BUTTON_SELECTOR = 'div.modal-footer > button.next-button';
 const PREV_BUTTON_SELECTOR = 'div.modal-footer > button.previous-button';
 
-describe('akamai.components.wizard', function() {
+fdescribe('akamai.components.wizard', function() {
   var $scope, $compile, wizard, steps, submitFunction, $q, timeout;
 
   beforeEach(function() {
@@ -497,6 +497,74 @@ describe('akamai.components.wizard', function() {
         };
 
         wizard.open({steps: [steps[0], step2], scope: wizardScope});
+        $scope.$digest();
+
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
+        util.click(nextButton);
+      });
+
+      it('should activate the step', function() {
+        var secondStep = document.querySelector('.wizard-steps ul li:first-child + li');
+        expect(secondStep.classList.contains('active')).toBe(true);
+      });
+    });
+  });
+
+  describe('given a step with an dispose method', function() {
+    describe('when an error occurs while disposing', function() {
+
+      var errorMessage = 'failed to dispose step';
+
+      function initializeWizard(){
+        var wizardScope = $scope.$new();
+        var step1 = {
+          name: 'Step 1',
+          template: '<p>Step 1 Content</p>',
+          dispose: function () {
+            var deferred = $q.defer();
+            deferred.reject(errorMessage);
+            return deferred.promise;
+          }
+        };
+        wizard.open({steps: [step1, steps[1]], scope: wizardScope});
+        $scope.$digest();
+        var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
+        util.click(nextButton);
+      };
+
+      it('should display an error message', function() {
+        initializeWizard();
+        var statusMessage = document.querySelector('.alert');
+        expect(_.trim(statusMessage.textContent)).toBe(errorMessage);
+      });
+
+      it('should not display an error message if an empty reason is provided', function() {
+        errorMessage = '';
+        initializeWizard();
+        var statusMessage = document.querySelector('.alert');
+        expect(statusMessage).toBe(null);
+      });
+
+    });
+  });
+
+  describe('given a step with an dispose method', function() {
+    describe('when the step is disposed successfully', function() {
+
+      beforeEach(function() {
+        var wizardScope = $scope.$new();
+
+        var step1 = {
+          name: 'Step 1',
+          template: '<p>Step 1 Content</p>',
+          initialize: function () {
+            var deferred = $q.defer();
+            deferred.resolve();
+            return deferred.promise;
+          }
+        };
+
+        wizard.open({steps: [step1, steps[1]], scope: wizardScope});
         $scope.$digest();
 
         var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);

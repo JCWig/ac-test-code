@@ -223,7 +223,8 @@
                             validate: function(scope) {
                                 return true;
                             },
-                            initialize: angular.bind(this, deferredProcess, "Step 2 failed to initialize.")
+                            initialize: angular.bind(this, deferredProcess, "Step 2 Failed to initialize."),
+                            dispose: angular.bind(this, deferredProcess, "Step 2 Failed to dispose.")
                         },
                         {
                             name: 'examples.wizard.step3',
