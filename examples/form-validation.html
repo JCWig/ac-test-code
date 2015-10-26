@@ -29,13 +29,15 @@
               <fieldset class="form-horizontal">
                 <legend>
                   <span>1. Form with checkboxes and drop down</span>
-                  <span>Optional subheading: lorem ipsum dolor sit amet</span>
+                  <span>Form controls in this section display help text on hover</span>
                 </legend>
 
                 <div class="form-group required">
                   <label class="control-label col-md-3">Input Input Input Input Input Input Input Input Input Input </label>
                   <div class="col-md-9">
-                    <input type="text" class="form-control" name="input1" ng-model="input1" ng-minlength="2" ng-maxlength="10" min="1" max="11" required>
+                    <input type="text" class="form-control" name="input1" ng-model="input1" ng-minlength="2" ng-maxlength="10"
+                           min="1" max="11" required akam-popover="Long Label Input Field Help Text - bottom"
+                           popover-placement="bottom" popover-trigger="mouseenter">
 
                     <div ng-messages="kitchenSink.input1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -50,8 +52,10 @@
                 <div class="form-group">
                   <label class="control-label col-md-3">Longer Input</label>
                   <div class="col-md-9">
-                    <input type="text" class="form-control" name="longerInput1" ng-model="longerInput1" ng-minlength="5" ng-maxlength="20">
-
+                    <input type="text" class="form-control" name="longerInput1" ng-model="longerInput1" ng-minlength="5"
+                           ng-maxlength="20" akam-popover="Longer Input Field Help Text - top" popover-placement="top"
+                           popover-trigger="mouseenter">
+            
                     <div ng-messages="kitchenSink.longerInput1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
                       <div ng-message="minlength">Your field is too short</div>
@@ -65,7 +69,9 @@
                 <div class="form-group required">
                   <label class="control-label col-md-3" for="#">Dropdown</label>
                   <div class="col-md-9">
-                    <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown1" required></akam-dropdown>
+                    <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown1" required
+                        akam-popover="Dropdown Help Text - right" popover-placement="right" popover-trigger="mouseenter">
+                    </akam-dropdown>                                                                                                           
 
                     <div ng-messages="kitchenSink.dropdown1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not select an item</div>
@@ -78,8 +84,9 @@
                   <div class="col-md-9">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="checkbox1" ng-model="checkbox1" required>
-                        <span class="label">Checkbox Label</span>
+                        <input type="checkbox" name="checkbox1" ng-model="checkbox1" required>   
+                        <span class="label" akam-popover="Checkbox Help Text - right" popover-placement="right"
+                              popover-trigger="mouseenter">Checkbox Label</span>
                       </label>
                     </div>
                     <div ng-messages="kitchenSink.checkbox1.$error" class="ngMessages" role="alert">
@@ -88,7 +95,8 @@
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox2" ng-model="checkbox2">
-                        <span class="label">Checkbox Label</span>
+                        <span class="label" akam-popover="Checkbox Help Text - left" popover-placement="left"
+                              popover-trigger="mouseenter">Checkbox Label</span>
                       </label>
                     </div>
                     <div ng-messages="kitchenSink.checkbox2.$error" class="ngMessages" role="alert">
@@ -97,7 +105,8 @@
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox3" ng-model="checkbox3">
-                        <span class="label">Checkbox Label</span>
+                        <span class="label" akam-popover="Checkbox Help Text - top" popover-placement="top"
+                              popover-trigger="mouseenter">Checkbox Label</span>
                       </label>
                     </div>
                     <div ng-messages="kitchenSink.checkbox3.$error" class="ngMessages" role="alert">
@@ -109,7 +118,9 @@
                 <div class="form-group required">
                   <label class="control-label col-md-3">Much Longer Input</label>
                   <div class="col-md-9">
-                    <input type="text" class="form-control" name="muchLongerInput1" ng-model="muchLongerInput1" minlength="5" maxlength="20" required>
+                    <input type="text" class="form-control" name="muchLongerInput1" ng-model="muchLongerInput1" minlength="5"
+                           maxlength="20" required akam-popover="Much Longer Input Help Text - left" popover-placement="left"
+                           popover-trigger="mouseenter">
 
                     <div ng-messages="kitchenSink.muchLongerInput1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
