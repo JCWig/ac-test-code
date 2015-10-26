@@ -31,7 +31,6 @@ class ModalWindowController {
 
     this.setProperty('title', 'components.modal-window.title');
     this.setProperty('cancelLabel', 'components.modal-window.label.cancel');
-    this.setProperty('submitLabel', 'components.modal-window.label.save');
     this.setProperty('errorMessage', 'components.modal-window.errorMessage');
     this.setProperty('successMessage', 'components.modal-window.successMessage');
     this.setProperty('icon');
@@ -41,6 +40,10 @@ class ModalWindowController {
     this.setProperty('doNotShowMessage');
     this.setProperty('instance');
     this.setProperty('showFullscreenToggle');
+
+    // do not translate submitLabel to prevent double translation of submit label
+    // submit button is a akam-spinner-button, it will translate the submitLabel key
+    this.submitLabel = this.options.submitLabel || 'components.modal-window.label.save';
 
     this.instance.result.finally(() => this.contentScope.$destroy());
 
@@ -183,7 +186,7 @@ export default class ModalWindowService {
       throw new Error('An options object was not passed to modelWindow.open');
     }
 
-    if (!(angular.isString(options.template) || angular.isString(options.templateUrl))) {
+    if (!(options.template || options.templateUrl)) {
       throw new Error('Modal Window template or templateUrl option required');
     }
 

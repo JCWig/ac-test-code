@@ -1,5 +1,6 @@
 'use strict';
-var _ = require('lodash');
+import _ from 'lodash';
+import angular from 'angular';
 
 var utilities = require('../utilities');
 var translationMock = {
@@ -148,6 +149,21 @@ describe('modalWindow service', function() {
         expect(openFunction).toThrowError();
       });
     });
+
+    describe('when an angular element is used as a template', function() {
+      beforeEach(function() {
+
+        this.modalWindowService.open({
+          scope: this.scope,
+          template: angular.element('<p>angular element</p>')
+        });
+        this.scope.$digest();
+      });
+      it('should render the modal window', function() {
+        expect(document.querySelector('.modal-body p').textContent).toBe('angular element');
+      });
+    });
+
 
     it('should support a title option', function() {
       var title = 'Hello Akamai';
