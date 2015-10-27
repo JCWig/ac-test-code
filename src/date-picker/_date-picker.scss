@@ -3,55 +3,6 @@
 .akam-date-picker {
   position: relative;
 
-  input[type="text"] {
-    -webkit-appearance: textfield;
-    outline: 0;
-    background-color: $input-background-color;
-    border-color: $input-border-color;
-    padding-right: #{$input-border-radius * 2};
-    @include box-shadow($input-box-shadow);
-
-    & ~ .btn {
-      min-width: 0;
-      margin-left: -#{$input-border-radius * 2};
-      @include border-left-radius(0);
-      i {
-        @include disable-magic-sprite-selectors(calendar);
-      }
-
-    }
-
-    &:disabled ~ .btn {
-      background: $button-background-color-disabled;
-      border-color: $button-border-color-disabled;
-      color: $button-text-color-disabled;
-      cursor: default;
-
-      i {
-        opacity: $input-button-icon-opacity-disabled;
-      }
-    }
-
-    &.ng-invalid.ng-touched ~ .btn {
-      border-left-color: $border-color-invalid;
-    }
-
-    // Reset date picker focus state to look like its default state
-    &:focus {
-      border-color: $input-border-color;
-      background-color: $input-background-color;
-      @include box-shadow($input-box-shadow);
-    }
-
-    &:disabled {
-      color: $datepicker-text-color-disabled;
-      border-color: $input-border-color-disabled;
-      background-color: $input-background-color-disabled;
-      @include placeholder-enhanced($datepicker-text-color-disabled, italic);
-      @include box-shadow(none);
-    }
-  }
-
   .clear-date {
     margin-top: 6px;
     position: absolute;
@@ -64,36 +15,13 @@
     }
   }
 
-  &.opened {
-    input {
-      border: 1px solid $input-border-color-focus;
-      background-color: white;
-      @include box-shadow(none);
-    }
-
-    input ~ .btn {
-      border-color: #999999;
-      border-left-color: $input-border-color-focus;
-      @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
-    }
-    .clear-date {
-      opacity: .333;
-    }
-  }
-
   // Date Picker Popup is done via drop down menu item
   ul.dropdown-menu {
     padding: $datepicker-padding;
     outline: none;
-    border: 1px solid #ccc;
-    border-radius: $border-radius;
-    margin-top: 0;
-    top: 100%;
-    overflow-x: inherit;
     min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
     @include box-shadow($global-box-shadow);
-    overflow: inherit;
-
+    
     // Override TWBS
     .btn {
       min-width: 0;
@@ -268,6 +196,38 @@
           line-height: 2.14;
         }
       }
+    }
+  }
+}
+
+akam-date-picker {
+  
+  input[type="text"] {
+    @extend %inputStyles;
+    
+    &:focus {
+      @extend %inputFocusStyles;
+    }
+    
+    &:disabled {
+      @extend %inputDisabledStyles;
+    }
+  }
+  
+  
+  &.opened {
+    input[type="text"] {
+      @extend %inputFocusStyles;
+    }
+  
+    input[type="text"] ~ .input-group-btn > .btn {
+      border-color: #999999;
+      border-left-color: $input-border-color-focus;
+      @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+    }
+    
+    .clear-date {
+      opacity: .333;
     }
   }
 }

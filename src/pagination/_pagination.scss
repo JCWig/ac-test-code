@@ -29,6 +29,23 @@
     display: inline-block;
     background: none;
   }
+  
+  > .pagination {
+    > li.disabled:first-child,
+    > li.disabled:last-child {
+      
+      > a,
+      > span {
+        
+        &, 
+        &:hover,
+        &:focus {
+          background: transparent;
+          border-width: 0;
+        }
+      }
+    }
+  }
 
   .disabled i.luna-arrow_smLeft,
   &.disabled i.luna-arrow_smLeft {

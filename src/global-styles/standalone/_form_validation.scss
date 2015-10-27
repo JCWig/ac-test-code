@@ -11,17 +11,23 @@ textarea {
   &.ng-invalid.ng-dirty.ng-touched {
     border-color: $colors__red3;
     border-width: 2px;
-  }
-}
-
-input[type="search"],
-input[type="date"],
-input[type="month"] {
-
-  &.ng-invalid.ng-dirty.ng-touched {
-
-    & ~ .btn {
-      border-left-color: $colors__red3;
+    
+    & ~ .btn,
+    & ~ .btn-group-vertical .btn,
+    & ~ .input-group-btn .btn {
+      border-color: $colors__red3;
+      border-width: 2px;
+      border-left-width: 1px;
+    }
+    
+    & ~ .btn-group-vertical .btn {
+      
+      &:first-child {
+        border-bottom-width: 1px;
+      }
+      &:last-child {
+        border-top-width: 1px;
+      }
     }
   }
 }
@@ -38,6 +44,16 @@ akam-tag-input {
   }
 }
 
+
+/* switch button */
+akam-switch-button {
+  &.ng-invalid.ng-dirty.ng-touched {
+    > .switch-button {
+      border-width: 2px;
+      border-color: $colors__red3;
+    }
+  }
+}
 
 
 /* dropdown menu validation */
@@ -79,6 +95,26 @@ akam-dropdown {
 
   ul.dropdown-menu {
     border-color: $colors__red3;
+  }
+}
+
+/* date range validation */
+akam-date-range {
+  &.ng-invalid.ng-dirty.ng-touched {
+    
+    .range-selection {
+    
+      .date-range-placeholder,
+      > .btn {
+        border-color: $colors__red3;
+        border-width: 2px;
+      }
+      
+      .date-range-placeholder {
+        width: calc(50% - 19.5px);
+      }
+    
+    }
   }
 }
 

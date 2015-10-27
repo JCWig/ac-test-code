@@ -127,13 +127,12 @@ akam-switch-button {
 
   &.disabled {
     border: $disabled-border;
-    cursor: default;
 
     & .switch-button-container {
       border-right: $disabled-border;
 
       & > label {
-        cursor: default;
+        cursor: not-allowed;
         background: $colors__gray9;
 
         & > span {
