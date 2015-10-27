@@ -7,8 +7,6 @@ function getPlainDate(d) {
 }
 
 function DateRangeDecorator($provide) {
-  const [START, END] = ['start', 'end'];
-
   //first time selection always makes arrow direction to the left\
   //even if slection is from right calendar
   function firstTimeSelect(dt, scope) {
@@ -22,9 +20,8 @@ function DateRangeDecorator($provide) {
 
     if (angular.isDate(scope.selectedStart)) {
       scope.selectedEnd = dt;
-    } else if (angular.isDate(scope.selectedEnd)) {
-      scope.selectedStart = dt;
     }
+
     if (scope.selectedStart.getTime() > scope.selectedEnd.getTime()) {
       cloneDate = angular.copy(scope.selectedStart);
       scope.selectedStart = scope.selectedEnd;
@@ -35,9 +32,8 @@ function DateRangeDecorator($provide) {
 
   function setRangeAndNotify(dt, scope, $rootScope) {
     //if has range, break the range, but select starting date
-    if (scope.rangeSelected) {
-      firstTimeSelect(dt, scope);
-    } else if (!angular.isDate(scope.selectedStart) && !angular.isDate(scope.selectedEnd)) {
+    if (scope.rangeSelected || !angular.isDate(scope.selectedStart)
+      && !angular.isDate(scope.selectedEnd)) {
       firstTimeSelect(dt, scope);
     } else {
       secondTimeSelect(dt, scope);
@@ -90,7 +86,7 @@ function DateRangeDecorator($provide) {
 
     directive.compile = () => {
       return function(scope, element, attrs, ctrl) {
-        let initialDateRange, moveRangePoint, updateDateRangeMin, updateDateRangeMax,
+        let initialDateRange, updateDateRangeMin, updateDateRangeMax,
           updateDatepickerMin, updateDatepickerMax;
 
         link.apply(this, arguments);
@@ -122,6 +118,10 @@ function DateRangeDecorator($provide) {
             scope.rangeSelected = true;
           } else {
             scope.rangeSelected = false;
+          }
+          if (angular.isDate(info.startDate)) {
+            ctrl.activeDate = info.startDate;
+            ctrl.refreshView();
           }
 
           //watch only occurs if it is for date range
@@ -163,51 +163,8 @@ function DateRangeDecorator($provide) {
           ctrl.refreshView();
         });
 
-        moveRangePoint = scope.$on('dateRange.moveRangePoint', (e, info) => {
-          if (info.id !== scope.callerId || !scope.rangeSelected) {
-            return;
-          }
-
-          let moveStep = 0,
-            currentMonth = scope.currentMonth,
-            siblingMonth = currentMonth + 1,
-            month, year, diff;
-
-          if (info.rangePoint === START) {
-            month = scope.selectedStart.getMonth() + 1;
-            year = scope.selectedStart.getFullYear();
-          } else if (info.rangePoint === END) {
-            month = scope.selectedEnd.getMonth() + 1;
-            year = scope.selectedEnd.getFullYear();
-          }
-          diff = scope.currentYear - year;
-
-          if (currentMonth !== month && siblingMonth !== month) {
-            if (currentMonth < month || currentMonth > month) {
-              moveStep = month - currentMonth;
-            }
-          }
-
-          if (moveStep === -1 && info.rangePoint === END) {
-            moveStep = moveStep - 1;
-          }
-
-          if (moveStep > 2 || moveStep < -2) {
-            if (moveStep % 2 !== 0) {
-              moveStep = moveStep - 1; //sibling month not count
-            }
-          }
-
-          if (diff < 0 || diff > 0) {
-            moveStep = -diff * 12 + moveStep;
-          }
-          scope.move(moveStep);
-
-        });
-
         scope.$on('$destroy', () => {
           initialDateRange();
-          moveRangePoint();
           updateDateRangeMax();
           updateDateRangeMin();
           updateDatepickerMax();

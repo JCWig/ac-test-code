@@ -25,6 +25,9 @@
     },
     "autocomplete": {
       "search-tip": "Type in text to display matching results"
+    },
+    "date-range": {
+      "placeholder": "Select From Date - Select To Date"
     }
   },
   "examples.switchbutton.custom.allow": "Allow",

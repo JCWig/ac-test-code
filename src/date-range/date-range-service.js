@@ -77,7 +77,7 @@ class DateRangeService {
       d2 = angular.isDate(endDate) ? this.dateFilter(endDate, format) : '';
 
     if (!d1 || !d2) {
-      return '';
+      return d1 || d2;
     }
     return this.appendDates(d1, d2);
   }

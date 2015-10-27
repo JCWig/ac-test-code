@@ -368,7 +368,6 @@ describe('akamai.components.spinner', function() {
           expect(angular.isObject(this.isoScope.spinner.dynamicMinWidth)).toBeTruthy();
         });
         it('should spinner dynamicMinWidth to be default value', function() {
-          console.log("Spinner: ", this.isoScope.spinner.dynamicMinWidth);
           expect(this.isoScope.spinner.dynamicMinWidth['width']).toBe('calc(1em+10px)');
         });
       });
