@@ -26,6 +26,29 @@
     @include transform(none);
     @include transition(none);
   }
+  
+  .modal-header {
+    & > .close-icon {
+      cursor: pointer;
+      background: transparent center center no-repeat;
+      background: inline-svg-image("svg/small_close_new.svg");
+      background-size: contain;
+      width: 12px;
+      height: 12px;
+
+      &:hover {
+        background-image: inline-svg-image("svg/small_close_hover_new.svg");
+      }
+    }
+
+    i.disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .modal-backdrop {
+    background-color: $dialog-mask-color_luna;
+  }
 }
 
 .modal-dialog {
@@ -113,7 +136,7 @@
     min-height: 0;
 
     & > .modal-title {
-      padding-right: $svg-icon-width + $dialog-header-icon-gutter;
+      padding-right: $svg-icon-width * 2 + $dialog-header-icon-gutter * 3;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -131,22 +154,16 @@
       margin: 0;
       padding: 0;
 
-      .akam-status-message-item {
+      .alert {
         width: 100%;
         padding-left: 32px + $dialog-left-padding;
         height: $dialog-header-error-height;
+        line-height: 2.8em;
+        overflow: hidden;
+
         &:before {
             margin-left: $dialog-left-padding;
         }
-      }
-
-      .status-message-content {
-        max-height: 2.8em;
-        overflow: hidden;
-        top: 50%;
-        position: absolute;
-        padding-right: $dialog-right-padding;
-        @include translateY(-50.01%);
       }
     }
 
@@ -212,10 +229,7 @@
     background: $dialog-background-color;
     margin-top: 1px; //fixes issue in Chrome where body content hovers over the border
 
-    .button + .button,
-    .btn + .btn,
-    .button + .btn,
-    .btn + .button {
+    .btn + .btn {
       margin-left: $dialog-footer-button-gutter;
     }
   }
@@ -249,39 +263,6 @@
 .modal-body {
   @include for("IE10+") {
     height: calc(100% - #{$dialog-header-height} - #{$dialog-footer-top-padding + $dialog-footer-bottom-padding + $button-height-large});
-  }
-}
-
-&, &.luna {
-  .modal {
-    .modal-header {
-      & > .close-icon {
-        cursor: pointer;
-        background: transparent center center no-repeat;
-        background: inline-svg-image("svg/small_close_new.svg");
-        background-size: contain;
-        width: 12px;
-        height: 12px;
-
-        &:hover {
-          background-image: inline-svg-image("svg/small_close_hover_new.svg");
-        }
-      }
-
-      i.disabled {
-        opacity: 0.5;
-      }
-    }
-
-    .modal-backdrop {
-      background-color: $dialog-mask-color_luna;
-    }
-  }
-}
-
-&.pulsar {
-  .modal-backdrop {
-    background-color: $dialog-mask-color_pulsar;
   }
 }
 

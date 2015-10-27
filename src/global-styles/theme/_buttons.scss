@@ -1,0 +1,127 @@
+
+
+.btn {
+  text-decoration: none;
+  min-width: $button-min-width;
+  height: $button-height;
+  padding: $button-padding;
+  margin: 0;
+  line-height: 1;
+  border-style: solid;
+  border-width: 1px;
+}
+
+
+
+.btn-default {
+  color: $button-text-color;
+  border-color: $button-border-color;
+  background: $button-background-color;
+  @include background-image(linear-gradient($button-gradient-top, $button-gradient-bottom));
+  
+  &:hover {
+    color: $button-text-color;
+    border-color: $button-border-color-hover;
+    @include background-image(linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover));
+  }
+
+  &:active,
+  &:visited,
+  &:active:focus {
+    color: $button-text-color;
+    border-color: $button-border-color-hover;
+    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+  }
+
+  &:disabled,
+  &.disabled,
+  &[disabled] {
+    &, 
+    &:hover {
+      opacity: 1;
+      background: $button-background-color-disabled;
+      border-color: $button-border-color-disabled;
+      color: $button-text-color-disabled;
+    }
+  }
+}
+
+
+
+.btn-primary {
+  color: $button-primary-text-color;
+  border-color: $button-primary-border-color;
+  @include background-image(linear-gradient($button-primary-gradient-top, $button-primary-gradient-bottom));
+  
+  &:hover {
+    color: $button-primary-text-color;
+    border-color: $button-primary-border-color;
+    @include background-image(linear-gradient($button-primary-gradient-bottom, $button-primary-gradient-top));
+  }
+  
+  &:active,
+  &:visited,
+  &:active:focus {
+    color: $button-primary-text-color;
+    border-color: $button-border-color-hover;
+    background: $button-primary-background-color;
+  }
+
+  &:disabled,
+  &.disabled,
+  &[disabled] {
+    &, 
+    &:hover {
+      opacity: 1;
+      background: $button-primary-background-color-disabled;
+      border-color: $button-primary-border-color-disabled;
+      color: $button-primary-text-color-disabled;
+    }
+  }
+}
+
+
+
+.btn-lg {
+  @include button-size(0, 10px, $button-text-size-large, ($button-height-large - $button-border-width*2), $border-radius);
+  height: $button-height-large;
+}
+.btn-sm {
+  @include button-size(0, 10px, $button-text-size-small, ($button-height-small - $button-border-width*2), $border-radius);
+  height: $button-height-small;
+}
+.btn-xs {
+  // will update to extra small definition once it exists
+  @include button-size(0, 10px, $button-text-size-small, ($button-height-small - $button-border-width*2), $border-radius);
+  height: $button-height-small;
+}
+
+
+
+/** enhancements **/
+.btn {
+  &,
+  &:active,
+  &:focus,
+  &:active:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  &.has-icon {
+    min-width: 0;
+  }
+  
+  & > i {
+    vertical-align: middle;
+  }
+  
+  &.dropdown-toggle {
+    min-width: 0;
+  
+    & > i + .separator {
+      border-left: 1px solid #999;
+      margin: 0 3px;
+    }
+  }
+}

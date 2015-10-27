@@ -6,8 +6,8 @@
     <i class="close-icon" ng-click="!wizard.processing && wizard.instance.dismiss()" ng-class="{'disabled': wizard.processing}"></i>
     <div class="akam-status-message-wrapper" ng-if='wizard.errorMessage'>
       <div class="akam-status-message-item-wrapper" ng-class="{'error': wizard.errorMessage}">
-        <div class="akam-status-message-item">
-          <div class="status-message-content">{{ wizard.errorMessage }}</div>
+        <div class="alert alert-error">
+          {{ wizard.errorMessage }}
         </div>
       </div>
     </div>
@@ -26,15 +26,15 @@
   <akam-wizard-content></akam-wizard-content>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-large pull-left cancel-button" ng-click="wizard.instance.dismiss()" ng-disabled="wizard.processing">
+    <button type="button" class="btn btn-lg btn-default pull-left cancel-button" ng-click="wizard.instance.dismiss()" ng-disabled="wizard.processing">
       {{ ::wizard.cancelLabel }}
     </button>
 
-    <button type="button" class="btn btn-large previous-button" ng-click="wizard.previousStep()" ng-disabled="wizard.stepIndex == 0 || wizard.processing">
+    <button type="button" class="btn btn-lg btn-default previous-button" ng-click="wizard.previousStep()" ng-disabled="wizard.stepIndex == 0 || wizard.processing">
       {{ ::wizard.previousLabel }}
     </button>
 
-    <akam-spinner-button class="btn-large next-button"
+    <akam-spinner-button class="btn-lg next-button"
     processing="wizard.processing"
     disabled="!wizard.isValid()"
     text-content="{{ wizard.getNextLabel() }}"

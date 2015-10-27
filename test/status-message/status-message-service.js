@@ -2,8 +2,8 @@ import utilities from '../utilities';
 
 var STATUS_MESSAGE_WRAPPER = '.akam-status-message-item-wrapper';
 var ID_OF_FIRST_STATUS_MESSAGE = '#akam-status-message-1';
-var STATUS_MESSAGE_CONTENT = '.status-message-content';
-var CLOSE_ICON = 'i.close';
+var STATUS_MESSAGE_CONTENT = '.alert';
+var CLOSE_ICON = '.close';
 
 describe('akamai.components.status-message-service', function() {
   beforeEach(function() {
@@ -147,7 +147,7 @@ describe('akamai.components.status-message-service', function() {
       this.scope.$digest();
 
       var statusMessageContent = document.querySelector(STATUS_MESSAGE_CONTENT);
-      var closeIcon = document.querySelector('i.close');
+      var closeIcon = document.querySelector('.close');
 
       expect(statusMessageContent).not.toBe(null);
       utilities.click(closeIcon);
@@ -199,7 +199,7 @@ describe('akamai.components.status-message-service', function() {
       utilities.click(secondStatusMessageCloseIcon);
       this.$timeout.flush();
 
-      var firstStatusMessageContent = document.querySelectorAll('.status-message-content')[0];
+      var firstStatusMessageContent = document.querySelectorAll('.alert')[0];
 
       expect(firstStatusMessageContent.textContent).toMatch(/message_text6/);
       expect(this.statusMessage.remove).toHaveBeenCalled();

@@ -1,6 +1,6 @@
 'use strict';
 
-var STATUS_MESSAGE_CONTENT = '.status-message-content';
+var STATUS_MESSAGE_CONTENT = '.alert';
 
 describe('akamai.components.status-message-group', function() {
   beforeEach(function() {

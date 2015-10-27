@@ -79,7 +79,6 @@ class StatusMessageService {
    * @description shows a success message to the end user. This is an alias for showSuccess
    * @param {object} [options] A hash with the options specified below.
    * @param {string} [options.text=''] The text content to show within the status message
-   * @param {string} [options.title=''] The title content to show within the status message
    * @param {number} [options.timeout=2000] The time (in ms) before the status message removes
    * itself from being shown.  *Note: Use timeout = 0 to force the user to close the message.*
    * @returns {string} id of status message being shown on the screen
@@ -94,7 +93,6 @@ class StatusMessageService {
    * @description shows a success message to the end user
    * @param {object} [options] A hash with the options specified below.
    * @param {string} [options.text=''] The text content to show within the status message
-   * @param {string} [options.title=''] The title content to show within the status message
    * @param {number} [options.timeout=2000] The time (in ms) before the status message removes
    * itself from being shown.  *Note: Use timeout = 0 to force the user to close the message.*
    * @returns {string} id of status message being shown on the screen
@@ -111,7 +109,6 @@ class StatusMessageService {
    * @description shows an informational message to the end user
    * @param {object} [options] A hash with the options specified below.
    * @param {string} [options.text=''] The text content to show within the status message
-   * @param {string} [options.title=''] The title content to show within the status message
    * @param {number} [options.timeout=2000] The time (in ms) before the status message removes
    * itself from being shown.  *Note: Use timeout = 0 to force the user to close the message.*
    * @returns {string} id of status message being shown on the screen
@@ -129,7 +126,6 @@ class StatusMessageService {
    * the end user as there is no allowed timeout.*
    * @param {object} [options] A hash with the options specified below.
    * @param {string} [options.text=''] The text content to show within the status message
-   * @param {string} [options.title=''] The title content to show within the status message
    * @returns {string} id of status message being shown on the screen
    */
   showError(options) {
@@ -147,7 +143,6 @@ class StatusMessageService {
    * the end user as there is no allowed timeout.*
    * @param {object} [options] A hash with the options specified below.
    * @param {string} [options.text=''] The text content to show within the status message
-   * @param {string} [options.title=''] The title content to show within the status message
    * @returns {string} id of status message being shown on the screen
    */
   showWarning(options) {

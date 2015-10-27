@@ -1,110 +1,33 @@
-$disabled-color: #dadada;
-
 .akam-tabs {
   position: relative;
 
-   & .tab-content {
-     padding-top: 1.4em;
-   }
+  & .tab-content {
+    padding-top: 1.4em;
+  }
 
-  & .nav-tabs,
-  & .nav-pills {
-    & li.disabled > a {
-      color: $disabled-color;
-      border-color: $disabled-color;
+  & .nav-tabs {
+    & + .tab-content {
+      border: solid 1px $tab-border-color;
+      border-top-width: 0px;
+      border-radius: 0 0 $tab-border-radius $tab-border-radius;
+      padding: 1em;
+      padding-top: 1.4em;
+      background-color: $tab-background-color-active;
     }
   }
 
-  .nav-pills {
-    border-bottom: 1px solid $colors__gray6;
-    margin: 0 3px 20px;
-
+  & .nav-pills {
      & + .tab-content {
        padding: 0 0.1em;
      }
-
-    & > li {
-      position: relative;
-      float: none;
-      display: inline-block;
-      margin: 0 6.5px;
-
-      & > a {
-        color: $colors__gray2;
-        border-radius: 0;
-        // this is to move the highlighting line above the nav's border bottom
-        top: 2px;
-        background-color: transparent;
-        padding: 0 5px 4px;
-        cursor: pointer;
-
-        &:hover {
-          background-color: transparent;
-        }
-      }
-
-      &.active > a {
-        color: $colors__blue1;
-        border-bottom: 4px solid $colors__blue1;
-        cursor: default;
-      }
-
-      &.disabled > a {
-        cursor: default;
-      }
-    }
   }
 
   & .nav-stacked {
-    display: inline-block;
-    border-bottom: none;
-    padding-right:0;
-    height: 100%;
-    margin-right: -1px;
-
-    & > li {
-      margin-bottom: 0;
-      margin-left: 0;
-      width: 90px;
-
-      & > a {
-        border-radius: 3px 0 0 3px;
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-        padding: 0 5px;
-        @include ellipsis();
-      }
-
-      &.active {
-
-        &::after {
-          content: " ";
-          position: absolute;
-          z-index: 1;
-          height: calc(100% - 5px);
-          right: 0;
-          top: 1px;
-          width:1px;
-          background-color: white;
-
-        }
-
-        & > a {
-          border-right-color: white;
-          border-bottom-color: #ccc;
-
-        }
-      }
-    }
-
      & + .tab-content {
        display: inline-block;
        position: absolute;
        width: calc(100% - 90px);
        border-top-width: 1px;
      }
-
   }
 }
-

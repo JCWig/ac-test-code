@@ -87,6 +87,7 @@ $tag-input-drag-drop-border-color: #0099cc;
     margin-bottom: 3px;
     box-shadow: none;
     padding-left: 0px;
+    @include placeholder-enhanced($input-placeholder-text-color, italic, 7px);
   }
 
   .ui-select-multiple.ui-select-bootstrap .ui-select-match-item {

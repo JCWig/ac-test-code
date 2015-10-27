@@ -1,0 +1,243 @@
+$status-message-color: #fff;
+$status-message-font-size: 12px;
+
+$status-message-opacity: 0.95;
+$status-message-success-background: rgba(56, 142, 53, $status-message-opacity);
+$status-message-info-background: rgba(47, 121, 201, $status-message-opacity);
+$status-message-warning-background: rgba(220, 156, 43, $status-message-opacity);
+$status-message-error-background: rgba(163, 45, 45, $status-message-opacity);
+
+$inline-status-message-error-background: #f2dede;
+
+$status-message-icon-size: 16px;
+$status-message-close-size: 12px;
+$status-message-close-opacity: 0.5;
+$status-message-close-gutter: 30px;
+
+// following colors do not match current color palate
+$updated_colors__green1: #005F26;
+$updated_colors__blue7: #82AFDF;
+$updated_colors__blue5: #09399E;
+$updated_colors__red5: #E79897;
+$updated_colors__gold4: #ECBB65;
+$updated_colors__orange1: #AB4D09;
+
+.alert {
+  color: $status-message-color;
+  font-size: $status-message-font-size;
+  position: relative;
+  border-radius: 0;
+  border: 0;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-right: ($status-message-close-size + $status-message-close-gutter);
+  position: relative;
+  @include box-sizing(border-box);
+  @include transition(opacity linear 0.5s);
+
+  &.alert-dismissible {
+    & .close {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      font-size: 21px;
+      opacity: $status-message-close-opacity;
+      text-shadow: none;
+      @include translateY(-50.01%);
+
+      &:hover {
+        opacity: 1;
+        color: $status-message-color;
+      }
+    }
+
+    &.alert-success {
+      & .close {
+        color: $colors__green4;
+
+        &:hover {
+          opacity: 1;
+          color: $status-message-color;
+        }
+      }
+    }
+
+    &.alert-info {
+      & .close {
+        color: $updated_colors__blue7;
+
+        &:hover {
+          opacity: 1;
+          color: $status-message-color;
+        }
+      }
+    }
+
+    &.alert-warning {
+      & .close {
+        color: $colors__gold4;
+
+        &:hover {
+          opacity: 1;
+          color: $status-message-color;
+        }
+      }
+    }
+
+    &.alert-danger {
+      & .close {
+        color: $updated_colors__red5;
+
+        &:hover {
+          opacity: 1;
+          color: $status-message-color;
+        }
+      }
+    }
+  }
+
+  &.alert-success {
+    background: $status-message-success-background;
+  }
+
+  &.alert-info {
+    background: $status-message-info-background;
+  }
+
+  &.alert-warning {
+    background: $status-message-warning-background;
+  }
+
+  &.alert-danger {
+    background: $status-message-error-background;
+  }
+
+  &.alert-inline {
+    font-size: $status-message-font-size;
+    border-radius: 0;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 40px;
+    padding-left: 41px;
+    position: relative;
+    @include box-sizing(border-box);
+    @include transition(opacity linear 0.5s);
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      margin-top: -#{$status-message-icon-size / 2};
+      margin-left: 0;
+      width: $status-message-icon-size;
+      height: $status-message-icon-size;
+      background: transparent center center no-repeat;
+      background-size: contain;
+    }
+
+    &.alert-success {
+      color: $colors__green1;
+      border: 1px solid $colors__green4;
+      background-color: $colors__green7;
+
+      &:before {
+        background-image: inline-svg-image("svg/checkmark_green.svg");
+      }
+
+      &.alert-dismissible {
+        & .close {
+          color: $colors__green4;
+
+          &:hover {
+            opacity: 1;
+            color: $colors__green1;
+          }
+        }
+      }
+
+      & .alert-link {
+        color: $updated_colors__green1;
+      }
+    }
+
+    &.alert-info {
+      color: $colors__blue4;
+      border: 1px solid $updated_colors__blue7;
+      background-color: $colors__blue10;
+
+      &:before {
+        background-image: inline-svg-image("svg/information.svg");
+      }
+
+      &.alert-dismissible {
+        & .close {
+          color: $updated_colors__blue7;
+
+          &:hover {
+            opacity: 1;
+            color: $colors__blue4;
+          }
+        }
+      }
+
+      & .alert-link {
+        color: $updated_colors__blue5;
+      }
+    }
+
+    &.alert-warning {
+      color: $colors__gold2;
+      border: 1px solid $updated_colors__gold4;
+      background-color: $colors__gold5;
+
+      &:before {
+        background-image: inline-svg-image("svg/warning_gold.svg");
+      }
+
+      &.alert-dismissible {
+        & .close {
+          color: $updated_colors__gold4;
+
+          &:hover {
+            opacity: 1;
+            color: $colors__gold2;
+          }
+        }
+      }
+
+      & .alert-link {
+        color: $updated_colors__orange1;
+      }
+    }
+
+    &.alert-danger {
+      color: $colors__red5;
+      border: 1px solid $updated_colors__red5;
+      background-color: $colors__red7;
+
+      &:before {
+        background-image: inline-svg-image("svg/danger_red.svg");
+      }
+
+      &.alert-dismissible {
+        & .close {
+          color: $updated_colors__red5;
+
+          &:hover {
+            opacity: 1;
+            color: $colors__red1;
+          }
+        }
+      }
+      & .alert-link {
+        color: $colors__red1;
+      }
+    }
+  }
+}

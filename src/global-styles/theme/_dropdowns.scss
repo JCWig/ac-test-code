@@ -1,8 +1,3 @@
-@import '../uxd_colors';
-@import '../uxd_variables';
-@import '../variables';
-@import '../mixins';
-
 $dropdown-fixed-header-padding: 10px;
 $dropdown-max-items: 8;
 
@@ -39,7 +34,7 @@ $dropdown-max-items: 8;
     border-color: $dropdown-border-color-active;
     @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
   }
-
+  
   &.open > button > i.luna-gear {
     @extend .luna-gear:hover;
   }
@@ -102,9 +97,10 @@ $dropdown-max-items: 8;
 }
 
 .dropdown-menu {
+  list-style: none;
   padding: 0;
   border-radius: 0;
-  margin-top: -1px;
+  margin-top: 0;
   overflow-x: auto;
   max-height: #{$dropdown-item-line-height * $dropdown-max-items};
   @include box-shadow(0 2px 4px 0 rgba(0, 0, 0, .25));
@@ -132,19 +128,17 @@ $dropdown-max-items: 8;
     line-height: 1;
     padding: $dropdown-fixed-header-padding;
   }
-
-  .disabled {
+  
+  & > .disabled, 
+  .disabled > a {
     pointer-events: none;
-    a {
-      color: $button-text-color-disabled;
-    }
   }
 }
 
 .direction-up .dropdown-menu {
   @include box-shadow(none);
   border: solid 1px #CCC;
-
+  
 }
 
 div.dropdown-menu {
@@ -159,4 +153,9 @@ div.dropdown-menu {
     max-height: #{$dropdown-item-line-height * ($dropdown-max-items - 1)};
   }
 
+}
+
+
+.input-group > div.dropdown-menu {
+  display: inline-table;
 }

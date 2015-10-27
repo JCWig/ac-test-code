@@ -155,7 +155,6 @@ function linkFn(scope, element, attrs, ngModel) {
 
 export default () => {
   return {
-    replace: true,
     restrict: 'E',
     require: 'ngModel',
     scope: {},

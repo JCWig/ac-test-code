@@ -1,7 +1,7 @@
 'use strict';
 
 var STATUS_MESSAGE_WRAPPER = '.akam-status-message-item-wrapper';
-var STATUS_MESSAGE_CONTENT = '.status-message-content';
+var STATUS_MESSAGE_CONTENT = '.alert';
 
 describe('akamai.components.status-message-directive', function() {
   beforeEach(function() {

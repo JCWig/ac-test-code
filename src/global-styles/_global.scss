@@ -1,10 +1,16 @@
-$body-font-size: 12px;
-$body-font-color: #666;
+// @font-face {
+//     font-family: 'Frutiger';
+//     src: url('webfont.eot'); /* IE9 Compat Modes */
+//     src: url('webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//         url('webfont.woff') format('woff'), /* Modern Browsers */
+//         url('webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+//         url('webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+// }
 
 body.luna {
-  font-family: Arial Regular, sans-serif;
-  color: $body-font-color;
-  font-size: $body-font-size;
+  font-family: $base__font-family;
+  color: $base__color;
+  font-size: $base__font-size;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAMAAAC6sdbXAAAADFBMVEXp7/Lq7/Px9/ry9/vqDFK0AAAAGklEQVQI1wXBAQEAAAjDIHb7dxZM4QiTGGIPAS4AEor1KIcAAAAASUVORK5CYII=) repeat scroll 0 0 #EAEFF3;
   margin: 0 auto;
   width: 990px;
@@ -18,4 +24,20 @@ body.luna {
 }
 
 
+body.example-page {
+  padding-bottom: 100px;
+}
 
+
+
+[ng-messages] { 
+  display: none; // addresses FOUC
+  
+  color: $colors__red3;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ng-invalid.ng-dirty.ng-touched ~ [ng-messages] {
+  display: block;
+}

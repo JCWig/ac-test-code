@@ -17,6 +17,7 @@ $dropdown-button-disabled-color: #e6e6e6;
     > li > a {
       text-overflow: ellipsis;
       white-space: nowrap;
+      overflow: hidden;
     }
   }
 
@@ -53,12 +54,12 @@ $dropdown-button-disabled-color: #e6e6e6;
           background-color: $input-background-color-disabled;
           border-color: $input-border-color-disabled;
           box-shadow: none;
-          cursor: default;
+          cursor: not-allowed;
           color: $dropdown-button-disabled-color;
           & + span {
             background: $arrow-disabled-background;
             border-color: $button-border-color-disabled;
-            cursor: default;
+            cursor: not-allowed;
             background-color: $button-background-color-disabled;
           }
         }
@@ -99,9 +100,11 @@ $dropdown-button-disabled-color: #e6e6e6;
 
   & div.dropdown-menu {
     min-width: 100%;
+    max-width: 125%;
 
     & div.fixed-header {
       padding: 4px 5px;
+      background-color: inherit;
 
       & input {
         width: 100%;
@@ -122,6 +125,7 @@ $dropdown-button-disabled-color: #e6e6e6;
     & ul.dropdown-menu {
       overflow-x: hidden;
       overflow-y: auto;
+      max-width: 125%;
       -ms-overflow-y: auto;
 
       // fix for weird rendering issue when filtering in chrome
@@ -139,6 +143,7 @@ $dropdown-button-disabled-color: #e6e6e6;
 
     div.fixed-header {
       padding: 4px 5px;
+      background-color: inherit;
       @include ellipsis();
 
       & input {

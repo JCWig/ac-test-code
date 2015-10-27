@@ -119,14 +119,14 @@ describe('akam-pagination directive', function() {
       self.scope.pager.page = 2;
       self.scope.$digest();
 
-      // the list contains 3 pages and the next/previous buttons
+      // the list (53 items, on page 2, 10 per page) contains 6 pages and the next/previous buttons
       pageIndexesAndForwardBackWardButtons = self.element.querySelectorAll('.pagination li');
-      expect(pageIndexesAndForwardBackWardButtons.length).toEqual(3 + 2);
+      expect(pageIndexesAndForwardBackWardButtons.length).toEqual(6 + 2);
     });
 
     it('should display a maximum of seven pages', function() {
-      var pageIndexesAndForwardBackWardButtons = self.element.querySelectorAll('.pagination li');
-
+      var pageIndexesAndForwardBackWardButtons = self.element.querySelectorAll('.akam-pagination > .pagination li');
+      
       // the list contains 2 ellipsis and the next/previous buttons in
       // addition to the 7 maximum pages
       expect(pageIndexesAndForwardBackWardButtons.length).toEqual(7 + 2 + 2);

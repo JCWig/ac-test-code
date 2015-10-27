@@ -1,22 +1,18 @@
-$button-border-color-hover: #999999;
-$dropdown-menu-padding: 16px 15px 12px;
-$dropdown-menu-arrow-padding: 11px;
-$dropdown-menu-input-width: 40px;
-$timepicker-input-disabled-color: #cccccc;
 .akam-time-picker {
   position: relative;
-  & > .btn {
+
+  & > .input-group-btn > .btn {
     min-width: 0;
-    margin-left: -#{$input-border-radius * 2};
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
-    &:hover,
-    &:focus {
-      > i {
-        @include luna-sprite(time);
-      }
+    margin-left: -1px;
+    
+    > i[disabled] {
+      @include luna-sprite(time_disabled);
     }
   }
+
+/* leaving this as an artifact from a merge conflict 
   &.open {
     & > input[type='text'] {
       border-color: $input-border-color-focus;
@@ -26,88 +22,77 @@ $timepicker-input-disabled-color: #cccccc;
       }
     }
   }
+*/
   & > input[type='text'] {
-    padding-right: #{$input-border-radius * 2};
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    &:focus ~ .btn {
-      border-left-color: $input-border-color-focus;
-    }
-    &:disabled {
-      color: $timepicker-input-disabled-color;
-      cursor: default;
-    }
-    &.ng-invalid.ng-touched ~ .btn {
-      border-left-color: $border-color-invalid;
-    }
-    &.ng-invalid.ng-touched {
-      border-color: $border-color-invalid;
-    }
+
     &::-ms-clear {
       display: none;
     }
   }
+
+
   .dropdown-menu.open {
-    margin-top: 1px;
     padding: $dropdown-menu-padding;
     min-width: 0;
+
     input[type='text'] {
       box-shadow: none;
       padding: 0;
       width: $dropdown-menu-input-width;
     }
-    table.hover-hour {
-      input.hour-input {
-        border-color: $input-border-color-focus;
-        background-color: $input-background-color-focus;
-      }
+
+    table.hover-hour input.hour-input,
+    table.hover-minute input.minute-input,
+    table.hover-meridian input.meridian-input {
+      border-color: $input-border-color-focus;
+      background-color: $input-background-color-focus;
     }
-    table.hover-minute {
-      input.minute-input {
-        border-color: $input-border-color-focus;
-        background-color: $input-background-color-focus;
-      }
-    }
-    table.hover-meridian {
-      input.meridian-input {
-        border-color: $input-border-color-focus;
-        background-color: $input-background-color-focus;
-      }
-    }
+
     table {
       @include user-select(none);
+
       td {
         min-width: 15px;
+        
         &.has-error {
           input[type='text'] {
             border-color: $border-color-invalid;
           }
         }
       }
+
       a {
         display: block;
         cursor: pointer;
+        
         i {
           vertical-align: middle;
         }
       }
+
       tr.time-decrement-row {
         a {
           padding-top: $dropdown-menu-arrow-padding;
         }
+        
         td:hover i {
           @include luna-sprite(arrow_smDown_hover);
         }
       }
+
       tr.time-increment-row {
         a {
           padding-bottom: $dropdown-menu-arrow-padding;
         }
+        
         td:hover i {
           @include luna-sprite(arrow_smUp_hover);
         }
       }
+
       td.meridian {
+        width: 100%;
+        
         input[type='button'] {
           background-color: $input-background-color;
           border: solid 1px $input-border-color;
@@ -116,6 +101,7 @@ $timepicker-input-disabled-color: #cccccc;
           width: $dropdown-menu-input-width;
           padding: 0;
           @include border-radius($input-border-radius);
+          
           &:hover,
           &:focus {
             border-color: $input-border-color-focus;
@@ -125,4 +111,6 @@ $timepicker-input-disabled-color: #cccccc;
       }
     }
   }
+
+
 }

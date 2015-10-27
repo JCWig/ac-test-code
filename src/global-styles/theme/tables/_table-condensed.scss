@@ -1,0 +1,17 @@
+
+.table-condensed {
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        line-height: inherit;
+        height: inherit;
+        padding: $table-condensed-cell-padding $table-cell-padding;
+      }
+    }
+  }
+}
+
+

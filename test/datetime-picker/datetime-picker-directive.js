@@ -106,14 +106,15 @@ describe('akamai.components.datetime-picker', function() {
     });
   });
   describe('When control rendered', function() {
-    let datetime, date, time, dateButton, timeButton;
+    let datetime, date, dateWrapper, time, dateButton, timeButton;
     beforeEach(function() {
       addElement.call(this, undefined);
       datetime = document.querySelector(datetimePickerSelector);
       date = document.querySelector(datePickerSelector);
+      dateWrapper = document.querySelector('akam-date-picker');
       time = document.querySelector(timepickerSelector);
-      dateButton = document.querySelector(datePickerSelector + " .button");
-      timeButton = document.querySelector(timepickerSelector + " .btn");
+      dateButton = document.querySelector(datePickerSelector + " > .input-group-btn > .btn");
+      timeButton = document.querySelector(timepickerSelector + " > .input-group-btn > .btn");
     });
 
     it("should verify datetime picker element rendered", function() {
@@ -136,13 +137,12 @@ describe('akamai.components.datetime-picker', function() {
       utilities.click(dateButton);
       $scope.$digest();
 
-      expect(date.classList).toContain('opened');
+      expect(dateWrapper.classList).toContain('opened');
     });
 
     it("should verify time picker open when click on it", function() {
-      utilities.click(timeButton);
+      angular.element(timeButton).triggerHandler('click');
       $scope.$digest();
-
       expect(time.classList).toContain('open');
     });
   });
@@ -152,7 +152,7 @@ describe('akamai.components.datetime-picker', function() {
     beforeEach(function() {
       addElement.call(this, undefined);
       d = new Date();
-      dateButton = document.querySelector(datePickerSelector + " .button");
+      dateButton = document.querySelector(datePickerSelector + " > .input-group-btn > .btn");
       utilities.click(dateButton);
       $scope.$digest();
 
@@ -214,8 +214,8 @@ describe('akamai.components.datetime-picker', function() {
       addElement.call(this, undefined);
       dateChangedSpy = spyOn(this.isoScope, "dateChanged");
       timeChangedSpy = spyOn(this.isoScope, "timeChanged");
-      dateButton = document.querySelector(datePickerSelector + " .button");
-      timeButton = document.querySelector(timepickerSelector + " .btn");
+      dateButton = document.querySelector(datePickerSelector + " > .input-group-btn .btn");
+      timeButton = document.querySelector(timepickerSelector + " > .input-group-btn .btn");
       arrows = document.querySelectorAll(timepickerSelector + timeIncrementSelector);
       utilities.click(dateButton);
       $scope.$digest();
@@ -250,7 +250,7 @@ describe('akamai.components.datetime-picker', function() {
     beforeEach(function() {
       addElement.call(this, undefined);
       setDatetimeSpy = spyOn(this.controller, "setDatetime");
-      dateButton = document.querySelector(datePickerSelector + " .button");
+      dateButton = document.querySelector(datePickerSelector + " .btn");
       utilities.click(dateButton);
       $scope.$digest();
       let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
@@ -307,7 +307,7 @@ describe('akamai.components.datetime-picker', function() {
     describe('when datetime picker rendered', function() {
       beforeEach(function() {
         addElement.call(this);
-        let dateButton = document.querySelector(datePickerSelector + " .button");
+        let dateButton = document.querySelector(datePickerSelector + " .btn");
         utilities.click(dateButton);
         $scope.$digest();
       });
@@ -323,7 +323,7 @@ describe('akamai.components.datetime-picker', function() {
       describe('when open timepicker', function() {
         beforeEach(function() {
           addElement.call(this);
-          let timeButton = document.querySelector(timepickerSelector + " .btn");
+          let timeButton = document.querySelector(timepickerSelector + " > .form-control");
           utilities.click(timeButton);
           $scope.$digest();
         });
@@ -340,7 +340,7 @@ describe('akamai.components.datetime-picker', function() {
       describe('open datepicker and selects a date', function() {
         beforeEach(function() {
           addElement.call(this);
-          let dateButton = document.querySelector(datePickerSelector + " .button");
+          let dateButton = document.querySelector(datePickerSelector + " .btn");
           utilities.click(dateButton);
           $scope.$digest();
           let firstDayOfMonthButton = getDateButtonParentElement(utilities.generateDate(1)).querySelector('button');
@@ -361,7 +361,7 @@ describe('akamai.components.datetime-picker', function() {
         beforeEach(function() {
           addElement.call(this);
           spyOn(this.controller, "setDatetime");
-          let timeButton = document.querySelector(timepickerSelector + " .btn");
+          let timeButton = document.querySelector(timepickerSelector + " > .form-control");
           utilities.click(timeButton);
           $scope.$digest();
         });

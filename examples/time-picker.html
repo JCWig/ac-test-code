@@ -14,10 +14,14 @@
     </div>
     <br />
     <form name='time-picker' role='form'>
-      <div class="container">
-        <akam-time-picker ng-model="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" is-disabled="vm.disabled" show-meridian="vm.showMeridian">
-        </akam-time-picker>
-      </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+            <akam-time-picker ng-model="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" is-minute-disabled="vm.disableMinutes" is-disabled="vm.disabled" show-meridian="vm.showMeridian">
+            </akam-time-picker>
+          </div>
+        </div>
+        
       <br />
       <div class="form-group" style="padding-top:100px;">
         <input id="showMeridian" type="checkbox" name='showMeridian' ng-model='vm.showMeridian' />

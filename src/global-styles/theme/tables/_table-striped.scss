@@ -1,0 +1,13 @@
+
+.table-striped {
+  > tbody {
+    > tr {
+      &:nth-child(odd) {
+        background-color: #FFFFFF;
+      }
+      &:nth-child(even) {
+        background-color: #F8F8F8;
+      }
+    }
+  }
+}

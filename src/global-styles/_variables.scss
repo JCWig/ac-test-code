@@ -65,57 +65,6 @@ $label-font-size: 14px;
 $checkbox-label-font-size: $label-font-size;
 $radio-label-font-size: $label-font-size;
 
-// Buttons
-$button-border-radius: $border-radius;
-$button-height: 28px;
-$button-min-width: 80px;
-$button-padding-tb: 0;
-$button-padding-lr: 10px;
-$button-padding: $button-padding-tb $button-padding-lr;
-$button-text-size: 12px;
-$button-border-width: 1px;
-
-$button-height-large: 32px;
-$button-text-size-large: 15px;
-
-$button-height-small: 24px;
-$button-text-size-small: 11px;
-
-$button-text-color: #666666;
-$button-background-color: #e6e6e6;
-
-$button-border-color: #cccccc;
-$button-gradient-top: #ffffff;
-$button-gradient-bottom: $button-background-color;
-
-$button-border-color-hover: #cccccc;
-$button-gradient-top-hover: #f4f4f4;
-$button-gradient-bottom-hover: #c8c8c8;
-
-$button-background-color-disabled: #ffffff;
-$button-border-color-disabled: #e6e6e6;
-$button-text-color-disabled: #e6e6e6;
-
-$button-primary-text-color: #ffffff;
-$button-primary-background-color: #f46b29;
-$button-primary-border-color: #ab4d09;
-$button-primary-gradient-top: #f8971d;
-$button-primary-gradient-bottom: $button-primary-background-color;
-
-$button-primary-background-color-disabled: #fab99a;
-$button-primary-border-color-disabled: #d7ac8b;
-$button-primary-text-color-disabled: #fde0d2;
-
-$button-blue-text-color: #ffffff;
-$button-blue-background-color: #0d6eac;
-$button-blue-border-color: #2f79c9;
-$button-blue-gradient-top: #1e94df;
-$button-blue-gradient-bottom: $button-blue-background-color;
-
-$button-blue-background-color-disabled: lighten($button-blue-background-color, 10%);
-$button-blue-border-color-disabled: lighten($button-blue-border-color, 10%);
-$button-blue-text-color-disabled: darken($button-blue-text-color, 10%);
-
 // Bubble Help
 $bubble-help-background-color: #ebf6ff;
 $bubble-help-border-color: #c7c7c7;
@@ -150,6 +99,7 @@ $popover-zindex: 900;
 $border-color-invalid: #9f1a00;
 
 $input-text-color: #666666;
+$input-text-color-disabled: #C3C3C3;
 $input-placeholder-text-color: #ccc;
 $input-text-size: 12px;
 
@@ -185,6 +135,7 @@ $dropdown-border-color-active: #999999;
 // Popups
 $popup-padding: 22px;
 
+
 // Bootstrap overrides
 $font-family-base: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $font-size-base: 12px;
@@ -204,9 +155,10 @@ $font-size-h2: 18px;
 $font-size-h3: 16px;
 
 $nav-tabs-border-color: #ccc;
+$nav-tabs-active-link-hover-border-color: inherit;
 
 $grid-columns: 12;
-$grid-gutter-width: 0;
+$grid-gutter-width: 30px;
 $screen-sm-min: 600px;
 $screen-md-min: 1025px;
 $screen-lg-min: $screen-md-min;
@@ -224,7 +176,7 @@ $dropdown-link-active-bg: #CEE7FF;
 $dropdown-link-disabled-color: #ccc;
 
 $panel-bg: #fff;
-$panel-body-padding: 0;
+$panel-body-padding: 17px 15px;
 $panel-heading-padding: 9px 15px;
 $panel-border-radius: 3px;
 $panel-default-text: #666;
@@ -262,6 +214,202 @@ $state-warning-bg: #E9A751;
 $state-warning-text: #FFFFFF;
 $state-warning-border: #C97820;
 
-$breadcrumb-active-color: #666666;
-
 $pagination-active-color: inherit;
+
+
+// Buttons
+$button-border-radius: $border-radius;
+$button-height: 28px;
+$button-min-width: 80px;
+$button-padding-tb: 0;
+$button-padding-lr: 10px;
+$button-padding: $button-padding-tb $button-padding-lr;
+$button-text-size: 12px;
+$button-border-width: 1px;
+
+$button-height-large: 32px;
+$button-text-size-large: 15px;
+
+$button-height-small: 24px;
+$button-text-size-small: 11px;
+
+$button-text-color: #666666;
+$button-background-color: #e6e6e6;
+
+$button-border-color: #cccccc;
+$button-gradient-top: #ffffff;
+$button-gradient-bottom: $button-background-color;
+
+$button-border-color-hover: #999999;
+$button-gradient-top-hover: #f4f4f4;
+$button-gradient-bottom-hover: #c8c8c8;
+
+$button-background-color-disabled: #ffffff;
+$button-border-color-disabled: #e6e6e6;
+$button-text-color-disabled: #e6e6e6;
+
+$button-primary-text-color: #ffffff;
+$button-primary-background-color: #f46b29;
+$button-primary-border-color: #ab4d09;
+$button-primary-gradient-top: #f8971d;
+$button-primary-gradient-bottom: $button-primary-background-color;
+
+$button-primary-background-color-disabled: #fab99a;
+$button-primary-border-color-disabled: #d7ac8b;
+$button-primary-text-color-disabled: #fde0d2;
+
+$button-blue-text-color: #ffffff;
+$button-blue-background-color: #0d6eac;
+$button-blue-border-color: #2f79c9;
+$button-blue-gradient-top: #1e94df;
+$button-blue-gradient-bottom: $button-blue-background-color;
+
+$button-blue-background-color-disabled: lighten($button-blue-background-color, 10%);
+$button-blue-border-color-disabled: lighten($button-blue-border-color, 10%);
+$button-blue-text-color-disabled: darken($button-blue-text-color, 10%);
+
+
+$btn-primary-color: $button-primary-text-color;
+$btn-primary-bg: $button-primary-background-color;
+$btn-primary-border: $button-primary-border-color;
+
+/*
+$btn-default-color: 
+
+$btn-success-color: 
+$btn-info-color: 
+$btn-warning-color: 
+$btn-danger-color: 
+
+$btn-default-bg: 
+
+$btn-success-bg: 
+$btn-info-bg: 
+$btn-warning-bg: 
+$btn-danger-bg: 
+
+$btn-default-border: 
+
+$btn-success-border: 
+$btn-info-border: 
+$btn-warning-border: 
+$btn-danger-border: 
+*/
+
+
+// --------------
+
+// BASE VALUES
+
+// These values dont belong to any one component or element. These are the defaults for all other CSS
+$base__font-family: Arial, sans-serif;
+$base__font-size: 12px;
+$base__font: $base__font-size $base__font-family;
+$base__color: $colors__gray2;
+$base__background-color: $colors__white;
+
+$base__border-radius: 3px;
+$base__border-width: 1px;
+$base__border-style: solid;
+$base__border-color: $colors__gray6;
+$base__border: $base__border-style $base__border-width $base__border-color;
+
+$base__border-color--focus: $colors__blue1;
+$base__border--focus: $base__border-style $base__border-width $base__border-color--focus;
+
+$base__border-color--disabled: $colors__gray7;
+$base__border--disabled: $base__border-style $base__border-width $base__border-color--disabled;
+
+$base__box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15);
+$base__box-shadow--inset: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
+
+
+// HEADLINES
+$h1__font-size: 28px;
+$h1__font-family: 'Arial Bold', sans-serif;
+$h1__color: $colors__bluegray1;
+$h2__font-size: 18px;
+$h2__color: $colors__bluegray1;
+$h2__font-family: 'Arial Bold', sans-serif;
+$h3__font-size: 18px;
+$h4__font-size: 18px;
+$h5__font-size: 16px;
+$h5__font-family: 'Arial Bold', sans-serif;
+$h6__font-size: 16px;
+
+// CODE
+$code__background-color: #d5e4f4;
+$code__color: $colors__blue4;
+$code__border-color: $colors__blue4;
+
+
+// ANCHORS
+$anchor__font-size: $base__font-size;
+
+
+// ICONS
+$icon__width: 16px;
+$icon__height: 16px;
+$icon__color: $colors__gray2;
+$icon__color--hover: $colors__blue1;
+$icon__color--disabled: $colors__gray7;
+$icon__color--inverse: $colors__white;
+
+
+//  todo: nleon@akamai.com
+//  Specific icon tweak variables... should they be defined here? or in their component?
+//  Can we consolidate these different close icons?
+//  Close icon
+//    - 12x12, except on tabs (8x8)
+//    - Colors change based on where the close icon is used
+
+
+// Inputs
+$input__background-color: $colors__gray9;
+$input__background-color--focus: $colors__white;
+$input__background-color--disabled: $colors__white;
+$input__box-shadow: $base__box-shadow--inset;
+$input__font-style: italic;
+$input__font: $input__font-style $base__font;
+$input__color: $colors__gray2;
+$input__color--placeholder: $colors__gray6;
+
+
+// Misc (refactor into additional sections if Misc becomes large)
+$button-border-color-hover: #999999;
+$dropdown-menu-padding: 16px 15px 12px;
+$dropdown-menu-arrow-padding: 11px;
+$dropdown-menu-input-width: 40px;
+$timepicker-input-disabled-color: #cccccc;
+
+$datepicker-padding: 10px;
+$datepicker-cell-size: 27px;
+$monthpicker-cell-size: 60px;
+$datepicker-text-color-disabled: #e6e6e6;
+
+$date-range-disabled-color: #e6e6e6;
+$date-range-boxshadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
+$date-range-in-range-color: #666666;
+$date-range-in-range-background-color: #CEE7FF;
+$date-range-width: 145px;
+$date-range-min-width: 428px;
+$date-range-gap-width: 10px;
+$date-range-startend-color: #0099CC;
+
+$tab-height: 36px;
+$tab-gutter: 5px;
+$tabs-right-gutter: 10px;
+$tab-border-radius: 3px;
+
+$tab-border-color: #cccccc;
+$tab-border-color-disabled: #e6e6e6;
+
+$tab-background-color: #f4f4f4;
+$tab-background-color-active: #ffffff;
+$tab-background-color-hover: linear-gradient(#f4f4f4, #e6e6e6);
+$tab-background-color-mousedown: linear-gradient(#e6e6e6, #f4f4f4);
+$tab-background-color-disabled: #ffffff;
+
+$tab-label-padding: 30px;
+$tab-label-color: #666666;
+$tab-label-color-disabled: #e6e6e6;
