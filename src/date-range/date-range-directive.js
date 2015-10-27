@@ -66,8 +66,6 @@ class DateRangeController {
   toggle(e, rangePoint = 'start') {
     let focusState = true;
 
-    this.preventOtherEvents(e);
-
     if (this.rangeSelected) {
       this.scope.$broadcast('dateRange.moveRangePoint', {
         id: this.id,

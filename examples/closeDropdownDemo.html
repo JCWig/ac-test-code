@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - Date Picker</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+</head>
+
+<body ng-app="example" ng-controller="ExampleController" ng-strict-di class="common-css luna">
+  <form>
+    <div class="container">
+      <div class="page-header">
+        <h1>Components that have dropdowns</h1>
+        <h5>Can have only one dropdown open at any given time</h5>
+        <h5>SAFE TO DELETE AFTER FEE-1425 HAS BEEN MERGED<h5>
+      </div>
+      <br />
+      <div class="row">
+      <h4>Date Picker</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day"
+                placeholder='{{"examples.datepicker.choose.date" | translate}}'
+                ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
+            </akam-date-picker>
+          </div>
+          <div class="col-md-6">
+            <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month"
+                placeholder='{{"examples.datepicker.choose.month" | translate}}'
+                ng-change="monthChange()" format="{{formatMonth}}" no-clear>
+             </akam-date-picker>
+          </div>
+        </div>
+      </div>
+      <br/><br/><br/><br/>
+      <div class="row" ng-controller="DateRangeAppController as vm">
+        <h4>Date Range</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <akam-date-range ng-model="vm.dateRange1" min="{{vm.min}}" max="{{vm.max}}" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+          </div>
+          <div class="col-md-6">
+            <akam-date-range ng-model="vm.dateRange2" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+          </div>
+        </div>
+      </div>
+      <br/><br/><br/><br/>
+      <div class="row" ng-controller="DatetimePickerController as vmdpc">
+        <h4>Datetime Picker</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <akam-datetime-picker ng-model="vmdpc.datetime2" ng-change="vmdpc.onChange()" format="{{vmdpc.format}}" min="{{vmdpc.min}}" max="{{vmdpc.max}}" minute-step="vmdpc.minuteStep" hour-step="vmdpc.hourStep" show-meridian="  vmdpc.showMeridian" is-disabled="vmdpc.disabled">
+            </akam-datetime-picker>
+          </div>
+          <div class="col-md-6">
+            <akam-datetime-picker ng-model="vmdpc.datetime" ng-change="vmdpc.onChange()"></akam-datetime-picker>
+          </div>
+        </div>
+      </div>
+      <br/><br/><br/><br/>
+      <div class="row" ng-controller="ExampleController as vm">
+        <h4>Time Picker</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <akam-time-picker ng-model="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" is-disabled="vm.disabled" show-meridian="vm.showMeridian">
+            </akam-time-picker>
+          </div>
+          <div class="col-md-6">
+            <akam-time-picker ng-model="vm.timeB" minute-step="vm.minuteStep" hour-step="vm.hourStep" is-disabled="vm.disabled" show-meridian="vm.showMeridian">
+            </akam-time-picker>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <script src="utils/cookies.js"></script>
+  <script src="../dist/akamai-core.js"></script>
+  <script>
+  var controllerFunction = function($scope, $log) {
+    var d = new Date();
+    $scope.disabled = false;
+
+    var defaultMin = new Date(d.getFullYear() - 2, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear() + 2, d.getMonth(), 0);
+
+    $scope.min = defaultMin;
+    $scope.max = defaultMax;
+
+    $scope.dateChange = function() {
+      $log.log('Date Picker value selected: ', $scope.day);
+    };
+
+    $scope.monthChange = function() {
+      $log.log('Month Picker value selected: ', $scope.month);
+    };
+
+    $scope.updateMax = function() {
+      $scope.max = $scope.maxUpdated ? new Date(d.getFullYear() + 3, d.getMonth(), 0) : defaultMax;
+    }
+
+    $scope.updateMin = function() {
+      $scope.min = $scope.minUpdated ? new Date(d.getFullYear() - 3, d.getMonth() + 1, 1) : defaultMin;
+    }
+  };
+  controllerFunction.$inject = ['$scope', '$log'];
+
+  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                          i18nLocaleProvider) {
+
+      // need to overwrite locales path on fee.akamai.com
+      if (window.location.host == 'fee.akamai.com') {
+          $translatePartialLoaderProvider.addPart('../dist/locales/');
+          $translatePartialLoaderProvider.addPart('locales/json/messages/');
+      } else {
+          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      }
+
+      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+      $translateProvider.preferredLanguage(locale);
+      i18nLocaleProvider.setLocale(locale);
+  }
+
+  DateRangeAppController.$inject = ['$log'];
+
+  function DateRangeAppController($log) {
+    var vm = this;
+    var d = new Date();
+    var startDate = new Date(d.getFullYear(), d.getMonth(), 3);
+    var endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
+    var defaultMin = new Date(d.getFullYear()-2, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear()+2, d.getMonth(), 0);
+
+    vm.dateRange1 = {startDate:'', endDate:''};
+    vm.dateRange2 = {startDate:startDate, endDate:endDate};
+
+    vm.min = defaultMin;
+    vm.max = defaultMax;
+
+    vm.dateRangeCustom = {startDate:new Date(), endDate:undefined};
+
+    vm.updateMax = function() {
+      vm.max = vm.maxUpdated ? new Date(d.getFullYear()+2, d.getMonth(), 15) : defaultMax;
+    }
+
+    vm.updateMin = function() {
+      vm.min = vm.minUpdated ? new Date(d.getFullYear()-2, d.getMonth(), 15) : defaultMin;
+    }
+
+    vm.btnName = "preload dates";
+
+    vm.formats = [{
+      value: 'EEE, MMM d, y',
+      label: 'FullDate1'
+    }, {
+      value: 'MMMM d, y',
+      label: 'longDate'
+    }, {
+      value: 'MMM d, y',
+      label: 'mediumDate'
+    }, {
+      value: 'M/d/yy',
+      label: 'shortDate'
+    }, {
+      value: 'EEEE, MMMM d, y',
+      label: 'FullDate2'
+    }];
+
+
+    vm.onSelectCallback = function(range, start, end) {
+      vm.range = range;
+      vm.start = start;
+      vm.end = end;
+      $log.log(range);
+    }
+  }
+
+  DatetimePickerController.$inject = ['$log'];
+
+  function DatetimePickerController($log) {
+
+    var vm = this;
+    vm.disabled = false;
+    vm.showMeridian = false;
+    vm.minuteStep = 10;
+    vm.hourStep = 1;
+    vm.format = "EEE, MMM dd, yyyy";
+    vm.datetime2 = new Date();
+
+    var d = new Date();
+    var defaultMin = new Date(d.getFullYear()-1, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear()+1, d.getMonth(), 0);
+
+
+     vm.updateMax = function() {
+      vm.max = vm.maxUpdated ? new Date(d.getFullYear() + 3, d.getMonth(), 0) : defaultMax;
+       $log.log("max",vm.max);
+    }
+
+    vm.updateMin = function() {
+      vm.min = vm.minUpdated ? new Date(d.getFullYear() - 3, d.getMonth() + 1, 1) : defaultMin;
+       $log.log("min",vm.min);
+    }
+
+    vm.min = defaultMin;
+    vm.max = defaultMax;
+
+    vm.onChange = function() {
+      $log.log("onChange",vm.datetime2);
+    }
+
+    //var vmdpc = vm;
+  }
+
+  var TimePickerController = function() {
+    var vm = this;
+    vm.disabled = false;
+    vm.showMeridian = true;
+    vm.minuteStep = 15;
+    vm.hourStep = 1;
+    vm.time = new Date();
+  };
+
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+      '$translateProvider', 'i18nLocaleProvider'];
+
+  angular.module('example', ['akamai.components.constants', 'akamai.components.date-picker', 'akamai.components.date-range', 'akamai.components.datetime-picker', 'akamai.components.time-picker'])
+    .controller('ExampleController', controllerFunction)
+    .controller('DateRangeAppController', DateRangeAppController)
+    .controller('DatetimePickerController', DatetimePickerController)
+    .controller('TimePickerController', TimePickerController)
+    .config(configFunction);
+
+  </script>
+</body>
+
+</html>
