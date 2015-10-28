@@ -28,19 +28,39 @@ class WizardController {
       $controller(options.appController, {$scope: this.contentScope});
     }
 
-    this.title = options.title;
     this.icon = options.icon;
 
-    this.cancelLabel = $translate.instant(options.cancelLabel ||
-      'components.wizard.label.cancel');
-    this.previousLabel = $translate.instant(options.previousLabel ||
-      'components.wizard.label.previous');
-    this.nextLabel = $translate.instant(options.nextLabel || 'components.wizard.label.next');
-    this.submitLabel = $translate.instant(options.submitLabel || 'components.wizard.label.submit');
-    this.successMessage = $translate.instant(options.successMessage ||
-      'components.wizard.successMessage');
-    this.submitErrorMessage = $translate.instant(options.errorMessage ||
-      'components.wizard.errorMessage');
+    $translate(options.title, options.titleValues)
+      .then(value => this.title = value);
+
+    $translate(options.cancelLabel || 'components.wizard.label.cancel',
+      options.cancelLabelValues)
+        .then(value => this.cancelLabel = value);
+
+    $translate(options.previousLabel || 'components.wizard.label.previous',
+      options.previousLabelValues)
+        .then(value => this.previousLabel = value);
+
+    $translate(options.nextLabel || 'components.wizard.label.next',
+      options.nextLabelValues)
+        .then(value => this.nextLabel = value);
+
+    $translate(options.submitLabel || 'components.wizard.label.submit',
+      options.submitLabelValues)
+        .then(value => this.submitLabel = value);
+
+    $translate(options.successMessage || 'components.wizard.successMessage',
+      options.successMessageValues)
+        .then(value => this.successMessage = value);
+
+    $translate(options.errorMessage || 'components.wizard.errorMessage',
+      options.errorMessageValues)
+        .then(value => this.submitErrorMessage = value);
+
+    angular.forEach(options.steps, (step) => {
+      $translate(step.name, step.nameValues)
+        .then(value => step.name = value);
+    });
 
     this.instance = options.instance;
 

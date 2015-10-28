@@ -42,9 +42,14 @@ function messageBox(modalWindow, $translate, $rootScope) {
     cancelId = options.cancelLabel || 'components.message-box.no';
     submitId = options.submitLabel || 'components.message-box.yes';
 
-    options.title = $translate.instant(titleId, options.titleValues);
-    options.cancelLabel = $translate.instant(cancelId, options.cancelLabelValues);
-    options.submitLabel = $translate.instant(submitId, options.submitLabelValues);
+    $translate(titleId, options.titleValues)
+      .then(value => options.title = value);
+
+    $translate(cancelId, options.cancelLabelValues)
+      .then(value => options.cancelLabel = value);
+
+    $translate(submitId, options.submitLabelValues)
+      .then(value => options.submitLabel = value);
   }
 
   function show(options, type) {
@@ -58,12 +63,11 @@ function messageBox(modalWindow, $translate, $rootScope) {
 
     translateOptionLabels(options, type);
 
-    options.title = options.title.substr(0, 20);
     options.backdrop = 'static';
     options.scope = $rootScope.$new();
     options.scope.messageBox = {
-      headline: options.headline.substr(0, 48),
-      text: options.text.substr(0, 220),
+      headline: options.headline,
+      text: options.text,
       details: options.details
     };
 

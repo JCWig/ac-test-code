@@ -83,8 +83,8 @@ class ModalWindowController {
 
   setProperty(key, defaultKey) {
     if (defaultKey) {
-      this[key] = this.$translate.instant(this.options[key] || defaultKey,
-        this.options[`${key}Values`]);
+      this.$translate(this.options[key] || defaultKey, this.options[`${key}Values`])
+        .then(value => this[key] = value);
     } else {
       this[key] = this.options[key];
     }

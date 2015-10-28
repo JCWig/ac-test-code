@@ -12,6 +12,10 @@ describe('messageBox service', function() {
   var translationMock = {
     "components": {
       "message-box": {
+        "title": {
+          "question": "Question",
+          "error": "Error"
+        },
         "no": "No",
         "yes": "Yes",
         "variableReplacement": "{{first}} {{last}} has logged"
@@ -104,21 +108,6 @@ describe('messageBox service', function() {
       });
     });
 
-    it('should limit the title to 20 characters', function() {
-      var title = 'I am very long title that should be truncated';
-
-      this.messageBox.show({
-        title: title,
-        headline: 'Headline',
-        text: 'Message',
-        template: '<p></p>'
-      });
-      this.$rootScope.$digest();
-
-      var modalTitle = document.querySelector('.modal .modal-title');
-      expect(modalTitle.textContent.length).toEqual(20);
-    });
-
     it('should support a headline option', function() {
       var headline = 'Headline';
 
@@ -135,16 +124,10 @@ describe('messageBox service', function() {
     it('should cancelLabel display translation key if not provide one', function() {
       var cancelLabelKey = 'No';
 
-      try {
-        this.$timeout.verifyNoPendingTasks();
-      } catch (e) {
-        this.$timeout.flush();
-      }
-
       this.messageBox.show({
         headline: 'headline',
         text: 'Message',
-        cancelLabel: ""
+        cancelLabel: ''
       });
       this.$rootScope.$digest();
 
@@ -154,12 +137,6 @@ describe('messageBox service', function() {
 
     it('should cancelLabel display translation key if provided', function() {
       var cancelLabelKey = 'Yes';
-
-      try {
-        this.$timeout.verifyNoPendingTasks();
-      } catch (e) {
-        this.$timeout.flush();
-      }
 
       this.messageBox.show({
         headline: 'headline',
@@ -175,12 +152,6 @@ describe('messageBox service', function() {
     it('should submitLabel display translation key if not provide one', function() {
       var submitLabelKey = 'Yes';
 
-      try {
-        this.$timeout.verifyNoPendingTasks();
-      } catch (e) {
-        this.$timeout.flush();
-      }
-
       this.messageBox.show({
         headline: 'headline',
         text: 'Message',
@@ -193,12 +164,6 @@ describe('messageBox service', function() {
     });
     it('should submitLabel display translation key if provided', function() {
       var submitLabelKey = 'No';
-
-      try {
-        this.$timeout.verifyNoPendingTasks();
-      } catch (e) {
-        this.$timeout.flush();
-      }
 
       this.messageBox.show({
         headline: 'headline',
@@ -214,12 +179,6 @@ describe('messageBox service', function() {
     it('should title display translation key if provided', function() {
       var title = 'Msg box title';
 
-      try {
-        this.$timeout.verifyNoPendingTasks();
-      } catch (e) {
-        this.$timeout.flush();
-      }
-
       this.messageBox.show({
         title: 'components.name',
         headline: 'Headline',
@@ -228,18 +187,6 @@ describe('messageBox service', function() {
       this.$rootScope.$digest();
       var modalHeadline = document.querySelector('.modal .modal-title');
       expect(modalHeadline.textContent).toEqual(title);
-    });
-
-    it('should limit the headline to 48 characters', function() {
-      var headline = 'A very long headline that will be truncated to 48 chars';
-
-      this.messageBox.show({
-        headline: headline,
-        text: 'Message'
-      });
-      this.$rootScope.$digest();
-      var modalHeadline = document.querySelector('.modal .message-box-headline');
-      expect(modalHeadline.textContent.length).toEqual(48);
     });
 
     it('should support a text option', function() {
@@ -255,20 +202,6 @@ describe('messageBox service', function() {
       expect(modalMessageBoxText.textContent).toEqual(text);
     });
 
-    it('should limit the text to 220 characters', function() {
-      var text = new Array(300).join('x');
-      var el;
-
-      this.messageBox.show({
-        headline: 'Headline',
-        text: text
-      });
-      this.$rootScope.$digest();
-
-      var modalMessageBoxText = document.querySelector('.modal .message-box-text');
-      expect(modalMessageBoxText.textContent.length).toEqual(220);
-    });
-
     it('should support a details option', function() {
       var details = 'Message details';
 
@@ -281,31 +214,6 @@ describe('messageBox service', function() {
 
       var messageBoxDetails = document.querySelector('.modal .message-box-details > div');
       expect(messageBoxDetails.textContent).toMatch(new RegExp(details));
-    });
-
-    it('should support translating a question message', function() {
-      var headline = 'Headline';
-
-      this.messageBox.show({
-        headline: headline,
-        text: 'Message'
-      }, "question");
-      this.$rootScope.$digest();
-
-      var modalTitle = document.querySelector('.modal .modal-title');
-      expect(modalTitle.textContent).toEqual('components.message-box.title.question'.substr(0, 20));
-    });
-    it('should support translating a error message', function() {
-      var headline = 'Headline';
-
-      this.messageBox.show({
-        headline: headline,
-        text: 'Message'
-      }, "error");
-      this.$rootScope.$digest();
-
-      var modalTitle = document.querySelector('.modal .modal-title');
-      expect(modalTitle.textContent).toEqual('components.message-box.title.error'.substr(0, 20));
     });
 
     it('should have a close icon button which can close', function() {
@@ -470,7 +378,7 @@ describe('messageBox service', function() {
         var modalHeadline = document.querySelector('.modal .message-box-headline');
         var modalMessageBoxText = document.querySelector('.modal .message-box-text');
 
-        expect(modalTitle.textContent).toEqual('I am a very differen');
+        expect(modalTitle.textContent).toEqual(title2);
         expect(modalHeadline.textContent).toEqual('a new headline');
         expect(modalMessageBoxText.textContent).toEqual('All the messages');
       });
@@ -618,8 +526,45 @@ describe('messageBox service', function() {
 
       });
     });
-
   });
 
+  describe('given a question message-box', function() {
+    describe('when title is not provided', function() {
+      beforeEach(function() {
+        let options = {
+          title: '',
+          headline: 'Headline',
+          text: 'Message'
+        }
 
+        this.messageBox.show(options, 'question');
+        this.$rootScope.$digest();
+      });
+
+      it('should translate default question title', function() {
+        let modalTitle = document.querySelector('.modal .modal-title');
+        expect(modalTitle.textContent).toEqual('Question');
+      });
+    });
+  });
+
+  describe('given an error message-box', function() {
+    describe('when title is not provided', function() {
+      beforeEach(function() {
+        let options = {
+          title: '',
+          headline: 'Headline',
+          text: 'Message'
+        }
+
+        this.messageBox.show(options, 'error');
+        this.$rootScope.$digest();
+      });
+
+      it('should translate default question title', function() {
+        let modalTitle = document.querySelector('.modal .modal-title');
+        expect(modalTitle.textContent).toEqual('Error');
+      });
+    });
+  });
 });

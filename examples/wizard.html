@@ -221,15 +221,16 @@
             };
 
             vm.launchWizard = function() {
-       
+
                 wizard.open({
                     scope: wizardScope,
                     controller: WizardController,
                     title: 'Wizard Example',
                     steps: [
                         {
-                            // Example of translated text for the wizard steps
-                            name: $translate.instant('examples.wizard.step1'),
+                            // name will be translated when key is provided
+                            // nameValues also supported
+                            name: 'examples.wizard.step1',
                             templateId: 'step1',
                             validate: function(scope) {
                                 return true;
@@ -237,7 +238,7 @@
                             initialize: angular.bind(this, deferredProcess, "Step 1 Failed to initialize.")
                         },
                         {
-                            name: $translate.instant('examples.wizard.step2'),
+                            name: 'examples.wizard.step2',
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
@@ -245,22 +246,22 @@
                             initialize: angular.bind(this, deferredProcess, "Step 2 Failed to initialize.")
                         },
                         {
-                            name: $translate.instant('examples.wizard.step3'),
+                            name: 'examples.wizard.step3',
                             templateId: 'step3',
                             validate: function(scope) {
                                 return scope.user != null && scope.user.length > 2;
                             }
                         },
                         {
-                            name: $translate.instant('examples.wizard.step4'),
+                            name: 'examples.wizard.step4',
                             templateId: 'step4',
-                    
+
                             validate: function(scope) {
                                 return scope.selectedState !=null;
                             }
                         },
                         {
-                            name: $translate.instant('examples.wizard.step5'),
+                            name: 'examples.wizard.step5',
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
