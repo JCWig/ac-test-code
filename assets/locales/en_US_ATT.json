@@ -63,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "There are no results based upon your filter.",
-                "noDataMessage": "There is no data based upon your criteria."
+                "noDataMessage": "There is no data based upon your criteria.",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "Filter"

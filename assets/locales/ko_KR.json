@@ -63,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "지정한 필터에 따라 검색된 결과가 없습니다.",
-                "noDataMessage": "지정한 기준에 따라 검색된 데이터가 없습니다."
+                "noDataMessage": "지정한 기준에 따라 검색된 데이터가 없습니다.",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "필터"

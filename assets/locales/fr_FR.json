@@ -63,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "Aucun résultat ne correspond au filtre sélectionné.",
-                "noDataMessage": "Aucune donnée ne correspond aux critères sélectionnés."
+                "noDataMessage": "Aucune donnée ne correspond aux critères sélectionnés.",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "Filtrer"

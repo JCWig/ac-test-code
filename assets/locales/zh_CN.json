@@ -63,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "没有符合您的过滤条件的结果。",
-                "noDataMessage": "没有符合您的条件的数据。"
+                "noDataMessage": "没有符合您的条件的数据。",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "筛选器"
