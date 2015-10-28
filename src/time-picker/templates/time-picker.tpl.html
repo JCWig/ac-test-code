@@ -1,22 +1,22 @@
 <div class="akam-time-picker input-group" ng-class='{open:timepicker.isOpen}'>
-    <input type="text" 
-      time-formatter 
-      class="form-control" 
-      ng-model="timepicker.inputTime" 
-      ng-click="timepicker.toggle($event)" 
-      show-meridian='timepicker.showMeridian' 
-      hour-step="timepicker.hourStep" 
-      minute-step="timepicker.minuteStep" 
-      ng-disabled='timepicker.isDisabled()' 
-      placeholder="{{::timepicker.placeholder}}" 
+    <input type="text"
+      time-formatter
+      class="form-control"
+      ng-model="timepicker.inputTime"
+      ng-click="timepicker.toggle($event)"
+      show-meridian='timepicker.showMeridian'
+      hour-step="timepicker.hourStep"
+      minute-step="timepicker.minuteStep"
+      ng-disabled='timepicker.isDisabled()'
+      placeholder="{{::timepicker.placeholder}}"
       is-minute-disabled='timepicker.isMinuteDisabled()'>
-    
+
     <span class="input-group-btn">
-      <button type="button" class="btn btn-default" ng-click="timepicker.isOpen=!timepicker.isOpen" ng-disabled='timepicker.isDisabled()' tabindex="0">
+      <button type="button" class="btn btn-default" ng-click="timepicker.toggle($event)" ng-disabled='timepicker.isDisabled()' tabindex="0">
         <i class="luna-time" ng-disabled='timepicker.isDisabled()'></i>
       </button>
     </span>
-    
+
     <div class="dropdown-menu" ng-show="timepicker.isOpen" ng-class='{open:timepicker.isOpen}'>
         <timepicker ng-model="timepicker.inputTime" ng-change="timepicker.changed()" hour-step="timepicker.hourStep" minute-step="timepicker.minuteStep" show-meridian="timepicker.showMeridian"></timepicker>
     </div>

@@ -555,4 +555,21 @@ describe('akamTimepicker directive', function() {
       });
     });
   });
+
+  describe('given timepicker', function() {
+    describe('when rendered', function() {
+      describe('click timepicker button to open', function() {
+        beforeEach(function() {
+          addElement.call(this);
+          spyOn(timepicker, 'toggle');
+          let timepickerBtnElem = this.element.querySelector(selectors.TIMEPICKER_BTN);
+          utilities.click(timepickerBtnElem);
+          scope.$digest();
+        });
+        it("should timepicker toggle function get called", function() {
+          expect(timepicker.toggle).toHaveBeenCalled();
+        });
+      });
+    });
+  });
 });
