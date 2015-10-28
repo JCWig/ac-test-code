@@ -146,7 +146,7 @@
 <div>
     <h2>Default Autocomplete with a list of strings - min search is 3 characters</h2>
     <div>
-        <akam-autocomplete ng-model="vm.ex9.selectedState" is-disabled="vm.disabled" clearable
+        <akam-autocomplete ng-model="vm.ex3.selectedState" is-disabled="vm.disabled" clearable
                            minimum-search="3" on-search="vm.searchStateStrings(searchTerm)">
         </akam-autocomplete>
     </div>
@@ -156,7 +156,7 @@
 <div>
     <h2>Default Autocomplete with a list of strings and minumum search set to 0</h2>
         <div>
-            <akam-autocomplete ng-model="vm.ex10.selectedState"
+            <akam-autocomplete ng-model="vm.ex4.selectedState"
                      on-search="vm.searchStateStrings(searchTerm)" minimum-search="0">
             </akam-autocomplete>
         </div>
@@ -221,14 +221,13 @@
 
         vm.ex1 = { selectedState: 'Massachusetts' };
         vm.ex2 = { selectedState: undefined };
-        vm.ex3 = { selectedState: 'Vermont' };
-        vm.ex4 = { selectedState: {name: 'Colorado'} };
+        vm.ex3 = { selectedState: undefined };
+        vm.ex4 = { selectedState: undefined };
         vm.ex5 = { selectedState: undefined };
         vm.ex6 = { selectedState: undefined };
         vm.ex7 = { selectedState: undefined };
         vm.ex8 = { selectedState: 'key9' };
         vm.ex9 = { selectedState: undefined };
-        vm.ex10 = { selectedState: undefined };
 
         vm.searchStateStrings = function(searchTerm) {
 
