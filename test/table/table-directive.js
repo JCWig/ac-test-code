@@ -210,7 +210,7 @@ describe('akam-table', function() {
       });
       it('should translate and display default item failure message', function(){
         var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-        expect(indeterminateProgress.getAttribute('label')).toMatch('Failed to load data');
+        expect(indeterminateProgress.getAttribute('label')).toMatch('An error has occurred while loading data');
       });
     });
 
@@ -237,10 +237,10 @@ describe('akam-table', function() {
       beforeEach(function(){
         httpBackend.when('GET', '/randomurl').respond(404, "data not found");
         scope.httpData = http.get('/randomurl');
-        scope.failureMessage = 'components.data-table.text.noDataMessage';
+        scope.failureMessage = 'components.data-table.text.itemFailureMessage';
         var markup = `
           <akam-table items="httpData"
-          item-failure-message="components.data-table.text.noDataMessage"
+          item-failure-message="components.data-table.text.itemFailureMessage"
           akam-standalone on-change="changeRows(items)"
           on-select="selectionCallback(selectedItems)" selected-items="selectedItems">
             <akam-table-row>
@@ -252,7 +252,7 @@ describe('akam-table', function() {
       });
       it('should translate and display item failure message if key is valid', function(){
         var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
-        expect(indeterminateProgress.getAttribute('label')).toMatch('There is no data based upon your criteria');
+        expect(indeterminateProgress.getAttribute('label')).toMatch('An error has occurred while loading data');
       });
     });
   });

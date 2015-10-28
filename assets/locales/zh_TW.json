@@ -63,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "根據您的篩選找不到結果。",
-                "noDataMessage": "根據您的準則找不到結果。"
+                "noDataMessage": "根據您的準則找不到結果。",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "筛选器"

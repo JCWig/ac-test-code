@@ -121,6 +121,7 @@
     "netstorage": "./jenkins.sh deploy",
     "deploy": "npm run generic-build && npm run gulp -- deploy --no-color",
     "locale": "./node_modules/.bin/sync-locale",
+    "locale-update": "npm run locale -- --update",
     "locale-jenkins": "npm run locale -- --xunitreport --reportdir=./reports/unit/",
     "docs": "npm run gulp -- docs"
   }

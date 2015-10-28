@@ -63,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "フィルタに基づいた結果はありません。",
-                "noDataMessage": "条件に基づいたデータはありません。"
+                "noDataMessage": "条件に基づいたデータはありません。",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "フィルタ"
