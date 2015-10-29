@@ -368,7 +368,8 @@ describe('akamai.components.spinner', function() {
           expect(angular.isObject(this.isoScope.spinner.dynamicMinWidth)).toBeTruthy();
         });
         it('should spinner dynamicMinWidth to be default value', function() {
-          expect(this.isoScope.spinner.dynamicMinWidth['min-width']).toBe('calc(1em+10px)');
+          console.log("Spinner: ", this.isoScope.spinner.dynamicMinWidth);
+          expect(this.isoScope.spinner.dynamicMinWidth['width']).toBe('calc(1em+10px)');
         });
       });
     });
@@ -386,7 +387,7 @@ describe('akamai.components.spinner', function() {
           length = String(scope.testData.max).length;
         });
         it('should spinner dynamicMinWidth min-width value contains max string length', function() {
-          expect(this.isoScope.spinner.dynamicMinWidth['min-width']).toBe('calc(' + length + 'em + 10px)');
+          expect(this.isoScope.spinner.dynamicMinWidth['width']).toBe('calc(' + length + 'em + 10px)');
         });
       });
     });

@@ -19,26 +19,16 @@ $spinner-button-active-gradient-top: #c8c8c8;
     min-width: 28px;
     @include appearance(textfield);
 
-    /*
-&:disabled {
-      color: $spinner-disable-color;
-      border-color: $spinner-disable-color;
-      cursor: default;
-    }
-*/
-
     &::-ms-clear {
       display: none;
     }
     
-    /*
-&:focus + .btn-group-vertical .btn {
+    &:focus + .btn-group-vertical .btn {
       &,
       &:hover {
         border-left-color: $input-border-color-focus;
       }
     }
-*/
   }
 
   input[type=number]::-webkit-inner-spin-button {
