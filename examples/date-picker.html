@@ -15,29 +15,40 @@
         <h5>A minimum date (current year, current month, 1st day) is assigned to the Date Picker components.</h5>
       </div>
       <br />
-      <div class="container">
-        <label class="label">Specify Day Format:</label>
-        <table>
-          <tr>
-            <td>
-              <input id="format1" name="formatDay" type="radio" ng-model="formatDay" value="EEE, MMM dd, yyyy" />
-              <label class="label" for="format1">EEE, MMM dd, yyyy</label>
-              <input id="format2" name="formatDay" type="radio" ng-model="formatDay" value="EEE, yyyy, MMM dd" />
-              <label class="label" for="format2">EEE, yyyy, MMM dd</label>
-              <input id="format3" name="formatDay" type="radio" ng-model="formatDay" value="yyyy-MM-dd" />
-              <label class="label" for="format3">yyyy-MM-dd</label>
-            </td>
-          </tr>
-        </table>
-        <br />
+      
+      <div class="row">
+        <div class="col-md-12">
+          <label class="label">Specify Day Format:</label>
+          <br><br>
+          
+          <div class="radio-inline">
+            <input id="format1" name="formatDay" type="radio" ng-model="formatDay" value="EEE, MMM dd, yyyy" />
+            <label class="label" for="format1">EEE, MMM dd, yyyy</label>
+          </div>
+          <div class="radio-inline">
+            <input id="format2" name="formatDay" type="radio" ng-model="formatDay" value="EEE, yyyy, MMM dd" />
+            <label class="label" for="format2">EEE, yyyy, MMM dd</label>
+          </div>
+          <div class="radio-inline">
+            <input id="format3" name="formatDay" type="radio" ng-model="formatDay" value="yyyy-MM-dd" />
+            <label class="label" for="format3">yyyy-MM-dd</label>
+          </div>
+          
+          <br>
+          <br>
+        </div>
       </div>
-      <div class="container">
-        <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day"
-            placeholder='{{"examples.datepicker.choose.date" | translate}}'
-            ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
-        </akam-date-picker>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day"
+              placeholder='{{"examples.datepicker.choose.date" | translate}}'
+              ng-change="dateChange()" format="{{formatDay}}" is-disabled="disabled">
+          </akam-date-picker>
+        </div>
       </div>
       <br />
+      
       <div class="form-group">
         <input id="disableDatePicker" type="checkbox" name='disableDatePicker' ng-model='disabled' />
         <label class="label" for="disableDatePicker">Disable Date Picker component</label>
@@ -51,27 +62,35 @@
         <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{max}})</label>
       </div>
       <br />
-      <div class="container">
-        <label class="label">Specify Month Format:</label>
-        <table>
-          <tr>
-            <td>
-              <input id="format4" name="formatMonth" type="radio" ng-model="formatMonth" value="MMM yyyy" />
-              <label class="label" for="format4">MMM yyyy</label>
-              <input id="format5" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy MMM" />
-              <label class="label" for="format5">yyyy MMM</label>
-              <input id="format6" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy-MM" />
-              <label class="label" for="format6">yyyy-MM</label>
-            </td>
-          </tr>
-        </table>
-        <br/>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <label class="label">Specify Month Format:</label>
+          <br><br>
+          <div class="radio-inline">
+            <input id="format4" name="formatMonth" type="radio" ng-model="formatMonth" value="MMM yyyy" />
+            <label class="label" for="format4">MMM yyyy</label>
+          </div>
+          <div class="radio-inline">
+            <input id="format5" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy MMM" />
+            <label class="label" for="format5">yyyy MMM</label>
+          </div>
+          <div class="radio-inline">
+            <input id="format6" name="formatMonth" type="radio" ng-model="formatMonth" value="yyyy-MM" />
+            <label class="label" for="format6">yyyy-MM</label>
+          </div>
+          <br><br>
+          
+        </div>
       </div>
-      <div class="container">
-        <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month"
-            placeholder='{{"examples.datepicker.choose.month" | translate}}'
-            ng-change="monthChange()" format="{{formatMonth}}" no-clear>
-         </akam-date-picker>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <akam-date-picker id="monthDate" ng-model="month" min="{{min}}" max="{{max}}" mode="month"
+              placeholder='{{"examples.datepicker.choose.month" | translate}}'
+              ng-change="monthChange()" format="{{formatMonth}}" no-clear>
+           </akam-date-picker>
+        </div>
       </div>
     </div>
   </form>

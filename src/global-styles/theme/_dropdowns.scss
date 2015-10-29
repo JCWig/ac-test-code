@@ -24,8 +24,9 @@ $dropdown-max-items: 8;
   }
 
   & > button[disabled] {
-    > i, > li > a {
-      cursor: default;
+    > i, 
+    > li > a {
+      cursor: not-allowed;
     }
   }
 
@@ -75,13 +76,7 @@ $dropdown-max-items: 8;
     }
   }
 
-  // TODO: this is slightly brittle as it copies the .btn styles
   &:first-of-type:disabled {
-    cursor: default;
-    opacity: 1;
-    background: $button-background-color-disabled;
-    border-color: $button-border-color-disabled;
-    color: $button-text-color-disabled;
 
     & + .split-button {
       border-left-color: $button-border-color-disabled;
@@ -127,11 +122,6 @@ $dropdown-max-items: 8;
   .fixed-header {
     line-height: 1;
     padding: $dropdown-fixed-header-padding;
-  }
-  
-  & > .disabled, 
-  .disabled > a {
-    pointer-events: none;
   }
 }
 

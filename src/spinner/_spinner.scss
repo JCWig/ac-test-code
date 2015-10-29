@@ -14,22 +14,31 @@ $spinner-button-active-gradient-top: #c8c8c8;
 
 .akam-spinner {
   position: relative;
-  font-size: 0px;
 
   input[type=number] {
-    @include border-right-radius(0);
-    @include appearance(textfield);
     min-width: 28px;
+    @include appearance(textfield);
 
-    &:disabled {
+    /*
+&:disabled {
       color: $spinner-disable-color;
       border-color: $spinner-disable-color;
       cursor: default;
     }
+*/
 
     &::-ms-clear {
       display: none;
     }
+    
+    /*
+&:focus + .btn-group-vertical .btn {
+      &,
+      &:hover {
+        border-left-color: $input-border-color-focus;
+      }
+    }
+*/
   }
 
   input[type=number]::-webkit-inner-spin-button {
@@ -38,7 +47,6 @@ $spinner-button-active-gradient-top: #c8c8c8;
 
   .btn-group-vertical.number-input {
     text-align: left;
-    font-size: 0px;
     height: $spinner-input-height;
     width: 32px;
 
@@ -46,7 +54,6 @@ $spinner-button-active-gradient-top: #c8c8c8;
       min-width: 20px;
       height: $spinner-input-height/2;
       width: auto;
-      border-left-width: 0;
       display: block;
       @include border-left-radius(0);
       border-color: $spinner-border-color;
@@ -62,7 +69,8 @@ $spinner-button-active-gradient-top: #c8c8c8;
       }
 
       &:first-child {
-        border-bottom-width: 0;
+        border-top-right-radius: $border-radius;
+        
         &:hover:not([disabled]) {
           & + .btn {
             border-top-color: $spinner-border-color-hover;
@@ -80,15 +88,11 @@ $spinner-button-active-gradient-top: #c8c8c8;
       }
 
       &:hover:not([disabled]) {
-        margin-left: -1px;
-        border-left-width: 1px;
         border-color: $spinner-border-color-hover;
         @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
       }
 
       &:active:not([disabled]) {
-        margin-left: -1px;
-        border-left-width: 1px;
         border-color: $spinner-button-color-active;
         @include background-image(linear-gradient($spinner-button-active-gradient-top, $spinner-button-active-gradient-bottom));
       }

@@ -1,3 +1,36 @@
+%inputStyles {
+  background-color: $input-background-color;
+  border: solid 1px $input-border-color;
+  color: $input-text-color;
+  @include box-shadow($input-box-shadow);
+  @include border-radius($input-border-radius);
+}
+
+%inputFocusStyles {
+  border-color: $input-border-color-focus;
+  background-color: $input-background-color-focus;
+  @include box-shadow(none);
+}
+
+%inputDisabledStyles {
+  background-color: $input-background-color-disabled;
+  border-color: $input-border-color-disabled;
+  color: $input-text-color-disabled;
+  @include box-shadow(none);
+  
+  &:focus,
+  &:required {
+    border-color: $input-border-color-disabled;
+    @include box-shadow(none);
+  }
+}
+
+%inputReadonlyStyles {
+  @extend %inputDisabledStyles;
+  color: $input-text-color;
+}
+
+
 
 input[type="text"],
 input[type="search"],
@@ -6,43 +39,24 @@ input[type="date"],
 input[type="month"],
 input[type="number"],
 textarea {
-  background-color: $input-background-color;
-  border: solid 1px $input-border-color;
+  @extend %inputStyles;
   height: $input-height;
   padding: 0 0 0 $input-padding;
-  color: $input-text-color;
-  font-size: $input-text-size;
-  font-family: inherit;
   outline: none;
   vertical-align: middle;
   line-height: normal;
-  @include box-sizing(border-box);
-  @include box-shadow($input-box-shadow);
-  @include border-radius($input-border-radius);
   @include placeholder-enhanced($input-placeholder-text-color, italic);
-
+  
   &:focus {
-    border-color: $input-border-color-focus;
-    background-color: $input-background-color-focus;
-    @include box-shadow(none);
+    @extend %inputFocusStyles;
   }
 
-  &:disabled,
-  &[readonly] {
-    background-color: $input-background-color-disabled;
-    border-color: $input-border-color-disabled;
-    color: $input-text-color-disabled;
-    @include box-shadow(none);
-
-    &:focus,
-    &:required {
-      border-color: $input-border-color-disabled;
-      @include box-shadow(none);
-    }
+  &:disabled {
+    @extend %inputDisabledStyles;
   }
   
   &[readonly] {
-    color: $input-text-color;
+    @extend %inputReadonlyStyles;
   }
 }
 
