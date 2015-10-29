@@ -29,7 +29,7 @@ class SpinnerController {
     if (this.max) {
       maxlength = String(this.max).length;
       this.dynamicMinWidth = {
-        'min-width': 'calc(' + maxlength + 'em + 10px)'
+        'width': 'calc(' + maxlength + 'em + 10px)'
       };
     }
   }
