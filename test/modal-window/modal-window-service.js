@@ -473,9 +473,9 @@ describe('modalWindow service', function() {
 
         utilities.click(submitButton);
 
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.scope.$digest();
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.scope.$digest();
 
         let modalWindow = document.querySelector('.modal');
@@ -495,9 +495,9 @@ describe('modalWindow service', function() {
         let cancelButton = document.querySelector(CANCEL_BUTTON);
         utilities.click(cancelButton);
 
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.scope.$digest();
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.scope.$digest();
 
         let modalWindow = document.querySelector('.modal');
@@ -517,9 +517,9 @@ describe('modalWindow service', function() {
         let closeIcon = document.querySelector('.modal-header i');
         utilities.click(closeIcon);
 
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.scope.$digest();
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.scope.$digest();
 
         let modalWindow = document.querySelector('.modal');
