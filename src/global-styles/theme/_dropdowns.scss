@@ -96,7 +96,6 @@ $dropdown-max-items: 8;
   padding: 0;
   border-radius: 0;
   margin-top: 0;
-  overflow-x: auto;
   max-height: #{$dropdown-item-line-height * $dropdown-max-items};
   @include box-shadow(0 2px 4px 0 rgba(0, 0, 0, .25));
 
