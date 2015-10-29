@@ -24,7 +24,7 @@ class SpinnerController {
     this.spinnerId = this.uuid.guid();
 
     this.dynamicMinWidth = {
-      'min-width': 'calc(1em+10px)'
+      width: 'calc(1em+10px)'
     };
     if (this.max) {
       maxlength = String(this.max).length;
