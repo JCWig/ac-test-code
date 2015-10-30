@@ -64,26 +64,6 @@
             Muffin tart jelly-o lemon drops cake pie lemon drops icing.
             <i class="luna-calendar"></i>
         </p>
-        <p>
-            Cupcake ipsum dolor sit. Amet caramels chocolate cake toffee. Cheesecake topping
-            jujubes. Sweet roll cotton candy sweet roll lollipop pie ice cream. Icing liquorice
-            cotton candy apple pie cookie powder marshmallow topping dragée. Liquorice fruitcake
-            cotton candy toffee jelly-o jelly bonbon marshmallow jelly-o. Tart toffee brownie
-            muffin liquorice. Jelly beans marzipan carrot cake caramels cake. Soufflé sugar plum
-            ice cream tiramisu carrot cake marshmallow. Jelly beans lollipop wafer marshmallow
-            liquorice dessert gingerbread cake topping. Fruitcake pudding croissant. Dessert donut
-            ice cream biscuit bear claw jujubes.
-        </p>
-        <p>
-            Danish bear claw macaroon cake sesame snaps pie. Icing apple pie cookie topping
-            chocolate cake. Pudding cheesecake chocolate cake tootsie roll candy. Lollipop chupa
-            chups jelly-o icing chocolate ice cream chocolate lollipop. Donut cotton candy
-            chocolate bar carrot cake macaroon powder cotton candy marshmallow. Marzipan sweet
-            croissant candy canes cupcake apple pie cake gingerbread gummies. Wafer cheesecake
-            chocolate cake macaroon biscuit muffin chocolate bar chocolate bar. Powder sweet cake.
-            Muffin tart jelly-o lemon drops cake pie lemon drops icing.
-            <i class="luna-calendar"></i>
-        </p>
 
     </script>
     <script type="text/ng-template" id="step2">
@@ -113,26 +93,19 @@
         <p>
             Enter your username: <input type="text" id="user" ng-model="user"> (minimum 3 characters)
             <hr />
-            Cupcake ipsum dolor sit amet. Jelly beans wafer biscuit jelly cheesecake apple pie
-            macaroon croissant. Marshmallow gummi bears cake tootsie roll tart. Pudding donut donut
-            lollipop halvah lemon drops. Tiramisu sugar plum lemon drops. Biscuit dragée tootsie
-            roll liquorice macaroon soufflé cupcake. Biscuit bonbon soufflé liquorice bonbon.
-            Toffee danish bonbon cotton candy. Dessert fruitcake dragée wafer. Brownie sesame snaps
-            jujubes cheesecake brownie. Sesame snaps fruitcake pie tart gummi bears tiramisu
-            cupcake chupa chups liquorice. Tootsie roll jujubes sesame snaps dragée.
         </p>
-        <p>
-            Marzipan macaroon jujubes cake fruitcake caramels gummies. Wafer sesame snaps muffin
-            jelly pastry biscuit chocolate bar candy canes biscuit. Tiramisu jelly gummi bears
-            tootsie roll marshmallow pie biscuit apple pie dessert. Donut marshmallow ice cream.
-            Macaroon sweet roll jelly beans cookie cake cotton candy macaroon soufflé. Jelly-o
-            gingerbread chocolate chocolate cake jelly beans donut. Jelly beans jelly chupa chups
-            topping macaroon candy canes. Gummies danish sweet wafer marzipan liquorice dessert.
-            Cheesecake marzipan pudding dessert marshmallow cupcake. Toffee topping toffee
-            croissant cheesecake brownie cotton candy toffee dragée. Gummi bears pastry marzipan
-            gingerbread. Bonbon cotton candy jelly beans chocolate bar brownie brownie sesame snaps
-            sesame snaps cupcake.
-        </p>
+        <br />
+        <br />
+        <b>Example of table in a wizard.</b>
+        <br />
+        <akam-table items="arrayData" akam-standalone>
+          <akam-table-row>
+            <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
+            <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
+            <akam-table-column row-property="lastName" default-sort header-name="examples.lastname"></akam-table-column>
+            <akam-table-column row-property="country" header-name="examples.country"></akam-table-column>
+          </akam-table-row>
+        </akam-table>
     </script>
     <script type="text/ng-template" id="step4">
         <p>
@@ -186,7 +159,7 @@
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('wizardApp', ['akamai.components.constants','akamai.components.wizard', 'akamai.components.dropdown',
+        angular.module('wizardApp', ['akamai.components.constants','akamai.components.table', 'akamai.components.wizard', 'akamai.components.dropdown',
                                      'akamai.components.menu-button', 'akamai.components.indeterminate-progress'])
                 .controller('WizardAppController', WizardAppController)
                 .config(configFunction);
@@ -196,6 +169,13 @@
             var vm = this;
             var wizardScope = $rootScope.$new();
             var times = 0;
+            wizardScope.arrayData = [
+                {id: 1, firstName: 'Norma', lastName: 'White', email: 'nwhite0@japanpost.jp', country: 'China', ipAddress: '131.46.59.162', boolean: true, color: 'Yellow'},
+                {id: 2, firstName: 'Amanda', lastName: 'Martin', email: 'amartin1@unesco.org', country: 'Haiti', ipAddress: '249.90.111.115', boolean: false, color: 'Blue'},
+                {id: 3, firstName: 'Gloria', lastName: 'Allen', email: 'gallen2@reuters.com', country: 'Micronesia', ipAddress: '233.173.83.45', boolean: false, color: 'Yellow'},
+                {id: 4, firstName: 'Bobby', lastName: 'Montgomery', email: 'bmontgomery3@msn.com', country: 'Gabon', ipAddress: '16.173.58.169', boolean: true, color: 'Blue'},
+                {id: 5, firstName: 'Charles', lastName: 'Reyes', email: 'creyes4@cbsnews.com', country: 'Spain', ipAddress: '136.197.92.192', boolean: true, color: 'Red'}
+            ];
 
             function deferredProcess(rejectReason) {
                 var deferral = $q.defer();
@@ -208,65 +188,67 @@
                         deferral.resolve();
                         times = 0;
                     }
-                }, 500);
+                }, 1000);
 
                 return deferral.promise;
             }
 
             WizardController.$inject = ['$scope', '$log'];
             function WizardController($scope, $log) {
+                
+            
                 $scope.setOnSubmit(function() {
                     return deferredProcess();
                 });
             };
 
             vm.launchWizard = function() {
-
+       
                 wizard.open({
                     scope: wizardScope,
                     controller: WizardController,
                     title: 'Wizard Example',
                     steps: [
                         {
-                            // name will be translated when key is provided
-                            // nameValues also supported
-                            name: 'examples.wizard.step1',
+                            // Example of translated text for the wizard steps
+                            name: $translate.instant('examples.wizard.step1'),
                             templateId: 'step1',
                             validate: function(scope) {
                                 return true;
                             },
-                            initialize: angular.bind(this, deferredProcess, "Step 1 Failed to initialize.")
                         },
                         {
-                            name: 'examples.wizard.step2',
+                            name: $translate.instant('examples.wizard.step2'),
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
                             },
-                            initialize: angular.bind(this, deferredProcess, "Step 2 Failed to initialize.")
+                            initialize: angular.bind(this, deferredProcess, "Step 2 failed to initialize.")
                         },
                         {
-                            name: 'examples.wizard.step3',
+                            name: $translate.instant('examples.wizard.step3'),
                             templateId: 'step3',
                             validate: function(scope) {
                                 return scope.user != null && scope.user.length > 2;
-                            }
+                            },
+                            initialize: angular.bind(this, deferredProcess, "Step 3 failed to initialize.")
                         },
                         {
-                            name: 'examples.wizard.step4',
+                            name: $translate.instant('examples.wizard.step4'),
                             templateId: 'step4',
-
+                    
                             validate: function(scope) {
                                 return scope.selectedState !=null;
-                            }
+                            },
+                            initialize: angular.bind(this, deferredProcess, "Step 4 failed to initialize.")
                         },
                         {
-                            name: 'examples.wizard.step5',
+                            name: $translate.instant('examples.wizard.step5'),
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
-                            }
-
+                            },
+                            initialize: angular.bind(this, deferredProcess, "Step 5 failed to initialize.")
                         }
                     ]
                 });
