@@ -196,7 +196,6 @@
             WizardController.$inject = ['$scope', '$log'];
             function WizardController($scope, $log) {
                 
-            
                 $scope.setOnSubmit(function() {
                     return deferredProcess();
                 });
@@ -210,15 +209,16 @@
                     title: 'Wizard Example',
                     steps: [
                         {
-                            // Example of translated text for the wizard steps
-                            name: $translate.instant('examples.wizard.step1'),
+                            // name will be translated when key is provided
+                            // nameValues also supported
+                            name: 'examples.wizard.step1',
                             templateId: 'step1',
                             validate: function(scope) {
                                 return true;
                             },
                         },
                         {
-                            name: $translate.instant('examples.wizard.step2'),
+                            name: 'examples.wizard.step2',
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
@@ -226,7 +226,7 @@
                             initialize: angular.bind(this, deferredProcess, "Step 2 failed to initialize.")
                         },
                         {
-                            name: $translate.instant('examples.wizard.step3'),
+                            name: 'examples.wizard.step3',
                             templateId: 'step3',
                             validate: function(scope) {
                                 return scope.user != null && scope.user.length > 2;
@@ -234,7 +234,7 @@
                             initialize: angular.bind(this, deferredProcess, "Step 3 failed to initialize.")
                         },
                         {
-                            name: $translate.instant('examples.wizard.step4'),
+                            name: 'examples.wizard.step4',
                             templateId: 'step4',
                     
                             validate: function(scope) {
@@ -243,7 +243,7 @@
                             initialize: angular.bind(this, deferredProcess, "Step 4 failed to initialize.")
                         },
                         {
-                            name: $translate.instant('examples.wizard.step5'),
+                            name: 'examples.wizard.step5',
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
