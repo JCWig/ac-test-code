@@ -30,9 +30,9 @@
                         <th ng-repeat="column in ::listBox.columns"
                             ng-class="listBox.getColumnClasses(column, true, listBox.state)"
                             ng-click="listBox.sortColumn(column)"
-                            title="{{ column.header | akamTranslate }}"
+                            title="{{::column.header | translate}}"
                             class="header">
-                                <span>{{column.header | akamTranslate}}</span>
+                                <span translate="{{::column.header}}"></span>
                                 <i></i>
                         </th>
                     </tr>
@@ -44,8 +44,8 @@
                             <input type="checkbox"
                                    ng-model="item.selected"
                                    ng-change="listBox.updateChanged(item)"
-                                   id="{{ ::(listBox.tableId + '_item_' + $index )}}">
-                            <label for="{{ ::(listBox.tableId + '_item_' + $index) }}"></label>
+                                   id="{{ ::(listBox.tableId + '_item_' + item.id )}}">
+                            <label for="{{ ::(listBox.tableId + '_item_' + item.id) }}"></label>
                         </td>
                         <td ng-repeat="column in ::listBox.columns track by item.cells[$index].id"
                             ng-class="::listBox.getColumnClasses(column, false, listBox.state)"
@@ -83,7 +83,7 @@
              ng-disabled="!listBox.hasSelectedItems()"
              id="{{::(listBox.tableId + 'viewSelectedOnly')}}"><label
       for="{{::(listBox.tableId + 'viewSelectedOnly')}}"
-      akam-translate="components.list-box.text.viewSelected"></label>
+      translate="components.list-box.text.viewSelected"></label>
     </span>
   </div>
 

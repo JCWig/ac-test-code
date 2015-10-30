@@ -1,4 +1,7 @@
+import 'babelify/polyfill';
 import angular from 'angular';
+import sortable from 'sortablejs/ng-sortable';
+
 import uuid from './uuid';
 import i18n from './i18n';
 import indeterminateProgress from './indeterminate-progress';
@@ -21,11 +24,14 @@ import tagInput from './tag-input';
 import dropdown from './dropdown';
 import auth from './auth';
 import autocomplete from './autocomplete';
-import megaMenu from './mega-menu';
 import wizard from './wizard';
-import navigation from './navigation';
+import tabs from './tabs';
 import dateRange from './date-range';
 import spinnerButton from './spinner-button';
+import datetimePicker from './datetime-picker';
+import progressBar from './progress-bar';
+import constants from './constants';
+import setFocus from './set-focus';
 
 /**
  * @ngdoc overview
@@ -41,6 +47,7 @@ import spinnerButton from './spinner-button';
  * We look forward to growing and evolving the component roster.
  */
 angular.module('akamai.components', [
+  sortable,
   uuid.name,
   i18n.name,
   indeterminateProgress.name,
@@ -63,9 +70,12 @@ angular.module('akamai.components', [
   dropdown.name,
   auth.name,
   autocomplete.name,
-  megaMenu.name,
   wizard.name,
   dateRange.name,
-  navigation.name,
-  spinnerButton.name
+  tabs.name,
+  spinnerButton.name,
+  datetimePicker.name,
+  progressBar.name,
+  constants.name,
+  setFocus.name
 ]);

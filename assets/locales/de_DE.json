@@ -9,16 +9,16 @@
             "label": "Beschriftung"
         },
         "message-box": {
-            "yes": "Ja",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "Informationen",
-                "question": "Frage",
-                "error": "Fehler"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "Details anzeigen"
             },
-            "no": "Nein"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Safari und FireFox unter Mac unterstützen nicht das Fokusereignis in SCHALTFLÄCHE-Elementen. Verwenden Sie stattdessen das Anker-Tag: A"
@@ -43,6 +43,7 @@
             "successMessage": "Die Aktion wurde abgeschlossen.",
             "errorMessage": "Die Aktion kann nicht abgeschlossen werden.",
             "label": {
+                "cancel": "Abbrechen",
                 "next": "Weiter",
                 "submit": "Abschicken",
                 "previous": "Zurück"
@@ -53,8 +54,8 @@
             "errorMessage": "Die Aktion kann nicht abgeschlossen werden.",
             "title": "Modales Fenster",
             "label": {
-                "cancel": "Abbrechen",
-                "save": "Speichern"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -62,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "Ihr Filter hat keine Ergebnisse geliefert.",
-                "noDataMessage": "Es sind keine Daten vorhanden, die Ihren Kriterien entsprechen."
+                "noDataMessage": "Es sind keine Daten vorhanden, die Ihren Kriterien entsprechen.",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "Filter"
@@ -74,7 +76,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "Konto geändert",
-            "accountChanged": "Wir haben erkannt, dass das aktuelle Konto von \"{{oldName}}\" zu \"{{name}}\" geändert wurde. Möchten Sie zurück zum ursprünglichen Konto wechseln?'"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -103,12 +105,8 @@
                 "current-page": "Aktuelle Seite"
             }
         },
-        "name": "Allgemeine Akamai-Komponenten",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
-            "labels": {
-                "to": "Bis",
-                "from": "Von"
-            },
             "placeholder": "Datumsangaben auswählen"
         },
         "autocomplete": {

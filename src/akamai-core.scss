@@ -1,72 +1,100 @@
 
 /* Import any CSS dependencies */
 @import "compass";
-@import "global-styles/_fonts";
+@import "global-styles/_colors";
 @import "global-styles/_variables";
-@import "global-styles/_uxd_colors";
-@import "global-styles/_uxd_variables";
 @import "global-styles/_bootstrap-variables";
 
 
 /* Import foundational CSS (import order is important here) */
 @import "global-styles/_global";
 @import "global-styles/_mixins";
-@import "global-styles/_extenders";
-@import "global-styles/_bootstrap-custom";
 @import "global-styles/_sprites";
 @import "global-styles/_svg";
 @import "global-styles/_utilities";
 
 
+/* Import Default Bootstrap CSS */
+@import "global-styles/theme/_bootstrap-custom";
+
+
+/* Import Bootstrap Theme */
+@import "global-styles/theme/_bootstrap-defaults";
+
+@import "global-styles/theme/_breadcrumbs.scss";
+@import "global-styles/theme/_list_groups.scss";
+@import "global-styles/theme/_lists.scss";
+@import "global-styles/theme/_media.scss";
+@import "global-styles/theme/_typography.scss";
+@import "global-styles/theme/_wells.scss";
+
+@import "global-styles/theme/_buttons";
+@import "global-styles/theme/_button_groups";
+@import "global-styles/theme/_checkboxes";
+@import "global-styles/theme/_radios";
+@import "global-styles/theme/_text_inputs";
+
+@import "global-styles/theme/_tables";
+@import "global-styles/theme/tables/_table-condensed.scss";
+@import "global-styles/theme/tables/_table-bordered.scss";
+@import "global-styles/theme/tables/_table-striped.scss";
+@import "global-styles/theme/tables/_table-hover.scss";
+@import "table/_table";
+
+@import "global-styles/theme/_pagination";
+@import "pagination/_pagination";
+
+@import "global-styles/theme/_dropdowns";
+@import "time-picker/_time-picker";
+
+@import "global-styles/theme/_panels";
+@import "content-panel/_content-panel";
+
+@import "global-styles/theme/_alerts";
+@import "status-message/_status-message";
+
+@import "global-styles/theme/_tabs";
+@import "tabs/_tabs";
+
 /* These styles have no angular directive. They style an expected markup pattern */
 .common-css {
-  @import "global-styles/standalone/_buttons";
-  @import "global-styles/standalone/_checkboxes";
-  @import "global-styles/standalone/_dropdowns";
+  /* @import "global-styles/standalone/_buttons"; */
+  /* @import "global-styles/standalone/_checkboxes"; */
+  /* @import "global-styles/standalone/_dropdowns"; */
   @import "global-styles/standalone/_forms";
   @import "global-styles/standalone/_form_validation";
-  @import "global-styles/standalone/_radios";
-  @import "global-styles/standalone/_tabs";
-  @import "global-styles/standalone/_text_elements";
-  @import "global-styles/standalone/_text_inputs";
+  /* @import "global-styles/standalone/_radios"; */
+  /* @import "global-styles/standalone/_tabs"; */
+  /* @import "global-styles/standalone/_text_inputs"; */
 }
 
 
 /* These styles have an angular directive */
 .common-css {
   @import "autocomplete/_autocomplete";
-  @import "content-panel/_content-panel";
+  /* @import "content-panel/_content-panel"; */
   @import "date-picker/_date-picker";
   @import "date-range/_date-range";
+  @import "datetime-picker/_datetime-picker";
   @import "dropdown/_dropdown";
   @import "indeterminate-progress/_indeterminate-progress-directive";
   @import "list-box/_list-box";
   @import "message-box/_message-box";
   @import "modal-window/_modal-window"; // $dialog variables are in _message-box
-  @import "pagination/_pagination";
+  /* @import "pagination/_pagination"; */
   @import "popover/_popover";
+  @import "progress-bar/_progress-bar-directive";
   @import "spinner/_spinner";
-  @import "status-message/_status-message";
+  @import "spinner-button/_spinner-button";
+  /* @import "status-message/_status-message"; */
   @import "switch-button/_switch-button";
-  @import "table/_table";
+  /* @import "table/_table"; */
   @import "tag-input/_tag-input";
-  @import "time-picker/_time-picker";
+  /* @import "time-picker/_time-picker"; */
   @import "tree-view/_tree-view";
   @import "wizard/_wizard";
-  @import "navigation/_navigation";
-
-  @import "spinner-button/_spinner-button";
+  /* @import "tabs/_tabs"; */
 }
-
-
-/* These styles should have an angular directive, but it doesnt exist yet */
-.common-css {
-  @import "global-styles/orphans/_determinate_progress";
-}
-
-
-/* Megamenu code */
-@import "global-styles/modular-mega-menu/_modular-mega-menu";
 
 
 /* Finally, import the hotfix CSS, and refactor it later */

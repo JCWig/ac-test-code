@@ -1,7 +1,7 @@
 import angular from 'angular';
 import template from './templates/list-box.tpl.html';
 
-function listBox($log, $q, $timeout, uuid, $filter, translate) {
+function listBox($log, $q, $timeout, uuid, $filter, $translate) {
 
   class ListBoxController {
 
@@ -12,7 +12,7 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
         noFilterResultsMessage: this.noFilterResultsMessage,
         noneSelectedMessage: this.noneSelectedMessage
       };
-
+      this.$scope = $scope;
       this.loading = true;
       this.tableId = uuid.guid();
       this.selectedItems = this.selectedItems || [];
@@ -20,30 +20,6 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
       this.dataTable = [];
       this.dataSource = [];
       this.page = 1;
-
-      translate.async(this.staticMessages.filterPlaceholder,
-        null, 'components.list-box.placeholder.filter')
-          .then(value => this.staticMessages.filterPlaceholder = value);
-
-      translate.async(this.noDataMessage, null, 'components.list-box.text.noDataMessage')
-        .then(value => this.noDataMessage = value);
-
-      translate.async(this.staticMessages.noFilterResultsMessage,
-        null, 'components.list-box.text.noFilterResults')
-          .then(value => this.staticMessages.noFilterResultsMessage = value);
-
-      translate.async(this.staticMessages.noneSelectedMessage,
-        null, 'components.list-box.text.viewSelectedOnly')
-          .then(value => this.staticMessages.noneSelectedMessage = value);
-
-      translate.async(this.staticMessages.selectedText,
-        null, 'components.list-box.text.selected')
-          .then(value => {
-            this.staticMessages.selectedText = value;
-            // set messages equal to staticMessages after all staticMessage.* have been translated
-            // otherwise translation key will be displayed
-            this.messages = this.staticMessages;
-          });
 
       this.loadMoreData = function() {
         for (let i = this.page * 10; i < this.page * 10 + 10; i++) {
@@ -124,8 +100,8 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
       }
 
       this.dataTable = this.orderBy($filter('filter')(this.fullDataSet, this.state.search),
-                               this.state.sortInfo.predicate,
-                               this.state.sortInfo.reverseSort);
+        this.state.sortInfo.predicate,
+        this.state.sortInfo.reverseSort);
       this.manageStates();
     }
 
@@ -185,7 +161,7 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
       });
 
       autoSortableColumns = this.columns.filter(
-          col => col.sort !== false && col.autoSort !== false
+        col => col.sort !== false && col.autoSort !== false
       );
 
       this.fullDataSet = dataTableOutput;
@@ -237,7 +213,9 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
 
       this.manageStates();
       if (angular.isFunction(this.onChange)) {
-        this.onChange({value: this.selectedItems});
+        this.onChange({
+          value: this.selectedItems
+        });
       }
     }
 
@@ -297,6 +275,49 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
       return output;
     }
 
+    /**
+     * translateMessages method for translate all messages that includes
+     * values attributes from noDataMessageValues, noFilterResultsMessageValues,
+     * noneSelectedMessageValues for varaible replacements
+     * @param  {Object} attr Directive node attribute
+     */
+    translateMessages(attr) {
+      let filterplaceholderMessage = this.staticMessages.filterPlaceholder ||
+        'components.list-box.placeholder.filter',
+
+        noDataMessage = this.noDataMessage ||
+        'components.list-box.text.noDataMessage',
+
+        noFilterResultsMessage = this.staticMessages.noFilterResultsMessage ||
+        'components.list-box.text.noFilterResults',
+
+        noneSelectedMessage = this.staticMessages.noneSelectedMessage ||
+        'components.list-box.text.viewSelectedOnly',
+
+        selectedText = this.staticMessages.selectedText ||
+        'components.list-box.text.selected';
+
+      $translate(filterplaceholderMessage)
+        .then(value => this.staticMessages.filterPlaceholder = value);
+
+      $translate(noDataMessage, this.$scope.$eval(attr.noDataMessageValues))
+        .then(value => this.noDataMessage = value);
+
+      $translate(noFilterResultsMessage, this.$scope.$eval(attr.noFilterResultsMessageValues))
+        .then(value => this.staticMessages.noFilterResultsMessage = value);
+
+      $translate(noneSelectedMessage, this.$scope.$eval(attr.noneSelectedMessageValues))
+        .then(value => this.staticMessages.noneSelectedMessage = value);
+
+      $translate(selectedText)
+        .then(value => {
+          this.staticMessages.selectedText = value;
+          // set messages equal to staticMessages after all staticMessage.* have been translated
+          // otherwise translation key will be displayed
+          this.messages = this.staticMessages;
+        });
+    }
+
     static getDefaults() {
       return {
         sortInfo: {
@@ -332,8 +353,8 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
         return ListBoxController.convertToString(column.content.call(item) || defaultValue);
       }
 
-      throw 'The column content field is using an unknown type.' +
-      ' Content field may only be String or Function type';
+      throw new Error('The column content field is using an unknown type.' +
+      ' Content field may only be String or Function type');
     }
 
     static convertToString(value) {
@@ -375,10 +396,10 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
 
       if (column.sort != null && column.sort !== true) {
         predicate = angular.isString(column.sort) ?
-        '+item.' + column.sort : obj => column.sort.call(obj.item);
+          '+item.' + column.sort : obj => column.sort.call(obj.item);
       } else {
         predicate = angular.isString(column.content) ?
-        '+item.' + column.content : obj => column.content.call(obj.item);
+          '+item.' + column.content : obj => column.content.call(obj.item);
       }
 
       return predicate;
@@ -407,13 +428,14 @@ function listBox($log, $q, $timeout, uuid, $filter, translate) {
       selectedItems: '=?',
       onChange: '&?'
     },
-
     controller: ListBoxController,
     controllerAs: 'listBox',
-    template: template
-
+    template: template,
+    link: (scope, elem, attr) => {
+      scope.listBox.translateMessages(attr);
+    }
   };
 }
-listBox.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', 'translate'];
+listBox.$inject = ['$log', '$q', '$timeout', 'uuid', '$filter', '$translate'];
 
 export default listBox;

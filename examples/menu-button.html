@@ -22,9 +22,15 @@
 <div class="container">
   <h3>Menu Button</h3>
   <akam-menu-button>
-    <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
+    <akam-menu-button-item is-disabled="vm.disableItem" text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+    <akam-menu-button-item text="Resolve" ng-click="vm.process('res')"></akam-menu-button-item>
+    <akam-menu-button-item text="Event Center" ng-click="vm.process('ec')"></akam-menu-button-item>
+    <akam-menu-button-item text="Charaka" ng-click="vm.process('char')"></akam-menu-button-item>
+    <akam-menu-button-item text="MegaMenu" ng-click="vm.process('mm')"></akam-menu-button-item>
+    <akam-menu-button-item text="EDNS" ng-click="vm.process('edns')"></akam-menu-button-item>
+    <akam-menu-button-item text="GTM" ng-click="vm.process('gtm')"></akam-menu-button-item>
   </akam-menu-button>
 </div>
 <br />
@@ -34,6 +40,12 @@
     <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+    <akam-menu-button-item text="Resolve" ng-click="vm.process('res')"></akam-menu-button-item>
+    <akam-menu-button-item text="Event Center" ng-click="vm.process('ec')"></akam-menu-button-item>
+    <akam-menu-button-item text="Charaka" ng-click="vm.process('char')"></akam-menu-button-item>
+    <akam-menu-button-item text="MegaMenu" ng-click="vm.process('mm')"></akam-menu-button-item>
+    <akam-menu-button-item text="EDNS" ng-click="vm.process('edns')"></akam-menu-button-item>
+    <akam-menu-button-item text="GTM" ng-click="vm.process('gtm')"></akam-menu-button-item>
   </akam-menu-button>
 </div>
 <br />
@@ -46,6 +58,12 @@
   <akam-menu-button size="small" default-text="examples.appNames.pm" on-click="vm.process('pm')">
     <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+    <akam-menu-button-item text="Resolve" ng-click="vm.process('res')"></akam-menu-button-item>
+    <akam-menu-button-item text="Event Center" ng-click="vm.process('ec')"></akam-menu-button-item>
+    <akam-menu-button-item text="Charaka" ng-click="vm.process('char')"></akam-menu-button-item>
+    <akam-menu-button-item text="MegaMenu" ng-click="vm.process('mm')"></akam-menu-button-item>
+    <akam-menu-button-item text="EDNS" ng-click="vm.process('edns')"></akam-menu-button-item>
+    <akam-menu-button-item text="GTM" ng-click="vm.process('gtm')"></akam-menu-button-item>
   </akam-menu-button>
 </div>
 <br />
@@ -58,8 +76,14 @@
   <akam-menu-button is-disabled="vm.isDisabled" default-text="examples.appNames.pm" on-click="vm.process('pm')">
     <akam-menu-button-item text="This is a very long name being used as a menu button item for Tranquility" ng-click="vm.process('tq')"></akam-menu-button-item>
     <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+    <akam-menu-button-item text="Resolve" ng-click="vm.process('res')"></akam-menu-button-item>
+    <akam-menu-button-item text="Event Center" ng-click="vm.process('ec')"></akam-menu-button-item>
+    <akam-menu-button-item text="Charaka" ng-click="vm.process('char')"></akam-menu-button-item>
+    <akam-menu-button-item text="MegaMenu" ng-click="vm.process('mm')"></akam-menu-button-item>
+    <akam-menu-button-item text="EDNS" ng-click="vm.process('edns')"></akam-menu-button-item>
+    <akam-menu-button-item text="GTM" ng-click="vm.process('gtm')"></akam-menu-button-item>
   </akam-menu-button>
-   
+
   <div class="form-group">
     <input id="disableSplitButton" type="checkbox" name="disableSplitButton" ng-model="vm.isDisabled" />
     <label class="label" for="disableSplitButton">Disable</label>
@@ -67,7 +91,7 @@
 </div>
 <br />
   <div class="container">
-      <h3>Available Button Sizes</h3>
+      <h3>Available Button Sizes - Custom Text</h3>
       <akam-menu-button size="small">
         <akam-menu-button-item ng-repeat="item in vm.items" text="{{ item.id }}" ng-click="vm.process(item.id)">
         </akam-menu-button-item>
@@ -77,19 +101,32 @@
         </akam-menu-button-item>
       </akam-menu-button>
       <br />
-      <akam-menu-button size="small" default-text="examples.appNames.pm" on-click="vm.process('pm')">
-        <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
-        <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+      <akam-menu-button size="small" default-text="examples.appNames.pm" default-text-values="{{vm.customName}}"
+                        on-click="vm.process('pm')">
+        <akam-menu-button-item text="examples.appNames.tq" text-values="{'name':'- Beta Version'}" ng-click="vm.process('tq')"></akam-menu-button-item>
+        <akam-menu-button-item text="examples.appNames.bc" text-values="{{vm.customName}}" ng-click="vm.process('bc')"></akam-menu-button-item>
+        <akam-menu-button-item text="Resolve" ng-click="vm.process('res')"></akam-menu-button-item>
+        <akam-menu-button-item text="Event Center" ng-click="vm.process('ec')"></akam-menu-button-item>
+        <akam-menu-button-item text="Charaka" ng-click="vm.process('char')"></akam-menu-button-item>
+        <akam-menu-button-item text="MegaMenu" ng-click="vm.process('mm')"></akam-menu-button-item>
+        <akam-menu-button-item text="EDNS" ng-click="vm.process('edns')"></akam-menu-button-item>
+        <akam-menu-button-item text="GTM" ng-click="vm.process('gtm')"></akam-menu-button-item>
       </akam-menu-button>
       <akam-menu-button size="medium" default-text="examples.appNames.pm" on-click="vm.process('pm')">
         <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
         <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+        <akam-menu-button-item text="Resolve" ng-click="vm.process('res')"></akam-menu-button-item>
+        <akam-menu-button-item text="Event Center" ng-click="vm.process('ec')"></akam-menu-button-item>
+        <akam-menu-button-item text="Charaka" ng-click="vm.process('char')"></akam-menu-button-item>
+        <akam-menu-button-item text="MegaMenu" ng-click="vm.process('mm')"></akam-menu-button-item>
+        <akam-menu-button-item text="EDNS" ng-click="vm.process('edns')"></akam-menu-button-item>
+        <akam-menu-button-item text="GTM" ng-click="vm.process('gtm')"></akam-menu-button-item>
       </akam-menu-button>
     </div>
 
-</div>
-
+<script src="utils/cookies.js"></script>
 <script src="../dist/akamai-core.js"></script>
+
 <script>
   var controllerFuction = function() {
 
@@ -97,20 +134,54 @@
       console.log('You clicked on the the app: ', item);
     };
 
+    this.customName ="{'name':'- Beta Version'}";
+    
     this.items = [{
       id: 'examples.appNames.tq'
     }, {
       id: 'examples.appNames.bc'
     }, {
-      id: 'This is a very long name being used as a menu button item for Property Manager'
+      id: 'This is a very long name being used as a menu button item for Property Manager',
+    }, {
+     id: 'Menu Item 4',
+    }, {
+      id: 'Menu Item 5'
+    }, {
+      id: 'Menu Item 6'  ,
+      }, {
+      id: 'Menu Item 7'
+    }, {
+      id: 'Menu Item 8'  
     }];
 
     this.isDisabled = true;
+    this.disableItem = true;
   };
 
+  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                          i18nLocaleProvider) {
+
+      // need to overwrite locales path on fee.akamai.com
+      if (window.location.host == 'fee.akamai.com') {
+          $translatePartialLoaderProvider.addPart('../dist/locales/');
+          $translatePartialLoaderProvider.addPart('locales/json/messages/');
+      } else {
+          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      }
+
+      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+      $translateProvider.preferredLanguage(locale);
+      i18nLocaleProvider.setLocale(locale);
+  }
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+      '$translateProvider', 'i18nLocaleProvider'];
+
   angular.module('akamai.components.examples.menu-button',
-    ['akamai.components.menu-button'])
-    .controller('ExampleController', controllerFuction);
+    ['akamai.components.constants', 'akamai.components.menu-button'])
+    .controller('ExampleController', controllerFuction)
+    .config(configFunction);
 </script>
 </body>
 </html>

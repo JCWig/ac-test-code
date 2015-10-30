@@ -9,16 +9,16 @@
             "label": "ラベル"
         },
         "message-box": {
-            "yes": "はい",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "情報",
-                "question": "質問",
-                "error": "エラー"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "詳細の表示"
             },
-            "no": "いいえ"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Mac 版の Safari と FireFox は、BUTTON エレメントのフォーカスイベントをサポートしていません。代わりにアンカータグ A を使用してください"
@@ -43,6 +43,7 @@
             "successMessage": "アクションが完了しました。",
             "errorMessage": "アクションを完了できませんでした。",
             "label": {
+                "cancel": "キャンセル",
                 "next": "次に",
                 "submit": "提出",
                 "previous": "前へ"
@@ -53,8 +54,8 @@
             "errorMessage": "アクションを完了できませんでした。",
             "title": "モーダルウィンドウ",
             "label": {
-                "cancel": "キャンセル",
-                "save": "保存"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -62,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "フィルタに基づいた結果はありません。",
-                "noDataMessage": "条件に基づいたデータはありません。"
+                "noDataMessage": "条件に基づいたデータはありません。",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "フィルタ"
@@ -74,7 +76,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "アカウントが変更されました",
-            "accountChanged": "現在のアカウントが「{{oldName}}」から「{{name}}」に変更されたことを検出しました。元のアカウントに戻しますか？'"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -103,12 +105,8 @@
                 "current-page": "現在のページ"
             }
         },
-        "name": "Akamai 共通コンポーネント",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
-            "labels": {
-                "to": "終了",
-                "from": "開始"
-            },
             "placeholder": "選択された日付"
         },
         "autocomplete": {

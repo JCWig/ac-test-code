@@ -7,8 +7,8 @@
     </head>
     <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
         <div class="container">
-             <div class="page-header">  
-                <h1>Message Box Component Example</h1> 
+             <div class="page-header">
+                <h1>Message Box Component Example</h1>
             </div>
             <div>
                 <h3>Component Options:</h3>
@@ -55,11 +55,17 @@
                 <br />
                 <div>
                     <h3>Show Message Box:</h3>
-                    <button type="button" class="button large" ng-click="showInfoBox()">Info</button>
-                    <button type="button" class="button large" ng-click="showQuestionBox()">Question</button>
-                    <button type="button" class="button large" ng-click="showErrorBox()">Error</button>
+                    <br>
+                    
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="showInfoBox()">Info - Custom Text</button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="showQuestionBox()">Question</button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="showErrorBox()">Error</button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="showHTMLMsgBox()">Bind as HTML</button>
+                    </div>
                 </div>
             </div>
+            <script src="utils/cookies.js"></script>
             <script src="../dist/akamai-core.js"></script>
             <script>
                 var controllerFunction = function($scope, messageBox, $log) {
@@ -72,10 +78,22 @@
                         submitLabel: 'Submit Button Text',
                         hideSubmit: false
                     };
+                    
+                    $scope.options2 = {
+                        titleValues: {'name':' - Info'},
+                        headline: 'Headline Text Goes Here',
+                        text: 'Message Box Text Goes Here',
+                        details: '',
+                        cancelLabel: 'components.message-box.no',
+                        cancelLabelValues: {'name':'- Beta Version'},
+                        submitLabel: 'components.message-box.yes',
+                        submitLabelValues: {'name':'- Beta Version'},
+                        hideSubmit: false
+                    };
 
                     $scope.showInfoBox = function() {
-                        var boxResult = messageBox.showInfo(angular.extend({}, $scope.options));
-                        
+                        var boxResult = messageBox.showInfo(angular.extend({}, $scope.options2));
+
                         // Log which button was clicked on the showInfo box
                         boxResult.result
                             .then(function() {
@@ -85,19 +103,52 @@
                                 $log.log('Cancel button was clicked.');
                             });
                     };
-        
+
                     $scope.showQuestionBox = function() {
                         messageBox.showQuestion(angular.extend({}, $scope.options));
                     };
-        
+
                     $scope.showErrorBox = function() {
                         messageBox.showError(angular.extend({}, $scope.options));
                     };
+                    
+                    $scope.showHTMLMsgBox = function() {                        
+                        messageBox.showInfo({
+                            title: 'HTML Example',
+                            headline: 'HTML Example Headline Text',
+                            text: '<h1>This is HTML</h1>',
+                            template: '<p></p>'
+                        });
+                    };
                 };
                 controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
-                angular.module('example', ['akamai.components.message-box'])
-        
-                .controller('ExampleController', controllerFunction);
+
+                function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                        i18nLocaleProvider) {
+
+                    // need to overwrite locales path on fee.akamai.com
+                    if (window.location.host == 'fee.akamai.com') {
+                        $translatePartialLoaderProvider.addPart('../dist/locales/');
+                        $translatePartialLoaderProvider.addPart('locales/json/messages/');
+                    } else {
+                        $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                        $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                    }
+
+                    var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+                    $translateProvider.preferredLanguage(locale);
+                    i18nLocaleProvider.setLocale(locale);
+                }
+                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+                    '$translateProvider', 'i18nLocaleProvider'];
+
+
+            angular.module('example', ['akamai.components.message-box', 'akamai.components.constants'])
+
+            .controller('ExampleController', controllerFunction)
+            .config(configFunction);
+
             </script>
         </div>
     </body>

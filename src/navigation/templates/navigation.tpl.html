@@ -1,8 +1,0 @@
-<div class="navigation">
-    <tabset class="tab-container" type="{{navigation.type}}" justified="{{navigation.justified}}">
-        <tab class="tab" ng-repeat="tab in navigation.tabs" heading="{{tab.heading}}"
-             active="tab.active" disable="tab.disabled" ng-click="navigation.go(tab)">
-            <ui-view></ui-view>
-        </tab>
-    </tabset>
-</div>

@@ -30,6 +30,7 @@
                     page-size="pager.size" onchangepage="pageChanged(page)"></akam-pagination>
         </div>
 
+        <script src="utils/cookies.js"></script>
         <script src="../dist/akamai-core.js"></script>
         <script>
 
@@ -39,16 +40,37 @@
                     page: 7,
                     size: 22
                 };
-                
+
                 $scope.pageChanged = function(page) {
                     $log.log('Pagination Component:  Page navigation changed to: ', page);
                 };
             };
             exampleControllerFunction.$inject = ['$scope', '$log'];
 
-            angular.module('example', ['akamai.components.pagination'])
-            
-            .controller('ExampleController', exampleControllerFunction);
+            function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                    i18nLocaleProvider) {
+
+                // need to overwrite locales path on fee.akamai.com
+                if (window.location.host == 'fee.akamai.com') {
+                    $translatePartialLoaderProvider.addPart('../dist/locales/');
+                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
+                } else {
+                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                }
+
+                var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+                $translateProvider.preferredLanguage(locale);
+                i18nLocaleProvider.setLocale(locale);
+            }
+            configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+                '$translateProvider', 'i18nLocaleProvider'];
+
+            angular.module('example', ['akamai.components.constants','akamai.components.pagination'])
+
+            .controller('ExampleController', exampleControllerFunction)
+            .config(configFunction);
         </script>
     </body>
 </html>

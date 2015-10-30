@@ -9,16 +9,16 @@
             "label": "Etiqueta"
         },
         "message-box": {
-            "yes": "Sí",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "Información",
-                "question": "Pregunta",
-                "error": "Error"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "Ver información detallada"
             },
-            "no": "No"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Safari y FireFox en Mac no admiten el evento de foco en los elementos BUTTON. Utilice en su lugarla etiqueta delimitadora: A"
@@ -43,6 +43,7 @@
             "successMessage": "La acción se ha completado.",
             "errorMessage": "La acción no se puede completar.",
             "label": {
+                "cancel": "Cancelar",
                 "next": "Siguiente",
                 "submit": "Enviar",
                 "previous": "Anterior"
@@ -53,8 +54,8 @@
             "errorMessage": "La acción no se puede completar.",
             "title": "Ventana modal",
             "label": {
-                "cancel": "Cancelar",
-                "save": "Guardar"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -62,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "No hay resultados basados en su filtro.",
-                "noDataMessage": "No hay resultados basados en su criterio."
+                "noDataMessage": "No hay resultados basados en su criterio.",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "Filtro"
@@ -74,7 +76,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "Cuenta cambiada",
-            "accountChanged": "Hemos detectado que la cuenta actual ha cambiado de \"{{oldName}}\" a \"{{name}}\". ¿Desea revertirla a la cuenta original?'"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -103,12 +105,8 @@
                 "current-page": "Página actual"
             }
         },
-        "name": "Componentes comunes de Akamai",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
-            "labels": {
-                "to": "Para",
-                "from": "De"
-            },
             "placeholder": "Fechas seleccionadas"
         },
         "autocomplete": {

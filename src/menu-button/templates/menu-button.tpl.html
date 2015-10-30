@@ -1,4 +1,4 @@
-<div class="akam-menu-button dropdown" ng-class="::menuButton.position" dropdown>
+<div class="akam-menu-button btn-group dropdown" ng-class="::menuButton.position" dropdown>
 
   <button type="button"
           class="btn btn-default dropdown-toggle menu-button"
@@ -15,7 +15,8 @@
           ng-disabled="menuButton.isDisabled"
           ng-click="menuButton.onClick()"
           ng-if="::menuButton.defaultText"
-          akam-translate="{{ ::menuButton.defaultText }}">
+          translate="{{ ::menuButton.defaultText }}"
+          translate-values="{{::menuButton.defaultTextValues}}">
   </button>
   <button type="button"
           class="btn btn-default dropdown-toggle split-button"

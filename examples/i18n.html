@@ -1,145 +1,163 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Akamai Component Examples - i18N</title>
-        <link rel="stylesheet" href="../dist/akamai-core.css">
-    </head>
-    <body ng-app="i18nDemo3" ng-controller="TranslationPageController" ng-strict-di class="common-css luna" translate-cloak>
-        <div class="container">
-            <h1>i18N Component Example</h1>
-            <br/>
-        </div>
-        <div class="container">
-            <p>
-                <label class="label">Select Locale:</label>
-                <select ng-options="locale for locale in locales" ng-model="selected" ng-change="changeLocale()"></select>
-            </p>
-            <br />
-            <div>
-                <label class="label">Directive Examples:</label>
-                <h3>Translated Text from Application Locale JSON file</h3>
-                <div>
-                    <ul>
-                        <li akam-translate="reseller-tools.note"></li>
-                    </ul>
-                </div>
-            </div>
-            <br />
-            <div>
-                <h3>Translated Text from Component Locale JSON file</h3>
-                <div>
-                    <ul>
-                        <li akam-translate="components.notifications.success"></li>
-                    </ul>
-                </div>
-            </div>
-            <br />
-             <div>
-                <label class="label">Filter Examples:</label>
-                <h3>Translated Text from Application Locale JSON file</h3>
-                <div>
-                    <ul>
-                        <li><span>{{"reseller-tools.note" | akamTranslate}}</span></li>
-                    </ul>
-                </div>
-            </div>
-            <br />
-            <div>
-                <h3>Translated Text from Component Locale JSON file</h3>
-                <div>
-                    <ul>
-                        <li><span>{{"components.notifications.success" | akamTranslate}}</span></li>
-                    </ul>
-                </div>
-            </div>
-            <br />
-            <div>
-                <h3>Translated Placeholder Text from Application Locale JSON file</h3>
-                <div>
-                    <ul>
-                        <li><input type="text" placeholder='{{"contractselector.filter.products" | akamTranslate}}'/></li>
-                    </ul>
-                </div>
-            </div>
-            <br />
-            <div>
-                <label class="label">Using Filter on Dates | Currencies | Numbers:</label>
-                <h3>Dates:</h3>
-                <br />
-                <ul>
-                    <li>{{1288323623006 | date:'medium':'UTC'}} </li>
-                    <li>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss':'UTC'}}</li>
-                    <li>{{1288323623006 | date:'MM/dd/yyyy @ h:mma':'UTC'}}</li>
-                </ul>
-            </div><br />
-            <div>
-                <h3>Currencies:</h3>
-                <br />
-                <ul>
-                    <li>{{ 1000000 | currency }}</li>
-                    <li>Force USD:  {{ 1000000 | currency:"USD$"}}</li>
-                </ul>
-            </div><br />
-            <div>
-                <h3>Numbers:</h3>
-                <br />
-                <ul>
-                    <li>{{1234.56789 | number}}</li>
-                    <li>{{1234.56789 | number:0}}</li>
-                    <li>{{-1234.56789 | number:4}}</li>
-                </ul>
-            </div><br />
-            <div>
-                <label class=label>Check browser console for Javascript translations examples using the translate service.</label>
-            </div>
-        </div>
-        <script src="../dist/akamai-core.js"></script>
-        <script>
+<head>
+  <meta charset="UTF-8">
+  <title>Akamai Component Examples - i18N</title>
+  <link rel="stylesheet" href="../dist/akamai-core.css">
+</head>
+<body ng-app="i18nDemo3" ng-controller="TranslationPageController" ng-strict-di class="common-css luna" translate-cloak>
+<div class="container">
+  <h1>i18N Component Example</h1>
+  <br/>
+</div>
+<div class="container">
+  <p>
+    <label class="label">Select Locale:</label>
+    <select ng-options="locale for locale in locales" ng-model="selected" ng-change="changeLocale()"></select>
+  </p>
+  <br />
+  <div>
+    <label class="label">Directive Examples:</label>
+    <h3>Translated Text from Application Locale JSON file</h3>
+    <div>
+      <ul>
+        <li translate="reseller-tools.note"></li>
+      </ul>
+    </div>
+  </div>
+  <br />
+  <div>
+    <h3>Translated Text from Component Locale JSON file</h3>
+    <div>
+      <ul>
+        <li translate="components.notifications.success"></li>
+      </ul>
+    </div>
+  </div>
+  <br />
+  <div>
+    <label class="label">Filter Examples:</label>
+    <h3>Translated Text from Application Locale JSON file</h3>
+    <div>
+      <ul>
+        <li><span>{{"reseller-tools.note" | translate}}</span></li>
+      </ul>
+    </div>
+  </div>
+  <br />
+  <div>
+    <h3>Translated Text from Component Locale JSON file</h3>
+    <div>
+      <ul>
+        <li><span>{{"components.notifications.success" | translate}}</span></li>
+      </ul>
+    </div>
+  </div>
+  <br />
+  <div>
+    <h3>Translated Placeholder Text from Application Locale JSON file</h3>
+    <div>
+      <ul>
+        <li><input type="text" placeholder='{{"contractselector.filter.products" | translate}}'/></li>
+      </ul>
+    </div>
+  </div>
+  <br />
+  <div>
+    <label class="label">Using Filter on Dates | Currencies | Numbers:</label>
+    <h3>Dates:</h3>
+    <br />
+    <ul>
+      <li>{{1288323623006 | date:'medium':'UTC'}} </li>
+      <li>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss':'UTC'}}</li>
+      <li>{{1288323623006 | date:'MM/dd/yyyy @ h:mma':'UTC'}}</li>
+    </ul>
+  </div><br />
+  <div>
+    <h3>Currencies:</h3>
+    <br />
+    <ul>
+      <li>{{ 1000000 | currency }}</li>
+      <li>Force USD:  {{ 1000000 | currency:"USD$"}}</li>
+    </ul>
+  </div><br />
+  <div>
+    <h3>Numbers:</h3>
+    <br />
+    <ul>
+      <li>{{1234.56789 | number}}</li>
+      <li>{{1234.56789 | number:0}}</li>
+      <li>{{-1234.56789 | number:4}}</li>
+    </ul>
+  </div><br />
+  <div>
+    <label class=label>Check browser console for Javascript translations examples using the translate service.</label>
+  </div>
+</div>
+<script src="utils/cookies.js"></script>
+<script src="../dist/akamai-core.js"></script>
+<script>
 
-            var controllerFunction = function(i18nToken, $scope, $cookies, translate, $rootScope, $filter, $log) {
-                $rootScope.$on('$translateChangeEnd', function() {
-                    // List of locales to populate the locale selection dropdown. Note that not all of these exist
-                    $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
-                                      'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'];
+  var controllerFunction = function($scope, $cookies, $translate, $rootScope, $filter, $log, $window) {
+    if (!$cookies.get('AKALOCALE')) {
+      $cookies.put('AKALOCALE', 'en_US');
+    }
+    $translate.use($cookies.get('AKALOCALE'));
 
-                    $scope.selected = 'en_US';
+    $rootScope.$on('$translateChangeEnd', function() {
+      // List of locales to populate the locale selection dropdown. Note that not all of these exist
+      $scope.locales = ['en_US', 'en_US_ATT', 'de_DE', 'en_LOLCATS', 'es_ES', 'es_LA',
+        'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN', 'zh_TW'];
 
-                    // Check to see if the AKALOCALE cookie is used
-                    if($cookies.get('AKALOCALE')) {
-                        $scope.selected = atob($cookies.get('AKALOCALE'));
-                    }
+      $scope.selected = $cookies.get('AKALOCALE');
+      $scope.changeLocale = changeLocale;
 
-                    $scope.changeLocale = changeLocale;
+      $log.log($translate.instant('reseller-tools.note'));
+      $log.log($translate.instant('components.menu-button.label'));
+      $log.log($filter('translate')('components.notifications.success'));
+      $log.log($filter('translate')('recurring-report.activate.modal.message'));
+      $log.log('the locale is', $scope.selected);
+    });
 
-                    $log.log(translate.sync('reseller-tools.note'));
-                    $log.log(translate.sync('components.menu-button.label'));
-                    $log.log($filter('akamTranslate')('components.notifications.success'));
-                    $log.log($filter('akamTranslate')('recurring-report.activate.modal.message'));
-                    $log.log('compURLs ' + i18nToken.getUrls());
-                    $log.log('appPath ' + i18nToken.getCurrentLocale());
-                });
+    // Reload the page when the locale is changed.  This will force the lookup of the keys again.
+    function changeLocale() {
+      $cookies.put('AKALOCALE', $scope.selected);
+//      $translate.use($scope.selected);
+//      $log.log('the proposed locale', $translate.proposedLanguage());
+      $window.location.reload();
+    }
+  };
+  controllerFunction.$inject = ['$scope', '$cookies', '$translate',
+      '$rootScope', '$filter', '$log', '$window'];
 
-                // Reload the page when the locale is changed.  This will force the lookup of the keys again.
-                function changeLocale() {
-                    document.cookie = 'AKALOCALE='+btoa($scope.selected);
-                    window.location.reload();
-                }
-            };
-            var configFunction = function(i18nTokenProvider, VERSION) {
-                i18nTokenProvider.setComponentLocalePath("/libs/akamai-core/"+VERSION+"/locales/");
-                i18nTokenProvider.setAppLocalePath("/apps/appname/locales/");
-            };
-            configFunction.$inject = ['i18nTokenProvider', 'VERSION'];
-            controllerFunction.$inject = ['i18nToken', '$scope', '$cookies', 'translate', '$rootScope', '$filter', '$log'];
+  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                          i18nLocaleProvider) {
 
-            angular.module('i18nDemo3', ['akamai.components.i18n', 'ngCookies']);
+      // need to overwrite locales path on fee.akamai.com
+      if (window.location.host == 'fee.akamai.com') {
+          $translatePartialLoaderProvider.addPart('../dist/locales/');
+          $translatePartialLoaderProvider.addPart('locales/json/messages/');
+      } else {
+          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+      }
 
-            // Override the location of the Component and Application locale files
-            angular.module('i18nDemo3')
-            .config(configFunction)
-            .controller('TranslationPageController', controllerFunction);
+      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
 
-    </script>
-    </body>
+      $translateProvider.preferredLanguage(locale);
+      i18nLocaleProvider.setLocale(locale);
+  }
+  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+      '$translateProvider', 'i18nLocaleProvider'];
+
+  angular.module('i18nDemo3', ['akamai.components.constants', 'akamai.components.i18n']);
+
+  // Override the location of the Component and Application locale files
+  angular.module('i18nDemo3')
+    .controller('TranslationPageController', controllerFunction)
+    .config(configFunction);
+
+
+</script>
+</body>
 </html>

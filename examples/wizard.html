@@ -44,6 +44,47 @@
             Muffin tart jelly-o lemon drops cake pie lemon drops icing.
             <i class="luna-calendar"></i>
         </p>
+        <p>
+            Cupcake ipsum dolor sit. Amet caramels chocolate cake toffee. Cheesecake topping
+            jujubes. Sweet roll cotton candy sweet roll lollipop pie ice cream. Icing liquorice
+            cotton candy apple pie cookie powder marshmallow topping dragée. Liquorice fruitcake
+            cotton candy toffee jelly-o jelly bonbon marshmallow jelly-o. Tart toffee brownie
+            muffin liquorice. Jelly beans marzipan carrot cake caramels cake. Soufflé sugar plum
+            ice cream tiramisu carrot cake marshmallow. Jelly beans lollipop wafer marshmallow
+            liquorice dessert gingerbread cake topping. Fruitcake pudding croissant. Dessert donut
+            ice cream biscuit bear claw jujubes.
+        </p>
+        <p>
+            Danish bear claw macaroon cake sesame snaps pie. Icing apple pie cookie topping
+            chocolate cake. Pudding cheesecake chocolate cake tootsie roll candy. Lollipop chupa
+            chups jelly-o icing chocolate ice cream chocolate lollipop. Donut cotton candy
+            chocolate bar carrot cake macaroon powder cotton candy marshmallow. Marzipan sweet
+            croissant candy canes cupcake apple pie cake gingerbread gummies. Wafer cheesecake
+            chocolate cake macaroon biscuit muffin chocolate bar chocolate bar. Powder sweet cake.
+            Muffin tart jelly-o lemon drops cake pie lemon drops icing.
+            <i class="luna-calendar"></i>
+        </p>
+        <p>
+            Cupcake ipsum dolor sit. Amet caramels chocolate cake toffee. Cheesecake topping
+            jujubes. Sweet roll cotton candy sweet roll lollipop pie ice cream. Icing liquorice
+            cotton candy apple pie cookie powder marshmallow topping dragée. Liquorice fruitcake
+            cotton candy toffee jelly-o jelly bonbon marshmallow jelly-o. Tart toffee brownie
+            muffin liquorice. Jelly beans marzipan carrot cake caramels cake. Soufflé sugar plum
+            ice cream tiramisu carrot cake marshmallow. Jelly beans lollipop wafer marshmallow
+            liquorice dessert gingerbread cake topping. Fruitcake pudding croissant. Dessert donut
+            ice cream biscuit bear claw jujubes.
+        </p>
+        <p>
+            Danish bear claw macaroon cake sesame snaps pie. Icing apple pie cookie topping
+            chocolate cake. Pudding cheesecake chocolate cake tootsie roll candy. Lollipop chupa
+            chups jelly-o icing chocolate ice cream chocolate lollipop. Donut cotton candy
+            chocolate bar carrot cake macaroon powder cotton candy marshmallow. Marzipan sweet
+            croissant candy canes cupcake apple pie cake gingerbread gummies. Wafer cheesecake
+            chocolate cake macaroon biscuit muffin chocolate bar chocolate bar. Powder sweet cake.
+            Muffin tart jelly-o lemon drops cake pie lemon drops icing.
+            <i class="luna-calendar"></i>
+        </p>
+
     </script>
     <script type="text/ng-template" id="step2">
         <p>
@@ -103,7 +144,25 @@
             liquorice halvah macaroon bear claw. Pudding cupcake wafer sesame snaps oat cake halvah
             jelly beans donut topping. Marshmallow pudding jujubes tootsie roll. Danish chocolate
             cake fruitcake. Bear claw apple pie sesame snaps cake sugar plum.
+            <br />
+            <br />
+            <b>Example of dropdown in a wizard.  Choose a value to continue on:</b>
+            <br />
+             <akam-dropdown ng-model="selectedState" clearable
+                items="[
+                'Colorado',
+                'Connecticut',
+                'Maryland',
+                'Massachusetts',
+                'New Hampshire',
+                'New Jersey',
+                'New York',
+                'Vermont',
+                'Virginia',
+                'Washington, District of Columbia']" ></akam-dropdown>
         </p>
+        <br />
+        <br />
         <p>
             Danish gummi bears chupa chups gummies caramels liquorice jelly beans jujubes. Cotton
             candy gummi bears jelly jelly-o toffee cheesecake. Lemon drops wafer soufflé gummies
@@ -123,15 +182,17 @@
     </div>
     <br/>
 
+    <script src="utils/cookies.js"></script>
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('wizardApp', ['akamai.components.wizard', 'akamai.components.indeterminate-progress'])
+        angular.module('wizardApp', ['akamai.components.constants','akamai.components.wizard', 'akamai.components.dropdown',
+                                     'akamai.components.menu-button', 'akamai.components.indeterminate-progress'])
                 .controller('WizardAppController', WizardAppController)
                 .config(configFunction);
 
-        WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope', '$q', '$timeout', 'translate'];
-        function WizardAppController($log, $modal, wizard, $rootScope, $q, $timeout, translate) {
+        WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope', '$q', '$timeout', '$translate'];
+        function WizardAppController($log, $modal, wizard, $rootScope, $q, $timeout, $translate) {
             var vm = this;
             var wizardScope = $rootScope.$new();
             var times = 0;
@@ -160,14 +221,16 @@
             };
 
             vm.launchWizard = function() {
+
                 wizard.open({
                     scope: wizardScope,
                     controller: WizardController,
                     title: 'Wizard Example',
                     steps: [
                         {
-                            // Example of translated text for the wizard steps
-                            name: translate.sync('examples.wizard.step1'),
+                            // name will be translated when key is provided
+                            // nameValues also supported
+                            name: 'examples.wizard.step1',
                             templateId: 'step1',
                             validate: function(scope) {
                                 return true;
@@ -175,7 +238,7 @@
                             initialize: angular.bind(this, deferredProcess, "Step 1 Failed to initialize.")
                         },
                         {
-                            name: translate.sync('examples.wizard.step2'),
+                            name: 'examples.wizard.step2',
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
@@ -183,21 +246,22 @@
                             initialize: angular.bind(this, deferredProcess, "Step 2 Failed to initialize.")
                         },
                         {
-                            name: translate.sync('examples.wizard.step3'),
+                            name: 'examples.wizard.step3',
                             templateId: 'step3',
                             validate: function(scope) {
                                 return scope.user != null && scope.user.length > 2;
                             }
                         },
                         {
-                            name: translate.sync('examples.wizard.step4'),
+                            name: 'examples.wizard.step4',
                             templateId: 'step4',
+
                             validate: function(scope) {
-                                return true;
+                                return scope.selectedState !=null;
                             }
                         },
                         {
-                            name: translate.sync('examples.wizard.step5'),
+                            name: 'examples.wizard.step5',
                             templateId: 'step2',
                             validate: function(scope) {
                                 return true;
@@ -209,14 +273,25 @@
             };
         }
 
-        configFunction.$inject = ['i18nTokenProvider'];
-        function configFunction (i18nTokenProvider) {
+        function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                i18nLocaleProvider) {
+
             // need to overwrite locales path on fee.akamai.com
-            if(window.location.host == 'fee.akamai.com') {
-                i18nTokenProvider.setComponentLocalePath("../dist/locales/");
-                i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            if (window.location.host == 'fee.akamai.com') {
+                $translatePartialLoaderProvider.addPart('../dist/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
+            } else {
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
             }
+
+            var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+            $translateProvider.preferredLanguage(locale);
+            i18nLocaleProvider.setLocale(locale);
         }
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+            '$translateProvider', 'i18nLocaleProvider'];
 
     </script>
 

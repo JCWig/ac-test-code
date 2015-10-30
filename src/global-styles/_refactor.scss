@@ -24,10 +24,13 @@ a:focus {
 }
 
 // Misc
-.well {
-  @include box-shadow($base__box-shadow--inset);
-}
-
 .ui-match {
   color: $colors__blue1;
+}
+
+/* is this too much? */
+:disabled,
+[disabled],
+.disabled {
+  cursor: not-allowed;
 }

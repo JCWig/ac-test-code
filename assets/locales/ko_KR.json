@@ -9,16 +9,16 @@
             "label": "레이블"
         },
         "message-box": {
-            "yes": "예",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "정보",
-                "question": "질문",
-                "error": "오류"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "자세히 보기"
             },
-            "no": "아니오"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Mac에 설치된 Safari와 FireFox에서는 BUTTON 요소의 포커스 이벤트를 지원하지 않습니다. A 앵커 태그를 대신 사용하십시오."
@@ -43,6 +43,7 @@
             "successMessage": "작업이 완료되었습니다.",
             "errorMessage": "작업을 완료할 수 없습니다.",
             "label": {
+                "cancel": "취소",
                 "next": "다음",
                 "submit": "제출",
                 "previous": "이전"
@@ -53,8 +54,8 @@
             "errorMessage": "작업을 완료할 수 없습니다.",
             "title": "모달 창",
             "label": {
-                "cancel": "취소",
-                "save": "저장"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -62,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "지정한 필터에 따라 검색된 결과가 없습니다.",
-                "noDataMessage": "지정한 기준에 따라 검색된 데이터가 없습니다."
+                "noDataMessage": "지정한 기준에 따라 검색된 데이터가 없습니다.",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "필터"
@@ -74,7 +76,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "계정 변경됨",
-            "accountChanged": "현재 계정이 \"{{oldName}}\"에서 \"{{name}}\"(으)로 변경되었습니다. 원래 계정으로 다시 전환하시겠습니까?'"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -103,12 +105,8 @@
                 "current-page": "현재 페이지"
             }
         },
-        "name": "Akamai 공통 구성 요소",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
-            "labels": {
-                "to": "대상",
-                "from": "원본"
-            },
             "placeholder": "날짜 선택"
         },
         "autocomplete": {

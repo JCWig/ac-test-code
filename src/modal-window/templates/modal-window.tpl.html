@@ -11,24 +11,25 @@
 
     <div class="akam-status-message-wrapper" ng-if='modalWindow.showSubmitError'>
       <div class="akam-status-message-item-wrapper" ng-class="{'error': modalWindow.showSubmitError}">
-        <div class="akam-status-message-item">
-          <div class="status-message-content">{{ modalWindow.errorMessage }}</div>
+        <div class="alert alert-error">
+          {{ modalWindow.errorMessage }}
         </div>
       </div>
     </div>
   </div>
   <akam-modal-window-body></akam-modal-window-body>
   <div class="modal-footer">
-    <button type="button" class="btn btn-large" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
+    <button type="button" class="btn btn-lg btn-default cancel-button" ng-click="modalWindow.instance.dismiss()" ng-disabled="modalWindow.processing">
       {{ modalWindow.cancelLabel }}
     </button>
     <akam-spinner-button
-        class="btn-large"
+        class="btn btn-primary btn-lg submit-button"
         ng-if="!modalWindow.hideSubmit"
         disabled="modalWindow.isSubmitDisabled()"
         processing="modalWindow.processing"
         ng-click="modalWindow.submit()"
-        text-content="{{modalWindow.submitLabel}}">
+        text-content="{{modalWindow.submitLabel}}"
+        text-content-values="{{modalWindow.submitLabelValues}}">
     </akam-spinner-button>
   </div>
 </div>

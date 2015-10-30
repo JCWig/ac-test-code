@@ -1,0 +1,14 @@
+
+.akam-datetime-picker {
+  @include clearfix;
+  
+  & > * {
+    float: left;
+    width: calc(50% - 3px);
+    
+    & + * {
+      margin-left: 6px;
+    }
+  }
+  
+}

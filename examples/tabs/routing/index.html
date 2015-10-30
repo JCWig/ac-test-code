@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Akamai Component Examples - Navigation</title>
+
+        <link rel="stylesheet" href="../../../dist/akamai-core.css">
+        <style>
+            body.luna h2 {
+                margin-bottom: 10px;
+            }
+            body.luna .akam-navigation {
+                margin-bottom: 30px;
+            }
+        </style>
+    </head>
+
+    <body class="common-css luna" ng-app="navRoutingApp" ng-strict-di>
+
+        <h1>Navigation Example - Static Tabs</h1>
+
+        <br/>
+        <div>
+            <a href="../static/index.html">Static Example</a>
+        </div>
+        <br/>
+
+
+        <div ui-view></div>
+
+        <script src="../../utils/cookies.js"></script>
+        <script src="../../../dist/akamai-core.js"></script>
+
+        <script src="routing-tabs.js"></script>
+        <script src="health/health-controller.js"></script>
+        <script src="health/nutrition-controller.js"></script>
+    </body>
+</html>

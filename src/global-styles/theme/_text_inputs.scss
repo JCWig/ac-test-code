@@ -1,0 +1,119 @@
+%inputStyles {
+  background-color: $input-background-color;
+  border: solid 1px $input-border-color;
+  color: $input-text-color;
+  @include box-shadow($input-box-shadow);
+  @include border-radius($input-border-radius);
+}
+
+%inputFocusStyles {
+  border-color: $input-border-color-focus;
+  background-color: $input-background-color-focus;
+  @include box-shadow(none);
+}
+
+%inputDisabledStyles {
+  background-color: $input-background-color-disabled;
+  border-color: $input-border-color-disabled;
+  color: $input-text-color-disabled;
+  @include box-shadow(none);
+  
+  &:focus,
+  &:required {
+    border-color: $input-border-color-disabled;
+    @include box-shadow(none);
+  }
+}
+
+%inputReadonlyStyles {
+  @extend %inputDisabledStyles;
+  color: $input-text-color;
+}
+
+
+
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="date"],
+input[type="month"],
+input[type="number"],
+textarea {
+  @extend %inputStyles;
+  height: $input-height;
+  padding: 0 0 0 $input-padding;
+  outline: none;
+  vertical-align: middle;
+  line-height: normal;
+  @include placeholder-enhanced($input-placeholder-text-color, italic);
+  
+  &:focus {
+    @extend %inputFocusStyles;
+  }
+
+  &:disabled {
+    @extend %inputDisabledStyles;
+  }
+  
+  &[readonly] {
+    @extend %inputReadonlyStyles;
+  }
+}
+
+
+input[type="search"] {
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
+  }
+
+  &::-ms-clear {
+    display: none;
+  }
+
+  &:disabled ~ .btn,
+  &[readonly] ~ .btn {
+    background: $button-background-color-disabled;
+    border-color: $button-border-color-disabled;
+    color: $button-text-color-disabled;
+    cursor: default;
+
+    i {
+      opacity: $input-button-icon-opacity-disabled;
+    }
+  }
+}
+
+input[type="search"],
+input[type="date"],
+input[type="month"] {
+  padding-right: #{$input-border-radius * 2};
+  @include appearance(textfield);
+
+  & ~ .btn {
+    min-width: 0;
+    margin-left: -#{$input-border-radius * 3};
+    @include border-left-radius(0);
+
+    i {
+      vertical-align: middle;
+    }
+  }
+
+  &:focus ~ .btn {
+    border-left-color: $input-border-color-focus;
+  }
+}
+
+
+textarea {
+  height: auto;
+  padding: $textarea-padding-top 0 0 $input-padding;
+
+  &.large {
+    min-height: 6em;
+  }
+}
+

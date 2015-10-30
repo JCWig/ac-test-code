@@ -17,6 +17,7 @@ $dropdown-button-disabled-color: #e6e6e6;
     > li > a {
       text-overflow: ellipsis;
       white-space: nowrap;
+      overflow: hidden;
     }
   }
 
@@ -26,67 +27,72 @@ $dropdown-button-disabled-color: #e6e6e6;
     height: 28px;
     width: 100%;
 
-    & > span {
-      display: inline-block;
-      border: 1px solid $border-color;
+    & > .dropdown-selected-wrapper {
+
       height: 100%;
-      vertical-align: middle;
-    }
+      
+      & > span {
+        display: inline-block;
+        border: 1px solid $border-color;
+        height: 100%;
+        vertical-align: middle;
+      }
 
-    & > span.selected-option {
-      margin-right: -4px;
-      line-height: 28px;
-      padding: 0 20px 0 10px;
-      width: calc(100% - 28px);
-      background-color: $dropdown-selected-option-background-color;
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
-      @include box-shadow($input-box-shadow);
-      @include ellipsis();
+      & > span.selected-option {
+        margin-right: -4px;
+        line-height: 28px;
+        padding: 0 20px 0 10px;
+        width: calc(100% - 28px);
+        background-color: $dropdown-selected-option-background-color;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+        @include box-shadow($input-box-shadow);
+        @include ellipsis();
 
-      &.disabled {
-        @include user-select(none);
-        background-color: $input-background-color-disabled;
-        border-color: $input-border-color-disabled;
-        box-shadow: none;
-        cursor: default;
-        color: $dropdown-button-disabled-color;
-        & + span {
-          background: $arrow-disabled-background;
-          border-color: $button-border-color-disabled;
-          cursor: default;
-          background-color: $button-background-color-disabled;
+        &.disabled {
+          @include user-select(none);
+          background-color: $input-background-color-disabled;
+          border-color: $input-border-color-disabled;
+          box-shadow: none;
+          cursor: not-allowed;
+          color: $dropdown-button-disabled-color;
+          & + span {
+            background: $arrow-disabled-background;
+            border-color: $button-border-color-disabled;
+            cursor: not-allowed;
+            background-color: $button-background-color-disabled;
+          }
         }
+      }
+
+      & > span:last-child {
+        width: 28px;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        background: $arrow-background, $dropdown-button-gradient;
+      }
+      & > i.clear-dropdown {
+        position: absolute;
+        right: 36px;
+        top: 9px;
       }
     }
 
-    & > span:last-child {
-      width: 28px;
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-      background: $arrow-background, $dropdown-button-gradient;
-    }
-    & > i.clear-dropdown {
-      position: absolute;
-      right: 36px;
-      top: 9px;
-    }
-
-    &:hover {
+    &:hover .dropdown-selected-wrapper {
       & > span:last-child {
         border-color: $dropdown-button-active-hover-border-color;
         background: $arrow-background, $dropdown-button-gradient-hover;
       }
     }
 
-    &:active {
+    &:active .dropdown-selected-wrapper {
       & > span:last-child {
         border-color: $dropdown-button-active-hover-border-color;
         background: $arrow-background, $dropdown-button-gradient-active;
       }
     }
 
-    & .dropdown-placeholder {
+    & .dropdown-selected-wrapper .dropdown-placeholder {
       color: #ccc;
       font-style: italic;
     }
@@ -97,6 +103,7 @@ $dropdown-button-disabled-color: #e6e6e6;
 
     & div.fixed-header {
       padding: 4px 5px;
+      background-color: inherit;
 
       & input {
         width: 100%;
@@ -117,6 +124,7 @@ $dropdown-button-disabled-color: #e6e6e6;
     & ul.dropdown-menu {
       overflow-x: hidden;
       overflow-y: auto;
+      max-width: 125%;
       -ms-overflow-y: auto;
 
       // fix for weird rendering issue when filtering in chrome
@@ -134,6 +142,7 @@ $dropdown-button-disabled-color: #e6e6e6;
 
     div.fixed-header {
       padding: 4px 5px;
+      background-color: inherit;
       @include ellipsis();
 
       & input {

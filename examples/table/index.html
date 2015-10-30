@@ -60,13 +60,16 @@
       </akam-table-column>
       <akam-table-column row-property="email" header-name="examples.email"></akam-table-column>
       <akam-table-column not-filterable not-sortable class="column-action" header-name="examples.actions">
-          <akam-menu-button icon-only="true">
+          <akam-menu-button is-disabled="vm.isDisabled" icon-only="true">
             <akam-menu-button-item text="PDF" ng-click="vm.pdfClicked(row)"></akam-menu-button-item>
           </akam-menu-button>
       </akam-table-column>
     </akam-table-row>
   </akam-table>
-
+ <div class="form-group">
+    <input id="disableSplitButton" type="checkbox" name="disableSplitButton" ng-model="vm.isDisabled" />
+    <label class="label" for="disableSplitButton">Disable Table Menu Button</label>
+  </div>
   <p>
     SELECTED ROWS {{ vm.selectedItems }}
   </p>
@@ -86,19 +89,32 @@
 <div class="container">
   <h2>Rejected row data</h2>
 
-  <akam-table items="vm.rejectedPromise" akam-standalone>
+  <akam-table items="vm.rejectedPromise" item-failure-message={{vm.itemFailureMessage}} akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
     </akam-table-row>
   </akam-table>
 </div>
 <div class="container">
-  <h2>Disabling row selection and default sort of Last Name</h2>
+  <h2>Disabling row selection and default sort of Last Name in Ascending order</h2>
   <akam-table items="vm.arrayData" akam-standalone>
     <akam-table-row>
       <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
       <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
       <akam-table-column row-property="lastName" default-sort header-name="examples.lastname"></akam-table-column>
+      <akam-table-column row-property="boolean" header-name="examples.boolean"></akam-table-column>
+      <akam-table-column row-property="ipAddress" akam-text-overflow="row.ipAddress" header-name="examples.ipaddress"></akam-table-column>
+      <akam-table-column row-property="country" header-name="examples.country"></akam-table-column>
+    </akam-table-row>
+  </akam-table>
+</div>
+<div class="container">
+  <h2>Disabling row selection and default sort of Last Name in descending order</h2>
+  <akam-table items="vm.arrayData" akam-standalone>
+    <akam-table-row>
+      <akam-table-column row-property="id" header-name="examples.id"></akam-table-column>
+      <akam-table-column row-property="firstName" header-name="examples.name"></akam-table-column>
+      <akam-table-column row-property="lastName" default-sort="desc" header-name="examples.lastname"></akam-table-column>
       <akam-table-column row-property="boolean" header-name="examples.boolean"></akam-table-column>
       <akam-table-column row-property="ipAddress" akam-text-overflow="row.ipAddress" header-name="examples.ipaddress"></akam-table-column>
       <akam-table-column row-property="country" header-name="examples.country"></akam-table-column>
@@ -132,6 +148,7 @@
     </akam-table-row>
   </akam-table>
 </div>
+<script src="../utils/cookies.js"></script>
 <script src="../../dist/akamai-core.js"></script>
 <script src="index.js"></script>
 

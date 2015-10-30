@@ -4,7 +4,7 @@
 ## Overview
 
 This project provides a set of reusable Angular.js components that adhere to
-the Akamai user experience guidelines. It depends upon the Akamai styles 
+the Akamai user experience guidelines. It depends upon the Akamai styles
 project which defines the markup patterns and associated CSS rules.
 
 Currently, this project leverages the
@@ -29,7 +29,7 @@ components.
 </head>
 <body>
     <div class="container">
-    </div> 
+    </div>
 
     <script src="path/to/angular.js"></script>
     <script src="path/to/akamai-core.js"></script>
@@ -42,7 +42,7 @@ components.
 ### Examples
 
 The project includes usage examples for each component in the **examples/**
-directory. To view the examples locally, run: 
+directory. To view the examples locally, run:
 
 `npm start`
 
@@ -71,10 +71,10 @@ OR:
 
 `npm test -- --testDir=spinner`
 
-This will run the tests for only the folder with the pattern `spec/${testDir}/**/*.js`
+This will run the tests for only the folder with the pattern `test/${testDir}/**/*.js`
 
 ### API Documentation
 
 Documentation is written alongside source code using [ngdoc][1].
 
-[1]: https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation 
+[1]: https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation

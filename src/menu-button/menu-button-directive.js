@@ -1,6 +1,6 @@
 import template from './templates/menu-button.tpl.html';
 
-function menuButton() {
+function menuButton(translateValueSupport) {
   return {
     restrict: 'E',
     replace: true,
@@ -14,12 +14,15 @@ function menuButton() {
       defaultText: '@?',
       isDisabled: '=?'
     },
-
     // there isn't actually any reason to have a controller other than to support the usage of
     // 'controllerAs' for the "position" attribute.
     controller: () => {},
-    controllerAs: 'menuButton'
+    controllerAs: 'menuButton',
+    link: (scope, elem, attr) => {
+      translateValueSupport.setValues(scope.menuButton, 'defaultText', attr.defaultTextValues);
+    }
   };
 }
+menuButton.$inject = ['translateValueSupport'];
 
 export default menuButton;

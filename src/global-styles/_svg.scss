@@ -37,6 +37,22 @@
   @include svg('information-white');
 }
 
+.svg-danger-red {
+  @include svg('danger_red');
+}
+
+.svg-danger-white {
+  @include svg('danger_white');
+}
+
+.svg-checkmark-green {
+  @include svg('checkmark_green');
+}
+
+.svg-warning-gold {
+  @include svg('warning_gold');
+}
+
 .svg-x {
   @include svg('x');
 

@@ -1,0 +1,38 @@
+.table-bordered {
+  border: 1px solid $colors__gray6;
+  
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        border: 1px solid $table-border-color;
+      }
+    }
+  }
+  
+  > thead > tr {
+    > th,
+    > td {
+      border-color: $colors__gray6;
+    }
+  }
+  
+  > tbody {
+    > tr {
+      > td,
+      > th {
+        border-left-width: 0;
+        border-right-width: 0;
+      }
+    }
+   
+    > tr:last-child {
+      > td,
+      > th {
+        border-bottom-color: $colors__gray6;
+      }
+    }
+  }
+}

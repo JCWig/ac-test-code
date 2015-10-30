@@ -4,15 +4,15 @@ const [MAX_PAGES, DEFAULT_SIZE] = [7, 10];
 const SIZES = [10, 25, 50];
 
 class PaginationController {
-  constructor(scope, translate) {
-    this.translate = translate;
+  constructor(scope, $translate) {
+    this.$translate = $translate;
     this.scope = scope;
     this.sizes = SIZES;
     this.maxPages = MAX_PAGES;
     this.pages = [];
     this.resultText = '';
 
-    this.translate.async('components.pagination.label.results')
+    this.$translate('components.pagination.label.results')
       .then((value) => scope.pagination.resultText = value);
 
     //watch collections?
@@ -133,7 +133,7 @@ class PaginationController {
   }
 }
 
-PaginationController.$inject = ['$scope', 'translate'];
+PaginationController.$inject = ['$scope', '$translate'];
 
 export default () => {
   return {

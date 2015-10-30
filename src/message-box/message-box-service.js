@@ -1,7 +1,7 @@
 import angular from 'angular';
 import template from './templates/message-box.tpl.html';
 
-function messageBox(modalWindow, translate, $rootScope) {
+function messageBox(modalWindow, $translate, $rootScope) {
 
   function modalWindowController($scope) {
     let collapsed = true;
@@ -17,9 +17,42 @@ function messageBox(modalWindow, translate, $rootScope) {
 
   modalWindowController.$inject = ['$scope'];
 
-  function show(options, type) {
-    let title = translate.sync('components.message-box.title.information');
+  /**
+   * translateOptionLabels translate title, cancelLabel and submitLabel text
+   * @param  {object} options contains properties that may require translation
+   * @param  {string} type title type as information, error, question
+   */
+  function translateOptionLabels(options, type) {
+    let titleId, cancelId, submitId;
 
+    switch (type) {
+      case 'information':
+        titleId = options.title || 'components.message-box.title.information';
+        break;
+      case 'question':
+        titleId = options.title || 'components.message-box.title.question';
+        break;
+      case 'error':
+        titleId = options.title || 'components.message-box.title.error';
+        break;
+      default:
+        titleId = options.title || 'components.message-box.title.information';
+    }
+
+    cancelId = options.cancelLabel || 'components.message-box.no';
+    submitId = options.submitLabel || 'components.message-box.yes';
+
+    $translate(titleId, options.titleValues)
+      .then(value => options.title = value);
+
+    $translate(cancelId, options.cancelLabelValues)
+      .then(value => options.cancelLabel = value);
+
+    $translate(submitId, options.submitLabelValues)
+      .then(value => options.submitLabel = value);
+  }
+
+  function show(options, type) {
     if (options.headline == null) {
       throw new Error('headline option is required');
     }
@@ -28,24 +61,15 @@ function messageBox(modalWindow, translate, $rootScope) {
       throw new Error('text option is required');
     }
 
-    if (type === 'question') {
-      title = translate.sync('components.message-box.title.question');
-    } else if (type === 'error') {
-      title = translate.sync('components.message-box.title.error');
-    }
+    translateOptionLabels(options, type);
 
-    options.title = translate.sync(options.title);
-    options.title = options.title ? options.title.substr(0, 20) : title;
     options.backdrop = 'static';
     options.scope = $rootScope.$new();
     options.scope.messageBox = {
-      headline: options.headline.substr(0, 48),
-      text: options.text.substr(0, 220),
+      headline: options.headline,
+      text: options.text,
       details: options.details
     };
-
-    options.cancelLabel = translate.sync(options.cancelLabel, null, 'components.message-box.no');
-    options.submitLabel = translate.sync(options.submitLabel, null, 'components.message-box.yes');
 
     return modalWindow.open(angular.extend(options, {
       template: template,
@@ -128,6 +152,6 @@ function messageBox(modalWindow, translate, $rootScope) {
   };
 }
 
-messageBox.$inject = ['modalWindow', 'translate', '$rootScope'];
+messageBox.$inject = ['modalWindow', '$translate', '$rootScope'];
 
 export default messageBox;

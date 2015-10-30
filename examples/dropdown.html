@@ -27,26 +27,25 @@
 <body class="common-css luna" ng-app="dropdownApp" ng-strict-di ng-controller="DropdownAppController as vm">
 
     <h1>Dropdown Component Example</h1>
+
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
             <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex1.selectedState"
-                           items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+                           items="vm.strings" clearable></akam-dropdown>
         </span>
     </div>
     <br/>
     <div>
         <span>
             <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex2.selectedState" text-property="name"
-                           items="vm.stateObjects" clearable on-change="vm.doChange(item)">
+                           items="vm.stateObjects" clearable>
 
                 <akam-dropdown-selected>
-                    <span class="selected-option util-ellipsis" ng-class="{disabled:vm.disabled}">
-                        <span ng-if="dropdown.selectedItem" title="{{dropdown.selectedItem[dropdown.textProperty]}}">
-                            custom: {{dropdown.selectedItem[dropdown.textProperty]}}
-                        </span>
-                        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
+                    <span ng-if="dropdown.selectedItem" title="{{dropdown.selectedItem[dropdown.textProperty]}}">
+                        custom: {{dropdown.selectedItem[dropdown.textProperty]}}
                     </span>
+                    <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
@@ -56,7 +55,7 @@
             </akam-dropdown>
         </span>
     </div>
-    <br/>
+    <br />
     <span class="form-group">
         <input id="disableDropdown" type="checkbox" name='disableDropdown' ng-model='vm.disabled' />
         <label class="label" for="disableDropdown">Disable above dropdowns</label>
@@ -66,7 +65,7 @@
     <div>
         <h2>Dropdown with a list of strings and a filter, not clearable</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable on-change="vm.doChange(item)"></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
         </span>
     </div>
     <br/>
@@ -88,10 +87,8 @@
                            items="vm.stateObjects" filterable="name">
 
                 <akam-dropdown-selected>
-                    <span class="selected-option util-ellipsis">
-                        <span ng-if="dropdown.selectedItem" title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>
-                        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
-                    </span>
+                    <span ng-if="dropdown.selectedItem" title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>
+                    <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
@@ -104,13 +101,15 @@
 
     </div>
     <br/>
+
     <div>
      <h2>Default dropdown with a list of strings appended to body</h2>
         <span class="util-hidden-overflow">
-            <akam-dropdown ng-model="vm.ex6.selectedState" append-to-body items="vm.strings" clearable on-change="vm.doChange(item)"></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex6.selectedState" append-to-body items="vm.strings" clearable></akam-dropdown>
         </span>
     </div>
     <br/>
+
     <div>
         <h2>Dropdown with a list of objects, a filter and custom markup, not clearable append to body</h2>
         <span class="util-hidden-overflow">
@@ -118,13 +117,10 @@
                            items="vm.stateObjects" filterable="name">
 
                 <akam-dropdown-selected>
-                    <span class="selected-option util-ellipsis">
-                        <span ng-if="dropdown.selectedItem" title="{{dropdown.getSelectedItemText()}}">
-                            custom: {{dropdown.getSelectedItemText()}}
-                        </span>
-                        <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
+                    <span ng-if="dropdown.selectedItem" title="{{dropdown.getSelectedItemText()}}">
+                        custom: {{dropdown.getSelectedItemText()}}
                     </span>
-
+                    <span ng-if="!dropdown.selectedItem" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
                 </akam-dropdown-selected>
 
                 <akam-dropdown-option>
@@ -140,7 +136,6 @@
     <div>
         <h2 ng-click="vm.addState();">Default dropdown with a list of objects with keys and a filter</h2>
         <span>
-            <!--filterable="name"-->
             <akam-dropdown ng-model="vm.ex8.selectedState" text-property="state.name" key-property="state.key"
                            items="vm.stateObjectsWithKeys" clearable filterable="name">
             </akam-dropdown>
@@ -148,26 +143,35 @@
     </div>
     <br/>
 
+    <div>
+        <h2>Default dropdown using a promise for items</h2>
+        <span>
+            <akam-dropdown ng-model="vm.ex9.selectedState" items="vm.itemsPromise" clearable></akam-dropdown>
+        </span>
+    </div>
+    <br/>
 
+    <script src="utils/cookies.js"></script>
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('dropdownApp', ['akamai.components.dropdown', 'akamai.components.menu-button'])
+        angular.module('dropdownApp', ['akamai.components.constants','akamai.components.dropdown', 'akamai.components.menu-button'])
                 .controller('DropdownAppController', DropdownAppController)
                 .config(configFunction);
 
-        DropdownAppController.$inject = ['$log', 'translate'];
-        function DropdownAppController($log, translate) {
+        DropdownAppController.$inject = ['$log', '$translate', '$q'];
+        function DropdownAppController($log, $translate, $q) {
             var vm = this;
             vm.test = 'test';
             vm.disabled = false;
             // localized string coming from the example locale file
-            vm.placeholder = translate.async('examples.dropdown.select.one').then(function(v){
+            vm.placeholder = $translate('examples.dropdown.select.one').then(function(v){
                 vm.placeholder = v;
                 $log.log("placeholder text is " + vm.placeholder);
             });
+
             vm.stateObjects = [
-                {name: 'Colorado'},
+                {name: 'components.name'},
                 {name: 'Connecticut'},
                 {name: 'Maryland'},
                 {name: 'Massachusetts'},
@@ -180,16 +184,16 @@
             ];
 
             vm.stateObjectsWithKeys = [
-                {state: {key: 'key1', name: 'Colorado'}},
-                {state: {key: 'key2', name: 'Connecticut'}},
-                {state: {key: 'key3', name: 'Maryland'}},
-                {state: {key: 'key4', name: 'Massachusetts'}},
-                {state: {key: 'key5', name: 'New Hampshire'}},
-                {state: {key: 'key6', name: 'New Jersey'}},
-                {state: {key: 'key7', name: 'New York'}},
-                {state: {key: 'key8', name: 'Vermont'}},
-                {state: {key: 'key9', name: 'Virginia'}},
-                {state: {key: 'key10', name: 'Washington, District of Columbia'}}
+                {state: {key: 0, name: 'Maine'}},
+                {state: {key: 1, name: 'Connecticut'}},
+                {state: {key: 2, name: 'Maryland'}},
+                {state: {key: 3, name: 'Massachusetts'}},
+                {state: {key: 4, name: 'New Hampshire'}},
+                {state: {key: 5, name: 'New Jersey'}},
+                {state: {key: 6, name: 'New York'}},
+                {state: {key: 7, name: 'Vermont'}},
+                {state: {key: 8, name: 'Virginia'}},
+                {state: {key: 9, name: 'Washington, District of Columbia'}}
             ];
 
             vm.strings = [
@@ -205,6 +209,10 @@
                 'Washington, District of Columbia'
             ];
 
+            var itemsDefferal = $q.defer();
+            itemsDefferal.resolve(vm.strings);
+            vm.itemsPromise = itemsDefferal.promise;
+
             vm.ex1 = { selectedState: 'Massachusetts' };
             vm.ex2 = { selectedState: undefined };
             vm.ex3 = { selectedState: 'Vermont' };
@@ -212,7 +220,8 @@
             vm.ex5 = { selectedState: undefined };
             vm.ex6 = { selectedState: undefined };
             vm.ex7 = { selectedState: undefined };
-            vm.ex8 = { selectedState: 'key9' };
+            vm.ex8 = { selectedState: 0 };
+            vm.ex9 = { selectedState: 'Massachusetts' };
 
             vm.doChange = function(item) {
                 $log.log('selected item changed', item);
@@ -225,14 +234,28 @@
             };
         }
 
-        configFunction.$inject = ['i18nTokenProvider'];
-        function configFunction (i18nTokenProvider) {
+
+
+        function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                i18nLocaleProvider) {
+
             // need to overwrite locales path on fee.akamai.com
-            if(window.location.host == 'fee.akamai.com') {
-                i18nTokenProvider.setComponentLocalePath("../dist/locales/");
-                i18nTokenProvider.setAppLocalePath("locales/json/messages/");
+            if (window.location.host == 'fee.akamai.com') {
+                $translatePartialLoaderProvider.addPart('../dist/locales/');
+                $translatePartialLoaderProvider.addPart('locales/json/messages/');
+            } else {
+                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
             }
+
+            var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+            $translateProvider.preferredLanguage(locale);
+            i18nLocaleProvider.setLocale(locale);
         }
+        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+            '$translateProvider', 'i18nLocaleProvider'];
+
     </script>
 </body>
 </html>

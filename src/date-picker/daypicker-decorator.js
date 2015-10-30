@@ -1,5 +1,30 @@
 import template from './templates/date-picker-day-popup.tpl.html';
 
+const ARROW_KEYS = {
+  38: 'UP',
+  40: 'DOWN',
+  37: 'LEFT',
+  39: 'RIGHT'
+};
+
+export const eventNoopHanlder = {
+  arrowKeysEventNoop: (e) => {
+    let key = e.which || e.keyCode;
+
+    if (ARROW_KEYS[key]) {
+      eventNoop(e);
+    }
+  },
+  anyEventNoop: (e) => {
+    eventNoop(e);
+  }
+}
+
+function eventNoop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
 function daypickerDecorator($provide) {
   function datePickerDirective($delegate) {
     let link;
@@ -17,7 +42,17 @@ function daypickerDecorator($provide) {
 
     directive.compile = () => {
       return function(scope, element, attrs, ctrl) {
+        let updateMin, updateMax;
+
+        directive.template = template;
+
         link.apply(this, arguments);
+
+        scope.renderDateRange = false;
+
+        //overrides datepicker.js keydown event
+        element.bind('keydown', eventNoopHanlder.arrowKeysEventNoop);
+        element.bind('click', eventNoopHanlder.anyEventNoop);
 
         //disable navigation according to the range
         scope.daypickerNavPrevDisabled = () => {
@@ -36,6 +71,29 @@ function daypickerDecorator($provide) {
 
           return ctrl.maxDate && lastDayOfMonth >= ctrl.maxDate;
         };
+
+        updateMax = scope.$on('datepicker.updateMaxDate', (e, info) => {
+          ctrl.maxDate = info.maxDate;
+          if (info.reset || ctrl.activeDate.getTime() > ctrl.maxDate.getTime()) {
+            ctrl.activeDate = info.selectedDate || new Date();
+          }
+          ctrl.refreshView();
+        });
+
+        updateMin = scope.$on('datepicker.updateMinDate', (e, info) => {
+          ctrl.minDate = info.minDate;
+          if (info.reset || ctrl.activeDate.getTime() < ctrl.minDate.getTime()) {
+            ctrl.activeDate = info.selectedDate || new Date();
+          }
+          ctrl.refreshView();
+        });
+
+        scope.$on('$destroy', () => {
+          updateMin();
+          updateMax();
+          element.off('keydown');
+          element.off('click');
+        });
       };
     };
     return $delegate;

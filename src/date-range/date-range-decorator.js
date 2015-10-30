@@ -1,5 +1,10 @@
 import angular from 'angular';
-import template from './templates/date-picker-day-popup.tpl.html';
+import template from './templates/date-range-day-popup.tpl.html';
+import { eventNoopHanlder } from './../date-picker/daypicker-decorator';
+
+function getPlainDate(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
 
 function DateRangeDecorator($provide) {
   const [START, END] = ['start', 'end'];
@@ -85,11 +90,16 @@ function DateRangeDecorator($provide) {
 
     directive.compile = () => {
       return function(scope, element, attrs, ctrl) {
-        let initialDateRange, moveRangePoint, resetMin, resetMax;
+        let initialDateRange, moveRangePoint, updateDateRangeMin, updateDateRangeMax,
+          updateDatepickerMin, updateDatepickerMax;
 
         link.apply(this, arguments);
         scope.rangeSelected = false;
-        scope.renderDateRange = false;
+        scope.renderDateRange = scope.renderDateRange || false;
+
+        //overrides datepicker.js keydown event
+        element.bind('keydown', eventNoopHanlder.arrowKeysEventNoop);
+        element.bind('click', eventNoopHanlder.anyEventNoop);
 
         //show/hide nav previous button depend on the minDate
         scope.showNavPrev = () => {
@@ -125,12 +135,32 @@ function DateRangeDecorator($provide) {
           scope.renderDateRange = true;
         });
 
-        resetMax = scope.$on('dateRange.resetMax', (e, info) => {
+        updateDateRangeMax = scope.$on('dateRange.updateMaxDate', (e, info) => {
           ctrl.maxDate = info.maxValue;
+          if (angular.isDate(scope.selectedEnd)) {
+            let maxDate = getPlainDate(info.maxValue),
+              endDate = getPlainDate(scope.selectedEnd);
+
+            if (maxDate.getTime() < endDate.getTime()) {
+              setRangeAndNotify(null, scope, $rootScope);
+            }
+          }
+          ctrl.activeDate = new Date();
+          ctrl.refreshView();
         });
 
-        resetMin = scope.$on('dateRange.resetMin', (e, info) => {
+        updateDateRangeMin = scope.$on('dateRange.updateMinDate', (e, info) => {
           ctrl.minDate = info.minValue;
+          if (angular.isDate(scope.selectedStart)) {
+            let minDate = getPlainDate(info.minValue),
+              startDate = getPlainDate(scope.selectedStart);
+
+            if (minDate.getTime() > startDate.getTime()) {
+              setRangeAndNotify(null, scope, $rootScope);
+            }
+          }
+          ctrl.activeDate = new Date();
+          ctrl.refreshView();
         });
 
         moveRangePoint = scope.$on('dateRange.moveRangePoint', (e, info) => {
@@ -178,8 +208,12 @@ function DateRangeDecorator($provide) {
         scope.$on('$destroy', () => {
           initialDateRange();
           moveRangePoint();
-          resetMin();
-          resetMax();
+          updateDateRangeMax();
+          updateDateRangeMin();
+          updateDatepickerMax();
+          updateDatepickerMin();
+          element.off('keydown');
+          element.off('click');
         });
 
         scope.isInRange = (currentDate) => {
@@ -254,6 +288,41 @@ function DateRangeDecorator($provide) {
           scope.currentMonth = month;
           scope.currentYear = year;
         }
+
+        /* following code are to handle date picker logic */
+        //disable navigation according to the range
+        scope.daypickerNavPrevDisabled = () => {
+          let firstDayOfMonth = new Date(ctrl.activeDate.getFullYear(),
+            ctrl.activeDate.getMonth(), 1);
+
+          return ctrl.minDate && firstDayOfMonth <= ctrl.minDate;
+        };
+
+        scope.daypickerNavNextDisabled = () => {
+          // calculate last day of month by using the 0th day trick:
+          // if values are greater/lesser than their logical range,
+          // the adjacent value will be adjusted.
+          let lastDayOfMonth =
+            new Date(ctrl.activeDate.getFullYear(), ctrl.activeDate.getMonth() + 1, 0);
+
+          return ctrl.maxDate && lastDayOfMonth >= ctrl.maxDate;
+        };
+
+        updateDatepickerMax = scope.$on('datepicker.updateMaxDate', (e, info) => {
+          ctrl.maxDate = info.maxDate;
+          if (info.reset || ctrl.activeDate.getTime() > ctrl.maxDate.getTime()) {
+            ctrl.activeDate = info.selectedDate || new Date();
+          }
+          ctrl.refreshView();
+        });
+
+        updateDatepickerMin = scope.$on('datepicker.updateMinDate', (e, info) => {
+          ctrl.minDate = info.minDate;
+          if (info.reset || ctrl.activeDate.getTime() < ctrl.minDate.getTime()) {
+            ctrl.activeDate = info.selectedDate || new Date();
+          }
+          ctrl.refreshView();
+        });
       };
     };
     return $delegate;

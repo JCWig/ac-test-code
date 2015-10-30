@@ -12,9 +12,10 @@ const config = {
   FORMAT: 'EEE, MMM dd, yyyy',
   DELAY_CLOSING: 600
 };
+const REGEX = /^"(.+)"$/;
 
 class DateRangeController {
-  constructor(scope, $log, $timeout, dateFilter, $rootScope, translate, uuid, dateRangeService) {
+  constructor(scope, $log, $timeout, dateFilter, $rootScope, $translate, uuid, dateRangeService) {
     this.dateRangeService = dateRangeService;
     this.uuid = uuid;
     this.scope = scope;
@@ -22,12 +23,11 @@ class DateRangeController {
     this.$timeout = $timeout;
     this.dateFilter = dateFilter;
     this.$rootScope = $rootScope;
-    this.translate = translate;
+    this.$translate = $translate;
 
     this.opened = false;
     this.rangeStart = {};
     this.rangeEnd = {};
-    this.labels = {};
     this.rangeStart.selectedValue = '';
     this.rangeEnd.selectedValue = '';
     this.rangeSelected = false;
@@ -38,34 +38,28 @@ class DateRangeController {
 
     this.id = `akam-date-range-${scope.$id}-${this.uuid.guid()}`;
 
-    this.translate.async('components.date-range.labels.from').then((value) => {
-      this.labels.from = value;
-    });
-
-    this.translate.async('components.date-range.labels.to').then((value) => {
-      this.labels.to = value;
-    });
-
-    this.setMinMaxDate();
-
-    this.scope.$watch('dateRange.maxDate', (newValue) => {
+    this.scope.$watch('dateRange.max', (newValue) => {
       if (!newValue) {
         return;
       }
-      this.scope.$broadcast('dateRange.resetMax', {
-        id: this.id,
-        maxValue: new Date(newValue)
-      });
+      newValue = newValue.replace(REGEX, '$1');
+      if (angular.isDate(new Date(newValue))) {
+        scope.$broadcast('dateRange.updateMaxDate', {
+          maxValue: new Date(newValue)
+        });
+      }
     });
 
-    this.scope.$watch('dateRange.minDate', (newValue) => {
+    this.scope.$watch('dateRange.min', (newValue) => {
       if (!newValue) {
         return;
       }
-      this.scope.$broadcast('dateRange.resetMin', {
-        id: this.id,
-        minValue: new Date(newValue)
-      });
+      newValue = newValue.replace(REGEX, '$1');
+      if (angular.isDate(new Date(newValue))) {
+        scope.$broadcast('dateRange.updateMinDate', {
+          minValue: new Date(newValue)
+        });
+      }
     });
   }
 
@@ -115,33 +109,6 @@ class DateRangeController {
     this.openFromRangeEnd = !startBlankToFocus;
   }
 
-  setMinMaxDate(configuredYearSpan = 2) {
-    let date = new Date(),
-      minYr = date.getFullYear() - configuredYearSpan,
-      maxYr = date.getFullYear() + configuredYearSpan,
-      minMo = date.getMonth(),
-      maxMo = date.getMonth();
-
-    if (this.minDate) {
-      date = new Date(this.minDate);
-      if (angular.isDate(date)) {
-        minYr = date.getFullYear();
-        minMo = date.getMonth();
-      }
-
-      this.minDate = new Date(minYr, minMo, 1);
-    }
-    if (this.maxDate) {
-      date = new Date(this.maxDate);
-      if (angular.isDate(date)) {
-        maxYr = date.getFullYear();
-        maxMo = date.getMonth();
-      }
-
-      this.maxDate = new Date(maxYr, maxMo + 1, 0);
-    }
-  }
-
   preventOtherEvents(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -149,7 +116,7 @@ class DateRangeController {
 }
 
 DateRangeController.$inject = ['$scope', '$log', '$timeout',
-  'dateFilter', '$rootScope', 'translate', 'uuid', 'dateRangeService'
+  'dateFilter', '$rootScope', '$translate', 'uuid', 'dateRangeService'
 ];
 
 function linkFn(scope, elem, attr, ngModel) {
@@ -166,7 +133,7 @@ function linkFn(scope, elem, attr, ngModel) {
   if (attr.placeholder) {
     ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = attr.placeholder;
   } else {
-    ctrl.translate.async('components.date-range.placeholder').then((value) => {
+    ctrl.$translate('components.date-range.placeholder').then((value) => {
       ctrl.rangeStart.placeholder = ctrl.rangeEnd.placeholder = value;
     });
   }
@@ -207,7 +174,6 @@ function linkFn(scope, elem, attr, ngModel) {
       ctrl.dateRange.endDate = end;
 
       range = ctrl.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
-      setViewValue(range, start, end);
 
       ctrl.rangeSelected = info.rangeSelected;
 
@@ -216,14 +182,17 @@ function linkFn(scope, elem, attr, ngModel) {
       }, config.DELAY_CLOSING);
 
     } else {
+      range = '';
       ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
       ctrl.dateRange.startDate = start;
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
       ctrl.dateRange.endDate = end;
 
       ctrl.$timeout(() => {
-        //assuming only start date has value, calendar stay open - forced
-        ctrl.opened = true;
+        if (ctrl.dateRange.startDate) {
+          //assuming only start date has value, calendar stay open - forced
+          ctrl.opened = true;
+        }
       });
 
       if (start) {
@@ -232,6 +201,7 @@ function linkFn(scope, elem, attr, ngModel) {
         ctrl.setFocusState(true);
       }
     }
+    setViewValue(range, start, end);
     e.stopPropagation();
   };
 
@@ -244,28 +214,28 @@ function linkFn(scope, elem, attr, ngModel) {
       return;
     }
 
-    start = ctrl.dateRange.startDate;
-    end = ctrl.dateRange.endDate;
+    ctrl.$timeout(() => {
+      //interesting, have to wait for $digest completed
+      ctrl.format = ctrl.format || config.FORMAT;
 
-    if (start && end) {
-      //if startDate greater then endDate, swap date value
-      if (start > end) {
-        clone = new Date(end);
-        end = start;
-        start = clone;
+      start = ctrl.dateRange.startDate;
+      end = ctrl.dateRange.endDate;
+
+      if (start && end) {
+        //if startDate greater then endDate, swap date value
+        if (start > end) {
+          clone = new Date(end);
+          end = start;
+          start = clone;
+        }
+        ctrl.rangeSelected = true;
       }
 
       ctrl.rangeStart.selectedValue = ctrl.dateFilter(start, ctrl.format);
       ctrl.rangeEnd.selectedValue = ctrl.dateFilter(end, ctrl.format);
-      ctrl.rangeSelected = true;
 
       range = ctrl.dateRangeService.getSelectedDateRange(start, end, ctrl.format);
       setViewValue(range, start, end);
-    }
-
-    ctrl.$timeout(() => {
-      //interesting, have to wait for $digest completed
-      ctrl.format = ctrl.format || config.FORMAT;
 
       //send the event to child directive to handle with range values
       //use timeout to make sure the children directives are ready
@@ -318,8 +288,8 @@ export default () => {
       placeholder: '@?',
       isDisabled: '=?',
       format: '@?',
-      minDate: '@?',
-      maxDate: '@?'
+      min: '@?',
+      max: '@?'
     },
     scope: {},
     link: linkFn,

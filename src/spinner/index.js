@@ -2,7 +2,6 @@ import angular from 'angular';
 import uuid from '../uuid';
 
 import spinnerDirective from './spinner-directive';
-import spinnerService from './spinner-service';
 
 /**
  * @ngdoc module
@@ -21,6 +20,7 @@ import spinnerService from './spinner-service';
  * <akam-spinner
  *   min="0"
  *   max="99"
+ *   custom-step="2"
  *   ng-model="..">
  * </akam-spinner>
  *
@@ -44,15 +44,11 @@ export default angular.module('akamai.components.spinner', [
  * @param {Number} min number value for lower bound limit of spinner can go, optional.
  * Default is unlimited. This value is one way bound.
  *
- * @param {boolean} disabled a string value intend to disable the spinner if provided, optional.
+ * @param {boolean} disabled a string value intends to disable the spinner if provided, optional.
  * Default is other than String of "disabled". This value is two way bound.
  *
+ * @param {Number}[custom-step='1'] Optional a step number intends to increment and decrement
+ * spinner.
+ *
  */
-  .directive('akamSpinner', spinnerDirective)
-
-/**
- * @name spinnerService
- * @description a factory service implements the logic of validation of inputs
- * and max | min checking for akamSpinner directive
- */
-  .factory('spinnerService', spinnerService);
+  .directive('akamSpinner', spinnerDirective);

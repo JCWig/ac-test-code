@@ -1,0 +1,36 @@
+{
+  "components": {
+    "switch-button": {
+      "onLabel": "On",
+      "offLabel": "Off"
+    },
+    "tag-input": {
+      "placeholder": "Select Items",
+      "taggingLabel": "(new item)"
+    },
+    "dropdown": {
+      "placeholder": {
+        "noSelection": "Select one",
+        "filter": "Filter"
+      }
+    },
+    "wizard": {
+      "label": {
+        "previous": "Previous",
+        "next": "Next",
+        "submit": "Submit"
+      },
+      "successMessage": "The action has been completed.",
+      "errorMessage": "The action can't be completed."
+    },
+    "autocomplete": {
+      "search-tip": "Type in text to display matching results"
+    }
+  },
+  "examples.switchbutton.custom.allow": "Allow",
+  "examples.switchbutton.custom.deny": "Deny",
+  "examples.switchbutton.custom.label-variable": "{{name}}",
+  "examples.autocomplete.search.states": "Search States",
+  "examples.tag-input.tagging-label-variable": "add {{name}} one",
+  "examples.menu-button.default-text-values-variable": "show {{name}}"
+}

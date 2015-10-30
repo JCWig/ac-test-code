@@ -2,6 +2,7 @@
 'use strict';
 
 angular.module('akamai.components.examples.table', [
+  'akamai.components.constants',
   'akamai.components.table',
   'akamai.components.i18n'
 ])
@@ -22,6 +23,9 @@ function ExampleController($http, $q, $log) {
     vm.selectedItems = [data.data[0], data.data[1]];
     return data;
   });
+  
+  // set the table item failure message
+  vm.itemFailureMessage = "The table load failed.";
 
   // custom callback to handle whenever any item changes
   this.myRowSelectionCallback = function(selectedRows) {
@@ -71,12 +75,22 @@ function ExampleController($http, $q, $log) {
 }
 ExampleController.$inject = ['$http', '$q', '$log'];
 
-function configFunction(i18nTokenProvider) {
+function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                        i18nLocaleProvider) {
 
   // need to overwrite locales path on fee.akamai.com
-  if (window.location.host === 'fee.akamai.com') {
-    i18nTokenProvider.setComponentLocalePath('../dist/locales/');
-    i18nTokenProvider.setAppLocalePath('locales/json/messages/');
+  if (window.location.host == 'fee.akamai.com') {
+    $translatePartialLoaderProvider.addPart('../dist/locales/');
+    $translatePartialLoaderProvider.addPart('locales/json/messages/');
+  } else {
+    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
   }
+
+  var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+  $translateProvider.preferredLanguage(locale);
+  i18nLocaleProvider.setLocale(locale);
 }
-configFunction.$inject = ['i18nTokenProvider'];
+configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+  '$translateProvider', 'i18nLocaleProvider'];

@@ -21,15 +21,15 @@ const WRAPPER_CLASS_NAME = 'indeterminate-progress-wrapper',
   };
 
 class IndeterminateProgressController {
-  constructor(translate) {
+  constructor($translate) {
     if (angular.isDefined(this.label) && this.label !== '') {
-      translate.async(this.label)
+      $translate(this.label)
         .then(value => this.label = value);
     }
   }
 
   static get $inject() {
-    return ['translate'];
+    return ['$translate'];
   }
 
   get size() {

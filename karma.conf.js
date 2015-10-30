@@ -7,6 +7,7 @@ var jenkins = !!args.jenkins;
 module.exports = function(config) {
 
   var baseFileList = [
+    {pattern: 'node_modules/babelify/node_modules/babel-core/browser-polyfill.js', watched: false },
     {pattern: 'node_modules/angular/angular.js', watched: false },
     {pattern: 'node_modules/angular-mocks/angular-mocks.js', watched: false },
     {pattern: 'dist/akamai-core.min.css', watched: false },
@@ -14,14 +15,7 @@ module.exports = function(config) {
     {pattern: 'node_modules/moment/moment.js', watched: false }
   ];
 
-  var allSourceFiles = [
-    'spec/!(mega-menu)/**/*.js',
-    // load the mega menu tests last because they seem to not clean up the environment
-    // properly and several message-box and modal-window tests end up failing
-    'spec/mega-menu/**/*.js'
-  ];
-
-  var preprocessorPattern = args.testDir ? 'spec/' + args.testDir + '/**/*.js' : 'spec/**/*.js';
+  var preprocessorPattern = args.testDir ? 'test/' + args.testDir + '/**/*.js' : 'test/**/*.js';
 
   var filesToTest = baseFileList.concat(
     args.testDir ? [
@@ -29,10 +23,11 @@ module.exports = function(config) {
         pattern: preprocessorPattern,
         watched: false
       }
-    ] : allSourceFiles
+    ] : 'test/**/*.js'
   );
 
   var preProcessors = {};
+
   preProcessors[preprocessorPattern] = ['browserify'];
 
   config.set({
@@ -40,7 +35,7 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     files: filesToTest,
     logLevel: config.LOG_ERROR,
-    frameworks: ['browserify', 'jasmine', 'jquery-2.1.0', 'sinon'],
+    frameworks: ['browserify', 'jasmine', 'sinon'],
     preprocessors: preProcessors,
     browsers: ['PhantomJS'],
     reporters: ['spec', 'junit', 'coverage'],
@@ -49,7 +44,7 @@ module.exports = function(config) {
       transform: [
         'babelify',
         istanbul({
-          ignore: ['**/*.html', '**/spec/**', '**/*.hbs']
+          ignore: ['**/*.html', '**/test/**', '**/*.hbs']
         })
       ]
     },

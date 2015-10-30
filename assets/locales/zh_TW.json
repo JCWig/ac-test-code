@@ -9,16 +9,16 @@
             "label": "標籤"
         },
         "message-box": {
-            "yes": "是",
+            "yes": "Yes {{name}}",
             "title": {
-                "information": "資訊",
-                "question": "問題",
-                "error": "錯誤"
+                "information": "Information {{name}}",
+                "question": "Question {{name}}",
+                "error": "Error {{name}}"
             },
             "label": {
                 "detail": "檢視詳細資料"
             },
-            "no": "否"
+            "no": "No {{name}}"
         },
         "warning": {
             "browser-button": "Mac 上的 Safari 和 FireFox 不支援 BUTTON 元素中的焦點事件。請改用錨點標籤：A"
@@ -43,6 +43,7 @@
             "successMessage": "動作已完成。",
             "errorMessage": "動作無法完成。",
             "label": {
+                "cancel": "取消",
                 "next": "下一步",
                 "submit": "提交",
                 "previous": "上一個"
@@ -53,8 +54,8 @@
             "errorMessage": "動作無法完成。",
             "title": "強制回應視窗",
             "label": {
-                "cancel": "取消",
-                "save": "儲存"
+                "cancel": "Cancel {{name}}",
+                "save": "Save {{name}}"
             }
         },
         "tooltip": {},
@@ -62,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "根據您的篩選找不到結果。",
-                "noDataMessage": "根據您的準則找不到結果。"
+                "noDataMessage": "根據您的準則找不到結果。",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "筛选器"
@@ -74,7 +76,7 @@
         "determinate-progress": {},
         "context": {
             "accountChangedTitle": "帳戶已變更",
-            "accountChanged": "我們偵測到目前帳戶已從 \"{{oldName}}\" 變更為 \"{{name}}\"。您是否要切換回原始帳戶？'"
+            "accountChanged": "We have detected that the current account has changed from \"{{oldName}}\" to \"{{name}}\". Would you like to switch back to the original account?"
         },
         "dropdown": {
             "placeholder": {
@@ -103,12 +105,8 @@
                 "current-page": "目前頁面"
             }
         },
-        "name": "Akamai 一般元件",
+        "name": "Akamai Common Components {{name}}",
         "date-range": {
-            "labels": {
-                "to": "收件人",
-                "from": "來源"
-            },
             "placeholder": "選擇日期"
         },
         "autocomplete": {

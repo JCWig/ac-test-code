@@ -2,130 +2,139 @@ $popover-arrow-border: 8px solid transparent;
 $popover-border: 1px solid $border-color;
 $popover-close-icon-gutter: 8px;
 $popover-arrow-adjustment: -8px;
-$popover-contents-padding-top: 16px;
-$popover-contents-padding-bottom: 16px;
-$popover-contents-padding-left: 16px;
-$popover-contents-padding-right: 31px;
+$popover-contents-padding-top: 15px;
+$popover-contents-padding-bottom: 15px;
+$popover-contents-padding-left: 15px;
+$popover-contents-padding-right: 15px;
 $popover-border-width: 10.5px;
 $popover-contents-padding: $popover-contents-padding-top $popover-contents-padding-right $popover-contents-padding-bottom $popover-contents-padding-left;
 
 .popover {
-    max-width: $popover-max-width;
-    min-width: $popover-min-width;
-    @include box-shadow($global-box-shadow);
+  max-width: $popover-max-width;
+  min-width: $popover-min-width;
+  @include box-shadow($global-box-shadow);
+  border-radius: $border-radius;
+  border: 0;
+  padding: 0px;
+  z-index: -1;
+  position:absolute;
+  display:block;
+  visibility: hidden;
+  &.in{
+    z-index: $popover-zindex;
+    opacity: 1;
+    visibility: visible;
+    padding: $popover-contents-padding;
+    background-color: $popover-background-color;
+    border: $popover-border;
     border-radius: $border-radius;
-    padding: 0px;
-    z-index: -1;
+  }
+  .popover-title {
+    margin-bottom: 7px;
     background-color: transparent;
-    position:absolute;
-    display:block;
-    visibility: hidden;
-    &.in{
-        z-index: $popover-zindex;
-        opacity: 1;
-        visibility: visible;
+    border-bottom: 0;
+    border-radius: 0;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    color: #666;
+    text-align: left;
+  }
+  .popover-content{
+    padding: 0;
+    text-align: left;
+  }
+
+  .arrow {
+    border-width: 11px;
+  }
+  .arrow:after {
+    border-width: 10px;
+  }
+  .arrow, .arrow:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+
+  &.top {
+    margin-top: -10px;
+    .arrow {
+      left: 50%;
+      margin-left: -11px;
+      border-bottom-width: 0;
+      bottom: -11px;
+      border-top-color: $border-color;
     }
-    .popover-contents{
-        overflow:hidden;
-        padding: $popover-contents-padding;
-        background-color: $popover-background-color;
-        border: $popover-border;
-        border-radius: $border-radius;
-        i {
-            margin-right: -($popover-contents-padding-right - $popover-close-icon-gutter);
-            margin-top: -($popover-contents-padding-top - $popover-close-icon-gutter);
-        }
-        .popover-header{
-            margin-bottom: 9px;
-        }
-        .popover-middle-content{
-            font-color: $text-color;
-        }
-        .popover-link-content, .popover-button-content{
-            padding-top: 12px;
-        }
+    .arrow:after {
+      content: ' ';
+      bottom: 1px;
+      margin-left: -10px;
+      border-bottom-width: 0;
+      border-top-color: $popover-background-color;
     }
-    &.left, &.right {
-        .popover-contents {
-            min-width: 119px;
-            max-width: 279px;
-        }
+  }
+
+  &.bottom{
+    margin-top: 10px;
+
+    .arrow {
+      left: 50%;
+      margin-left: -11px;
+      border-top-width: 0;
+      top: -11px;
+      border-bottom-color: $border-color;
     }
-    &.top, &.bottom {
-        .popover-contents {
-            max-width: $popover-max-width;
-            min-width: $popover-min-width;
-        }
+
+    .arrow:after {
+      content: ' ';
+      top: 1px;
+      margin-left: -10px;
+      border-top-width: 0;
+      border-bottom-color: $popover-background-color;
     }
-    .popover-arrow {
-        position: absolute;
-        width: 0;
-        height: 0;
-        border:$popover-arrow-border;
-        margin: 0px;
+  }
+
+  &.right {
+    margin-left: 10px;
+
+    .arrow {
+      top: 50%;
+      left: -11px;
+      margin-top: -11px;
+      border-left-width: 0;
+      border-right-color: $border-color;
     }
-    .popover-arrow:after{
-        content: "";
-        border: $popover-arrow-border;
+
+    .arrow:after {
+      content: ' ';
+      left: 1px;
+      bottom: -10px;
+      border-left-width: 0;
+      border-right-color: $popover-background-color;
     }
-    &.left{
-        margin-left: -5px;
-        .popover-arrow {
-            border-right:none;
-            border-left: $popover-border-width solid $border-color;
-        }
-        > .popover-arrow:after {
-            top: $popover-arrow-adjustment;
-            position: absolute;
-            left: -12px;
-            border-right:none;
-            border-left: $popover-border-width solid $popover-background-color;
-        }
+  }
+
+  &.left {
+    margin-left: -10px;
+
+    .arrow {
+      top: 50%;
+      right: -11px;
+      margin-top: -11px;
+      border-right-width: 0;
+      border-left-color: $border-color;
     }
-    &.right {
-        margin-left: 5px;
-        .popover-arrow {
-            border-left:none;
-            border-right:$popover-border-width solid $border-color;
-        }
-        > .popover-arrow:after {
-            top: $popover-arrow-adjustment;
-            position: absolute;
-            left:1px;
-            border-left:none;
-            border-right: $popover-border-width solid $popover-background-color;
-        }
+
+    .arrow:after {
+      content: ' ';
+      right: 1px;
+      border-right-width: 0;
+      bottom: -10px;
+      border-left-color: $popover-background-color;
     }
-    &.bottom{
-        margin-bottom:-5px;
-        > .popover-arrow {
-            border-top:none;
-            border-bottom: $popover-border-width solid $border-color;
-        }
-        > .popover-arrow:after {
-            width: 0;
-            height: 0;
-            margin-left: $popover-arrow-adjustment;
-            position:absolute;
-            top: 1px;
-            border-top:none;
-            border-bottom: $popover-border-width solid $popover-background-color;
-        }
-    }
-    &.top{
-        margin-top: -5px;
-        .popover-arrow {
-            border-bottom:none;
-            border-top: $popover-border-width solid $border-color;
-        }
-        > .popover-arrow:after {
-            width: 0;
-            height: 0;
-            margin-left: $popover-arrow-adjustment;
-            position:absolute;
-            top: -12px;
-            border-bottom:none;
-            border-top: $popover-border-width solid $popover-background-color;
-        }
-    }
+  }
 }

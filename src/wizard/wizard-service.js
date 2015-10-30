@@ -4,11 +4,11 @@ import template from './templates/wizard.tpl.html';
 class WizardController {
 
   static get $inject() {
-    return ['$scope', '$rootScope', '$controller', 'translate',
+    return ['$scope', '$rootScope', '$controller', '$translate',
             '$templateCache', '$q', 'statusMessage', '$log'];
   }
 
-  constructor($scope, $rootScope, $controller, translate,
+  constructor($scope, $rootScope, $controller, $translate,
               $templateCache, $q, statusMessage, $log) {
     let options = $scope.options;
 
@@ -28,19 +28,39 @@ class WizardController {
       $controller(options.appController, {$scope: this.contentScope});
     }
 
-    this.title = options.title;
     this.icon = options.icon;
 
-    this.previousLabel = translate.sync(options.previousLabel,
-      null, 'components.wizard.label.previous');
-    this.nextLabel = translate.sync(options.nextLabel,
-      null, 'components.wizard.label.next');
-    this.submitLabel = translate.sync(options.submitLabel,
-      null, 'components.wizard.label.submit');
-    this.successMessage = translate.sync(options.successMessage,
-      null, 'components.wizard.successMessage');
-    this.submitErrorMessage = translate.sync(options.errorMessage,
-      null, 'components.wizard.errorMessage');
+    $translate(options.title, options.titleValues)
+      .then(value => this.title = value);
+
+    $translate(options.cancelLabel || 'components.wizard.label.cancel',
+      options.cancelLabelValues)
+        .then(value => this.cancelLabel = value);
+
+    $translate(options.previousLabel || 'components.wizard.label.previous',
+      options.previousLabelValues)
+        .then(value => this.previousLabel = value);
+
+    $translate(options.nextLabel || 'components.wizard.label.next',
+      options.nextLabelValues)
+        .then(value => this.nextLabel = value);
+
+    $translate(options.submitLabel || 'components.wizard.label.submit',
+      options.submitLabelValues)
+        .then(value => this.submitLabel = value);
+
+    $translate(options.successMessage || 'components.wizard.successMessage',
+      options.successMessageValues)
+        .then(value => this.successMessage = value);
+
+    $translate(options.errorMessage || 'components.wizard.errorMessage',
+      options.errorMessageValues)
+        .then(value => this.submitErrorMessage = value);
+
+    angular.forEach(options.steps, (step) => {
+      $translate(step.name, step.nameValues)
+        .then(value => step.name = value);
+    });
 
     this.instance = options.instance;
 
@@ -111,7 +131,6 @@ class WizardController {
     let step = angular.isNumber(stepNumber) ? this.steps[stepNumber] : this.currentStep();
 
     if (!step) {
-      this.$log.warn('No step to validate');
       return false;
     }
 
@@ -253,6 +272,9 @@ function wizard($modal, $rootScope) {
      *
      * @param {String} [options.icon] A CSS class representing an
      * icon to display to the left of the wizard title
+     *
+    * @param {String} [options.cancelLabel=Cancel] A label for the wizard's
+     * cancel button
      *
      * @param {String} [options.previousLabel=Previous] A label for the
      * wizard's previous button

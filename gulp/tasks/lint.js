@@ -14,5 +14,6 @@ gulp.task('lint', function() {
   return gulp.src(['src/**/*.js'])
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.format('junit', fs.createWriteStream(path.join(config.lint.path, config.lint.file))));
+    .pipe(eslint.format('junit', fs.createWriteStream(path.join(config.lint.path, config.lint.file))))
+    .pipe(eslint.failAfterError());
 });

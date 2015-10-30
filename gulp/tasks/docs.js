@@ -162,7 +162,7 @@ gulp.task('docs', [], function() {
 
   var dgeni = new Dgeni([pkg]);
 
-  dgeni.generate()
+  return dgeni.generate()
   .then(function(docs) {
     console.log(docs.length, 'docs generated');
   })

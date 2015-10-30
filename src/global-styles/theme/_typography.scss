@@ -1,0 +1,32 @@
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin: 0;
+  padding: 0;
+}
+
+h1, 
+.h1 {
+  color: $colors__bluegray1;
+}
+
+h2, h3, h4, h5, h6,
+.h2, .h3, .h4, .h5, .h6 {
+  font-weight: normal;
+}
+
+a[disabled] {
+  color: #88CBE0; // Replace with color variable
+  cursor: not-allowed;
+  // pointer-events: none; // Evaluate correct usage of pointer-events to disable anchors via CSS
+}
+
+mark,
+.mark {
+  background-color: #f9f3d0;
+}
+
+small,
+.small {
+  font-size: 80%;
+}
+

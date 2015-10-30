@@ -1,11 +1,12 @@
-<div class="akam-spinner">
-  <input id="{{::spinner.spinnerId}}" type="number" ng-model="spinner.inputValue" ng-change="changed()" ng-style="::spinner.dynamicMinWidth" min="{{::spinner.min}}" max="{{::spinner.max}}" ng-disabled="spinner.isDisabled()" placeholder="0">
-  <div class="btn-group-vertical number-input">
-    <button class="btn" ng-disabled="spinner.isOverMax() || spinner.isDisabled()" ng-mouseup="stopStepUp($event)" ng-mouseleave="stopStepUp($event)" ng-mousedown="startStepUp($event)">
-      <i class="luna-arrow_extra_smUp icon-states" ng-disabled="spinner.isOverMax() || spinner.isDisabled()"></i>
+<div class="akam-spinner input-group">
+  <input id="{{::spinner.spinnerId}}" class="form-control" type="number" ng-model="spinner.inputValue" ng-change="changed()" ng-style="::spinner.dynamicMinWidth" min="{{::spinner.min}}" max="{{::spinner.max}}" ng-disabled="spinner.disabled" placeholder="0">
+  <div class="btn-group-vertical input-group-btn number-input">
+    <button class="btn btn-default increment" ng-disabled="spinner.isOverMax(1) || spinner.disabled" ng-click="spinner.clickNoop($event)" ng-mouseup="stopStepUp($event)" ng-mouseleave="stopStepUp($event)" ng-mousedown="startStepUp($event)">
+      <i class="luna-arrow_extra_smUp icon-states" ng-disabled="spinner.isOverMax(1) || spinner.disabled"></i>
     </button>
-    <button class="btn" ng-disabled="spinner.isUnderMin() || spinner.isDisabled()" ng-mouseup="stopStepDown($event)" ng-mouseleave="stopStepDown($event)" ng-mousedown="startStepDown($event)">
-      <i class="luna-arrow_extra_smDown icon-states" ng-disabled="spinner.isUnderMin() || spinner.isDisabled()"></i>
+    <button class="btn btn-default decrement" ng-disabled="spinner.isUnderMin(1) || spinner.disabled" ng-click="spinner.clickNoop($event)" ng-mouseup="stopStepDown($event)" ng-mouseleave="stopStepDown($event)" ng-mousedown="startStepDown($event)">
+      <i class="luna-arrow_extra_smDown icon-states" ng-disabled="spinner.isUnderMin(1) || spinner.disabled"></i>
     </button>
   </div>
 </div>
+

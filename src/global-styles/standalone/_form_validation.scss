@@ -11,32 +11,25 @@ textarea {
   &.ng-invalid.ng-dirty.ng-touched {
     border-color: $colors__red3;
     border-width: 2px;
-  }
-}
-
-input[type="search"],
-input[type="date"],
-input[type="month"] {
-
-  &.ng-invalid.ng-dirty.ng-touched {
-
-    & ~ .button,
-    & ~ .btn {
-      border-left-color: $colors__red3;
+    
+    & ~ .btn,
+    & ~ .btn-group-vertical .btn,
+    & ~ .input-group-btn .btn {
+      border-color: $colors__red3;
+      border-width: 2px;
+      border-left-width: 1px;
+    }
+    
+    & ~ .btn-group-vertical .btn {
+      
+      &:first-child {
+        border-bottom-width: 1px;
+      }
+      &:last-child {
+        border-top-width: 1px;
+      }
     }
   }
-}
-
-[ng-messages] { 
-  display: none; // addresses FOUC
-  
-  color: $colors__red3;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.ng-invalid.ng-dirty.ng-touched ~ [ng-messages] {
-  display: block;
 }
 
 
@@ -52,6 +45,16 @@ akam-tag-input {
 }
 
 
+/* switch button */
+akam-switch-button {
+  &.ng-invalid.ng-dirty.ng-touched {
+    > .switch-button {
+      border-width: 2px;
+      border-color: $colors__red3;
+    }
+  }
+}
+
 
 /* dropdown menu validation */
 ul.dropdown-menu {
@@ -60,6 +63,19 @@ ul.dropdown-menu {
     border-color: $colors__red3;
   }
 
+}
+
+akam-dropdown {
+  &.ng-invalid.ng-dirty.ng-touched {
+    .dropdown-toggle > .dropdown-selected-wrapper > span {
+      border-color: $colors__red3;
+      border-width: 2px;
+      
+      &.selected-option {
+        border-right-width: 0;
+      }
+    }
+  }
 }
 
 
@@ -71,7 +87,6 @@ ul.dropdown-menu {
     & > input {
       border-color: $colors__red3;
 
-      & ~ .button,
       & ~ .btn {
         border-left-color: $colors__red3;
       }
@@ -83,12 +98,33 @@ ul.dropdown-menu {
   }
 }
 
+/* date range validation */
+akam-date-range {
+  &.ng-invalid.ng-dirty.ng-touched {
+    
+    .range-selection {
+    
+      .date-range-placeholder,
+      > .btn {
+        border-color: $colors__red3;
+        border-width: 2px;
+      }
+      
+      .date-range-placeholder {
+        width: calc(50% - 19.5px);
+      }
+    
+    }
+  }
+}
+
 
 /* required/optional field marking */
 form:not(.show-required) {
     
   .form-group:not(.required) > label {
     line-height: 1.2;
+    padding-top: 0;
     
     &:after {
       content: '\A(optional)';
@@ -104,14 +140,90 @@ form.show-required {
 
   .form-group.required > label {
     line-height: 1.2;
+    padding-top: 0;
     
     &:after {
       content: '\A(required)';
       font-weight: normal;
+      font-size: 10px;
       white-space: pre;
       color: $colors__gray4;
     }
   }
 }
 
-
+/* show-validation */
+.show-validation {
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="date"],
+  input[type="month"],
+  input[type="number"],
+  textarea {
+  
+    &.ng-invalid {
+      border-color: $colors__red3;
+      border-width: 2px;
+    }
+  }
+  
+  input[type="search"],
+  input[type="date"],
+  input[type="month"] {
+  
+    &.ng-invalid.ng-dirty.ng-touched {
+  
+      & ~ .btn {
+        border-left-color: $colors__red3;
+      }
+    }
+  }
+  
+  .ng-invalid ~ [ng-messages] {
+    display: block;
+  }
+  
+  akam-tag-input {
+    &.ng-invalid {
+      .ui-select-container {
+        border-color: $colors__red3;
+        border-width: 2px;
+      }
+    }
+  }
+  
+  akam-dropdown {
+    &.ng-invalid {
+      .dropdown-toggle > .dropdown-selected-wrapper > span {
+        border-color: $colors__red3;
+        border-width: 2px;
+        
+        &.selected-option {
+          border-right-width: 0;
+        }
+      }
+    }
+  }
+  
+  ul.dropdown-menu {
+    &.ng-invalid {
+      border-color: $colors__red3;
+    }
+  }
+  
+  .akam-date-picker.ng-invalid {
+    
+    & > input {
+      border-color: $colors__red3;
+      
+      & ~ .btn {
+        border-left-color: $colors__red3;
+      }
+    }
+  
+    ul.dropdown-menu {
+      border-color: $colors__red3;
+    }
+  }
+}

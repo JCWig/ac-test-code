@@ -1,3 +1,10 @@
+// Colors
+$brand-primary: #f46b29;
+$brand-success: #388e35;
+$brand-info: #2f79c9;
+$brand-warning: #dc9c2b;
+$brand-danger: #cc4947;
+
 // Titles
 $page-header-border-color: $colors__gray6; // used in example pages
 
@@ -5,4 +12,74 @@ $page-header-border-color: $colors__gray6; // used in example pages
 $legend-color: $colors__gray2;
 
 // Links
-$link-hover-decoration: none;
+$link-hover-decoration: underline;
+
+// Headings
+$font-size-h1: $h1__font-size;
+$font-size-h2: $h2__font-size;
+$font-size-h3: $h3__font-size;
+$font-size-h4: $h4__font-size;
+$font-size-h5: $h5__font-size;
+$font-size-h6: $h6__font-size;
+
+$headings-small-color: inherit;
+$headings-font-weight: bold;
+
+// Code
+$code-bg: $code__background-color;
+$code-color: $code__color;
+
+$kbd-bg: $code__background-color;
+$kbd-color: $code__color;
+
+$pre-bg: $code__background-color;
+$pre-color: $code__color;
+$pre-border-color: $code__border-color;
+
+// Blockquotes
+$blockquote-border-color: $colors__orange4;
+
+// Tables
+$table-bg: #FFFFFF;
+$table-cell-padding: 10px;
+$table-border-color: $colors__gray8;
+$table-bg-hover: $colors__blue3;
+
+// Wells
+$well-bg: #FFF;
+$well-border: $colors__gray6;
+
+// Navs
+$nav-pills-active-link-hover-color: inherit;
+$nav-pills-active-link-hover-bg: $colors__blue2;
+$nav-link-hover-bg: $colors__blue3;
+
+// List Groups
+$list-group-disabled-color: $colors__gray4;
+
+// Breadcrumbs
+$breadcrumb-padding-vertical: 5px;
+$breadcrumb-padding-horizontal: 5px;
+
+// Panels
+$panel-heading-padding: 10px 15px;
+
+// Breadcrumbs
+$breadcrumb-bg: transparent;
+$breadcrumb-separator: "::";
+$breadcrumb-active-color: #666666;
+
+// Pagination 
+$pagination-bg: transparent;
+$pagination-color: inherit;
+$pagination-border: transparent;
+$pagination-disabled-color: #CCCCCC;
+$pagination-disabled-border: transparent;
+$pagination-disabled-bg: transparent;
+$pagination-active-color: inherit;
+$pagination-active-border: #CCCCCC;
+$pagination-hover-color: #0099CC;
+$pagination-hover-border: #CCCCCC;
+
+/* ********* */
+

@@ -41,15 +41,43 @@
                 <br />
                 <br />
                 <div>
-                    <button type="button" class="button large" ng-click="open()">Open</button>
-                    <button type="button" class="button large" ng-click="openWithTemplateUrl()">Open With Template Url</button>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="open()">Open</button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="openWithTemplateUrl()">Open With Template</button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="openWithTableTemplateUrl()">Open With Table Template</button>
+                  </div>
                 </div>
             </form>
         </div>
+        <script src="utils/cookies.js"></script>
         <script src="../dist/akamai-core.js"></script>
         <script>
             var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
                 var modalScope = $rootScope.$new();
+                modalScope.items = [
+                  {"id":1,"first_name":"Norma","last_name":"White","email":"nwhite0@japanpost.jp","country":"China","ip_address":"131.46.59.162","boolean":true,"color":"Yellow"},
+                  {"id":2,"first_name":"Amanda","last_name":"Martin","email":"amartin1@unesco.org","country":"Haiti","ip_address":"249.90.111.115","boolean":false,"color":"Blue"},
+                  {"id":3,"first_name":"Gloria","last_name":"Allen","email":"gallen2@reuters.com","country":"Micronesia","ip_address":"233.173.83.45","boolean":false,"color":"Yellow"},
+                  {"id":4,"first_name":"Bobby","last_name":"Montgomery","email":"bmontgomery3@msn.com","country":"Gabon","ip_address":"16.173.58.169","boolean":true,"color":"Blue"},
+                  {"id":5,"first_name":"Charles","last_name":"Reyes","email":"creyes4@cbsnews.com","country":"Spain","ip_address":"136.197.92.192","boolean":true,"color":"Red"},
+                  {"id":6,"first_name":"Joshua","last_name":"Thompson","email":"jthompson5@yale.edu","country":"Russia","ip_address":"61.57.205.127","boolean":true,"color":"Yellow"}
+                ];
+                modalScope.fakeSubmit = function(row){
+                  row.isInProgress = true;
+                  row.isFailed = false;
+                  row.isSuccess = false;
+                  var timesCalled = 0;
+      
+                  $timeout(function(){
+                    row.isInProgress = false;
+                    if(timesCalled++ % 2 === 0){
+                      row.isFailed = true;
+                    }else{
+                      row.isSuccess = true;
+                    }
+                  }, 2500);
+                };
+                
                 var times = 0;
 
                 modalScope.name = 'Akamai Engineer';
@@ -57,8 +85,10 @@
 
                 $scope.options = {
                     title: 'Regarding Your Subscription Information',
-                    cancelLabel: 'Cancel',
-                    submitLabel: 'OK',
+                    cancelLabel: 'components.modal-window.label.cancel',
+                    cancelLabelValues: {'name':'- Beta Version'},
+                    submitLabel: 'components.modal-window.label.save',
+                    submitLabelValues: {'name':'- Beta Version'},
                     hideSubmit: false,
                     successMessage: 'Success!',
                     errorMessage: 'Error!',
@@ -100,7 +130,7 @@
                     // Create a new modal window instance with supplied options
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
-                        template:  '<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
+                        template:  angular.element('<label class="label">FYI:</label><p>Please be advised that your subscription will be expiring in 21 days</p>' +
                                     '<p>NOTE: The first time you click the submit, it should fail.  The second time it will succeed. Look at setOnSubmit!' +
                                     '<div class="label-group"><label class="label" for="description">{{templateExample.descriptionLabel}}</label><br>' +
                                     '<textarea id="description" type="text" rows="4" cols="75"></textarea>' +
@@ -113,10 +143,9 @@
                                     '</div><br />' +
                                     '<div class="label-group"><label class="label" for="other">{{templateExample.otherLabel}}</label><br>' +
                                     '<textarea id="other" type="text" rows="4" cols="75"></textarea>' +
-                                    '</div><br />' ,
+                                    '</div><br />'),
                         controller: aController,
                         controllerAs: 'templateExample'
-
                     }));
 
                     // Listen for the result returned by the modal window
@@ -130,11 +159,29 @@
                 };
 
                 $scope.openWithTemplateUrl = function() {
-
                     // Create a new modal window instance with a specific template url
                     var instance = modalWindow.open(angular.extend({}, $scope.options, {
                         scope: modalScope,
                         templateUrl: 'templates/modal-window.tpl.html',
+                        controller: 'ModalController'
+                    }));
+
+                    // Listen for the result returned by the modal window that is opened with a template
+                    instance.result
+                        .then(function(result) {
+                            $log.log('openWithTemplateUrl: Modal Window returned ', result);
+
+                        })
+                        .catch(function() {
+                            $log.log('openWithTemplateUrl: Modal Window was cancelled.');
+                        });
+                };
+                
+                $scope.openWithTableTemplateUrl = function() {
+                    // Create a new modal window instance with a specific template url
+                    var instance = modalWindow.open(angular.extend({}, $scope.options, {
+                        scope: modalScope,
+                        templateUrl: 'templates/modal-window.table.tpl.html',
                         controller: 'ModalController'
                     }));
 
@@ -155,7 +202,7 @@
 
                 $scope.setOnSubmit(function(){
                     var deferral = $q.defer();
-                        $timeout(function() {
+                    $timeout(function() {
                         if (times % 2 === 0) {
                             deferral.reject({enableSubmit : true });
                         }else{
@@ -164,7 +211,7 @@
 
                         times++;
                     }, 3000);
-                    return deferral.promise;
+                   return deferral.promise;
                 });
 
                 // Disable the save button by default
@@ -182,14 +229,34 @@
                 };
             };
 
+            function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                                    i18nLocaleProvider) {
+
+                // need to overwrite locales path on fee.akamai.com
+                if (window.location.host == 'fee.akamai.com') {
+                    $translatePartialLoaderProvider.addPart('../dist/locales/');
+                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
+                } else {
+                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+                }
+
+                var locale = docCookies.getItem('AKALOCALE') || 'en_US';
+
+                $translateProvider.preferredLanguage(locale);
+                i18nLocaleProvider.setLocale(locale);
+            }
+            configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
+                '$translateProvider', 'i18nLocaleProvider'];
+
             exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
             modalController.$inject = ['$scope', '$q', '$timeout'];
 
-            angular.module('example', ['akamai.components.modal-window'])
-
+            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window', 'akamai.components.indeterminate-progress', 'akamai.components.table'])
             .controller('ExampleController', exampleController)
+            .controller('ModalController', modalController)
+            .config(configFunction);
 
-            .controller('ModalController', modalController);
         </script>
     </body>
 </html>

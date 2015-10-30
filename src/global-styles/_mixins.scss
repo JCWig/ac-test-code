@@ -40,14 +40,14 @@
       @content;
     }
   }
-  
+
   // http://browserhacks.com/#hack-fcd70847fc9af76ec582d13fe50066c8
   @else if $browser == "Firefox" {
     _:-moz-tree-row(hover), & {
       @content;
     }
   }
-  
+
   @else {
     @content;
   }
@@ -91,7 +91,7 @@ $ie-ver: '' !default;
 }
 
 // This mixin is a fork/enhancement of twitter bootstraps mixin
-@mixin placeholder-enhanced($color: inherit, $fontStyle: inherit) {
+@mixin placeholder-enhanced($color: inherit, $fontStyle: inherit, $padding: 0) {
   /* Only the following properties are allowed/useful for placeholder text:
       color
       font-size
@@ -108,14 +108,17 @@ $ie-ver: '' !default;
     color: $color;
     font-style: $fontStyle;
     opacity: 1; // Override Firefoxs unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526
+    padding-left: $padding;
   }
   &:-ms-input-placeholder {
     color: $color;
     font-style: $fontStyle;
+    padding-left: $padding;
   }
   &::-webkit-input-placeholder {
     color: $color;
     font-style: $fontStyle;
+    padding-left: $padding;
   }
 }
 
@@ -298,6 +301,7 @@ $ie-ver: '' !default;
             // Define the disabled attr selector
             .#{$selectors-class}.#{sprite-map-name($map)}-#{$iconName}[#{$stateName}] {
               background-position: sprite-position($map, $icon) !important;
+              cursor: not-allowed;
             }
           }
         }

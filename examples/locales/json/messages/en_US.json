@@ -80,7 +80,7 @@
         {
             "products": "Filter Products"
         }
-    },    
+    },
     "report.emails": "Emails",
     "instant-reports.criteria.title": "Report Criteria",
     "recurring-report.create.menu.title": "Create Recurring Report",
@@ -235,7 +235,7 @@
     "month.11": "November",
     "report.edit.subtitle": "Configure recurring reports",
     "month.10": "October",
-    "notification.edit.view.title": "EDIT NOTIFICATION",       
+    "notification.edit.view.title": "EDIT NOTIFICATION",
     "components.list-box.text.viewSelectedOnly":"You have no data selected",
     "components.list-box.text.nofilterResults":"There are no results based upon your filter",
     "components.list-box.text.noDataMessage":"There is no data based upon your criteria",
@@ -254,12 +254,19 @@
     "examples.wizard.step4": "Step 4",
     "examples.wizard.step5": "Step 5",
     "examples.autocomplete.search.states": "Search States",
-    "examples.appNames.tq": "Tranquility",
-    "examples.appNames.bc": "Billing Center",
-    "examples.appNames.pm": "Property Manager",
+    "examples.appNames.tq": "Tranquility {{name}}",
+    "examples.appNames.bc": "Billing Center {{name}}",
+    "examples.appNames.pm": "Property Manager {{name}}",
     "examples.datepicker.choose.date": "Choose Date",
     "examples.datepicker.choose.month": "Choose Month",
     "examples.switchbutton.custom.allow": "Allow",
     "examples.switchbutton.custom.deny": "Deny",
-    "examples.dropdown.select.one": "Select One"
+    "examples.switchbutton.custom.label-variable": "{{name}} Change",
+    "examples.dropdown.select.one": "Select One",
+    "examples.tag-input.label-variable": "Add {{name}} one",
+    "examples.list-box.noDataMessage-variable": "Missing {{name}} data",
+    "examples.list-box.noneSelectedMessage-variable": "No {{name}} result",
+    "examples.list-box.noFilterResultsMessage-variable": "No {{name}} filter",
+    "examples.test.select":"No data found for {{name}}",
+    "examples.spinnerbutton.custom.label-variable": "{{name}} - Custom Text"
 }

@@ -6,18 +6,19 @@ const DEFAULT_MORMAT = {
   DAY: 'EEE, MMM dd, yyyy',
   MONTH: 'MMM yyyy'
 };
+const REGEX = /^"(.+)"$/;
 
 class DatepickerController {
-  constructor($filter, $timeout, translate) {
+  constructor($filter, $timeout, $translate) {
     this.$filter = $filter;
     this.$timeout = $timeout;
-    this.translate = translate;
+    this.$translate = $translate;
 
     this.opened = false;
     this.mode = this.mode === DAY || this.mode === MONTH ? this.mode : DAY;
 
     if (this.mode === DAY) {
-      this.translate.async(this.placeholder, null, 'components.date-picker.placeholder.date')
+      this.$translate(this.placeholder || 'components.date-picker.placeholder.date')
         .then((value) => this.placeholder = value);
 
       this.dateOptions = {
@@ -28,7 +29,7 @@ class DatepickerController {
         maxMode: DAY
       };
     } else {
-      this.translate.async(this.placeholder, null, 'components.date-picker.placeholder.month')
+      this.$translate(this.placeholder || 'components.date-picker.placeholder.month')
         .then((value) => this.placeholder = value);
 
       this.dateOptions = {
@@ -57,9 +58,15 @@ class DatepickerController {
 
     this.opened = !this.opened;
   }
+
+  static getDateOnly(d) {
+    let date = angular.isDate(d) ? d : new Date();
+
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }
 }
 
-DatepickerController.$inject = ['$filter', '$timeout', 'translate'];
+DatepickerController.$inject = ['$filter', '$timeout', '$translate'];
 
 function linkFn(scope, element, attrs, ngModel) {
   let noClear = angular.isDefined(attrs.noClear),
@@ -70,8 +77,7 @@ function linkFn(scope, element, attrs, ngModel) {
   }
 
   ngModel.$render = () => {
-    ctrl.value =
-      ctrl.$filter('date')(ngModel.$modelValue, ctrl.format);
+    ctrl.value = ngModel.$modelValue;
   };
 
   scope.change = () => {
@@ -89,19 +95,74 @@ function linkFn(scope, element, attrs, ngModel) {
   };
 
   scope.$watch('datepicker.opened', (newValue) => element.toggleClass('opened', newValue));
+
+  scope.$watch('datepicker.max', (newValue) => {
+    if (!newValue) {
+      return;
+    }
+    newValue = newValue.replace(REGEX, '$1');
+    let max = DatepickerController.getDateOnly(new Date(newValue)),
+      selected = DatepickerController.getDateOnly(ctrl.value),
+      toReset = false;
+
+    if (max.getTime() < selected.getTime() || !ctrl.value) {
+      scope.clearDate();
+      toReset = true;
+    }
+
+    if (angular.isDate(max)) {
+      let eventName = 'datepicker.updateMaxDate';
+
+      if (ctrl.mode === MONTH) {
+        eventName = 'monthpicker.updateMaxDate';
+      }
+      scope.$broadcast(eventName, {
+        maxDate: max,
+        selectedDate: angular.isDate(ctrl.value) ? ctrl.value : undefined,
+        reset: toReset
+      });
+    }
+  });
+
+  scope.$watch('datepicker.min', (newValue) => {
+    if (!newValue) {
+      return;
+    }
+    newValue = newValue.replace(REGEX, '$1');
+    let min = DatepickerController.getDateOnly(new Date(newValue)),
+      selected = DatepickerController.getDateOnly(ctrl.value),
+      toReset = false;
+
+    if (min.getTime() > selected.getTime() || !ctrl.value) {
+      scope.clearDate();
+      toReset = true;
+    }
+
+    if (angular.isDate(min)) {
+      let eventName = 'datepicker.updateMinDate';
+
+      if (ctrl.mode === MONTH) {
+        eventName = 'monthpicker.updateMinDate';
+      }
+      scope.$broadcast(eventName, {
+        minDate: min,
+        selectedDate: angular.isDate(ctrl.value) ? ctrl.value : undefined,
+        reset: toReset
+      });
+    }
+  });
 }
 
 export default () => {
   return {
-    replace: true,
     restrict: 'E',
     require: 'ngModel',
     scope: {},
     bindToController: {
       placeholder: '@',
       mode: '@',
-      min: '@',
-      max: '@',
+      min: '@?',
+      max: '@?',
       format: '@',
       isDisabled: '=?'
     },
