@@ -45,6 +45,8 @@
                     <button type="button" class="btn btn-default btn-lg" ng-click="open()">Open</button>
                     <button type="button" class="btn btn-default btn-lg" ng-click="openWithTemplateUrl()">Open With Template</button>
                     <button type="button" class="btn btn-default btn-lg" ng-click="openWithTableTemplateUrl()">Open With Table Template</button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="openWithAutcompleteTemplateUrl()">Open With Autocomplete Template</button>
+
                   </div>
                 </div>
             </form>
@@ -52,7 +54,7 @@
         <script src="utils/cookies.js"></script>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
+            var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout, $filter) {
                 var modalScope = $rootScope.$new();
                 modalScope.items = [
                   {"id":1,"first_name":"Norma","last_name":"White","email":"nwhite0@japanpost.jp","country":"China","ip_address":"131.46.59.162","boolean":true,"color":"Yellow"},
@@ -62,6 +64,30 @@
                   {"id":5,"first_name":"Charles","last_name":"Reyes","email":"creyes4@cbsnews.com","country":"Spain","ip_address":"136.197.92.192","boolean":true,"color":"Red"},
                   {"id":6,"first_name":"Joshua","last_name":"Thompson","email":"jthompson5@yale.edu","country":"Russia","ip_address":"61.57.205.127","boolean":true,"color":"Yellow"}
                 ];
+                
+                modalScope.ex1 = { selectedState: 'Massachusetts' };
+                
+                modalScope.searchStateStrings = function(searchTerm) {
+                    var stateStrings = [
+                        'Colorado',
+                        'Connecticut',
+                        'Maryland',
+                        'Massachusetts',
+                        'New Hampshire',
+                        'New Jersey',
+                        'New York',
+                        'Vermont',
+                        'Virginia',
+                        'Washington, District of Columbia'
+                    ];
+        
+                    var criteriaMatch = function(item) {
+                        return item.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+                    };
+        
+                    return $filter('filter')(stateStrings, criteriaMatch);
+                };
+
                 modalScope.fakeSubmit = function(row){
                   row.isInProgress = true;
                   row.isFailed = false;
@@ -195,8 +221,32 @@
                             $log.log('openWithTemplateUrl: Modal Window was cancelled.');
                         });
                 };
+
+
+                $scope.openWithAutcompleteTemplateUrl = function() {
+                    $log.log('calling autocomplete template');
+                    // Create a new modal window instance with a specific template url
+                    var instance = modalWindow.open(angular.extend({}, $scope.options, {
+                        scope: modalScope,
+                        templateUrl: 'templates/modal-window.autocomplete.tpl.html',
+                        controller: 'ModalController'
+                    }));
+
+                    // Listen for the result returned by the modal window that is opened with a template
+                    instance.result
+                        .then(function(result) {
+                            $log.log('openWithTemplateUrl: Modal Window returned ', result);
+
+                        })
+                        .catch(function() {
+                            $log.log('openWithTemplateUrl: Modal Window was cancelled.');
+                        });
+                };
             };
 
+            
+    
+            
             var modalController = function($scope, $q, $timeout) {
                 var times = 0;
 
@@ -249,10 +299,11 @@
             configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
                 '$translateProvider', 'i18nLocaleProvider'];
 
-            exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
-            modalController.$inject = ['$scope', '$q', '$timeout'];
+            exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout', '$filter'];
+            modalController.$inject = ['$scope', '$q', '$timeout','$filter'];
 
-            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window', 'akamai.components.indeterminate-progress', 'akamai.components.table'])
+            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window',
+                    'akamai.components.indeterminate-progress', 'akamai.components.table', 'akamai.components.autocomplete', 'akamai.components.menu-button'])
             .controller('ExampleController', exampleController)
             .controller('ModalController', modalController)
             .config(configFunction);
