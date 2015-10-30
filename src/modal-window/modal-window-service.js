@@ -66,9 +66,11 @@ class ModalWindowController {
 
     this.contentScope.isSubmitDisabled = angular.bind(this, this.isSubmitDisabled);
 
+    let resolve = this.options.contentResolve ? this.options.contentResolve : {};
+
     if (this.options.contentController) {
       contentController = this.$controller(
-        this.options.contentController, {$scope: this.contentScope}
+        this.options.contentController, angular.extend({$scope: this.contentScope}, resolve)
       );
     }
 
@@ -197,6 +199,7 @@ export default class ModalWindowService {
     options.contentControllerAs = options.controllerAs;
     options.contentTemplate = options.template;
     options.contentTemplateUrl = options.templateUrl;
+    options.contentResolve = options.resolve;
 
     // create a new bootstrap ui modal instance with akamai options
     options.instance = this.$modal.open(angular.extend(options, {

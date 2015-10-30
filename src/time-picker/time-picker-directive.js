@@ -13,9 +13,7 @@ class TimepickerController {
     this.$scope = $scope;
     this.$document = $document;
     this.$parse = $parse;
-
     this.isOpen = false;
-
     this.$document.on('click', angular.bind(this, this.clickHandler));
     this.$scope.$on('$destroy', () => this.$document.off('click', this.clickHandler));
   }
