@@ -27,12 +27,10 @@
 <body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="DropdownAppController as vm">
 
     <h1>Dropdown Component Example</h1>
-
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
-            <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex1.selectedState"
-                           items="vm.strings" clearable></akam-dropdown>
+            <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex1.selectedState" items="vm.strings" clearable></akam-dropdown>
         </span>
     </div>
     <br/>
@@ -71,28 +69,28 @@
     <br/>
     <br/>
     <div>
-        <h2>Dropdown with a list of strings and a filter, not clearable</h2>
+        <h2>Dropdown with a list of strings not clearable</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings" filterable></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex3.selectedState" items="vm.strings"></akam-dropdown>
         </span>
     </div>
     <br/>
 
     <div>
-        <h2>Default dropdown with a list of objects and a filter</h2>
+        <h2>Default dropdown with a list of objects</h2>
         <span>
             <akam-dropdown ng-model="vm.ex4.selectedState" text-property="name"
-                           items="vm.stateObjects" filterable="name" clearable>
+                           items="vm.stateObjects" clearable>
             </akam-dropdown>
         </span>
     </div>
     <br/>
 
     <div>
-        <h2>Dropdown with a list of objects, a filter and custom markup, not clearable</h2>
+        <h2>Dropdown with a list of objects and custom markup, not clearable</h2>
         <span>
             <akam-dropdown ng-model="vm.ex5.selectedState" text-property="name"
-                           items="vm.stateObjects" filterable="name">
+                           items="vm.stateObjects">
 
                 <akam-dropdown-selected>
                     <span ng-if="dropdown.selectedItem" title="{{dropdown.getSelectedItemText()}}">custom: {{dropdown.getSelectedItemText()}}</span>
@@ -101,7 +99,7 @@
 
                 <akam-dropdown-option>
                     <span title="{{item[dropdown.textProperty]}}">custom:
-                        <span ng-bind-html="item[dropdown.textProperty] | highlight:dropdownFilter[dropdown.filterProperty]"></span>
+                        <span ng-bind-html="item[dropdown.textProperty]"></span>
                     </span>
                 </akam-dropdown-option>
             </akam-dropdown>
@@ -119,7 +117,7 @@
     <br/>
 
     <div>
-        <h2>Dropdown with a list of objects, a filter and custom markup, not clearable append to body</h2>
+        <h2>Dropdown with a list of objects and custom markup, not clearable append to body</h2>
         <span class="util-hidden-overflow">
             <akam-dropdown appended-to-body ng-model="vm.ex7.selectedState" text-property="name"
                            items="vm.stateObjects" filterable="name">
@@ -133,7 +131,7 @@
 
                 <akam-dropdown-option>
                     <span title="{{item[dropdown.textProperty]}}">custom:
-                        <span ng-bind-html="item[dropdown.textProperty] | highlight:dropdownFilter[dropdown.filterProperty]"></span>
+                        <span ng-bind-html="item[dropdown.textProperty]"></span>
                     </span>
                 </akam-dropdown-option>
             </akam-dropdown>
@@ -142,10 +140,10 @@
     </div>
     <br/>
     <div>
-        <h2 ng-click="vm.addState();">Default dropdown with a list of objects with keys and a filter</h2>
+        <h2 ng-click="vm.addState();">Default dropdown with a list of objects with keys</h2>
         <span>
             <akam-dropdown ng-model="vm.ex8.selectedState" text-property="state.name" key-property="state.key"
-                           items="vm.stateObjectsWithKeys" clearable filterable="name">
+                           items="vm.stateObjectsWithKeys" clearable>
             </akam-dropdown>
         </span>
     </div>
@@ -154,20 +152,27 @@
     <div>
         <h2>Default dropdown using a promise for items</h2>
         <span>
-            <akam-dropdown ng-model="vm.ex9.selectedState" items="vm.itemsPromise" clearable></akam-dropdown>
+            <akam-dropdown ng-model="vm.ex9.selectedState" items="vm.promise" ng-click="vm.loadPromise()" clearable></akam-dropdown>
         </span>
     </div>
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-
+    <br/>
+    <div>
+        <h2>Default dropdown rejected promise for items</h2>
+        <span>
+            <akam-dropdown ng-model="vm.ex10.selectedState" items="vm.itemsRejectedPromise" clearable></akam-dropdown>
+        </span>
+    </div>
+    <br/> <br/> <br/> <br/> <br/> <br/>
     <script src="utils/i18n-register.js"></script>
+    <script src="utils/cookies.js"></script>
     <script src="../dist/akamai-core.js"></script>
 
     <script>
         angular.module('exampleApp', ['akamai.components.constants','akamai.components.dropdown', 'akamai.components.menu-button'])
                 .controller('DropdownAppController', DropdownAppController);
 
-        DropdownAppController.$inject = ['$log', '$translate', '$q'];
-        function DropdownAppController($log, $translate, $q) {
+        DropdownAppController.$inject = ['$log', '$translate', '$q', '$timeout'];
+        function DropdownAppController($log, $translate, $q, $timeout) {
             var vm = this;
             vm.test = 'test';
             vm.disabled = false;
@@ -187,7 +192,7 @@
                 {name: 'New York'},
                 {name: 'Vermont'},
                 {name: 'Virginia'},
-                {name: 'Washington, District of Columbia Washington, District of Columbia'},
+                {name: 'Washington, District of Columbia'},
             ];
 
             vm.stateObjectsWithKeys = [
@@ -217,8 +222,17 @@
             ];
 
             var itemsDefferal = $q.defer();
-            itemsDefferal.resolve(vm.strings);
+            $timeout(function() {
+                itemsDefferal.resolve(vm.strings);
+            }, 3000);
+
+            var itemsRejected = $q.defer();
+            $timeout(function() {
+                itemsRejected.reject();
+            }, 3000);
+
             vm.itemsPromise = itemsDefferal.promise;
+            vm.itemsRejectedPromise = itemsRejected.promise;
 
             vm.ex1 = { selectedState: 'Massachusetts' };
             vm.ex2 = { selectedState: undefined };
@@ -228,7 +242,8 @@
             vm.ex6 = { selectedState: undefined };
             vm.ex7 = { selectedState: undefined };
             vm.ex8 = { selectedState: 0 };
-            vm.ex9 = { selectedState: 'Massachusetts' };
+            vm.ex9 = { selectedState: undefined };
+            vm.ex10 = { selectedState: undefined };
 
             vm.doChange = function(item) {
                 $log.log('selected item changed', item);
@@ -238,6 +253,34 @@
                 if (vm.stateObjectsWithKeys.length === 10) {
                     vm.stateObjectsWithKeys.push({state: {key: 'key11', name: 'Florida'}});
                 }
+            };
+            vm.promise = searchWithPromise();
+            function searchWithPromise() {
+
+                var deferred = $q.defer();
+
+                var strings = [
+                    'Colorado',
+                    'Connecticut',
+                    'Maryland',
+                    'Massachusetts',
+                    'New Hampshire',
+                    'New Jersey',
+                    'New York',
+                    'Vermont',
+                    'Virginia',
+                    'Washington, District of Columbia'
+                ];
+
+                $timeout(function() {
+                    return deferred.resolve(strings);
+                }, 3000);
+
+                return deferred.promise;
+            }
+
+            vm.loadPromise = () => {
+                vm.promise = searchWithPromise();
             };
         }
     </script>

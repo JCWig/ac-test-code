@@ -1,7 +1,14 @@
 <div class="dropdown-menu">
-    <ul class="dropdown-menu">
-        <li ng-repeat="item in autocomplete.items">
+    <ul class="dropdown-menu" ng-class="{'dropdown-indeterminate-progress': autocomplete.promiseLoading}">
+        <li>
+            <akam-indeterminate-progress completed="{{!autocomplete.promiseLoading}}" size="micro"></akam-indeterminate-progress>
+        </li>
+        <li class="dropdown-no-items" ng-if="!autocomplete.items.length && !autocomplete.promiseLoading">
+            <span>{{ ::autocomplete.noFilterResults }}</span>
+        </li>
+        <li ng-repeat="item in autocomplete.getItems()">
             <a ng-mousedown="autocomplete.setSelectedItem(item)" class="dropdown-item-link">
+
                 <span ng-if="autocomplete.textProperty" title="{{ autocomplete.textPropertyFn(item) }}"
                       ng-bind-html="autocomplete.textPropertyFn(item) | highlight:autocomplete.searchTerm"></span>
                 <span ng-if="!autocomplete.textProperty" title="{{item}}"

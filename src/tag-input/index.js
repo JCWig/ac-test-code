@@ -4,6 +4,7 @@ import 'sortablejs/ng-sortable';
 import dropdown from '../dropdown';
 
 import tagInputDirective from './tag-input-directive';
+import indeterminateProgress from '../indeterminate-progress';
 
 /**
  * @ngdoc module
@@ -45,6 +46,7 @@ import tagInputDirective from './tag-input-directive';
  */
 export default angular.module('akamai.components.tag-input', [
   dropdown.name,
+  indeterminateProgress.name,
   'ng-sortable'
 ])
 

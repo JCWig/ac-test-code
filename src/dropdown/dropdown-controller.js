@@ -3,17 +3,16 @@ import selectedElemTemplate from './templates/dropdown-selected.tpl.html';
 import menuElemTemplate from './templates/dropdown-menu.tpl.html';
 
 const PLACEHOLDER_KEY = 'components.dropdown.placeholder.noSelection';
-const FILTER_PLACEHOLDER_KEY = 'components.dropdown.placeholder.filter';
 
 export default class DropdownController {
 
   static get $inject() {
     return ['$scope', '$parse', '$translate', 'dropdownTemplateService', 'appendToBodyService',
-      '$compile', '$log'];
+      '$compile', '$log', '$q'];
   }
 
   constructor($scope, $parse, $translate, dropdownTemplateService, appendToBodyService, $compile,
-              $log) {
+              $log, $q) {
     this.name = 'dropdown';
     this.textPropertyFn = $parse(this.textProperty);
     this.textPropertySetter = this.textPropertyFn.assign;
@@ -26,7 +25,7 @@ export default class DropdownController {
     this.$scope = $scope;
     this.$compile = $compile;
     this.$log = $log;
-    this.filterClick = false;
+    this.$q = $q;
     this.templateData = {
       selected: {
         template: selectedElemTemplate,
@@ -37,6 +36,11 @@ export default class DropdownController {
         customSelector: 'a.dropdown-item-link'
       }
     };
+
+    this.promiseLoading = false;
+
+    $translate('components.dropdown.itemFailureMessage')
+      .then(value => this.itemFailureMessage = value);
   }
 
   initialize(elem, attrs, ngModel) {
@@ -47,9 +51,9 @@ export default class DropdownController {
       this.selectedItem = this.ngModel.$viewValue;
     };
 
-    this.$scope.$watchCollection(`${this.name}.items`, items => this.createItemMap(items));
-
-    this.hasFilter = angular.isDefined(attrs.filterable);
+    this.$scope.$watchCollection(`${this.name}.items`, items => {
+      this.createItemMap(items);
+    });
 
     if (angular.isDefined(attrs.keyProperty)) {
       this.keyProperty = attrs.keyProperty;
@@ -89,10 +93,16 @@ export default class DropdownController {
 
   createItemMap(items) {
 
-    if (items != null && angular.isFunction(items.then)) {
+    if (angular.isDefined(items) && items !== null && angular.isFunction(items.then)) {
+      this.items = [];
+      this.promiseLoading = true;
       items.then(promiseItems => {
         this.items = promiseItems;
-      }, rejectReason => this.$log.error(rejectReason));
+        this.promiseLoading = false;
+      }, rejectReason => {
+        this.$log.error(rejectReason);
+        this.promiseLoading = false;
+      });
     }
 
     this.itemSet = [];
@@ -102,8 +112,8 @@ export default class DropdownController {
 
     angular.forEach(items, (item) => {
       let keyId = this.keyPropertyFn(item);
-      if (!(this.itemSet.hasOwnProperty(keyId) && this.itemSet[keyId])) {
 
+      if (!(this.itemSet.hasOwnProperty(keyId) && this.itemSet[keyId])) {
         this.itemSet[keyId] = item;
       } else {
         throw new Error('Keys must be unique when using the key-property attribute');
@@ -115,12 +125,6 @@ export default class DropdownController {
     this.$translate(this.placeholder || PLACEHOLDER_KEY)
       .then(value => {
         this.placeholder = value;
-        this.selected.placeholder = this.placeholder;
-      });
-
-    this.$translate(this.filterPlaceholder || FILTER_PLACEHOLDER_KEY)
-      .then(value => {
-        this.filterPlaceholder = value;
         this.selected.placeholder = this.placeholder;
       });
   }
@@ -163,19 +167,11 @@ export default class DropdownController {
     this.selectedItem = undefined;
   }
 
-  initFilterClick() {
-    if (this.filterClick) {
-      this.isOpen = true;
-      this.filterClick = false;
-    }
-  }
-
   renderMenu() {
     return angular.isArray(this.items);
   }
 
-  onFilterClick($event) {
-    $event.stopPropagation();
-    this.filterClick = true;
+  getItems() {
+    return this.renderMenu() ? this.items : [];
   }
 }

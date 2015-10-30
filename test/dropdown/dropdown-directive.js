@@ -10,6 +10,7 @@ const DROPDOWN = '.dropdown';
 const SELECTED_OPTION = '.selected-option';
 const DROPDOWN_TOGGLE = '.dropdown-toggle';
 const DROPDOWN_MENU = '.dropdown-menu';
+const DROPDOWN_INDETERMINATE_PROGRESS = '.dropdown-indeterminate-progress';
 
 describe('akamai.components.dropdown', function() {
 
@@ -30,12 +31,12 @@ describe('akamai.components.dropdown', function() {
   let stateObjectsWithKeys = [
     {state: {key: 'key1', name: 'components.dropdown.placeholder.filter'}},
     {state: {key: 'key2', name: 'Connecticut'}},
-    {state: {key: 'some', name: 'Maine'}},
+    {state: {key: 'some', name: 'Maine'}}
   ];
 
   let stateObjectsWithIntegerKeys = [
     {state: {key: 0, name: 'Colorado'}},
-    {state: {key: 1, name: 'Connecticut'}},
+    {state: {key: 1, name: 'Connecticut'}}
   ];
 
   function addElement(markup) {
@@ -52,16 +53,15 @@ describe('akamai.components.dropdown', function() {
     return util.findElement(this.el, DROPDOWN_MENU);
   }
 
+  function getIndeterminateProgress() {
+    return util.findElement(this.el, DROPDOWN_INDETERMINATE_PROGRESS);
+  }
   function getDropdownToggle() {
     return util.findElement(this.el, DROPDOWN_TOGGLE);
   }
 
   function clickDropdownToggle() {
     this.getDropdownToggle().triggerHandler('click');
-  }
-
-  function getFilterElement() {
-    return util.findElement(this.el, '.fixed-header input');
   }
 
   function getSelectedOption() {
@@ -75,12 +75,12 @@ describe('akamai.components.dropdown', function() {
       $translateProvider.translations('en_US', translationMock);
       $translateProvider.useLoader('translateNoopLoader');
     });
-    inject(function($rootScope, _$compile_, $httpBackend, $timeout, $document) {
+    inject(function($rootScope, _$compile_, $httpBackend, $timeout, $document, $q) {
       this.$scope = $rootScope;
       this.$compile = _$compile_;
       this.$timeout = $timeout;
       this.$document = $document;
-
+      this.$q = $q;
       this.$scope.stateStrings = stateStrings;
       this.$scope.stateObjects = stateObjects;
       this.$scope.stateObjectsWithKeys = stateObjectsWithKeys;
@@ -91,8 +91,8 @@ describe('akamai.components.dropdown', function() {
       this.getSelectedOptionText = getSelectedOptionText;
       this.clickDropdownToggle = clickDropdownToggle;
       this.getDropdownMenu = getDropdownMenu;
-      this.getFilterElement = getFilterElement;
       this.getDropdownToggle = getDropdownToggle;
+      this.getIndeterminateProgress = getIndeterminateProgress;
     });
   });
 
@@ -110,12 +110,12 @@ describe('akamai.components.dropdown', function() {
 
   describe('given undefined items', function() {
     describe('when the dropdown is rendered', function() {
-      beforeEach(function () {
+      beforeEach(function() {
         this.addElement(`<akam-dropdown ng-model="dummyValue"
                                         items="someUndefinedValue"></akam-dropdown>`);
       });
 
-      it('should render successfully with a placeholder string', function () {
+      it('should render successfully with a placeholder string', function() {
         expect(this.getSelectedOptionText()).toBe('Select one');
       });
     });
@@ -123,13 +123,13 @@ describe('akamai.components.dropdown', function() {
 
   describe('given nullable items', function() {
     describe('when the dropdown is rendered', function() {
-      beforeEach(function () {
+      beforeEach(function() {
         this.$scope.nullableItems = null;
         this.addElement(`<akam-dropdown ng-model="dummyValue"
                                         items="nullableItems"></akam-dropdown>`);
       });
 
-      it('should render successfully with a placeholder string', function () {
+      it('should render successfully with a placeholder string', function() {
         expect(this.getSelectedOptionText()).toBe('Select one');
       });
     });
@@ -211,7 +211,9 @@ describe('akamai.components.dropdown', function() {
         this.clickDropdownToggle();
       });
       it('should add the items to the dropdown', function() {
-        expect(this.getDropdownMenu().find('li').length).toBe(this.$scope.stateStrings.length);
+        expect(this.getDropdownMenu().find('li').length)
+          .toBe(this.$scope.stateStrings.length + 1);
+          // note +1 to include hidden akam-indeterminate-progress
       });
     });
   });
@@ -237,70 +239,8 @@ describe('akamai.components.dropdown', function() {
         this.clickDropdownToggle();
       });
       it('should translate each item if key is valid', function() {
-        expect(util.findElement(this.el, 'li:first-child a.dropdown-item-link span:first-child')
+        expect(util.findElement(this.el, 'li a.dropdown-item-link span:first-child')
           .text()).toBe('Search States');
-      });
-    });
-  });
-
-  describe('given no filterable attribute', function() {
-    describe('when the dropdown is rendered', function() {
-      beforeEach(function() {
-        this.$scope.selectedState = 'Colorado';
-        this.addElement(`<akam-dropdown ng-model="selectedState"
-                                        items="stateStrings"></akam-dropdown>`);
-      });
-      it('should not show a filter box ', function() {
-        expect(util.findElement(this.el, '.fixed-header').prop('classList')).toContain('ng-hide');
-      });
-    });
-  });
-
-  describe('given a filtearble attribute', function() {
-    describe('when the dropdown is rendered', function() {
-      beforeEach(function() {
-        this.$scope.selectedStateObj = {name: 'Colorado'};
-
-        this.addElement(`<akam-dropdown ng-model="selectedStateObj" filterable
-                                        items="stateStrings"></akam-dropdown>`);
-      });
-
-      it('should render a filterbox', function() {
-        expect(this.getFilterElement()).not.toBe(null);
-      });
-    });
-    describe('when filter box is focused', function() {
-      let dropdownElem;
-      beforeEach(function() {
-        this.$scope.selectedStateObj = {name: 'Colorado'};
-
-        this.addElement(`<akam-dropdown ng-model="selectedStateObj" filterable
-                                        items="stateStrings"></akam-dropdown>`);
-
-        this.clickDropdownToggle();
-
-        dropdownElem = util.findElement(this.el, DROPDOWN);
-        expect(dropdownElem.prop('classList')).toContain('open');
-
-        let filterElement = this.getFilterElement();
-        filterElement[0].focus();
-        filterElement[0].blur();
-      });
-      it('should close dropdown when it loses focus', function() {
-        expect(dropdownElem.prop('classList')).not.toContain('open');
-      });
-    });
-  });
-
-  describe('given a filtearble attribute', function() {
-    describe('when a filter-placeholder attribute is provided', function() {
-      beforeEach(function() {
-        this.$scope.selectedStateObj = {name: 'Colorado'};
-        this.addElement(`<akam-dropdown ng-model="selectedStateObj" filter-placeholder="fplace"
-                                        filterable items="stateStrings"></akam-dropdown>`);
-      });
-      it('should render a placeholder for the filterbox', function() {
-        expect(this.getFilterElement().prop('placeholder')).toBe('fplace');
       });
     });
   });
@@ -387,22 +327,6 @@ describe('akamai.components.dropdown', function() {
           .not.toBe(null);
       });
     });
-
-    describe('when the filter is clicked', function() {
-      let dropdownElement;
-      beforeEach(function() {
-        this.$scope.selectedStateObj = {name: 'Colorado'};
-        this.addElement(`<akam-dropdown ng-model="selectedStateObj" appended-to-body
-                                        items="stateStrings"></akam-dropdown>`);
-        dropdownElement = util.findElement(this.el, DROPDOWN);
-        this.clickDropdownToggle();
-        expect(dropdownElement.prop('classList')).toContain('open');
-        util.findElement(this.el, '.dropdown-menu input').triggerHandler('click');
-      });
-      it('should not close the dropdown', function() {
-        expect(dropdownElement.prop('classList')).toContain('open');
-      });
-    });
   });
 
   describe('given custom markup in an akam-dropdown-option', function() {
@@ -423,7 +347,9 @@ describe('akamai.components.dropdown', function() {
         this.addElement(featureDropdownTemplate);
       });
       it('should compile the markup with the parent scope', function() {
-        expect(util.findElement(this.el, 'ul.dropdown-menu li span[title=Colorado]').text().trim())
+        expect(util.findElement(this.el, 'ul.dropdown-menu li span[title=Colorado]')
+          .text()
+          .trim())
           .toBe('custom option: Colorado');
       });
       it('should use the option custom markup for the selected element', function() {
@@ -470,7 +396,7 @@ describe('akamai.components.dropdown', function() {
         this.addElement(`<akam-dropdown ng-model="selectedStateObj" clearable
                                         items="stateStrings"></akam-dropdown>`);
 
-        util.findElement(this.el, '.luna-small_close_dark_gray').triggerHandler('click');
+        util.findElement(this.el, '.clear-dropdown').triggerHandler('click');
       });
       it('should clear the selected item', function() {
         expect(this.$scope.selectedStateObj).toBe(undefined);
@@ -478,30 +404,20 @@ describe('akamai.components.dropdown', function() {
     });
   });
 
-  describe('given no string bound to the filterable attribute', function() {
-    describe('when some text is added to the filterbox', function() {
-      beforeEach(function() {
-        this.$scope.selectedState = 'Colorado';
-        this.addElement(`<akam-dropdown ng-model="selectedState" filterable
-                                        items="stateStrings"></akam-dropdown>`);
-        angular.element(this.getFilterElement()).controller('ngModel').$setViewValue('Ma');
-      });
-      it('should filter the dropdown by strings', function() {
-        expect(this.getDropdownMenu().find('li').length).toBe(2);
-      });
-    });
-
-    describe('when a placeholder attribute is not provided', function() {
+  describe('given no placeholder attribute', function() {
+    describe('when rendered', function() {
       beforeEach(function() {
         this.addElement(`<akam-dropdown ng-model="selectedState" placeholder=""
                                         items="stateStrings"></akam-dropdown>`);
       });
       it('should render default placeholder', function() {
-        expect(util.findElement(this.el, '.dropdown-placeholder').text()).toContain('Select one');
+        expect(util.findElement(this.el, '.dropdown-placeholder').text())
+          .toContain('Select one');
       });
     });
-
-    describe('when a placeholder attribute is provided', function() {
+  });
+  describe('given a placeholder attribute', function() {
+    describe('when rendered', function() {
       beforeEach(function() {
         this.addElement(`<akam-dropdown ng-model="selectedState"
                                         placeholder="examples.autocomplete.search.states"
@@ -515,36 +431,36 @@ describe('akamai.components.dropdown', function() {
     });
   });
 
-  describe('given dropdown with a list of objects with keys and a filter', function() {
+  describe('given dropdown with a list of objects with keys', function() {
     describe('when the dropdown is rendered', function() {
       beforeEach(function() {
         this.$scope.selectedStateObj = { selectedState: 'key9' };
 
         this.addElement(`<akam-dropdown ng-model='selectedStateObj' text-property='state.name'
                                         key-property='state.key' items='stateObjectsWithKeys'
-                                        clearable filterable='name'></akam-dropdown>`);
+                                        clearable></akam-dropdown>`);
         this.clickDropdownToggle();
       });
 
       it('should translate text-property for given key-property', function() {
-        let option = angular.element(this.getDropdownMenu().find('li')[0]);
+        let option = angular.element(this.getDropdownMenu().find('li')[1]);
         expect(util.findElement(option, 'a > span').attr('title')).toBe('Filter');
       });
 
       it('should not translate text-property if it is not a valid key', function() {
-        let option = angular.element(this.getDropdownMenu().find('li')[1]);
+        let option = angular.element(this.getDropdownMenu().find('li')[2]);
         expect(util.findElement(option, 'a > span').attr('title')).toBe('Connecticut');
       });
     });
   });
 
-  describe('given dropdown with a list of objects with integer keys and a filter', function() {
+  describe('given dropdown with a list of objects with integer keys', function() {
     describe('when the dropdown is rendered', function() {
       beforeEach(function() {
         this.$scope.selectedState = 0;
 
         this.addElement(`<akam-dropdown ng-model='selectedStateObj' text-property='state.name'
-                                        key-property='state.key' clearable filterable
+                                        key-property='state.key' clearable
                                         items='stateObjectsWithIntegerKeys'></akam-dropdown>`);
       });
 
@@ -552,6 +468,46 @@ describe('akamai.components.dropdown', function() {
         expect(this.getSelectedOptionText()).toBe('Select one');
       });
 
+    });
+  });
+
+  describe('given dropdown with a promise', function() {
+    describe('when the dropdown is rendered', function() {
+      let itemsDefferal;
+      beforeEach(function() {
+        this.$scope.selectedState = '';
+
+        itemsDefferal = this.$q.defer();
+        this.$scope.itemsPromise = itemsDefferal.promise;
+
+        let markup = `<akam-dropdown ng-model='selectedState' items='itemsPromise'
+          clearable></akam-dropdown>`;
+        this.addElement(markup);
+      });
+      it('should not resolve items until promise is resolved', function() {
+        expect(this.$scope.itemsPromise).toEqual([]);
+      });
+      it('should display indeterminate progress until promise is resolved', function() {
+        let indeterminate = util.findElement(this.el, 'akam-indeterminate-progress');
+        expect(angular.element(indeterminate).attr('completed')).toBe('false');
+      });
+      it('should resolve items after promise is resolved', function() {
+        itemsDefferal.resolve(this.$scope.stateStrings);
+        this.$scope.$apply();
+        expect(this.$scope.itemsPromise.then).toBeUndefined();
+        expect(this.$scope.itemsPromise).toEqual(this.$scope.stateStrings);
+      });
+      it('should remove indeterminate progress after promise is resolved', function() {
+        itemsDefferal.resolve(this.$scope.stateStrings);
+        this.$scope.$apply();
+        expect(this.getIndeterminateProgress()).toEqual({});
+      });
+      it('should display error message if promise is rejected', function() {
+        itemsDefferal.reject(this.$scope.stateStrings);
+        this.$scope.$apply();
+        expect(util.find('.dropdown-no-items span').textContent)
+          .toBe('An error has occurred while loading data.');
+      });
     });
   });
 });

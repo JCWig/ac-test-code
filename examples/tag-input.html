@@ -98,6 +98,12 @@
                     ng-change="vm.selectedI18nObjTagsChanged()"
                     items="vm.i18nExample.objTags.menuTags"></akam-tag-input>
 </div>
+<br/>
+<h2>Tag Input using Promise</h2>
+<div>
+    <akam-tag-input ng-model="vm.selectedTags" items="vm.promiseTags" ng-click="vm.loadPromise()"></akam-tag-input>
+</div>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 <script src="utils/i18n-register.js"></script>
 <script src="../dist/akamai-core.js"></script>
@@ -106,7 +112,7 @@
     angular.module('exampleApp', ['akamai.components.constants','akamai.components.tag-input', 'ngMessages'])
             .controller('TagInputAppController', TagInputAppController);
 
-    function TagInputAppController($log) {
+    function TagInputAppController($log, $q, $timeout) {
         this.selectedTags = [
             'Massachusetts',
             'New York',
@@ -231,9 +237,46 @@
             return tags.sort();
         };
 
+        this.promiseTags = getPromiseTags();
+        this.loadPromise = () => {
+            this.promiseTags = getPromiseTags();
+        };
+        function getPromiseTags() {
+            var deferred = $q.defer();
+            var tags = [
+                'Colorado',
+                'Connecticut',
+                'Maryland',
+                'Massachusetts',
+                'New Hampshire',
+                'New Jersey',
+                'New York',
+                'Vermont',
+                'Virginia',
+                'Washington, District of Columbia'
+            ];
+            $timeout(function() {
+                return deferred.resolve(tags);
+            }, 3000);
+
+            return deferred.promise;
+        }
 
     }
-    TagInputAppController.$inject = ['$log'];
+    TagInputAppController.$inject = ['$log', '$q', '$timeout'];
+
+    function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
+                            i18nLocaleProvider) {
+
+        // need to overwrite locales path on fee.akamai.com
+        if (window.location.host == 'fee.akamai.com') {
+            $translatePartialLoaderProvider.addPart('../dist/locales/');
+            $translatePartialLoaderProvider.addPart('locales/json/messages/');
+        } else {
+            $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
+            $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
+        }
+    }
 
 </script>
 

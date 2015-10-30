@@ -27,7 +27,8 @@
 
         },
         "autocomplete": {
-            "search-tip": "Type in text to display matching results"
+            "search-tip": "Type in text to display matching results",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "list-box": {
             "placeholder": {
@@ -115,13 +116,15 @@
         },
         "tag-input": {
             "placeholder":"Select Items",
-            "taggingLabel":"(new item)"
+            "taggingLabel":"(new item)",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "dropdown": {
             "placeholder": {
                 "noSelection": "Select one",
                 "filter": "Filter"
-            }
+            },
+            "itemFailureMessage": "An error has occurred while loading data."
         },
         "wizard": {
             "label": {

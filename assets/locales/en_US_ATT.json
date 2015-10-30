@@ -3,7 +3,8 @@
         "indeterminate-progress": {},
         "tag-input": {
             "placeholder": "Select Items",
-            "taggingLabel": "(new item)"
+            "taggingLabel": "(new item)",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "menu-button": {
             "label": "Label"
@@ -82,7 +83,8 @@
             "placeholder": {
                 "filter": "Filter",
                 "noSelection": "Select one"
-            }
+            },
+            "itemFailureMessage": "An error has occurred while loading data."
         },
         "date-picker": {
             "placeholder": {
@@ -110,7 +112,8 @@
             "placeholder": "Select From Date - Select To Date"
         },
         "autocomplete": {
-            "search-tip": "Type in text to display matching results"
+            "search-tip": "Type in text to display matching results",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "switch-button": {
             "onLabel": "On",

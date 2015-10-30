@@ -52,6 +52,27 @@ describe('akamai.components.tag-input', function() {
     ]
   };
 
+  function getPromiseTags() {
+    var deferred = this.$q.defer();
+    var tags = [
+        'Colorado',
+        'Connecticut',
+        'Maryland',
+        'Massachusetts',
+        'New Hampshire',
+        'New Jersey',
+        'New York',
+        'Vermont',
+        'Virginia',
+        'Washington, District of Columbia'
+    ];
+    this.$timeout(function() {
+        return deferred.resolve(tags);
+    }, 3000);
+
+    return deferred.promise;
+  }
+
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(tagInput.name);
@@ -73,11 +94,12 @@ describe('akamai.components.tag-input', function() {
       this.$scope.menuTagObjs = angular.copy(tagObjs.menuTags);
 
       this.$scope.tagsString = 'aString';
+
+      this.$scope.getPromiseTags = angular.bind(this, getPromiseTags);
     });
   });
 
   describe('given a basic tag-input control', function() {
-
     describe('when rendered with tag strings', function() {
       let selectedTagElems, menuTagElems;
       beforeEach(function() {
@@ -325,7 +347,7 @@ describe('akamai.components.tag-input', function() {
         let elem = util.findElement(el, 'input.tag-input');
         elem.triggerHandler('focus');
 
-        let newItemElem = util.findElement(el, '.dropdown-menu li:first-child a');
+        let newItemElem = util.findElement(el, '.dropdown-menu li:nth-child(2) a');
         newItemElem.triggerHandler('mousedown');
       });
       it('should add the new tag to selectedTags', function() {
@@ -468,6 +490,31 @@ describe('akamai.components.tag-input', function() {
     });
   });
 
+  describe('given a basic tag-input control', function() {
+    describe('when items is a promise', function() {
+      let el;
+      beforeEach(function() {
+        this.$scope.tags = this.$scope.getPromiseTags();
+        let markup = `<akam-tag-input ng-model="selectedTagStrings"
+                        items="tags"></akam-tag-input>`;
+
+        el = this.$compile(markup)(this.$scope);
+        this.$scope.$digest();
+
+        let elem = util.findElement(el, 'input.tag-input');
+        elem.triggerHandler('focus');
+      });
+      it('should display loading indeterminate progress until promise is resolved', function (){
+        expect(util.findElement(el, 'akam-indeterminate-progress').attr('completed'))
+          .toBe('false');
+      });
+      it('should hide loading indeterminate progress after promise is resolved', function (){
+        this.$timeout.flush();
+        expect(util.findElement(el, '.dropdown-indeterminate-progress').length).toBe(0);
+      });
+    });
+  });
+
   describe('given a required validation attribute', function() {
     describe('when no tags are selected', function() {
       let ctrl;
@@ -488,4 +535,33 @@ describe('akamai.components.tag-input', function() {
       });
     });
   });
+
+  describe('given a restricted tag-input control', function() {
+    describe('when items is a promise', function() {
+      let el, elem;
+      beforeEach(function() {
+        this.$scope.tags = this.$scope.getPromiseTags();
+        let markup = `<akam-tag-input ng-model="selectedTagStrings"
+                        items="tags" restricted></akam-tag-input>`;
+
+        el = this.$compile(markup)(this.$scope);
+        this.$scope.$digest();
+
+        let ctrl = el.controller(DIRECTIVE_NAME);
+        ctrl.proposedTag = 'zz';
+        elem = util.findElement(el, 'input.tag-input');
+        elem.triggerHandler('focus');
+      });
+      it('should display loading indeterminate progress until promise is resolved', function (){
+        expect(util.findElement(el, 'akam-indeterminate-progress').attr('completed'))
+        .toBe('false');
+      });
+      it('should hide loading indeterminate progress after promise is resolved', function (){
+        this.$timeout.flush();
+        expect(util.findElement(el, '.dropdown-no-items span')[0].textContent)
+          .toBe('There are no results based upon your filter.');
+      });
+    });
+  });
 });
+

@@ -3,7 +3,8 @@
         "indeterminate-progress": {},
         "tag-input": {
             "placeholder": "項目を選択",
-            "taggingLabel": "(新規項目)"
+            "taggingLabel": "(新規項目)",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "menu-button": {
             "label": "ラベル"
@@ -82,7 +83,8 @@
             "placeholder": {
                 "filter": "フィルタ",
                 "noSelection": "1 つ選択"
-            }
+            },
+            "itemFailureMessage": "An error has occurred while loading data."
         },
         "date-picker": {
             "placeholder": {
@@ -110,7 +112,8 @@
             "placeholder": "Select From Date - Select To Date"
         },
         "autocomplete": {
-            "search-tip": "一致する結果を表示するにはテキストを入力してください"
+            "search-tip": "一致する結果を表示するにはテキストを入力してください",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "switch-button": {
             "onLabel": "オン",

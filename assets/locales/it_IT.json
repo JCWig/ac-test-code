@@ -3,7 +3,8 @@
         "indeterminate-progress": {},
         "tag-input": {
             "placeholder": "Selezione articoli",
-            "taggingLabel": "(new articolo)"
+            "taggingLabel": "(new articolo)",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "menu-button": {
             "label": "Etichetta"
@@ -82,7 +83,8 @@
             "placeholder": {
                 "filter": "Filtra",
                 "noSelection": "Selezionare un"
-            }
+            },
+            "itemFailureMessage": "An error has occurred while loading data."
         },
         "date-picker": {
             "placeholder": {
@@ -110,7 +112,8 @@
             "placeholder": "Select From Date - Select To Date"
         },
         "autocomplete": {
-            "search-tip": "Digitare del testo per visualizzare i risultati corrispondenti"
+            "search-tip": "Digitare del testo per visualizzare i risultati corrispondenti",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "switch-button": {
             "onLabel": "Attivo",

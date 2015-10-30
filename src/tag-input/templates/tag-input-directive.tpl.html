@@ -25,8 +25,14 @@
         </ul>
     </div>
 
-    <ul class="dropdown-menu" ng-show="taginput.focused">
-        <li ng-if="!taginput.restricted">
+    <ul class="dropdown-menu" ng-show="taginput.focused" ng-class="{'dropdown-indeterminate-progress': taginput.promiseLoading}">
+        <li>
+            <akam-indeterminate-progress completed="{{!taginput.promiseLoading}}" size="micro"></akam-indeterminate-progress>
+        </li>
+        <li class="dropdown-no-items" ng-if="taginput.restricted && !taginput.promiseLoading && !taginput.getFilteredMenuTags().length">
+            <span>{{ ::taginput.noFilterResults }}</span>
+        </li>
+        <li ng-if="!taginput.restricted && !taginput.promiseLoading">
             <a ng-mousedown="taginput.setSelectedTag(taginput.proposedTag)"
                class="dropdown-item-link">
                 <span>{{ taginput.proposedTag }} {{ ::taginput.newTagLabel }}</span>
@@ -38,5 +44,4 @@
             </a>
         </li>
     </ul>
-
 </div>
