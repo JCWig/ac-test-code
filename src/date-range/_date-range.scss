@@ -1,104 +1,66 @@
-
 .akam-date-picker.akam-date-range {
-  background-color: #FFF;
-  border-radius: $border-radius;
-  
-  div.range-selection {
-    .range-start,
-    .range-end {
-      & > span {
-        display: inline-block;
-        width: calc(50% - 18.5px);
-        float: left;
-        height: $input-height;
-        padding: 6px $input-padding;
-        background-color: $input-background-color;
-        border: 1px solid $border-color;
-        border-radius: $border-radius;
-        @include box-shadow($date-range-boxshadow);
-      }
+  & > .date-range-wrapper {
+    & > span {
+      @extend %inputStyles;
+      display: inline-block;
+      width: $date-range-width + ($date-range-width * .5);
+      float: left;
+      height: $input-height;
+      padding: 6px $input-padding;
+      @include border-right-radius(0);
+
       & ~ .btn {
         min-width: 0;
         border-left: 0;
         margin-left: 0;
-        float: left;
+        margin-right: $date-range-gap-width;
         display: inline-block;
         @include border-left-radius(0);
         i {
           @include disable-magic-sprite-selectors(calendar);
         }
       }
-      & .date-range-placeholder {
-        color: #ccc;
-        font-style: italic;
-      }
-      &.opened {
-        & ~ .btn {
-          border-color: #999;
-          border-left-color: $input-border-color-focus;
-          @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
-        }
-      }
     }
-    div.range-end,
-    div.range-start {
-      > span {
-        @include border-right-radius(0);
-      }
+    & .date-range-placeholder {
+      color: $input-placeholder-text-color;
+      font-style: italic;
     }
-    div.range-end {
-      > span {
-        border-left: 0 none !important;
-        @include border-left-radius(0);
-      }
-    }
-    div.range-from,
-    div.range-to {
-      margin-left: $date-range-gap-width;
-      float: left;
-      line-height: 28px;
-      overflow: hidden;
-      display: none;
+    &.invalid-date-range {
       & > span {
-        width: 100%;
-        margin-top: 6px;
-        font-size: $text-font-size;
-        font-weight: normal;
-        font-family: $text-font-family;
-        font-style: italic;
+        border-color: $border-color-invalid;
+        border-width: 2px;
       }
     }
-    &.disabled {
-      & span:not(.range-title) {
-        @include placeholder-enhanced($date-range-disabled-color, italic);
-        color: $date-range-disabled-color;
-        border-color: $input-border-color-disabled;
-        background-color: $input-background-color-disabled;
-        box-shadow: none;
-        cursor: default;
-        @include user-select(none);
-      }
-      & span.range-title {
-        color: $icon-color_disabled
-      }
+  }
+  & > .disabled {
+    & > span {
+      @include placeholder-enhanced($date-range-disabled-color, italic);
+      color: $date-range-disabled-color;
+      border-color: $input-border-color-disabled;
+      background-color: $input-background-color-disabled;
+      box-shadow: none;
+      cursor: default;
+      @include user-select(none);
       i {
         opacity: $input-button-icon-opacity-disabled;
       }
     }
+    & > span.date-range-placeholder {
+      color: $date-range-disabled-color;
+    }
   }
+  &.opened {
+    .date-range-wrapper > span {
+      @extend %inputFocusStyles;
 
-  &.opened div.range-selection {
-    .range-end,
-    .range-start {
-      span {
-        border: 1px solid $input-border-color-focus;
-        background-color: #FFF;
-        @include box-shadow(none);
+      & ~ .btn {
+        border-color: $button-border-color-hover;
+        border-left-color: $input-border-color-focus;
+        @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
       }
     }
   }
-
-  & span.range-picker ul.dropdown-menu {
+  & > ul.dropdown-menu {
     table tbody tr td {
       border: none;
     }
@@ -130,6 +92,9 @@
         &.in-range {
           color: $date-range-in-range-color;
           background-color: $date-range-in-range-background-color;
+          > span {
+            background: inherit;
+          }
         }
         &.selected-start,
         &.selected-end {

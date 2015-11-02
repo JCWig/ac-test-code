@@ -104,7 +104,7 @@
             }
         },
         "date-range": {
-            "placeholder": "Select Dates"
+            "placeholder": "Select From Date - Select To Date"
         },
         "tooltip": {
 
