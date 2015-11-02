@@ -33,6 +33,7 @@ module.exports = function(config) {
   config.set({
     colors: !jenkins,
     browserNoActivityTimeout: 600000,
+    browserDisconnectTolerance: 5,
     files: filesToTest,
     logLevel: config.LOG_ERROR,
     frameworks: ['browserify', 'jasmine', 'sinon'],
