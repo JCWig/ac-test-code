@@ -22,8 +22,31 @@
             <div class="page-header">
                 <h1>Form Validation Example</h1>
             </div>
-
-
+            
+            <div class="row">
+                <div class="col-md-3">
+                  <label class="label">Label Popover Positioning:</label>
+                  <br><br>
+                  <div class="radio-inline">
+                    <input id="leftRadio" type="radio" checked="checked" ng-model="position" value="left" />
+                    <label class="label" for="leftRadio">Left</label>
+                  </div>
+                  <div class="radio-inline">
+                    <input id="rightRadio" type="radio" ng-model="position" value="right" />
+                    <label class="label" for="rightRadio">Right</label>
+                  </div>
+                  <div class="radio-inline">
+                    <input id="topRadio" type="radio" ng-model="position" value="top" />
+                    <label class="label" for="topRadio">Top</label>
+                  </div>
+                  <div class="radio-inline">
+                    <input id="bottomRadio" type="radio" ng-model="position" value="bottom" />
+                    <label class="label" for="bottomRadio">Bottom</label>
+                  </div>
+                  <br><br>
+                </div>
+            </div>
+       
             <form class="example" name="kitchenSink" novalidate>
 
               <fieldset class="form-horizontal">
@@ -31,13 +54,13 @@
                   <span>1. Form with checkboxes and drop down</span>
                   <span>Form controls in this section display help text on hover</span>
                 </legend>
-
                 <div class="form-group required">
-                  <label class="control-label col-md-3">Input Input Input Input Input Input Input Input Input Input </label>
+                  <label class="control-label col-md-3" akam-popover="Long Label Help Text - {{position}}"
+                        popover-placement={{position}} popover-trigger={{trigger}}>
+                        Input Input Input Input Input Input Input Input Input Input </label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" name="input1" ng-model="input1" ng-minlength="2" ng-maxlength="10"
-                           min="1" max="11" required akam-popover="Long Label Input Field Help Text - bottom"
-                           popover-placement="bottom" popover-trigger="mouseenter">
+                           min="1" max="11" required >
 
                     <div ng-messages="kitchenSink.input1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -50,12 +73,12 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3">Longer Input</label>
+                  <label class="control-label col-md-3" akam-popover="Longer Input Help Text - {{position}}"
+                           popover-placement={{position}} popover-trigger={{trigger}}>Longer Input</label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" name="longerInput1" ng-model="longerInput1" ng-minlength="5"
-                           ng-maxlength="20" akam-popover="Longer Input Field Help Text - top" popover-placement="top"
-                           popover-trigger="mouseenter">
-            
+                           ng-maxlength="20">
+                        
                     <div ng-messages="kitchenSink.longerInput1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
                       <div ng-message="minlength">Your field is too short</div>
@@ -67,10 +90,10 @@
                 </div>
 
                 <div class="form-group required">
-                  <label class="control-label col-md-3" for="#">Dropdown</label>
+                  <label class="control-label col-md-3" for="#" akam-popover="Dropdown Help Text - {{position}}"
+                        popover-placement={{position}} popover-trigger={{trigger}}>Dropdown</label>
                   <div class="col-md-9">
-                    <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown1" required
-                        akam-popover="Dropdown Help Text - right" popover-placement="right" popover-trigger="mouseenter">
+                    <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown1" required>
                     </akam-dropdown>                                                                                                           
 
                     <div ng-messages="kitchenSink.dropdown1.$error" class="ngMessages" role="alert">
@@ -80,13 +103,14 @@
                 </div>
 
                 <div class="form-group required">
-                  <label class="control-label col-md-3">Please make your choice:</label>
+                  <label class="control-label col-md-3"
+                        akam-popover="Checkbox Help Text - {{position}}" popover-placement={{position}}
+                        popover-trigger={{trigger}}>Please make your choice:</label>
                   <div class="col-md-9">
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox1" ng-model="checkbox1" required>   
-                        <span class="label" akam-popover="Checkbox Help Text - right" popover-placement="right"
-                              popover-trigger="mouseenter">Checkbox Label</span>
+                        <span class="label" >Checkbox Label</span>
                       </label>
                     </div>
                     <div ng-messages="kitchenSink.checkbox1.$error" class="ngMessages" role="alert">
@@ -95,8 +119,7 @@
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox2" ng-model="checkbox2">
-                        <span class="label" akam-popover="Checkbox Help Text - left" popover-placement="left"
-                              popover-trigger="mouseenter">Checkbox Label</span>
+                        <span class="label">Checkbox Label</span>
                       </label>
                     </div>
                     <div ng-messages="kitchenSink.checkbox2.$error" class="ngMessages" role="alert">
@@ -105,8 +128,7 @@
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="checkbox3" ng-model="checkbox3">
-                        <span class="label" akam-popover="Checkbox Help Text - top" popover-placement="top"
-                              popover-trigger="mouseenter">Checkbox Label</span>
+                        <span class="label">Checkbox Label</span>
                       </label>
                     </div>
                     <div ng-messages="kitchenSink.checkbox3.$error" class="ngMessages" role="alert">
@@ -116,11 +138,12 @@
                 </div>
 
                 <div class="form-group required">
-                  <label class="control-label col-md-3">Much Longer Input</label>
+                  <label class="control-label col-md-3" akam-popover="Much Longer Input Help Text - {{position}}"
+                        popover-placement={{position}}
+                        popover-trigger={{trigger}}>Much Longer Input</label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" name="muchLongerInput1" ng-model="muchLongerInput1" minlength="5"
-                           maxlength="20" required akam-popover="Much Longer Input Help Text - left" popover-placement="left"
-                           popover-trigger="mouseenter">
+                           maxlength="20" required>
 
                     <div ng-messages="kitchenSink.muchLongerInput1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -295,11 +318,13 @@
               <fieldset class="form-horizontal">
                 <legend>
                   <span>4. Form with date picker, time picker, spinner, switch, and autocomplete</span>
-                  <span>Optional subheading: lorem ipsum dolor sit amet</span>
+                  <span>Form controls in this section display help text on hover</span>
                 </legend>
 
-                <div class="form-group">
-                  <label class="control-label col-md-3">Pick A Date</label>
+                <div class="form-group required" >
+                  <label class="control-label col-md-3" akam-popover="Date Picker Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Pick A Date</label>
                   <div class="col-md-9">
                     <akam-date-picker
                       name="day3"
@@ -309,7 +334,9 @@
                       mode="day"
                       placeholder="date picker"
                       ng-change="dateChange()"
-                      format="{{formatDay}}"></akam-date-picker>
+                      format="{{formatDay}}"
+                      ng-touched ng-dirty ng-invalid>
+                    </akam-date-picker>
 
                     <div ng-messages="kitchenSink.day3.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -322,7 +349,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3">Pick A Date Range</label>
+                  <label class="control-label col-md-3" akam-popover="Date Range Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Pick A Date Range</label>
                   <div class="col-md-9">
                     <akam-date-range
                       ng-model="vm.dateRange1"
@@ -330,7 +359,9 @@
                       max-date="{{vm.max | date: 'yyyy-MM-dd'}}"
                       format="{{vm.format}}"
                       is-disabled="vm.disabled"
-                      on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+                      on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"
+                      required>
+                    </akam-date-range>
                     <div ng-messages="kitchenSink.dateRange1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
                       <div ng-message="minlength">Your field is too short</div>
@@ -342,7 +373,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3">Pick A Time</label>
+                  <label class="control-label col-md-3" akam-popover="Time Picker Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Pick A Time</label>
                   <div class="col-md-9">
                     <akam-time-picker
                       name="time1"
@@ -350,7 +383,8 @@
                       minute-step="vm.minuteStep"
                       hour-step="vm.hourStep"
                       disabled="vm.disabled"
-                      show-meridian="vm.showMeridian"></akam-time-picker>
+                      show-meridian="vm.showMeridian">
+                    </akam-time-picker>
 
                     <div ng-messages="kitchenSink.time1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -363,7 +397,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3">Pick A Number</label>
+                  <label class="control-label col-md-3" akam-popover="Number Picker Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Pick A Number</label>
                   <div class="col-md-9">
                     <akam-spinner min="0" max="100" ng-model="number1" name="number1"></akam-spinner>
 
@@ -378,9 +414,13 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3">Switch</label>
+                  <label class="control-label col-md-3" akam-popover="Switch Button Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Switch</label>
                   <div class="col-md-9">
-                    <akam-switch-button name="switch1" ng-model="switch1" on-label="Allow" off-label="Deny"></akam-switch-button>
+                    <akam-switch-button name="switch1" ng-model="switch1"
+                            on-label="Allow" off-label="Deny">
+                    </akam-switch-button>
 
                     <div ng-messages="kitchenSink.switch1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -393,9 +433,13 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3">Autocomplete</label>
+                  <label class="control-label col-md-3" akam-popover="Autocomplete Help Text - {{position}}"
+                        popover-placement={{position}}          
+                        popover-trigger={{trigger}}>Autocomplete</label>
                   <div class="col-md-9">
-                    <akam-autocomplete ng-model="autocomplete1" name="autocomplete1" text-property="name" placeholder="Autocomplete" on-select="" on-search="vm.searchStateObjects(searchTerm)"></akam-autocomplete>
+                    <akam-autocomplete ng-model="autocomplete1" name="autocomplete1" text-property="name"
+                        placeholder="Autocomplete" on-select="" on-search="vm.searchStateObjects(searchTerm)">                        
+                    </akam-autocomplete>
 
                     <div ng-messages="kitchenSink.autocomplete1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -409,12 +453,17 @@
               </fieldset>
 
               <fieldset class="form-horizontal">
-                <legend>5. Form with date of birth and tag input fields</legend>
-
+                 <legend>
+                  <span>5. Form with date of birth and tag input fields</span>
+                  <span>Form controls in this section display help text on hover</span>
+                </legend>
                 <div class="form-group">
-                  <label class="control-label col-md-3">Longer Input</label>
+                  <label class="control-label col-md-3" akam-popover="Longer Input Help Text - {{position}}"
+                           popover-placement={{position}}          
+                           popover-trigger={{trigger}}>Longer Input</label>
                   <div class="col-md-9">
-                    <input type="text" class="form-control" name="longerInput4" ng-model="longerInput4" ng-minlength="5" ng-maxlength="20">
+                    <input type="text" class="form-control" name="longerInput4" ng-model="longerInput4"
+                           ng-minlength="5" ng-maxlength="20">
 
                     <div ng-messages="kitchenSink.longerInput4.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -427,13 +476,16 @@
                 </div>
 
                 <div class="form-group required">
-                  <label class="control-label col-md-3">Tag Input</label>
+                  <label class="control-label col-md-3" akam-popover="Tag Input Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
                       name="items1"
                       ng-model="items1"
                       available-items="availableItems"
-                      drag-dropable="true" required></akam-tag-input>
+                      drag-dropable="true" required>
+                    </akam-tag-input>
 
                     <div ng-messages="kitchenSink.items1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -446,13 +498,16 @@
                 </div>
 
                 <div class="form-group required">
-                  <label class="control-label col-md-3">Tag Input</label>
+                  <label class="control-label col-md-3"  akam-popover="Tag Input Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
                       name="items2"
                       ng-model="items2"
                       available-items="availableItems"
-                      drag-dropable="true" required></akam-tag-input>
+                      drag-dropable="true" required>
+                    </akam-tag-input>
 
                     <div ng-messages="kitchenSink.items2.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -465,13 +520,16 @@
                 </div>
 
                 <div class="form-group required">
-                  <label class="control-label col-md-3">Tag Input</label>
+                  <label class="control-label col-md-3" akam-popover="Tag Input Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
                       name="items3"
                       ng-model="items3"
                       available-items="availableItems"
-                      drag-dropable="true" required></akam-tag-input>
+                      drag-dropable="true" required>
+                    </akam-tag-input>
 
                     <div ng-messages="kitchenSink.items3.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -484,7 +542,9 @@
                 </div>
 
                 <div class="form-group required">
-                  <label class="control-label col-md-3">Tag Input</label>
+                  <label class="control-label col-md-3" akam-popover="Tag Input Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
                       name="items4"
@@ -503,13 +563,16 @@
                 </div>
 
                 <div class="form-group required">
-                  <label class="control-label col-md-3">Tag Input</label>
+                  <label class="control-label col-md-3" akam-popover="Tag Input Help Text - {{position}}"
+                      popover-placement={{position}}          
+                      popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
                       name="items5"
                       ng-model="items5"
                       available-items="availableItems"
-                      drag-dropable="true" required></akam-tag-input>
+                      drag-dropable="true" required>
+                    </akam-tag-input>
 
                     <div ng-messages="kitchenSink.items5.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
@@ -660,7 +723,7 @@
 
                 <div class="form-group">
                   <div class="col-md-12">
-                    <button class="btn btn-default pull-right" name="submit1">SPINNER</button>
+                    <button class="btn btn-default pull-right" name="submit1">Submit</button>
                   </div>
                 </div>
               </fieldset>
@@ -817,7 +880,9 @@
                 <div class="form-group">
                   <div class="col-md-12">
                     Submit Spinner:
-                    <akam-spinner-button text-content="Submit"></akam-spinner-button>
+                    <akam-spinner-button text-content="Submit">
+                    </akam-spinner-button>
+                    
                     <akam-spinner-button processing="true" text-content="Submit"></akam-spinner-button>
                   </div>
                 </div>
@@ -842,6 +907,9 @@
               var vm = this;
               var d = new Date();
               vm.test = 'test';
+              position = 'left';
+              $scope.position = 'left';
+              $scope.trigger = 'mouseenter'; //click or mouseenter
 
               vm.stateObjects = [
                   {name: 'Colorado'},

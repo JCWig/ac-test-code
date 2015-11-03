@@ -9,6 +9,7 @@
         <a ng-show="isMinuteDisabled()" class="btn-link"><i class="luna-arrow_smUp icon-states" disabled></i>
         </a>
       </td>
+      <td></td>
       <td ng-show="showMeridian"></td>
     </tr>
     <tr class="util-text-center time-input-row">
@@ -17,10 +18,10 @@
       </td>
       <td>:</td>
       <td class="form-group minute" ng-class="{'has-error': invalidMinutes}">
-        <input class="form-control util-text-center minute-input" type="text" ng-disabled="isMinuteDisabled()" ng-model="minutes" ng-change="updateMinutes()" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
+        <input class="util-text-center minute-input" type="text" ng-disabled="isMinuteDisabled()" ng-model="minutes" ng-change="updateMinutes()" ng-readonly="readonlyInput" maxlength="2" tabindex="0">
       </td>
-      <td></td>
-      <td class="meridian" ng-mouseover="hoveringOn='meridian'" ng-mouseleave="hoveringOn=''">
+      <td ng-show="showMeridian">&nbsp;</td>
+      <td ng-show="showMeridian" class="meridian" ng-mouseover="hoveringOn='meridian'" ng-mouseleave="hoveringOn=''">
         <input class="meridian-input form-control" ng-show="showMeridian" type="button" name="meridian" ng-click="toggleMeridian()" value='{{meridian}}' tabindex="0">
       </td>
     </tr>
@@ -33,6 +34,7 @@
         <a ng-show="isMinuteDisabled()" class="btn-link"><i class="luna-arrow_smDown icon-states" disabled></i>
         </a>
       </td>
+      <td></td>
       <td ng-show="showMeridian"></td>
     </tr>
   </tbody>

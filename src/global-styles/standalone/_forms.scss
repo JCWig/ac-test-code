@@ -26,35 +26,37 @@ label {
 /* address labels */
 .form-horizontal {
   .form-group {
+    position: relative;
+
     label {
       text-align: right;
       padding-right: 10px;
       word-wrap: break-word;
     }
-    
+
     .radio-inline,
     .checkbox-inline,
     .radio,
     .checkbox {
       padding-top: 0;
-      
+
       input {
         margin-left: 0;
       }
-      
+
       label {
         padding-left: 0;
       }
     }
-    
+
     .radio,
     .checkbox {
       min-height: 0;
-      
+
       &:first-of-type {
         margin-top: 5px;
       }
-      
+
       & + .radio,
       & + .checkbox {
         margin-top: 5px; // UXD tweak
@@ -74,10 +76,10 @@ label {
   & + .form-horizontal {
     margin-top: 20px;
   }
-  
+
   .form-group {
     margin-bottom: 8px;
-    
+
     .form-group:first-of-type {
       margin-top: 8px;
     }
@@ -93,10 +95,10 @@ label {
     margin-bottom: 15px;
     font-size: 12px;
     font-weight: bold;
-    
+
     & > * {
       display: block;
-      
+
       &:not(:first-child) {
         font-size: 12px;
         font-weight: normal;
@@ -112,7 +114,6 @@ label {
 .form-horizontal .switch-button .switch-button-container label {
     text-align: center;
     padding-right: 0;
-    line-height: 16px;
 }
 
 
@@ -120,14 +121,14 @@ label {
 /* status messages */
 .form-horizontal {
   position: relative;
-  
+
   .form-status-message {
     width: 100%;
     padding: 1em 0;
     margin: 0;
     margin-bottom: 8px;
     position: relative;
-    
+
     &:before {
       content: "";
       display: inline-block;
@@ -136,12 +137,12 @@ label {
       top: 50%;
       @include translateY(-50%);
     }
-    
+
     &.error {
       background-color: $colors__red4;
       color: darken($colors__red4, 60%);
       padding-left: luna-sprite-width(warning_red_red) * 3;
-      
+
       &:before {
         @include luna-sprite(warning_red_red);
         width: luna-sprite-width(warning_red_red);
@@ -149,12 +150,12 @@ label {
         left: luna-sprite-width(warning_red_red);
       }
     }
-    
+
     &.success {
       background-color: $colors__green3;
       color: darken($colors__green3, 60%);
       padding-left: luna-sprite-width(checkmark_green) * 3;
-      
+
       &:before {
         @include luna-sprite(checkmark_green);
         width: luna-sprite-width(checkmark_green);

@@ -238,7 +238,7 @@
   "notification.edit.view.title": "EDIT NOTIFICATION",
   "components.data-table.text.noFilterResults": "There are no results based upon your filter",
   "components.data-table.text.noDataMessage": "There is no data based upon your criteria",
-  "components.data-table.text.itemFailureMessage": "Failed to load data",
+  "components.data-table.text.itemFailureMessage": "An error has occurred while loading data",
   "components": {
     "list-box": {
       "placeholder": {

@@ -18,6 +18,7 @@
 </head>
 
 <body class="common-css luna" ng-app="dateRangeApp" ng-strict-di ng-controller="DateRangeAppController as vm">
+  <form>
   <br/>
   <h2>Date Range Component Examples</h2>
   <br/>
@@ -45,13 +46,13 @@
       <label class="label" for="maxDate">Change max date value to next 2 years and 15th of the month (currently : {{vm.max}})</label>
     </div>
   </div>
-  <br/> 
+  <br/>
   <h4 class="title">Date Range Picker with Initial Values:</h4>
   <akam-date-range ng-model="vm.dateRange2" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <br />
   <h4 class="title">Date Ranger Picker with Start Date set, no End Date - Custom Format:</h4>
   <akam-date-range ng-model="vm.dateRangeCustom" is-disabled="vm.disabled" format="MM/dd/yy"></akam-date-range>
-
+  </form>
   <script src="utils/cookies.js"></script>
   <script src="../dist/akamai-core.js"></script>
   <script>
@@ -66,16 +67,16 @@
     var d = new Date();
     var startDate = new Date(d.getFullYear(), d.getMonth(), 3);
     var endDate = new Date(d.getFullYear(), d.getMonth() + 1, 5);
-    var defaultMin = new Date(d.getFullYear()-2, d.getMonth(), 1);
-    var defaultMax = new Date(d.getFullYear()+2, d.getMonth(), 0);
+    var defaultMin = new Date(d.getFullYear()-1, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear()+1, d.getMonth(), 0);
 
     vm.dateRange1 = {startDate:'', endDate:''};
     vm.dateRange2 = {startDate:startDate, endDate:endDate};
 
     vm.min = defaultMin;
     vm.max = defaultMax;
-    
-    vm.dateRangeCustom = {startDate:new Date(), endDate:undefined};
+
+    vm.dateRangeCustom = {startDate:new Date('9/14/2015'), endDate:undefined};
 
     vm.updateMax = function() {
       vm.max = vm.maxUpdated ? new Date(d.getFullYear()+2, d.getMonth(), 15) : defaultMax;

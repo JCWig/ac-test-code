@@ -63,7 +63,8 @@
         "data-table": {
             "text": {
                 "noFilterResults": "Não existem resultados com base no seu filtro.",
-                "noDataMessage": "Não existem dados com base nos seus critérios."
+                "noDataMessage": "Não existem dados com base nos seus critérios.",
+                "itemFailureMessage": "An error has occurred while loading data."
             },
             "placeholder": {
                 "filter": "Filtro"
@@ -106,7 +107,7 @@
         },
         "name": "Akamai Common Components {{name}}",
         "date-range": {
-            "placeholder": "Selecionar datas"
+            "placeholder": "Select From Date - Select To Date"
         },
         "autocomplete": {
             "search-tip": "Digite no texto para exibir os resultados correspondentes"

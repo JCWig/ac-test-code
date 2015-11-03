@@ -2,7 +2,6 @@
   position: relative;
 
   & > .input-group-btn > .btn {
-    min-width: 0;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     margin-left: -1px;
@@ -12,17 +11,18 @@
     }
   }
 
-/* leaving this as an artifact from a merge conflict 
   &.open {
-    & > input[type='text'] {
-      border-color: $input-border-color-focus;
-      background-color: $input-background-color-focus;
-      & + .btn {
+    & > input[type="text"] {
+      @extend %inputFocusStyles;
+      
+      & ~ .input-group-btn > .btn {
+        border-color: #999999;
         border-left-color: $input-border-color-focus;
+        @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
       }
     }
   }
-*/
+
   & > input[type='text'] {
 
     &::-ms-clear {
@@ -58,6 +58,10 @@
           input[type='text'] {
             border-color: $border-color-invalid;
           }
+        }
+        
+        &:empty {
+          min-width: 0;
         }
       }
 
