@@ -178,8 +178,7 @@ class DateRangeController {
     e.stopPropagation();
   }
 
-  toggle(e) {
-    this.preventOtherEvents(e);
+  toggle() {
     if (!this.isDisabled) {
       this.opened = !this.opened;
     }

@@ -18,14 +18,13 @@ class TimepickerController {
     this.$scope.$on('$destroy', () => this.$document.off('click', this.clickHandler));
   }
 
-  clickHandler() {
-    this.$scope.$apply(() => {
-      this.isOpen = false;
-    });
+  clickHandler(e) {
     if (!this.inputTime || !angular.isDate(this.inputTime)) {
       this.inputTime = new Date();
       this.changed();
     }
+
+    this.onClickAway(e);
   }
 
   isDisabled() {
@@ -36,11 +35,9 @@ class TimepickerController {
     return this.disableMinutes === true || this.$scope.$eval(this.disableMinutes) === true;
   }
 
-  toggle(e) {
-    this.preventDefaultEvents(e);
-
+  toggle() {
     //if there is no value, add current time for first time
-    if (!this.isOpen && !this.inputTime) {
+    if (!this.isOpen && !angular.isDate(this.inputTime)) {
       this.inputTime = new Date();
       this.changed();
     }
@@ -72,6 +69,14 @@ function linkFn(scope, element, attrs, ngModel) {
   ctrl.changed = () => {
     ngModel.$setViewValue(ctrl.inputTime);
     ngModel.$setValidity('time', !(angular.isUndefined(ctrl.inputTime) || ctrl.inputTime === null));
+  };
+
+  ctrl.onClickAway = (e) => {
+    if (ctrl.isOpen && !element[0].contains(e.target)) {
+      ctrl.$scope.$apply(() => {
+        ctrl.isOpen = false;
+      });
+    }
   };
 
   ctrl.disabled = ctrl.disabled === true || attrs.isDisabled === 'disabled';

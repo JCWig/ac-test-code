@@ -213,7 +213,6 @@ describe('akamai.components.date-range', function() {
           };
           this.addElement();
           spyOn(this.dateRange, 'toggle').and.callThrough();
-          spyOn(this.dateRange, 'preventOtherEvents').and.callThrough();
           utils.click(".date-range-wrapper button");
           this.$scope.$digest();
         });
@@ -222,9 +221,6 @@ describe('akamai.components.date-range', function() {
         });
         it('should daterange toggle function to have been called', function() {
           expect(this.dateRange.toggle).toHaveBeenCalled();
-        });
-        it('should daterange preventOtherEvents function to have been called', function() {
-          expect(this.dateRange.preventOtherEvents).toHaveBeenCalled();
         });
         it('should daterange controller opened property to be set to true', function() {
           expect(this.dateRange.opened).toBe(true);
@@ -243,15 +239,11 @@ describe('akamai.components.date-range', function() {
           };
           this.$scope.disabled = true;
           this.addElement();
-          spyOn(this.dateRange, 'preventOtherEvents').and.callThrough();
           utils.click(".date-range-wrapper button");
           this.$scope.$digest();
         });
         it('should daterange wrapper parent div has no open class', function() {
           expect(this.element.querySelector('.akam-date-range').classList).not.toContain("opened");
-        });
-        it('should daterange preventOtherEvents function to have been called', function() {
-          expect(this.dateRange.preventOtherEvents).toHaveBeenCalled();
         });
         it('should daterange controller opened property to be set to true', function() {
           expect(this.dateRange.opened).toBe(false);
