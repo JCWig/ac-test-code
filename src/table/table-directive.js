@@ -33,6 +33,7 @@ class TableController {
     this.filterFilter = filterFilter;
     this.orderByFilter = orderByFilter;
     this.limitToFilter = limitToFilter;
+    this.indeterminateProgressLabel = '';
 
     // auto increment table ID. This is used purely for the HTML label and input
     this.id = uuid.uid();
@@ -289,6 +290,7 @@ class TableController {
   loadingFn() {
     this.loading = true;
     this.failed = false;
+    this.indeterminateProgressLabel = '';
     this.$q.when(this.items)
       .then(angular.bind(this, this.updateRowData))
       .then(angular.bind(this, this.doneLoading))
@@ -325,6 +327,7 @@ class TableController {
    */
   failedLoading(data) {
     this.failed = true;
+    this.indeterminateProgressLabel = this.itemFailureMessage;
     return data;
   }
 
