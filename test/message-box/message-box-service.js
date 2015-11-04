@@ -497,8 +497,10 @@ describe('messageBox service', function() {
 
         beforeEach(function() {
           let options = {
-            headline: 'Headline',
-            text: 'Message',
+            headline: 'components.message-box.variableReplacement',
+            headlineValues: {"first": 'sean', "last": 'wang'},
+            text: 'components.message-box.variableReplacement',
+            textValues: {"first": 'sean', "last": 'wang'},
             title: 'components.message-box.variableReplacement',
             titleValues: {"first": 'sean', "last": 'wang'},
             submitLabel: 'components.message-box.variableReplacement',
@@ -510,7 +512,14 @@ describe('messageBox service', function() {
           this.messageBox.show(options, "question");
           this.$rootScope.$digest();
         });
-
+        it('should translate headline with label values', function() {
+          let modalHeadline = document.querySelector('.modal .message-box-headline');
+          expect(modalHeadline.textContent).toEqual('sean wang has logged');
+        });
+        it('should translate text with label values', function() {
+          let modalMessageBoxText = document.querySelector('.modal .message-box-text');
+          expect(modalMessageBoxText.textContent).toEqual('sean wang has logged');
+        });
         it("should translated title displayed with variable replacements", function() {
           var modalTitle = document.querySelector('.modal .modal-title');
           expect(modalTitle.textContent).toEqual('sean wang has logged');

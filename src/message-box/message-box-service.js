@@ -50,6 +50,12 @@ function messageBox(modalWindow, $translate, $rootScope) {
 
     $translate(submitId, options.submitLabelValues)
       .then(value => options.submitLabel = value);
+
+    $translate(options.headline, options.headlineValues)
+      .then(value => options.contentScope.messageBox.headline = value);
+
+    $translate(options.text, options.textValues)
+      .then(value => options.contentScope.messageBox.text = value);
   }
 
   function show(options, type) {
@@ -61,8 +67,6 @@ function messageBox(modalWindow, $translate, $rootScope) {
       throw new Error('text option is required');
     }
 
-    translateOptionLabels(options, type);
-
     options.backdrop = 'static';
     options.scope = $rootScope.$new();
     options.scope.messageBox = {
@@ -70,6 +74,8 @@ function messageBox(modalWindow, $translate, $rootScope) {
       text: options.text,
       details: options.details
     };
+
+    translateOptionLabels(options, type);
 
     return modalWindow.open(angular.extend(options, {
       template: template,
@@ -91,9 +97,9 @@ function messageBox(modalWindow, $translate, $rootScope) {
      * @param {object} options A hash supporting a subset of modalWindow options, along with:
      *
      * - `headline` (string) A required headline for the message
-     *   box, limited to 25 characters.
+     *   box. Recommended to limit headline to 25 characters.
      *
-     * - `text` (string) A required message, limited to 220
+     * - `text` (string) A required message. Recommended to limit text to 220
      *   characters.
      *
      * - `details` (string) Optional additional text, which
