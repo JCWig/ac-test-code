@@ -19,7 +19,7 @@ label {
 }
 
 .form-control {
-  @include transition(none);
+  transition: none;
 }
 
 
@@ -135,33 +135,22 @@ label {
       vertical-align: middle;
       position: absolute;
       top: 50%;
-      @include translateY(-50%);
+      left: 16px;
+      transform: translateY(-50%);
     }
 
     &.error {
       background-color: $colors__red4;
       color: darken($colors__red4, 60%);
-      padding-left: luna-sprite-width(warning_red_red) * 3;
-
-      &:before {
-        @include luna-sprite(warning_red_red);
-        width: luna-sprite-width(warning_red_red);
-        height: luna-sprite-height(warning_red_red);
-        left: luna-sprite-width(warning_red_red);
-      }
+      padding-left: 48px; // this is (3 * the icon size)
+      @include aci(danger, 16px);
     }
 
     &.success {
       background-color: $colors__green3;
       color: darken($colors__green3, 60%);
-      padding-left: luna-sprite-width(checkmark_green) * 3;
-
-      &:before {
-        @include luna-sprite(checkmark_green);
-        width: luna-sprite-width(checkmark_green);
-        height: luna-sprite-height(checkmark_green);
-        left: luna-sprite-width(checkmark_green);
-      }
+      padding-left: 16px * 3;
+      @include aci(checkmark, 16px);
     }
   }
 

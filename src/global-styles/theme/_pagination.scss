@@ -25,12 +25,13 @@ $pagination-ellipsis-width: 20px;
 
   i {
     vertical-align: middle;
-    margin-top: -1px;
+    line-height: 1;
+    font-size: 12px;
   }
 
   &:hover,
   &:focus {
-    @include background-image(linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom));
+    background-image: linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom);
   }
 }
 
@@ -39,7 +40,7 @@ $pagination-ellipsis-width: 20px;
   padding: 0;
   border: solid 1px #CCCCCC;
   border-radius: 0;
-  @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
+  background-image: linear-gradient($pagination-gradient-top, $pagination-gradient-bottom);
 
   > li {
     text-align: center;
@@ -53,8 +54,9 @@ $pagination-ellipsis-width: 20px;
         &:hover,
         &:focus {
           margin-left: -1px;
-          @include border-left-radius(0);
-          @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          background-image: linear-gradient($pagination-gradient-top, $pagination-gradient-bottom);
           border: 0;
         }
       }
@@ -67,8 +69,9 @@ $pagination-ellipsis-width: 20px;
         &:hover,
         &:focus {
           margin-right: -1px;
-          @include border-right-radius(0);
-          @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          background-image: linear-gradient($pagination-gradient-top, $pagination-gradient-bottom);
           border: 0;
         }
       }
@@ -96,8 +99,8 @@ $pagination-ellipsis-width: 20px;
     &:hover,
     &:focus {
       font-weight: bold;
-      @include background-image(linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom));
-
+      background-image: linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom);
+      
     }
   }
 

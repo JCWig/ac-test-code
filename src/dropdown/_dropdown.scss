@@ -1,5 +1,3 @@
-$arrow-background: inline-svg-image("svg/arrow-smDown.svg") center no-repeat;
-$arrow-disabled-background: inline-svg-image("svg/arrow_smDown_disabled.svg");
 $selected-option-background-color: #f4f4f4;
 $dropdown-button-gradient: linear-gradient(to bottom, #fff, #e6e6e6);
 $dropdown-button-gradient-hover: linear-gradient(to bottom, #f4f4f4, #c8c8c8);
@@ -44,7 +42,7 @@ $dropdown-width: 195px;
         background-color: $dropdown-selected-option-background-color;
         border-top-left-radius: $border-radius;
         border-bottom-left-radius: $border-radius;
-        @include box-shadow($input-box-shadow);
+        box-shadow: $input-box-shadow;
         @include ellipsis();
 
         &.disabled {
@@ -69,43 +67,47 @@ $dropdown-width: 195px;
         &.readonly {
           & + span {
             @extend %inputDisabledStyles;
-            background-image: $arrow-disabled-background;
-            brackground-repeat: no-repeat;
-            background-position: center;
+            border-color: $button-border-color-disabled;
+            cursor: not-allowed;
+            background: $button-background-color-disabled;
           }
         }
       }
 
-      & > span:last-child {
+      & > span:last-child { // TODO: nleon@akamai.com, this should be a button
         width: 28px;
         border-top-right-radius: $border-radius;
         border-bottom-right-radius: $border-radius;
-        background: $arrow-background, $dropdown-button-gradient;
+        background: $dropdown-button-gradient;
+        position: relative;
+        
+        &:before {
+          position: absolute;
+          right: 7px;
+          top: 7px;
+        }
       }
       & > i.clear-dropdown {
         @include svg('small_close_new', 10px, 10px);
         position: absolute;
         right: 36px;
-        top: 50%;
-        transform: translateY(-50.01%);
-
-        &:hover {
-          @include svg('small_close_hover_new', 10px, 10px);
-        }
+        top: 9px;
+        font-size: 12px;
+        color: #999;
       }
     }
 
     &:hover .dropdown-selected-wrapper {
       & > span:last-child {
         border-color: $dropdown-button-active-hover-border-color;
-        background: $arrow-background, $dropdown-button-gradient-hover;
+        background: $dropdown-button-gradient-hover;
       }
     }
 
     &:active .dropdown-selected-wrapper {
       & > span:last-child {
         border-color: $dropdown-button-active-hover-border-color;
-        background: $arrow-background, $dropdown-button-gradient-active;
+        background: $dropdown-button-gradient-active;
       }
     }
 

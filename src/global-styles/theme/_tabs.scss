@@ -44,14 +44,14 @@
       background: $tab-background-color;
 
       &:hover {
-        @include background-image($tab-background-color-hover);
+        background-image: $tab-background-color-hover;
         border: solid 1px $tab-border-color;
         border-radius: $tab-border-radius $tab-border-radius 0 0;
       }
 
       &:active,
       &:focus {
-        @include background-image($tab-background-color-mousedown);
+        background-image: $tab-background-color-mousedown;
       }
     }
 
@@ -120,7 +120,6 @@
 
       &:hover {
         background-color: transparent;
-        font-weight: bold;
       }
 
       &:focus {

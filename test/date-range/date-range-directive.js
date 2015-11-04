@@ -190,7 +190,7 @@ describe('akamai.components.date-range', function() {
         this.addElement();
         wrapper = this.element.querySelector('.date-range-wrapper');
         buttonElem = wrapper.querySelector('.btn.date-range-button');
-        iconElem = this.element.querySelector('.luna-calendar');
+        iconElem = this.element.querySelector('.aci-calendar');
       });
       it('should wrapper element has class disabled', function() {
         expect(wrapper.classList).toContain("disabled");
@@ -302,7 +302,7 @@ describe('akamai.components.date-range', function() {
           this.$scope.$digest();
           wrapper = this.element.querySelector('.date-range-wrapper');
           buttonElem = wrapper.querySelector('.btn.date-range-button');
-          iconElem = this.element.querySelector('.luna-calendar');
+          iconElem = this.element.querySelector('.aci-calendar');
         });
         it('should wrapper element has class disabled', function() {
           expect(wrapper.classList).toContain("disabled");

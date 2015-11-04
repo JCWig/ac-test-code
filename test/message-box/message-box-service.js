@@ -360,7 +360,7 @@ describe('messageBox service', function() {
           text: 'Message'
         });
         this.$rootScope.$digest();
-        var closeIcon = document.querySelector('.modal-content i.close-icon');
+        var closeIcon = document.querySelector('.modal-content i.aci-close');
         utilities.click(closeIcon);
 
         $animate.flush();
@@ -394,7 +394,7 @@ describe('messageBox service', function() {
         this.messageBox.show = this.$rootScope.spyOnShowInfo;
         this.messageBox.showInfo();
         expect(spy).toHaveBeenCalled();
-        expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-information');
+        expect(spy.calls.allArgs()[0][0].icon).toEqual('aci-info');
       });
 
       it('should use the information modifier class on the modal', function() {
@@ -417,7 +417,7 @@ describe('messageBox service', function() {
         this.messageBox.show = this.$rootScope.spyOnShowQuestion;
         this.messageBox.showQuestion();
         expect(spy).toHaveBeenCalled();
-        expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-question');
+        expect(spy.calls.allArgs()[0][0].icon).toEqual('aci-help-circle');
       });
 
       it('should use the information modifier class on the modal', function() {
@@ -441,7 +441,7 @@ describe('messageBox service', function() {
         this.messageBox.show = this.$rootScope.spyOnShowError;
         this.messageBox.showError();
         expect(spy).toHaveBeenCalled();
-        expect(spy.calls.allArgs()[0][0].icon).toEqual('svg-error');
+        expect(spy.calls.allArgs()[0][0].icon).toEqual('aci-warning');
       });
 
       it('should use the error modifier class on the modal', function() {

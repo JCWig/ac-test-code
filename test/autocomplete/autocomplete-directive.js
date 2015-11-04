@@ -302,7 +302,7 @@ describe('akamai.components.autocomplete', function() {
           addElement.call(this, autocompleteTemplate);
         });
         it('should present a clear icon', function() {
-          expect(util.find('.clear-dropdown')).not.toBe(null);
+          expect(util.find('.aci-close')).not.toBe(null);
         });
       });
     });
@@ -409,7 +409,7 @@ describe('akamai.components.autocomplete', function() {
               </akam-autocomplete>`;
 
             addElement.call(this, autocompleteTemplate);
-            util.click(util.find('.clear-dropdown'));
+            util.click(util.find('.aci-close'));
           });
           it('should clear the selected item', function() {
             expect(this.$scope.selectedStateObj).toBe(undefined);

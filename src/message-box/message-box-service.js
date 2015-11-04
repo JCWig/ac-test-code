@@ -113,7 +113,7 @@ function messageBox(modalWindow, $translate, $rootScope) {
      */
     showInfo: function(options) {
       options = options || {};
-      options.icon = 'svg-information';
+      options.icon = 'aci-info';
       options.windowClass = 'information akam-message-box';
       return this.show(options, 'information');
     },
@@ -132,7 +132,7 @@ function messageBox(modalWindow, $translate, $rootScope) {
      */
     showQuestion: function(options) {
       options = options || {};
-      options.icon = 'svg-question';
+      options.icon = 'aci-help-circle';
       options.windowClass = 'question akam-message-box';
       return this.show(options, 'question');
     },
@@ -151,7 +151,7 @@ function messageBox(modalWindow, $translate, $rootScope) {
      */
     showError: function(options) {
       options = options || {};
-      options.icon = 'svg-error';
+      options.icon = 'aci-warning';
       options.windowClass = 'error akam-message-box';
       return this.show(options, 'error');
     }

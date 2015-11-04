@@ -137,6 +137,15 @@ class TableController {
   }
 
   /**
+   * Returns bool for whether the sort direction is ascending
+   * @this TableController
+   * @returns {Boolean} true if sortDirection is ascending, false otherwise
+   */
+  isAscending() {
+    return this.state.sortDirection === SORT_DIRECTIONS.asc;
+  }
+
+  /**
    * Applies the current state to the data. Filters, then sorts, then limits the results to the
    * page size and offset. Assumes client side operations.
    *

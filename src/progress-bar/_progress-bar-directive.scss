@@ -30,8 +30,8 @@ $progress-label-font-size: 12px;
 $progress-label-font: normal #{$progress-label-font-size}/1.428em Arial, sans-serif;
 
 $progress-icon-gutter: 10px;
-$progress-icon-width: luna-sprite-width(success-flat);
-$progress-icon-height: luna-sprite-height(success-flat);
+$progress-icon-width: 17px; // TODO: nleon@akamai.com, this should be 16x16
+$progress-icon-height: 17px; // TODO: nleon@akamai.com, this should be 16x16
 
 $progress-bar-width_icon: calc(#{$progress-bar-width} - #{$progress-icon-width} - #{$progress-icon-gutter});
 
@@ -42,21 +42,21 @@ $progress-bar-width_icon: calc(#{$progress-bar-width} - #{$progress-icon-width} 
 * The animation moves this background from 0,0 to 24,0 within 500ms and infinitely repeats
 */
 @mixin lunaProgressBarAnimation() {
-  @include animation(diagonallyStitchedProgressBar 500ms linear infinite);
-  @include background-image(linear-gradient(315deg,
-          rgba(204, 204, 204, 1) 0%,
-          rgba(204, 204, 204, 1) 25%,
-          transparent 25%,
-          transparent 50%,
-          rgba(204, 204, 204, 1) 50%,
-          rgba(204, 204, 204, 1) 75%,
-          transparent 75%,
-          transparent 100%
-  ));
+  animation: diagonallyStitchedProgressBar 500ms linear infinite;
+  background-image: linear-gradient(315deg,
+    rgba(204, 204, 204, 1) 0%,
+    rgba(204, 204, 204, 1) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(204, 204, 204, 1) 50%,
+    rgba(204, 204, 204, 1) 75%,
+    transparent 75%,
+    transparent 100%
+  );
   background-size: #{$progress-bar-height_luna - ($progress-bar-border-width_luna * 2)} 100%;
 }
 
-@include keyframes(diagonallyStitchedProgressBar) {
+@keyframes diagonallyStitchedProgressBar {
   0% {
     background-position: 0 100%;
   }
@@ -70,9 +70,9 @@ $progress-bar-width_icon: calc(#{$progress-bar-width} - #{$progress-icon-width} 
   display: block;
   position: relative;
   width: $progress-bar-width;
-  @include appearance(none);
-  @include box-sizing(border-box);
-  @include transition(width 0.25s ease-out);
+  box-sizing: border-box;
+  appearance: none;
+  transition: width 0.25s ease-out;
 
   background: $progress-bar-background-color_luna;
   height: $progress-bar-height_luna;
@@ -80,10 +80,10 @@ $progress-bar-width_icon: calc(#{$progress-bar-width} - #{$progress-icon-width} 
   border: solid $progress-bar-border-width_luna $progress-bar-border-color_luna;
   margin-bottom: 0;
   margin: 0 auto;
-  @include border-radius(3px);
+  border-radius: 3px;
 
   &.progress-striped {
-    @include background-image(linear-gradient(315deg,
+    background-image: linear-gradient(315deg,
           rgba(204, 204, 204, 1) 0%,
           rgba(204, 204, 204, 1) 25%,
           transparent 25%,
@@ -92,7 +92,7 @@ $progress-bar-width_icon: calc(#{$progress-bar-width} - #{$progress-icon-width} 
           rgba(204, 204, 204, 1) 75%,
           transparent 75%,
           transparent 100%
-    ));
+    );
     background-size: #{$progress-bar-height_luna - ($progress-bar-border-width_luna * 2)} 100%;
   }
 
@@ -113,12 +113,14 @@ $progress-bar-width_icon: calc(#{$progress-bar-width} - #{$progress-icon-width} 
     // default style if not type defined
     background: $progress-value-background-color_luna;
     border-right: solid 1px #515f6e;
-    @include border-left-radius(2px);
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
 
     &.progress-bar-success {
       background: $progress-success-color_luna;
       border-right: 0 none;
-      @include border-right-radius(2px);
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
       color: $progress-success-colormix_luna; // For IE10+
     }
 
@@ -126,20 +128,22 @@ $progress-bar-width_icon: calc(#{$progress-bar-width} - #{$progress-icon-width} 
       background: $progress-error-color_luna;
       border-right: 0 none;
       color: $progress-error-colormix_luna; // For IE10+
-      @include animation(none !important);
+      animation: none !important;
     }
 
     &.progress-bar-warning {
       background: $progress-warning-color_luna;
       border-right: 0 none;
-      @include border-right-radius(2px);
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
       color: $progress-warning-colormix_luna; // For IE10+
     }
 
     &.progress-bar-info {
       background: $progress-info-color_luna;
       border-right: 0 none;
-      @include border-right-radius(2px);
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
       color: $progress-info-colormix_luna; // For IE10+
     }
   }

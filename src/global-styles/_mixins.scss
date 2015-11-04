@@ -133,12 +133,12 @@ $ie-ver: '' !default;
 }
 
 @mixin no-fade() {
-  @include opacity(1);
+  opacity: 1;
   cursor: default;
 }
 
 @mixin fade() {
-  @include opacity(0.5);
+  opacity: 0.5;
 }
 
 // h5bp.com/q
@@ -158,27 +158,6 @@ $ie-ver: '' !default;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-@mixin list-type($type, $gutter: 2px) {
-  @if $type == decimal or $type == disc {
-    li {
-      list-style: $type inside none;
-    }
-  } @else {
-    li {
-      list-style: none; // The icon is added as a background image so we can leverage sprites
-      padding-left: luna-sprite-width($type) + (2 * $gutter);
-      position: relative;
-      &:before {
-        $disable-magic-sprite-selectors: true;
-        @include luna-sprite($type);
-        content: "";
-        position: absolute;
-        left: $gutter;
-      }
-    }
-  }
 }
 
 @mixin grab-icon() {
@@ -234,78 +213,33 @@ $ie-ver: '' !default;
 @mixin svg($name, $width: $svg-icon-width, $height: $svg-icon-height) {
   width: $width;
   height: $height;
-  background-image: inline-image('svg/' + $name + '.svg', 'image/svg+xml');
+  background-image: url(inline-image('assets/images/svg/' + $name + '.svg'));
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
-@mixin disable-magic-sprite-selectors($icon, $map: luna) {
-  @if $map == luna {
-    @include sprite($luna-sprites, $icon, $use-magic-selectors: false);
-  } @else if $map == pulsar {
-    @include sprite($pulsar-sprites, $icon, $use-magic-selectors: false);
-  }
-}
-
-@mixin disable-magic-sprite-selector($icon, $selectors: $sprite-selectors, $map: luna) {
-
-  @each $state in $selectors {
-    @if $map == luna {
-      &.luna-#{$icon}:#{$state} {
-        background-position: sprite-position($luna-sprites, $icon);
-      }
-    } @else if $map == pulsar {
-      &.pulsar-#{$icon}:#{$state} {
-        background-position: sprite-position($pulsar-sprites, $icon);
-      }
+// For adding font icons to elements using CSS pseudo-elements
+// http://jaydenseric.com/blog/fun-with-sass-and-font-icons
+@mixin aci($icon: false, $size: inherit, $position: before, $styles: true) {
+    @if $position == both {
+        $position: 'before, &:after';
     }
-  }
-}
-
-@mixin create-magic-sprite-selectors($map, $states: $sprite-selectors, $separator: $sprite-separator, $selectors-class: $magic-sprite-selectors-class) {
-
-  // For each icon in a sprite map...
-  @each $icon in sprite-names($map) {
-
-    // For each sprite selector...
-    @each $state in $states {
-
-      // Is this a custom state?
-      $customState: index($sprite-selectors, $state) == null;
-
-      // Position of the state in the icon name
-      $stateIndex: str-index($icon, $separator + $state);
-
-      // If the state is in the icon name
-      @if $stateIndex {
-
-        // Discern the icon name without the state
-        $iconName: str-slice($icon, 0, $stateIndex - 1);
-
-        // Discern the state without the icon name
-        $stateName: str-slice($icon, $stateIndex + 1);
-
-        // @debug "Icon " + $icon + " (" + $iconName + "/" + $stateName + ") has state: " + $state;
-
-        @if not $customState {
-          // Define the pseudo class
-          .#{$selectors-class}.#{sprite-map-name($map)}-#{$iconName}:#{$stateName} {
-            @include sprite($map, $icon);
-          }
-
-          // Define the stateful class too, since disabling magic selectors disables stateful class name generation
-          .#{sprite-map-name($map)}-#{$iconName}_#{$stateName} {
-            @include sprite($map, $icon);
-          }
-        } @else {
-          // Custom state handling
-          @if $stateName == disabled {
-            // Define the disabled attr selector
-            .#{$selectors-class}.#{sprite-map-name($map)}-#{$iconName}[#{$stateName}] {
-              background-position: sprite-position($map, $icon) !important;
-              cursor: not-allowed;
-            }
-          }
+    // Either a :before or :after pseudo-element, or both, defaulting to :before
+    &:#{$position} {
+        @if $icon {
+            // A particular icon has been specified
+            content: "#{map-get($icons, $icon)}";
         }
-      }
+        @if $styles {
+            // Supportive icon styles required
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-family: 'akamai-core-icons';
+            font-size: $size;
+            display: inline-block;
+        }
+        // Include any extra rules supplied for the pseudo-element
+        @content;
     }
-  }
 }

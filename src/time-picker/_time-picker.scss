@@ -16,10 +16,6 @@
       color: #e6e6e6;
     }
 
-    > i[disabled],
-    > i.readonly {
-      @include luna-sprite(time_disabled);
-    }
   }
 
   input.readonly {
@@ -34,7 +30,7 @@
       & ~ .input-group-btn > .btn {
         border-color: #999999;
         border-left-color: $input-border-color-focus;
-        @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+        background-image: linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover);
       }
     }
   }
@@ -81,32 +77,29 @@
         }
       }
 
-      a {
+      i {
         display: block;
         cursor: pointer;
-
-        i {
-          vertical-align: middle;
-        }
+        font-size: 12px;
       }
 
       tr.time-decrement-row {
-        a {
+        i {
           padding-top: $dropdown-menu-arrow-padding;
         }
 
         td:hover i {
-          @include luna-sprite(arrow_smDown_hover);
+          color: #0099CC;
         }
       }
 
       tr.time-increment-row {
-        a {
+        i {
           padding-bottom: $dropdown-menu-arrow-padding;
         }
 
         td:hover i {
-          @include luna-sprite(arrow_smUp_hover);
+          color: #0099CC;
         }
       }
 
@@ -120,8 +113,8 @@
           box-shadow: none;
           width: $dropdown-menu-input-width;
           padding: 0;
-          @include border-radius($input-border-radius);
-
+          border-radius: $input-border-radius;
+          
           &:hover,
           &:focus {
             border-color: $input-border-color-focus;

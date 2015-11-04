@@ -7,32 +7,34 @@
           padding-right: 25px;
 
           &.column-sorted {
-            @include background-image($table__th-background--hover);
+            background-image: $table__th-background--hover;
           }
-
-          & > i {
-            position: absolute;
-            right: floor(luna-sprite-width(arrow-up) / 2);
-            top: 50%;
-            @include translateY(-50.01%);
-          }
+        }
+        
+        & > i {
+          position: absolute;
+          right: 9px;
+          font-size: 9px;
+          display: none;
         }
 
         &.column-sortable:hover,
         &.column-sorted {
           position: relative;
-          @include background-image($table__th-background--hover);
-
-          i {
-            @extend .luna-arrow-up;
-            position: absolute;
-            right: 9px;
-          }
-
-          &.desc i {
-            @extend .luna-arrow-down;
+          background-image: $table__th-background--hover;
+          
+          & > i {
+            display: inline-block;
           }
         }
+        
+        
+      }
+      
+      &.column-sortable:hover, 
+      &.column-sorted {
+        position: relative;
+        background-image: $table__th-background--hover;
       }
     }
   }
@@ -110,6 +112,7 @@
     input + i {
       vertical-align: middle;
       margin-left: $table__filter-icon-margin-left;
+      font-size: 12px;
     }
   }
 

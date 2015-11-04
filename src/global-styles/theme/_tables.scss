@@ -13,7 +13,7 @@ $table__th-height: $table__tr-height + $base__border-width;
 
 $table__td-border: $base__border-style $base__border-width $colors__gray8;
 
-$table__filter-icon-width: luna-sprite-width(close);
+$table__filter-icon-width: 16px;
 $table__filter-icon-margin-left: -($table__filter-icon-width + 6px);
 $table__filter-padding-right: $table__filter-icon-width + 8px;
 
@@ -72,8 +72,8 @@ $table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
       }
       > th {
         border-bottom: $table__border;
-        @include background-image($table__th-background);
-
+        background-image: $table__th-background;
+        
         & + th {
           border-left: $table__border;
         }

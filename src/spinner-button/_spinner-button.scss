@@ -15,8 +15,7 @@
     .spinner {
       visibility: hidden;
       display: block;
-      background-image: inline-svg-image("svg/spinner-orange.svg");
-      @include animation(spin360 1s infinite steps(8));
+      animation: spin360 1s infinite steps(8);
       height: 80%;
       background-size: contain;
       background-position: center;
@@ -27,6 +26,7 @@
       left: 0;
       right: 0;
       margin: auto;
+      @include svg("spinner-orange");
     }
   }
 }

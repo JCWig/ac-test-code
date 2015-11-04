@@ -12,7 +12,6 @@ $list-box-cell-border: $base__border-style $base__border-width $colors__gray8;
         padding-right: 20px;
         i {
             vertical-align:middle;
-            margin-top: -5px;
             margin-right: 4px;
         }
     }
@@ -24,7 +23,7 @@ $list-box-cell-border: $base__border-style $base__border-width $colors__gray8;
         }
         i {
             &.opened {
-                @include luna-sprite('parent_group_folder_hover');
+                color: #0099CC;
             }
         }
     }

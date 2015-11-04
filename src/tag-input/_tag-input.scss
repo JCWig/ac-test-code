@@ -40,17 +40,10 @@ $tag-input-invalid-border-width: 2px;
           border: 1px solid #ccc;
           background: $tag-input-button-gradient;
 
-          .close {
-            display: block;
-            margin-left: 3px;
-            opacity: 1;
-            @include svg('tab-close', 16px, 16px);
-            background-position: center center;
-            background-repeat: no-repeat;
-
-            &:hover {
-              @include svg('tab-close_hover',16px, 16px);
-            }
+          .aci-close {
+            font-size: 8px;
+            margin-left: 4px;
+            margin-right: 4px;
           }
 
           &:hover {
@@ -112,6 +105,12 @@ $tag-input-invalid-border-width: 2px;
         margin-right: 0;
         // coincides with menu-tag-items top and bottom padding
         margin-bottom: 2px;
+        
+        i { 
+          position: absolute;
+          right: 0;
+          top: 4px;
+        }
       }
 
       &.disabled {
@@ -127,7 +126,7 @@ $tag-input-invalid-border-width: 2px;
             background: $tag-input-disabled-button-gradient;
           }
 
-          .close {
+          .aci-close {
             display: none;
           }
         }

@@ -13,11 +13,6 @@ $dropdown-max-items: 8;
     @extend .dropdown-menu-left;
   }
 
-  // the gear icon here doesn't appear to vertically align correctly so we move it up
-  & > button.small > i.luna-gear {
-    margin-top: -2px;
-  }
-
   & > button > i {
     cursor: pointer;
     vertical-align: middle;
@@ -33,11 +28,11 @@ $dropdown-max-items: 8;
   &.open > .btn-default.dropdown-toggle {
     color: $button-text-color;
     border-color: $dropdown-border-color-active;
-    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+    background-image: linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover);
   }
 
-  &.open > button > i.luna-gear {
-    @extend .luna-gear:hover;
+  &.open > button > i {
+    color: #0099cc;
   }
 
 }
@@ -67,7 +62,7 @@ $dropdown-max-items: 8;
   // this renders the dark border when the split button is active.
   &:first-of-type:active {
     border-color: $dropdown-border-color-active;
-    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+    background-image: linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover);
 
     // ridiculous that this is needed but the dropdown has a -6px margin so we have to hack the
     // split button's right border by coloring the left border for the adjacent caret button
@@ -99,7 +94,7 @@ $dropdown-max-items: 8;
   border-radius: 0;
   margin-top: 0;
   max-height: #{$dropdown-item-line-height * $dropdown-max-items};
-  @include box-shadow(0 2px 2px 1px rgba(0, 0, 0, .15));
+  box-shadow: $global-box-shadow;
 
   &.small {
     min-width: 120px;
@@ -121,7 +116,7 @@ $dropdown-max-items: 8;
 }
 
 .direction-up .dropdown-menu {
-  @include box-shadow(none);
+  box-shadow: none;
   border: solid 1px #CCC;
 
 }

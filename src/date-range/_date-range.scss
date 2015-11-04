@@ -12,7 +12,8 @@
       float: left;
       height: $input-height;
       padding: 6px $input-padding;
-      @include border-right-radius(0);
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
 
       & ~ .btn {
         min-width: 0;
@@ -20,10 +21,8 @@
         margin-right: 0;
         display: inline-block;
         padding: 0 8px;
-        @include border-left-radius(0);
-        i {
-          @include disable-magic-sprite-selectors(calendar);
-        }
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
       }
     }
 
@@ -71,7 +70,7 @@
         border-left-width: 1px;
         border-color: $button-border-color-hover;
         border-left-color: $input-border-color-focus;
-        @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+        background-image: linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover);
       }
     }
   }

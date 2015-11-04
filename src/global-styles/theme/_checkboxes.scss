@@ -4,7 +4,7 @@ input[type="checkbox"] {
   position: absolute;
   width: 0;
   height: 0;
-  @include opacity(0);
+  opacity: 0;
 
   & + label,
   & + .label {
@@ -20,11 +20,9 @@ input[type="checkbox"] {
     display: inline-block;
     background-color: transparent;
     vertical-align: middle;
-    // By default, checkboxes want space between it and its label
-    padding-right: $checkbox-label-padding;
-    @include luna-sprite(checkbox);
-    // Override TWBS
-    @include box-sizing(content-box);
+    padding-right: $checkbox-label-padding; // By default, checkboxes want space between it and its label
+    box-sizing: content-box;
+    @include svg("checkbox-deselect-default", 12px, 12px);
   }
 }
 
@@ -32,19 +30,19 @@ input[type="checkbox"] {
   // The cascade order matters here: Disabled > Active > Hover > Focus > Default
   &:focus + label:before,
   &:focus + .label:before {
-    @include luna-sprite(checkbox_focus);
+    @include svg("checkbox-deselect-focus", 12px, 12px);
   }
   &:hover + label:before,
   &:hover + .label:before {
-    @include luna-sprite(checkbox_hover);
+    @include svg("checkbox-deselect-hover", 12px, 12px);
   }
   &:active + label:before,
   &:active + .label:before {
-    @include luna-sprite(checkbox_active);
+    @include svg("checkbox-deselect-down", 12px, 12px);
   }
   &:disabled + label:before,
   &:disabled + .label:before {
-    @include luna-sprite(checkbox_disabled);
+    @include svg("checkbox-deselect-disable", 12px, 12px);
   }
 
   // The states for a checked checkbox
@@ -52,23 +50,23 @@ input[type="checkbox"] {
     // The cascade order matters here: Disabled > Active > Hover > Focus > Default
     & + label:before,
     & + .label:before {
-      @include luna-sprite(checkbox-selected);
+      @include svg("checkbox-default", 12px, 12px);
     }
     &:focus + label:before,
     &:focus + .label:before {
-      @include luna-sprite(checkbox-selected_focus);
+      @include svg("checkbox-focus", 12px, 12px);
     }
     &:hover + label:before,
     &:hover + .label:before {
-      @include luna-sprite(checkbox-selected_hover);
+      @include svg("checkbox-hover", 12px, 12px);
     }
     &:active + label:before,
     &:active + .label:before {
-      @include luna-sprite(checkbox-selected_active);
+      @include svg("checkbox-down", 12px, 12px);
     }
     &:disabled + label:before,
     &:disabled + .label:before {
-      @include luna-sprite(checkbox-selected_disabled);
+      @include svg("checkbox-disable", 12px, 12px);
     }
   }
   

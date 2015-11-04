@@ -4,13 +4,13 @@
       <th>
         <strong>{{ title }}</strong>
         <button ng-disabled="!showNavPrev()" type="button" class="btn btn-default btn-sm pull-left previous-button" ng-click="movePrev(-1); $event.stopPropagation();" tabindex="-1">
-          <i class="glyphicon glyphicon-chevron-left"></i></button>
+          <i class="aci-caret-left"></i></button>
       </th>
       <th colspan="5"></th>
       <th>
         <strong>{{ pairTitle }}</strong>
         <button ng-disabled="!showNavNext()" type="button" class="btn btn-default btn-sm pull-right next-button" ng-click="moveNext(1); $event.stopPropagation();" tabindex="-1">
-          <i class="glyphicon glyphicon-chevron-right"></i></button>
+          <i class="aci-caret-right"></i></button>
       </th>
     </thead>
     <tbody>
@@ -55,13 +55,13 @@
     <thead>
       <tr>
         <th>
-          <button type="button" class="btn btn-default btn-sm pull-left" ng-disabled="daypickerNavPrevDisabled()" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button>
+          <button type="button" class="btn btn-default btn-sm pull-left" ng-disabled="daypickerNavPrevDisabled()" ng-click="move(-1)" tabindex="-1"><i class="aci-caret-left"></i></button>
         </th>
         <th colspan="{{ 5 + showWeeks }}">
           <button id="{{ uniqueId }}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm" ng-click="toggleMode()" tabindex="-1" style="width:100%;"><strong>{{ title }}</strong></button>
         </th>
         <th>
-          <button type="button" class="btn btn-default btn-sm pull-right" ng-disabled="daypickerNavNextDisabled()" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button>
+          <button type="button" class="btn btn-default btn-sm pull-right" ng-disabled="daypickerNavNextDisabled()" ng-click="move(1)" tabindex="-1"><i class="aci-caret-right"></i></button>
         </th>
       </tr>
       <tr>

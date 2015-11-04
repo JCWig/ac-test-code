@@ -1,6 +1,6 @@
 
 .well {
-  @include box-shadow(none);
+  box-shadow: none;
   
   &.well-lg {
     padding: 30px;

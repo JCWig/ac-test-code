@@ -126,7 +126,12 @@ $wizard-border: 1px solid #e6e6e6;
     }
 
     &.error {
-      margin-top: 54px;
+      margin-top: 60px;
+      
+      & + akam-wizard-content > .modal-body {
+        height: 398px; // accomodate the alert at the top of the wizard
+        min-height: 0;
+      }
     }
 
     &[data-number-of-steps="1"] {

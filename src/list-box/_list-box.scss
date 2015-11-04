@@ -13,7 +13,7 @@ $listbox__th-height: $listbox__tr-height + $base__border-width;
 
 $listbox__td-border: $base__border-style $base__border-width $colors__gray8;
 
-$listbox__filter-icon-width: luna-sprite-width(close);
+$listbox__filter-icon-width: 16px;
 $listbox__filter-icon-margin-left: -($listbox__filter-icon-width + 6px);
 $listbox__filter-padding-right: $listbox__filter-icon-width + 8px;
 
@@ -35,7 +35,7 @@ $listbox__footer-height: 28px;
   th {
     text-align: left;
     border-bottom: $listbox__border;
-    @include background-image($listbox__th-background);
+    background-image: $listbox__th-background;
     
     & + th {
       border-left: $listbox__border;
@@ -46,20 +46,20 @@ $listbox__footer-height: 28px;
       padding-right: 20px;
     }
     
+    i {
+      display: none;
+    }
+    
     &.column-sortable:hover,
     &.column-sorted {
       position: relative;
-      @include background-image($listbox__th-background--hover);
+      background-image: $listbox__th-background--hover;
   
       i {
-        @extend .luna-arrow-up;
         position: absolute;
         right: 9px;
-        top: 38%;
-      }
-  
-      &.desc i {
-        @extend .luna-arrow-down;
+        font-size: 9px;
+        display: inline-block;
       }
     }
   }

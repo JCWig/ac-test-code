@@ -309,7 +309,7 @@ describe('akamai.components.dropdown', function() {
                                         items="stateStrings"></akam-dropdown>`);
       });
       it('should present a clear icon', function() {
-        expect(util.findElement(this.el, '.luna-small_close_dark_gray')).not.toBe(null);
+        expect(util.findElement(this.el, '.aci-close')).not.toBe(null);
       });
     });
   });
@@ -396,7 +396,7 @@ describe('akamai.components.dropdown', function() {
         this.addElement(`<akam-dropdown ng-model="selectedStateObj" clearable
                                         items="stateStrings"></akam-dropdown>`);
 
-        util.findElement(this.el, '.clear-dropdown').triggerHandler('click');
+        util.findElement(this.el, '.aci-close').triggerHandler('click');
       });
       it('should clear the selected item', function() {
         expect(this.$scope.selectedStateObj).toBe(undefined);

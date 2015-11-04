@@ -173,11 +173,11 @@ describe('timeFormatter directive', function() {
         addElement.call(this, markeup);
       });
       it('should disable minute up arrow in popup', function() {
-        let upArrow = this.element.querySelector('.time-increment-row .minute a i');
+        let upArrow = this.element.querySelector('.time-increment-row .minute i');
         expect(upArrow.getAttribute('disabled')).toBeDefined();
       });
       it('should disable minute down arrow in popup', function() {
-        let downArrow = this.element.querySelector('.time-decrement-row .minute a i');
+        let downArrow = this.element.querySelector('.time-decrement-row .minute i');
         expect(downArrow.getAttribute('disabled')).toBeDefined();
       });
       it('should disable minute input in popup', function() {

@@ -4,6 +4,11 @@
 
   .modal-dialog {
     width: 450px;
+    margin: 0;
+  }
+  
+  &.in .modal-dialog,
+  &.fade .modal-dialog {
     @extend .util-screen-center-box;
   }
 
@@ -15,7 +20,7 @@
   .modal-header {
 
     .title-icon {
-      display: inline-block;
+      top: 58%; // TODO: nleon@akamai.com, figure out why this wont align correctly by default
     }
 
     .title-icon + .modal-title {
@@ -23,29 +28,20 @@
     }
   }
 
-  & .modal-content .modal-container > .modal-header,
-  &.information .modal-content .modal-container > .modal-header {
+  & .modal-content .modal-container > .modal-header .modal-title,
+  &.information .modal-content .modal-container > .modal-header .modal-title,
+  &.information .title-icon {
     color: $dialog-text-color-info;
-
-    .title-icon {
-      background-image: inline-svg-image("svg/information.svg");
-    }
   }
 
-  &.question .modal-content .modal-container > .modal-header {
+  &.question .modal-content .modal-container > .modal-header .modal-title,
+  &.question .title-icon {
     color: $dialog-text-color-info;
-
-    .title-icon {
-      background-image: inline-svg-image("svg/question.svg");
-    }
   }
 
-  &.error .modal-content .modal-container > .modal-header {
+  &.error .modal-content .modal-container > .modal-header .modal-title,
+  &.error .title-icon {
     color: $dialog-text-color-alert;
-
-    .title-icon {
-      background-image: inline-svg-image("svg/error.svg");
-    }
   }
 
   .message-box-headline + .message-box-text {
@@ -87,8 +83,8 @@
     .collapsing {
       height: 0;
       position: relative;
-      @include transform(translateZ(0));
-      @include transition(height .35s linear, visibility .35s linear);
+      transform: translateZ(0);
+      transition: height .35s linear, visibility .35s linear;
     }
   }
 }

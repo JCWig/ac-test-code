@@ -24,14 +24,8 @@ function menuButton(translateValueSupport) {
         case 'small':
           scope.menuButton.btnSize = 'btn-sm';
           break;
-        case 'medium':
-          scope.menuButton.btnSize = 'btn-default';
-          break;
         case 'large':
           scope.menuButton.btnSize = 'btn-lg';
-          break;
-        default:
-          scope.menuButton.btnSize = 'btn-default';
           break;
       }
     }

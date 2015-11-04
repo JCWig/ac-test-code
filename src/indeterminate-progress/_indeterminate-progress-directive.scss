@@ -28,9 +28,9 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
   }
 }
 
-@include keyframes(spin360) {
+@keyframes spin360 {
   100% {
-    @include transform(rotate(1turn));
+    transform: rotate(1turn);
   }
 }
 
@@ -43,11 +43,11 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
   left: 0;
   margin: auto;
 
-  @include opacity(0);
-  @include transition(opacity 0.5s);
+  opacity: 0;
+  transition: opacity 0.5s;
 
   .indeterminate-progress-label {
-    @include opacity(0);
+    opacity: 0;
   }
 }
 
@@ -62,8 +62,9 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
     width: 100%;
     height: 100%;
     z-index: 100; // TODO: Need to add this to zindex map. Might be an inappropriate value
-    @include transform(translate3d(0, 0, 0));
-    @include opacity(1);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    background: $progress-backdrop-color_luna;
     @include indeterminateProgressPosition($progress-spinner-dimensions);
 
     /** Absolute position the spinner graphic */
@@ -84,7 +85,30 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
       color: $colors__gray2;
       font: $progress-label-font;
       text-align: center;
-      @include opacity(1);
+      opacity: 1;
+    }
+
+    .indeterminate-progress-spinner {
+      @include svg("loading", $progress-spinner-dimensions, $progress-spinner-dimensions);
+      animation: spin360 1s infinite steps(8);
+    }
+
+    .indeterminate-progress-label {
+      opacity: 1;
+    }
+
+    &.failed {
+      .indeterminate-progress-spinner {
+        @include svg("failed", $progress-spinner-dimensions, $progress-spinner-dimensions);
+        animation: none;
+      }
+    }
+
+    &.success {
+      .indeterminate-progress-spinner {
+        @include svg("success",$progress-spinner-dimensions, $progress-spinner-dimensions);
+        animation: none;
+      }
     }
 
     &.large {
@@ -103,6 +127,8 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
     }
 
     &.micro {
+      background-color: transparent;
+      
       .indeterminate-progress-spinner {
         width: $progress-spinner-dimensions-micro;
         height: $progress-spinner-dimensions-micro;
@@ -127,72 +153,3 @@ td.indeterminate-progress {
   }
 }
 
-/**
-* The & context is .common-css
-*/
-& {
-  .indeterminate-progress-wrapper {
-    background: $progress-backdrop-color_luna;
-
-    &.micro {
-      background-color: transparent;
-    }
-  }
-
-  .indeterminate-progress {
-
-    & > .indeterminate-progress-wrapper {
-
-      .indeterminate-progress-spinner {
-        background-image: inline-svg-image("svg/luna-spinner.svg");
-        @include animation(spin360 1s infinite steps(8));
-      }
-
-      .indeterminate-progress-label {
-        @include opacity(1);
-      }
-
-      &.failed {
-        .indeterminate-progress-spinner {
-          background-image: inline-svg-image("svg/failed.svg");
-          @include animation(none);
-        }
-      }
-
-      &.success {
-        .indeterminate-progress-spinner {
-          background-image: inline-svg-image("svg/success.svg");
-          @include animation(none);
-        }
-      }
-    }
-  }
-}
-
-/**
-* The & context is .common-css
-* These styles apply to .common-css.pulsar only
-*/
-&.pulsar {
-  .indeterminate-progress-wrapper {
-    background: $progress-backdrop-color_pulsar;
-  }
-
-  .indeterminate-progress {
-
-    & > .indeterminate-progress-wrapper {
-
-      .indeterminate-progress-spinner {
-        background-image: inline-svg-image("svg/spinner.svg");
-        @include animation(spin360 3s infinite linear);
-      }
-
-      &.failed {
-        .indeterminate-progress-spinner {
-          background-image: inline-svg-image("svg/warning.svg");
-          @include animation(none);
-        }
-      }
-    }
-  }
-}

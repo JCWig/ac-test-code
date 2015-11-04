@@ -5,7 +5,7 @@
 
   <div class="message-box-details" ng-if="messageBox.details">
         <span ng-click="toggle()">{{ "components.message-box.label.detail" | translate }}
-            <i ng-class="isCollapsed() ? 'svg-caret-right' : 'svg-caret-down'"></i>
+            <i ng-class="isCollapsed() ? 'aci-caret-right' : 'aci-caret-bottom'"></i>
         </span>
 
     <div collapse="isCollapsed()" ng-bind-html="messageBox.details"></div>

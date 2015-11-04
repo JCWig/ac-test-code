@@ -18,7 +18,7 @@ $spinner-button-active-gradient-top: #c8c8c8;
   input[type=number] {
     width: calc(16ch + 20px);
     border-right-width: 0;
-    @include appearance(textfield);
+    appearance: textfield;
 
     &::-ms-clear {
       display: none;
@@ -46,12 +46,13 @@ $spinner-button-active-gradient-top: #c8c8c8;
       height: $spinner-input-height/2;
       width: auto;
       display: block;
-      @include border-left-radius(0);
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 2px;
       border-color: $spinner-border-color;
 
       &[disabled] {
         opacity: 1;
-        @include background-image(none);
+        background-image: none;
         border-color: $spinner-disable-color;
       }
 
@@ -64,17 +65,21 @@ $spinner-button-active-gradient-top: #c8c8c8;
       }
 
       i {
-        display: block;
+        font-size: 8px;
+      }
+      
+      &.decrement i {
+        // TODO: nleon@akamai.com, align these icons correctly at all zoom levels
       }
 
       &:hover:not([disabled]) {
         border-color: $spinner-border-color-hover;
-        @include background-image(linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom));
+        background-image: linear-gradient($spinner-button-hover-gradient-top, $spinner-button-hover-gradient-bottom);
       }
 
       &:active:not([disabled]) {
         border-color: $spinner-button-color-active;
-        @include background-image(linear-gradient($spinner-button-active-gradient-top, $spinner-button-active-gradient-bottom));
+        background-image: linear-gradient($spinner-button-active-gradient-top, $spinner-button-active-gradient-bottom);
       }
     }
   }

@@ -8,7 +8,8 @@ $panel-gradient-bottom: #f8f8f8;
     border-bottom-width: 0;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    @include border-top-radius($panel-border-radius);
+    border-top-left-radius: $panel-border-radius;
+    border-top-right-radius: $panel-border-radius;
 
     & .panel-title {
       font-size: 16px;

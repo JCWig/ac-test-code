@@ -4,7 +4,7 @@
         <span title="{{autocomplete.getSelectedItemText()}}">{{autocomplete.getSelectedItemText()}}</span>
         <span ng-if="!autocomplete.selectedItem" class="dropdown-placeholder">{{autocomplete.placeholder}}</span>
     </span>
-    <i class="util-clickable clear-dropdown"
+    <i class="aci-close util-clickable clear-dropdown"
        ng-click="autocomplete.clearSelectedItem($event)"
        ng-if="autocomplete.selectedItem && autocomplete.isClearable && !autocomplete.isDisabled && !autocomplete.isReadonly && !autocomplete.searchShown"></i>
 

@@ -4,10 +4,10 @@
 
     <h4 class="modal-title util-ellipsis">{{ modalWindow.title }}</h4>
     <i class="max-min-icon icon-states"
-       ng-class="{ 'pulsar-fullscreen' : !modalWindow.isMax, 'pulsar-restore' : modalWindow.isMax, 'disabled': modalWindow.processing}"
+       ng-class="{ 'aci-fullscreen' : !modalWindow.isMax, 'aci-unfullscreen' : modalWindow.isMax, 'disabled': modalWindow.processing}"
        ng-click="!modalWindow.processing && (modalWindow.isMax = !modalWindow.isMax);"
        ng-if="modalWindow.showFullscreenToggle"></i>
-    <i class="close-icon" ng-class="{disabled: modalWindow.processing}" ng-click="!modalWindow.processing && modalWindow.instance.dismiss()"></i>
+    <i class="aci-close icon-states" ng-class="{disabled: modalWindow.processing}" ng-click="!modalWindow.processing && modalWindow.instance.dismiss()"></i>
 
     <div class="akam-status-message-wrapper" ng-if='modalWindow.showSubmitError'>
       <div class="akam-status-message-item-wrapper" ng-class="{'error': modalWindow.showSubmitError}">

@@ -9,6 +9,6 @@ var gulp = require('gulp');
 var config = require('../config');
 
 gulp.task('watch', ['watchify', 'browser-sync'], function() {
-  gulp.watch(config.sass.src, ['compass']);
-  gulp.watch(config.images.src, ['compass']);
+  gulp.watch('assets/**', ['copy-to-dist']);
+  gulp.watch('src/**/*.scss', ['css']);
 });
