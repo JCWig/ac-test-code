@@ -49,7 +49,8 @@ class TableController {
       sortColumn: '',
       sortDirection: defaultSortDirection,
       pageSize: 0,
-      pageNumber: 0
+      pageNumber: 0,
+      sortFunctions: new Map()
     };
 
     // mapping between row id properties and a boolean indicating whether or not the
@@ -147,8 +148,9 @@ class TableController {
 
     let newData = this.filterFilter(this.pristine, angular.bind(this, this.filterFn));
 
-    newData = this.orderByFilter(newData, this.state.sortColumn,
-      this.state.sortDirection === SORT_DIRECTIONS.desc);
+    const sortFunction = this.state.sortFunctions.get(this.state.sortColumn);
+    const sortDirection = this.state.sortDirection === SORT_DIRECTIONS.desc;
+    newData = this.orderByFilter(newData, sortFunction, sortDirection);
 
     this.state.totalItems = newData.length;
 
@@ -330,7 +332,7 @@ class TableController {
 
 }
 
-function tableDirective($log, akamTableTemplate, $compile) {
+function tableDirective($log, akamTableTemplate, $compile, $parse) {
 
   function addDefaultSort(scope, attributes, header) {
     if (header.hasAttribute('default-sort')) {
@@ -354,6 +356,18 @@ function tableDirective($log, akamTableTemplate, $compile) {
 
       scope.table.state.filterableColumns.push(header.getAttribute('row-property'));
     }
+  }
+
+  function addSortFunctionForHeader(scope, header) {
+    const defaultSortFn = columnName => tableItem => tableItem[columnName];
+
+    const onSortExpression = header.getAttribute('on-sort');
+    const onSortExpressionParsed = $parse(onSortExpression)(scope.$parent);
+
+    const columnName = header.getAttribute('row-property');
+    const sortingFunction =
+        onSortExpressionParsed ? onSortExpressionParsed : defaultSortFn(columnName);
+    scope.table.state.sortFunctions.set(columnName, sortingFunction);
   }
 
   return {
@@ -438,6 +452,7 @@ function tableDirective($log, akamTableTemplate, $compile) {
       // handle setting sorting and filtering state based on the 'not-sortable'
       //and 'not-filterable' attrs this will potentially modify the scope.table.state object
       angular.forEach(element.find('th'), function(header) {
+        addSortFunctionForHeader(scope, header);
         addDefaultSort(scope, attributes, header, $log);
         addFilterableColumns(scope, attributes, header);
       });
@@ -446,6 +461,6 @@ function tableDirective($log, akamTableTemplate, $compile) {
 
 }
 
-tableDirective.$inject = ['$log', 'akamTableTemplate', '$compile'];
+tableDirective.$inject = ['$log', 'akamTableTemplate', '$compile', '$parse'];
 
 export default tableDirective;

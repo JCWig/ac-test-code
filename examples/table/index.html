@@ -108,6 +108,7 @@
     </akam-table-row>
   </akam-table>
 </div>
+
 <div class="container">
   <h2>Disabling row selection and default sort of Last Name in descending order</h2>
   <akam-table items="vm.arrayData" akam-standalone>
@@ -121,6 +122,21 @@
     </akam-table-row>
   </akam-table>
 </div>
+
+<div class="container">
+  <h2>Using custom sort function on a column - sorting by IP address last octet</h2>
+  <akam-table items="vm.arrayData" akam-standalone>
+    <akam-table-row not-filterable>
+      <akam-table-column row-property="id" header-name="examples.id" not-sortable></akam-table-column>
+      <akam-table-column row-property="firstName" header-name="examples.name" not-sortable></akam-table-column>
+      <akam-table-column row-property="lastName" default-sort="desc" header-name="examples.lastname" not-sortable></akam-table-column>
+      <akam-table-column row-property="boolean" header-name="examples.boolean" not-sortable></akam-table-column>
+      <akam-table-column row-property="ipAddress" akam-text-overflow="row.ipAddress" header-name="examples.ipaddress" on-sort="vm.sorByIpLastOctet"></akam-table-column>
+      <akam-table-column row-property="country" header-name="examples.country" not-sortable></akam-table-column>
+    </akam-table-row>
+  </akam-table>
+</div>
+
 <div class="container">
   <h2>Basic Table (no filtering, no sorting, no pagination)</h2>
   <button ng-click='vm.addRow()'>Add a row</button>
@@ -134,7 +150,6 @@
     </akam-table-row>
   </akam-table>
 </div>
-
 <div class="container">
   <h2>Failure Table no akam-table-row defined</h2>
   <akam-table items="vm.arrayData" not-filterable not-sortable akam-standalone>

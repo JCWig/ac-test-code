@@ -78,8 +78,8 @@ describe('akam-table', function() {
       bu: 'Team',
       color: 'Favorite Color',
       birthday: 'Birthday',
-      generic: 'Generic Sorting'
-    }
+      generic: 'Generic Sorting',
+    };
     scope.bigData = require('./bigdata/bigdata.json');
     scope.bigDataColumns = {
       row1: "First Name",
@@ -546,6 +546,111 @@ describe('akam-table', function() {
         });
       });
     });
+  });
+  describe('given a rendered table', function(){
+    describe('with custom sort function provided for a column', function() {
+      describe('when that column is clicked', function(){
+        beforeEach(function(){
+          scope.mydata.push({
+            color: 'Orange'
+          });
+
+          scope.sortByColorLength = function(row) {
+            return row.color.length;
+          };
+
+          var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+              '<akam-table-row>'+
+              '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+              '</akam-table-column>'+
+              '<akam-table-column class="color" row-property="color" on-sort="sortByColorLength" header-name="{{columns.color}}">'+
+              '</akam-table-column>'+
+              '</akam-table-row>'+
+              '</akam-table>';
+          addElement(markup);
+        });
+        it('should sort column data in ascending order by given comparator', function(){
+          // when
+          var columnTwoHeader = document.querySelector('.color');
+          utilities.click(columnTwoHeader);
+          scope.$digest();
+
+          // then
+          var firstRow = document.querySelectorAll('.color')[1].textContent;
+          var lastRow = document.querySelectorAll('.color')[4].textContent;
+          expect(firstRow).toContain('Red');
+          expect(lastRow).toContain('Orange');
+        });
+        it('should sort column data in descending order by given comparator if clicked twice', function(){
+          // when
+          var columnTwoHeader = document.querySelector('.color');
+          utilities.click(columnTwoHeader);
+          utilities.click(columnTwoHeader);
+          scope.$digest();
+
+          // then
+          var firstRow = document.querySelectorAll('.color')[1].textContent;
+          var lastRow = document.querySelectorAll('.color')[4].textContent;
+          expect(firstRow).toContain('Orange');
+          expect(lastRow).toContain('Red');
+        });
+      });
+    });
+
+    describe("provided with unparsable on-sort expression for a column", function() {
+      beforeEach(function(){
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="color" row-property="color" on-sort="someDummyExpression" header-name="{{columns.color}}">'+
+            '</akam-table-column>'+
+            '</akam-table-row>'+
+            '</akam-table>';
+        addElement(markup);
+      });
+
+      it('should ignore on-sort param', function() {
+        // when
+        var columnTwoHeader = document.querySelector('.color');
+        utilities.click(columnTwoHeader);
+        scope.$digest();
+
+        // then
+        var firstRow = document.querySelectorAll('.color')[1].textContent;
+        var lastRow = document.querySelectorAll('.color')[3].textContent;
+        expect(firstRow).toContain('Black');
+        expect(lastRow).toContain('Red');
+      });
+    });
+
+    describe("provided with on-sort attribute without any value", function() {
+      beforeEach(function(){
+        var markup = '<akam-table items="mydata" akam-standalone on-change="changeRows(items)">'+
+            '<akam-table-row>'+
+            '<akam-table-column class="name" row-property="first_name" header-name="{{columns.first_name}}">'+
+            '</akam-table-column>'+
+            '<akam-table-column class="color" row-property="color" on-sort header-name="{{columns.color}}">'+
+            '</akam-table-column>'+
+            '</akam-table-row>'+
+            '</akam-table>';
+        addElement(markup);
+      });
+
+      it('should ignore on-sort param', function() {
+        // when
+        var columnTwoHeader = document.querySelector('.color');
+        utilities.click(columnTwoHeader);
+        scope.$digest();
+
+        // then
+        var firstRow = document.querySelectorAll('.color')[1].textContent;
+        var lastRow = document.querySelectorAll('.color')[3].textContent;
+        expect(firstRow).toContain('Black');
+        expect(lastRow).toContain('Red');
+      });
+    });
+
   });
   describe('given a rendered table', function(){
     describe('when a sortable column is clicked', function(){
