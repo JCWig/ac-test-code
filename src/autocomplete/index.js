@@ -77,5 +77,7 @@ export default angular.module('akamai.components.autocomplete', [
  *
  * @param {*} [clearable] if present it will display an icon to clear the selected item
  *
+ * @param {*} [autofocus] if present will autofocus on the autocomplete
+ *
  */
 .directive('akamAutocomplete', autocompleteDirective);
