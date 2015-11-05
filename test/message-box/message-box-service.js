@@ -230,9 +230,9 @@ describe('messageBox service', function() {
       expect(closeIcon).not.toBe(null);
       utilities.click(closeIcon);
 
-      $animate.triggerCallbacks();
+      $animate.flush();
       this.$rootScope.$digest();
-      $animate.triggerCallbacks();
+      $animate.flush();
       this.$rootScope.$digest();
 
       expect(document.querySelector('.modal-content')).toBe(null);
@@ -315,9 +315,9 @@ describe('messageBox service', function() {
         var okayModalButton = document.querySelector('.modal-footer button:last-child');
         utilities.click(okayModalButton);
 
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.$rootScope.$digest();
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.$rootScope.$digest();
 
         expect(document.querySelector('.modal-content')).toBe(null);
@@ -341,9 +341,9 @@ describe('messageBox service', function() {
         var cancelModalButton = document.querySelector('.modal-footer button');
         utilities.click(cancelModalButton);
 
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.$rootScope.$digest();
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.$rootScope.$digest();
 
         expect(document.querySelector('.modal-content')).toBe(null);
@@ -363,9 +363,9 @@ describe('messageBox service', function() {
         var closeIcon = document.querySelector('.modal-content i.close-icon');
         utilities.click(closeIcon);
 
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.$rootScope.$digest();
-        $animate.triggerCallbacks();
+        $animate.flush();
         this.$rootScope.$digest();
 
         this.messageBox.show({

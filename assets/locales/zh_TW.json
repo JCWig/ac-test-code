@@ -107,7 +107,7 @@
         },
         "name": "Akamai Common Components {{name}}",
         "date-range": {
-            "placeholder": "選擇日期"
+            "placeholder": "Select From Date - Select To Date"
         },
         "autocomplete": {
             "search-tip": "輸入符合結果的顯示文字"

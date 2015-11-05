@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 //TODO: Remember to update this if the version in package.json ever changes
-export const VERSION = '0.9.1';
+export const VERSION = '1.0.0';
 
 /**
  * @ngdoc module

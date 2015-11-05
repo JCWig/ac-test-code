@@ -18,11 +18,6 @@
                     <input id="title" type="text" ng-model="options.title" size="50">
                 </div>
                 <br />
-                <div class="label-group">
-                    <label class="label" for="template">Template:</label><br>
-                    <textarea id="template" type="text" ng-model="options.template" rows="4" cols="50"></textarea>
-                </div>
-                <br />
                 <div>
                     <h3>Button Options:</h3><br>
                     <input type="checkbox" name="hideSubmit" id="hideSubmit" ng-model="options.hideSubmit"/>
@@ -44,15 +39,24 @@
                   <div class="btn-group">
                     <button type="button" class="btn btn-default btn-lg" ng-click="open()">Open</button>
                     <button type="button" class="btn btn-default btn-lg" ng-click="openWithTemplateUrl()">Open With Template</button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="openWithTableTemplateUrl()">Open With Table Template</button>
                   </div>
+                </div>
+                <br />
+                <br />
+                <div>
+                    <h2>Embedded Components Examples:</h2>
+                    <br />
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-lg" ng-click="openWithTableTemplateUrl()">Open With Table Template</button>
+                        <button type="button" class="btn btn-default btn-lg" ng-click="openWithAutcompleteTemplateUrl()">Open With Autocomplete Template</button>
+                    </div>
                 </div>
             </form>
         </div>
         <script src="utils/cookies.js"></script>
         <script src="../dist/akamai-core.js"></script>
         <script>
-            var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout) {
+            var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout, $filter) {
                 var modalScope = $rootScope.$new();
                 modalScope.items = [
                   {"id":1,"first_name":"Norma","last_name":"White","email":"nwhite0@japanpost.jp","country":"China","ip_address":"131.46.59.162","boolean":true,"color":"Yellow"},
@@ -62,6 +66,30 @@
                   {"id":5,"first_name":"Charles","last_name":"Reyes","email":"creyes4@cbsnews.com","country":"Spain","ip_address":"136.197.92.192","boolean":true,"color":"Red"},
                   {"id":6,"first_name":"Joshua","last_name":"Thompson","email":"jthompson5@yale.edu","country":"Russia","ip_address":"61.57.205.127","boolean":true,"color":"Yellow"}
                 ];
+                
+                modalScope.ex1 = { selectedState: 'Massachusetts' };
+                
+                modalScope.searchStateStrings = function(searchTerm) {
+                    var stateStrings = [
+                        'Colorado',
+                        'Connecticut',
+                        'Maryland',
+                        'Massachusetts',
+                        'New Hampshire',
+                        'New Jersey',
+                        'New York',
+                        'Vermont',
+                        'Virginia',
+                        'Washington, District of Columbia'
+                    ];
+        
+                    var criteriaMatch = function(item) {
+                        return item.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+                    };
+        
+                    return $filter('filter')(stateStrings, criteriaMatch);
+                };
+
                 modalScope.fakeSubmit = function(row){
                   row.isInProgress = true;
                   row.isFailed = false;
@@ -157,6 +185,11 @@
                             $log.log('open: Modal Window was cancelled');
                         });
                 };
+                
+                $scope.options2 = {
+                    title: 'Modal Window with Embedded Components',
+                    showFullscreenToggle: true
+                };
 
                 $scope.openWithTemplateUrl = function() {
                     // Create a new modal window instance with a specific template url
@@ -179,10 +212,31 @@
                 
                 $scope.openWithTableTemplateUrl = function() {
                     // Create a new modal window instance with a specific template url
-                    var instance = modalWindow.open(angular.extend({}, $scope.options, {
+                    var instance = modalWindow.open(angular.extend({}, $scope.options2, {
                         scope: modalScope,
                         templateUrl: 'templates/modal-window.table.tpl.html',
-                        controller: 'ModalController'
+                        controller: 'ModalController2'
+                    }));
+
+                    // Listen for the result returned by the modal window that is opened with a template
+                    instance.result
+                        .then(function(result) {
+                            $log.log('openWithTemplateUrl: Modal Window returned ', result);
+
+                        })
+                        .catch(function() {
+                            $log.log('openWithTemplateUrl: Modal Window was cancelled.');
+                        });
+                };
+
+
+                $scope.openWithAutcompleteTemplateUrl = function() {
+                    $log.log('calling autocomplete template');
+                    // Create a new modal window instance with a specific template url
+                    var instance = modalWindow.open(angular.extend({}, $scope.options2, {
+                        scope: modalScope,
+                        templateUrl: 'templates/modal-window.autocomplete.tpl.html',
+                        controller: 'ModalController2'
                     }));
 
                     // Listen for the result returned by the modal window that is opened with a template
@@ -196,7 +250,7 @@
                         });
                 };
             };
-
+            
             var modalController = function($scope, $q, $timeout) {
                 var times = 0;
 
@@ -228,6 +282,26 @@
                     }
                 };
             };
+            
+            var modalController2 = function($scope, $q, $timeout) {
+                var times = 0;
+
+                $scope.setOnSubmit(function(){
+                    var deferral = $q.defer();
+                    $timeout(function() {
+                        if (times % 2 === 0) {
+                            deferral.reject({enableSubmit : true });
+                        }else{
+                            deferral.resolve( { status: $scope.deferredValue } );
+                        }
+
+                        times++;
+                    }, 3000);
+                   return deferral.promise;
+                });
+
+                $scope.customValue = 'Custom Value returned';
+            };
 
             function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
                                     i18nLocaleProvider) {
@@ -249,12 +323,15 @@
             configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
                 '$translateProvider', 'i18nLocaleProvider'];
 
-            exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout'];
-            modalController.$inject = ['$scope', '$q', '$timeout'];
+            exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout', '$filter'];
+            modalController.$inject = ['$scope', '$q', '$timeout','$filter'];
+            modalController2.$inject = ['$scope', '$q', '$timeout','$filter'];
 
-            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window', 'akamai.components.indeterminate-progress', 'akamai.components.table'])
+            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window',
+                    'akamai.components.indeterminate-progress', 'akamai.components.table', 'akamai.components.autocomplete', 'akamai.components.menu-button'])
             .controller('ExampleController', exampleController)
             .controller('ModalController', modalController)
+            .controller('ModalController2', modalController2)
             .config(configFunction);
 
         </script>

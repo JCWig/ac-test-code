@@ -305,16 +305,18 @@ describe('akamai.components.datetime-picker', function() {
 
   describe('given datetime picker has no init value', function() {
     describe('when datetime picker rendered', function() {
-      beforeEach(function() {
-        addElement.call(this);
-        let dateButton = document.querySelector(datePickerSelector + " .btn");
-        utilities.click(dateButton);
-        $scope.$digest();
-      });
-      it("should controller date and time value be undefined", function() {
-        expect(this.controller.date).toBe(undefined);
-        expect(this.controller.time).toBe(undefined);
-        expect(this.controller.datetimeValue).toBe(undefined);
+      describe('when datepicker is clicked', function() {
+        beforeEach(function() {
+          addElement.call(this);
+          let dateButton = document.querySelector(datePickerSelector + " .input-group-btn button");
+          utilities.click(dateButton);
+          $scope.$digest();
+        });
+        it("should controller date and time value be defined", function() {
+          expect(this.controller.date).not.toBe(undefined);
+          expect(this.controller.time).not.toBe(undefined);
+          expect(this.controller.datetimeValue).not.toBe(undefined);
+        });
       });
     });
   });

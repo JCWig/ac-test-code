@@ -57,7 +57,7 @@ function ExampleController($http, $q, $log, $timeout) {
 
   this.rejectedPromise = $http.get('not-a-real-file');
 
-  // Example 4 and 5
+  // Example 4 and 5 and 6
   // -------------------------------------------------
 
   this.arrayData = [
@@ -67,6 +67,12 @@ function ExampleController($http, $q, $log, $timeout) {
     {id: 4, firstName: 'Bobby', lastName: 'Montgomery', email: 'bmontgomery3@msn.com', country: 'Gabon', ipAddress: '16.173.58.169', boolean: true, color: 'Blue'},
     {id: 5, firstName: 'Charles', lastName: 'Reyes', email: 'creyes4@cbsnews.com', country: 'Spain', ipAddress: '136.197.92.192', boolean: true, color: 'Red'}
   ];
+
+  vm.sorByIpLastOctet = function(row) {
+    return parseInt(
+        row.ipAddress.split('.').pop()
+    );
+  };
 
   this.addRow = function() {
     var id = this.arrayData[this.arrayData.length - 1].id + 1;

@@ -3,14 +3,14 @@
   "version": "0.9.2",
   "dependencies": {
     "angular": {
-      "version": "1.4.4",
-      "from": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular/-/angular-1.4.4.tgz",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular/-/angular-1.4.4.tgz"
+      "version": "1.4.7",
+      "from": "angular@1.4.7",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular/-/angular-1.4.7.tgz"
     },
     "angular-animate": {
-      "version": "1.4.4",
-      "from": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-animate/-/angular-animate-1.4.4.tgz",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-animate/-/angular-animate-1.4.4.tgz"
+      "version": "1.4.7",
+      "from": "angular-animate@1.4.7",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-animate/-/angular-animate-1.4.7.tgz"
     },
     "angular-bootstrap-npm": {
       "version": "0.13.3",
@@ -544,24 +544,24 @@
       }
     },
     "angular-cookies": {
-      "version": "1.4.4",
-      "from": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-cookies/-/angular-cookies-1.4.4.tgz",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-cookies/-/angular-cookies-1.4.4.tgz"
+      "version": "1.4.7",
+      "from": "angular-cookies@1.4.7",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-cookies/-/angular-cookies-1.4.7.tgz"
     },
     "angular-messages": {
-      "version": "1.4.4",
-      "from": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-messages/-/angular-messages-1.4.4.tgz",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-messages/-/angular-messages-1.4.4.tgz"
+      "version": "1.4.7",
+      "from": "angular-messages@1.4.7",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-messages/-/angular-messages-1.4.7.tgz"
     },
     "angular-mocks": {
-      "version": "1.4.4",
-      "from": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-mocks/-/angular-mocks-1.4.4.tgz",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-mocks/-/angular-mocks-1.4.4.tgz"
+      "version": "1.4.7",
+      "from": "angular-mocks@1.4.7",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-mocks/-/angular-mocks-1.4.7.tgz"
     },
     "angular-sanitize": {
-      "version": "1.4.4",
-      "from": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-sanitize/-/angular-sanitize-1.4.4.tgz",
-      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-sanitize/-/angular-sanitize-1.4.4.tgz"
+      "version": "1.4.7",
+      "from": "angular-sanitize@1.4.7",
+      "resolved": "https://lunabuild.akamai.com/nexus/content/groups/npm-all/angular-sanitize/-/angular-sanitize-1.4.7.tgz"
     },
     "angular-translate": {
       "version": "2.7.2",

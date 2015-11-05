@@ -107,7 +107,7 @@
         },
         "name": "Akamai Common Components {{name}}",
         "date-range": {
-            "placeholder": "Seleccionar fechas"
+            "placeholder": "Select From Date - Select To Date"
         },
         "autocomplete": {
             "search-tip": "Ingrese el texto para mostrar los resultados que coinciden"

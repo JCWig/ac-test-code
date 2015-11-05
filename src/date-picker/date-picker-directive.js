@@ -52,10 +52,7 @@ class DatepickerController {
     });
   }
 
-  toggle(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
+  toggle() {
     this.opened = !this.opened;
   }
 
