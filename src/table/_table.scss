@@ -1,67 +1,61 @@
-
-
 .table {
-
   > thead {
-  
-    > th {
-      &.column-sortable {
-        @extend .util-clickable;
-        padding-right: 20px;
-        
+    > tr {
+      > th {
+        &.column-sortable {
+          @extend .util-clickable;
+          padding-right: 20px;
+
+          &.column-sorted {
+            @include background-image($table__th-background--hover);
+          }
+
+          & > i {
+            position: absolute;
+            right: floor(luna-sprite-width(arrow-up) / 2);
+            top: 50%;
+            @include translateY(-50.01%);
+          }
+        }
+
+        &.column-sortable:hover,
         &.column-sorted {
+          position: relative;
           @include background-image($table__th-background--hover);
-        }
-        
-        & > i {
-          position: absolute;
-          right: floor(luna-sprite-width(arrow-up) / 2);
-          top: 50%;
-          @include translateY(-50.01%);
-        }
-      }
-      
-      &.column-sortable:hover, 
-      &.column-sorted {
-        position: relative;
-        @include background-image($table__th-background--hover);
-        
-        i {
-          @extend .luna-arrow-up;
-          position: absolute;
-          right: 9px;
-        }
-        
-        &.desc i {
-          @extend .luna-arrow-down;
+
+          i {
+            @extend .luna-arrow-up;
+            position: absolute;
+            right: 9px;
+          }
+
+          &.desc i {
+            @extend .luna-arrow-down;
+          }
         }
       }
     }
   }
 
-
-
   > tbody {
-    
+
     tr.row-selected {
       background-color: $table__tr-background--selected;
     }
-    
+
     > tr:hover {
-      
+
       td.column-action > * {
         visibility: visible;
       }
     }
   }
 
-
-
   .column-checkbox {
     width: 30px;
     overflow: visible;
   }
-  
+
   .column-action {
     width: 80px;
     text-align: center;
@@ -69,12 +63,9 @@
 
 }
 
-
-
-
 .akam-data-table {
   background-color: $table-bg;
-  
+
   .akam-pagination {
     border: 0 none !important; // :(
   }
@@ -83,13 +74,13 @@
     i + .dropdown-menu {
       margin-top: 3px;
     }
-    
+
     > button {
       border: none;
       background: none;
-      
+
       &.btn-default.dropdown-toggle {
-        
+
         &.menu-button,
         &.menu-button:hover,
         &.menu-button:focus
@@ -105,13 +96,13 @@
   .toolbar {
     height: 36px;
     padding: 4px;
-    
+
     input {
       width: 100%;
       max-width: 298px;
       padding-right: $table__filter-padding-right;
     }
-    
+
     input + i {
       vertical-align: middle;
       margin-left: $table__filter-icon-margin-left;

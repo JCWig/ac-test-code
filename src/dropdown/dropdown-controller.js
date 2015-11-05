@@ -102,8 +102,8 @@ export default class DropdownController {
 
     angular.forEach(items, (item) => {
       let keyId = this.keyPropertyFn(item);
+      if (!(this.itemSet.hasOwnProperty(keyId) && this.itemSet[keyId])) {
 
-      if (!this.itemSet[keyId]) {
         this.itemSet[keyId] = item;
       } else {
         throw new Error('Keys must be unique when using the key-property attribute');

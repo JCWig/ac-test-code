@@ -24,7 +24,7 @@ $dropdown-max-items: 8;
   }
 
   & > button[disabled] {
-    > i, 
+    > i,
     > li > a {
       cursor: not-allowed;
     }
@@ -35,7 +35,7 @@ $dropdown-max-items: 8;
     border-color: $dropdown-border-color-active;
     @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
   }
-  
+
   &.open > button > i.luna-gear {
     @extend .luna-gear:hover;
   }
@@ -92,6 +92,9 @@ $dropdown-max-items: 8;
 }
 
 .dropdown-menu {
+  overflow-x: hidden;
+  overflow-y: auto;
+  -ms-overflow-y: auto;
   list-style: none;
   padding: 0;
   border-radius: 0;
@@ -127,7 +130,7 @@ $dropdown-max-items: 8;
 .direction-up .dropdown-menu {
   @include box-shadow(none);
   border: solid 1px #CCC;
-  
+
 }
 
 div.dropdown-menu {

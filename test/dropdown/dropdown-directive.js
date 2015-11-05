@@ -30,6 +30,7 @@ describe('akamai.components.dropdown', function() {
   let stateObjectsWithKeys = [
     {state: {key: 'key1', name: 'components.dropdown.placeholder.filter'}},
     {state: {key: 'key2', name: 'Connecticut'}},
+    {state: {key: 'some', name: 'Maine'}},
   ];
 
   let stateObjectsWithIntegerKeys = [

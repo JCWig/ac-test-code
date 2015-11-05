@@ -209,6 +209,7 @@ describe('akam-table', function() {
         expect(indeterminateProgress.classList).toContain('failed');
       });
       it('should translate and display default item failure message', function(){
+        httpBackend.flush();
         var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
         expect(indeterminateProgress.getAttribute('label')).toMatch('An error has occurred while loading data');
       });
@@ -229,6 +230,7 @@ describe('akam-table', function() {
         addElement(markup);
       });
       it('should translate and display item failure message if key is invalid', function(){
+        httpBackend.flush();
         var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
         expect(indeterminateProgress.getAttribute('label')).toMatch('i failed');
       });
@@ -251,6 +253,7 @@ describe('akam-table', function() {
         addElement(markup);
       });
       it('should translate and display item failure message if key is valid', function(){
+        httpBackend.flush();
         var indeterminateProgress = document.querySelector('.indeterminate-progress-wrapper');
         expect(indeterminateProgress.getAttribute('label')).toMatch('An error has occurred while loading data');
       });

@@ -9,21 +9,23 @@ angular.module('akamai.components.examples.table', [
   .controller('ExampleController', ExampleController)
   .config(configFunction);
 
-function ExampleController($http, $q, $log) {
+function ExampleController($http, $q, $log, $timeout) {
   var vm = this;
 
   // Example 1
   // -------------------------------------------------
 
   // Load data from a json file to test out HTTP GET functionality
-  this.rows = $http.get('../json/component_mockdata.json');
+  this.rows = $timeout(function() {
+    return $http.get('../json/component_mockdata.json');
+  }, 3000);
 
   // pre-select the first two rows
   this.rows.then(function(data) {
     vm.selectedItems = [data.data[0], data.data[1]];
     return data;
   });
-  
+
   // set the table item failure message
   vm.itemFailureMessage = "The table load failed.";
 
@@ -79,7 +81,7 @@ function ExampleController($http, $q, $log) {
   };
 
 }
-ExampleController.$inject = ['$http', '$q', '$log'];
+ExampleController.$inject = ['$http', '$q', '$log', '$timeout'];
 
 function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
                         i18nLocaleProvider) {
