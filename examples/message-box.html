@@ -69,13 +69,18 @@
             <script src="../dist/akamai-core.js"></script>
             <script>
                 var controllerFunction = function($scope, messageBox, $log) {
-                    $scope.options = {
-                        title: 'Title Text Goes Here',
-                        headline: 'Headline Text Goes Here',
-                        text: 'Message Box Text Goes Here',
+                    $scope.options = {                     
+                        headline: 'examples.message-box.variableReplacement',
+                        headlineValues: {"value": 'Headline'},
+                        text: 'examples.message-box.variableReplacement',
+                        textValues: {"value": 'Text'},
+                        title: 'examples.message-box.variableReplacement',
+                        titleValues: {"value": 'Title'},
+                        cancelLabel: 'components.message-box.no',
+                        cancelLabelValues: {'name':'- Beta Version'},
+                        submitLabel: 'components.message-box.yes',
+                        submitLabelValues: {'name':'- Beta Version'},
                         details: '',
-                        cancelLabel: 'Cancel Button Text',
-                        submitLabel: 'Submit Button Text',
                         hideSubmit: false
                     };
                     
