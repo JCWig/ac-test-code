@@ -11,17 +11,17 @@ function httpBufferService($injector, $q) {
   // Service initialized later because of circular dependency problem.
   let $http;
 
-  function retryHttpRequest(config, deferred) {
+  function retryHttpRequest(responseWrapper) {
     function successCallback(response) {
-      deferred.resolve(response);
+      responseWrapper.deferred.resolve(response);
     }
 
     function errorCallback(response) {
-      deferred.reject(response);
+      responseWrapper.deferred.reject(response);
     }
 
     $http = $http || $injector.get('$http');
-    $http(config).then(successCallback, errorCallback);
+    $http(responseWrapper.config).then(successCallback, errorCallback);
   }
 
   return {
