@@ -580,4 +580,24 @@ describe('akamai.components.autocomplete', function() {
       });
     });
   });
+
+  describe('given autocomplete with autofocus', function() {
+    describe('when rendered', function() {
+      let inputField;
+      beforeEach(function() {
+        let autocompleteTemplate = `
+            <akam-autocomplete autofocus ng-model="selectedState" minimum-search="0"
+              on-search="loadStateStrings(searchTerm)">
+            </akam-autocomplete>`;
+        addElement.call(this, autocompleteTemplate);
+        inputField = util.find('input.autocomplete-search');
+
+        spyOn(inputField, 'focus').and.callThrough();
+        this.$timeout.flush();
+      });
+      it('should focus on input field', function() {
+        expect(inputField.focus).toHaveBeenCalled();
+      });
+    });
+  });
 });

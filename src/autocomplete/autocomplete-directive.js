@@ -39,6 +39,14 @@ class AutocompleteController extends DropdownController {
     super.initialize(elem, attrs, ngModel);
     this.initialSearch();
     this.searchInput = elem[0].querySelector('input.autocomplete-search');
+    this.setAutoFocus(attrs);
+  }
+
+  setAutoFocus(attrs) {
+    if (angular.isDefined(attrs.autofocus) && !this.isDisabled) {
+      this.searchShown = true;
+      this.$timeout(() => this.searchInput.focus());
+    }
   }
 
   clearSelectedItem(e) {
