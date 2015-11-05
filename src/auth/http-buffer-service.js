@@ -62,6 +62,7 @@ function httpBufferService($injector, $q) {
      * @param {object} config The config for the request to allow for the same request
      *  to be retried later
      * @param {promise} deferred The promise to use to for the retried request
+     * @param {string} type The type of config - either request or response
      */
     append: function(config, deferred, type) {
       buffer.push({
