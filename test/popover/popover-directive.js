@@ -44,10 +44,17 @@ describe('akamai.components.popover', function() {
       this.$httpBackend = $httpBackend;
       this.$httpBackend.when('GET', LIBRARY_PATH).respond(enUsMessagesResponse);
       this.$httpBackend.when('GET', CONFIG_PATH).respond(enUsResponse);
-
+      this.$httpBackend.when('GET', 'custom-template.html').respond(`<div class="popover-middle-content"><span class="hover3">Custom Content Example Text</span>
+                <div class="popover-button-content"> <button>Click this button to do something</button></div>
+                <div class="popover-button-content">
+                    <button ng-click="include.btnFunctionInclude()">Click this button and see message in browser log</button>
+                </div>
+            </div>`);
       this.addElement = addElement;
       this.$scope.translationMock = translationMock;
     });
+
+    jasmine.clock().install();
   });
 
   afterEach(function() {
@@ -55,6 +62,8 @@ describe('akamai.components.popover', function() {
       document.body.removeChild(document.body.firstChild);
     }
     this.element = null;
+
+    jasmine.clock().uninstall();
   });
 
   describe('given a akam-popover', function() {
@@ -210,6 +219,7 @@ describe('akamai.components.popover', function() {
 
         this.addElement(markup);
       });
+
       it('should open on trigger element click', function(){
         this.el.triggerHandler('click');
         this.$timeout.flush();
@@ -222,18 +232,17 @@ describe('akamai.components.popover', function() {
         this.$timeout.flush();
 
         this.el.triggerHandler('click');
-        this.$timeout.flush();
+        jasmine.clock().tick(201);
 
         let popover = utilities.findElement(this.el.parent(), POPOVER);
         expect(popover).toEqual({});
       });
       it('should close on click away', function(){
-        let trigger = utilities.findElement(this.el.parent(), '#trigger-element');
-        trigger.triggerHandler('click');
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
 
         utilities.clickAwayCreationAndClick('div');
-        this.$scope.$digest();
-        this.$timeout.flush();
+        jasmine.clock().tick(201);
 
         let popover = utilities.findElement(this.el.parent(), POPOVER);
         expect(popover).toEqual({});
@@ -304,7 +313,7 @@ describe('akamai.components.popover', function() {
         this.$timeout.flush();
 
         this.el.triggerHandler('mouseleave');
-        this.$timeout.flush();
+        jasmine.clock().tick(201);
 
         let popover = utilities.findElement(this.el.parent(), POPOVER);
         expect(popover).toEqual({});
@@ -313,10 +322,13 @@ describe('akamai.components.popover', function() {
         let popover;
         this.el.triggerHandler('mouseenter');
         this.$timeout.flush();
+
         this.el.triggerHandler('mouseleave');
+        jasmine.clock().tick(100);
 
         popover = utilities.findElement(this.el.parent(), POPOVER);
         popover.triggerHandler('mouseenter');
+        jasmine.clock().tick(201);
 
         popover = utilities.findElement(this.el.parent(), POPOVER);
         expect(popover.hasClass('in')).toBe(true);
@@ -324,12 +336,15 @@ describe('akamai.components.popover', function() {
       it('should close after hovering out of popover', function() {
         let popover;
         this.el.triggerHandler('mouseenter');
+        this.$timeout.flush();
         this.el.triggerHandler('mouseleave');
+        jasmine.clock().tick(100);
 
         popover = utilities.findElement(this.el.parent(), POPOVER);
         popover.triggerHandler('mouseenter');
+        jasmine.clock().tick(100);
         popover.triggerHandler('mouseleave');
-        this.$timeout.flush();
+        jasmine.clock().tick(201);
 
         popover = utilities.findElement(this.el.parent(), POPOVER);
         expect(popover).toEqual({});
@@ -352,6 +367,31 @@ describe('akamai.components.popover', function() {
       it('should translate content', function() {
         let popover = utilities.findElement(this.el.parent(), POPOVER_CONTENT);
         expect(popover.text()).toEqual('Popover Label');
+      });
+    });
+  });
+
+  describe('given akam-popover-template', function() {
+    describe('when rendered', function() {
+      beforeEach(function() {
+        this.$scope.customData = 'custom-template.html';
+        let markup = `
+          <span id="trigger-element" class='pull-right'
+            akam-popover-template='customData'
+            popover-placement='bottom'
+            popover-trigger='click'>
+            Trusted Content
+          </span>`;
+
+        this.addElement(markup);
+        this.el.triggerHandler('click');
+        this.$timeout.flush();
+      });
+      it('should render popover using template', function() {
+        let popover = utilities.findElement(this.el.parent(), '.popover-content');
+        expect(popover[0].outerHTML).toEqual('<div class="popover-content" ' +
+          'tooltip-template-transclude="contentExp()" ' +
+           'tooltip-template-transclude-scope="originScope()"></div>');
       });
     });
   });
