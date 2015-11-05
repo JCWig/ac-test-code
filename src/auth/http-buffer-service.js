@@ -36,7 +36,7 @@ function httpBufferService($injector, $q) {
     appendRequest: function(requestConfig) {
       let deferred = $q.defer();
 
-      this.append(requestConfig, deferred);
+      this.append(requestConfig, deferred, 'request');
       return deferred.promise;
     },
 
@@ -51,7 +51,7 @@ function httpBufferService($injector, $q) {
     appendResponse: function(response) {
       let deferred = $q.defer();
 
-      this.append(response.config, deferred);
+      this.append(response.config, deferred, 'response');
       return deferred.promise;
     },
 
@@ -63,21 +63,26 @@ function httpBufferService($injector, $q) {
      *  to be retried later
      * @param {promise} deferred The promise to use to for the retried request
      */
-    append: function(config, deferred) {
+    append: function(config, deferred, type) {
       buffer.push({
         config: config,
-        deferred: deferred
+        deferred: deferred,
+        type: type
       });
     },
 
     /**
-     * @name retryAll
-     * @description Retries all the buffered requests clears the buffer.
+     * @name resolveAll
+     * @description Resolves all the buffered configs then clears the buffer.
      */
-    retryAll: function() {
-      buffer.forEach((value) => {
-        value.config.retriedRequest = true;
-        retryHttpRequest(value.config, value.deferred);
+    resolveAll: function() {
+      buffer.forEach(value => {
+        if (value.type === 'request') {
+          value.deferred.resolve(value.config);
+        } else {
+          value.config.retriedRequest = true;
+          retryHttpRequest(value);
+        }
       });
       this.clear();
     },
