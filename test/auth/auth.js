@@ -49,44 +49,6 @@ describe('akamai.components.auth', function() {
 
     angular.mock.module(function(authProvider) {
       provider = authProvider;
-
-      //function Context($q) {
-      //  var accountChangedValue = false;
-      //
-      //  return {
-      //    group: $q.when({
-      //      id: 123
-      //    }),
-      //    property: $q.when({
-      //      id: 456
-      //    }),
-      //    account: {
-      //      name: 'test account'
-      //    },
-      //    accountChanged: function() {
-      //      return accountChangedValue;
-      //    },
-      //
-      //    getAccountFromCookie: function() {
-      //      return {
-      //        id: 1,
-      //        name: 'test account'
-      //      };
-      //    },
-      //
-      //    resetAccount: jasmine.createSpy('resetAccount'),
-      //
-      //    // This is for testing purposes only
-      //    setAccountChanged: function(val) {
-      //      accountChangedValue = val;
-      //    }
-      //  };
-      //}
-      //
-      //Context.$inject = ['$q'];
-      //
-      //// mock out context group and property fetching
-      //$provide.factory('context', Context);
     });
 
     angular.mock.inject(function inject($http, $httpBackend, httpBuffer, token, authConfig,
@@ -441,7 +403,7 @@ describe('akamai.components.auth', function() {
 
     describe('Scenario: Receive valid token', function() {
       it('should submit queued API requests', function() {
-        spyOn(buffer, 'retryAll').and.callThrough();
+        spyOn(buffer, 'resolveAll').and.callThrough();
         buffer.appendRequest({
           method: 'GET',
           url: '/deferred/for/token/auth1',
@@ -459,33 +421,47 @@ describe('akamai.components.auth', function() {
         httpBackend.expectPOST(config.tokenUrl).respond(200);
         tokenService.create();
         httpBackend.flush();
-        expect(buffer.retryAll).toHaveBeenCalled();
+        expect(buffer.resolveAll).toHaveBeenCalled();
       });
     });
 
-    describe('Scenario: Receive valid token, but the service is still erroring out on the server side', function() {
-      it('should submit queued API requests and when one of them returns a 401, log out', function() {
+    describe('Scenario: Valid token and 2 valid requests', function() {
+      it('should return promises that resolve with request objects', function() {
         tokenService.logout.and.stub();
-        spyOn(buffer, 'retryAll').and.callThrough();
-        buffer.appendRequest({
+        spyOn(buffer, 'resolveAll').and.callThrough();
+        let auth1Request = {
           method: 'GET',
           url: '/deferred/for/token/auth1',
           data: '',
           headers: {Accept: 'application/json, text/plain, */*'}
-        });
-        buffer.appendRequest({
+        };
+        let auth2Request = {
           method: 'GET',
           url: '/deferred/for/token/auth2',
           data: '',
           headers: {Accept: 'application/json, text/plain, */*'}
-        });
-        httpBackend.when('GET', '/deferred/for/token/auth1').respond(401);
-        httpBackend.when('GET', '/deferred/for/token/auth2').respond(200);
+        };
+
+        let auth1Promise = buffer.appendRequest(auth1Request);
+        let auth2Promise = buffer.appendRequest(auth2Request);
         httpBackend.expectPOST(config.tokenUrl).respond(200);
+
+        if (angular.isFunction(auth1Promise.then)) {
+          auth1Promise.then(requestConfig => expect(requestConfig).toBe(auth1Request));
+        } else {
+          fail('Result returned by buffer.appendRequest is not a promise');
+        }
+
+        if (angular.isFunction(auth2Promise.then)) {
+          auth2Promise.then(requestConfig => expect(requestConfig).toBe(auth2Request));
+        } else {
+          fail('Result returned by buffer.appendRequest is not a promise');
+        }
+
         tokenService.create();
         httpBackend.flush();
-        expect(buffer.retryAll).toHaveBeenCalled();
-        expect(tokenService.logout).toHaveBeenCalled();
+
+        expect(buffer.resolveAll).toHaveBeenCalled();
       });
     });
 

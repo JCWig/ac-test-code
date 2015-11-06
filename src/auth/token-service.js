@@ -29,7 +29,7 @@ function tokenService(httpBuffer, $injector, $window, $location, authConfig, $lo
       }).success(
         function() {
           pendingRequest = false;
-          httpBuffer.retryAll();
+          httpBuffer.resolveAll();
         }
       ).error(
         function() {

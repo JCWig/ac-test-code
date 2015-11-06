@@ -31,6 +31,9 @@ module.exports = {
     }
     return angular.element(parentElem.querySelector(selector));
   },
+  logObject: function(obj) {
+    console.log(JSON.stringify(obj, null, 2));
+  },
   triggerMouseEvent: function(obj, eventType) {
     var el = this.find(obj);
     var ev = document.createEvent('MouseEvent');
