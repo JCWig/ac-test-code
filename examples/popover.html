@@ -155,8 +155,18 @@
             <h4>Hover over field and then click to see localization change</h2>
             <span akam-popover="{{testTranslation}}" popover-placement="top"
                    ng-click="translateText()" popover-trigger="mouseenter">Hover Here - Top</span>
-            <br /><br /><br /><br />
         </div>
+         <br />
+         <br />
+        <div class="container">
+            <div akam-popover="Text Content Only." popover-placement="right" popover-trigger="click">
+                <h2>Popover with nested elements</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            </div>
+        </div>
+        <br />
+        <br />
 
         <script type="text/ng-template" id="templateId1.html">
             <h3 class="popover-header hover2" > {{include.text}}</h3>

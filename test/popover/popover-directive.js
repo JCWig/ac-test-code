@@ -369,6 +369,48 @@ describe('akamai.components.popover', function() {
         expect(popover.text()).toEqual('Popover Label');
       });
     });
+    describe('when it contains nested elements', function() {
+      beforeEach(function() {
+        let markup = `
+        <div akam-popover='Text Content Only.' popover-placement='right' popover-trigger='click'>
+          <h2>Popover with nested elements</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+        </div>`;
+
+        this.addElement(markup);
+      });
+      it('should open on click', function() {
+        let h2element = utilities.findElement(this.el, 'h2');
+        utilities.click(h2element[0]);
+        this.$timeout.flush();
+
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover.hasClass('in')).toBe(true);
+      });
+      it('should close on click', function() {
+        let h2element = utilities.findElement(this.el, 'h2');
+        utilities.click(h2element[0]);
+        this.$timeout.flush();
+
+        utilities.click(h2element[0]);
+        jasmine.clock().tick(201);
+
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover).toEqual({});
+      });
+      it('should close on click away', function() {
+        let h2element = utilities.findElement(this.el, 'h2');
+        utilities.click(h2element[0]);
+        this.$timeout.flush();
+
+        utilities.clickAwayCreationAndClick('div');
+        jasmine.clock().tick(201);
+
+        let popover = utilities.findElement(this.el.parent(), POPOVER);
+        expect(popover).toEqual({});
+      });
+    });
   });
 
   describe('given akam-popover-template', function() {
