@@ -1,5 +1,6 @@
 .akam-date-picker.akam-date-range {
   & > .date-range-wrapper {
+    display: inline-block;
     & > span {
       @extend %inputStyles;
       display: inline-block;
@@ -13,7 +14,7 @@
         min-width: 0;
         border-left: 0;
         margin-left: 0;
-        margin-right: $date-range-gap-width;
+        margin-right: 0;
         display: inline-block;
         @include border-left-radius(0);
         i {
