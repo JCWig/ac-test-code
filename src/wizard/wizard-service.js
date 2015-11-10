@@ -97,7 +97,8 @@ class WizardController {
 
   goForward() {
     if (this.stepIndex === this.steps.length - 1) {
-      this.submit();
+      this.disposeCurrentStep()
+          .then(() => this.submit());
     } else {
       this.nextStep();
     }
@@ -151,36 +152,57 @@ class WizardController {
     this.contentScope.processing = false;
   }
 
+  showErrorMessage(reason) {
+    this.stopProcessing();
+    this.errorMessage = reason;
+    return this.$q.reject(reason);
+  }
+
   activateStep(stepNumber, init) {
 
     let goToStep = () => {
       this.stepIndex = stepNumber;
       this.currentStep().visited = true;
-
       this.stopProcessing();
       this.errorMessage = null;
     };
 
-    // If a prepare function is supplied for the step, execute it and process the
-    // returned promise
-    if (angular.isFunction(this.steps[stepNumber].initialize)) {
+    let initializeStep = () => {
+      var initializeCallback = angular.isFunction(this.steps[stepNumber].initialize)
+          ? this.steps[stepNumber].initialize
+          : () => '';
 
-      this.startProcessing();
+      this.$q.when(initializeCallback())
+            .then(angular.bind(this, goToStep))
+            .catch(reason => {
+              if (init) {
+                this.$log.warn('Step 1 failed to initialize.');
+                goToStep();
+              } else {
+                this.showErrorMessage(reason);
+              }
+            });
+    };
 
-      let nextStepPromise = this.steps[stepNumber].initialize();
+    this.disposeCurrentStep()
+      .then(initializeStep)
+  }
 
-      nextStepPromise.then(angular.bind(this, goToStep), reason => {
-        if (init) {
-          this.$log.warn('Step 1 failed to initialize.');
-          goToStep();
-        } else {
-          this.stopProcessing();
-          this.errorMessage = reason;
-        }
-      });
-    } else {
-      goToStep();
-    }
+  disposeCurrentStep() {
+
+    let validateDisposeCallback = () => {
+      let disposeCallback = () => '';
+      if (angular.isDefined(this.currentStep())
+          && angular.isFunction(this.currentStep().dispose)) {
+        disposeCallback = this.currentStep().dispose;
+      }
+      return disposeCallback();
+    };
+
+    this.startProcessing();
+    return this.$q
+        .when(validateDisposeCallback())
+        .catch((reason) => this.showErrorMessage(reason))
   }
 
   jumptToVisitedStep(stepNumber) {
@@ -223,10 +245,7 @@ class WizardController {
       result = angular.noop;
     }
 
-    // check to see if the onSubmit returns a promise
-    if (result && angular.isFunction(result.then)) {
-      this.startProcessing();
-    } else if (!result) {
+    if (!result) {
       this.stopProcessing();
       this.errorMessage = this.submitErrorMessage;
       return;
@@ -239,12 +258,7 @@ class WizardController {
         this.statusMessage.showSuccess({text: this.successMessage});
         this.errorMessage = null;
       }
-    ).catch(
-      () => {
-        this.stopProcessing();
-        this.errorMessage = this.submitErrorMessage;
-      }
-    );
+    ).catch(() => this.showErrorMessage(this.submitErrorMessage));
   }
 
 }
