@@ -9,7 +9,7 @@ const PREVIOUS_BUTTON_SELECTOR = 'div.modal-footer > button.previous-button';
 const NEXT_BUTTON_SELECTOR = 'div.modal-footer > button.next-button';
 const PREV_BUTTON_SELECTOR = 'div.modal-footer > button.previous-button';
 
-fdescribe('akamai.components.wizard', function() {
+describe('akamai.components.wizard', function() {
   var $scope, $compile, wizard, steps, submitFunction, $q, timeout;
 
   beforeEach(function() {
