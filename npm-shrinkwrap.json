@@ -1,6 +1,6 @@
 {
   "name": "akamai-core",
-  "version": "0.9.2",
+  "version": "1.0.0",
   "dependencies": {
     "angular": {
       "version": "1.4.7",
@@ -14,8 +14,8 @@
     },
     "angular-bootstrap-npm": {
       "version": "0.13.3",
-      "from": "../../../../var/folders/xx/9j60vx_j15d31w5wybm80xj00000gy/T/npm-49440-d8f2e4d2/git-cache-fb809f9f34dc/08add224c942e48944ebee2093853241572d3dd5",
-      "resolved": "git://github.com/tejendra/angular-bootstrap-npm#08add224c942e48944ebee2093853241572d3dd5",
+      "from": "../../../../var/folders/xx/9j60vx_j15d31w5wybm80xj00000gy/T/npm-77911-9deefa0e/git-cache-96bb771149f7/78940f7e477239bc707127e08548c08677d05197",
+      "resolved": "git://github.com/tejendra/angular-bootstrap-npm#78940f7e477239bc707127e08548c08677d05197",
       "dependencies": {
         "napa": {
           "version": "0.4.1",
