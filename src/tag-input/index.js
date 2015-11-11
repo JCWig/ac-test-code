@@ -1,8 +1,9 @@
 import angular from 'angular';
-import i18n from '../i18n';
-import tagInputDirective from './tag-input-directive';
+import 'sortablejs';
+import 'sortablejs/ng-sortable';
+import dropdown from '../dropdown';
 
-require('ui-select');
+import tagInputDirective from './tag-input-directive';
 
 /**
  * @ngdoc module
@@ -10,12 +11,12 @@ require('ui-select');
  * @image tag-input
  *
  * @description
- * Tag input allows users to select pre-existing options, or create free form tags by entering text
- * into input field and inserting space. The predefined input variant allows item selection from
- * a predefined list, and supports autocomplete with tag values as text is entered.
- * The free-form variant allows character entry in the text field and converts text to tags on
- * entry of delimiter characters. It does not use a predefined list.
- * In both variants the set of tags applied is shown in the input field.
+ * Tag input allows users to select pre-existing tags or create free form tags by entering text
+ * into an input field. The predefined input variant allows tag selection from
+ * a predefined list of tags and supports autocomplete with tag values as text is entered.
+ * The free-form variant allows character entry into a text field and parses text to tags via
+ * configurable delimiter characters. New tags do not need to exist in a pre-defined list.
+ * In both variants the set of tags applied is shown in the tag-input control.
  *
  * @guideline Use when content can be pulled from a manageable data set.
  * @guideline Use when the total number of items would be too large to display in a
@@ -24,64 +25,80 @@ require('ui-select');
  * @guideline Default number of items displayed at one time is seven.
  *
  * @example index.html
- * <akam-tag-input
- *   ng-model="..."
- *   available-items="vm.items"
- *   placeholder="An already translated string"
- *   drag-dropable="true">
+ * <akam-tag-input>
+ *   ng-model="vm.selectedTags"
+ *   items="vm.menuTags"
+ *   is-draggable
+ *   restricted
+ *   stacked
+ *   appended-to-body
+ *   delimiters="[',', ':', 'TAB', 'ENTER']"
+ *   text-property="name"
+ *   placeholder="Enter tags"
+ *   new-tag-label="(new)"
+ *   is-disabled="vm.tagInputDisabled"
+ *   is-read-only="vm.is-read-only"
+ *   on-sort="vm.sortSelectedTags(tags)"
+ *   on-validate="vm.validateTag(tag)">
  * </akam-tag-input>
  *
- * @example index.js
- * function MyController() {
- *   this.items = ['a', 'b', 'c'];
- * }
- *
  */
-module.exports = angular.module('akamai.components.tag-input', [
-  'ui.select',
-  i18n.name
+export default angular.module('akamai.components.tag-input', [
+  dropdown.name,
+  'ng-sortable'
 ])
 
 /**
  * @ngdoc directive
- *
  * @name akamTagInput
- *
- * @description Creates a input designed for multiple tags
- *
  * @restrict E
  *
- * @param {String[]} ngModel The strings that have been selected
+ * @description Creates a tag-input control
  *
- * @param {String[]} availableItems The list of strings that
- * will appear as selectable items in a dropdown
+ * @param {Object[]|String[]} ngModel A list of selected tags. Should be unique.
  *
- * @param {String|TranslateKey} taggingLabel A string which will appear next to
- * a string that is being input
+ * @param {Object[]|String[]|Promise} items A list of menu tags. Must be unique.
  *
- * @param {Function} sortFunction A function that if given will sort
- * the tags that have been chosen
+ * @param {*} [is-draggable=false] If the selected tags can be dragged and dropped. This attribute
+ * should not be used in conjunction with the onSort attribute.
  *
- * @param {Boolean} dragDroppable A value that represents if the tags
- * can be drag and dropped.
+ * @param {*} [restricted=false] If new tags are restricted to tags within the list of menu tags.
  *
- * @param {String} placeholder A value that will be displayed when no
- * tag have been chosen
+ * @param {*} [appended-to-body=false] If the menu of tags is appended to the body. Use this
+ * attribute when tag-input is encloded in an element with `overflow:hidden`.
  *
- * @param {Boolean} restricted A value that if true will not allow any
- * tags to be input that are not in the available items list.
+ * @param {*} [stacked=false] If the menu tags are stacked on top of each other instead of
+ * inline next to each other.
  *
- * @param {Function} validateFunction A function that will be triggered
- * when a new value is input. It should return true if the input is allowed
- * false is the input is not a valid input, we do not allow blank, undefined or
- * null inputs
+ * @param {String[]} [delimiters=[',', 'TAB', 'ENTER']] The delimiters used to parse user entered
+ * values. String values for 'Tab' and 'Enter' are accepted. The delimiters can be mixed and each
+ * delimiter will be considered the same for parsing purposes. Users can enter multiple tags at
+ * once by pasting a value containing delimiters into the input field.
  *
- * __NOTE__: We also provide tagging-label-values attributes for user to pass in object
- * in the need of variable replacement for translation.
- * Example of usage:
- * <akam-tag-input ng-model="items3" available-items="availableItems" restricted="true"
- *     tagging-label="examples.tag-input.label-variable" tagging-label-values="{'name':'existing'}">
- * </akam-tag-input>
- * locale table: 'components.input-tag.label-variable: add {{name}} one'
+ * @param {String} [text-property=''] If the selected and menu tags are objects, this property
+ * must be supplied. It is the property used to retrieve the tag label. The property can be nested
+ * e.g. `testProperty="user.name.lastName"`
+ *
+ * @param {String} [placeholder='Select items'] This text is displayed when no selected tags
+ * have been selected. If a translation key is provided, it will be translated.
+ *
+ * @param {String} [new-tag-label="(new item)"] When tag-input is not in `restricted` mode and while
+ * the user is entering a new tag, this value will be displayed at the top of the menu alongside
+ * the user entered value. If a translation key is provided, it will be translated.
+ *
+ * @param {Boolean} [is-disabled=false] If tag-input is disabled. No user interaction will be
+ * possible.
+ *
+ * @param {Boolean} [is-read-only=false] If tag-input is readOnly. No user interaction will be
+ * possible.
+ *
+ * @param {Function} [on-sort] This expression attribute will be used to keep the list of selected
+ * tags sorted. The function must have a `tags` argument `function sortSelectedTags(tags)`. Note:
+ * this function shouldn't be supplied if the tag-input is draggable.
+ *
+ * @param {Function} [on-validate] This expression attribute will be used to validate each selected
+ * tag. The function must have a `tag` argument. `function validateTag(tag)`. The validator key
+ * is `validTags`.
+ *
  */
   .directive('akamTagInput', tagInputDirective);
