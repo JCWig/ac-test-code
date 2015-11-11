@@ -510,6 +510,42 @@ describe('akamai.components.wizard', function() {
     });
   });
 
+  describe('given a step with an initialize method', function() {
+    describe('when the step is initialized successfully', function() {
+      describe('set controller processing to true', function() {
+        beforeEach(function() {
+          var wizardScope = $scope.$new();
+          var times = 0;
+
+          var step2 = {
+            name: 'Step 2',
+            template: '<p>Step 2 Content</p>',
+            initialize: function () {
+              var deferred = $q.defer();
+
+              deferred.resolve();
+              return deferred.promise;
+            }
+          };
+
+          wizard.open({steps: [steps[0], step2], scope: wizardScope});
+          $scope.$digest();
+
+          let wizardController = angular.element(document.querySelector('div.modal-footer')).scope().wizard;
+          wizardController.processing = true;
+          $scope.$digest();
+          var nextButton = document.querySelector(NEXT_BUTTON_SELECTOR);
+          util.click(nextButton);
+        });
+
+        it('should not have active class during the process action', function() {
+          var secondStep = document.querySelector('.wizard-steps ul li:first-child + li');
+          expect(secondStep.classList.contains('active')).not.toBe(true);
+        });
+      });
+    });
+  });
+
   describe('given a step with an dispose method', function() {
     describe('when an error occurs while disposing', function() {
 
