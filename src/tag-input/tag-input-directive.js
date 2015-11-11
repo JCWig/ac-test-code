@@ -23,7 +23,7 @@ export default function() {
     controllerAs: 'taginput',
     template: template,
     link: function(scope, elem, attrs, ngModel) {
-      scope.taginput.initialize(ngModel);
+      scope.taginput.initialize(ngModel, attrs);
     }
 
   };
