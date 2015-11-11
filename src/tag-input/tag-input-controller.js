@@ -25,7 +25,6 @@ export default class TagInputController {
     this.$filter = $filter;
 
     this.isDraggable = angular.isDefined($attrs.isDraggable);
-    this.restricted = angular.isDefined($attrs.restricted);
     this.appendedToBody = angular.isDefined($attrs.appendedToBody);
     this.stacked = angular.isDefined($attrs.stacked);
 
@@ -55,9 +54,10 @@ export default class TagInputController {
     $scope.$watch('taginput.proposedTag', this.inspectProposedTag.bind(this));
   }
 
-  initialize(ngModel) {
+  initialize(ngModel, attrs) {
     this.ngModel = ngModel;
 
+    this.restricted = attrs.restricted || attrs.restricted === 'true';
     this.tagMenu = angular.element(this.$element[0].querySelector('.dropdown-menu'));
     let tagListElem = angular.element(this.$element[0].querySelector('.tag-input-list'));
 
