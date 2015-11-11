@@ -74,19 +74,23 @@
     i + .dropdown-menu {
       margin-top: 3px;
     }
+  }
 
-    > button {
-      border: none;
-      background: none;
+  td {
+    .dropdown {
+      > button {
+        border: none;
+        background: none;
 
-      &.btn-default.dropdown-toggle {
+        &.btn-default.dropdown-toggle {
 
-        &.menu-button,
-        &.menu-button:hover,
-        &.menu-button:focus
-        &.menu-button:active {
-          border: none;
-          background: none;
+          &.menu-button,
+          &.menu-button:hover,
+          &.menu-button:focus
+          &.menu-button:active {
+            border: none;
+            background: none;
+          }
         }
       }
     }
