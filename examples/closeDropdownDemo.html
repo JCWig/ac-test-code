@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../dist/akamai-core.css">
 </head>
 
-<body ng-app="example" ng-controller="ExampleController" ng-strict-di class="common-css luna">
+<body ng-app="exampleApp" ng-controller="ExampleController" ng-strict-di class="common-css luna">
   <form>
     <div class="container">
       <div class="page-header">
@@ -74,7 +74,7 @@
       </div>
     </div>
   </form>
-  <script src="utils/cookies.js"></script>
+  <script src="utils/i18n-register.js"></script>
   <script src="../dist/akamai-core.js"></script>
   <script>
   var controllerFunction = function($scope, $log) {
@@ -104,24 +104,6 @@
     }
   };
   controllerFunction.$inject = ['$scope', '$log'];
-
-  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                          i18nLocaleProvider) {
-
-      // need to overwrite locales path on fee.akamai.com
-      if (window.location.host == 'fee.akamai.com') {
-          $translatePartialLoaderProvider.addPart('../dist/locales/');
-          $translatePartialLoaderProvider.addPart('locales/json/messages/');
-      } else {
-          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-      }
-
-      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-      $translateProvider.preferredLanguage(locale);
-      i18nLocaleProvider.setLocale(locale);
-  }
 
   DateRangeAppController.$inject = ['$log'];
 
@@ -226,12 +208,11 @@
   configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
       '$translateProvider', 'i18nLocaleProvider'];
 
-  angular.module('example', ['akamai.components.constants', 'akamai.components.date-picker', 'akamai.components.date-range', 'akamai.components.datetime-picker', 'akamai.components.time-picker'])
+  angular.module('exampleApp', ['akamai.components.constants', 'akamai.components.date-picker', 'akamai.components.date-range', 'akamai.components.datetime-picker', 'akamai.components.time-picker'])
     .controller('ExampleController', controllerFunction)
     .controller('DateRangeAppController', DateRangeAppController)
     .controller('DatetimePickerController', DatetimePickerController)
-    .controller('TimePickerController', TimePickerController)
-    .config(configFunction);
+    .controller('TimePickerController', TimePickerController);
 
   </script>
 </body>

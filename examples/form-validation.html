@@ -17,12 +17,12 @@
         </style>
 
     </head>
-    <body class="common-css luna" ng-strict-di ng-app="formValidationExample" ng-controller="formValidationController as vm">
+    <body class="common-css luna" ng-strict-di ng-app="exampleApp" ng-controller="formValidationController as vm">
         <div class="container">
             <div class="page-header">
                 <h1>Form Validation Example</h1>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-3">
                   <label class="label">Label Popover Positioning:</label>
@@ -46,7 +46,7 @@
                   <br><br>
                 </div>
             </div>
-       
+
             <form class="example" name="kitchenSink" novalidate>
 
               <fieldset class="form-horizontal">
@@ -78,7 +78,7 @@
                   <div class="col-md-9">
                     <input type="text" class="form-control" name="longerInput1" ng-model="longerInput1" ng-minlength="5"
                            ng-maxlength="20">
-                        
+
                     <div ng-messages="kitchenSink.longerInput1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not enter a field</div>
                       <div ng-message="minlength">Your field is too short</div>
@@ -94,7 +94,7 @@
                         popover-placement={{position}} popover-trigger={{trigger}}>Dropdown</label>
                   <div class="col-md-9">
                     <akam-dropdown ng-model="vm.ex1.selectedState" items="vm.strings" name="dropdown1" required>
-                    </akam-dropdown>                                                                                                           
+                    </akam-dropdown>
 
                     <div ng-messages="kitchenSink.dropdown1.$error" class="ngMessages" role="alert">
                       <div ng-message="required">You did not select an item</div>
@@ -109,7 +109,7 @@
                   <div class="col-md-9">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="checkbox1" ng-model="checkbox1" required>   
+                        <input type="checkbox" name="checkbox1" ng-model="checkbox1" required>
                         <span class="label" >Checkbox Label</span>
                       </label>
                     </div>
@@ -323,7 +323,7 @@
 
                 <div class="form-group required" >
                   <label class="control-label col-md-3" akam-popover="Date Picker Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Pick A Date</label>
                   <div class="col-md-9">
                     <akam-date-picker
@@ -350,7 +350,7 @@
 
                 <div class="form-group">
                   <label class="control-label col-md-3" akam-popover="Date Range Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Pick A Date Range</label>
                   <div class="col-md-9">
                     <akam-date-range
@@ -374,7 +374,7 @@
 
                 <div class="form-group">
                   <label class="control-label col-md-3" akam-popover="Time Picker Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Pick A Time</label>
                   <div class="col-md-9">
                     <akam-time-picker
@@ -398,7 +398,7 @@
 
                 <div class="form-group">
                   <label class="control-label col-md-3" akam-popover="Number Picker Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Pick A Number</label>
                   <div class="col-md-9">
                     <akam-spinner min="0" max="100" ng-model="number1" name="number1"></akam-spinner>
@@ -415,7 +415,7 @@
 
                 <div class="form-group">
                   <label class="control-label col-md-3" akam-popover="Switch Button Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Switch</label>
                   <div class="col-md-9">
                     <akam-switch-button name="switch1" ng-model="switch1"
@@ -434,11 +434,11 @@
 
                 <div class="form-group">
                   <label class="control-label col-md-3" akam-popover="Autocomplete Help Text - {{position}}"
-                        popover-placement={{position}}          
+                        popover-placement={{position}}
                         popover-trigger={{trigger}}>Autocomplete</label>
                   <div class="col-md-9">
                     <akam-autocomplete ng-model="autocomplete1" name="autocomplete1" text-property="name"
-                        placeholder="Autocomplete" on-select="" on-search="vm.searchStateObjects(searchTerm)">                        
+                        placeholder="Autocomplete" on-select="" on-search="vm.searchStateObjects(searchTerm)">
                     </akam-autocomplete>
 
                     <div ng-messages="kitchenSink.autocomplete1.$error" class="ngMessages" role="alert">
@@ -459,7 +459,7 @@
                 </legend>
                 <div class="form-group">
                   <label class="control-label col-md-3" akam-popover="Longer Input Help Text - {{position}}"
-                           popover-placement={{position}}          
+                           popover-placement={{position}}
                            popover-trigger={{trigger}}>Longer Input</label>
                   <div class="col-md-9">
                     <input type="text" class="form-control" name="longerInput4" ng-model="longerInput4"
@@ -477,7 +477,7 @@
 
                 <div class="form-group required">
                   <label class="control-label col-md-3" akam-popover="Tag Input Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
@@ -499,7 +499,7 @@
 
                 <div class="form-group required">
                   <label class="control-label col-md-3"  akam-popover="Tag Input Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
@@ -521,7 +521,7 @@
 
                 <div class="form-group required">
                   <label class="control-label col-md-3" akam-popover="Tag Input Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
@@ -543,7 +543,7 @@
 
                 <div class="form-group required">
                   <label class="control-label col-md-3" akam-popover="Tag Input Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
@@ -564,7 +564,7 @@
 
                 <div class="form-group required">
                   <label class="control-label col-md-3" akam-popover="Tag Input Help Text - {{position}}"
-                      popover-placement={{position}}          
+                      popover-placement={{position}}
                       popover-trigger={{trigger}}>Tag Input</label>
                   <div class="col-md-9">
                     <akam-tag-input
@@ -882,7 +882,7 @@
                     Submit Spinner:
                     <akam-spinner-button text-content="Submit">
                     </akam-spinner-button>
-                    
+
                     <akam-spinner-button processing="true" text-content="Submit"></akam-spinner-button>
                   </div>
                 </div>
@@ -894,12 +894,11 @@
         </div>
 
         <script src="../dist/akamai-core.js"></script>
+        <script src="utils/i18n-register.js"></script>
 
         <script>
-          angular.module('formValidationExample', ['akamai.components', 'akamai.components.constants', 'ngMessages'])
-                .controller('formValidationController', formValidationController)
-                .config(configFunction)
-                .run(runFunc);
+          angular.module('exampleApp', ['akamai.components', 'akamai.components.constants', 'ngMessages'])
+                .controller('formValidationController', formValidationController);
 
           formValidationController.$inject = ['$scope', '$log', '$filter', '$q', '$http'];
 
@@ -1051,7 +1050,7 @@
                 joined: '3 month ago',
                 email: 'sean@inbox.com'
               }];
-              
+
               vm.searchStateObjects = function(searchTerm) {
 
                 var stateObjects = [
@@ -1066,32 +1065,14 @@
                     {name: 'Virginia'},
                     {name: 'Washington, District of Columbia'},
                 ];
-    
+
                 var criteriaMatch = function(item) {
                     return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
                 };
-    
+
                 return $filter('filter')(stateObjects, criteriaMatch);
             };
           }
-
-          function configFunction($translatePartialLoaderProvider, VERSION) {
-
-            // need to overwrite locales path on fee.akamai.com
-            if (window.location.host == 'fee.akamai.com') {
-              $translatePartialLoaderProvider.addPart('../dist/locales/');
-              $translatePartialLoaderProvider.addPart('locales/json/messages/');
-            } else {
-              $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-              $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-            }
-          }
-          configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION'];
-
-          function runFunc($translate, $cookies) {
-              $translate.use($cookies.get('AKALOCALE') || 'en_US');
-          }
-          runFunc.$inject = ['$translate', '$cookies'];
 
         </script>
       <script>
@@ -1112,7 +1093,7 @@
           if (width % 2 == 1) {
             forms[x].className = forms[x].className + " show-validation";
           }
-          
+
         }
       </script>
     </body>

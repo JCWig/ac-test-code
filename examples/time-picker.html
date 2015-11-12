@@ -7,21 +7,21 @@
   <link rel="stylesheet" href="../dist/akamai-core.css">
 </head>
 
-<body ng-app="example" ng-controller="ExampleController as vm" ng-strict-di class="common-css luna">
+<body ng-app="exampleApp" ng-controller="ExampleController as vm" ng-strict-di class="common-css luna">
   <div class="container">
     <div class="page-header">
       <h1>Time Picker Component Example</h1>
     </div>
     <br />
     <form name='time-picker' role='form'>
-        
+
         <div class="row">
           <div class="col-md-12">
             <akam-time-picker ng-model="vm.time" minute-step="vm.minuteStep" hour-step="vm.hourStep" is-minute-disabled="vm.disableMinutes" is-disabled="vm.disabled" show-meridian="vm.showMeridian">
             </akam-time-picker>
           </div>
         </div>
-        
+
       <br />
       <div class="form-group" style="padding-top:100px;">
         <input id="showMeridian" type="checkbox" name='showMeridian' ng-model='vm.showMeridian' />
@@ -48,7 +48,7 @@
     </form>
     <br />
   </div>
-    <script src="utils/cookies.js"></script>
+    <script src="utils/i18n-register.js"></script>
   <script src="../dist/akamai-core.js"></script>
   <script>
   var ControllerFunction = function() {
@@ -60,29 +60,8 @@
     vm.time = new Date();
   };
 
-    function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                          i18nLocaleProvider) {
-
-      // need to overwrite locales path on fee.akamai.com
-      if (window.location.host == 'fee.akamai.com') {
-          $translatePartialLoaderProvider.addPart('../dist/locales/');
-          $translatePartialLoaderProvider.addPart('locales/json/messages/');
-      } else {
-          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-      }
-
-      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-      $translateProvider.preferredLanguage(locale);
-      i18nLocaleProvider.setLocale(locale);
-  }
-  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-      '$translateProvider', 'i18nLocaleProvider'];
-
-  angular.module('example', ['akamai.components.constants','akamai.components.time-picker'])
-    .controller('ExampleController', ControllerFunction)
-    .config(configFunction);
+  angular.module('exampleApp', ['akamai.components.constants','akamai.components.time-picker'])
+    .controller('ExampleController', ControllerFunction);
   </script>
 </body>
 

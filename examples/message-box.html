@@ -5,7 +5,7 @@
         <title>Akamai Component Examples - Message Box</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="ExampleController">
         <div class="container">
              <div class="page-header">
                 <h1>Message Box Component Example</h1>
@@ -56,7 +56,7 @@
                 <div>
                     <h3>Show Message Box:</h3>
                     <br>
-                    
+
                     <div class="btn-group">
                     <button type="button" class="btn btn-default btn-lg" ng-click="showInfoBox()">Info - Custom Text</button>
                     <button type="button" class="btn btn-default btn-lg" ng-click="showQuestionBox()">Question</button>
@@ -65,11 +65,11 @@
                     </div>
                 </div>
             </div>
-            <script src="utils/cookies.js"></script>
+            <script src="utils/i18n-register.js"></script>
             <script src="../dist/akamai-core.js"></script>
             <script>
                 var controllerFunction = function($scope, messageBox, $log) {
-                    $scope.options = {                     
+                    $scope.options = {
                         headline: 'examples.message-box.variableReplacement',
                         headlineValues: {"value": 'Headline'},
                         text: 'examples.message-box.variableReplacement',
@@ -83,7 +83,7 @@
                         details: '',
                         hideSubmit: false
                     };
-                    
+
                     $scope.options2 = {
                         titleValues: {'name':' - Info'},
                         headline: 'Headline Text Goes Here',
@@ -116,8 +116,8 @@
                     $scope.showErrorBox = function() {
                         messageBox.showError(angular.extend({}, $scope.options));
                     };
-                    
-                    $scope.showHTMLMsgBox = function() {                        
+
+                    $scope.showHTMLMsgBox = function() {
                         messageBox.showInfo({
                             title: 'HTML Example',
                             headline: 'HTML Example Headline Text',
@@ -128,31 +128,8 @@
                 };
                 controllerFunction.$inject = ['$scope', 'messageBox', '$log'];
 
-                function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                                        i18nLocaleProvider) {
-
-                    // need to overwrite locales path on fee.akamai.com
-                    if (window.location.host == 'fee.akamai.com') {
-                        $translatePartialLoaderProvider.addPart('../dist/locales/');
-                        $translatePartialLoaderProvider.addPart('locales/json/messages/');
-                    } else {
-                        $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                        $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-                    }
-
-                    var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-                    $translateProvider.preferredLanguage(locale);
-                    i18nLocaleProvider.setLocale(locale);
-                }
-                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-                    '$translateProvider', 'i18nLocaleProvider'];
-
-
-            angular.module('example', ['akamai.components.message-box', 'akamai.components.constants'])
-
-            .controller('ExampleController', controllerFunction)
-            .config(configFunction);
+            angular.module('exampleApp', ['akamai.components.message-box', 'akamai.components.constants'])
+            .controller('ExampleController', controllerFunction);
 
             </script>
         </div>

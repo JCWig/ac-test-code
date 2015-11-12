@@ -10,7 +10,7 @@
             }
         </style>
     </head>
-    <body ng-app="progressBarDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
+    <body ng-app="exampleApp" ng-controller="Ctrl" ng-strict-di class="common-css luna">
         <div class="container">
             <div class="page-header">
                 <h1>Progress Bar Example</h1>
@@ -86,7 +86,7 @@
                 <button class="btn btn-default" ng-click="pb6.timer.start();" >Play</button>
                 <button class="btn btn-default" ng-click="pb6.timer.error()">Throw Error</button>
             </div>
-            <script src="utils/cookies.js"></script>
+            <script src="utils/i18n-register.js"></script>
             <script src="../dist/akamai-core.js"></script>
             <script>
                 var controllerFunction = function($scope) {
@@ -177,30 +177,8 @@
                     };
                 };
                 controllerFunction.$inject = ['$scope'];
-
-                function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                                        i18nLocaleProvider) {
-
-                    // need to overwrite locales path on fee.akamai.com
-                    if (window.location.host == 'fee.akamai.com') {
-                        $translatePartialLoaderProvider.addPart('../dist/locales/');
-                        $translatePartialLoaderProvider.addPart('locales/json/messages/');
-                    } else {
-                        $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                        $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-                    }
-
-                    var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-                    $translateProvider.preferredLanguage(locale);
-                    i18nLocaleProvider.setLocale(locale);
-                }
-                configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-                    '$translateProvider', 'i18nLocaleProvider'];
-
-                var app = angular.module('progressBarDemo', ['akamai.components.constants', 'akamai.components.progress-bar']);
+                var app = angular.module('exampleApp', ['akamai.components.constants', 'akamai.components.progress-bar']);
                 app.controller('Ctrl', controllerFunction);
-                app.config(configFunction);
             </script>
         </div>
     </body>

@@ -5,7 +5,7 @@
         <title>Akamai Component Examples - List Box</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="ExampleController">
         <div class="container">
             <h1>List Box Component Example</h1>
             <br/>
@@ -79,7 +79,7 @@
             <akam-list-box akam-standalone data="failThenLoadData" schema="columns" selected-items="selectedItems4">
             </akam-list-box>
         </div>
-        <script src="utils/cookies.js"></script>
+        <script src="utils/i18n-register.js"></script>
         <script src="../dist/akamai-core.js"></script>
         <script>
             var fullName;
@@ -326,31 +326,10 @@
                     deferredRejection.reject();
                 }, 5000);
             };
-            function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                                    i18nLocaleProvider) {
-
-                // need to overwrite locales path on fee.akamai.com
-                if (window.location.host == 'fee.akamai.com') {
-                    $translatePartialLoaderProvider.addPart('../dist/locales/');
-                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
-                } else {
-                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-                }
-
-                var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-                $translateProvider.preferredLanguage(locale);
-                i18nLocaleProvider.setLocale(locale);
-            }
-            configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-                '$translateProvider', 'i18nLocaleProvider'];
-
             controllerFunction.$inject = ["$scope", "$http", "$filter","$q","$timeout", "$log", "$sce"];
 
-            angular.module('example', ['akamai.components.constants', 'akamai.components.list-box', 'akamai.components.i18n'])
-            .controller('ExampleController', controllerFunction)
-            .config(configFunction);
+            angular.module('exampleApp', ['akamai.components.constants', 'akamai.components.list-box', 'akamai.components.i18n'])
+            .controller('ExampleController', controllerFunction);
         </script>
     </body>
 </html>
