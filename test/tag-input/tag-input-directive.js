@@ -419,4 +419,31 @@ describe('akamai.components.tag-input', function() {
       });
     });
   });
+
+  describe('given an is-draggable attribute', function() {
+    describe('when a selected tag is dragged to a new position', function() {
+      let tagListElem;
+      beforeEach(function() {
+        let markup = `<akam-tag-input ng-model="selectedTagStrings" appended-to-body
+                                      items="menuTagStrings"></akam-tag-input>`;
+
+        let el = this.$compile(markup)(this.$scope);
+        this.$scope.$digest();
+
+        tagListElem = util.findElement(el, '.tag-input-list');
+        let theLis = tagListElem.children().detach();
+        let tempLi = theLis[1];
+        theLis[1] = theLis[3];
+        theLis[3] = tempLi
+        tagListElem.append(theLis);
+
+        el.controller(DIRECTIVE_NAME).sortableConfig.onSort();
+      });
+      it('should make sure the tag-input-container is the last li', function() {
+        expect(true).toBe(true);
+        expect(util.findElement(tagListElem, 'li:last-child').prop('className'))
+          .toContain('tag-input-container');
+      });
+    });
+  });
 });

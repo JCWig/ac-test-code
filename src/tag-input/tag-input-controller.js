@@ -44,27 +44,37 @@ export default class TagInputController {
       filter: '.tag-input-container',
       disabled: !this.isDraggable || !this.canEdit(),
       animation: 150,
-      onSort: () => this.updateModel()
+      onSort: () => {
+        // this fixes an issue with tag-input-container being
+        // moved away from the last position
+        let inputElem = angular.element(this.tagListElem[0]
+          .querySelector('.tag-input-container'))
+          .detach();
+        this.tagListElem.append(inputElem);
+        this.updateModel();
+      }
     };
 
     this.initDelimiterSets();
     this.initTranslations();
 
+    $attrs.$observe('restricted', restricted => {
+      this.restricted = angular.isDefined(restricted);
+    });
     $scope.$watchCollection('taginput.items', this.initMenuTags.bind(this));
     $scope.$watch('taginput.proposedTag', this.inspectProposedTag.bind(this));
   }
 
-  initialize(ngModel, attrs) {
+  initialize(ngModel) {
     this.ngModel = ngModel;
 
-    this.restricted = attrs.restricted || attrs.restricted === 'true';
     this.tagMenu = angular.element(this.$element[0].querySelector('.dropdown-menu'));
-    let tagListElem = angular.element(this.$element[0].querySelector('.tag-input-list'));
+    this.tagListElem = angular.element(this.$element[0].querySelector('.tag-input-list'));
 
     // to minimize watches
     this.tagMenu.toggleClass('tagInputAppendedMenu', this.appendedToBody);
-    tagListElem.toggleClass('draggable', this.isDraggable);
-    tagListElem.toggleClass('stacked', this.stacked);
+    this.tagListElem.toggleClass('draggable', this.isDraggable);
+    this.tagListElem.toggleClass('stacked', this.stacked);
 
     ngModel.$formatters.push(modelValue => {
       if (!angular.isArray(modelValue)) {
