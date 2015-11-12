@@ -16,6 +16,7 @@ $tag-input-invalid-border-width: 2px;
 
     ul.tag-input-list {
       padding: 1px 3px;
+
       margin: 0;
       display: flex;
       flex-wrap: wrap;
@@ -27,7 +28,7 @@ $tag-input-invalid-border-width: 2px;
         &.tag {
           order: 0;
           margin-right: 5px;
-          padding: 3px 0 3px 10px;
+          padding: 2px 0 2px 10px;
           border-radius: 3px;
           position: relative;
           cursor: pointer;
@@ -72,7 +73,7 @@ $tag-input-invalid-border-width: 2px;
             box-shadow: none;
             padding: 0;
             width: 100%;
-            height: 29px;
+            height: 24px;
 
             @include placeholder-enhanced($input-placeholder-text-color, italic, $opacity:0);
           }
