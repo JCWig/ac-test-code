@@ -15,7 +15,7 @@
     </style>
 </head>
 
-<body class="common-css luna" ng-app="switchButtonApp" ng-strict-di ng-controller="SwitchButtonController as vm">
+<body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="SwitchButtonController as vm">
 
     <h1>Switch Button Component Example</h1>
 
@@ -25,13 +25,13 @@
     </div>
     <br/>
     <div>
-        <h2>Custom Labels</h2>   
+        <h2>Custom Labels</h2>
         <akam-switch-button ng-model="vm.ex2.on" on-label='{{"examples.switchbutton.custom.allow" | translate}}'
                             off-label='{{"examples.switchbutton.custom.deny" | translate}}'>
         </akam-switch-button>
     </div>
     <br/>
-    
+
     <div>
         <h2>Custom Labels passing translation keys</h2>
         <akam-switch-button ng-model="vm.ex9.on" on-label="examples.switchbutton.custom.allow"
@@ -50,7 +50,7 @@
         </akam-switch-button>
     </div>
     <br/>
-    
+
     <div>
         <h2>Medium size</h2>
         <akam-switch-button ng-model="vm.ex3.on" size="medium"></akam-switch-button>
@@ -74,37 +74,36 @@
         <akam-switch-button ng-model="vm.ex6.on" disabled="true"></akam-switch-button>
     </div>
     <br>
-    
+
     <div>
         <h2>Disabled: Off</h2>
         <akam-switch-button ng-model="vm.ex6.off" disabled="true"></akam-switch-button>
     </div>
     <br>
-    
+
     <div>
         <h2>Disabled (Grayscale): On</h2>
         <akam-switch-button ng-model="vm.ex7.on" theme="grayscale" disabled="true"></akam-switch-button>
     </div>
     <br>
-    
+
     <div>
         <h2>Disabled (Grayscale): Off</h2>
         <akam-switch-button ng-model="vm.ex7.off" theme="grayscale" disabled="true"></akam-switch-button>
     </div>
     <br>
-    
+
     <div>
         <h2>Disabled2</h2>
         <button ng-click="vm.switchHello()"></button>
     </div>
-    <script src="utils/cookies.js"></script>
+    <script src="utils/i18n-register.js"></script>
     <script src="../dist/akamai-core.js"></script>
 
     <script>
 
-        angular.module('switchButtonApp', ['akamai.components.constants', 'akamai.components.switch-button'])
-            .controller('SwitchButtonController', SwitchButtonController)
-            .config(configFunction);
+        angular.module('exampleApp', ['akamai.components.constants', 'akamai.components.switch-button'])
+            .controller('SwitchButtonController', SwitchButtonController);
 
         function SwitchButtonController() {
             var vm = this;
@@ -121,27 +120,6 @@
                 vm.hello = !vm.hello;
             }
         }
-        function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                                i18nLocaleProvider) {
-
-            // need to overwrite locales path on fee.akamai.com
-            if (window.location.host == 'fee.akamai.com') {
-                $translatePartialLoaderProvider.addPart('../dist/locales/');
-                $translatePartialLoaderProvider.addPart('locales/json/messages/');
-            } else {
-                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-            }
-
-            var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-            $translateProvider.preferredLanguage(locale);
-            i18nLocaleProvider.setLocale(locale);
-        }
-        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-            '$translateProvider', 'i18nLocaleProvider'];
-
-
     </script>
 
 </body>

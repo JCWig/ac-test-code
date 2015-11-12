@@ -17,7 +17,7 @@
   </style>
 </head>
 
-<body class="common-css luna" ng-app="dateRangeApp" ng-strict-di ng-controller="DateRangeAppController as vm">
+<body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="DateRangeAppController as vm">
   <form>
   <br/>
   <h2>Date Range Component Examples</h2>
@@ -53,12 +53,11 @@
   <h4 class="title">Date Ranger Picker with Start Date set, no End Date - Custom Format:</h4>
   <akam-date-range ng-model="vm.dateRangeCustom" is-disabled="vm.disabled" format="MM/dd/yy"></akam-date-range>
   </form>
-  <script src="utils/cookies.js"></script>
+  <script src="utils/i18n-register.js"></script>
   <script src="../dist/akamai-core.js"></script>
   <script>
-  angular.module('dateRangeApp', ['akamai.components.constants', 'akamai.components.date-range'])
-    .controller('DateRangeAppController', DateRangeAppController)
-    .config(configFunction);
+  angular.module('exampleApp', ['akamai.components.constants', 'akamai.components.date-range'])
+    .controller('DateRangeAppController', DateRangeAppController);
 
   DateRangeAppController.$inject = ['$log'];
 
@@ -113,28 +112,6 @@
       $log.log(range);
     }
   }
-
-  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                          i18nLocaleProvider) {
-
-    // need to overwrite locales path on fee.akamai.com
-    if (window.location.host == 'fee.akamai.com') {
-      $translatePartialLoaderProvider.addPart('../dist/locales/');
-      $translatePartialLoaderProvider.addPart('locales/json/messages/');
-    } else {
-      $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-      $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-    }
-
-      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-      $translateProvider.preferredLanguage(locale);
-      i18nLocaleProvider.setLocale(locale);
-  }
-  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-      '$translateProvider', 'i18nLocaleProvider'];
-
-
   </script>
 </body>
 

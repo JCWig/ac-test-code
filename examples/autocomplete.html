@@ -24,7 +24,7 @@
     </style>
 </head>
 
-<body class="common-css luna" ng-app="autocompleteApp" ng-strict-di ng-controller="AutocompleteAppController as vm">
+<body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="AutocompleteAppController as vm">
 
 <h1>Autocomplete Component Example</h1>
 <div>
@@ -162,13 +162,12 @@
         </div>
 </div>
 
-<script src="utils/cookies.js"></script>
+<script src="utils/i18n-register.js"></script>
 <script src="../dist/akamai-core.js"></script>
 
 <script>
-    angular.module('autocompleteApp', ['akamai.components.autocomplete', 'akamai.components.menu-button', 'akamai.components.constants'])
-            .controller('AutocompleteAppController', AutocompleteAppController)
-            .config(configFunction);
+    angular.module('exampleApp', ['akamai.components.autocomplete', 'akamai.components.menu-button', 'akamai.components.constants'])
+            .controller('AutocompleteAppController', AutocompleteAppController);
 
     AutocompleteAppController.$inject = ['$log', '$translate', '$filter', '$q', '$timeout'];
     function AutocompleteAppController($log, $translate, $filter, $q, $timeout) {
@@ -330,26 +329,6 @@
             return deferred.promise;
         };
     }
-
-    function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                            i18nLocaleProvider) {
-
-        // need to overwrite locales path on fee.akamai.com
-        if (window.location.host == 'fee.akamai.com') {
-            $translatePartialLoaderProvider.addPart('../dist/locales/');
-            $translatePartialLoaderProvider.addPart('locales/json/messages/');
-        } else {
-            $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-            $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-        }
-
-        var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-        $translateProvider.preferredLanguage(locale);
-        i18nLocaleProvider.setLocale(locale);
-    }
-    configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-        '$translateProvider', 'i18nLocaleProvider'];
 </script>
 </body>
 </html>

@@ -20,7 +20,7 @@
     </style>
 </head>
 
-<body class="common-css luna" ng-app="wizardApp" ng-strict-di ng-controller="WizardAppController as vm">
+<body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="WizardAppController as vm">
 
     <script type="text/ng-template" id="step1">
         <i class="luna-contextural_help"></i>
@@ -155,14 +155,13 @@
     </div>
     <br/>
 
-    <script src="utils/cookies.js"></script>
+    <script src="utils/i18n-register.js"></script>
     <script src="../dist/akamai-core.js"></script>
 
     <script>
-        angular.module('wizardApp', ['akamai.components.constants','akamai.components.table', 'akamai.components.wizard', 'akamai.components.dropdown',
+        angular.module('exampleApp', ['akamai.components.constants','akamai.components.table', 'akamai.components.wizard', 'akamai.components.dropdown',
                                      'akamai.components.menu-button', 'akamai.components.indeterminate-progress'])
-                .controller('WizardAppController', WizardAppController)
-                .config(configFunction);
+                .controller('WizardAppController', WizardAppController);
 
         WizardAppController.$inject = ['$log', '$modal', 'wizard', '$rootScope', '$q', '$timeout', '$translate'];
         function WizardAppController($log, $modal, wizard, $rootScope, $q, $timeout, $translate) {
@@ -195,14 +194,14 @@
 
             WizardController.$inject = ['$scope', '$log'];
             function WizardController($scope, $log) {
-                
+
                 $scope.setOnSubmit(function() {
                     return deferredProcess();
                 });
             };
 
             vm.launchWizard = function() {
-       
+
                 wizard.open({
                     scope: wizardScope,
                     controller: WizardController,
@@ -237,7 +236,7 @@
                         {
                             name: 'examples.wizard.step4',
                             templateId: 'step4',
-                    
+
                             validate: function(scope) {
                                 return scope.selectedState !=null;
                             },
@@ -255,27 +254,6 @@
                 });
             };
         }
-
-        function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                                i18nLocaleProvider) {
-
-            // need to overwrite locales path on fee.akamai.com
-            if (window.location.host == 'fee.akamai.com') {
-                $translatePartialLoaderProvider.addPart('../dist/locales/');
-                $translatePartialLoaderProvider.addPart('locales/json/messages/');
-            } else {
-                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-            }
-
-            var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-            $translateProvider.preferredLanguage(locale);
-            i18nLocaleProvider.setLocale(locale);
-        }
-        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-            '$translateProvider', 'i18nLocaleProvider'];
-
     </script>
 
 </body>

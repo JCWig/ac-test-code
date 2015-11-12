@@ -13,7 +13,7 @@
   <title>Akamai Components Examples - Menu Button</title>
   <link rel="stylesheet" href="../dist/akamai-core.css">
 </head>
-<body class="common-css luna" ng-app="akamai.components.examples.menu-button" ng-strict-di ng-controller="ExampleController as vm">
+<body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="ExampleController as vm">
 
 <div class="container">
   <h1 class="page-header">Menu Button Examples</h1>
@@ -124,7 +124,7 @@
       </akam-menu-button>
     </div>
 
-<script src="utils/cookies.js"></script>
+<script src="utils/i18n-register.js"></script>
 <script src="../dist/akamai-core.js"></script>
 
 <script>
@@ -135,7 +135,7 @@
     };
 
     this.customName ="{'name':'- Beta Version'}";
-    
+
     this.items = [{
       id: 'examples.appNames.tq'
     }, {
@@ -151,37 +151,16 @@
       }, {
       id: 'Menu Item 7'
     }, {
-      id: 'Menu Item 8'  
+      id: 'Menu Item 8'
     }];
 
     this.isDisabled = true;
     this.disableItem = true;
   };
 
-  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                          i18nLocaleProvider) {
-
-      // need to overwrite locales path on fee.akamai.com
-      if (window.location.host == 'fee.akamai.com') {
-          $translatePartialLoaderProvider.addPart('../dist/locales/');
-          $translatePartialLoaderProvider.addPart('locales/json/messages/');
-      } else {
-          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-      }
-
-      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-      $translateProvider.preferredLanguage(locale);
-      i18nLocaleProvider.setLocale(locale);
-  }
-  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-      '$translateProvider', 'i18nLocaleProvider'];
-
-  angular.module('akamai.components.examples.menu-button',
+  angular.module('exampleApp',
     ['akamai.components.constants', 'akamai.components.menu-button'])
-    .controller('ExampleController', controllerFuction)
-    .config(configFunction);
+    .controller('ExampleController', controllerFuction);
 </script>
 </body>
 </html>

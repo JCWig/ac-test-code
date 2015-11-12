@@ -18,7 +18,7 @@
 
 </head>
 
-<body class="common-css luna" ng-app="tagInputApp" ng-strict-di
+<body class="common-css luna" ng-app="exampleApp" ng-strict-di
       ng-controller="TagInputAppController as vm">
 
 <h1>Tag Input - Examples</h1>
@@ -84,13 +84,12 @@
                     items="vm.i18nExample.objTags.menuTags"></akam-tag-input>
 </div>
 
-<script src="utils/cookies.js"></script>
+<script src="utils/i18n-register.js"></script>
 <script src="../dist/akamai-core.js"></script>
 
 <script>
-    angular.module('tagInputApp', ['akamai.components.constants','akamai.components.tag-input', 'ngMessages'])
-            .controller('TagInputAppController', TagInputAppController)
-            .config(configFunction);
+    angular.module('exampleApp', ['akamai.components.constants','akamai.components.tag-input', 'ngMessages'])
+            .controller('TagInputAppController', TagInputAppController);
 
     function TagInputAppController($log) {
         this.selectedTags = [
@@ -216,25 +215,6 @@
 
     }
     TagInputAppController.$inject = ['$log'];
-
-    function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                            i18nLocaleProvider) {
-
-        // need to overwrite locales path on fee.akamai.com
-        if (window.location.host == 'fee.akamai.com') {
-            $translatePartialLoaderProvider.addPart('../dist/locales/');
-            $translatePartialLoaderProvider.addPart('locales/json/messages/');
-        } else {
-            $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-            $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-        }
-
-        var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-        $translateProvider.preferredLanguage(locale);
-        i18nLocaleProvider.setLocale(locale);
-    }
-    configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-        '$translateProvider', 'i18nLocaleProvider'];
 
 </script>
 

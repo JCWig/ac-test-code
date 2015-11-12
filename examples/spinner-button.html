@@ -5,7 +5,7 @@
   <title>Akamai Components Examples - Spinner</title>
   <link rel="stylesheet" href="../dist/akamai-core.css">
 </head>
-<body class="common-css luna" ng-app="spinner-button" ng-strict-di ng-controller="SpinnerButtonController as vm">
+<body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="SpinnerButtonController as vm">
 <div class="container">
   <h1>Spinner Button Component Example</h1>
   <br/>
@@ -34,43 +34,20 @@
   <br>
   <br>
 </div>
-<script src="utils/cookies.js"></script>
+<script src="utils/i18n-register.js"></script>
 <script src="../dist/akamai-core.js"></script>
 <script>
   angular.module('spinner-button', ['akamai.components.constants', 'akamai.components.spinner-button']);
 
   angular
-      .module('spinner-button')
-      .controller('SpinnerButtonController', SpinnerButtonController)
-      .config(configFunction);
+      .module('exampleApp')
+      .controller('SpinnerButtonController', SpinnerButtonController);
 
   function SpinnerButtonController() {
     var vm = this;
     vm.disabled = false;
     vm.processing = false;
   }
-
-  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                          i18nLocaleProvider) {
-
-      // need to overwrite locales path on fee.akamai.com
-      if (window.location.host == 'fee.akamai.com') {
-          $translatePartialLoaderProvider.addPart('../dist/locales/');
-          $translatePartialLoaderProvider.addPart('locales/json/messages/');
-      } else {
-          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-      }
-
-      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-      $translateProvider.preferredLanguage(locale);
-      i18nLocaleProvider.setLocale(locale);
-  }
-  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-      '$translateProvider', 'i18nLocaleProvider'];
-
-
 </script>
 </body>
 </html>

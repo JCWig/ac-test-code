@@ -17,7 +17,7 @@
   </style>
 </head>
 
-<body ng-app="datetimePickerApp" ng-controller="DatetimePickerController as vm" ng-strict-di class="common-css luna">
+<body ng-app="exampleApp" ng-controller="DatetimePickerController as vm" ng-strict-di class="common-css luna">
   <br/>
   <h2>Datetime Picker Component Example</h2>
   <br/>
@@ -51,12 +51,11 @@
       <input id="maxDate" type="checkbox" name='maxDate' ng-model='vm.maxUpdated' ng-click="vm.updateMax()" />
       <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{vm.max}})</label>
   </div>
-  <script src="utils/cookies.js"></script>
+  <script src="utils/i18n-register.js"></script>
   <script src="../dist/akamai-core.js"></script>
   <script>
-  angular.module('datetimePickerApp', ['akamai.components.constants', 'akamai.components.datetime-picker'])
-    .controller('DatetimePickerController', DatetimePickerController)
-    .config(configFunction);
+  angular.module('exampleApp', ['akamai.components.constants', 'akamai.components.datetime-picker'])
+    .controller('DatetimePickerController', DatetimePickerController);
 
   DatetimePickerController.$inject = ['$log'];
 
@@ -72,8 +71,8 @@
     var d = new Date();
     var defaultMin = new Date(d.getFullYear()-1, d.getMonth(), 1);
     var defaultMax = new Date(d.getFullYear()+1, d.getMonth(), 0);
-    
-    
+
+
      vm.updateMax = function() {
       vm.max = vm.maxUpdated ? new Date(d.getFullYear() + 3, d.getMonth(), 0) : defaultMax;
        $log.log("max",vm.max);
@@ -86,32 +85,11 @@
 
     vm.min = defaultMin;
     vm.max = defaultMax;
-    
+
     vm.onChange = function() {
       $log.log("onChange",vm.datetime2);
     }
   }
-
-  function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                          i18nLocaleProvider) {
-
-      // need to overwrite locales path on fee.akamai.com
-      if (window.location.host == 'fee.akamai.com') {
-          $translatePartialLoaderProvider.addPart('../dist/locales/');
-          $translatePartialLoaderProvider.addPart('locales/json/messages/');
-      } else {
-          $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-          $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-      }
-
-      var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-      $translateProvider.preferredLanguage(locale);
-      i18nLocaleProvider.setLocale(locale);
-  }
-  configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-      '$translateProvider', 'i18nLocaleProvider'];
-
   </script>
 </body>
 

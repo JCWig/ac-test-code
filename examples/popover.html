@@ -19,7 +19,7 @@
             }
         </style>
     </head>
-    <body ng-app="popoverDemo" ng-controller="Ctrl" ng-strict-di class="common-css luna">
+    <body ng-app="exampleApp" ng-controller="Ctrl" ng-strict-di class="common-css luna">
         <div class="container">
             <h1>Popover Component Example</h1>
         </div>
@@ -188,7 +188,7 @@
         </script>
     </div>
 
-        <script src="utils/cookies.js"></script>
+        <script src="utils/i18n-register.js"></script>
         <script src="../dist/akamai-core.js"></script>
         <script>
         var ctrlFunction = function($scope, $sce, $log) {
@@ -224,30 +224,8 @@
             }
         };
         ctrlFunction.$inject = ["$scope", "$sce", "$log"];
-
-        function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                                i18nLocaleProvider) {
-
-            // need to overwrite locales path on fee.akamai.com
-            if (window.location.host == 'fee.akamai.com') {
-                $translatePartialLoaderProvider.addPart('../dist/locales/');
-                $translatePartialLoaderProvider.addPart('locales/json/messages/');
-            } else {
-                $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-            }
-
-            var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-            $translateProvider.preferredLanguage(locale);
-            i18nLocaleProvider.setLocale(locale);
-        }
-        configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-            '$translateProvider', 'i18nLocaleProvider'];
-
-        var app = angular.module("popoverDemo", ['akamai.components.constants', "akamai.components.popover"]);
+        var app = angular.module("exampleApp", ['akamai.components.constants', "akamai.components.popover"]);
         app.controller('Ctrl', ctrlFunction);
-        app.config(configFunction);
     </script>
 </body>
 </html>

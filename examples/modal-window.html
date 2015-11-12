@@ -5,7 +5,7 @@
         <title>Akamai Components Examples - Modal Window</title>
         <link rel="stylesheet" href="../dist/akamai-core.css">
     </head>
-    <body class="common-css luna" ng-app="example" ng-strict-di ng-controller="ExampleController">
+    <body class="common-css luna" ng-app="exampleApp" ng-strict-di ng-controller="ExampleController">
         <div class="container">
              <div class="page-header">
                 <h1>Modal Window Component Example</h1>
@@ -53,7 +53,7 @@
                 </div>
             </form>
         </div>
-        <script src="utils/cookies.js"></script>
+        <script src="utils/i18n-register.js"></script>
         <script src="../dist/akamai-core.js"></script>
         <script>
             var exampleController = function($scope, $rootScope, modalWindow, $log, $q, $timeout, $filter) {
@@ -66,9 +66,9 @@
                   {"id":5,"first_name":"Charles","last_name":"Reyes","email":"creyes4@cbsnews.com","country":"Spain","ip_address":"136.197.92.192","boolean":true,"color":"Red"},
                   {"id":6,"first_name":"Joshua","last_name":"Thompson","email":"jthompson5@yale.edu","country":"Russia","ip_address":"61.57.205.127","boolean":true,"color":"Yellow"}
                 ];
-                
+
                 modalScope.ex1 = { selectedState: 'Massachusetts' };
-                
+
                 modalScope.searchStateStrings = function(searchTerm) {
                     var stateStrings = [
                         'Colorado',
@@ -82,11 +82,11 @@
                         'Virginia',
                         'Washington, District of Columbia'
                     ];
-        
+
                     var criteriaMatch = function(item) {
                         return item.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
                     };
-        
+
                     return $filter('filter')(stateStrings, criteriaMatch);
                 };
 
@@ -95,7 +95,7 @@
                   row.isFailed = false;
                   row.isSuccess = false;
                   var timesCalled = 0;
-      
+
                   $timeout(function(){
                     row.isInProgress = false;
                     if(timesCalled++ % 2 === 0){
@@ -105,7 +105,7 @@
                     }
                   }, 2500);
                 };
-                
+
                 var times = 0;
 
                 modalScope.name = 'Akamai Engineer';
@@ -185,7 +185,7 @@
                             $log.log('open: Modal Window was cancelled');
                         });
                 };
-                
+
                 $scope.options2 = {
                     title: 'Modal Window with Embedded Components',
                     showFullscreenToggle: true
@@ -209,7 +209,7 @@
                             $log.log('openWithTemplateUrl: Modal Window was cancelled.');
                         });
                 };
-                
+
                 $scope.openWithTableTemplateUrl = function() {
                     // Create a new modal window instance with a specific template url
                     var instance = modalWindow.open(angular.extend({}, $scope.options2, {
@@ -250,7 +250,7 @@
                         });
                 };
             };
-            
+
             var modalController = function($scope, $q, $timeout) {
                 var times = 0;
 
@@ -282,7 +282,7 @@
                     }
                 };
             };
-            
+
             var modalController2 = function($scope, $q, $timeout) {
                 var times = 0;
 
@@ -303,36 +303,15 @@
                 $scope.customValue = 'Custom Value returned';
             };
 
-            function configFunction($translatePartialLoaderProvider, VERSION, $translateProvider,
-                                    i18nLocaleProvider) {
-
-                // need to overwrite locales path on fee.akamai.com
-                if (window.location.host == 'fee.akamai.com') {
-                    $translatePartialLoaderProvider.addPart('../dist/locales/');
-                    $translatePartialLoaderProvider.addPart('locales/json/messages/');
-                } else {
-                    $translatePartialLoaderProvider.addPart('/libs/akamai-core/'+VERSION+'/locales/');
-                    $translatePartialLoaderProvider.addPart('/apps/akamai-core-examples/locales/');
-                }
-
-                var locale = docCookies.getItem('AKALOCALE') || 'en_US';
-
-                $translateProvider.preferredLanguage(locale);
-                i18nLocaleProvider.setLocale(locale);
-            }
-            configFunction.$inject = ['$translatePartialLoaderProvider', 'AKAMAI_CORE_VERSION',
-                '$translateProvider', 'i18nLocaleProvider'];
-
             exampleController.$inject = ['$scope', '$rootScope', 'modalWindow', '$log', '$q', '$timeout', '$filter'];
             modalController.$inject = ['$scope', '$q', '$timeout','$filter'];
             modalController2.$inject = ['$scope', '$q', '$timeout','$filter'];
 
-            angular.module('example', ['akamai.components.constants', 'akamai.components.modal-window',
+            angular.module('exampleApp', ['akamai.components.constants', 'akamai.components.modal-window',
                     'akamai.components.indeterminate-progress', 'akamai.components.table', 'akamai.components.autocomplete', 'akamai.components.menu-button'])
             .controller('ExampleController', exampleController)
             .controller('ModalController', modalController)
-            .controller('ModalController2', modalController2)
-            .config(configFunction);
+            .controller('ModalController2', modalController2);
 
         </script>
     </body>
