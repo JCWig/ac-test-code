@@ -19,6 +19,7 @@
                        ng-keydown="taginput.assessKeyDown($event)"
                        placeholder="{{ ::taginput.placeholder }}"
                        ng-disabled="!taginput.canEdit()"
+                       ng-trim="false"
                        ng-blur="taginput.blur()" ng-focus="taginput.focus()">
             </li>
         </ul>
