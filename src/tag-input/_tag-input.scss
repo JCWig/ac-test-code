@@ -18,7 +18,9 @@ $tag-input-invalid-border-width: 2px;
       padding: 1px 3px;
 
       margin: 0;
+      display: -ms-flexbox;
       display: flex;
+      -ms-flex-wrap: wrap;
       flex-wrap: wrap;
       align-items: center;
 
@@ -63,7 +65,9 @@ $tag-input-invalid-border-width: 2px;
         }
 
         &.tag-input-container {
+          -ms-flex: 1 0 auto;
           flex: 1 0 auto;
+          -ms-flex-order: 1;
           order: 1;
 
           .tag-input {
