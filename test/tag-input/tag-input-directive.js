@@ -14,9 +14,9 @@ describe('akamai.components.tag-input', function() {
 
   let tagStrings = {
     selectedTags: [
-      'Connecticut',
+      'Massachusetts',
       'Maryland',
-      'Massachusetts'
+      'Connecticut'
     ],
     menuTags: [
       'Colorado',
@@ -36,7 +36,7 @@ describe('akamai.components.tag-input', function() {
     selectedTags: [
       {state: 'Massachusetts'},
       {state: 'Maryland'},
-      {state: 'Massachusetts'}
+      {state: 'Connecticut'}
     ],
     menuTags: [
       {state: 'Colorado'},
@@ -214,7 +214,7 @@ describe('akamai.components.tag-input', function() {
       });
 
       it('should not delete the last tag', function() {
-        expect(ctrl.selectedTags[ctrl.selectedTags.length - 1]).toBe('Massachusetts');
+        expect(ctrl.selectedTags[ctrl.selectedTags.length - 1]).toBe('Connecticut');
       });
     });
 
@@ -440,9 +440,30 @@ describe('akamai.components.tag-input', function() {
         el.controller(DIRECTIVE_NAME).sortableConfig.onSort();
       });
       it('should make sure the tag-input-container is the last li', function() {
-        expect(true).toBe(true);
         expect(util.findElement(tagListElem, 'li:last-child').prop('className'))
           .toContain('tag-input-container');
+      });
+    });
+  });
+
+  describe('given an on-sort expression attribute', function() {
+    describe('when the tag-input is rendered', function() {
+      let selectedTagElems;
+
+      beforeEach(function() {
+        this.$scope.sortStates = tags => tags.sort();
+
+        let markup = `<akam-tag-input ng-model="selectedTagStrings" on-sort="sortStates(tags)"
+                                      items="menuTagStrings"></akam-tag-input>`;
+
+        let el = this.$compile(markup)(this.$scope);
+        this.$scope.$digest();
+        this.$timeout.flush();
+        selectedTagElems = util.findElements(el, SELECTED_TAGS);
+      });
+      it('should sort the selected tags', function() {
+        expect(selectedTagElems[selectedTagElems.length - 1]
+          .find('span').text()).toBe('Massachusetts');
       });
     });
   });

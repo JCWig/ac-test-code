@@ -99,6 +99,10 @@ export default class TagInputController {
     ngModel.$render = () => {
       this.selectedTags = angular.isArray(this.ngModel.$viewValue) ?
         this.ngModel.$viewValue : [];
+
+      if (angular.isFunction(this.onSort)) {
+        this.$timeout(() => this.onSort({tags: this.selectedTags}));
+      }
       this.setSelectedTagsClasses();
     };
 

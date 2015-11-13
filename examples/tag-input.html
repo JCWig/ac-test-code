@@ -25,7 +25,8 @@
 
 <h2>Tag Input - List of selected tag strings - draggable</h2>
 <div>
-    <akam-tag-input ng-model="vm.selectedTags" items="vm.tags" is-draggable></akam-tag-input>
+    <akam-tag-input ng-model="vm.selectedTags" items="vm.tags" is-draggable
+                    on-sort="vm.sortSelectedTags(tags)"></akam-tag-input>
 </div>
 
 <h2>Tag Input - Single string for selected tags - restricted - appendedToBody</h2>
@@ -210,6 +211,10 @@
 
         this.selectedI18nObjTagsChanged = function(selectedItems) {
             console.log('selectedI18nObjTagsChanged', this.i18nExample.objTags);
+        };
+
+        this.sortSelectedTags = function(tags) {
+            return tags.sort();
         };
 
 
