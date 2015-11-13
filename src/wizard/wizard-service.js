@@ -206,7 +206,7 @@ class WizardController {
   }
 
   jumptToVisitedStep(stepNumber) {
-    if (this.steps[stepNumber].visited && this.previousStepsValid(stepNumber)) {
+    if (this.steps[stepNumber].visited && this.previousStepsValid(stepNumber && !this.processing)) {
       this.activateStep(stepNumber);
     }
   }
@@ -230,7 +230,7 @@ class WizardController {
     }
 
     return {
-      active: stepNumber === this.stepIndex,
+      active: stepNumber === this.stepIndex && !this.processing,
       visited: this.steps[stepNumber].visited && this.previousStepsValid(stepNumber),
       current: current
     };
