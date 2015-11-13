@@ -467,4 +467,25 @@ describe('akamai.components.tag-input', function() {
       });
     });
   });
+
+  describe('given a required validation attribute', function() {
+    describe('when no tags are selected', function() {
+      let ctrl;
+      beforeEach(function() {
+        this.$scope.selectedTagStrings = ['Massachusetts'];
+        let markup = `<akam-tag-input ng-model="selectedTagStrings" required
+                                      items="menuTagStrings"></akam-tag-input>`;
+
+        let el = this.$compile(markup)(this.$scope);
+        this.$scope.$digest();
+        this.$timeout.flush();
+        ctrl = el.controller(DIRECTIVE_NAME);
+        ctrl.removeTag('Massachusetts');
+      });
+      it('should add ng-invalid and ng-invalid-required class names', function() {
+        expect(ctrl.$element.prop('className')).toContain('ng-invalid');
+        expect(ctrl.$element.prop('className')).toContain('ng-invalid-required');
+      });
+    });
+  });
 });
