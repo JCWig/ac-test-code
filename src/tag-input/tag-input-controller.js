@@ -99,7 +99,18 @@ export default class TagInputController {
     ngModel.$render = () => {
       this.selectedTags = angular.isArray(this.ngModel.$viewValue) ?
         this.ngModel.$viewValue : [];
-      this.setSelectedTagsClasses();
+
+      this.$timeout(() => {
+        if (angular.isFunction(this.onSort)) {
+          this.onSort({tags: this.selectedTags});
+        }
+        if (angular.isFunction(ngModel.$validators.required)) {
+          ngModel.$validators.required = (modelValue, viewValue) => {
+            return angular.isArray(viewValue) && viewValue.length > 0;
+          };
+        }
+        this.setSelectedTagsClasses();
+      });
     };
 
     ngModel.$validators.validTags = (modelValue, viewValue) => {
