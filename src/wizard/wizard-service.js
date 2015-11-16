@@ -24,8 +24,18 @@ class WizardController {
     this.contentScope.setOnSubmit = fn => this.onSubmit = fn;
     this.contentScope.close = () => this.close();
 
-    if (angular.isDefined(options.appController)) {
-      $controller(options.appController, {$scope: this.contentScope});
+    let contentController;
+
+    if (angular.isDefined(options.contentController)) {
+      contentController = $controller(
+        options.contentController, angular.extend(
+          {$scope: this.contentScope}, options.contentResolve || {}
+        )
+      );
+    }
+
+    if (options.contentControllerAs && contentController) {
+      this.contentScope[options.contentControllerAs] = contentController;
     }
 
     this.icon = options.icon;
@@ -345,8 +355,11 @@ function wizard($modal, $rootScope) {
     open: function(options) {
       let scope = $rootScope.$new();
 
-      options.appController = options.controller;
+      options.contentController = options.controller;
+      options.contentControllerAs = options.controllerAs;
       options.contentScope = options.scope;
+      options.contentResolve = options.resolve;
+      delete options.resolve;
 
       scope.options = options;
 

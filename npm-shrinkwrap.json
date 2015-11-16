@@ -12161,11 +12161,6 @@
         }
       }
     },
-    "ui-select": {
-      "version": "0.12.0",
-      "from": "../../../../var/folders/xx/9j60vx_j15d31w5wybm80xj00000gy/T/npm-60196-667d58b4/git-cache-e1e17d72757c/77c9106ed20f91f9bf3845f018477e6927f0c4b7",
-      "resolved": "git://github.com/mbollar/ui-select.git#77c9106ed20f91f9bf3845f018477e6927f0c4b7"
-    },
     "vinyl-buffer": {
       "version": "1.0.0",
       "from": "https://registry.npmjs.org/vinyl-buffer/-/vinyl-buffer-1.0.0.tgz",

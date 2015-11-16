@@ -44,8 +44,19 @@ describe('akamai.components.wizard', function() {
       }
       Controller2.$inject = ['$scope'];
 
+      function ControllerResolve($scope, injectedLocal) {
+        this.local = injectedLocal;
+        $scope.setOnSubmit(function() {
+          self.notify();
+          return true;
+        });
+      }
+      ControllerResolve.$inject = ['$scope', 'injectedLocal'];
+
       $controllerProvider.register('Controller1', Controller1);
       $controllerProvider.register('Controller2', Controller2);
+      $controllerProvider.register('ControllerResolve', ControllerResolve);
+
     });
 
     inject(function($rootScope, _$compile_, $httpBackend, _wizard_, _$q_, $timeout, statusMessage) {
@@ -726,7 +737,25 @@ describe('akamai.components.wizard', function() {
 
         expect(_.trim(nextButton.textContent)).toBe('last');
       });
-
+    });
+  });
+  describe('given an open modal window with content scope', function() {
+    describe('when the modal is initialized with a resolve object', function() {
+      beforeEach(function() {
+        wizard.open({
+          scope: $scope,
+          steps: [
+            {name: 'Step 1', template: '<p>{{test.local}}</p>'}
+          ],
+          controller: 'ControllerResolve',
+          controllerAs: 'test',
+          resolve: {injectedLocal: 'bar'}
+        });
+        $scope.$digest();
+      });
+      it('should use inject the resolve object properties into the controller', function() {
+        expect(document.querySelector('.modal-body p').textContent).toBe('bar');
+      });
     });
   });
 });
