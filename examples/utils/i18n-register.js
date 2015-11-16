@@ -1,9 +1,10 @@
 (function(window) {
-  var document = window.document;
+  var document = window.document,
+    cokkieFilePath = 'utils/cookies.js';
 
   //if example file is in different location, like table component,
   //wrong path of one of cookie.js file will be loaded - unfortunately
-  document.write(`<script type=text/javascript src=utils/cookies.js></script>`);
+  document.write('<script type=text/javascript src=' + cokkieFilePath + '></script>');
   document.addEventListener("DOMContentLoaded", patchI18nConfig, false);
 
   function patchI18nConfig() {
