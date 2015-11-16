@@ -101,16 +101,13 @@ export default class TagInputController {
         this.ngModel.$viewValue : [];
 
       this.$timeout(() => {
-        if (angular.isFunction(this.onSort)) {
-          this.onSort({tags: this.selectedTags});
-        }
         if (angular.isFunction(ngModel.$validators.required)) {
           ngModel.$validators.required = (modelValue, viewValue) => {
             return angular.isArray(viewValue) && viewValue.length > 0;
           };
         }
-        this.setSelectedTagsClasses();
-      });
+      }).then(() => this.sortSelectedTags())
+        .then(() => this.setSelectedTagsClasses());
     };
 
     ngModel.$validators.validTags = (modelValue, viewValue) => {
@@ -318,6 +315,14 @@ export default class TagInputController {
   removeTag(tag) {
     this.selectedTags.splice(this.selectedTags.indexOf(tag), 1);
     this.updateModel();
+  }
+
+  sortSelectedTags() {
+    return this.$timeout(() => {
+      if (angular.isFunction(this.onSort)) {
+        this.onSort({tags: this.selectedTags});
+      }
+    });
   }
 
   canAddTag(tag) {
