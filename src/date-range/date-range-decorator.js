@@ -111,9 +111,13 @@ function DateRangeDecorator($provide) {
         //values can be empty or initial range values. it also saves unique id per directive,
         //so it can be identified to whom is interested in receiving events
         initialDateRange = scope.$on('dateRange.updateSelected', (event, info) => {
-          scope.selectedStart = info.startDate;
-          scope.selectedEnd = info.endDate;
-          scope.callerId = info.id;
+          //using copy is to avoid the info object kept being referenced in the object chain,
+          //that way, the value integrity of selectedStart will be maintained
+          let dateInfo = angular.copy(info);
+
+          scope.selectedStart = dateInfo.startDate;
+          scope.selectedEnd = dateInfo.endDate;
+          scope.callerId = dateInfo.id;
           if (angular.isDate(info.startDate) && angular.isDate(info.endDate)) {
             scope.rangeSelected = true;
           } else {
@@ -136,9 +140,11 @@ function DateRangeDecorator($provide) {
         });
 
         updateDateRangeMax = scope.$on('dateRange.updateMaxDate', (e, info) => {
-          ctrl.maxDate = info.maxValue;
+          let maxInfo = angular.copy(info);
+
+          ctrl.maxDate = maxInfo.maxValue;
           if (angular.isDate(scope.selectedEnd)) {
-            let maxDate = getPlainDate(info.maxValue),
+            let maxDate = getPlainDate(maxInfo.maxValue),
               endDate = getPlainDate(scope.selectedEnd);
 
             if (maxDate.getTime() < endDate.getTime()) {
@@ -150,9 +156,11 @@ function DateRangeDecorator($provide) {
         });
 
         updateDateRangeMin = scope.$on('dateRange.updateMinDate', (e, info) => {
-          ctrl.minDate = info.minValue;
+          let minInfo = angular.copy(info);
+
+          ctrl.minDate = minInfo.minValue;
           if (angular.isDate(scope.selectedStart)) {
-            let minDate = getPlainDate(info.minValue),
+            let minDate = getPlainDate(minInfo.minValue),
               startDate = getPlainDate(scope.selectedStart);
 
             if (minDate.getTime() > startDate.getTime()) {
