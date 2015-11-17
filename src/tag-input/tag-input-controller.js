@@ -76,6 +76,11 @@ export default class TagInputController {
     this.tagListElem.toggleClass('draggable', this.isDraggable);
     this.tagListElem.toggleClass('stacked', this.stacked);
 
+    // need to overwrite this method so that it works with arrays
+    ngModel.$isEmpty = function(value) {
+      return !value || value.length === 0;
+    };
+
     ngModel.$formatters.push(modelValue => {
       if (!angular.isArray(modelValue)) {
         return modelValue;
@@ -99,15 +104,6 @@ export default class TagInputController {
     ngModel.$render = () => {
       this.selectedTags = angular.isArray(this.ngModel.$viewValue) ?
         this.ngModel.$viewValue : [];
-
-      this.$timeout(() => {
-        if (angular.isFunction(ngModel.$validators.required)) {
-          ngModel.$validators.required = (modelValue, viewValue) => {
-            return angular.isArray(viewValue) && viewValue.length > 0;
-          };
-        }
-      }).then(() => this.sortSelectedTags())
-        .then(() => this.setSelectedTagsClasses());
     };
 
     ngModel.$validators.validTags = (modelValue, viewValue) => {
@@ -132,6 +128,7 @@ export default class TagInputController {
     });
 
     this.appendToBody();
+    this.setupSelectedTags();
   }
 
   initMenuTags(items) {
@@ -196,6 +193,12 @@ export default class TagInputController {
 
     this.$translate(this.newTagLabel || NEW_TAG_LABEL_KEY)
       .then(value => this.newTagLabel = value);
+  }
+
+  setupSelectedTags() {
+    this.$timeout(() => {
+      this.sortSelectedTags().then(() => this.setSelectedTagsClasses());
+    });
   }
 
   setSelectedTagsClasses() {
