@@ -181,7 +181,6 @@ export default class ModalWindowService {
    *
    */
   open(options) {
-
     if (!angular.isObject(options)) {
       throw new Error('An options object was not passed to modelWindow.open');
     }
@@ -200,6 +199,7 @@ export default class ModalWindowService {
     options.contentTemplate = options.template;
     options.contentTemplateUrl = options.templateUrl;
     options.contentResolve = options.resolve;
+    delete options.resolve;
 
     // create a new bootstrap ui modal instance with akamai options
     options.instance = this.$modal.open(angular.extend(options, {
