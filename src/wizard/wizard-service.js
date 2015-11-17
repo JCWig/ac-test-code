@@ -206,7 +206,7 @@ class WizardController {
   }
 
   jumptToVisitedStep(stepNumber) {
-    if (this.steps[stepNumber].visited && this.previousStepsValid(stepNumber && !this.processing)) {
+    if (this.steps[stepNumber].visited && this.previousStepsValid(stepNumber)) {
       this.activateStep(stepNumber);
     }
   }
@@ -223,6 +223,10 @@ class WizardController {
   stepClasses(stepNumber) {
     let current = true, maxStepIndex = this.steps.length - 1;
 
+    if (this.processing) {
+      return {};
+    }
+
     if (stepNumber > maxStepIndex) {
       return {};
     } else if (stepNumber < maxStepIndex) {
@@ -230,7 +234,7 @@ class WizardController {
     }
 
     return {
-      active: stepNumber === this.stepIndex && !this.processing,
+      active: stepNumber === this.stepIndex,
       visited: this.steps[stepNumber].visited && this.previousStepsValid(stepNumber),
       current: current
     };

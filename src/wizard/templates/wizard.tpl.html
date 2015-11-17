@@ -15,7 +15,7 @@
 
   <div class="wizard-steps" ng-class="{'error': wizard.errorMessage}" data-number-of-steps="{{wizard.steps.length}}">
     <ul>
-      <li ng-class="wizard.stepClasses(step.id)" ng-repeat="step in ::wizard.steps" ng-click="wizard.jumptToVisitedStep(step.id)">
+      <li ng-class="wizard.stepClasses(step.id)" ng-repeat="step in ::wizard.steps" ng-click="!wizard.processing && wizard.jumptToVisitedStep(step.id)">
         <div>{{ $index + 1 }}</div>
         <br/>
         <span>{{ ::step.name }}</span>
