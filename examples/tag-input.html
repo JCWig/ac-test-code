@@ -23,10 +23,18 @@
 
 <h1>Tag Input - Examples</h1>
 
-<h2>Tag Input - List of selected tag strings - draggable</h2>
+<h2>Tag Input - List of selected tag strings - draggable - required</h2>
 <div>
-    <akam-tag-input ng-model="vm.selectedTags" items="vm.tags" is-draggable required
-                    on-sort="vm.sortSelectedTags(tags)"></akam-tag-input>
+    <form name="requiredForm" class="form-horizontal">
+
+        <akam-tag-input ng-model="vm.selectedTags" items="vm.tags" is-draggable required
+                        on-sort="vm.sortSelectedTags(tags)"></akam-tag-input>
+
+        <div ng-messages="requiredForm.selectedTags.$error">
+            <p ng-message="required">Tags are required.</p>
+        </div>
+
+    </form>
 </div>
 
 <h2>Tag Input - Single string for selected tags - restricted - appendedToBody</h2>
@@ -47,10 +55,16 @@
                     text-property="state" is-draggable></akam-tag-input>
 </div>
 
-<h2>Tag Input -  Tag Object Items - draggable - restricted</h2>
+<h2>Tag Input -  Tag Object Items - draggable - restricted - required</h2>
 <div>
-    <akam-tag-input ng-model="vm.emptySelectedTags" items="vm.tagObjects" text-property="state"
-                    restricted is-draggable></akam-tag-input>
+    <form name="requiredTagsForm" class="form-horizontal">
+        <akam-tag-input ng-model="vm.emptySelectedTags" items="vm.tagObjects" text-property="state"
+                        restricted is-draggable required></akam-tag-input>
+
+        <div ng-messages="requiredTagsForm.emptySelectedTags.$error.required">
+            <p>Tags are required.</p>
+        </div>
+    </form>
 </div>
 
 <h2>Tag Input - Strings with validation - enter a tag that contains a number</h2>
@@ -172,7 +186,7 @@
                     {fruit: 'examples.tag-input.menuTags.orange'}
                 ]
             }
-        }
+        };
 
         this.tags = [
             'Colorado',

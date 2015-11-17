@@ -147,7 +147,7 @@ $tag-input-invalid-border-width: 2px;
   border-top: none;
 }
 
-akam-tag-input.ng-invalid .akam-tag-input {
+akam-tag-input.ng-invalid.ng-dirty.ng-touched .akam-tag-input {
   div.tag-input-wrapper {
     border-width: $tag-input-invalid-border-width;
     border-color: $tag-input-invalid-border-color;
