@@ -135,6 +135,7 @@ function AutocompleteDirective(dropdownTemplateService) {
       keyProperty: '=?',
       placeholder: '@?',
       isDisabled: '=?',
+      isReadonly: '=?',
       onSearch: '&',
       minimumSearch: '@'
     },

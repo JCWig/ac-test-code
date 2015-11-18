@@ -234,6 +234,21 @@ describe('akamai.components.autocomplete', function() {
     });
   });
 
+  describe('given an is-readonly attribute', function() {
+    describe('when is-readonly is true', function() {
+      beforeEach(function() {
+        this.$scope.readOnly = true;
+        addElement.call(this, `
+          <akam-autocomplete ng-model="selectedStateObj" is-readonly="readOnly"
+                             on-search="loadStateObjects(searchTerm)"></akam-autocomplete>`);
+      });
+      it('should add the readonly class to the selected-option element', function() {
+        expect(util.findElement(this.el, '.selected-option').prop('classList'))
+          .toContain('readonly');
+      });
+    });
+  });
+
   describe('given a clearable attribute', function() {
     describe('when the autocomplete is rendered', function() {
       describe('and some item is selected', function() {
@@ -255,7 +270,7 @@ describe('akamai.components.autocomplete', function() {
     });
   });
 
-  describe('given an append-to-body attribute', function() {
+  describe('given an appended-to-body attribute', function() {
     describe('when the autocomplete is rendered', function() {
       beforeEach(function() {
         this.$scope.selectedStateObj = {
@@ -263,7 +278,7 @@ describe('akamai.components.autocomplete', function() {
         };
         let autocompleteTemplate = `
             <akam-autocomplete ng-model="selectedStateObj"
-                               on-search="loadStateObjects(searchTerm)" append-to-body>
+                               on-search="loadStateObjects(searchTerm)" appended-to-body>
             </akam-autocomplete>`;
 
         addElement.call(this, autocompleteTemplate);
@@ -419,7 +434,7 @@ describe('akamai.components.autocomplete', function() {
       beforeEach(function() {
         spyOn(this.$scope, 'loadStateStrings');
         addElement.call(this, `<akam-autocomplete ng-model="selectedState"
-                                                  minimum-search="3" append-to-body
+                                                  minimum-search="3" appended-to-body
                                                   on-search="loadStateStrings(searchTerm)">
                                </akam-autocomplete>`);
         ctrl = this.el.controller('akamAutocomplete');
@@ -441,7 +456,7 @@ describe('akamai.components.autocomplete', function() {
       beforeEach(function() {
         spyOn(this.$scope, 'loadStateStrings').and.returnValue([]);
         addElement.call(this, `<akam-autocomplete ng-model="selectedState"
-                                                  minimum-search="3" append-to-body
+                                                  minimum-search="3" appended-to-body
                                                   on-search="loadStateStrings(searchTerm)">
                                </akam-autocomplete>`);
         ctrl = this.el.controller('akamAutocomplete');
@@ -522,7 +537,7 @@ describe('akamai.components.autocomplete', function() {
         it('should autocomplete controller search function have been called', function() {
           expect(ctrl.search).toHaveBeenCalled();
         });
-        it('should autocomplete controller onSearch callback function have been called', function() {
+        it('should call the onSearch callback', function() {
           expect(ctrl.search).toHaveBeenCalled();
         });
       });
@@ -546,7 +561,7 @@ describe('akamai.components.autocomplete', function() {
       });
     });
   });
-    describe('given minimum search set to invalid string in markup', function() {
+  describe('given minimum search set to invalid string in markup', function() {
     describe('when rendered', function() {
       describe('on input field focus', function() {
         beforeEach(function() {

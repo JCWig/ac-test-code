@@ -14,7 +14,8 @@ function dropdownDirective(dropdownTemplateService) {
       keyProperty: '=?',
       placeholder: '@?',
       filterPlaceholder: '@?',
-      isDisabled: '=?'
+      isDisabled: '=?',
+      isReadonly: '=?'
     },
     controller: DropdownController,
     controllerAs: 'dropdown',

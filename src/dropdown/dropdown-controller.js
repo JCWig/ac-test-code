@@ -59,7 +59,7 @@ export default class DropdownController {
     }
 
     this.isClearable = angular.isDefined(attrs.clearable);
-    this.appendToBody = angular.isDefined(attrs.appendToBody);
+    this.appendToBody = angular.isDefined(attrs.appendedToBody);
 
     this.selected =
       new this.dropdownTemplateService.DropdownSelectedRenderer(this);
