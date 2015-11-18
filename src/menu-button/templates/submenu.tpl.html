@@ -1,0 +1,9 @@
+<li class="dropdown-submenu" ng-class="{'disabled' : submenu.isDisabled}">
+    <a href="javascript:void(0)" translate="{{::submenu.text}}"></a>
+
+    <ul class="dropdown-menu"
+        ng-class="[submenu.size, submenu.positionClass]"
+        ng-if="!submenu.isDisabled"
+        ng-transclude>
+    </ul>
+</li>

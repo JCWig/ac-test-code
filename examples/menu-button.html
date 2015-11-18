@@ -35,6 +35,27 @@
 </div>
 <br />
 <div class="container">
+  <h3>Menu Button with submenus</h3>
+  <akam-menu-button>
+    <akam-menu-button-item text="examples.appNames.tq" ng-click="vm.process('tq')"></akam-menu-button-item>
+    <akam-menu-button-item text="examples.appNames.bc" ng-click="vm.process('bc')"></akam-menu-button-item>
+    <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+    <akam-submenu text="examples.appNames.pm" is-disabled="vm.disableItem">
+      <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+      <akam-submenu text="examples.appNames.bc">
+        <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+      </akam-submenu>
+    </akam-submenu>
+    <akam-submenu text="examples.appNames.pm">
+      <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+      <akam-submenu text="examples.appNames.bc">
+        <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>
+      </akam-submenu>
+    </akam-submenu>
+  </akam-menu-button>
+</div>
+<br/>
+<div class="container">
   <h3>Split Button</h3>
   <akam-menu-button default-text="Choose Application">
     <akam-menu-button-item text="examples.appNames.pm" ng-click="vm.process('pm')"></akam-menu-button-item>

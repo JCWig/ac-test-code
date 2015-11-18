@@ -56,6 +56,8 @@
 @import "global-styles/theme/_tabs";
 @import "tabs/_tabs";
 
+@import "menu-button/submenu";
+
 /* These styles have no angular directive. They style an expected markup pattern */
 .common-css {
   /* @import "global-styles/standalone/_buttons"; */

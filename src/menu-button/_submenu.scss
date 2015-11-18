@@ -1,0 +1,63 @@
+@import "../global-styles/colors";
+
+.dropdown-submenu {
+  position: relative;
+
+  & > .nested-menu-left {
+    top: 0;
+    left: auto;
+    right: 100%;
+  }
+
+  & > .nested-menu-right {
+    top: 0;
+    left: 100%;
+    right: auto;
+  }
+}
+
+.dropdown-submenu:hover {
+  & > .nested-menu-left {
+    display: block
+  }
+
+  & > .nested-menu-right {
+    display: block
+  }
+}
+
+.dropdown-submenu {
+  & > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-right-width: 0;
+    border-left-color: $colors__gray2;
+    margin-top: 10px;
+    margin-right: -10px;
+  }
+
+  &:hover > a:after {
+    border-left-color: $colors__gray2;
+  }
+
+  &.disabled > a:after {
+    border-left-color: $colors__gray6;
+  }
+
+  &.disabled:hover > a:after {
+    border-left-color: $colors__gray6;
+  }
+}
+
+.akam-menu-button {
+  & .dropdown-menu {
+    max-height: none;
+    overflow-x: initial;
+    overflow-y: initial;
+    -ms-overflow-y: initial;
+  }
+}

@@ -4,6 +4,7 @@ import bootstrap from 'angular-bootstrap-npm';
 import i18n from '../i18n';
 import menuButtonItem from './menu-button-item-directive';
 import menuButton from './menu-button-directive';
+import submenu from './submenu-directive.js';
 
 /**
  * @ngdoc module
@@ -74,4 +75,5 @@ export default angular.module('akamai.components.menu-button', [
  * @description Creates a menu button item within the menu button
  * control.
  **/
-  .directive('akamMenuButtonItem', menuButtonItem);
+  .directive('akamMenuButtonItem', menuButtonItem)
+  .directive('akamSubmenu', submenu);
