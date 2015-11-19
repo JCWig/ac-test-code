@@ -6,6 +6,16 @@ import spinnerButton from '../spinner-button';
 
 import modalWindowService from './modal-window-service';
 import modalWindowBodyDirective from './modal-window-body-directive';
+import overrideModalWindowTemplate from './templates/window.tpl.html';
+import modalWindowDecorator from './modal-window-decorator';
+
+function run($templateCache) {
+  /*
+  Overide angular-ui bootstrap's modal window template for maxwidth functionality
+  */
+  $templateCache.put('template/modal/window.html', overrideModalWindowTemplate);
+}
+run.$inject = ['$templateCache'];
 
 /**
  * @ngdoc module
@@ -44,6 +54,9 @@ module.exports = angular.module('akamai.components.modal-window', [
   i18n.name,
   spinnerButton.name
 ])
+
+.run(run)
+.config(modalWindowDecorator)
 
 /**
  * @ngdoc service

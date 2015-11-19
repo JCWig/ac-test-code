@@ -1,269 +1,150 @@
 .modal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   z-index: $modal-window-zindex;
-  display: none;
-  overflow: hidden;
-  outline: 0;
-
-  .title-icon {
-    background: transparent center center no-repeat;
-    background-size: contain;
-    width: $svg-icon-width;
-    height: $svg-icon-height;
-    display: none;
-  }
-
-  &.fade {
-    opacity: 1;
-  }
-
-  &.in .modal-dialog,
-  &.fade .modal-dialog {
-    @include transform(none);
-    @include transition(none);
-  }
-
-  .modal-header {
-    & > .close-icon {
-      cursor: pointer;
-      background: transparent center center no-repeat;
-      background: inline-svg-image("svg/small_close_new.svg");
-      background-size: contain;
-      width: 12px;
-      height: 12px;
-
-      &:hover {
-        background-image: inline-svg-image("svg/small_close_hover_new.svg");
-      }
-    }
-
-    i.disabled {
-      opacity: 0.5;
-    }
-  }
-
-  .modal-backdrop {
-    background-color: $dialog-mask-color_luna;
-  }
-}
-
-.modal-dialog {
-  position: static;
-  margin: 0;
-
-  &.modal-lg .modal-content .modal-container {
-    @include for("IE10+") {
-      height: $dialog-max-height;
-    }
-  }
-
-  &.modal-sm .modal-content .modal-container {
-    @include for("IE10+") {
-      height: 50%;
-    }
+  display: block;
+  
+  &.in .modal-dialog {
+    transition: none;
   }
 }
 
 .modal-content {
-  position: inherit;
-  background-color: none;
   border: none;
-  border-radius: 0;
   box-shadow: none;
-  outline: 0;
+}
 
-  // increase specificity for IE 10 - see FEE-1272
-  & > div.modal-container.max {
-    height: 100%;
+.modal-dialog {
+  &.max {
+    margin-top: 0;
+    width: 100%;
+    max-width: none;
   }
 }
 
 .modal-container {
   background-color: $dialog-background-color;
   border: 0 solid $dialog-border-color;
-  border-radius: $dialog-border-radius;
   outline: 0;
   overflow: hidden;
-
-  width: $dialog-width;
-  min-width: $dialog-min-width;
-  max-width: $dialog-max-width;
-
-  height: $dialog-height;
   min-height: $dialog-min-height;
-  max-height: $dialog-max-height;
-
-  &.max {
-    width: 100%;
-    max-width: none;
-
-    height: 100%;
-    max-height: none;
-  }
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  @include translate(-50%, -50.01%);
-  @include box-shadow(none);
-
-  /* Version 3 Flex for IE11 and modern browsers */
-  @include display-flex();
-  @include flex-direction(column);
-  @include flex-wrap(nowrap);
-  @include justify-content(space-between);
-
-  & > .modal-header,
-  & > .modal-footer {
-    @include flex-shrink(0);
-  }
-
-  & > .modal-header {
-    padding: 0;
-    padding-left: $dialog-left-padding;
-    padding-right: $dialog-right-padding;
-    border-bottom: 1px solid $dialog-separator-color_luna;
-    height: $dialog-header-height;
-    position: relative;
-    box-sizing: border-box;
-    border-radius: $dialog-border-radius $dialog-border-radius 0 0;
-    color: $dialog-text-color;
-    @include background-image($dialog-header-background-color);
-    min-height: 0;
-
-    & > .modal-title {
-      padding-right: $svg-icon-width * 2 + $dialog-header-icon-gutter * 3;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      line-height: $dialog-header-height;
-      padding-top: 1px; // Hack to address visual alignment
-    }
-
-    & > .akam-status-message-wrapper {
-      position: absolute;
-      z-index: $status-message-zindex;
-      top: $dialog-header-height;
-      left: 0;
-      width: calc(100%);
-      list-style: none;
-      margin: 0;
-      padding: 0;
-
-      .alert {
-        width: 100%;
-        padding-left: 32px + $dialog-left-padding;
-        height: $dialog-header-error-height;
-        line-height: 2.8em;
-        overflow: hidden;
-
-        &:before {
-            margin-left: $dialog-left-padding;
-        }
-      }
-    }
-
-    & > i {
-      position: absolute;
-      top: 50%;
-      @include translate(0, -50%);
-    }
-
-    .close-icon {
-      right: $dialog-right-padding;
-    }
-
-    .max-min-icon {
-      cursor: pointer;
-      right: $dialog-right-padding * 2 + 20px;
-    }
-
-    &.error + .modal-body {
-      margin-top: $dialog-header-error-height;
-      @include for("IE10+") {
-        height: calc(100% - #{$dialog-header-height} - #{$dialog-footer-top-padding + $dialog-footer-bottom-padding + $button-height-large} - #{$dialog-header-error-height});
-      }
-    }
-  }
-
-  & > .modal-body {
-    box-sizing: border-box;
-    padding: $dialog-content-top-padding $dialog-right-padding $dialog-content-bottom-padding $dialog-left-padding;
-    overflow: auto;
-    color: $dialog-text-color;
-    line-height: 140%;
-    position: relative;
-    @include flex-grow(1);
-
-    .backwash {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 1000%;
-      width: 1000%;
-      margin: auto;
-      background: rgba(255,255,255,.85);
-      display: none;
-      z-index: $modal-window-backdrop-zindex;
-    }
-
-    &.processing {
-      overflow: hidden;
-
-      .backwash {
-        display: block;
-      }
-    }
-  }
-
-  & > .modal-footer {
-    padding: $dialog-footer-top-padding $dialog-right-padding $dialog-footer-bottom-padding $dialog-left-padding;
-    text-align: right;
-    border-top: 1px solid $dialog-separator-color_luna;
-    border-radius: 0 0 $dialog-border-radius $dialog-border-radius;
-    background: $dialog-background-color;
-    margin-top: 1px; //fixes issue in Chrome where body content hovers over the border
-
-    .btn + .btn {
-      margin-left: $dialog-footer-button-gutter;
-    }
-  }
+  border-radius: $dialog-border-radius;
 }
 
 .modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: $modal-window-backdrop-zindex;
   background-color: $dialog-mask-color_luna;
-
-  &.fade {
-    opacity: 0;
-  }
-
+  
   &.in {
-    opacity: .85;
+    opacity: 0.85;
   }
 }
 
-.modal-content .modal-container {
-  @include for("IE10+") {
-    height: 60%;
+.modal-header {
+  position: relative;
+  padding: 0;
+  padding-left: $dialog-left-padding;
+  padding-right: $dialog-right-padding;
+  border-bottom: 1px solid $dialog-separator-color_luna;
+  height: $dialog-header-height;
+  border-radius: $dialog-border-radius $dialog-border-radius 0 0;
+  color: $dialog-text-color;
+  min-height: 0;
+  @include background-image($dialog-header-background-color);
+  
+  & > i {
+    position: absolute;
+    top: 50%;
+    @include translate(0, -50%);
   }
 
+  & > .close-icon {
+    cursor: pointer;
+    background: transparent center center no-repeat;
+    background: inline-svg-image("svg/small_close_new.svg");
+    background-size: contain;
+    width: 12px;
+    height: 12px;
+    right: $dialog-right-padding;
+
+    &:hover {
+      background-image: inline-svg-image("svg/small_close_hover_new.svg");
+    }
+  }
+
+  & > .max-min-icon {
+    cursor: pointer;
+    right: $dialog-right-padding * 2 + 20px;
+  }
+
+  i.disabled {
+    opacity: 0.5;
+  }
+  
+  .modal-title {
+    padding-right: $svg-icon-width * 2 + $dialog-header-icon-gutter * 3;
+    line-height: $dialog-header-height;
+    padding-top: 1px; // Hack to address visual alignment
+  }
+  
+  & > .akam-status-message-wrapper {
+    position: absolute;
+    z-index: $status-message-zindex;
+    top: $dialog-header-height;
+    left: 0;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .alert {
+      width: 100%;
+      padding-left: 32px + $dialog-left-padding;
+      overflow: hidden;
+
+      &:before {
+          margin-left: $dialog-left-padding;
+      }
+    }
+  }
+  
+  &.error + .modal-body {
+    margin-top: $dialog-header-error-height;
+  }
 }
 
 .modal-body {
-  @include for("IE10+") {
-    height: calc(100% - #{$dialog-header-height} - #{$dialog-footer-top-padding + $dialog-footer-bottom-padding + $button-height-large});
+  padding: $dialog-content-top-padding $dialog-right-padding $dialog-content-bottom-padding $dialog-left-padding;
+  overflow: auto;
+  min-height: ($modal-md / $golden-ratio);
+  
+  .backwash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1000%;
+    width: 1000%;
+    margin: auto;
+    background: rgba(255,255,255,.85);
+    display: none;
+    z-index: $modal-window-backdrop-zindex;
+  }
+
+  &.processing {
+    overflow: hidden;
+
+    .backwash {
+      display: block;
+    }
+  }
+}
+
+.modal-footer {
+  border-top-color: $dialog-separator-color_luna;
+  border-radius: 0 0 $dialog-border-radius $dialog-border-radius;
+  margin-top: 1px; //fixes issue in Chrome where body content hovers over the border
+
+  .btn + .btn {
+    margin-left: $dialog-footer-button-gutter;
   }
 }
 

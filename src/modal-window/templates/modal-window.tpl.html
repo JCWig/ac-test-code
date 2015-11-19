@@ -1,8 +1,8 @@
-<div class="modal-container" ng-class="{'max' : modalWindow.isMax}">
+<div class="modal-container">
   <div class="modal-header" ng-class="{'error': modalWindow.showSubmitError}">
     <i ng-if="modalWindow.icon" class="title-icon" ng-class="modalWindow.icon"></i>
 
-    <h4 class="modal-title">{{ modalWindow.title }}</h4>
+    <h4 class="modal-title util-ellipsis">{{ modalWindow.title }}</h4>
     <i class="max-min-icon icon-states"
        ng-class="{ 'pulsar-fullscreen' : !modalWindow.isMax, 'pulsar-restore' : modalWindow.isMax, 'disabled': modalWindow.processing}"
        ng-click="!modalWindow.processing && (modalWindow.isMax = !modalWindow.isMax);"
