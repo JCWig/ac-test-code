@@ -11,10 +11,10 @@ import autocompleteDirective from './autocomplete-directive';
  *
  * @description
  * Autocomplete is a feature that enables users to quickly find and select information from a
- * pre-populated list. As characters are entered,the system displays matching options in a
- * dropdown menu. The autocomplete component is customizable to show results after one or more
- * characters are entered. Users have the ability to clear a selection. Dropdown menu has the
- * ability to display icons and images in addition to alphanumeric characters.
+ * pre-populated list. As characters are entered, the control displays matching options in a
+ * dropdown menu. The autocomplete control is customizable to show results after one or more
+ * characters are entered. Users also have the ability to clear a selection. The dropdown menu has
+ * the ability to display icons and images in addition to alphanumeric characters.
  *
  * @guideline Use when content can be pulled from a manageable data set.
  * @guideline Use when the total number of items would be too large to display in a standard
@@ -23,9 +23,17 @@ import autocompleteDirective from './autocomplete-directive';
  * @guideline Default number of items displayed at one time is seven.
  *
  * @example index.html
- * <akam-autocomplete ng-model="..." text-property="name"
- *    placeholder="an already translated value"
- *    on-search="fn(term)">
+ * <akam-autocomplete ng-model="vm.selectedItem"
+ *                    on-search="fn(searchTerm)
+ *                    text-property="name"
+ *                    key-property="itemId"
+ *                    minimum-search="0"
+ *                    placeholder="an.i18n.key"
+ *                    is-disabled="vm.isDisabled"
+ *                    is-readonly="vm.isReadonly"
+ *                    appended-to-body
+ *                    clearable
+ *                    autofocus>
  * </akam-autocomplete>
  *
  */
@@ -38,30 +46,32 @@ export default angular.module('akamai.components.autocomplete', [
  *
  * @name akamAutocomplete
  *
- * @description Creates an autocomplete search
+ * @description Creates an autocomplete control
  *
  * @restrict E
  *
- * @param {Boolean} ngModel The autocomplete's selected item.
+ * @param {Object|String} ng-model The autocomplete's selected item.
  *
- * @param {Function} [onSearch] A function that will be called when the input changes.
- * It will be passed `searchTerm` as an argument.
+ * @param {Function} on-search A function that will be called when the input changes. The values
+ * returned will be used to populate the dropdown menu. The function will be passed `searchTerm` as
+ * an argument. The function can return a `Promise` or an `Array` of either objects or strings.
  *
- * @param {String} [textProperty] If the options param is an array of Objects,
- * this is the property of those objects used in the dropdown menu
+ * @param {String} [text-property] This attribute is only applicable and required when search
+ * results are objects. It defines the property used for rendering the selected item and search
+ * results. The search result values must be unique. `text-property` can be nested and will be
+ * parsed accordingly (e.g. `text-property="foo.bar.label"`).
  *
- * @param {String} [keyProperty] If the options param is an array of Objects,
- * this is the property that is used to bind to ng-model.
+ * @param {String} [key-property] This attribute is only applicable when search results are
+ * objects. If `key-property` is defined, the corresponding property for the selected object is
+ * bound to `ng-model`. If `key-property` is not defined, the selected object itself is bound to
+ * `ng-model`.
  *
- * @param {Integer} [minimuim-search=1] The minimum character(s) required to search.
- * It can be set to 0, it should display results automatically on focus with restrained by
- * normal upbound limit.
+ * @param {Integer} [minimum-search=0] The minimum number of characters required to search.
+ * The default value is 0 which calls `on-search` when the search field is focused.
  *
- * @param {String} [placeholder=Select one] The placeholder text for the autocomplete.
- * Placeholder attribute value can be text or translation key.
- * When using custom markup, include <pre>{{autocomplete.placeholder}}</pre>
- * to display default placeholder text.
- * If not included, placeholder text will be empty.
+ * @param {String} [placeholder=Select one] The placeholder text for the search field. The value
+ * can either be text or an i18n key. When using custom markup, include
+ * `{{autocomplete.placeholder}}` to display the default placeholder text.
  *
  * ```
  * <akam-autocomplete>
@@ -72,12 +82,19 @@ export default angular.module('akamai.components.autocomplete', [
  *    </akam-autocomplete-selected>
  * </akam-dropdown>
  * ```
- **
- * @param {*} [appendToBody] if present will append dropdown portion to the body
  *
- * @param {*} [clearable] if present it will display an icon to clear the selected item
+ * @param {Boolean} [is-disabled=false] If autocomplete is disabled. No user interaction will be
+ * possible.
  *
- * @param {*} [autofocus] if present will autofocus on the autocomplete
+ * @param {Boolean} [is-readonly=false] If autocomplete is readonly. No user interaction will be
+ * possible but the text will be easier to read.
+
+ * @param {*} [appended-to-body] If present, the dropdown menu will be appended to the body. Use
+ * this when using autocomplete in a container with `overflow: hidden`.
+ *
+ * @param {*} [clearable] If present, the selected item will be clearable.
+ *
+ * @param {*} [autofocus] If present, the search field will be auto-focused.
  *
  */
 .directive('akamAutocomplete', autocompleteDirective);

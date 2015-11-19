@@ -1,5 +1,5 @@
 <div class="dropdown-selected-wrapper">
-    <span class="selected-option util-ellipsis" ng-class="{disabled:autocomplete.isDisabled}"
+    <span class="selected-option util-ellipsis" ng-class="{disabled:autocomplete.isDisabled, 'readonly': autocomplete.isReadonly}"
           ng-show="!autocomplete.searchShown" ng-click="autocomplete.clickSelected($event)">
         <span title="{{autocomplete.getSelectedItemText()}}">{{autocomplete.getSelectedItemText()}}</span>
         <span ng-if="!autocomplete.selectedItem" class="dropdown-placeholder">{{autocomplete.placeholder}}</span>

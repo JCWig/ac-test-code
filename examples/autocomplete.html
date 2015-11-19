@@ -92,7 +92,7 @@
 <div>
     <h2>Default Autocomplete with a list of strings appended to body</h2>
         <div class="util-hidden-overflow">
-            <akam-autocomplete ng-model="vm.ex6.selectedState" append-to-body clearable
+            <akam-autocomplete ng-model="vm.ex6.selectedState" appended-to-body clearable
                                on-search="vm.searchStateStrings(searchTerm)">
             </akam-autocomplete>
         </div>
@@ -103,7 +103,7 @@
 <div>
     <h2>Autocomplete with a list of objects and custom markup, not clearable append to body</h2>
         <div class="util-hidden-overflow">
-            <akam-autocomplete append-to-body ng-model="vm.ex7.selectedState" text-property="name"
+            <akam-autocomplete appended-to-body ng-model="vm.ex7.selectedState" text-property="name"
                                on-search="vm.searchStateObjects(searchTerm)">
 
                 <akam-autocomplete-selected>

@@ -320,6 +320,20 @@ describe('akamai.components.dropdown', function() {
     });
   });
 
+  describe('given an is-readonly attribute', function() {
+    describe('when is-readonly is true', function() {
+      beforeEach(function() {
+        this.$scope.readOnly = true;
+        this.addElement(`<akam-dropdown ng-model="selectedStateObj" is-readonly="readOnly"
+                                        items="stateStrings"></akam-dropdown>`);
+      });
+      it('should add the readonly class to the selected-option element', function() {
+        expect(util.findElement(this.el, '.selected-option').prop('classList'))
+          .toContain('readonly');
+      });
+    });
+  });
+
   describe('given a clearable attribute', function() {
     describe('when an item is selected', function() {
       beforeEach(function() {
@@ -333,11 +347,11 @@ describe('akamai.components.dropdown', function() {
     });
   });
 
-  describe('given an append-to-body attribute', function() {
+  describe('given an appended-to-body attribute', function() {
     describe('when the dropdown is rendered', function() {
       beforeEach(function() {
         this.$scope.selectedStateObj = {name: 'Colorado'};
-        this.addElement(`<akam-dropdown ng-model="selectedStateObj" append-to-body
+        this.addElement(`<akam-dropdown ng-model="selectedStateObj" appended-to-body
                                         items="stateStrings"></akam-dropdown>`);
       });
       it('should append the dropdown to the body', function() {
@@ -351,7 +365,7 @@ describe('akamai.components.dropdown', function() {
       let dropdownElement;
       beforeEach(function() {
         this.$scope.selectedStateObj = {name: 'Colorado'};
-        this.addElement(`<akam-dropdown ng-model="selectedStateObj" append-to-body
+        this.addElement(`<akam-dropdown ng-model="selectedStateObj" appended-to-body
                                         items="stateStrings"></akam-dropdown>`);
         dropdownElement = util.findElement(this.el, DROPDOWN);
         this.clickDropdownToggle();
