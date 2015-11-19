@@ -2,24 +2,29 @@
 .akam-pagination {
   display: table;
   width: 100%;
-  
+
   height: $pagination-height;
   line-height: $pagination-height;
   border: solid 1px $pagination-border-color;
   text-align: center;
   padding: 0;
   padding-left: $pagination-gutter;
-  padding-right: $pagination-gutter;
   box-sizing: border-box;
   font-size: $pagination-item-font-size;
   @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
-  
+
 
   & > * {
     display: table-cell;
     width: 1px;
     white-space: nowrap;
     vertical-align: top;
+  }
+
+  .page-size {
+    & .pagination {
+      margin-left: 10px;
+    }
   }
 
   .pagination {
@@ -29,15 +34,15 @@
     display: inline-block;
     background: none;
   }
-  
+
   > .pagination {
     > li.disabled:first-child,
     > li.disabled:last-child {
-      
+
       > a,
       > span {
-        
-        &, 
+
+        &,
         &:hover,
         &:focus {
           background: transparent;
@@ -70,7 +75,7 @@
   > li {
     display: inline-block;
 
-    > a, 
+    > a,
     > span {
       display: inline-block;
       color: $pagination-item-font-color;
@@ -79,7 +84,7 @@
       margin: 0;
       border: 0 none;
       background-color: transparent;
-      
+
       line-height: $pagination-height;
     }
 
@@ -94,7 +99,7 @@
         vertical-align: middle;
         margin-top: -1px;
       }
-      
+
       &:hover {
         text-decoration: none;
         border-radius: 0px;

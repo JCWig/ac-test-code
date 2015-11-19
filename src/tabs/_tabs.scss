@@ -2,7 +2,7 @@
   position: relative;
 
   & .tab-content {
-    padding-top: 1.4em;
+    padding-top: 30px;
   }
 
   & .nav-tabs {
@@ -10,8 +10,7 @@
       border: solid 1px $tab-border-color;
       border-top-width: 0px;
       border-radius: 0 0 $tab-border-radius $tab-border-radius;
-      padding: 1em;
-      padding-top: 1.4em;
+      padding: 30px 15px;
       background-color: $tab-background-color-active;
     }
   }

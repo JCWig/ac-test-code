@@ -23,13 +23,10 @@ class SpinnerController {
     this.min = isNaN(this.min) || !this.min ? '' : parseInt(this.min, 10);
     this.spinnerId = this.uuid.guid();
 
-    this.dynamicMinWidth = {
-      width: 'calc(1em+10px)'
-    };
     if (this.max) {
       maxlength = String(this.max).length;
       this.dynamicMinWidth = {
-        width: 'calc(' + maxlength + 'em + 10px)'
+        width: 'calc(' + maxlength + 'ch + 20px)'
       };
     }
   }

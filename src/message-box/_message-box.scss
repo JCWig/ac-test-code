@@ -97,17 +97,21 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
   }
 
   .message-box-headline + .message-box-text {
-    margin-top: 15px;
+    margin-top: 10px;
+  }
+
+  p.message-box-text {
+    margin-bottom: 0;
   }
 
   .message-box-details {
-    margin-top: 30px;
+    margin-top: 20px;
 
     & > *:first-child {
-      font-weight: bold;
       display: inline-block;
       vertical-align: middle;
       cursor: pointer;
+      font-size: 14px;
 
       & > i {
         margin-left: 5px;
@@ -122,6 +126,10 @@ $dialog-indeterminate-backdrop-color: rgba(255, 255, 255, .85);
         display: block;
         visibility: visible;
       }
+    }
+
+    .in {
+      margin-top: 10px;
     }
 
     .collapsing {

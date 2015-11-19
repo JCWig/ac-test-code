@@ -1,16 +1,21 @@
+$panel-heading-left-padding: 14px;
+
 .akam-content-panel{
   & > .panel-heading {
-    $panel-left-padding: 18px;
+
+    &.util-clickable:hover {
+        background: linear-gradient($panel-gradient-bottom, $panel-gradient-top);
+    }
 
     .toggle-icon {
       position: absolute;
       left: 12px;
       top: calc(50% - 8px);
       cursor: pointer;
-      margin-right: 10px;
     }
+
     &.util-clickable {
-      padding-left: $panel-left-padding + 15px;
+      padding-left: $panel-heading-left-padding + 24px;
     }
   }
 

@@ -3,7 +3,7 @@
 $spinner-input-height: 28px;
 $spinner-border-color: #cccccc;
 $spinner-button-color-active: #0099cc;
-$spinner-disable-color: #e6e6e6;
+$spinner-disable-color: #dadada;
 $spinner-button-hover-gradient-bottom: #e6e6e6;
 $spinner-button-hover-gradient-top: #ffffff;
 $spinner-border-color-hover: #999999;
@@ -16,13 +16,14 @@ $spinner-button-active-gradient-top: #c8c8c8;
   position: relative;
 
   input[type=number] {
-    min-width: 28px;
+    width: calc(16ch + 20px);
+    border-right-width: 0;
     @include appearance(textfield);
 
     &::-ms-clear {
       display: none;
     }
-    
+
     &:focus + .btn-group-vertical .btn {
       &,
       &:hover {
@@ -60,17 +61,6 @@ $spinner-button-active-gradient-top: #c8c8c8;
 
       &:first-child {
         border-top-right-radius: $border-radius;
-        
-        &:hover:not([disabled]) {
-          & + .btn {
-            border-top-color: $spinner-border-color-hover;
-          }
-        }
-        &:active:not([disabled]) {
-          & + .btn {
-            border-top-color: $spinner-button-color-active;
-          }
-        }
       }
 
       i {

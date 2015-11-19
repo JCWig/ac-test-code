@@ -2,7 +2,7 @@
 
 .btn {
   text-decoration: none;
-  min-width: $button-min-width;
+  min-width: $button-default-min-width;
   height: $button-height;
   padding: $button-padding;
   margin: 0;
@@ -18,7 +18,7 @@
   border-color: $button-border-color;
   background: $button-background-color;
   @include background-image(linear-gradient($button-gradient-top, $button-gradient-bottom));
-  
+
   &:hover {
     color: $button-text-color;
     border-color: $button-border-color-hover;
@@ -36,7 +36,7 @@
   &:disabled,
   &.disabled,
   &[disabled] {
-    &, 
+    &,
     &:hover {
       opacity: 1;
       background: $button-background-color-disabled;
@@ -52,13 +52,13 @@
   color: $button-primary-text-color;
   border-color: $button-primary-border-color;
   @include background-image(linear-gradient($button-primary-gradient-top, $button-primary-gradient-bottom));
-  
+
   &:hover {
     color: $button-primary-text-color;
     border-color: $button-primary-border-color;
     @include background-image(linear-gradient($button-primary-gradient-bottom, $button-primary-gradient-top));
   }
-  
+
   &:active,
   &:visited,
   &:active:focus {
@@ -70,7 +70,7 @@
   &:disabled,
   &.disabled,
   &[disabled] {
-    &, 
+    &,
     &:hover {
       opacity: 1;
       background: $button-primary-background-color-disabled;
@@ -83,17 +83,20 @@
 
 
 .btn-lg {
+  min-width: $button-lg-min-width;
   @include button-size(0, 10px, $button-text-size-large, ($button-height-large - $button-border-width*2), $border-radius);
   height: $button-height-large;
 }
 .btn-sm {
+  min-width: $button-sm-min-width;
   @include button-size(0, 10px, $button-text-size-small, ($button-height-small - $button-border-width*2), $border-radius);
   height: $button-height-small;
 }
 .btn-xs {
   // will update to extra small definition once it exists
+  min-width: $button-sm-min-width;
   @include button-size(0, 10px, $button-text-size-small, ($button-height-small - $button-border-width*2), $border-radius);
-  height: $button-height-small;
+  height: $button-height-x-small;
 }
 
 
@@ -107,18 +110,18 @@
     outline: none;
     box-shadow: none;
   }
-  
+
   &.has-icon {
     min-width: 0;
   }
-  
+
   & > i {
     vertical-align: middle;
   }
-  
+
   &.dropdown-toggle {
     min-width: 0;
-  
+
     & > i + .separator {
       border-left: 1px solid #999;
       margin: 0 3px;

@@ -4,13 +4,19 @@ h1, h2, h3, h4, h5, h6,
   padding: 0;
 }
 
-h1, 
-.h1 {
-  color: $colors__bluegray1;
+h1,
+.h1{
+  color: $h1__color;
 }
 
-h2, h3, h4, h5, h6,
-.h2, .h3, .h4, .h5, .h6 {
+h2,
+.h2{
+  color: $h2__color;
+}
+
+
+h3, h4, h5, h6,
+.h3, .h4, .h5, .h6 {
   font-weight: normal;
 }
 
@@ -27,6 +33,6 @@ mark,
 
 small,
 .small {
-  font-size: 80%;
+  font-size: 11px;
 }
 

@@ -2,6 +2,7 @@
 
 .akam-date-picker {
   position: relative;
+  width: 208px;
 
   .clear-date {
     margin-top: 6px;
@@ -21,7 +22,7 @@
     outline: none;
     min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
     @include box-shadow($global-box-shadow);
-    
+
     // Override TWBS
     .btn {
       min-width: 0;
@@ -198,17 +199,23 @@
       }
     }
   }
+
+  & span > button {
+    padding: 5px 8px;
+  }
 }
 
 akam-date-picker {
-  
   input[type="text"] {
     @extend %inputStyles;
-    
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
     &:focus {
       @extend %inputFocusStyles;
+
     }
-    
+
     &:disabled {
       @extend %inputDisabledStyles;
     }
@@ -217,19 +224,19 @@ akam-date-picker {
       @extend %inputReadonlyStyles;
     }
   }
-  
-  
+
+
   &.opened {
     input[type="text"] {
       @extend %inputFocusStyles;
     }
-  
+
     input[type="text"] ~ .input-group-btn > .btn {
       border-color: #999999;
       border-left-color: $input-border-color-focus;
       @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
     }
-    
+
     .clear-date {
       opacity: .333;
     }

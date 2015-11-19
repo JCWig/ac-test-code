@@ -1,8 +1,8 @@
-$off-white: #dadada;
+$off-white: $colors__gray7;
 $toggle-gradient-bottom: $off-white;
 $dark-grey: #999;
 $enabled-border: 1px solid $dark-grey;
-$disabled-border: 1px solid $off-white;
+$disabled-border: 1px solid #DADADA;
 $box-shadow-opacity: rgba(0, 0, 0, 0.12);
 $toggle-gradient-top: #fff;
 
@@ -60,7 +60,7 @@ akam-switch-button {
       background-color: $colors__green2b;
       box-shadow: -3px 0 2px 0 $box-shadow-opacity inset;
       padding-right: 7px;
-      
+
       &:after {
         content: "\00a0";
       }
@@ -71,7 +71,7 @@ akam-switch-button {
       background-color: #a32d2d;
       box-shadow: 3px 0 2px 0 $box-shadow-opacity inset;
       padding-left: 7px;
-      
+
       &:before {
         content: "\00a0";
       }
@@ -137,9 +137,9 @@ akam-switch-button {
         background: $colors__gray9;
 
         & > span {
-          border-left: 1px solid $off-white;
-          border-right: 1px solid #fff;
-          margin-right: 1px;
+          border-left: 1px solid #DADADA;
+          border-right: 0 solid #fff;
+          margin-right: 2px;
         }
       }
 
@@ -173,25 +173,25 @@ akam-switch-button {
     }
 
     &.switch-button-on {
-      
+
       .switch-button-container > span {
         background: #9bc69a;
         color: $colors__gray9;
       }
-      
+
       &.grayscale .switch-button-container > span {
         background: #aeb6be;
         color: $colors__gray9;
       }
     }
-    
+
     &.switch-button-off {
-      
+
       .switch-button-container > span {
         background: #e79897;
         color: $colors__gray9;
       }
-      
+
       &.grayscale .switch-button-container > span {
         background-image: linear-gradient(to bottom, #e6e6e6, #f8f8f8);
         color: $colors__gray4;

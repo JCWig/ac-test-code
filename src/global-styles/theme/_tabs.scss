@@ -1,3 +1,15 @@
+.nav {
+  > li {
+    // Disabled state sets text to gray and nukes hover/tab effects
+    &.disabled > a {
+
+      &:hover,
+      &:focus {
+        background-color: $colors__white;
+      }
+    }
+  }
+}
 .nav-tabs {
   padding-right: $tabs-right-gutter;
 
@@ -50,6 +62,15 @@
       }
     }
 
+    // Active state, and its :hover to override normal :hover
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: $colors__gray2;
+      }
+    }
+
     &.disabled {
       & > a {
         color: $tab-label-color-disabled;
@@ -61,17 +82,16 @@
   }
 }
 
-$disabled-color: #dadada;
 
 .nav-tabs,
 .nav-pills {
   & li.disabled > a {
-    color: $disabled-color;
-    border-color: $disabled-color;
+    color: $colors__gray4;
+    border-color: #DADADA;
     cursor: not-allowed;
 
     &:hover {
-      color: $disabled-color;
+      color: $colors__gray4;
     }
   }
 }
@@ -100,6 +120,7 @@ $disabled-color: #dadada;
 
       &:hover {
         background-color: transparent;
+        font-weight: bold;
       }
 
       &:focus {
@@ -117,6 +138,7 @@ $disabled-color: #dadada;
       &:focus {
         background-color: transparent;
         color: $colors__blue1;
+        font-weight: normal;
       }
     }
   }

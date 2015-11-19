@@ -1,5 +1,5 @@
 
-$pagination-height: 28px;
+$pagination-height: 26px;
 $pagination-gutter: 10px;
 
 $pagination-gradient-top: #ffffff;
@@ -22,12 +22,12 @@ $pagination-ellipsis-width: 20px;
   min-width: $pagination-item-width;
   line-height: $pagination-height;
   border-width: 0 1px;
-  
+
   i {
     vertical-align: middle;
     margin-top: -1px;
   }
-  
+
   &:hover,
   &:focus {
     @include background-image(linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom));
@@ -45,20 +45,32 @@ $pagination-ellipsis-width: 20px;
     text-align: center;
     display: inline-block;
     vertical-align: top;
-    
+
     &:first-child {
       > a,
       > span {
-        margin-left: -1px;
-        @include border-left-radius(0);
+        &,
+        &:hover,
+        &:focus {
+          margin-left: -1px;
+          @include border-left-radius(0);
+          @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
+          border: 0;
+        }
       }
     }
-    
+
     &:last-child {
       > a,
       > span {
-        margin-right: -1px;
-        @include border-right-radius(0);
+        &,
+        &:hover,
+        &:focus {
+          margin-right: -1px;
+          @include border-right-radius(0);
+          @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
+          border: 0;
+        }
       }
     }
 
@@ -68,10 +80,10 @@ $pagination-ellipsis-width: 20px;
   > li > span {
     @extend %page-item;
   }
-  
+
   > li > span {
     border-width: 0;
-    
+
     &:hover,
     &:focus {
       background: none;
@@ -85,10 +97,10 @@ $pagination-ellipsis-width: 20px;
     &:focus {
       font-weight: bold;
       @include background-image(linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom));
-      
+
     }
   }
-  
+
   > .disabled {
     > span:hover,
     > span:focus,
