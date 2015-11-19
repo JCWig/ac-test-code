@@ -6,7 +6,7 @@
     </span>
     <i class="luna-small_close_dark_gray util-clickable clear-dropdown"
        ng-click="autocomplete.clearSelectedItem($event)"
-       ng-if="autocomplete.selectedItem && autocomplete.isClearable && !autocomplete.isDisabled && !autocomplete.searchShown"></i>
+       ng-if="autocomplete.selectedItem && autocomplete.isClearable && !autocomplete.isDisabled && !autocomplete.isReadonly && !autocomplete.searchShown"></i>
 
     <input class="autocomplete-search" type="text" ng-show="autocomplete.searchShown"
            ng-blur="autocomplete.blurSearch()" ng-model="autocomplete.searchTerm"
