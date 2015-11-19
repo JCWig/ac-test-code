@@ -233,7 +233,7 @@ describe('akam-date-picker', function() {
 
   describe('when clear is disabled', function() {
     beforeEach(function() {
-      let markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" no-clear></akam-date-picker></div>';
+      let markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" not-clearable></akam-date-picker></div>';
       addElement.call(this, markup);
       utilities.click(TOGGLE_DATE_PICKER_BUTTON);
     });
@@ -253,7 +253,7 @@ describe('akam-date-picker', function() {
 
   describe('when is-disabled added', function() {
     beforeEach(function() {
-      let markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" no-clear is-disabled="disabled"></akam-date-picker></div>';
+      let markup = '<div id="parent-element"><akam-date-picker mode="day" ng-model="picked1" not-clearable is-disabled="disabled"></akam-date-picker></div>';
       scope.disabled = false;
       addElement.call(this, markup);
     });
@@ -284,6 +284,24 @@ describe('akam-date-picker', function() {
       scope.$digest();
       let iconElem = document.querySelector(TOGGLE_DATE_PICKER_BUTTON + ' > i');
       expect(iconElem.getAttribute('disabled')).toBe('disabled');
+    });
+  });
+
+  describe('when is-readonly is added', function() {
+    let inputDateField;
+    beforeEach(function() {
+      scope.readOnly = true;
+      let markup = `
+      <div id="parent-element">
+        <akam-date-picker mode="day" ng-model="picked1" not-clearable is-readonly="readOnly">
+        </akam-date-picker>
+      </div>`;
+      addElement.call(this, markup);
+      inputDateField = utilities.findElement(this.el, 'input');
+    });
+
+    it('should add the readonly class to the text field', function() {
+      expect(inputDateField.prop('className')).toContain('readonly');
     });
   });
 

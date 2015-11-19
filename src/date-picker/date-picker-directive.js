@@ -66,7 +66,7 @@ class DatepickerController {
 DatepickerController.$inject = ['$filter', '$timeout', '$translate'];
 
 function linkFn(scope, element, attrs, ngModel) {
-  let noClear = angular.isDefined(attrs.noClear),
+  let noClear = angular.isDefined(attrs.notClearable),
     ctrl = scope.datepicker;
 
   if (!ngModel) {
@@ -161,7 +161,8 @@ export default () => {
       min: '@?',
       max: '@?',
       format: '@',
-      isDisabled: '=?'
+      isDisabled: '=?',
+      isReadonly: '=?'
     },
     controller: DatepickerController,
     controllerAs: 'datepicker',

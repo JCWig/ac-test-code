@@ -46,7 +46,7 @@ run.$inject = ['$templateCache'];
  *  max="..."
  *  ng-change="..."
  *  format="..."
- *  no-clear>
+ *  not-clearable>
  * </akam-date-picker>
  */
 export default angular.module('akamai.components.date-picker', [
@@ -89,12 +89,17 @@ export default angular.module('akamai.components.date-picker', [
  * @param {Date} max The latest date users can select. Any date after
  * this point is disabled.
  *
- * @param {String} [disable-clear="false"] A flag to disable clearing
- * of a selected/set date.
- *
  * @param {String} [format="EEE, MMM dd, yyyy" for mode="day" |
  * format="MMM yyyy" for mode="month"] An angular-compatible date
  * format.
+ *
+ * @param {Boolean} [is-disabled=false] If date-picker is disabled. No user interaction will be
+ * possible.
+ *
+ * @param {Boolean} [is-readonly=false] If date-picker is readonly. No user interaction will be
+ * possible but the text will be easier to read.
+ *
+ * @param {*} not-clearable If present, the date will not be clearable.
  *
  */
   .directive('akamDatePicker', detepickerDirective);

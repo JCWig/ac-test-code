@@ -212,6 +212,10 @@ akam-date-picker {
     &:disabled {
       @extend %inputDisabledStyles;
     }
+
+    &.readonly {
+      @extend %inputReadonlyStyles;
+    }
   }
   
   
