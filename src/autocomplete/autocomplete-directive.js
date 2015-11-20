@@ -58,7 +58,7 @@ class AutocompleteController extends DropdownController {
     e.stopPropagation();
     e.preventDefault();
 
-    if (!this.isDisabled) {
+    if (!this.isDisabled && !this.isReadonly) {
       this.searchShown = true;
       this.$timeout(() => this.searchInput.focus());
     }
