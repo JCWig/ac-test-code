@@ -9,24 +9,30 @@ class DatetimePickerController {
     this.datetimeValue = undefined;
   }
 
-  setDatetime(d, t) {
+  setDatetime(d, t, from = 'date') {
     if (!d && !t) {
       return;
     }
 
+    //changes from date picker, can be clear date value
+    if (from === 'date') {
+      if (!d || !angular.isDate(d)) {
+        this.date = d;
+        this.time = d;
+        this.datetimeValue = this.date;
+        return;
+      }
+    }
+
     let date = new Date();
 
-    if (!d || !angular.isDate(d)) {
-      this.date = date;
-    }
-
     if (!t || !angular.isDate(t)) {
-      this.time = date;
+      t = date;
     }
+    this.time = t;
+    this.date = this.date ? this.date : t;
 
-    if (this.time) {
-      this.date.setHours(this.time.getHours(), this.time.getMinutes());
-    }
+    this.date.setHours(this.time.getHours(), this.time.getMinutes());
     this.datetimeValue = this.date;
   }
 }
@@ -44,7 +50,7 @@ function LinkFn(scope, elem, attr, ngModel) {
   };
 
   scope.timeChanged = (dt) => {
-    datetime.setDatetime(datetime.date, dt.time || dt.date);
+    datetime.setDatetime(datetime.date, dt.time || dt.date, 'time');
     ngModel.$setViewValue(datetime.datetimeValue);
   };
 

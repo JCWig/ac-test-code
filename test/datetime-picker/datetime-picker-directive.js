@@ -6,6 +6,7 @@ const datetimePickerSelector = ".akam-datetime-picker";
 const datePickerSelector = ".akam-date-picker";
 const timepickerSelector = ".akam-time-picker";
 const timeIncrementSelector = " .dropdown-menu tr.time-increment-row td a.btn-link";
+const dateClearIconSelector = ".akam-datetime-picker .clear-date";
 
 function getDateButtonParentElement(date) {
   let selector = `ul.dropdown-menu table tbody tr td.month-${date.getMonth() + 1}.day-${date.getDate()}`;
@@ -313,9 +314,9 @@ describe('akamai.components.datetime-picker', function() {
           $scope.$digest();
         });
         it("should controller date and time value be defined", function() {
-          expect(this.controller.date).not.toBe(undefined);
-          expect(this.controller.time).not.toBe(undefined);
-          expect(this.controller.datetimeValue).not.toBe(undefined);
+          expect(this.controller.date).toBe(undefined);
+          expect(this.controller.time).toBe(undefined);
+          expect(this.controller.datetimeValue).toBe(undefined);
         });
       });
     });
@@ -411,6 +412,51 @@ describe('akamai.components.datetime-picker', function() {
         });
         it("should hour input be able to change value", function() {
           expect(this.controller.time.getHours()).toBe(5);
+        });
+      });
+    });
+  });
+  describe('given datetime picker ', function() {
+    describe('when rendered and datepicker and timepicker not open', function() {
+      describe('click outside area ', function() {
+        beforeEach(function() {
+          addElement.call(this);
+          utilities.clickAwayCreationAndClick('div');
+          $scope.$digest();
+        });
+        it("should date value remain undefined", function() {
+          expect(this.controller.date).toBe(undefined);
+        });
+        it("should time value remain undefined", function() {
+          expect(this.controller.time).toBe(undefined);
+        });
+      });
+    });
+  });
+
+  describe('given datetime picker ', function() {
+    describe('when rendered and selected date value', function() {
+      describe('click clear icon ', function() {
+        beforeEach(function() {
+          addElement.call(this);
+          spyOn(this.controller, 'setDatetime').and.callThrough();
+          let timeButton = document.querySelector(timepickerSelector + " .btn");
+          utilities.click(timeButton);
+          $scope.$digest();
+          utilities.clickAwayCreationAndClick('div');
+          $scope.$digest();
+          let clearIcon = document.querySelector(dateClearIconSelector);
+          utilities.click(clearIcon);
+          $scope.$digest();
+        });
+        it("should date value be null", function() {
+          expect(this.controller.date).toBe(null);
+        });
+        it("should time value be nyll", function() {
+          expect(this.controller.time).toBe(null);
+        });
+        it("should datetime value be undefined", function() {
+          expect(this.controller.dateTimeValue).toBe(undefined);
         });
       });
     });
