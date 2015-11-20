@@ -56,8 +56,6 @@
 .akam-menu-button {
   & .dropdown-menu {
     max-height: none;
-    overflow-x: initial;
-    overflow-y: initial;
-    -ms-overflow-y: initial;
+    overflow: visible;
   }
 }
