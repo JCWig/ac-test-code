@@ -5,10 +5,24 @@
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     margin-left: -1px;
+
+    &.readonly {
+      cursor: default;
+      opacity: 1;
+      background: #ffffff;
+      border-color: #e6e6e6;
+      color: #e6e6e6;
+    }
     
-    > i[disabled] {
+    > i[disabled],
+    > i.readonly {
       @include luna-sprite(time_disabled);
     }
+  }
+
+  input.readonly {
+    @extend %inputReadonlyStyles;
+    cursor: default;
   }
 
   &.open {

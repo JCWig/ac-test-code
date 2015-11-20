@@ -36,11 +36,8 @@
   & > .disabled {
     & > span {
       @include placeholder-enhanced($date-range-disabled-color, italic);
-      color: $date-range-disabled-color;
-      border-color: $input-border-color-disabled;
-      background-color: $input-background-color-disabled;
-      box-shadow: none;
-      cursor: default;
+      @extend %inputDisabledStyles;
+      cursor: not-allowed;
       @include user-select(none);
       i {
         opacity: $input-button-icon-opacity-disabled;
@@ -48,6 +45,23 @@
     }
     & > span.date-range-placeholder {
       color: $date-range-disabled-color;
+    }
+  }
+  & > .readonly {
+    & > span {
+      @extend %inputReadonlyStyles;
+      cursor: default;
+
+      & + .date-range-button {
+        opacity: 1;
+        background: #ffffff;
+        border-color: #e6e6e6;
+        cursor: default;
+
+        & > i.luna-calendar {
+          background-position: 0 -1091px !important;
+        }
+      }
     }
   }
   &.opened {

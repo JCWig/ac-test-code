@@ -44,8 +44,10 @@ export default angular.module('akamai.components.switch-button', [
  * @param {String|TranslateKey} [offLabel=Off] The label text for when the
  * switch-button is turned off
  *
- * @param {Boolean} [disabled=false] If the switch-button should
- * be disabled
+ * @param {boolean} [is-disabled=false] If disabled, no user interaction will be possible.
+ *
+ * @param {boolean} [is-readonly=false] If readonly, no user interaction will be possible but the
+ * text will be easier to read.
  *
  * @param {String} [theme=color] The theme of the switch-button. Can
  * be either 'color' or 'grayscale'.

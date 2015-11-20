@@ -29,35 +29,47 @@
 <h1>Autocomplete Component Example</h1>
 <div>
     <h2>Default Autocomplete with a list of strings</h2>
-        <div>
-            <akam-autocomplete ng-model="vm.ex1.selectedState" is-disabled="vm.disabled" clearable
-                     on-search="vm.searchStateStrings(searchTerm)">
-            </akam-autocomplete>
-        </div>
+    <div>
+        <akam-autocomplete ng-model="vm.ex1.selectedState" is-disabled="vm.disabled" clearable
+                 on-search="vm.searchStateStrings(searchTerm)">
+        </akam-autocomplete>
+    </div>
 </div>
 <br/>
+
 <div>
-        <div>
-            <akam-autocomplete autofocus is-disabled="vm.disabled" ng-model="vm.ex2.selectedState"
-                               text-property="name" clearable
-                               on-search="vm.searchStateObjects(searchTerm)">
+    <h2>Autofocus Example</h2>
+    <div>
+        <akam-autocomplete autofocus is-disabled="vm.disabled" ng-model="vm.ex2.selectedState"
+                           text-property="name" clearable
+                           on-search="vm.searchStateObjects(searchTerm)">
 
-                <akam-autocomplete-selected>
-                    <span ng-if="autocomplete.selectedItem" title="{{autocomplete.selectedItem[autocomplete.textProperty]}}">
-                        custom: {{autocomplete.selectedItem[autocomplete.textProperty]}}
-                    </span>
-                    <span ng-if="!autocomplete.selectedItem" class="dropdown-placeholder">{{autocomplete.placeholder}}</span>
-                </akam-autocomplete-selected>
+            <akam-autocomplete-selected>
+                <span ng-if="autocomplete.selectedItem" title="{{autocomplete.selectedItem[autocomplete.textProperty]}}">
+                    custom: {{autocomplete.selectedItem[autocomplete.textProperty]}}
+                </span>
+                <span ng-if="!autocomplete.selectedItem" class="dropdown-placeholder">{{autocomplete.placeholder}}</span>
+            </akam-autocomplete-selected>
 
-                <akam-autocomplete-option>
-                    <span title="custom: {{ autocomplete.textPropertyFn(item) }}"
-                          ng-bind-html="'custom: ' + autocomplete.textPropertyFn(item) | highlight:autocomplete.searchTerm"></span>
-                </akam-autocomplete-option>
+            <akam-autocomplete-option>
+                <span title="custom: {{ autocomplete.textPropertyFn(item) }}"
+                      ng-bind-html="'custom: ' + autocomplete.textPropertyFn(item) | highlight:autocomplete.searchTerm"></span>
+            </akam-autocomplete-option>
 
-            </akam-autocomplete>
-        </div>
+        </akam-autocomplete>
+    </div>
 </div>
 <br />
+
+<div>
+    <h2>Readonly Example</h2>
+    <div>
+        <akam-autocomplete ng-model="vm.ex1.selectedState" is-readonly="vm.readonly" clearable
+                           on-search="vm.searchStateStrings(searchTerm)">
+        </akam-autocomplete>
+    </div>
+</div>
+<br/>
 
 <span class="form-group">
     <input id="disableDropdown" type="checkbox" name='disableDropdown' ng-model='vm.disabled' />
@@ -174,6 +186,7 @@
         var vm = this;
         vm.test = 'test';
         vm.disabled = false;
+        vm.readonly = true;
 
         vm.placeholder = $translate('examples.dropdown.select.one').then(function(v){
             vm.placeholder = v;

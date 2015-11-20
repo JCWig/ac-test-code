@@ -93,11 +93,10 @@ export default angular.module('akamai.components.date-picker', [
  * format="MMM yyyy" for mode="month"] An angular-compatible date
  * format.
  *
- * @param {Boolean} [is-disabled=false] If date-picker is disabled. No user interaction will be
- * possible.
+ * @param {boolean} [is-disabled=false] If disabled, no user interaction will be possible.
  *
- * @param {Boolean} [is-readonly=false] If date-picker is readonly. No user interaction will be
- * possible but the text will be easier to read.
+ * @param {boolean} [is-readonly=false] If readonly, no user interaction will be possible but the
+ * text will be easier to read.
  *
  * @param {*} not-clearable If present, the date will not be clearable.
  *

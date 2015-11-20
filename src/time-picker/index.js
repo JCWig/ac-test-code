@@ -46,7 +46,10 @@ export default angular.module('akamai.components.time-picker', [
  *
  * @param {boolean} [showMeridian=true] - Whether to display 12H or 24H mode.
  *
- * @param {String} [isDisabled=false] - whether to disable the picker input and button or not.
+ * @param {boolean} [is-disabled=false] If disabled, no user interaction will be possible.
+ *
+ * @param {boolean} [is-readonly=false] If readonly, no user interaction will be possible but the
+ * text will be easier to read.
  *
  * @param {Number} [hourStep=1] - increment or decrement the hour value.
  *

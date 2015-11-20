@@ -17,6 +17,8 @@ describe('akamai.components.switch-button', function() {
     inject(function($rootScope, _$compile_) {
       $scope = $rootScope;
       $compile = _$compile_;
+      $scope.disabled = false;
+      $scope.readOnly = false;
     });
   });
 
@@ -35,7 +37,7 @@ describe('akamai.components.switch-button', function() {
 
   describe('when rendering the default switch', function() {
     var ON_CLASS = 'switch-button-on', OFF_CLASS = 'switch-button-off';
-    var basicTemplate = '<akam-switch-button ng-model="val" disabled="false"></akam-switch-button>';
+    var basicTemplate = '<akam-switch-button ng-model="val" is-disabled="disabled"></akam-switch-button>';
 
     it('should render correctly without customization', function() {
       var elementScope, onLabelElem, offLabelElem;
@@ -87,14 +89,15 @@ describe('akamai.components.switch-button', function() {
       expect(elem.classList.contains(ON_CLASS)).toBe(true);
       expect(elem.classList.contains(OFF_CLASS)).toBe(false);
       utilities.click(self.element);
+      self.el.children(0).triggerHandler('click');
       expect(elem.classList.contains(OFF_CLASS)).toBe(true);
       expect(elem.classList.contains(ON_CLASS)).toBe(false);
 
       expect($scope.val).toBe(false);
-      expect(self.el.isolateScope().switchButton.on).toBe(false);
-      utilities.click(self.element);
+      expect(self.el.controller('akamSwitchButton').on).toBe(false);
+      self.el.children(0).triggerHandler('click');
       expect($scope.val).toBe(true);
-      expect(self.el.isolateScope().switchButton.on).toBe(true);
+      expect(self.el.controller('akamSwitchButton').on).toBe(true);
     });
   });
 
@@ -124,13 +127,28 @@ describe('akamai.components.switch-button', function() {
 
     it('should render a disabled version', function() {
       var elem;
-      var template = '<akam-switch-button ng-model="val" disabled="true"></akam-switch-button>';
 
+      var template = '<akam-switch-button ng-model="val" is-disabled="disabled"></akam-switch-button>';
+
+      $scope.disabled = true;
       $scope.val = true;
       addElement(template);
 
       elem = document.querySelector(SWITCH_SELECTOR);
       expect(elem.classList.contains('disabled'));
+    });
+
+    it('should render a readonly version', function() {
+      var elem;
+
+      var template = '<akam-switch-button ng-model="val" is-readonly="readOnly"></akam-switch-button>';
+
+      $scope.readOnly = true;
+      $scope.val = true;
+      addElement(template);
+
+      elem = document.querySelector(SWITCH_SELECTOR);
+      expect(elem.classList.contains('readonly'));
     });
 
   });

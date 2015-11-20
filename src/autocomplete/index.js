@@ -83,12 +83,11 @@ export default angular.module('akamai.components.autocomplete', [
  * </akam-dropdown>
  * ```
  *
- * @param {Boolean} [is-disabled=false] If autocomplete is disabled. No user interaction will be
- * possible.
+ * @param {boolean} [is-disabled=false] If disabled, no user interaction will be possible.
  *
- * @param {Boolean} [is-readonly=false] If autocomplete is readonly. No user interaction will be
- * possible but the text will be easier to read.
-
+ * @param {boolean} [is-readonly=false] If readonly, no user interaction will be possible but the
+ * text will be easier to read.
+ *
  * @param {*} [appended-to-body] If present, the dropdown menu will be appended to the body. Use
  * this when using autocomplete in a container with `overflow: hidden`.
  *

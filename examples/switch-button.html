@@ -65,33 +65,56 @@
 
     <div>
         <h2>Grayscale: medium</h2>
-        <akam-switch-button ng-model="vm.ex5.on" theme="grayscale" size="medium" disabled="{{vm.hello}}"></akam-switch-button>
+        <akam-switch-button ng-model="vm.ex5.on" theme="grayscale" size="medium" is-disabled="vm.hello"></akam-switch-button>
     </div>
     <br/>
 
     <div>
-        <h2>Disabled: On</h2>
-        <akam-switch-button ng-model="vm.ex6.on" disabled="true"></akam-switch-button>
+        <h2>Disabled - On</h2>
+        <akam-switch-button ng-model="vm.ex6.on" is-disabled="vm.disabled"></akam-switch-button>
     </div>
-    <br>
+    <br/>
+    <div>
+        <h2>Readonly - On</h2>
+        <akam-switch-button ng-model="vm.ex6.on" is-readonly="vm.readOnly"></akam-switch-button>
+    </div>
+    <br/>
 
     <div>
         <h2>Disabled: Off</h2>
-        <akam-switch-button ng-model="vm.ex6.off" disabled="true"></akam-switch-button>
+        <akam-switch-button ng-model="vm.ex6.off" is-disabled="vm.disabled"></akam-switch-button>
     </div>
-    <br>
+    <br />
+
+    <div>
+        <h2>Readonly: Off</h2>
+        <akam-switch-button ng-model="vm.ex6.off" is-readonly="vm.readOnly"></akam-switch-button>
+    </div>
+    <br />
 
     <div>
         <h2>Disabled (Grayscale): On</h2>
-        <akam-switch-button ng-model="vm.ex7.on" theme="grayscale" disabled="true"></akam-switch-button>
+        <akam-switch-button ng-model="vm.ex7.on" theme="grayscale" is-disabled="vm.disabled"></akam-switch-button>
     </div>
-    <br>
+    <br />
+
+    <div>
+        <h2>Readonly (Grayscale): On</h2>
+        <akam-switch-button ng-model="vm.ex7.on" theme="grayscale" is-readonly="vm.readOnly"></akam-switch-button>
+    </div>
+    <br />
 
     <div>
         <h2>Disabled (Grayscale): Off</h2>
-        <akam-switch-button ng-model="vm.ex7.off" theme="grayscale" disabled="true"></akam-switch-button>
+        <akam-switch-button ng-model="vm.ex7.off" theme="grayscale" is-disabled="vm.disabled"></akam-switch-button>
     </div>
-    <br>
+    <br />
+
+    <div>
+        <h2>Readonly (Grayscale): Off</h2>
+        <akam-switch-button ng-model="vm.ex7.off" theme="grayscale" is-readonly="vm.readOnly"></akam-switch-button>
+    </div>
+    <br />
 
     <div>
         <h2>Disabled2</h2>
@@ -119,6 +142,8 @@
             vm.switchHello = function () {
                 vm.hello = !vm.hello;
             }
+            vm.readOnly = true;
+            vm.disabled = true;
         }
     </script>
 

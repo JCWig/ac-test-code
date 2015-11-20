@@ -31,7 +31,7 @@
     <div>
         <h2>Default dropdown with a list of strings</h2>
         <span>
-            <akam-dropdown is-readonly="vm.disabled" ng-model="vm.ex1.selectedState"
+            <akam-dropdown is-disabled="vm.disabled" ng-model="vm.ex1.selectedState"
                            items="vm.strings" clearable></akam-dropdown>
         </span>
     </div>
@@ -56,6 +56,14 @@
         </span>
     </div>
     <br />
+    <div>
+        <h2>Readonly Example</h2>
+        <span>
+            <akam-dropdown is-readonly="vm.disabled" ng-model="vm.ex1.selectedState"
+                           items="vm.strings" clearable></akam-dropdown>
+        </span>
+    </div>
+    <br/>
     <span class="form-group">
         <input id="disableDropdown" type="checkbox" name='disableDropdown' ng-model='vm.disabled' />
         <label class="label" for="disableDropdown">Disable above dropdowns</label>

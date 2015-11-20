@@ -48,12 +48,23 @@
         </div>
       </div>
       <br />
-
       <div class="form-group">
         <input id="disableDatePicker" type="checkbox" name='disableDatePicker' ng-model='disabled' />
         <label class="label" for="disableDatePicker">Disable Date Picker component</label>
       </div>
-      <div>
+
+       <div class="row">
+           <div class="col-md-12">
+               <h3>Readonly Example</h3>
+               <akam-date-picker id="dayPicker" ng-model="day" min="{{min}}" max="{{max}}" mode="day"
+                                 placeholder='{{"examples.datepicker.choose.date" | translate}}'
+                                 ng-change="dateChange()" format="{{formatDay}}" is-readonly="readOnly">
+               </akam-date-picker>
+           </div>
+        </div>
+        <br />
+
+        <div>
         <input id="minDate" type="checkbox" name='minDate' ng-model='minUpdated' ng-click="updateMin()" />
         <label class="label" for="minDate">to change this min date value to prior 3 years (currently using: {{min}})</label>
       </div>
@@ -122,6 +133,7 @@
     $scope.updateMin = function() {
       $scope.min = $scope.minUpdated ? new Date(d.getFullYear() - 3, d.getMonth() + 1, 1) : defaultMin;
     }
+    $scope.readOnly = true;
   };
   controllerFunction.$inject = ['$scope', '$log'];
 

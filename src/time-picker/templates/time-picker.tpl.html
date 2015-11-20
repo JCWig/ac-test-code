@@ -2,18 +2,21 @@
     <input type="text"
       time-formatter
       class="form-control"
+      ng-class="{readonly: timepicker.isReadonly}"
       ng-model="timepicker.inputTime"
       ng-click="timepicker.toggle($event)"
       show-meridian='timepicker.showMeridian'
       hour-step="timepicker.hourStep"
       minute-step="timepicker.minuteStep"
-      ng-disabled='timepicker.isDisabled()'
+      ng-disabled='timepicker.isDisabled'
+      ng-readonly="timepicker.isReadonly"
       placeholder="{{::timepicker.placeholder}}"
       is-minute-disabled='timepicker.isMinuteDisabled()'>
 
     <span class="input-group-btn">
-      <button type="button" class="btn btn-default" ng-click="timepicker.toggle($event)" ng-disabled='timepicker.isDisabled()' tabindex="0">
-        <i class="luna-time" ng-disabled='timepicker.isDisabled()'></i>
+      <button type="button" class="btn btn-default" ng-click="timepicker.toggle($event)"
+              ng-disabled='timepicker.isDisabled' tabindex="0" ng-class="{readonly: timepicker.isReadonly}">
+        <i class="luna-time" ng-disabled='timepicker.isDisabled' ng-class="{readonly: timepicker.isReadonly}"></i>
       </button>
     </span>
 

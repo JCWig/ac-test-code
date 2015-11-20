@@ -31,7 +31,7 @@ describe('akamai.components.date-range', function() {
   });
 
   function addElement(markup) {
-    markup = markup || `<akam-date-range ng-model="range" min="{{min}}" max="{{max}}"
+    markup = markup || `<akam-date-range ng-model="range" min="{{min}}" max="{{max}}" is-readonly="readOnly"
     is-disabled="disabled" format="{{format}}" on-select="onSelect()" placeholder="{{::placeholder}}"></akam-date-range>`;
     this.el = this.$compile(markup)(this.$scope);
     this.isoScope = this.el.isolateScope();
@@ -69,6 +69,7 @@ describe('akamai.components.date-range', function() {
       this.$scope = $rootScope.$new();
       this.$timeout = $timeout;
       this.dateRangeService = dateRangeService;
+      this.$scope.readOnly = false;
 
       this.addElement = addElement;
       this.getDateButtonParentElement = getDateButtonParentElement;
@@ -202,6 +203,22 @@ describe('akamai.components.date-range', function() {
       });
     });
   });
+
+  describe('given is-readonly=true in markup', () => {
+    describe('when dateRange rendered', () => {
+      let wrapper;
+      beforeEach(function() {
+        this.$scope.range = {};
+        this.$scope.readOnly = true;
+        this.addElement();
+        wrapper = this.element.querySelector('.date-range-wrapper');
+      });
+      it('should wrapper element has class disabled', function() {
+        expect(wrapper.classList).toContain('readonly');
+      });
+    });
+  });
+
 
   describe('given dateRange', () => {
     describe('when rendered', () => {

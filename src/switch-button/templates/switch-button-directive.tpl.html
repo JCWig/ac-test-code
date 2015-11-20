@@ -1,4 +1,9 @@
-<div class="switch-button" ng-class="{'switch-button-on': switchButton.on, 'switch-button-off': !switchButton.on}">
+<div class="switch-button"
+     ng-click="switchButton.toggleSwitch()"
+     ng-class="{'switch-button-on': switchButton.on,
+                'switch-button-off': !switchButton.on,
+                disabled: switchButton.isDisabled,
+                readonly: switchButton.isReadonly}">
     <div class="switch-button-container">
         <span translate="{{::switchButton.onLabel}}" translate-values="{{::switchButton.onLabelValues}}"></span>
         <label>

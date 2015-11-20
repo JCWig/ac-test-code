@@ -43,7 +43,7 @@ describe('akamai.components.datetime-picker', function() {
     $scope.$digest();
     this.element = document.body.appendChild(this.el[0]);
     this.isoScope = this.el.isolateScope();
-    this.controller = this.isoScope.datetime;
+    this.controller = this.el.controller('akamDatetimePicker');
   }
 
   describe('When control rendered with minimum api included', function() {
@@ -53,13 +53,12 @@ describe('akamai.components.datetime-picker', function() {
       names = Object.getOwnPropertyNames(this.controller);
     });
     it('should verify directive APIs', function() {
-      expect(names.length).toBe(7);
+      expect(names.length).toBe(6);
       expect(names.indexOf('minuteStep')).not.toBe(-1);
       expect(names.indexOf('date')).not.toBe(-1);
       expect(names.indexOf('time')).not.toBe(-1);
       expect(names.indexOf('datetimeValue')).not.toBe(-1);
       expect(names.indexOf('showMeridian')).not.toBe(-1);
-      expect(names.indexOf('isDisabled')).not.toBe(-1);
       expect(names.indexOf('hourStep')).not.toBe(-1);
     });
   });
@@ -85,7 +84,7 @@ describe('akamai.components.datetime-picker', function() {
       $scope.minuteStep = 15;
       $scope.hourStep = 1;
       $scope.showMeridian = true;
-      $scope.isDisabled = false;
+      $scope.disabled = false;
 
       addElement.call(this, markup);
       ctrl = this.controller;
@@ -98,7 +97,7 @@ describe('akamai.components.datetime-picker', function() {
       expect(ctrl.minuteStep).toBe($scope.minuteStep);
       expect(ctrl.hourStep).toBe($scope.hourStep);
       expect(ctrl.showMeridian).toBe($scope.showMeridian);
-      expect(ctrl.isDisabled).toBe($scope.isDisabled);
+      expect(ctrl.isDisabled).toBe($scope.disabled);
     });
 
     it('should datetimeValue not be undefined when ngModel value has value', function() {

@@ -45,6 +45,7 @@ describe('akamTimepicker directive', function() {
       this.$scope = $rootScope.$new();
       this.$compile = _$compile_;
       this.addElement = addElement;
+      this.$scope.readOnly = true;
     });
   });
 
@@ -138,6 +139,31 @@ describe('akamTimepicker directive', function() {
       it('should render time without meridian in the value display', function() {
         let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
         expect(timepickerInputElem.value.match(/[a|p]m/i)).toBe(null);
+      });
+    });
+
+    describe('when rendered', function() {
+      beforeEach(function() {
+        this.$scope.inputTime = defaultScopeTime;
+        this.$scope.disabled = true;
+        let markup = '<akam-time-picker ng-model="inputTime" is-disabled="disabled"></akam-time-picker>';
+        this.addElement(markup);
+      });
+      it('should render time in disabled state', function() {
+        let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
+        expect(timepickerInputElem.getAttribute('disabled')).toEqual('disabled');
+      });
+    });
+
+    describe('when readonly attribute is true', function() {
+      beforeEach(function() {
+        this.$scope.inputTime = defaultScopeTime;
+        let markup = '<akam-time-picker ng-model="inputTime" is-readonly="readOnly"></akam-time-picker>';
+        this.addElement(markup);
+      });
+      it('should render time in disabled state', function() {
+        let timepickerInputElem = this.element.querySelector(selectors.TIMEPICKER_INPUT);
+        expect(timepickerInputElem.className).toContain('readonly');
       });
     });
 
@@ -347,7 +373,7 @@ describe('akamTimepicker directive', function() {
         expect(this.timepicker.inputTime).toBeDefined();
         expect(angular.isDate(this.timepicker.inputTime)).toBe(true);
         expect(this.timepicker.isOpen).toBe(false);
-        expect(this.timepicker.disabled).toBe(false);
+        expect(this.timepicker.isDisabled).toBeFalsy();
         expect(this.timepicker.hourStep).toBe(timepikerConfig.HOUR_STEP);
         expect(this.timepicker.minuteStep).toBe(timepikerConfig.MINUTE_STEP);
         expect(this.timepicker.placeholder).toBe(timepikerConfig.MERIDIAN_ON);
@@ -369,8 +395,7 @@ describe('akamTimepicker directive', function() {
         it('should verify scope values applied', function() {
           expect(this.timepicker.inputTime.getHours()).toBe(12);
           expect(this.timepicker.inputTime.getMinutes()).toBe(20);
-          expect(this.timepicker.disabled).toBe(true);
-          expect(this.timepicker.isDisabled()).toBe(true);
+          expect(this.timepicker.isDisabled).toBe(true);
         });
       });
     });
@@ -384,7 +409,7 @@ describe('akamTimepicker directive', function() {
           this.addElement(markup);
         });
         it('should disable timepicker', function() {
-          expect(this.timepicker.isDisabled()).toBe(true);
+          expect(this.timepicker.isDisabled).toBe(true);
         });
       });
     });

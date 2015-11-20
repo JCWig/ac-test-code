@@ -27,15 +27,14 @@ class TimepickerController {
     this.onClickAway(e);
   }
 
-  isDisabled() {
-    return this.disabled === true || this.$scope.$eval(this.disabled) === true;
-  }
-
   isMinuteDisabled() {
     return this.disableMinutes === true || this.$scope.$eval(this.disableMinutes) === true;
   }
 
   toggle() {
+    if (this.isDisabled || this.isReadonly) {
+      return;
+    }
     //if there is no value, add current time for first time
     if (!this.isOpen && !angular.isDate(this.inputTime)) {
       this.inputTime = new Date();
@@ -79,7 +78,6 @@ function linkFn(scope, element, attrs, ngModel) {
     }
   };
 
-  ctrl.disabled = ctrl.disabled === true || attrs.isDisabled === 'disabled';
   ctrl.disableMinutes = ctrl.disableMinutes === true || attrs.disableMinutes === 'disabled';
 
   ctrl.minuteStep = ctrl.minuteStep ? ctrl.minuteStep : timepickerConfig.MINUTE_STEP;
@@ -117,7 +115,8 @@ export default () => {
     require: 'ngModel',
     bindToController: {
       showMeridian: '=?',
-      disabled: '=isDisabled',
+      isDisabled: '=?',
+      isReadonly: '=?',
       disableMinutes: '=isMinuteDisabled',
       hourStep: '=?',
       minuteStep: '=?'
