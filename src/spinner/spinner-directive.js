@@ -76,20 +76,21 @@ function linkFn(scope, element, attrs, ngModel) {
 
     if (isNaN(parsedValue)) {
       ctrl.inputValue = defaults.VALUE;
-      parsedValue = 0;
-      updateInput(0);
+      parsedValue = defaults.VALUE;
+
+      updateInput();
     } else { //it is number, do some validations from min and max
       if (ctrl.max) {
-        if (SpinnerController.isOutOfBounds(parsedValue, ctrl.max, true, 0)) {
+        if (SpinnerController.isOutOfBounds(parsedValue, ctrl.max, true, defaults.VALUE)) {
           parsedValue = ngModel.$viewValue;
-          updateInput(0);
+          updateInput();
         }
       }
 
       if (ctrl.min) {
-        if (SpinnerController.isOutOfBounds(parsedValue, ctrl.min, false, 0)) {
+        if (SpinnerController.isOutOfBounds(parsedValue, ctrl.min, false, defaults.VALUE)) {
           parsedValue = ngModel.$viewValue;
-          updateInput(0);
+          updateInput();
         }
       }
     }
@@ -101,22 +102,11 @@ function linkFn(scope, element, attrs, ngModel) {
   });
 
   scope.changed = () => {
+    //any invalid data, ctrl.inputValue will be null value
     if (!ctrl.inputValue) {
       ctrl.inputValue = defaults.VALUE;
-      updateInput(0);
-    } else {
-      if (ctrl.max) {
-        if (SpinnerController.isOutOfBounds(ctrl.inputValue, ctrl.max, true, 1)) {
-          updateInput(0);
-        }
-      }
-
-      if (ctrl.min) {
-        if (SpinnerController.isOutOfBounds(ctrl.inputValue, ctrl.min, false, 1)) {
-          updateInput(0);
-        }
-      }
     }
+    updateInput();
   };
 
   scope.startStepUp = (event) => {
@@ -189,7 +179,7 @@ function linkFn(scope, element, attrs, ngModel) {
     }
   }
 
-  function updateInput(offset = 1) {
+  function updateInput(offset = 0) {
     ctrl.inputValue = ctrl.inputValue + offset;
     ngModel.$setViewValue(ctrl.inputValue);
     ngModel.$setTouched();
