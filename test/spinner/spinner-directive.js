@@ -222,35 +222,52 @@ describe('akamai.components.spinner', function() {
   });
 
   describe('When directive rendered', function() {
-    describe('given initial values', function() {
-      describe('should verify spinner functions when clicks', function() {
-        beforeEach(function() {
-          scope.testData.disabled = false;
-          scope.testData.min = 2;
-          scope.testData.ngModel = 1;
-          addElement.call(this, '');
-          spyOn(this.isoScope.spinner, 'isUnderMin');
-          spyOn(this.isoScope.spinner, 'isOverMax');
-          spyOn(this.isoScope.spinner, 'clickNoop');
-        });
-        it('should spinner function isOverMax called', function() {
-          utils.click(getElement.call(this, UP_BUTTON));
-          scope.$digest();
+    describe('given initial min values greater than input value', function() {
+      beforeEach(function() {
+        scope.testData.disabled = false;
+        scope.testData.min = 2;
+        scope.testData.ngModel = 1;
+        addElement.call(this, '');
+        spyOn(this.isoScope.spinner, 'isUnderMin');
+        spyOn(this.isoScope.spinner, 'clickNoop');
+      });
+      it('should spinner function isUnderMin called', function() {
+        utils.click(getElement.call(this, DOWN_BUTTON));
+        scope.$digest();
 
-          expect(this.isoScope.spinner.isOverMax).toHaveBeenCalled();
-        });
-        it('should spinner function isUnderMin called', function() {
-          utils.click(getElement.call(this, DOWN_BUTTON));
-          scope.$digest();
+        expect(this.isoScope.spinner.isUnderMin).toHaveBeenCalled();
+      });
+      it('should spinner function clickNoop called', function() {
+        utils.click(getElement.call(this, UP_BUTTON));
+        scope.$digest();
 
-          expect(this.isoScope.spinner.isUnderMin).toHaveBeenCalled();
-        });
-        it('should spinner function clickNoop called', function() {
-          utils.click(getElement.call(this, UP_BUTTON));
-          scope.$digest();
+        expect(this.isoScope.spinner.clickNoop).toHaveBeenCalled();
+      });
+    });
+  });
 
-          expect(this.isoScope.spinner.clickNoop).toHaveBeenCalled();
-        });
+  describe('When directive rendered', function() {
+    describe('given initial max values less than input value', function() {
+      beforeEach(function() {
+        scope.testData.disabled = false;
+        scope.testData.max = 1;
+        scope.testData.ngModel = 2;
+        addElement.call(this, '');
+        spyOn(this.isoScope.spinner, 'isOverMax');
+        spyOn(this.isoScope.spinner, 'clickNoop');
+      });
+      it('should spinner function isOverMax called when click arrow up button', function() {
+        utils.click(getElement.call(this, UP_BUTTON));
+        scope.$digest();
+
+        expect(this.isoScope.spinner.isOverMax).toHaveBeenCalled();
+      });
+
+      it('should spinner function clickNoop called', function() {
+        utils.click(getElement.call(this, UP_BUTTON));
+        scope.$digest();
+
+        expect(this.isoScope.spinner.clickNoop).toHaveBeenCalled();
       });
     });
   });
@@ -809,7 +826,64 @@ describe('akamai.components.spinner', function() {
           expect(this.isoScope.spinner.inputValue).toBe(5);
         });
       });
+    });
+  });
+  describe('given spinner', function() {
+    describe('when rendered', function() {
+      describe('user manually update the valid input value', function() {
+        beforeEach(function() {
+          scope.testData.ngModel = 4;
+          let tpl = `<akam-spinner ng-model="testData.ngModel"></akam-spinner>`;
+          addElement.call(this, tpl);
+          spyOn(this.isoScope, 'changed');
+          let inputElem = this.element.querySelector('.akam-spinner input');
+          angular.element(inputElem).val('8').triggerHandler('input');
+        });
+        it('should trigger ng-change event', function() {
+          expect(this.isoScope.changed).toHaveBeenCalled();
+        });
+        it('should set inputValue to be same', function() {
+          expect(this.isoScope.spinner.inputValue).toBe(8);
+        });
+      });
+    });
+  });
 
+  describe('given spinner', function() {
+    describe('when rendered', function() {
+      describe('user manually update the invalid input value', function() {
+        beforeEach(function() {
+          scope.testData.ngModel = 4;
+          let tpl = `<akam-spinner ng-model="testData.ngModel"></akam-spinner>`;
+          addElement.call(this, tpl);
+          spyOn(this.isoScope, 'changed');
+          let inputElem = this.element.querySelector('.akam-spinner input');
+          angular.element(inputElem).val('abc').triggerHandler('input');
+        });
+        it('should trigger ng-change event', function() {
+          expect(this.isoScope.changed).toHaveBeenCalled();
+        });
+        it('should initial inputValue to be null', function() {
+          expect(this.isoScope.spinner.inputValue).toBe(null);
+        });
+      });
+    });
+  });
+  describe('given spinner', function() {
+    describe('when rendered', function() {
+      describe('user manually update the invalid input value', function() {
+        beforeEach(function() {
+          scope.testData.ngModel = 4;
+          let tpl = `<akam-spinner ng-model="testData.ngModel"></akam-spinner>`;
+          addElement.call(this, tpl);
+          spyOn(this.isoScope, 'changed').and.callThrough();
+          let inputElem = this.element.querySelector('.akam-spinner input');
+          angular.element(inputElem).val('abc').triggerHandler('input');
+        });
+        it('should initial inputValue to be default of 0 after call through', function() {
+          expect(this.isoScope.spinner.inputValue).toBe(0);
+        });
+      });
     });
   });
 });
