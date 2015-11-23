@@ -19,11 +19,12 @@ class TimepickerController {
   }
 
   clickHandler(e) {
-    if (!this.inputTime || !angular.isDate(this.inputTime)) {
-      this.inputTime = new Date();
-      this.changed();
+    if (this.isOpen) {
+      if (!this.inputTime || !angular.isDate(this.inputTime)) {
+        this.inputTime = new Date();
+        this.changed();
+      }
     }
-
     this.onClickAway(e);
   }
 

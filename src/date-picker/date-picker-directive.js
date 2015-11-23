@@ -90,7 +90,7 @@ function linkFn(scope, element, attrs, ngModel) {
 
   scope.clearDate = () => {
     ctrl.value = null;
-    ngModel.$setViewValue(null);
+    scope.change();
   };
 
   scope.$watch('datepicker.opened', (newValue) => element.toggleClass('opened', newValue));
