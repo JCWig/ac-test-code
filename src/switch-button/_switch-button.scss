@@ -125,7 +125,8 @@ akam-switch-button {
     }
   }
 
-  &.disabled {
+  &.disabled,
+  &.readonly {
     border: $disabled-border;
 
     & .switch-button-container {
@@ -147,6 +148,12 @@ akam-switch-button {
         box-shadow: none;
       }
 
+    }
+
+    &.readonly .switch-button-container {
+      & > * {
+        cursor: default;
+      }
     }
 
     &.switch-button-on {

@@ -25,10 +25,13 @@
   <pre>Selected Date Range: {{vm.range}}</pre>
   <pre>Selected Start date: {{vm.start}}</pre>
   <pre>Selected End Date: {{vm.end}}</pre>
-  <h4 class="title">Default Date Range:</h4>
+  <h3 class="title">Default Date Range:</h3>
   <akam-date-range ng-model="vm.dateRange1" min="{{vm.min}}" max="{{vm.max}}" format="{{vm.format}}" is-disabled="vm.disabled" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
   <br/>
-  <div class="form-group">
+  <h4 class="title">Readonly Example:</h4>
+  <akam-date-range ng-model="vm.dateRange2" min="{{vm.min}}" max="{{vm.max}}" format="{{vm.format}}" is-readonly="vm.readOnly" on-select="vm.onSelectCallback(selectedDateRange, startDate, endDate)"></akam-date-range>
+
+      <div class="form-group">
     <div>
       <input id="disableDateRange" type="checkbox" name='disableDateRange' ng-model='vm.disabled' />
       <label class="label" for="disableDateRange">Disable components</label>
@@ -104,6 +107,7 @@
       label: 'FullDate2'
     }];
 
+    vm.readOnly = true;
 
     vm.onSelectCallback = function(range, start, end) {
       vm.range = range;

@@ -92,6 +92,12 @@ export default angular.module('akamai.components.dropdown', [
  * </akam-dropdown>
  * ```
  *
+ * @param {boolean} [is-disabled=false] If disabled, no user interaction will be possible.
+ *
+ * @param {boolean} [is-readonly=false] If readonly, no user interaction will be possible but the
+ * text will be easier to read.
+
+ *
  * @param {String} [filterPlaceholder=Filter] The placeholder text for the filter field
  *
  * @param {*} [appendToBody] if present will append dropdown portion to the body

@@ -179,7 +179,7 @@ class DateRangeController {
   }
 
   toggle() {
-    if (!this.isDisabled) {
+    if (!this.isDisabled && !this.isReadonly) {
       this.opened = !this.opened;
     }
   }
@@ -215,6 +215,7 @@ export default () => {
       onSelect: '&',
       placeholder: '@?',
       isDisabled: '=?',
+      isReadonly: '=?',
       format: '@?',
       min: '@?',
       max: '@?'

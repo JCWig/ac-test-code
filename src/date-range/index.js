@@ -70,8 +70,10 @@ export default angular.module('akamai.components.date-range', [
  * @param {string} [format='EEE, MMM dd, yyyy'], format value can be passed in to
  * override the default value
  *
- * @param {Boolean} isDisabled a boolean value can be performed from parent
- * to turn on and off the date range component
+ * @param {boolean} [is-disabled=false] If disabled, no user interaction will be possible.
+ *
+ * @param {boolean} [is-readonly=false] If readonly, no user interaction will be possible but the
+ * text will be easier to read.
  *
  * @param {String} [placeholder='Select Dates'] The placeholder text for the search input field,
  * default value is localized

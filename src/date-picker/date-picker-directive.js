@@ -53,7 +53,9 @@ class DatepickerController {
   }
 
   toggle() {
-    this.opened = !this.opened;
+    if (!this.isDisabled && !this.isReadonly) {
+      this.opened = !this.opened;
+    }
   }
 
   static getDateOnly(d) {
@@ -83,7 +85,7 @@ function linkFn(scope, element, attrs, ngModel) {
   };
 
   scope.showClear = () => {
-    return ctrl.value && !noClear && !ctrl.isDisabled;
+    return ctrl.value && !noClear && !ctrl.isDisabled && !ctrl.isReadonly;
   };
 
   scope.clearDate = () => {
