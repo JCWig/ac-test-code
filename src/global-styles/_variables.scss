@@ -119,7 +119,7 @@ $input-border-radius: 3px;
 $input-border-color: #cccccc;
 $input-border-color-focus: #0099cc;
 $input-border-color-invalid: $border-color-invalid;
-$input-border-color-disabled: #eeeeee;
+$input-border-color-disabled: #dadada;
 
 $input-box-shadow: $global-inset-box-shadow;
 $input-box-glow-focus: 0 0 1px 0 $input-border-color-focus;
@@ -173,10 +173,10 @@ $dropdown-link-hover-color: #666666;
 $dropdown-link-hover-bg: #e2f3fc;
 $dropdown-link-active-color: #666666;
 $dropdown-link-active-bg: #CEE7FF;
-$dropdown-link-disabled-color: #ccc;
+$dropdown-link-disabled-color: $colors__gray4;
 
 $panel-bg: #fff;
-$panel-body-padding: 17px 15px;
+$panel-body-padding: 20px 15px;
 $panel-heading-padding: 9px 15px;
 $panel-border-radius: 3px;
 $panel-default-text: #666;
@@ -220,7 +220,9 @@ $pagination-active-color: inherit;
 // Buttons
 $button-border-radius: $border-radius;
 $button-height: 28px;
-$button-min-width: 80px;
+$button-lg-min-width: 80px;
+$button-default-min-width: 70px;
+$button-sm-min-width: 60px;
 $button-padding-tb: 0;
 $button-padding-lr: 10px;
 $button-padding: $button-padding-tb $button-padding-lr;
@@ -232,6 +234,8 @@ $button-text-size-large: 15px;
 
 $button-height-small: 24px;
 $button-text-size-small: 11px;
+
+$button-height-x-small: 22px;
 
 $button-text-color: #666666;
 $button-background-color: #e6e6e6;
@@ -245,8 +249,8 @@ $button-gradient-top-hover: #f4f4f4;
 $button-gradient-bottom-hover: #c8c8c8;
 
 $button-background-color-disabled: #ffffff;
-$button-border-color-disabled: #e6e6e6;
-$button-text-color-disabled: #e6e6e6;
+$button-border-color-disabled: #dadada;
+$button-text-color-disabled: #c3c3c3;
 
 $button-primary-text-color: #ffffff;
 $button-primary-background-color: #f46b29;
@@ -332,7 +336,7 @@ $h2__font-size: 18px;
 $h2__color: $colors__bluegray1;
 $h2__font-family: 'Arial Bold', sans-serif;
 $h3__font-size: 18px;
-$h4__font-size: 18px;
+$h4__font-size: 16px;
 $h5__font-size: 16px;
 $h5__font-family: 'Arial Bold', sans-serif;
 $h6__font-size: 16px;
@@ -377,17 +381,18 @@ $input__color--placeholder: $colors__gray6;
 
 // Misc (refactor into additional sections if Misc becomes large)
 $button-border-color-hover: #999999;
-$dropdown-menu-padding: 16px 15px 12px;
+$dropdown-menu-padding: 16px 15px;
 $dropdown-menu-arrow-padding: 11px;
 $dropdown-menu-input-width: 40px;
 $timepicker-input-disabled-color: #cccccc;
 
+$datepicker-width: 205px;
 $datepicker-padding: 10px;
-$datepicker-cell-size: 27px;
+$datepicker-cell-size: 25px;
 $monthpicker-cell-size: 60px;
 $datepicker-text-color-disabled: #e6e6e6;
 
-$date-range-disabled-color: #e6e6e6;
+$date-range-disabled-color: $colors__gray4;
 $date-range-boxshadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
 $date-range-in-range-color: #666666;
 $date-range-in-range-background-color: #CEE7FF;

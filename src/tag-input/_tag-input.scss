@@ -1,4 +1,5 @@
 $tag-input-button-gradient: linear-gradient(to bottom, #fff, #e6e6e6);
+$tag-input-disabled-button-gradient: linear-gradient(to bottom, #fff, #ededed);
 $tag-input-button-gradient-hover: linear-gradient(to bottom, #f4f4f4, #c8c8c8);
 $tag-input-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
 $tag-input-invalid-border-color: #9F1A00;
@@ -30,7 +31,7 @@ $tag-input-invalid-border-width: 2px;
         &.tag {
           order: 0;
           margin-right: 5px;
-          padding: 2px 0 2px 10px;
+          padding: 2px 0 2px 5px;
           border-radius: 3px;
           position: relative;
           cursor: pointer;
@@ -41,6 +42,7 @@ $tag-input-invalid-border-width: 2px;
 
           .close {
             display: block;
+            margin-left: 3px;
             opacity: 1;
             @include svg('tab-close', 16px, 16px);
             background-position: center center;
@@ -52,10 +54,12 @@ $tag-input-invalid-border-width: 2px;
           }
 
           &:hover {
+            border-color: $colors__gray3;
             background: $tag-input-button-gradient-hover;
           }
 
           &:active {
+            border-color: $colors__gray3;
             background: $tag-input-button-gradient-active;
           }
 
@@ -100,22 +104,27 @@ $tag-input-invalid-border-width: 2px;
         cursor : -webkit-grab;
       }
 
+      &.stacked > li.tag:first-child {
+        margin-top: 2px;
+      }
       &.stacked > li.tag {
         width: 100%;
         margin-right: 0;
         // coincides with menu-tag-items top and bottom padding
-        margin-bottom: 1px;
+        margin-bottom: 2px;
       }
 
       &.disabled {
         & > li.tag {
           padding-right: 10px;
           cursor: not-allowed;
-          color: #999;
+          color: $colors__gray4;
+          background: $tag-input-disabled-button-gradient;
 
           &:hover,
           &:active {
-            background: $tag-input-button-gradient;
+            border-color: $colors__gray6;
+            background: $tag-input-disabled-button-gradient;
           }
 
           .close {

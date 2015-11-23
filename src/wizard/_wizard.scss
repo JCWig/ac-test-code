@@ -1,4 +1,4 @@
-$wizard-nav-step-color: #ccc;
+$wizard-nav-step-color: $colors__gray4;
 $wizard-nav-step-color-active: #0099cc;
 $wizard-nav-step-color-visited: #88cbe0;
 $wizard-nav-step-size: 28px;
@@ -14,7 +14,7 @@ $wizard-border: 1px solid #e6e6e6;
     max-width: 100%;
     height: 64px;
     padding: 10px 0;
-    background-color: #f3f3f3;
+    background-color: #F3F3F3;
     border-top: $wizard-border;
     border-bottom: $wizard-border;
 

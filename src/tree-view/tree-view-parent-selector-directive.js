@@ -44,12 +44,13 @@ class TreeViewParentSelectorController {
     var triggerElementOffsetLeft = this.triggerElement[0].offsetLeft;
     var elementOffsetTop = this.triggerElement[0].offsetTop;
     var triggerElementHeight = this.triggerElement[0].offsetHeight;
-    var arrowHeight = 10;
+    var arrowHeight = 11;
     var parentSelectorArrowOffset = 21;
+    var arrowOffset = 28;
 
     this.parentSelectorLeft = triggerElementOffsetLeft - parentSelectorArrowOffset + 'px';
     this.parentSelectorTop = elementOffsetTop + arrowHeight + triggerElementHeight + 'px';
-    this.arrowLeft = parentSelectorArrowOffset + 'px';
+    this.arrowLeft = arrowOffset + 'px';
     this.arrowTop = -arrowHeight + 'px';
   }
 }

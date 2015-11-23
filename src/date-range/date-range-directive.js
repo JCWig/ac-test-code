@@ -139,6 +139,7 @@ class DateRangeController {
       startDate: start,
       endDate: end
     });
+
     this.ngModel.$setValidity('dateRange', !this.invalidDateRange);
   }
 

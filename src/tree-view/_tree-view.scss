@@ -16,7 +16,7 @@ $list-box-cell-border: $base__border-style $base__border-width $colors__gray8;
             margin-right: 4px;
         }
     }
-    .tree-view-current{ 
+    .tree-view-current{
         white-space: nowrap;
         padding-left: 10px;
         .tree-view-current-title {
@@ -31,15 +31,18 @@ $list-box-cell-border: $base__border-style $base__border-width $colors__gray8;
     .tree-view-contents {
         padding-left: 20px;
         &:hover{
-            border:$list-box-cell-border;
+            border-top: $list-box-cell-border;
+            border-bottom: $list-box-cell-border;
             background-color: $popover-background-color;
-            padding-left: 19px;
-            padding-right: 19px;
+            padding-left: 20px;
+            padding-right: 20px;
             span {
                 line-height: 32px;
             }
         }
         &:active {
+            border-top: $list-box-cell-border;
+            border-bottom: $list-box-cell-border;
             background-color: #CEE7FF;
         }
     }
@@ -57,7 +60,7 @@ $list-box-cell-border: $base__border-style $base__border-width $colors__gray8;
         display:block;
         visibility: hidden;
         padding: 0;
-        
+
         &.in{
             z-index: $popover-zindex;
             opacity: 1;
@@ -77,15 +80,16 @@ $list-box-cell-border: $base__border-style $base__border-width $colors__gray8;
                     padding-right:9px;
                 }
                 .parent-selector-root{
-                    font-weight:bold
+                    font-weight:normal;
                 }
             }
         }
-        &.bottom{    
+        &.bottom{
             margin-top: 5px;
-            > .popover-arrow:after {
-                border-bottom:10.5px solid #f8f8f8; 
-            }   
+            > .arrow:after {
+                content: ' ';
+                border-bottom: 10px solid #f8f8f8;
+            }
         }
     }
     .tree-view-indeterminate-wrapper{

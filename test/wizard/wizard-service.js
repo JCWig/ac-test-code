@@ -246,7 +246,7 @@ describe('akamai.components.wizard', function() {
         wizard.open({steps: steps, title: 'Wizard Title Test'});
         $scope.$digest();
 
-        var wizardTitle = document.querySelector('.modal-header h3');
+        var wizardTitle = document.querySelector('.modal-header h4');
         expect(wizardTitle.textContent).toBe('Wizard Title Test');
       });
     });

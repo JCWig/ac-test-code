@@ -23,77 +23,81 @@ $table__tbody-height: (($table__tr-height + ($base__border-width)) * 10);
 .table {
   table-layout: fixed;
   margin-bottom: 0;
-  
+
   // All Cells
-  > thead, 
-  > tbody, 
+  > thead,
+  > tbody,
   > tfoot {
     > tr {
-      > td, 
+      > td,
       > th {
         height: 31px;
         line-height: 31px;
         padding: 0 $table-cell-padding;
         @include ellipsis();
       }
-      
+
       > th {
         font-weight: bold;
         position: relative;
         background-clip: padding-box; // bugzilla.mozilla.org/show_bug.cgi?id=688556
       }
-      
+
       > td {
         border: $table__td-border;
         border-width: 0;
         border-top-width: 1px;
-        
+
         &.column-action {
           overflow: visible;
-          
+
           & > * {
             visibility: hidden;
           }
         }
-        
+
         span.highlighted {
           color: $colors__blue1;
         }
       }
     }
   }
-  
+
   // Thead and Tfoot
   > thead,
   > tfoot {
     > tr {
       > td {
-        
+
       }
       > th {
         border-bottom: $table__border;
         @include background-image($table__th-background);
-        
+
         & + th {
           border-left: $table__border;
         }
-        
+
       }
     }
   }
-  
-  // Tbody 
+
+  // Tbody
   > tbody {
-    
+
     tr:first-child td {
       border-top: none;
     }
-    
+
     > tr {
-      
+
+    }
+
+    tr:last-child {
+      border-bottom: solid 1px $colors__gray8;
     }
   }
-  
+
   // Keep top border from thead by default
   > caption + thead,
   > colgroup + thead,

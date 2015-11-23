@@ -6,12 +6,10 @@ $dropdown-button-gradient-hover: linear-gradient(to bottom, #f4f4f4, #c8c8c8);
 $dropdown-button-gradient-active: linear-gradient(to bottom, #c8c8c8, #f4f4f4);
 $dropdown-selected-option-background-color: #f4f4f4;
 $dropdown-button-active-hover-border-color: #999;
-$dropdown-button-disabled-color: #e6e6e6;
-
+$dropdown-width: 195px;
 
 .dropdown.akam-dropdown {
-  min-width: 180px;
-  width: 100%;
+  width: $dropdown-width;
 
   .dropdown-menu {
     > li > a {
@@ -30,7 +28,7 @@ $dropdown-button-disabled-color: #e6e6e6;
     & > .dropdown-selected-wrapper {
 
       height: 100%;
-      
+
       & > span {
         display: inline-block;
         border: 1px solid $border-color;
@@ -41,7 +39,7 @@ $dropdown-button-disabled-color: #e6e6e6;
       & > span.selected-option {
         margin-right: -4px;
         line-height: 28px;
-        padding: 0 20px 0 10px;
+        padding: 0 25px 0 10px;
         width: calc(100% - 28px);
         background-color: $dropdown-selected-option-background-color;
         border-top-left-radius: $border-radius;
@@ -52,6 +50,7 @@ $dropdown-button-disabled-color: #e6e6e6;
         &.disabled {
           @extend %inputDisabledStyles;
           cursor: not-allowed;
+          color: $colors__gray4;
 
           & + span {
             cursor: not-allowed;
@@ -105,13 +104,14 @@ $dropdown-button-disabled-color: #e6e6e6;
     }
 
     & .dropdown-selected-wrapper .dropdown-placeholder {
-      color: #ccc;
+      color: $colors__gray6;
       font-style: italic;
     }
   }
 
   & div.dropdown-menu {
     min-width: 100%;
+    max-width: 125%;
 
     & div.fixed-header {
       padding: 4px 5px;
@@ -136,8 +136,8 @@ $dropdown-button-disabled-color: #e6e6e6;
     & ul.dropdown-menu {
       overflow-x: hidden;
       overflow-y: auto;
-      max-width: 125%;
       -ms-overflow-y: auto;
+      max-width: 100%;
 
       // fix for weird rendering issue when filtering in chrome
       a {
@@ -151,6 +151,7 @@ $dropdown-button-disabled-color: #e6e6e6;
 
 .dropdown-menu.append-body {
   position: absolute;
+  min-width: $dropdown-width;
 
     div.fixed-header {
       padding: 4px 5px;

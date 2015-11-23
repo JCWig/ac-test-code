@@ -15,7 +15,7 @@ function popoverPopupDirective() {
       tooltip-classes
       ng-class="{ in: isOpen() }">
         <div class="arrow"></div>
-          <h3 class="popover-title" ng-bind="title | translate" ng-if="title"></h3>
+          <h4 class="popover-title" ng-bind="title | translate" ng-if="title"></h4>
           <div class="popover-content" ng-bind-html="content | translate"></div>
 
       </div>`

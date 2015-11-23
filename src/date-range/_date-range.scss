@@ -1,10 +1,14 @@
 .akam-date-picker.akam-date-range {
+  width: 262px;
+
   & > .date-range-wrapper {
     display: inline-block;
+
     & > span {
-      @extend %inputStyles;
+
       display: inline-block;
-      width: $date-range-width + ($date-range-width * .5);
+      width: 226px;
+      border-right: 0;
       float: left;
       height: $input-height;
       padding: 6px $input-padding;
@@ -12,25 +16,20 @@
 
       & ~ .btn {
         min-width: 0;
-        border-left: 0;
         margin-left: 0;
         margin-right: 0;
         display: inline-block;
+        padding: 0 8px;
         @include border-left-radius(0);
         i {
           @include disable-magic-sprite-selectors(calendar);
         }
       }
     }
+
     & .date-range-placeholder {
       color: $input-placeholder-text-color;
       font-style: italic;
-    }
-    &.invalid-date-range {
-      & > span {
-        border-color: $border-color-invalid;
-        border-width: 2px;
-      }
     }
   }
   & > .disabled {
@@ -69,12 +68,14 @@
       @extend %inputFocusStyles;
 
       & ~ .btn {
+        border-left-width: 1px;
         border-color: $button-border-color-hover;
         border-left-color: $input-border-color-focus;
         @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
       }
     }
   }
+
   & > ul.dropdown-menu {
     table tbody tr td {
       border: none;
@@ -161,4 +162,8 @@
       line-height: 2;
     }
   }
+}
+
+.akam-date-range .date-range-wrapper > span {
+  @extend %inputStyles;
 }

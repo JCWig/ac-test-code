@@ -11,7 +11,7 @@ textarea {
   &.ng-invalid.ng-dirty.ng-touched {
     border-color: $colors__red3;
     border-width: 2px;
-    
+
     & ~ .btn,
     & ~ .btn-group-vertical .btn,
     & ~ .input-group-btn .btn {
@@ -19,9 +19,9 @@ textarea {
       border-width: 2px;
       border-left-width: 1px;
     }
-    
+
     & ~ .btn-group-vertical .btn {
-      
+
       &:first-child {
         border-bottom-width: 1px;
       }
@@ -70,7 +70,7 @@ akam-dropdown {
     .dropdown-toggle > .dropdown-selected-wrapper > span {
       border-color: $colors__red3;
       border-width: 2px;
-      
+
       &.selected-option {
         border-right-width: 0;
       }
@@ -100,32 +100,29 @@ akam-dropdown {
 
 /* date range validation */
 akam-date-range {
-  &.ng-invalid.ng-dirty.ng-touched {
-    
-    .range-selection {
-    
-      .date-range-placeholder,
-      > .btn {
-        border-color: $colors__red3;
-        border-width: 2px;
-      }
-      
-      .date-range-placeholder {
-        width: calc(50% - 19.5px);
-      }
-    
+  &.ng-invalid.ng-dirty,
+  &.ng-invalid.ng-dirty > .opened {
+    .dateRange-input,
+    .date-range-wrapper > .btn {
+      border-color: $colors__red3 !important;
+      border-width: 2px !important;
+    }
+  }
+
+  &.ng-invalid.ng-dirty {
+    .dateRange-input {
+      width: calc(50% - 19.5px);
     }
   }
 }
 
-
 /* required/optional field marking */
 form:not(.show-required) {
-    
+
   .form-group:not(.required) > label {
     line-height: 1.2;
     padding-top: 0;
-    
+
     &:after {
       content: '\A(optional)';
       font-weight: normal;
@@ -141,7 +138,7 @@ form.show-required {
   .form-group.required > label {
     line-height: 1.2;
     padding-top: 0;
-    
+
     &:after {
       content: '\A(required)';
       font-weight: normal;
@@ -161,29 +158,29 @@ form.show-required {
   input[type="month"],
   input[type="number"],
   textarea {
-  
+
     &.ng-invalid {
       border-color: $colors__red3;
       border-width: 2px;
     }
   }
-  
+
   input[type="search"],
   input[type="date"],
   input[type="month"] {
-  
+
     &.ng-invalid.ng-dirty.ng-touched {
-  
+
       & ~ .btn {
         border-left-color: $colors__red3;
       }
     }
   }
-  
+
   .ng-invalid ~ [ng-messages] {
     display: block;
   }
-  
+
   akam-tag-input {
     &.ng-invalid {
       .ui-select-container {
@@ -192,36 +189,36 @@ form.show-required {
       }
     }
   }
-  
+
   akam-dropdown {
     &.ng-invalid {
       .dropdown-toggle > .dropdown-selected-wrapper > span {
         border-color: $colors__red3;
         border-width: 2px;
-        
+
         &.selected-option {
           border-right-width: 0;
         }
       }
     }
   }
-  
+
   ul.dropdown-menu {
     &.ng-invalid {
       border-color: $colors__red3;
     }
   }
-  
+
   .akam-date-picker.ng-invalid {
-    
+
     & > input {
       border-color: $colors__red3;
-      
+
       & ~ .btn {
         border-left-color: $colors__red3;
       }
     }
-  
+
     ul.dropdown-menu {
       border-color: $colors__red3;
     }

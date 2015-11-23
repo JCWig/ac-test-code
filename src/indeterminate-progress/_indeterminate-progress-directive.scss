@@ -1,14 +1,14 @@
 
 $progress-label-color: #666666;
 $progress-label-font-size: 12px;
-$progress-label-font: normal #{$progress-label-font-size}/1em Arial, sans-serif;
+$progress-label-font: normal #{$progress-label-font-size}/1.428em Arial, sans-serif;
 
 $progress-spinner-dimensions: 50px;
 $progress-spinner-dimensions-large: 80px;
 $progress-spinner-dimensions-small: 30px;
 $progress-spinner-dimensions-small-ie: 32px;
-$progress-spinner-dimensions-micro: 25px;
-$progress-spinner-dimensions-micro-ie: 27px;
+$progress-spinner-dimensions-micro: 20px;
+$progress-spinner-dimensions-micro-ie: 22px;
 $progress-spinner-gutter: 5px;
 
 $progress-backdrop-color_luna: rgba(255, 255, 255, 0.85);
@@ -81,7 +81,7 @@ $progress-backdrop-color_pulsar: rgba(255, 255, 255, 0.85);
     .indeterminate-progress-label {
       width: 100%;
       position: absolute;
-      color: black;
+      color: $colors__gray2;
       font: $progress-label-font;
       text-align: center;
       @include opacity(1);

@@ -356,25 +356,6 @@ describe('akamai.components.spinner', function() {
   });
 
   describe('When directive rendered', function() {
-    describe('given initial max values of undefined', function() {
-      describe('should spinner member dynamicMinWidth has correct value', function() {
-        beforeEach(function() {
-          scope.testData.disabled = false;
-          scope.testData.max = undefined;
-          scope.testData.ngModel = 1;
-          addElement.call(this, '');
-        });
-        it('should spinner dynamicMinWidth to be object', function() {
-          expect(angular.isObject(this.isoScope.spinner.dynamicMinWidth)).toBeTruthy();
-        });
-        it('should spinner dynamicMinWidth to be default value', function() {
-          expect(this.isoScope.spinner.dynamicMinWidth['width']).toBe('calc(1em+10px)');
-        });
-      });
-    });
-  });
-
-  describe('When directive rendered', function() {
     describe('given initial max value', function() {
       describe('should spinner member dynamicMinWidth has correct value', function() {
         let length;
@@ -386,7 +367,7 @@ describe('akamai.components.spinner', function() {
           length = String(scope.testData.max).length;
         });
         it('should spinner dynamicMinWidth min-width value contains max string length', function() {
-          expect(this.isoScope.spinner.dynamicMinWidth['width']).toBe('calc(' + length + 'em + 10px)');
+          expect(this.isoScope.spinner.dynamicMinWidth['width']).toBe('calc(' + length + 'ch + 20px)');
         });
       });
     });

@@ -20,6 +20,20 @@ function menuButton(translateValueSupport) {
     controllerAs: 'menuButton',
     link: (scope, elem, attr) => {
       translateValueSupport.setValues(scope.menuButton, 'defaultText', attr.defaultTextValues);
+      switch (attr.size) {
+        case 'small':
+          scope.menuButton.btnSize = 'btn-sm';
+          break;
+        case 'medium':
+          scope.menuButton.btnSize = 'btn-default';
+          break;
+        case 'large':
+          scope.menuButton.btnSize = 'btn-lg';
+          break;
+        default:
+          scope.menuButton.btnSize = 'btn-default';
+          break;
+      }
     }
   };
 }

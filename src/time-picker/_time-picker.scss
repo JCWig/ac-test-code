@@ -1,10 +1,12 @@
 .akam-time-picker {
   position: relative;
+  width: 127px;
 
   & > .input-group-btn > .btn {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     margin-left: -1px;
+    padding: 0 8px;
 
     &.readonly {
       cursor: default;
@@ -13,7 +15,7 @@
       border-color: #e6e6e6;
       color: #e6e6e6;
     }
-    
+
     > i[disabled],
     > i.readonly {
       @include luna-sprite(time_disabled);
@@ -28,7 +30,7 @@
   &.open {
     & > input[type="text"] {
       @extend %inputFocusStyles;
-      
+
       & ~ .input-group-btn > .btn {
         border-color: #999999;
         border-left-color: $input-border-color-focus;
@@ -67,13 +69,13 @@
 
       td {
         min-width: 15px;
-        
+
         &.has-error {
           input[type='text'] {
             border-color: $border-color-invalid;
           }
         }
-        
+
         &:empty {
           min-width: 0;
         }
@@ -82,7 +84,7 @@
       a {
         display: block;
         cursor: pointer;
-        
+
         i {
           vertical-align: middle;
         }
@@ -92,7 +94,7 @@
         a {
           padding-top: $dropdown-menu-arrow-padding;
         }
-        
+
         td:hover i {
           @include luna-sprite(arrow_smDown_hover);
         }
@@ -102,7 +104,7 @@
         a {
           padding-bottom: $dropdown-menu-arrow-padding;
         }
-        
+
         td:hover i {
           @include luna-sprite(arrow_smUp_hover);
         }
@@ -110,7 +112,7 @@
 
       td.meridian {
         width: 100%;
-        
+
         input[type='button'] {
           background-color: $input-background-color;
           border: solid 1px $input-border-color;
@@ -119,7 +121,7 @@
           width: $dropdown-menu-input-width;
           padding: 0;
           @include border-radius($input-border-radius);
-          
+
           &:hover,
           &:focus {
             border-color: $input-border-color-focus;
