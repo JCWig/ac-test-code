@@ -108,6 +108,33 @@ describe('akamai.components.dropdown', function() {
     }
   });
 
+  describe('given undefined items', function() {
+    describe('when the dropdown is rendered', function() {
+      beforeEach(function () {
+        this.addElement(`<akam-dropdown ng-model="dummyValue"
+                                        items="someUndefinedValue"></akam-dropdown>`);
+      });
+
+      it('should render successfully with a placeholder string', function () {
+        expect(this.getSelectedOptionText()).toBe('Select one');
+      });
+    });
+  });
+
+  describe('given nullable items', function() {
+    describe('when the dropdown is rendered', function() {
+      beforeEach(function () {
+        this.$scope.nullableItems = null;
+        this.addElement(`<akam-dropdown ng-model="dummyValue"
+                                        items="nullableItems"></akam-dropdown>`);
+      });
+
+      it('should render successfully with a placeholder string', function () {
+        expect(this.getSelectedOptionText()).toBe('Select one');
+      });
+    });
+  });
+
   describe('given an undefined value bound to the ng-model attribute', function() {
     describe('when the dropdown is rendered', function() {
       beforeEach(function() {
@@ -115,7 +142,7 @@ describe('akamai.components.dropdown', function() {
                                         items="stateStrings"></akam-dropdown>`);
       });
 
-      it('should rendered with a placeholder string', function() {
+      it('should render with a placeholder string', function() {
         expect(this.getSelectedOptionText()).toBe('Select one');
       });
     });
@@ -528,3 +555,4 @@ describe('akamai.components.dropdown', function() {
     });
   });
 });
+
