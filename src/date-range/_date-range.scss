@@ -77,6 +77,7 @@
   }
 
   & > ul.dropdown-menu {
+    overflow-y: hidden; //overrides
     table tbody tr td {
       border: none;
     }
