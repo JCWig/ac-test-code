@@ -33,23 +33,27 @@
           <akam-datetime-picker ng-model="vm.datetime" ng-change="vm.onChange()"></akam-datetime-picker>
         </div>
       </div>
+      <br/>
+      <br/>
+      <h4 class="title">Example of Datetime picker and extending the min/max range:</h4>
+      <p>All attributes used with initial min and max date and time step ({{vm.hourStep}} hour step, {{vm.minuteStep}} minutes step) values set.</p>
+      <br />
+      <div class="row">
+        <div class="col-md-6">
+          <akam-datetime-picker ng-model="vm.datetime2" ng-change="vm.onChange()" format="{{vm.format}}" min="{{vm.min}}" max="{{vm.max}}" minute-step="vm.minuteStep" hour-step="vm.hourStep" show-meridian="vm.showMeridian" is-disabled="vm.disabled">
+          </akam-datetime-picker>
+        </div>
+      </div>
     </div>
-    <br/>
-    <br/>
-    <h4 class="title">Example of Datetime picker and extending the min/max range:</h4>
-    <p>All attributes used with initial min and max date and time step ({{vm.hourStep}} hour step, {{vm.minuteStep}} minutes step) values set.</p>
-    <br />
-    <akam-datetime-picker ng-model="vm.datetime2" ng-change="vm.onChange()" format="{{vm.format}}" min="{{vm.min}}" max="{{vm.max}}" minute-step="vm.minuteStep" hour-step="vm.hourStep" show-meridian="vm.showMeridian" is-disabled="vm.disabled">
-    </akam-datetime-picker>
   </form>
   <br />
   <div>
-      <input id="minDate" type="checkbox" name='minDate' ng-model='vm.minUpdated' ng-click="vm.updateMin()" />
-      <label class="label" for="minDate">to change this min date value to prior 3 years (currently using: {{vm.min}})</label>
+    <input id="minDate" type="checkbox" name='minDate' ng-model='vm.minUpdated' ng-click="vm.updateMin()" />
+    <label class="label" for="minDate">to change this min date value to prior 3 years (currently using: {{vm.min}})</label>
   </div>
   <div>
-      <input id="maxDate" type="checkbox" name='maxDate' ng-model='vm.maxUpdated' ng-click="vm.updateMax()" />
-      <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{vm.max}})</label>
+    <input id="maxDate" type="checkbox" name='maxDate' ng-model='vm.maxUpdated' ng-click="vm.updateMax()" />
+    <label class="label" for="maxDate">to change this max date value to next 3 years(currently using: {{vm.max}})</label>
   </div>
   <script src="utils/i18n-register.js"></script>
   <script src="../dist/akamai-core.js"></script>
@@ -69,25 +73,25 @@
     vm.datetime2 = new Date();
 
     var d = new Date();
-    var defaultMin = new Date(d.getFullYear()-1, d.getMonth(), 1);
-    var defaultMax = new Date(d.getFullYear()+1, d.getMonth(), 0);
+    var defaultMin = new Date(d.getFullYear() - 1, d.getMonth(), 1);
+    var defaultMax = new Date(d.getFullYear() + 1, d.getMonth(), 0);
 
 
-     vm.updateMax = function() {
+    vm.updateMax = function() {
       vm.max = vm.maxUpdated ? new Date(d.getFullYear() + 3, d.getMonth(), 0) : defaultMax;
-       $log.log("max",vm.max);
+      $log.log("max", vm.max);
     }
 
     vm.updateMin = function() {
       vm.min = vm.minUpdated ? new Date(d.getFullYear() - 3, d.getMonth() + 1, 1) : defaultMin;
-       $log.log("min",vm.min);
+      $log.log("min", vm.min);
     }
 
     vm.min = defaultMin;
     vm.max = defaultMax;
 
     vm.onChange = function() {
-      $log.log("onChange",vm.datetime2);
+      $log.log("onChange", vm.datetime2);
     }
   }
   </script>
