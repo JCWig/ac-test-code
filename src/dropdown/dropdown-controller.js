@@ -89,7 +89,7 @@ export default class DropdownController {
 
   createItemMap(items) {
 
-    if (angular.isDefined(items) && angular.isFunction(items.then)) {
+    if (items != null && angular.isFunction(items.then)) {
       items.then(promiseItems => {
         this.items = promiseItems;
       }, rejectReason => this.$log.error(rejectReason));
