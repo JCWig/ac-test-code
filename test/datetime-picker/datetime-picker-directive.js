@@ -6,7 +6,7 @@ const datetimePickerSelector = ".akam-datetime-picker";
 const datePickerSelector = ".akam-date-picker";
 const timepickerSelector = ".akam-time-picker";
 const timeIncrementSelector = " .dropdown-menu tr.time-increment-row td a.btn-link";
-const dateClearIconSelector = ".akam-datetime-picker .clear-date";
+const dateClearIconSelector = ".akam-date-picker .clear-date";
 
 function getDateButtonParentElement(date) {
   let selector = `ul.dropdown-menu table tbody tr td.month-${date.getMonth() + 1}.day-${date.getDate()}`;
@@ -437,13 +437,8 @@ describe('akamai.components.datetime-picker', function() {
     describe('when rendered and selected date value', function() {
       describe('click clear icon ', function() {
         beforeEach(function() {
+          $scope.dt = new Date(utilities.getTodaysYear(), 11, 15);
           addElement.call(this);
-          spyOn(this.controller, 'setDatetime').and.callThrough();
-          let timeButton = document.querySelector(timepickerSelector + " .btn");
-          utilities.click(timeButton);
-          $scope.$digest();
-          utilities.clickAwayCreationAndClick('div');
-          $scope.$digest();
           let clearIcon = document.querySelector(dateClearIconSelector);
           utilities.click(clearIcon);
           $scope.$digest();
@@ -460,4 +455,5 @@ describe('akamai.components.datetime-picker', function() {
       });
     });
   });
+
 });
