@@ -81,5 +81,13 @@ $pagination-active-border: #CCCCCC;
 $pagination-hover-color: #0099CC;
 $pagination-hover-border: #CCCCCC;
 
+// Modals
+$modal-title-padding: 0;
+$modal-backdrop-background-color: rgba(34, 43, 53, 0.85);
+
+$modal-sm: 600px;
+$modal-md: $container-md * 0.75;
+$modal-lg: $container-md * 0.8;
+
 /* ********* */
 
