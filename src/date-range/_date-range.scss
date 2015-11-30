@@ -77,7 +77,8 @@
   }
 
   & > ul.dropdown-menu {
-    overflow-y: hidden; //overrides
+    overflow-y: hidden; //overrides .dropdown-menu
+    min-width: 395px; //overrides .akam-date-picker ul.dropdown-menu
     table tbody tr td {
       border: none;
     }
