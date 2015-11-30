@@ -1,5 +1,7 @@
 'use strict';
 
+require('es6-promise').polyfill();
+
 var gulp = require('gulp'),
   sourcemaps = require('gulp-sourcemaps'),
   minifyCss = require('gulp-minify-css'),
@@ -14,19 +16,19 @@ var gulp = require('gulp'),
 var production = !!require('yargs').argv.production;
 
 gulp.task('css', function() {
-  
+
   var unminified = gulp.src('src/akamai-core.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
       functions: sassInlineImage({ /* options */ })
     }))
     .pipe(autoprefixer({
-        browsers: [
-          'last 2 versions',
-          'ie 10',
-          'ie 11'
-        ],
-        cascade: false
+      browsers: [
+        'last 2 versions',
+        'ie 10',
+        'ie 11'
+      ],
+      cascade: false
     }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('dist'));
