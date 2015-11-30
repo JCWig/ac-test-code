@@ -58,6 +58,7 @@
     "del": "^1.2.0",
     "dgeni": "^0.4.1",
     "dgeni-packages": "git://github.com/yleviel/dgeni-packages.git#5144a1d7fd167d815aae6143e86e56a12959c66a",
+    "es6-promise": "^3.0.2",
     "eslint-config-akamai": "^1.0.0",
     "event-stream": "^3.3.1",
     "gulp": "^3.9.0",
