@@ -3,7 +3,8 @@
         "indeterminate-progress": {},
         "tag-input": {
             "placeholder": "选择项目",
-            "taggingLabel": "(新项目)"
+            "taggingLabel": "(新项目)",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "menu-button": {
             "label": "标签"
@@ -82,7 +83,8 @@
             "placeholder": {
                 "filter": "筛选器",
                 "noSelection": "选择一个"
-            }
+            },
+            "itemFailureMessage": "An error has occurred while loading data."
         },
         "date-picker": {
             "placeholder": {
@@ -110,7 +112,8 @@
             "placeholder": "Select From Date - Select To Date"
         },
         "autocomplete": {
-            "search-tip": "输入文本以显示匹配的结果"
+            "search-tip": "输入文本以显示匹配的结果",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "switch-button": {
             "onLabel": "开启",

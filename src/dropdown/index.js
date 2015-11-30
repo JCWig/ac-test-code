@@ -5,7 +5,7 @@ import i18n from '../i18n';
 import dropdownDirective from './dropdown-directive';
 import dropdownTemplateService from './dropdown-template-service';
 import appendToBodyService from './append-to-body-service';
-
+import indeterminateProgress from '../indeterminate-progress';
 import '../../node_modules/angular-ui-utils/modules/highlight/highlight.js';
 
 /**
@@ -16,13 +16,9 @@ import '../../node_modules/angular-ui-utils/modules/highlight/highlight.js';
  * @description
  * Dropdown is a button type that on-click, reveals additional content. There are multiple
  * configurations for dropdown that allow for customization based on use case.
- * The default dropdown contains a menu with seven or less items to select from.
- * For larger data sets, there is an dropdown with filter box embedded so users
- * can filter the data set and make a selection. With this option,
- * user also has ability to clear selection.
  *
- * @guideline Use basic dropdown when you have seven or less items to display to user.
- * @guideline Use dropdown with filter and clearing functionality for larger datasets
+ * @guideline Use dropdown when you have seven or less items to display to user.
+ * @guideline Use dropdown with clearing functionality for larger datasets
  * up to 100 items.
  * @guideline When adding icons to dropdowns menu items, make sure icons are of same size.
  *
@@ -32,7 +28,6 @@ import '../../node_modules/angular-ui-utils/modules/highlight/highlight.js';
  *   items="vm.keys"
  *   text-property="vm.state.name"
  *   key-property="vm.state.key"
- *   filterable="name"
  *   clearable>
  * </akam-dropdown>
  *
@@ -52,7 +47,8 @@ export default angular.module('akamai.components.dropdown', [
   angularBootstrap,
   sanitize,
   'ui.highlight',
-  i18n.name
+  i18n.name,
+  indeterminateProgress.name
 ])
 
   .service('dropdownTemplateService', dropdownTemplateService)
@@ -96,7 +92,6 @@ export default angular.module('akamai.components.dropdown', [
  *
  * @param {boolean} [is-readonly=false] If readonly, no user interaction will be possible but the
  * text will be easier to read.
-
  *
  * @param {String} [filterPlaceholder=Filter] The placeholder text for the filter field
  *

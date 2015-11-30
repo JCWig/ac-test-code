@@ -83,9 +83,15 @@ $dropdown-width: 195px;
         background: $arrow-background, $dropdown-button-gradient;
       }
       & > i.clear-dropdown {
+        @include svg('small_close_new', 10px, 10px);
         position: absolute;
         right: 36px;
-        top: 9px;
+        top: 50%;
+        transform: translateY(-50.01%);
+
+        &:hover {
+          @include svg('small_close_hover_new', 10px, 10px);
+        }
       }
     }
 
@@ -113,26 +119,6 @@ $dropdown-width: 195px;
     min-width: 100%;
     max-width: 125%;
 
-    & div.fixed-header {
-      padding: 4px 5px;
-      background-color: inherit;
-
-      & input {
-        width: 100%;
-        padding-right: 23px;
-
-        &::-ms-clear {
-          display: none;
-        }
-      }
-
-      & i.clear-filter {
-        position: absolute;
-        top: 12px;
-        right: 13px;
-      }
-    }
-
     & ul.dropdown-menu {
       overflow-x: hidden;
       overflow-y: auto;
@@ -146,36 +132,38 @@ $dropdown-width: 195px;
       }
     }
   }
-
 }
 
 .dropdown-menu.append-body {
   position: absolute;
   min-width: $dropdown-width;
 
-    div.fixed-header {
-      padding: 4px 5px;
-      background-color: inherit;
-      @include ellipsis();
+  & ul.dropdown-menu {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-width: 125%;
+    -ms-overflow-y: auto;
 
-      & input {
-        width: 100%;
-        padding-right: 23px;
-
-        &::-ms-clear {
-          display: none;
-        }
-      }
-
-      & i.clear-filter {
-        position: absolute;
-        top: 12px;
-        right: 13px;
-      }
-    }
+    // fix for weird rendering issue when filtering in chrome
     a {
       -webkit-transform: translate3d(0, 0, 0);
       cursor: pointer;
     }
+  }
 }
 
+ul.dropdown-menu {
+  &.dropdown-indeterminate-progress {
+    > li {
+      height: 45px;
+    }
+  }
+
+  li.dropdown-no-items {
+    background-color: $colors__gray8;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+}

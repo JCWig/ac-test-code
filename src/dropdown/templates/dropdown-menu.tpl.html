@@ -1,11 +1,12 @@
 <div class="dropdown-menu">
-    <div class="fixed-header" ng-show="dropdown.hasFilter">
-        <input ng-click="dropdown.onFilterClick($event)" ng-show="dropdown.hasFilter" ng-blur="dropdown.isOpen = false" type="text" ng-model="dropdownFilter" placeholder="{{dropdown.filterPlaceholder}}" />
-        <i ng-show="dropdown.dropdownFilter" class="luna-small_close_light_gray util-clickable clear-filter"
-           ng-click="dropdown.dropdownFilter = undefined"></i>
-    </div>
-    <ul class="dropdown-menu" ng-if="dropdown.renderMenu()">
-        <li ng-repeat="item in dropdown.items | filter:dropdownFilter">
+    <ul class="dropdown-menu" ng-class="{'dropdown-indeterminate-progress': dropdown.promiseLoading}">
+        <li>
+            <akam-indeterminate-progress  completed="{{!dropdown.promiseLoading}}" size="micro"></akam-indeterminate-progress>
+        </li>
+        <li class="dropdown-no-items" ng-if="!dropdown.items.length && !dropdown.promiseLoading">
+            <span>{{ ::dropdown.itemFailureMessage }}</span>
+        </li>
+        <li ng-repeat="item in dropdown.getItems()">
             <a ng-mousedown="dropdown.setSelectedItem(item)" class="dropdown-item-link">
                 <span ng-if="dropdown.textProperty" title="{{ dropdown.textPropertyFn(item) }}"
                       ng-bind-html="dropdown.textPropertyFn(item) | highlight:dropdownFilter"></span>

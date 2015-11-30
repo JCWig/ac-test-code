@@ -36,6 +36,8 @@ export default class TagInputController {
     this.menuTagMap = new Map();
     this.menuTagI18nMap = new Map();
 
+    this.promiseLoading = false;
+
     this.getTextProperty = $parse(this.textProperty);
     this.setTextProperty = this.getTextProperty.assign;
 
@@ -157,13 +159,16 @@ export default class TagInputController {
     items = items || [];
 
     if (angular.isFunction(items.then)) {
+      this.promiseLoading = true;
       items.then((tagItems) => {
-        addItemsToMenuTagMap(tagItems)
+        this.promiseLoading = false;
+        addItemsToMenuTagMap(tagItems);
       }, reason => {
+        this.promiseLoading = false;
         throw new Error(`Error while returning items. Reason: ${reason}`);
       });
     } else {
-      addItemsToMenuTagMap(items)
+      addItemsToMenuTagMap(items);
     }
   }
 
@@ -193,6 +198,9 @@ export default class TagInputController {
 
     this.$translate(this.newTagLabel || NEW_TAG_LABEL_KEY)
       .then(value => this.newTagLabel = value);
+
+    this.$translate('components.tag-input.noFilterResults')
+      .then(value => this.noFilterResults = value);
   }
 
   setupSelectedTags() {
@@ -224,7 +232,7 @@ export default class TagInputController {
   }
 
   getFilteredMenuTags() {
-    return this.$filter('filter')(this.menuTags, this.proposedTag);
+    return this.promiseLoading ? [] : this.$filter('filter')(this.menuTags, this.proposedTag);
   }
 
   highlightMatchingMenuTags() {
@@ -240,7 +248,7 @@ export default class TagInputController {
 
         menuTagLi.html(menuTagHtml);
       }
-    })
+    });
   }
 
   getFilteredMenuTag(menuTag) {

@@ -45,6 +45,40 @@ describe('akamai.components.autocomplete', function() {
     return deferral.promise;
   }
 
+  function searchStateObjectsWithKeysWithPromise(searchTerm) {
+    var deferred = this.$q.defer();
+
+    var stateObjectsWithKeys = [
+        {state: {key: 'key1', name: 'Colorado'}},
+        {state: {key: 'key2', name: 'Connecticut'}},
+        {state: {key: 'key3', name: 'Maryland'}},
+        {state: {key: 'key4', name: 'Massachusetts'}},
+        {state: {key: 'key5', name: 'New Hampshire'}},
+        {state: {key: 'key6', name: 'New Jersey'}},
+        {state: {key: 'key7', name: 'New York'}},
+        {state: {key: 'key8', name: 'Vermont'}},
+        {state: {key: 'key9', name: 'Virginia'}},
+        {state: {key: 'key10', name: 'Washington, District of Columbia'}}
+    ];
+
+    var criteriaMatch = function(item) {
+        return item.state.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    };
+
+    var results = this.$filter('filter')(stateObjectsWithKeys, criteriaMatch);
+
+    this.$timeout(function() {
+        if (results && results.length) {
+            return deferred.resolve(results);
+        }
+        else {
+            return deferred.reject("no results on search: " + searchTerm);
+        }
+    }, 3000);
+
+    return deferred.promise;
+  }
+
   beforeEach(function() {
     angular.mock.inject.strictDi(true);
     angular.mock.module(autocomplete.name);
@@ -54,16 +88,20 @@ describe('akamai.components.autocomplete', function() {
       $translateProvider.useLoader('translateNoopLoader');
     });
 
-    inject(function($rootScope, $compile, $httpBackend, $timeout, $q) {
+    inject(function($rootScope, $compile, $httpBackend, $timeout, $q, $filter) {
       this.$scope = $rootScope;
       this.$compile = $compile;
       this.$timeout = $timeout;
       this.$q = $q;
+      this.$filter = $filter;
       this.$scope.foo = 'migbar';
 
       this.$scope.loadStateStrings = angular.bind(this, loadStateStrings);
       this.$scope.loadStateObjects = angular.bind(this, loadStateObjects);
+      this.$scope.searchStateObjectsWithKeysWithPromise = angular.bind(this,
+        searchStateObjectsWithKeysWithPromise);
       this.$scope.selectedState = undefined;
+      this.addElement = angular.bind(this, addElement);
     });
   });
 
@@ -82,9 +120,9 @@ describe('akamai.components.autocomplete', function() {
   describe('given an empty object bound to the ng-model attribute', function() {
     describe('when the autocomplete is rendered', function() {
       beforeEach(function() {
-        addElement.call(this, `<akam-autocomplete ng-model="selectedState"
-                                                  on-search="loadStateStrings(searchTerm)">
-                               </akam-autocomplete>`);
+        this.addElement( `<akam-autocomplete ng-model="selectedState"
+                            on-search="loadStateStrings(searchTerm)">
+                          </akam-autocomplete>`);
       });
 
       it('should rendered with a placeholder string', function() {
@@ -146,7 +184,7 @@ describe('akamai.components.autocomplete', function() {
 
       it('should add the items to the autocomplete', function() {
         expect(util.find('.dropdown-menu').getElementsByTagName('li').length)
-          .toBe(stateObjects.length);
+          .toBe(stateObjects.length + 1); // note +1 to include hidden akam-indeterminate-progress
       });
     });
   });
@@ -264,7 +302,7 @@ describe('akamai.components.autocomplete', function() {
           addElement.call(this, autocompleteTemplate);
         });
         it('should present a clear icon', function() {
-          expect(util.find('.luna-small_close_dark_gray')).not.toBe(null);
+          expect(util.find('.clear-dropdown')).not.toBe(null);
         });
       });
     });
@@ -371,7 +409,7 @@ describe('akamai.components.autocomplete', function() {
               </akam-autocomplete>`;
 
             addElement.call(this, autocompleteTemplate);
-            util.click(util.find('.luna-small_close_dark_gray'));
+            util.click(util.find('.clear-dropdown'));
           });
           it('should clear the selected item', function() {
             expect(this.$scope.selectedStateObj).toBe(undefined);
@@ -556,7 +594,7 @@ describe('akamai.components.autocomplete', function() {
         });
         it('should display the results', function() {
           expect(util.find('.dropdown-menu').getElementsByTagName('li').length)
-            .toBe(stateObjects.length);
+            .toBe(stateObjects.length + 1);
         });
       });
     });
@@ -572,8 +610,9 @@ describe('akamai.components.autocomplete', function() {
           addElement.call(this, autocompleteTemplate);
           util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
         });
-        it('should display 0 results', function() {
-          expect(util.find('.dropdown-menu').getElementsByTagName('li').length).toBe(0);
+        it('should display no results message', function() {
+          expect(util.find('.dropdown-no-items span').textContent)
+            .toBe('There are no results based upon your filter.');
         });
       });
     });
@@ -589,8 +628,9 @@ describe('akamai.components.autocomplete', function() {
           addElement.call(this, autocompleteTemplate);
           util.findElement(this.el, 'input.autocomplete-search').triggerHandler('focus');
         });
-        it('should display 0 results', function() {
-          expect(util.find('.dropdown-menu').getElementsByTagName('li').length).toBe(0);
+        it('should display no results message', function() {
+          expect(util.find('.dropdown-no-items span').textContent)
+            .toBe('There are no results based upon your filter.');
         });
       });
     });
@@ -612,6 +652,75 @@ describe('akamai.components.autocomplete', function() {
       });
       it('should focus on input field', function() {
         expect(inputField.focus).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('given an array returned by the on-search promise', function() {
+    describe('when the autocomplete is rendered', function() {
+      beforeEach(function() {
+        this.$scope.selectedState = '';
+        let autocompleteTemplate = `
+            <akam-autocomplete ng-model="selectedState"
+              on-search="searchStateObjectsWithKeysWithPromise(searchTerm)">
+            </akam-autocomplete>`;
+
+        addElement.call(this, autocompleteTemplate);
+        let ctrl = this.el.controller('akamAutocomplete');
+        ctrl.searchTerm = 'z';
+        ctrl.search();
+        this.$scope.$digest();
+      });
+
+      it('should render loading indeterminate progress until promise resolved',
+        function() {
+        expect(document.querySelector('.dropdown-indeterminate-progress')).not.toBe(null);
+      });
+      it('should display no results message if searchTerm not found', function() {
+        this.$timeout.flush();
+        expect(util.find('.dropdown-no-items span').textContent)
+          .toBe('There are no results based upon your filter.');
+      });
+    });
+  });
+  describe('given an array returned by the on-search promise', function() {
+    describe('when the autocomplete is rendered', function() {
+      beforeEach(function() {
+        this.$scope.selectedState = '';
+        let autocompleteTemplate = `
+            <akam-autocomplete ng-model="selectedState"
+              on-search="searchStateObjectsWithKeysWithPromise(searchTerm)">
+            </akam-autocomplete>`;
+
+        addElement.call(this, autocompleteTemplate);
+        let ctrl = this.el.controller('akamAutocomplete');
+        ctrl.searchTerm = 'w';
+        ctrl.search();
+        this.$scope.$digest();
+        this.$timeout.flush();
+      });
+      it('should render results when promise is resolved', function() {
+        let result = util.find('.dropdown-menu').getElementsByTagName('li');
+        expect(result.length).toBe(4 + 1);
+      });
+    });
+  });
+
+  describe('given an invalid value for on-search', function() {
+    describe('when the autocomplete is rendered', function() {
+      let ctrl;
+      beforeEach(function() {
+        this.$scope.selectedState = '';
+        let autocompleteTemplate = `
+            <akam-autocomplete ng-model="selectedState" on-search="helloWorld(searchTerm)">
+            </akam-autocomplete>`;
+
+        this.addElement(autocompleteTemplate);
+        ctrl = this.el.controller('akamAutocomplete');
+        ctrl.searchTerm = 'w';
+      });
+      it('should throw error', function() {
+        expect(function() { ctrl.search(); }).toThrow();
       });
     });
   });

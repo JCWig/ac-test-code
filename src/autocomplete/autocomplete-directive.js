@@ -33,6 +33,10 @@ class AutocompleteController extends DropdownController {
     };
     this.searchTerm = '';
     this.setMinimumSearch();
+    this.promiseLoading = false;
+
+    $translate('components.autocomplete.noFilterResults')
+      .then(value => this.noFilterResults = value);
   }
 
   initialize(elem, attrs, ngModel) {
@@ -89,16 +93,19 @@ class AutocompleteController extends DropdownController {
       searchTerm: this.searchTerm
     });
 
+    this.isOpen = true;
+
     if (angular.isArray(searchResult)) {
       this.items = searchResult;
-      this.isOpen = true;
-    } else if (angular.isFunction(searchResult.then)) {
+    } else if (angular.isDefined(searchResult) && angular.isFunction(searchResult.then)) {
+      this.promiseLoading = true;
       searchResult.then((resultItems) => {
         this.items = resultItems;
-        this.isOpen = true;
+        this.promiseLoading = false;
       }, (rejectReason) => {
         this.$log.warn(rejectReason);
         this.items = [];
+        this.promiseLoading = false;
       });
     } else {
       this.items = [];
@@ -121,6 +128,10 @@ class AutocompleteController extends DropdownController {
     } else {
       this.minimumSearch = minimumSearch < 0 ? MINIMUM_SEARCH : minimumSearch;
     }
+  }
+
+  getItems() {
+    return this.promiseLoading ? [] : this.items;
   }
 }
 

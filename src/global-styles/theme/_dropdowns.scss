@@ -110,19 +110,13 @@ $dropdown-max-items: 8;
     }
   }
 
-  > li > a,
-  > .fixed-header {
+  > li > a {
     padding: 0 $dropdown-item-right-padding 0 $dropdown-item-left-padding;
     line-height: $dropdown-item-line-height;
 
-    &:not(.fixed-header):active {
+    &:active {
       background-color: $dropdown-link-active-bg;
     }
-  }
-
-  .fixed-header {
-    line-height: 1;
-    padding: $dropdown-fixed-header-padding;
   }
 }
 

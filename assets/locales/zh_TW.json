@@ -3,7 +3,8 @@
         "indeterminate-progress": {},
         "tag-input": {
             "placeholder": "選取項目",
-            "taggingLabel": "(新項目)"
+            "taggingLabel": "(新項目)",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "menu-button": {
             "label": "標籤"
@@ -82,7 +83,8 @@
             "placeholder": {
                 "filter": "筛选器",
                 "noSelection": "選擇一個"
-            }
+            },
+            "itemFailureMessage": "An error has occurred while loading data."
         },
         "date-picker": {
             "placeholder": {
@@ -110,7 +112,8 @@
             "placeholder": "Select From Date - Select To Date"
         },
         "autocomplete": {
-            "search-tip": "輸入符合結果的顯示文字"
+            "search-tip": "輸入符合結果的顯示文字",
+            "noFilterResults": "There are no results based upon your filter."
         },
         "switch-button": {
             "onLabel": "開",
