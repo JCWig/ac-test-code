@@ -6,7 +6,7 @@ input[type="radio"] {
   position: absolute;
   width: 0;
   height: 0;
-  @include opacity(0);
+  opacity: 0;
 
   & + label,
   & + .label {
@@ -22,11 +22,9 @@ input[type="radio"] {
     display: inline-block;
     background-color: transparent;
     vertical-align: middle;
-    // By default, radios want space between it and its label
-    padding-right: $radio-label-margin;
-    @include luna-sprite(radio);
-    // Override TWBS
-    @include box-sizing(content-box);
+    padding-right: $radio-label-margin; // By default, radios want space between it and its label
+    box-sizing: content-box;
+    @include svg("radio-deselect-default", 12px, 12px);
   }
 
 }
@@ -35,19 +33,19 @@ input[type="radio"] {
   // The cascade order matters here: Disabled > Active > Hover > Focus > Default
   &:focus + label:before,
   &:focus + .label:before {
-    @include luna-sprite(radio_focus);
+    @include svg("radio-deselect-focus", 12px, 12px);
   }
   &:hover + label:before,
   &:hover + .label:before {
-    @include luna-sprite(radio_hover);
+    @include svg("radio-deselect-hover", 12px, 12px);
   }
   &:active + label:before,
   &:active + .label:before {
-    @include luna-sprite(radio_active);
+    @include svg("radio-deselect-down", 12px, 12px);
   }
   &:disabled + label:before,
   &:disabled + .label:before {
-    @include luna-sprite(radio_disabled);
+    @include svg("radio-deselect-disable", 12px, 12px);
   }
 
   // The states for a checked radio button
@@ -55,23 +53,23 @@ input[type="radio"] {
     // The cascade order matters here: Disabled > Active > Hover > Focus > Default
     & + label:before,
     & + .label:before {
-      @include luna-sprite(radio-selected);
+      @include svg("radio-default", 12px, 12px);
     }
     &:focus + label:before,
     &:focus + .label:before {
-      @include luna-sprite(radio-selected_focus);
+      @include svg("radio-focus", 12px, 12px);
     }
     &:hover + label:before,
     &:hover + .label:before {
-      @include luna-sprite(radio-selected_hover);
+      @include svg("radio-hover", 12px, 12px);
     }
     &:active + label:before,
     &:active + .label:before {
-      @include luna-sprite(radio-selected_active);
+      @include svg("radio-down", 12px, 12px);
     }
     &:disabled + label:before,
     &:disabled + .label:before {
-      @include luna-sprite(radio-selected_disabled);
+      @include svg("radio-disable", 12px, 12px);
     }
   }
 }

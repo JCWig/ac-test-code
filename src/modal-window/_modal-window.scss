@@ -1,6 +1,5 @@
 .modal {
   z-index: $modal-window-zindex;
-  display: block;
   
   &.in .modal-dialog {
     transition: none;
@@ -47,29 +46,21 @@
   border-radius: $dialog-border-radius $dialog-border-radius 0 0;
   color: $dialog-text-color;
   min-height: 0;
-  @include background-image($dialog-header-background-color);
+  background-image: $dialog-header-background-color;
   
   & > i {
     position: absolute;
     top: 50%;
-    @include translate(0, -50%);
-  }
-
-  & > .close-icon {
+    transform: translateY(-50.01%);
     cursor: pointer;
-    background: transparent center center no-repeat;
-    background: inline-svg-image("svg/small_close_new.svg");
-    background-size: contain;
-    width: 12px;
-    height: 12px;
-    right: $dialog-right-padding;
-
-    &:hover {
-      background-image: inline-svg-image("svg/small_close_hover_new.svg");
-    }
   }
 
-  & > .max-min-icon {
+  .aci-close {
+    right: $dialog-right-padding;
+    font-size: 12px;
+  }
+
+  .max-min-icon {
     cursor: pointer;
     right: $dialog-right-padding * 2 + 20px;
   }
@@ -113,7 +104,7 @@
 .modal-body {
   padding: $dialog-content-top-padding $dialog-right-padding $dialog-content-bottom-padding $dialog-left-padding;
   overflow: auto;
-  min-height: ($modal-md / $golden-ratio);
+  min-height: floor($modal-md / $golden-ratio);
   
   .backwash {
     position: absolute;

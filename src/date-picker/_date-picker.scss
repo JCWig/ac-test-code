@@ -7,12 +7,13 @@
   .clear-date {
     margin-top: 6px;
     position: absolute;
-    opacity: .28;
     z-index: 2;
     right: 42px;
+    font-size: 12px;
+    color: #CCC;
 
     &:hover {
-      opacity: .64;
+      color: #999;
     }
   }
 
@@ -21,8 +22,8 @@
     padding: $datepicker-padding;
     outline: none;
     min-width: (($datepicker-cell-size + 1) * 7) + ($datepicker-padding * 2) + 2;
-    @include box-shadow($global-box-shadow);
-
+    box-shadow: $global-box-shadow;
+    
     // Override TWBS
     .btn {
       min-width: 0;
@@ -76,7 +77,7 @@
       // Keyboard selected date
       &.active {
         background-color: #ffffff;
-        @include box-shadow(none);
+        box-shadow: none;
       }
 
       // Selected date
@@ -125,25 +126,25 @@
     }
 
     thead tr th button:not([role="heading"]) {
-      padding: 5px;
+      padding: 6px 7px;
       color: #666666;
 
       background: $button-background-color;
       border: solid $button-border-width $button-border-color;
       border-radius: $button-border-radius;
-      @include background-image(linear-gradient($button-gradient-top, $button-gradient-bottom));
+      background-image: linear-gradient($button-gradient-top, $button-gradient-bottom);
 
       &:hover {
         color: $button-text-color;
         border-color: $dropdown-border-color-active;
         text-decoration: none;
-        @include background-image(linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover));
+        background-image: linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover);
       }
 
       &:active, &:visited {
         color: $button-text-color;
         border-color: $dropdown-border-color-active;
-        @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+        background-image: linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover);
       }
 
       &:disabled,
@@ -151,6 +152,10 @@
         background: $button-background-color-disabled;
         border-color: $button-border-color-disabled;
         color: $button-text-color-disabled;
+      }
+      
+      i {
+        font-size: 12px;
       }
     }
 
@@ -206,7 +211,8 @@
 }
 
 akam-date-picker {
-  input[type="text"] {
+  
+  input[type="text"][readonly] {
     @extend %inputStyles;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -227,18 +233,14 @@ akam-date-picker {
 
 
   &.opened {
-    input[type="text"] {
+    input[type="text"][readonly] {
       @extend %inputFocusStyles;
     }
-
-    input[type="text"] ~ .input-group-btn > .btn {
+  
+    input[type="text"][readonly] ~ .input-group-btn > .btn {
       border-color: #999999;
       border-left-color: $input-border-color-focus;
-      @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
-    }
-
-    .clear-date {
-      opacity: .333;
+      background-image: linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover);
     }
   }
 }

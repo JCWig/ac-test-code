@@ -54,12 +54,20 @@
 }
 
 .akam-menu-button {
-  & .dropdown-menu {
+  .dropdown-menu {
     max-height: none;
     overflow: visible;
   }
 
   &.btn-group > .btn + .dropdown-toggle{
     padding: 0 8px;
+  }
+ 
+  .menu-button i {
+    font-size: 24px;
+  }
+  
+  .split-button i {
+    font-size: 12px;
   }
 }

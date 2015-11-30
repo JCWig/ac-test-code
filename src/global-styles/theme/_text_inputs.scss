@@ -2,26 +2,26 @@
   background-color: $input-background-color;
   border: solid 1px $input-border-color;
   color: $input-text-color;
-  @include box-shadow($input-box-shadow);
-  @include border-radius($input-border-radius);
+  box-shadow: $input-box-shadow;
+  border-radius: $input-border-radius;
 }
 
 %inputFocusStyles {
   border-color: $input-border-color-focus;
   background-color: $input-background-color-focus;
-  @include box-shadow(none);
+  box-shadow: none;
 }
 
 %inputDisabledStyles {
   background-color: $input-background-color-disabled;
   border-color: $input-border-color-disabled;
   color: $input-text-color-disabled;
-  @include box-shadow(none);
+  box-shadow: none;
   
   &:focus,
   &:required {
     border-color: $input-border-color-disabled;
-    @include box-shadow(none);
+    box-shadow: none;
   }
 }
 
@@ -90,12 +90,13 @@ input[type="search"],
 input[type="date"],
 input[type="month"] {
   padding-right: #{$input-border-radius * 2};
-  @include appearance(textfield);
+  appearance: textfield;
 
   & ~ .btn {
     min-width: 0;
     margin-left: -#{$input-border-radius * 3};
-    @include border-left-radius(0);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 
     i {
       vertical-align: middle;

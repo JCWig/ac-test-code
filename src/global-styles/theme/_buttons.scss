@@ -17,12 +17,12 @@
   color: $button-text-color;
   border-color: $button-border-color;
   background: $button-background-color;
-  @include background-image(linear-gradient($button-gradient-top, $button-gradient-bottom));
-
+  background-image: linear-gradient($button-gradient-top, $button-gradient-bottom);
+  
   &:hover {
     color: $button-text-color;
     border-color: $button-border-color-hover;
-    @include background-image(linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover));
+    background-image: linear-gradient($button-gradient-top-hover, $button-gradient-bottom-hover);
   }
 
   &:active,
@@ -30,7 +30,7 @@
   &:active:focus {
     color: $button-text-color;
     border-color: $button-border-color-hover;
-    @include background-image(linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover));
+    background-image: linear-gradient($button-gradient-bottom-hover, $button-gradient-top-hover);
   }
 
   &:disabled,
@@ -51,12 +51,12 @@
 .btn-primary {
   color: $button-primary-text-color;
   border-color: $button-primary-border-color;
-  @include background-image(linear-gradient($button-primary-gradient-top, $button-primary-gradient-bottom));
-
+  background-image: linear-gradient($button-primary-gradient-top, $button-primary-gradient-bottom);
+  
   &:hover {
     color: $button-primary-text-color;
     border-color: $button-primary-border-color;
-    @include background-image(linear-gradient($button-primary-gradient-bottom, $button-primary-gradient-top));
+    background-image: linear-gradient($button-primary-gradient-bottom, $button-primary-gradient-top);
   }
 
   &:active,

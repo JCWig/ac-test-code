@@ -15,7 +15,7 @@ a:focus {
 .standalone {
   border: 1px solid $base__border-color;
   border-radius : $base__border-radius;
-  @include box-shadow($base__box-shadow);
+  box-shadow: $base__box-shadow;
 
   &.akam-list-box,
   &.akam-data-table {

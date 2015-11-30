@@ -34,8 +34,8 @@ $updated_colors__orange1: #AB4D09;
   padding-bottom: 22px;
   padding-right: ($status-message-close-size + $status-message-close-gutter);
   position: relative;
-  @include box-sizing(border-box);
-  @include transition(opacity linear 0.5s);
+  box-sizing: border-box;
+  transition: opacity linear 0.5s;
 
   &.alert-dismissible {
     & .close {
@@ -45,7 +45,7 @@ $updated_colors__orange1: #AB4D09;
       font-size: 21px;
       opacity: $status-message-close-opacity;
       text-shadow: none;
-      @include translateY(-50.01%);
+      transform: translateY(-50.01%);
 
       &:hover {
         opacity: 1;
@@ -124,8 +124,8 @@ $updated_colors__orange1: #AB4D09;
     padding-right: 40px;
     padding-left: 41px;
     position: relative;
-    @include box-sizing(border-box);
-    @include transition(opacity linear 0.5s);
+    box-sizing: border-box;
+    transition: opacity linear 0.5s;
 
     &:before {
       content: '';
@@ -133,7 +133,7 @@ $updated_colors__orange1: #AB4D09;
       position: absolute;
       top: 50%;
       left: 10px;
-      margin-top: -#{$status-message-icon-size / 2};
+      margin-top: -11px;
       margin-left: 0;
       width: $status-message-icon-size;
       height: $status-message-icon-size;
@@ -145,10 +145,7 @@ $updated_colors__orange1: #AB4D09;
       color: $colors__green1;
       border: 1px solid $colors__green4;
       background-color: $colors__green7;
-
-      &:before {
-        background-image: inline-svg-image("svg/checkmark_green.svg");
-      }
+      @include aci(check-circle-filled, 16px);
 
       &.alert-dismissible {
         & .close {
@@ -170,10 +167,7 @@ $updated_colors__orange1: #AB4D09;
       color: $colors__blue4;
       border: 1px solid $updated_colors__blue7;
       background-color: $colors__blue10;
-
-      &:before {
-        background-image: inline-svg-image("svg/information.svg");
-      }
+      @include aci(info, 16px);
 
       &.alert-dismissible {
         & .close {
@@ -195,10 +189,7 @@ $updated_colors__orange1: #AB4D09;
       color: $colors__gold2;
       border: 1px solid $updated_colors__gold4;
       background-color: $colors__gold5;
-
-      &:before {
-        background-image: inline-svg-image("svg/warning_gold.svg");
-      }
+      @include aci(warning, 16px);
 
       &.alert-dismissible {
         & .close {
@@ -220,10 +211,7 @@ $updated_colors__orange1: #AB4D09;
       color: $colors__red5;
       border: 1px solid $updated_colors__red5;
       background-color: $colors__red7;
-
-      &:before {
-        background-image: inline-svg-image("svg/danger_red.svg");
-      }
+      @include aci(danger, 16px);
 
       &.alert-dismissible {
         & .close {

@@ -259,7 +259,7 @@ describe('akamTimepicker directive', function() {
         utilities.click(timepickerBtnElem); // open dropdown
         this.$scope.$digest();
 
-        let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-increment-row td a`);
+        let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-increment-row td i`);
         utilities.click(dropdownLinks[0]);
         this.$scope.$digest();
       });
@@ -279,7 +279,7 @@ describe('akamTimepicker directive', function() {
         utilities.click(timepickerBtnElem); // open dropdown
         this.$scope.$digest();
 
-        let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-increment-row td a`);
+        let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-increment-row td i`);
         utilities.click(dropdownLinks[1]);
         this.$scope.$digest();
       });
@@ -300,7 +300,7 @@ describe('akamTimepicker directive', function() {
         utilities.click(timepickerBtnElem); // open dropdown
         this.$scope.$digest();
 
-        let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-decrement-row td a`);
+        let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-decrement-row td i`);
         utilities.click(dropdownLinks[0]);
         this.$scope.$digest();
       });
@@ -320,7 +320,7 @@ describe('akamTimepicker directive', function() {
         utilities.click(timepickerBtnElem); // open dropdown
         this.$scope.$digest();
 
-        let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-decrement-row td a`);
+        let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-decrement-row td i`);
         utilities.click(dropdownLinks[1]);
         this.$scope.$digest();
       });
@@ -424,7 +424,7 @@ describe('akamTimepicker directive', function() {
           utilities.click(timepickerBtnElem);
           this.$scope.$digest();
 
-          let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-increment-row td a`);
+          let dropdownLinks = this.element.querySelectorAll(`${selectors.DROPDOWN_MENU} .time-increment-row td i`);
           utilities.click(dropdownLinks[0]);
           this.$scope.$digest();
         });

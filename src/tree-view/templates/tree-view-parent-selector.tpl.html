@@ -3,7 +3,7 @@
 	<div class="popover-contents">
 	 	<div ng-repeat="parent in treeViewParentSelector.treeViewCtrl.parentTree.slice().reverse()">
 	 		<div class="tree-view-contents util-clickable" ng-click="treeViewParentSelector.triggerParentChange($index, true)">
-	 			<i ng-class="{'luna-child_group_folder':!parent.root, 'luna-home':parent.root}"></i>
+	 			<i ng-class="{'aci-parent-groupfolder':!parent.root, 'aci-home':parent.root}"></i> 
 	 			<span ng-class="{'parent-selector-root':parent.root}"> {{parent.title}} </span>
 	 		</div>
 	 	</div>

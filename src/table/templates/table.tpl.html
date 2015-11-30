@@ -4,7 +4,7 @@
     <span class="filter">
       <input type="search" ng-model="table.state.filter" ng-disabled="table.loading"
              ng-change="table.filterRows()" placeholder="{{ table.filterPlaceholder }}"> <i
-      class="luna-close clear-filter icon-states util-clickable" ng-if="table.state.filter"
+      class="aci-close clear-filter icon-states util-clickable" ng-if="table.state.filter"
       ng-click="table.state.filter = ''; table.filterRows()"></i>
     </span>
 
@@ -21,7 +21,7 @@
   <div class="data">
     <akam-table-row-placeholder ng-non-bindable></akam-table-row-placeholder>
     <div class="empty-table-message" ng-messages="table.messages()">
-      <i class="luna-alert"></i>
+      <i class="aci-alert"></i>
       <span ng-message="noData">{{ table.noItemsMessage }}</span>
       <span ng-message="noFiltered">{{ ::table.noFilterResultsMessage }}</span>
     </div>

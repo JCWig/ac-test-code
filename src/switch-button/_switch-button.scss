@@ -43,7 +43,7 @@ akam-switch-button {
 
     & > label {
       cursor: pointer;
-      @include background-image(linear-gradient($toggle-gradient-top, $toggle-gradient-bottom));
+      background-image: linear-gradient($toggle-gradient-top, $toggle-gradient-bottom);
 
 
       & > span {

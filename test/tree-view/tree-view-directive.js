@@ -184,7 +184,7 @@ describe('akamai.components.tree-view', function() {
         var currentContext = document.querySelector(CURRENT_CONTEXT_TITLE);
         var currentContextIcon = document.querySelector(PARENT_ICON);
         expect(currentContext.textContent).toContain('Bruce Wayne');
-        expect(currentContextIcon.classList.contains('luna-parent_group_folder')).toBe(true);
+        expect(currentContextIcon.classList.contains('aci-folder-parent-group')).toBe(true);
       });
       it('should display the items children', function(){
         var treeContents = document.querySelectorAll(CHILD_CONTENTS);
@@ -300,7 +300,7 @@ describe('akamai.components.tree-view', function() {
         });
         it('should dislay a home icon for a parent with a root-property set to true',function(){
           var parentSelectorRows = document.querySelectorAll(PARENT_SELECTOR_ROWS);
-          expect(parentSelectorRows[0].querySelector('i').classList).toContain('luna-home');
+          expect(parentSelectorRows[0].querySelector('i').classList).toContain('aci-home');
         })
       });
     });
@@ -430,9 +430,9 @@ describe('akamai.components.tree-view', function() {
         var parentSelectorIcon = document.querySelector(PARENT_ICON);
         expect(parentSelectorIcon.classList).not.toContain('util-clickable');
       });
-      it('should render luna-home icon', function(){
+      it('should render aci-home icon', function(){
         var parentSelectorIcon = document.querySelector(PARENT_ICON);
-        expect(parentSelectorIcon.classList).toContain('luna-home');
+        expect(parentSelectorIcon.classList).toContain('aci-home');
       });
     });
   });

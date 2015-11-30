@@ -95,14 +95,14 @@ describe('akamai.components.spinner', function() {
         let arrowUpBtn = getElement.call(this, UP_BUTTON);
         let iconElem = arrowUpBtn.querySelector("i");
 
-        expect(iconElem.classList.contains('luna-arrow_extra_smUp')).toBeTruthy();
+        expect(iconElem.classList.contains('aci-caret-top')).toBeTruthy();
       });
 
       it('should verify down button icon element', function() {
         let arrowDownBtn = getElement.call(this, DOWN_BUTTON);
         let iconElem = arrowDownBtn.querySelector("i");
 
-        expect(iconElem.classList.contains('luna-arrow_extra_smDown')).toBeTruthy();
+        expect(iconElem.classList.contains('aci-caret-bottom')).toBeTruthy();
       });
     });
   });

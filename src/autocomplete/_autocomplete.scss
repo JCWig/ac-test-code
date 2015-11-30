@@ -15,6 +15,12 @@
 
       & > i.clear-dropdown {
         right: 10px;
+        font-size: 10px;
+        color: #CCC;
+        
+        &:hover {
+          color: #999;
+        }
       }
 
     }

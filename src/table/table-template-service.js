@@ -50,7 +50,9 @@ function TableTemplateService($log) {
         }
 
         headerHtml = `<span translate="${elemClone.getAttribute('header-name')}"></span>
-                      <i></i>`;
+                      <i ng-class="{
+                        'aci-arrow-bottom': table.isAscending(),
+                        'aci-arrow-top': !table.isAscending()}"></i>`;
 
         let tpl = elemClone.outerHTML.replace('<akam-table-column', '<th');
 

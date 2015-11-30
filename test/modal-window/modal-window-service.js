@@ -108,7 +108,7 @@ describe('modalWindow service', function() {
       });
 
       it('should confirm the max min icon icon shows full screen', function() {
-        expect(this.result.classList.contains('pulsar-fullscreen')).toBe(true);
+        expect(this.result.classList.contains('aci-fullscreen')).toBe(true);
       });
     });
   });

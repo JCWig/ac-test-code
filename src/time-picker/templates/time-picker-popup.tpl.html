@@ -1,13 +1,13 @@
 <table class="{{'hover-'+hoveringOn}}">
   <tbody>
     <tr class="util-text-center time-increment-row">
-      <td><a ng-click="incrementHours()" ng-mouseover="hoveringOn='hour'" ng-mouseup="hourUpMouseUp($event)" ng-mousedown="hourUpMouseDown($event)" ng-mouseleave="hourUpMouseUp($event); hoveringOn=''" class="btn-link hour-up-btn"><i class="luna-arrow_smUp icon-states"></i></a></td>
+      <td>
+        <i ng-click="incrementHours()" ng-mouseover="hoveringOn='hour'" ng-mouseup="hourUpMouseUp($event)" ng-mousedown="hourUpMouseDown($event)" ng-mouseleave="hourUpMouseUp($event); hoveringOn=''" class="aci-caret-top icon-states hour-up-btn"></i>
+      </td>
       <td>&nbsp;</td>
       <td class="minute">
-        <a ng-show="!isMinuteDisabled()" ng-click="incrementMinutes()" ng-mouseover="hoveringOn='minute'" ng-mouseup="minuteUpMouseUp($event)" ng-mousedown="minuteUpMouseDown($event)" ng-mouseleave="minuteUpMouseUp($event); hoveringOn=''" class="btn-link"><i class="luna-arrow_smUp icon-states"></i>
-        </a>
-        <a ng-show="isMinuteDisabled()" class="btn-link"><i class="luna-arrow_smUp icon-states" disabled></i>
-        </a>
+        <i ng-show="!isMinuteDisabled()" ng-click="incrementMinutes()" ng-mouseover="hoveringOn='minute'" ng-mouseup="minuteUpMouseUp($event)" ng-mousedown="minuteUpMouseDown($event)" ng-mouseleave="minuteUpMouseUp($event); hoveringOn=''" class="aci-caret-top icon-states"></i>
+        <i ng-show="isMinuteDisabled()" class="aci-caret-top icon-states" disabled></i>
       </td>
       <td></td>
       <td ng-show="showMeridian"></td>
@@ -26,13 +26,11 @@
       </td>
     </tr>
     <tr class="util-text-center time-decrement-row">
-      <td><a ng-click="decrementHours()" ng-mouseover="hoveringOn='hour'" ng-mouseup="hourDownMouseUp($event)" ng-mousedown="hourDownMouseDown($event)" ng-mouseleave="hourDownMouseUp($event); hoveringOn=''" class="btn-link hour-down-btn"><i class="luna-arrow_smDown icon-states"></i></a></td>
+      <td><i ng-click="decrementHours()" ng-mouseover="hoveringOn='hour'" ng-mouseup="hourDownMouseUp($event)" ng-mousedown="hourDownMouseDown($event)" ng-mouseleave="hourDownMouseUp($event); hoveringOn=''" class="aci-caret-bottom icon-states hour-down-btn"></i></td>
       <td>&nbsp;</td>
       <td class="minute">
-        <a ng-show="!isMinuteDisabled()" ng-click="decrementMinutes()" ng-mouseover="hoveringOn='minute'" ng-mouseup="minuteDownMouseUp($event)" ng-mousedown="minuteDownMouseDown($event)" ng-mouseleave="minuteDownMouseUp($event); hoveringOn=''" class="btn-link"><i class="luna-arrow_smDown icon-states"></i>
-        </a>
-        <a ng-show="isMinuteDisabled()" class="btn-link"><i class="luna-arrow_smDown icon-states" disabled></i>
-        </a>
+        <i ng-show="!isMinuteDisabled()" ng-click="decrementMinutes()" ng-mouseover="hoveringOn='minute'" ng-mouseup="minuteDownMouseUp($event)" ng-mousedown="minuteDownMouseDown($event)" ng-mouseleave="minuteDownMouseUp($event); hoveringOn=''" class="aci-caret-bottom icon-states"></i>
+        <i ng-show="isMinuteDisabled()" class="aci-caret-bottom icon-states" disabled></i>
       </td>
       <td></td>
       <td ng-show="showMeridian"></td>

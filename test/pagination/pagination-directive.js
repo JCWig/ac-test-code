@@ -91,13 +91,13 @@ describe('akam-pagination directive', function() {
     it('should display a previous button', function() {
       var previousPageButtonIcon = self.element.querySelector(PREVIOUS_BUTTON + ' i');
 
-      expect(previousPageButtonIcon.classList.contains('luna-arrow_smLeft')).toBe(true);
+      expect(previousPageButtonIcon.classList.contains('aci-caret-left')).toBe(true);
     });
 
     it('should display a next button', function() {
       var nextPageButtonIcon = self.element.querySelector(NEXT_BUTTON + ' i');
 
-      expect(nextPageButtonIcon.classList.contains('luna-arrow_smRight')).toBe(true);
+      expect(nextPageButtonIcon.classList.contains('aci-caret-right')).toBe(true);
     });
 
     it('should display the first page', function() {

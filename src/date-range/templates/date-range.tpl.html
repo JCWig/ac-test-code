@@ -13,9 +13,9 @@
   <div class="date-range-wrapper util-clickable" ng-class="{'invalid-date-range': dateRange.invalidDateRange,disabled: dateRange.isDisabled, readonly: dateRange.isReadonly}" ng-click="dateRange.toggle($event)">
     <span ng-if="!dateRange.selectedValue" class="date-range-placeholder util-ellipsis" title="{{::dateRange.placeholder}}">{{::dateRange.placeholder}}</span>
     <span ng-if="dateRange.selectedValue" class="dateRange-input util-ellipsis" title="{{dateRange.selectedValue}}">{{dateRange.selectedValue}}</span>
-      <button class="btn btn-default date-range-button" type="button" ng-disabled="dateRange.isDisabled">
-        <i class="luna-calendar icon-states" ng-disabled="dateRange.isDisabled"></i>
-      </button>
+    <button class="btn btn-default date-range-button" type="button" ng-disabled="dateRange.isDisabled">
+      <i class="aci-calendar icon-states" ng-disabled="dateRange.isDisabled"></i>
+    </button>
   </div>
 </div>
 

@@ -1,0 +1,71 @@
+i {
+  display: inline-block;
+  font-size: 16px;
+}
+
+[class*="aci-"].icon-states {
+  &:hover { 
+    color: #0099CC;
+  }
+  &[disabled],
+  &:disabled,
+  .disabled & {
+    color: #CCCCCC;
+  }
+}
+
+.aci-caret-top {
+  @include aci(caret);
+  &:before { 
+    transform: rotate(0deg);
+  }
+}
+
+.aci-caret-right {
+  @include aci(caret);
+  &:before { 
+    transform: rotate(90deg);
+  }
+}
+
+.aci-caret-bottom {
+  @include aci(caret);
+  &:before { 
+    transform: rotate(180deg);
+  }
+}
+
+.aci-caret-left {
+  @include aci(caret);
+  &:before { 
+    transform: rotate(270deg);
+  }
+}
+
+.aci-arrow-top {
+  @include aci(arrow-up);
+  &:before { 
+    transform: rotate(0deg);
+  }
+}
+
+.aci-arrow-right {
+  @include aci(arrow-up);
+  &:before { 
+    transform: rotate(90deg);
+  }
+}
+
+.aci-arrow-bottom {
+  @include aci(arrow-up);
+  &:before { 
+    transform: rotate(180deg);
+  }
+}
+
+.aci-arrow-left {
+  @include aci(arrow-up);
+  &:before { 
+    transform: rotate(270deg);
+  }
+}

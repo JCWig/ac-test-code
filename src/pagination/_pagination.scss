@@ -11,8 +11,8 @@
   padding-left: $pagination-gutter;
   box-sizing: border-box;
   font-size: $pagination-item-font-size;
-  @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
-
+  background-image: linear-gradient($pagination-gradient-top, $pagination-gradient-bottom);
+  
 
   & > * {
     display: table-cell;
@@ -51,80 +51,4 @@
       }
     }
   }
-
-  .disabled i.luna-arrow_smLeft,
-  &.disabled i.luna-arrow_smLeft {
-    @include luna-sprite(arrow_smLeft_disabled);
-  }
-
-  .disabled i.luna-arrow_smRight,
-  &.disabled i.luna-arrow_smRight {
-    @include luna-sprite(arrow_smRight_disabled);
-  }
 }
-
-/*
-
-.pagination {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: inline-block;
-  @include background-image(linear-gradient($pagination-gradient-top, $pagination-gradient-bottom));
-
-  > li {
-    display: inline-block;
-
-    > a,
-    > span {
-      display: inline-block;
-      color: $pagination-item-font-color;
-      float: none;
-      padding: 0;
-      margin: 0;
-      border: 0 none;
-      background-color: transparent;
-
-      line-height: $pagination-height;
-    }
-
-    a {
-      box-sizing: border-box;
-      padding: 0;
-      padding-left: 4px;
-      padding-right: 4px;
-      min-width: $pagination-item-width;
-
-      i {
-        vertical-align: middle;
-        margin-top: -1px;
-      }
-
-      &:hover {
-        text-decoration: none;
-        border-radius: 0px;
-      }
-    }
-
-    span {
-      width: $pagination-ellipsis-width;
-    }
-
-    &.active a, &:hover a {
-      font-weight: bold;
-      @include background-image(linear-gradient($pagination-active-gradient-top, $pagination-active-gradient-bottom));
-      border: solid 1px $pagination-border-color;
-      border-width: 0 1px;
-    }
-
-    &:hover a {
-      color: $pagination-item-font-color-active;
-    }
-
-    &.disabled a {
-      color: $pagination-item-font-color-disabled;
-      cursor: not-allowed;
-    }
-  }
-}
-*/

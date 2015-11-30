@@ -5,8 +5,8 @@ var translationMock = require('../fixtures/translationFixture.json');
 const datetimePickerSelector = ".akam-datetime-picker";
 const datePickerSelector = ".akam-date-picker";
 const timepickerSelector = ".akam-time-picker";
-const timeIncrementSelector = " .dropdown-menu tr.time-increment-row td a.btn-link";
 const dateClearIconSelector = ".akam-date-picker .clear-date";
+const timeIncrementSelector = " .dropdown-menu tr.time-increment-row td i";
 
 function getDateButtonParentElement(date) {
   let selector = `ul.dropdown-menu table tbody tr td.month-${date.getMonth() + 1}.day-${date.getDate()}`;

@@ -61,7 +61,7 @@
 }
 
 .util-border-box {
-  @include box-sizing(border-box);
+  box-sizing: border-box;
 }
 
 .util-full-width {
@@ -88,18 +88,6 @@
 
 .util-fade {
   @include fade();
-}
-
-ul.util-list {
-  @include list-type(disc);
-}
-
-ol.util-list {
-  @include list-type(decimal);
-}
-
-ul.util-checkmark {
-  @include list-type(checkmark);
 }
 
 .util-text-right {
@@ -132,11 +120,6 @@ ul.util-checkmark {
 
 .util-monospace {
   font-family: monospace;
-}
-
-.util-pre-wrap {
-  @extend .util-monospace;
-  @include force-wrap;
 }
 
 .util-bold {
@@ -184,7 +167,7 @@ ul.util-checkmark {
 }
 
 .util-transform-layer {
-  @include translateZ(0);
+  transform: translateY(0);
 }
 
 .util-opaque {
@@ -199,13 +182,13 @@ ul.util-checkmark {
   position: absolute;
   top: 50%;
   left: 50%;
-  @include translate(-50%, -50.01%); // See FEE-436 for reason behind decimal places
+  transform: translate(-50%, -50.01%); // See FEE-436 for reason behind decimal places
 }
 
 .util-vertical-center-box {
   position: relative;
   top: 50%;
-  @include translateY(-50.01%); // See FEE-436 for reason behind decimal places
+  transform: translateY(-50.01%); // See FEE-436 for reason behind decimal places
 }
 
 .util-horiztonal-center-box {

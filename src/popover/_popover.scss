@@ -12,7 +12,7 @@ $popover-contents-padding: $popover-contents-padding-top $popover-contents-paddi
 .popover {
   max-width: $popover-max-width;
   min-width: $popover-min-width;
-  @include box-shadow($global-box-shadow);
+  box-shadow: $global-box-shadow;
   border-radius: $border-radius;
   border: 0;
   padding: 0px;

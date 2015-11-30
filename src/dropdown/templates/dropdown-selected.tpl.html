@@ -3,8 +3,8 @@
         <span title="{{dropdown.getSelectedItemText()}}">{{dropdown.getSelectedItemText()}}</span>
         <span ng-if="!dropdown.hasSelectedItem()" class="dropdown-placeholder">{{dropdown.placeholder}}</span>
     </span>
-    <i class="util-clickable clear-dropdown"
+    <i class="aci-close util-clickable clear-dropdown"
        ng-click="dropdown.clearSelectedItem($event)"
        ng-if="dropdown.hasSelectedItem() && dropdown.isClearable && !dropdown.isDisabled && !dropdown.isReadonly"></i>
-    <span></span>
+    <span class="aci-caret-bottom"></span>
 </div>

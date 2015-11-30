@@ -4,10 +4,10 @@ var FILTER_BOX = 'span.filter input[type="search"]';
 var FILTER_ICON = 'div.filter i.clear-filter';
 var ALL_CHECKED_CHECKBOXES = 'input[type="checkbox"]:checked';
 var TABLE_COLUMN_HEADER = '.akam-data-table thead tr th';
-var TABLE_ROW = 'div.akam-data-table tbody tr';
+var TABLE_ROW = '.akam-data-table tbody tr';
 
 var MENU_BUTTON_WRAPPER = '.akam-menu-button';
-var MENU_BUTTON_BUTTON = '.akam-menu-button i.luna-gear';
+var MENU_BUTTON_BUTTON = '.akam-menu-button i.aci-gear';
 var MENU_BUTTON_ITEMS = '.akam-menu-button li';
 var DROP_DOWN_MENU = '.akam-menu-button .dropdown-menu';
 
@@ -471,7 +471,7 @@ describe('akam-table', function() {
         var columnHeader = document.querySelector('.color')
         utilities.mouseHover(columnHeader);
         var icon = columnHeader.querySelector('i');
-        expect(icon.classList).not.toContain('luna-arrow-up')
+        expect(icon.classList).not.toContain('aci-arrow-top')
       });
       it('should not respond to a click event for the column',function(){
         var columnOneHeader = document.querySelector('.color');
@@ -500,10 +500,10 @@ describe('akam-table', function() {
           var columnTwoHeader = document.querySelector('.color');
           utilities.mouseHover(columnOneHeader);
           var icon = columnOneHeader.querySelector('i');
-          expect(icon.classList).not.toContain('luna-arrow-up');
+          expect(icon.classList).not.toContain('aci-arrow-top');
           utilities.mouseHover(columnTwoHeader);
           var icon = columnTwoHeader.querySelector('i');
-          expect(icon.classList).not.toContain('luna-arrow-up')
+          expect(icon.classList).not.toContain('aci-arrow-top')
         });
         it('should not respond to a click event for all columns', function(){
           var columnOneHeader = document.querySelector('.name');
@@ -966,7 +966,7 @@ describe('akam-table', function() {
         var markup = '<akam-table items="mydata" akam-standalone filter-placeholder="placeholder" on-change="changeRows(items)">'+
             '<akam-table-toolbar class="toolbar-class util-pull-right">'+
               '<span>Icons</span>'+
-              '<i class="luna-bar_chart"></i>'+
+              '<i class="aci-chart-bar"></i>'+
               '<akam-menu-button>'+
                 '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
                 '</akam-menu-button-item>'+
@@ -989,7 +989,7 @@ describe('akam-table', function() {
       });
       it('should render the custom markup within the toolbar container', function(){
         var akamToolbar = document.querySelector('akam-table-toolbar');
-        var icon = akamToolbar.querySelector('.luna-bar_chart');
+        var icon = akamToolbar.querySelector('.aci-chart-bar');
         var dropdownMenu = akamToolbar.querySelector('ul.dropdown-menu');
         var dropMenuOption = dropdownMenu.querySelector('li');
         expect(akamToolbar).not.toBe(null);
@@ -1007,7 +1007,7 @@ describe('akam-table', function() {
               ' not-filterable on-change="changeRows(items)">'+
                 '<akam-table-toolbar class="toolbar-class util-pull-right">'+
                   '<span>Icons</span>'+
-                  '<i class="luna-bar_chart"></i>'+
+                  '<i class="aci-chart-bar"></i>'+
                   '<akam-menu-button>'+
                     '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
                     '</akam-menu-button-item>'+
@@ -1209,7 +1209,8 @@ describe('akam-table', function() {
             '</akam-table-row>'+
           '</akam-table>';
           addElement(markup);
-          utilities.click(PAGE_SIZE_LARGEST+ ' a');
+          
+          utilities.click(PAGE_SIZE_LARGEST + ' a');
           scope.$digest();
         });
         it('should display that amount of data', function(){
@@ -1348,7 +1349,7 @@ describe('akam-table', function() {
                         ' on-change="changeRows(items)">'+
                           '<akam-table-toolbar class="toolbar-class util-pull-right">'+
                             '<span>Icons</span>'+
-                            '<i class="luna-bar_chart"></i>'+
+                            '<i class="aci-chart-bar"></i>'+
                             '<akam-menu-button>'+
                               '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
                               '</akam-menu-button-item>'+
@@ -1371,7 +1372,7 @@ describe('akam-table', function() {
                         ' on-change="changeRows(items)">'+
                           '<akam-table-toolbar class="toolbar-class util-pull-right">'+
                             '<span>Icons</span>'+
-                            '<i class="luna-bar_chart"></i>'+
+                            '<i class="aci-chart-bar"></i>'+
                             '<akam-menu-button>'+
                               '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
                               '</akam-menu-button-item>'+
@@ -1394,7 +1395,7 @@ describe('akam-table', function() {
                         ' on-change="changeRows(items)">'+
                           '<akam-table-toolbar class="toolbar-class util-pull-right">'+
                             '<span>Icons</span>'+
-                            '<i class="luna-bar_chart"></i>'+
+                            '<i class="aci-chart-bar"></i>'+
                             '<akam-menu-button>'+
                               '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
                               '</akam-menu-button-item>'+
@@ -1417,7 +1418,7 @@ describe('akam-table', function() {
                         ' on-change="changeRows(items)">'+
                           '<akam-table-toolbar class="toolbar-class util-pull-right">'+
                             '<span>Icons</span>'+
-                            '<i class="luna-bar_chart"></i>'+
+                            '<i class="aci-chart-bar"></i>'+
                             '<akam-menu-button>'+
                               '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
                               '</akam-menu-button-item>'+
@@ -1443,7 +1444,7 @@ describe('akam-table', function() {
                         ' on-change="changeRows(items)">'+
                           '<akam-table-toolbar class="toolbar-class util-pull-right">'+
                             '<span>Icons</span>'+
-                            '<i class="luna-bar_chart"></i>'+
+                            '<i class="aci-chart-bar"></i>'+
                             '<akam-menu-button>'+
                               '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
                               '</akam-menu-button-item>'+
@@ -1469,7 +1470,7 @@ describe('akam-table', function() {
                         ' on-change="changeRows(items)">'+
                           '<akam-table-toolbar class="toolbar-class util-pull-right">'+
                             '<span>Icons</span>'+
-                            '<i class="luna-bar_chart"></i>'+
+                            '<i class="aci-chart-bar"></i>'+
                             '<akam-menu-button>'+
                               '<akam-menu-button-item text="PDF" ng-click="pdfClicked()">'+
                               '</akam-menu-button-item>'+
